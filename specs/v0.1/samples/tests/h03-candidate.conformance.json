@@ -1,0 +1,95 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h03-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.h03",
+    "file": "../games/h03-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-H03-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 2,
+              "u": 0.8,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-H03-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 120
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

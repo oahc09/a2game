@@ -1,0 +1,66 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g13-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g13",
+    "file": "../games/g13-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G13-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G13-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

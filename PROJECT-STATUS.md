@@ -1,5 +1,12 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+## S9 独立候选参考交付（2026-10-25）
+
+- 32 Gxx、5 Hxx 各有独立 JSON 和正反例；总计 74 JSON、123 Manifest。80 Node、119 Conformance、279 Schema 文档通过。[验证](reports/verify-2026-10-24T16-04-27-463Z-35684/verify.log)。
+- 两套真实 SDK 共 74 场景、37 组正反例 Hash 对照，含暂停、重开、释放与 G03 原生桌面命中输入；已抽查旋转绑定、泡泡、五子棋和混合失败截图。[回执](reports/candidates-2026-10-24T16-05-30-615Z-61728/summary.json)。
+- 新增声明式命中选择、扫掠位移/切割、手势驱动控制、泡泡格网、数值 Stage 绑定和一次性关卡启动；T4/T5/T8 跨域顺序与 H05 暂停计时有独立正反例。
+- 逐款回执见 [候选证据](project/candidate-evidence.json)，合同见 [16-Game-Candidates](specs/v0.1/docs/16-Game-Candidates-V0.1.md)。这是有界单关候选，完整玩法 DoD、独立 G3、真机继续验收，verified 仍为 **0/32、0/5**。继续 S10。
+
 ## S8 移动输入与回放参考交付（2026-10-24，真机待验收）
 
 - 14 个移动识别 Manifest、静态 state.set 合同及实验 JSON；78 Node、45 Conformance、186 Schema 文档通过。[日志](reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log)。

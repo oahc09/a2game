@@ -1,0 +1,75 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.core.bootstrap",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "One bounded level.started event per Session generation and optional level.tick counter; same transactional simulation clock.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.clock",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "startedPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "tickPath": {
+          "type": "string",
+          "pattern": "^/"
+        }
+      },
+      "required": [
+        "startedPath"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "level.started",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "level.tick",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxTicks": 1000000000,
+    "startEvent": "once per generation; ordinary T4/T7 ordering"
+  },
+  "testSuites": [
+    "LEVEL-TIMER-001"
+  ]
+}

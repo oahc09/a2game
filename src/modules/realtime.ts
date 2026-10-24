@@ -1,5 +1,6 @@
 import { fail } from '../errors.js';
 import { clone, isRecord, readPointer, safeInteger, stableCompare } from '../utils.js';
+import {segmentAabb} from '../geometry.js';
 import type { GameDefinition, Json, JsonRecord, ModuleContext, ModuleResult, TrustedCapabilityImplementation } from '../types.js';
 
 export interface WorldBody {
@@ -46,6 +47,12 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const c=ctx.config;validateConfig(c);const raw=readPointer(ctx.world.state,String(c.statePath));
     const w=clone(validateIntegerWorld(raw,c)),events:NonNullable<ModuleResult['events']>=[],emit=(type:string,payload:JsonRecord)=>events.push({type,payload});
     const maximum=Number(c.maxObjects??128),actions=(c.actions??{}) as JsonRecord,actor=w.bodies.find(b=>b.kind==='actor'&&b.hp>0),dead=new Set<string>(),damageLedger=new Set<string>();
+    const bound=(key:string)=>readPointer(ctx.world.state,String(c[key]));
+    const bonus=c.damageBonusPath?bound('damageBonusPath'):0;if(!integer(bonus,0,1000))err('Invalid bound damage bonus');const damageValue=Math.min(1000,Number(c.damage??1)+bonus);
+    const requested=c.fireRequestPath?bound('fireRequestPath'):false;if(typeof requested!=='boolean')err('Invalid fire request');
+    const laneRequest=c.laneRequestPath?bound('laneRequestPath'):0;if(!integer(laneRequest,-1,1))err('Invalid lane request');
+    const tilt=c.tiltGravityPath?bound('tiltGravityPath'):[0,0];if(!Array.isArray(tilt)||tilt.length!==2||!tilt.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=1))err('Invalid tilt gravity');
+    const power=c.powerPath?bound('powerPath'):1;if(typeof power!=='number'||!Number.isFinite(power)||power<0||power>1)err('Invalid bound shot power');
     const press=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&e.edge==='press');
     const release=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&e.edge==='release');
     const spawn=(body:WorldBody):boolean=>{
@@ -59,21 +66,26 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     if(actor){
         if(press('left'))actor.vx=-Number(c.moveSpeed??64);if(press('right'))actor.vx=Number(c.moveSpeed??64);
         if(release('left')&&actor.vx<0||release('right')&&actor.vx>0)actor.vx=0;
-        const lane=(press('laneRight')?1:0)-(press('laneLeft')?1:0);if(lane)actor.x=clamp(actor.x+lane*Number(c.laneWidth??1000),actor.hx,Number(c.width)-actor.hx);
+        const lane=clamp((press('laneRight')?1:0)-(press('laneLeft')?1:0)+laneRequest,-1,1);if(lane)actor.x=clamp(actor.x+lane*Number(c.laneWidth??1000),actor.hx,Number(c.width)-actor.hx);
         if(press('charge')||ctx.inputs.some(e=>e.action===actions.charge&&e.edge==='hold'))w.charge=Math.min(Number(c.maxCharge??60),w.charge+1);
-        if((press('jump')||release('charge'))&&w.grounded.includes(actor.id)){
-            actor.vy=Math.min(128,Number(c.jumpSpeed??96)+w.charge);w.charge=0;emit('realtime.jumped',{id:actor.id});
+        if((press('jump')||release('charge'))&&(c.allowAirJump===true||w.grounded.includes(actor.id))){
+            actor.vy=Math.min(128,Number(c.jumpSpeed??96)+w.charge);if(c.jumpHorizontalSpeed!==undefined)actor.vx=Math.min(128,Number(c.jumpHorizontalSpeed)+Math.floor(w.charge/4));w.charge=0;emit('realtime.jumped',{id:actor.id});
         }
         const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y)<=Number(c.weaponRange??32000)).sort((a,b)=>(Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y))-(Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y))||stableCompare(a.id,b.id));
-        if((press('fire')||c.autoFire===true)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
+        if((press('fire')||c.autoFire===true||requested)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
             const target=targets[0];let fired=false;
+            const directions={right:[1,0],left:[-1,0],up:[0,1],down:[0,-1]},base=directions[String(c.fireDirection??'right') as keyof typeof directions]??[1,0];
+            const aim=c.aimPath?bound('aimPath'):target&&c.autoTarget===true?[target.x-actor.x,target.y-actor.y]:base;
+            if(!Array.isArray(aim)||aim.length!==2||!aim.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=32000))err('Invalid bound aim vector');
+            const total=Math.abs(Number(aim[0]))+Math.abs(Number(aim[1])),direction=total>0?[Number(aim[0])/total,Number(aim[1])/total]:base;
             if(c.weapon==='hitscan'){
-                const hit=(c.autoTarget===true?target:targets.filter(b=>b.x>actor.x&&Math.abs(b.y-actor.y)<=b.hy+actor.hy).sort((a,b)=>a.x-b.x||stableCompare(a.id,b.id))[0]);
-                if(hit)damage(hit,Number(c.damage??1),actor.id);fired=true;
+                const range=Number(c.weaponRange??32000),end=[actor.x+direction[0]!*range,actor.y+direction[1]!*range];
+                const hit=[...targets,...w.bodies.filter(b=>b.kind==='solid')].map(body=>({body,t:segmentAabb([actor.x,actor.y],end,body)})).filter(row=>row.t!==undefined).sort((a,b)=>a.t!-b.t!||stableCompare(a.body.id,b.body.id))[0]?.body;
+                if(hit?.kind==='target')damage(hit,damageValue,actor.id);fired=true;
             }else{
-                const dx=target&&c.autoTarget===true?target.x-actor.x:1,dy=target&&c.autoTarget===true?target.y-actor.y:0,speed=Number(c.projectileSpeed??128),den=Math.max(1,Math.abs(dx)+Math.abs(dy));
+                const speed=Math.max(1,Math.round(Number(c.projectileSpeed??128)*Math.max(0.1,power)));
                 const id=`shot_${w.nextId}`;
-                if(!w.bodies.some(b=>b.id===id))fired=spawn({id,kind:'projectile',x:actor.x,y:actor.y,vx:Math.trunc(dx*speed/den),vy:Math.trunc(dy*speed/den),hx:16,hy:16,hp:1,team:actor.team,value:Number(c.damage??1),fixed:false,ttl:600,owner:actor.id,hits:[]});
+                if(!w.bodies.some(b=>b.id===id))fired=spawn({id,kind:'projectile',x:actor.x,y:actor.y,vx:Math.trunc(direction[0]!*speed),vy:Math.trunc(direction[1]!*speed),hx:16,hy:16,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});
                 if(fired)w.nextId++;
             }
             if(fired){w.cooldowns[actor.id]=ctx.tickIndex+Number(c.cooldownTicks??10);emit('combat.fired',{id:actor.id});}
@@ -88,8 +100,8 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     }
     w.bodies.sort((a,b)=>stableCompare(a.id,b.id));
     const previousGrounded=new Set(w.grounded),grounded=new Set<string>(),contacts=new Set<string>();
-    for(const b of w.bodies)if(!b.fixed&&b.kind!=='projectile'){
-        b.vy=clamp(b.vy+Number(c.gravity??0),-128,128);
+    for(const b of w.bodies)if(!b.fixed&&(b.kind!=='projectile'||c.projectileGravity===true)){
+        b.vx=clamp(b.vx+Math.round(Number(tilt[0])*16),-128,128);b.vy=clamp(b.vy+Number(c.gravity??0)-Math.round(Number(tilt[1])*16),-128,128);
         if(actor&&b.kind==='target'&&Number(c.seekSpeed??0)>0)b.vx=Math.sign(actor.x-b.x)*Number(c.seekSpeed);
         if(b.kind==='target')b.vx=clamp(b.vx+Number(c.scrollSpeed??0),-128,128);
     }
@@ -110,8 +122,8 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
             if(shot){if(target.kind==='solid'){dead.add(shot.id);continue;}if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id);dead.add(shot.id);}continue;}
             if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){w.score+=pickup.value;dead.add(pickup.id);emit('realtime.trigger',{id:pickup.id,actor:other.id});}continue;}
             if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);w.score+=a.value;emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
-            if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target')damage(a,1,b.id);
-            if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target')damage(b,1,a.id);
+            if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
+            if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target'){if(c.damageTargetsOnContact===true)damage(a,damageValue,b.id);else damage(b,1,a.id);}
             resolveContact(a,b);
         }
     }
@@ -130,9 +142,12 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     for(const key of w.contacts.filter(key=>!contacts.has(key)).sort(stableCompare))emit('contact.end',{pair:key});
     for(const id of [...grounded].sort(stableCompare))if(!previousGrounded.has(id))emit('realtime.landed',{id});
     w.contacts=[...contacts].sort(stableCompare);w.grounded=[...grounded].sort(stableCompare);w.bodies=w.bodies.filter(b=>!dead.has(b.id));
-    w.won=c.goalScore!==undefined&&w.score>=Number(c.goalScore);w.lost=Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
+    w.won=c.goalScore!==undefined&&w.score>=Number(c.goalScore)||c.goalTick!==undefined&&ctx.tickIndex+1>=Number(c.goalTick);
+    const timedOut=c.maxTicks!==undefined&&ctx.tickIndex+1>=Number(c.maxTicks)&&!w.won,below=Boolean(actor&&c.killBelowY!==undefined&&actor.y<Number(c.killBelowY));
+    if(timedOut||below)emit('realtime.failed',{reason:timedOut?'timeout':'below-boundary'});
+    w.lost=timedOut||below||Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
     validateIntegerWorld(w,c);
-    return {proposals:[{kind:'state.set',path:String(c.statePath),value:w as unknown as Json}],events};
+    return {proposals:[{kind:'state.set',path:String(c.statePath),value:w as unknown as Json},...(c.fireRequestPath?[{kind:'state.set' as const,path:String(c.fireRequestPath),value:false}]:[]),...(c.laneRequestPath?[{kind:'state.set' as const,path:String(c.laneRequestPath),value:0}]:[])],events};
 }
 export const realtimeWorldImplementation:TrustedCapabilityImplementation={role:'module',simulate:simulateIntegerWorld};
 export function validateRealtimeDefinition(def:GameDefinition):void {
@@ -140,6 +155,12 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
     for(const entity of [...def.scenes.flatMap(s=>s.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.realtime.world'){
         const c=component.config;validateConfig(c);const w=validateIntegerWorld(readPointer(state,String(c.statePath)),c);
         for(const name of Object.values((c.actions??{}) as JsonRecord))if(!def.inputs.actions.some(a=>a.id===name))err('Unknown realtime action');
+        for(const key of ['aimPath','fireRequestPath','powerPath','damageBonusPath','laneRequestPath','tiltGravityPath'])if(c[key]!==undefined){
+            const value=readPointer(state,String(c[key]));
+            const valid=key==='aimPath'||key==='tiltGravityPath'?Array.isArray(value)&&value.length===2&&value.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=(key==='tiltGravityPath'?1:32000)):key==='fireRequestPath'?typeof value==='boolean':key==='powerPath'?typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1:key==='laneRequestPath'?integer(value,-1,1):integer(value,0,1000);
+            if(!valid)err('Invalid initial bound weapon field '+key);
+            if(['fireRequestPath','laneRequestPath'].includes(key)&&String(c[key]).startsWith(String(c.statePath)+'/'))err('Requests must use independent controller state');
+        }
         for(const entry of (c.waves??[]) as JsonRecord[]){if(!integer(entry.tick,0,1000000))err('Invalid wave tick');validateIntegerWorld({...w,bodies:[entry.body]},c);}
     }
 }

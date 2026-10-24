@@ -1,23 +1,26 @@
 import {fail} from './errors.js';
 import {isRecord,safeFinite,safeInteger,clone} from './utils.js';
+import {viewportToWorld} from './geometry.js';
 import type {GameDefinition,Json,JsonRecord,NormalizedAction,NormalizedRawInput,SessionSnapshot} from './types.js';
-export const mobileInputIds=['touch.raw','touch.double-tap','touch.long-press','touch.drag','touch.path','touch.pinch','touch.rotate','touch.multi-hold','imu.tilt','imu.shake','imu.orientation','imu.acceleration','imu.gyroscope','imu.calibration'].map(s=>'a2game.input.'+s);
+export const mobileInputIds=['touch.select','touch.raw','touch.double-tap','touch.long-press','touch.drag','touch.path','touch.pinch','touch.rotate','touch.multi-hold','imu.tilt','imu.shake','imu.orientation','imu.acceleration','imu.gyroscope','imu.calibration'].map(s=>'a2game.input.'+s);
 export const mobileInputSources=Object.fromEntries(mobileInputIds.map(id=>[id.slice('a2game.input.'.length),id]));
 const q=(n:number)=>Math.round(n*10000)/10000,clamp=(n:number,min:number,max:number)=>Math.max(min,Math.min(max,n));
 const wrap=(n:number)=>q(((n+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI);
 function error(why:string):never{return fail('A2G_E_INPUT_RAW',why);}
 function vector(v:unknown):v is number[]{return Array.isArray(v)&&v.length===3&&v.every(n=>safeFinite(n)&&Math.abs(n)<=10000);}
-interface Pointer {timeUs:number;tick:number;u:number;v:number;x:number;y:number;distance:number;multi:boolean;claimed:boolean;points:Json[];}
+interface Pointer {timeUs:number;tick:number;seq:number;u:number;v:number;x:number;y:number;distance:number;multi:boolean;claimed:boolean;points:Json[];}
 /** Extended recognizer state is checkpointed in activePointers; legacy-only sessions retain old bytes. */
 export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly NormalizedRawInput[],definition:GameDefinition,chosen:(id:string)=>boolean):NormalizedAction[]{
  const out:NormalizedAction[]=[],cache=stage.activePointers,startUs=Math.ceil(stage.tickIndex*1000000/definition.world.clock.tickHz),endUs=Math.ceil((stage.tickIndex+1)*1000000/definition.world.clock.tickHz)-1;
  const bindings=definition.inputs.actions.flatMap(action=>action.bindings.filter(b=>chosen('a2game.input.'+b.source)).map(binding=>({action,binding,cfg:binding.config??{}})));
  const active=()=>Object.entries(cache).filter(([key])=>/^\d+$/.test(key)).map(([key,p])=>({key,p:p as unknown as Pointer}));
- const emit=(action:string,phase:NormalizedAction['phase'],value:Json|undefined,sourceId:string,timeUs=endUs)=>{out.push({action,phase,...(value!==undefined?{value}:{}),sourceId,tickIndex:stage.tickIndex,timeUs,seq:out.length});};
+ let sampleAspect:number|undefined;
+ const emit=(action:string,phase:NormalizedAction['phase'],value:Json|undefined,sourceId:string,timeUs=endUs)=>{out.push({action,phase,...(value!==undefined?{value}:{}),...(sampleAspect!==undefined?{viewportAspect:sampleAspect}:{}),sourceId,tickIndex:stage.tickIndex,timeUs,seq:out.length});};
  const pulse=(action:string,value:Json|undefined,source:string,timeUs?:number)=>{emit(action,'press',value,source,timeUs);emit(action,'release',undefined,source,timeUs);};
  const ordered=[...batch].sort((a,b)=>(a.timeUs??0)-(b.timeUs??0)||(a.seq??0)-(b.seq??0));
  for(const sample of ordered){
   const payload=sample.payload,time=clamp(sample.timeUs??startUs,startUs,endUs);
+  sampleAspect=undefined;
   if(sample.source==='imu'){
    if(sample.kind==='reset'){for(const key of Object.keys(cache))if(key.startsWith('~imu'))delete cache[key];continue;}
    if(!['sample','calibrate'].includes(sample.kind)||typeof payload.reference!=='string'||!vector(payload.angularVelocityRadps)||!vector(payload.linearAccelerationMps2))error('Malformed normalized IMU sample');
@@ -48,13 +51,18 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
   }
   if(sample.source!=='pointer')continue;
   const id=String(payload.pointerId);if(!safeInteger(payload.pointerId)||payload.pointerId<0||!safeFinite(payload.u)||!safeFinite(payload.v)||Math.abs(payload.u)>4||Math.abs(payload.v)>4||!['down','move','up','cancel'].includes(sample.kind))error('Malformed normalized pointer');
+  if(payload.viewportAspect!==undefined){if(!safeFinite(payload.viewportAspect)||payload.viewportAspect<0.1||payload.viewportAspect>10)error('Invalid viewport aspect');sampleAspect=payload.viewportAspect;}
   if(sample.kind==='down'){
    if(cache[id])error('Duplicate pointer down');if(active().length>=10)error('Pointer budget exceeded');
-   cache[id]={timeUs:time,tick:stage.tickIndex,u:q(payload.u),v:q(payload.v),x:q(payload.u),y:q(payload.v),distance:0,multi:false,claimed:false,points:[[q(payload.u),q(payload.v)]]} as unknown as JsonRecord;
+   cache[id]={timeUs:time,tick:stage.tickIndex,seq:sample.seq??0,u:q(payload.u),v:q(payload.v),x:q(payload.u),y:q(payload.v),distance:0,multi:false,claimed:false,points:[[q(payload.u),q(payload.v)]]} as unknown as JsonRecord;
   }
   const p=cache[id] as unknown as Pointer|undefined;if(!p)continue;
   p.x=q(payload.u);p.y=q(payload.v);p.distance=Math.max(p.distance,Math.hypot(p.x-p.u,p.y-p.v));if(p.points.length<128)p.points.push([p.x,p.y]);
   const pointers=active();if(pointers.length>=2)for(const pointer of pointers)pointer.p.multi=true;
+  for(const {action,binding,cfg} of bindings.filter(row=>row.binding.source==='touch.select')){
+   const width=Number(cfg.sceneWidth),height=Number(cfg.sceneHeight),inside=(u:number,v:number)=>{const [x,y]=viewportToWorld(u,v,sampleAspect??width/height,width,height,[0,0]);return Math.abs(x/1000-Number(cfg.x))<=Number(cfg.hx)&&Math.abs(y/1000-Number(cfg.y))<=Number(cfg.hy);};
+   if(!p.multi&&inside(p.x,p.y)&&(cfg.mode==='drag-select'?sample.kind==='down'||sample.kind==='up'&&!inside(p.u,p.v):sample.kind==='up'&&p.distance<=Number(cfg.maxDistanceNorm??0.04)))pulse(action.id,undefined,'select:'+id,time);
+  }
   for(const {action,binding} of bindings.filter(row=>row.binding.source==='touch.raw'))pulse(action.id,{pointerId:payload.pointerId,u:p.x,v:p.y,kind:sample.kind,count:pointers.length},'raw:'+id,time);
   if(sample.kind==='move'&&pointers.length===1){
    for(const {action,binding,cfg} of bindings.filter(row=>['touch.drag','touch.path'].includes(row.binding.source)))if(p.distance>=Number(cfg.minDistanceNorm??0.02)){
@@ -62,7 +70,7 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
    }
   }
   if(pointers.length===2){
-   const pair=pointers.sort((a,b)=>Number(a.key)-Number(b.key)),a=pair[0]!,b=pair[1]!,dx=b.p.x-a.p.x,dy=b.p.y-a.p.y,distance=Math.hypot(dx,dy),angle=Math.atan2(dy,dx),identity=pair.map(v=>v.key).join(':');
+   const pair=pointers.sort((a,b)=>Number(a.key)-Number(b.key)),a=pair[0]!,b=pair[1]!,dx=b.p.x-a.p.x,dy=b.p.y-a.p.y,distance=Math.hypot(dx,dy),angle=Math.atan2(dy,dx),identity=pair.map(v=>v.key+'@'+v.p.tick+':'+v.p.seq).join(':');
    const baseline=cache['~pair'];if(!baseline||baseline.identity!==identity)cache['~pair']={identity,distance:q(distance),angle:q(angle)};
    else if(sample.kind==='move')for(const {action,binding,cfg} of bindings.filter(row=>['touch.pinch','touch.rotate'].includes(row.binding.source)))if(Number(baseline.distance)>=Number(cfg.minDistanceNorm??0.02))pulse(action.id,binding.source==='touch.pinch'?q(clamp(distance/Number(baseline.distance),0.125,8)):wrap(angle-Number(baseline.angle)),'pair:'+identity,time);
   }
@@ -99,6 +107,6 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
  return out;
 }
 export function validateMobileBindings(def:GameDefinition):void{
- const types:Record<string,string>={'touch.raw':'pose','touch.double-tap':'button','touch.long-press':'button','touch.drag':'vec2','touch.path':'pose','touch.pinch':'axis1','touch.rotate':'axis1','touch.multi-hold':'button','imu.tilt':'vec2','imu.shake':'button','imu.orientation':'vec3','imu.acceleration':'vec3','imu.gyroscope':'vec3','imu.calibration':'button'};
+ const types:Record<string,string>={'touch.select':'button','touch.raw':'pose','touch.double-tap':'button','touch.long-press':'button','touch.drag':'vec2','touch.path':'pose','touch.pinch':'axis1','touch.rotate':'axis1','touch.multi-hold':'button','imu.tilt':'vec2','imu.shake':'button','imu.orientation':'vec3','imu.acceleration':'vec3','imu.gyroscope':'vec3','imu.calibration':'button'};
  for(const action of def.inputs.actions)for(const binding of action.bindings)if(types[binding.source]&&action.valueType!==types[binding.source])fail('A2G_E_INPUT_ACTION',`Binding ${binding.source} requires ${types[binding.source]}`);
 }

@@ -83,6 +83,7 @@ export interface ModuleContext {
     tickIndex: number; tickHz: number;
     entity: Readonly<RuntimeEntity>; config: Readonly<JsonRecord>; instanceIndex: number;
     inputs: ReadonlyArray<RuntimeEvent>;
+    normalizedInputs?:Readonly<Record<string,JsonRecord>>;
     rng: Readonly<{ nextU32(): number; randf(): number; randomInt(min: number, maxInclusive: number): number; state():number[]; restore(state:readonly number[]):void }>;
     world: Readonly<{ state: JsonRecord; entities: Record<string, RuntimeEntity> }>;
 }
@@ -94,6 +95,7 @@ export interface TrustedCapabilityImplementation {
 }
 export interface NormalizedAction {
     action: string; phase: ActionPhase; value?: Json; sourceId?: string;
+    viewportAspect?:number;
     tickIndex?: number; timeUs?: number; seq?: number;
 }
 export interface NormalizedRawInput {

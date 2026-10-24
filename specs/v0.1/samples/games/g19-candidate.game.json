@@ -1,0 +1,365 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g19",
+  "revision": 1,
+  "meta": {
+    "title": "G19 僵尸生存",
+    "genres": [
+      "shooter"
+    ],
+    "description": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.auto-target",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.horde",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.upgrade",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "weapon": "hitscan",
+                "autoFire": true,
+                "autoTarget": true,
+                "damageBonusPath": "/economy/plots/0/level",
+                "cooldownTicks": 120,
+                "seekSpeed": 16,
+                "goalScore": 1,
+                "maxTicks": 100
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 2,
+                    "upgradeCost": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "plant",
+                    "kind": "plant",
+                    "item": "seed",
+                    "index": 0
+                  },
+                  {
+                    "action": "collect",
+                    "kind": "collect",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade",
+                    "kind": "upgrade",
+                    "item": "seed",
+                    "index": 0
+                  }
+                ],
+                "goalScore": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 4000,
+            "y": 2000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "enemy",
+            "kind": "target",
+            "x": 6000,
+            "y": 2000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 2,
+            "team": 2,
+            "value": 1,
+            "fixed": false
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 2,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          }
+        ]
+      },
+      {
+        "id": "plant",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP"
+            }
+          }
+        ]
+      },
+      {
+        "id": "collect",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/world/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "goal",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G19 僵尸生存"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
+    }
+  },
+  "tests": [
+    "../tests/g19-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

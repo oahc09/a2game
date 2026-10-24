@@ -43,12 +43,14 @@
     },
     {
       "stage": "S9",
-      "status": "in_progress",
-      "deliverable": "Individual G01–G32 and H01–H05 definitions, conformance and coverage receipts"
+      "status": "blocked",
+      "deliverable": "Individual G01–G32 and H01–H05 definitions, conformance and coverage receipts",
+      "implementation": "Completed bounded individual candidate/reference profile",
+      "blocker": "Full gameplay DoD, independent Agent G3 and applicable physical evidence remain incomplete"
     },
     {
       "stage": "S10",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Model-independent generation/repair workflow with genuine Agent G3 evidence"
     },
     {

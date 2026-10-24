@@ -1,0 +1,212 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g24-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g24",
+    "file": "../games/g24-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G24-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell5",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell5",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G24-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turn/moves",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turn/player",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

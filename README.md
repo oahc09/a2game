@@ -4,14 +4,14 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S8 参考工程已验证，真机待设备，继续 S9。** 当前有 37 份参考 JSON、104 份 Manifest，涵盖益智、2D/3D 表现、整数物理/战斗及经营/回合；真实双 SDK 证据见 [项目状态](PROJECT-STATUS.md)。32+5 完整游戏、真机及 Agent Gate 独立验收，不能从参考数推断完成度。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+> **当前阶段：S9 独立候选参考已验证，继续 S10。** 当前 74 份 JSON、123 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
 
 ## 一、先看能运行什么
 
 | 功能 / 后端 | 现在能否运行 | 说明 |
 |---|---|---|
 | TypeScript Headless Runtime | **可以** | 计时/事务/回放、益智、整数物理/战斗、经营/回合，Node.js 测试 |
-| 浏览器 Canvas2D 预览 | **可以** | 37 份预校验参考 JSON，无外部游戏引擎 SDK |
+| 浏览器 Canvas2D 预览 | **可以** | 74 份预校验 JSON，无外部游戏引擎 SDK |
 | Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
 | CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
 | 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **未实现/未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |

@@ -1,0 +1,136 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g29-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g29",
+    "file": "../games/g29-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G29-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G29-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 301
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

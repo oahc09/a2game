@@ -1,0 +1,47 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.rules.flow-pause",
+  "version": "0.1.0",
+  "kind": "rule-op",
+  "portability": "exact",
+  "description": "Trusted A2Game reference implementation for flow.pause",
+  "phase": "commit",
+  "dependencies": [
+    {
+      "id": "a2game.core.rules",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [
+      {
+        "name": "flow.pause",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "events": [],
+    "stateWrites": [
+      "flow"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "reference-core-op-tests"
+  ]
+}

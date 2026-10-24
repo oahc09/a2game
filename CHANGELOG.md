@@ -1,5 +1,10 @@
 # A2Game 项目变更记录
 
+## S9 参考候选（2026-10-25）
+
+- 32+5 独立 JSON、74 正反例及真实 SDK 场景，命中选择、控制/几何、泡泡、绑定画面与跨域计时；80 Node/119 Conformance 通过。完整 G3/真机与逐款 DoD 不计完成。
+
+
 ## S8 移动输入与回放参考交付（2026-10-24，真机待验收）
 
 - 14 个移动识别 Manifest、静态 state.set 合同及实验 JSON；78 Node、45 Conformance、186 Schema 文档通过。[日志](reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log)。

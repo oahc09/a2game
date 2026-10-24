@@ -121,6 +121,67 @@
     "configSchema": {
       "type": "object",
       "properties": {
+        "laneRequestPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "tiltGravityPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "aimPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "fireRequestPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "powerPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "damageBonusPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "fireDirection": {
+          "enum": [
+            "left",
+            "right",
+            "up",
+            "down"
+          ]
+        },
+        "allowAirJump": {
+          "type": "boolean"
+        },
+        "jumpHorizontalSpeed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        },
+        "damageTargetsOnContact": {
+          "type": "boolean"
+        },
+        "projectileGravity": {
+          "type": "boolean"
+        },
+        "goalTick": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "maxTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "killBelowY": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32000
+        },
         "statePath": {
           "type": "string",
           "pattern": "^/"
@@ -674,6 +735,12 @@
       },
       {
         "name": "combat.death",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.failed",
         "payloadSchema": {
           "type": "object"
         }

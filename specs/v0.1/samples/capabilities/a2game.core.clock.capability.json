@@ -1,0 +1,43 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.core.clock",
+  "version": "0.1.0",
+  "kind": "service",
+  "portability": "exact",
+  "description": "Internal shared Tick counter consumed by bootstrap; no host wall-clock execution.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxTicks": 1000000000,
+    "startEvent": "once per generation; ordinary T4/T7 ordering"
+  },
+  "testSuites": [
+    "LEVEL-TIMER-001"
+  ]
+}

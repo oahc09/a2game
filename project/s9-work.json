@@ -1,0 +1,32 @@
+{
+  "format": "a2game-stage-work",
+  "stage": "S9",
+  "status": "engineering_completed",
+  "acceptance": "Individual playable bounded reference GameSpecs, positive/negative Conformance and real-SDK receipts for frozen G01-G32 and independent H01-H05. Keep verified zero until all required G0/G1/G2/G3 and applicable physical gates pass.",
+  "steps": [
+    {
+      "task": "Add missing shared intersection/rotation/collision/balance and declarative input control; expand fixed-tick weapons/movement only as needed by game definitions",
+      "status": "completed"
+    },
+    {
+      "task": "Add capability-gated numeric Stage bindings for real visual rotation/scale and nested state positions",
+      "status": "completed"
+    },
+    {
+      "task": "Author individual Gxx and Hxx definitions, controls, win/loss conditions and hand-expected recipes",
+      "status": "completed"
+    },
+    {
+      "task": "Run full validation and batch real SDK acceptance without weakening 32-release admission limits",
+      "status": "completed"
+    },
+    {
+      "task": "Write per-game receipts and explicit physical/Agent pending items, commit and continue S10",
+      "status": "completed"
+    }
+  ],
+  "pending": [
+    "Full gameplay DoD and independent Agent variants/G3",
+    "Physical Touch/IMU/device permission evidence"
+  ]
+}

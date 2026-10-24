@@ -1,0 +1,90 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g02-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g02",
+    "file": "../games/g02-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G02-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G02-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

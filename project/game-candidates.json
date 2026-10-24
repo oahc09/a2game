@@ -1,0 +1,1816 @@
+{
+  "format": "a2game-game-candidates",
+  "profile": "bounded-reference-levels-v1",
+  "frozenGames": 32,
+  "independentHybrids": 5,
+  "verifiedGames": 0,
+  "verifiedHybrids": 0,
+  "scope": "Individual playable candidate definitions; full Gate requires genuine independent Agent G3, applicable physical input and complete gameplay DoD. No coverage registry status is promoted by this generator.",
+  "cases": [
+    {
+      "id": "G01",
+      "name": "g01-candidate",
+      "title": "推箱子",
+      "steps": [
+        {
+          "action": "moveRight",
+          "ticks": 1
+        },
+        {
+          "action": "moveUp",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G02",
+      "name": "g02-candidate",
+      "title": "2048",
+      "steps": [
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        },
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "moveUp",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G03",
+      "name": "g03-candidate",
+      "title": "三消",
+      "steps": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G04",
+      "name": "g04-candidate",
+      "title": "堆叠三消",
+      "steps": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "action": "cell5",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G05",
+      "name": "g05-candidate",
+      "title": "麻将叠牌配对",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G06",
+      "name": "g06-candidate",
+      "title": "箭头迷宫消除",
+      "steps": [
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G07",
+      "name": "g07-candidate",
+      "title": "翻牌配对",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "undo",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G08",
+      "name": "g08-candidate",
+      "title": "Block Puzzle",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G09",
+      "name": "g09-candidate",
+      "title": "俄罗斯方块",
+      "steps": [
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "drop",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "drop",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G10",
+      "name": "g10-candidate",
+      "title": "找物整理",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G11",
+      "name": "g11-candidate",
+      "title": "跳一跳",
+      "steps": [
+        {
+          "ticks": 1
+        },
+        {
+          "actions": [
+            {
+              "action": "charge",
+              "phase": "press"
+            },
+            {
+              "action": "charge",
+              "phase": "release"
+            }
+          ],
+          "ticks": 60
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 300
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G12",
+      "name": "g12-candidate",
+      "title": "Flappy",
+      "steps": [
+        {
+          "action": "flap",
+          "ticks": 31
+        },
+        {
+          "action": "flap",
+          "ticks": 31
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 180
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G13",
+      "name": "g13-candidate",
+      "title": "换道跑酷",
+      "steps": [
+        {
+          "action": "left",
+          "ticks": 100
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 100
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G14",
+      "name": "g14-candidate",
+      "title": "打砖块",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.5,
+                "v": 0.825,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.3,
+                "v": 0.825,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 130
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 240
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G15",
+      "name": "g15-candidate",
+      "title": "弹球",
+      "steps": [
+        {
+          "action": "kick",
+          "ticks": 20
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 160
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G16",
+      "name": "g16-candidate",
+      "title": "物理合成",
+      "steps": [
+        {
+          "action": "drop",
+          "ticks": 60
+        },
+        {
+          "action": "drop",
+          "ticks": 60
+        }
+      ],
+      "negative": [
+        {
+          "action": "drop",
+          "ticks": 60
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G17",
+      "name": "g17-candidate",
+      "title": "纵版飞机",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.5,
+                "v": 0.75,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.35,
+                "v": 0.75,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 16
+        },
+        {
+          "action": "fire",
+          "ticks": 60
+        }
+      ],
+      "negative": [
+        {
+          "action": "fire",
+          "ticks": 200
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G18",
+      "name": "g18-candidate",
+      "title": "俯视射击",
+      "steps": [
+        {
+          "action": "aim",
+          "ticks": 1,
+          "value": [
+            0.5,
+            0.3125
+          ]
+        },
+        {
+          "action": "fire",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "fire",
+          "ticks": 120
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G19",
+      "name": "g19-candidate",
+      "title": "僵尸生存",
+      "steps": [
+        {
+          "action": "upgrade",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 100
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G20",
+      "name": "g20-candidate",
+      "title": "泡泡龙弹射",
+      "steps": [
+        {
+          "action": "aim",
+          "ticks": 1,
+          "value": [
+            0.36,
+            0.3125
+          ]
+        },
+        {
+          "action": "fire",
+          "ticks": 100
+        }
+      ],
+      "negative": [
+        {
+          "action": "fire",
+          "ticks": 100
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G21",
+      "name": "g21-candidate",
+      "title": "塔防",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 100
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G22",
+      "name": "g22-candidate",
+      "title": "农场",
+      "steps": [
+        {
+          "action": "plant",
+          "ticks": 1
+        },
+        {
+          "ticks": 2
+        },
+        {
+          "action": "collect",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "collect",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G23",
+      "name": "g23-candidate",
+      "title": "合成经营",
+      "steps": [
+        {
+          "action": "plant",
+          "ticks": 1
+        },
+        {
+          "action": "select0",
+          "ticks": 1
+        },
+        {
+          "action": "merge1",
+          "ticks": 1
+        },
+        {
+          "action": "collect",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "collect",
+          "ticks": 1
+        },
+        {
+          "action": "select0",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G24",
+      "name": "g24-candidate",
+      "title": "五子棋",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell5",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell6",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell7",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "action": "cell8",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/turn/moves",
+          "equals": 1
+        },
+        {
+          "path": "/turn/player",
+          "equals": 2
+        }
+      ],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G25",
+      "name": "g25-candidate",
+      "title": "水果切割",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.25,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.75,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.4,
+                "v": 0.75,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.6,
+                "v": 0.75,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G26",
+      "name": "g26-candidate",
+      "title": "双指旋转拼图",
+      "steps": [
+        {
+          "action": "rotate",
+          "ticks": 1,
+          "value": 1.5707963267948966
+        },
+        {
+          "action": "pinch",
+          "ticks": 1,
+          "value": 1.5
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "rotate",
+          "ticks": 1,
+          "value": 0.2
+        },
+        {
+          "action": "pinch",
+          "ticks": 1,
+          "value": 1.5
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G27",
+      "name": "g27-candidate",
+      "title": "重力迷宫",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.2,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.2,
+                "v": 0.3125,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 15
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.75,
+                "v": 0.3125,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 60
+        }
+      ],
+      "negative": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.2,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.75,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 50
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/world/bodies/1/x",
+          "equals": 3700
+        }
+      ],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_RUN"
+      },
+      "verified": false
+    },
+    {
+      "id": "G28",
+      "name": "g28-candidate",
+      "title": "平衡堆叠",
+      "steps": [
+        {
+          "action": "drop",
+          "ticks": 60
+        },
+        {
+          "action": "drop",
+          "ticks": 60
+        },
+        {
+          "action": "drop",
+          "ticks": 120
+        }
+      ],
+      "negative": [
+        {
+          "action": "drag",
+          "ticks": 1,
+          "value": [
+            0.85,
+            0.25
+          ]
+        },
+        {
+          "action": "drop",
+          "ticks": 1
+        },
+        {
+          "action": "drop",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Logical balance moment and AABB stack; general angular rigid-body placement remains outside this candidate.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_RUN"
+      },
+      "verified": false
+    },
+    {
+      "id": "G29",
+      "name": "g29-candidate",
+      "title": "摇一摇机关",
+      "steps": [
+        {
+          "action": "shakeFallback",
+          "ticks": 1
+        },
+        {
+          "action": "shakeFallback",
+          "ticks": 1
+        },
+        {
+          "action": "shakeFallback",
+          "ticks": 1
+        },
+        {
+          "action": "unlock",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "shakeFallback",
+          "ticks": 1
+        },
+        {
+          "action": "unlock",
+          "ticks": 1
+        },
+        {
+          "ticks": 301
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_RUN"
+      },
+      "verified": false
+    },
+    {
+      "id": "G30",
+      "name": "g30-candidate",
+      "title": "弹弓打靶",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.5,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.09999999999999998,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "up",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.09999999999999998,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 100
+        }
+      ],
+      "negative": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.5,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.09999999999999998,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "cancel",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.09999999999999998,
+                "v": 0.6875,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 160
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "G31",
+      "name": "g31-candidate",
+      "title": "姿态打靶",
+      "steps": [
+        {
+          "action": "aim",
+          "ticks": 1,
+          "value": [
+            0.5,
+            0.3125
+          ]
+        },
+        {
+          "action": "fire",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "fire",
+          "ticks": 120
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_RUN"
+      },
+      "verified": false
+    },
+    {
+      "id": "G32",
+      "name": "g32-candidate",
+      "title": "多指机关",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.3,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            },
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 2,
+                "u": 0.7,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 31
+        }
+      ],
+      "negative": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.3,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 241
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_RUN"
+      },
+      "verified": false
+    },
+    {
+      "id": "H01",
+      "name": "h01-candidate",
+      "title": "合成炮台保卫战",
+      "steps": [
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 100
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [
+        {
+          "path": "/best",
+          "equals": 4
+        }
+      ],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "H02",
+      "name": "h02-candidate",
+      "title": "三消与升级",
+      "steps": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        },
+        {
+          "action": "upgrade",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "actions": [
+            {
+              "action": "cell4",
+              "phase": "press"
+            },
+            {
+              "action": "cell4",
+              "phase": "release"
+            },
+            {
+              "action": "upgrade",
+              "phase": "press"
+            },
+            {
+              "action": "upgrade",
+              "phase": "release"
+            }
+          ],
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/economy/plots/0/level",
+          "equals": 0
+        },
+        {
+          "path": "/economy/wallet",
+          "equals": 3
+        }
+      ],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "H03",
+      "name": "h03-candidate",
+      "title": "换道与射击",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.2,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            },
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 2,
+                "u": 0.8,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 2
+        }
+      ],
+      "negative": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.8,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 120
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "H04",
+      "name": "h04-candidate",
+      "title": "物理合成与倾斜",
+      "steps": [
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "down",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.5,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 1
+        },
+        {
+          "raw": [
+            {
+              "source": "pointer",
+              "kind": "move",
+              "payload": {
+                "pointerId": 1,
+                "u": 0.85,
+                "v": 0.5,
+                "viewportAspect": 1.25
+              }
+            }
+          ],
+          "ticks": 80
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 300
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    },
+    {
+      "id": "H05",
+      "name": "h05-candidate",
+      "title": "找物与限时关卡",
+      "steps": [
+        {
+          "ticks": 1
+        },
+        {
+          "pause": true,
+          "ticks": 5000,
+          "resume": true
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 1201
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
+      "gates": {
+        "G0": "NOT_RUN",
+        "G1": "NOT_RUN",
+        "G2": "NOT_RUN",
+        "G3": "NOT_RUN",
+        "physical": "NOT_APPLICABLE"
+      },
+      "verified": false
+    }
+  ]
+}

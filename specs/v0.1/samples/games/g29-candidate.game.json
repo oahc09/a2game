@@ -1,0 +1,478 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g29",
+  "revision": 1,
+  "meta": {
+    "title": "G29 摇一摇机关",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "摇动三次积累能量，再 unlock；无传感器可点击 shakeFallback。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.shake",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.timer",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.timer-schedule",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.unlock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 2,
+                    "upgradeCost": 2,
+                    "requires": "license"
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "unlock",
+                    "kind": "unlock",
+                    "item": "license",
+                    "cost": 3
+                  }
+                ]
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/started"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 0,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    },
+    "shakes": {
+      "type": "int",
+      "initial": 0
+    },
+    "started": {
+      "type": "bool",
+      "initial": false
+    },
+    "timeout": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "unlock",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          }
+        ]
+      },
+      {
+        "id": "shake",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          },
+          {
+            "source": "imu.shake",
+            "config": {
+              "cooldownTicks": 3,
+              "thresholdMps2": 10
+            }
+          }
+        ]
+      },
+      {
+        "id": "shakeFallback",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          },
+          {
+            "source": "touch.tap",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "shake-shake",
+      "on": {
+        "type": "input.action",
+        "action": "shake",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/economy/wallet",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/shakes",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "shake-shakeFallback",
+      "on": {
+        "type": "input.action",
+        "action": "shakeFallback",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/economy/wallet",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/shakes",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "start-timer",
+      "on": {
+        "type": "level.started"
+      },
+      "do": [
+        {
+          "op": "timer.schedule",
+          "id": "deadline",
+          "delayTicks": 300,
+          "eventType": "level.timeout"
+        }
+      ]
+    },
+    {
+      "id": "time-expired",
+      "on": {
+        "type": "level.timeout"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeout",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "unlocked",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/economy/unlocked"
+          },
+          {
+            "const": [
+              "license"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "timeout",
+      "status": "lost",
+      "priority": -2,
+      "when": {
+        "state": "/timeout"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "title",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "商店、解锁与放置"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "wallet",
+          "kind": "text",
+          "at": [
+            -1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/wallet"
+          }
+        },
+        {
+          "id": "plot",
+          "kind": "text",
+          "at": [
+            1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/plots/0/item"
+          }
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -1.5
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/score"
+          }
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G29 摇一摇机关"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "摇动三次积累能量，再 unlock；无传感器可点击 shakeFallback。"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "grid",
+          "source": {
+            "state": "/economy/grid"
+          },
+          "columns": 2,
+          "origin": [
+            -0.45,
+            0.4
+          ],
+          "step": [
+            0.9,
+            0.9
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.82,
+                0.82
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.3,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g29-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

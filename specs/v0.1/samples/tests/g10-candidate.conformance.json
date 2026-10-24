@@ -1,0 +1,132 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g10-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g10",
+    "file": "../games/g10-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G10-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G10-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

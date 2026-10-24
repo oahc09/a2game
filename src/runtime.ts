@@ -230,6 +230,7 @@ export class HeadlessRuntime {
             } else if (a.phase==='hold' && !active.includes(id)) continue;
             const payload: JsonRecord = {action:a.action, edge:a.phase, sourceId:id};
             if (a.value !== undefined) payload.value=clone(a.value);
+            if(a.viewportAspect!==undefined){if(!safeFinite(a.viewportAspect)||a.viewportAspect<0.1||a.viewportAspect>10)fail('A2G_E_INPUT_RAW','Invalid action viewport aspect');payload.viewportAspect=a.viewportAspect;}
             events.push(this.makeEvent(stage,'input','input.action',payload,[a.timeUs??0,a.seq??0,id],{action:a.action,edge:a.phase,sourceId:id}));
         }
         return events;
@@ -350,7 +351,7 @@ export class HeadlessRuntime {
             const entity=stage.entities[entry.entityId]; if (!entity) continue;
             const ctx:ModuleContext = {
                 tickIndex:stage.tickIndex,tickHz:this.plan.definition.world.clock.tickHz,entity:clone(entity),
-                config:clone(entry.component.config),instanceIndex:entry.index,inputs:clone(inputs),
+                config:clone(entry.component.config),instanceIndex:entry.index,inputs:clone(inputs),normalizedInputs:clone(stage.activePointers),
                 rng:{nextU32:()=>tickRng.nextU32(),randf:()=>tickRng.randf(),randomInt:(min,max)=>tickRng.randomInt(min,max),state:()=>tickRng.state(),restore:state=>tickRng.restore([...state])},
                 world:clone({state:stage.state,entities:stage.entities}),
             };

@@ -142,6 +142,16 @@ for(const [stage,suite] of [['S6','realtime'],['S7','strategy']])if(status.stage
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`${stage}: stale fingerprint ${path}`);}
   }catch(error){insist(false,`${stage}: cannot verify mechanism evidence: ${error.message}`);}
 }
+if(status.candidateRun?.status==='PASS_REFERENCE'){
+  try{
+    const summary=read(status.candidateRun.summary),recipes=read('project/game-candidates.json').cases;
+    insist(recipes.length===37&&recipes.filter(r=>/^G\d\d$/.test(r.id)).length===32&&recipes.filter(r=>/^H\d\d$/.test(r.id)).length===5&&new Set(recipes.map(r=>r.id)).size===37,'S9: frozen Gxx/Hxx candidate inventory differs');
+    insist(summary.format==='a2game-candidates-real-sdk'&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS'&&summary.batchSize<=16,'S9: incomplete real SDK receipt');
+    insist(summary.cases?.length===74&&summary.parity?.length===37&&summary.parity.every(r=>r.status==='PASS'),'S9: every candidate needs both SDKs and parity');
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.final?.exactHash===result.node?.exactHash&&result.negative?.exactHash===result.negativeNode?.exactHash&&result.restart==='PASS'&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.screenshot))&&existsSync(resolve(root,result.negativeScreenshot)),`S9: incomplete positive/negative/lifecycle ${row.receipt}`);}
+    for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S9: stale fingerprint ${path}`);}
+  }catch(error){insist(false,`S9: cannot verify candidate evidence: ${error.message}`);}
+}
 if(status.mobileInputRun?.status==='PASS_REFERENCE'){
   try{
     const summary=read(status.mobileInputRun.summary);

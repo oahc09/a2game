@@ -1,0 +1,102 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.touch.select",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "phase": "recognize",
+  "portability": "exact",
+  "description": "Declarative scene2d contain-space hit testing. Tap selects one region; drag-select selects origin on down and a different destination on up. Viewport aspect is part of recorded input, no Host gameplay branch.",
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "sceneWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "sceneHeight": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "x": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "y": {
+          "type": "number",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "hx": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100
+        },
+        "hy": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100
+        },
+        "mode": {
+          "enum": [
+            "tap",
+            "drag-select"
+          ]
+        },
+        "maxDistanceNorm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        }
+      },
+      "required": [
+        "sceneWidth",
+        "sceneHeight",
+        "x",
+        "y",
+        "hx",
+        "hy"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "input.action",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "dependencies": [
+    {
+      "id": "a2game.input.touch.raw",
+      "version": "0.1.0"
+    }
+  ],
+  "limits": {
+    "maxPointers": 10,
+    "coordinateProfile": "scene2d-contain-v1",
+    "valueType": "button"
+  },
+  "testSuites": [
+    "TOUCH-SELECT-001"
+  ]
+}

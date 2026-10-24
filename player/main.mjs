@@ -90,7 +90,7 @@ function bindInputs(){
    if(runtime?.status!=='playing')return;
    const rect=canvas.getBoundingClientRect();
    const input={source:'pointer',kind,
-      payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height}};
+      payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height,viewportAspect:rect.width/rect.height}};
    injectRaw(input);
  };
  listen(canvas,'pointerdown',e=>{adapter?.unlockAudio?.();if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
@@ -177,6 +177,7 @@ async function main(){
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.injectRaw=injectRaw;
+     window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
      window.__a2game.step=ticks=>{const result=runtime.step(ticks);record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{

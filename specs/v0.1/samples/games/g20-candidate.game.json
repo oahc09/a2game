@@ -1,0 +1,293 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g20",
+  "revision": 1,
+  "meta": {
+    "title": "G20 泡泡龙弹射",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.bubble-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.aim",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.bounce",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.connected-match",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.combat.bubble-grid",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/bubble",
+                "columns": 6,
+                "rows": 3,
+                "cellSize": 700,
+                "originX": 1900,
+                "topY": 4500,
+                "worldWidth": 8000,
+                "worldHeight": 6000,
+                "launchX": 4000,
+                "launchY": 500,
+                "colors": 2,
+                "goalScore": 4,
+                "fireAction": "fire",
+                "aimAction": "aim",
+                "sceneWidth": 10,
+                "sceneHeight": 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "bubble": {
+      "type": "object",
+      "initial": {
+        "board": [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ammo": 1,
+        "color": 1,
+        "score": 0,
+        "aim": [
+          0,
+          1
+        ],
+        "shot": {
+          "active": false,
+          "x": 4000,
+          "y": 500,
+          "vx": 0,
+          "vy": 0
+        },
+        "won": false,
+        "lost": false,
+        "visuals": []
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "aim",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "touch.drag",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          },
+          {
+            "source": "touch.tap",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "complete",
+      "status": "won",
+      "when": {
+        "state": "/bubble/won"
+      }
+    },
+    {
+      "id": "failed",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/bubble/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "goal",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G20 泡泡龙弹射"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/bubble/visuals",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
+    }
+  },
+  "tests": [
+    "../tests/g20-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

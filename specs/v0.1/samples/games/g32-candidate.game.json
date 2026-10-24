@@ -1,0 +1,242 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g32",
+  "revision": 1,
+  "meta": {
+    "title": "G32 多指机关",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "两指同时静止按住半秒，解开机关；单指无效，四秒超时。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.multi-hold",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.timer",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.timer-schedule",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/started"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "opened": {
+      "type": "bool",
+      "initial": false
+    },
+    "started": {
+      "type": "bool",
+      "initial": false
+    },
+    "timeout": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "hold",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.multi-hold",
+            "config": {
+              "fingers": 2,
+              "minTicks": 30
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "open-two-finger",
+      "on": {
+        "type": "input.action",
+        "action": "hold",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/opened",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "start-timer",
+      "on": {
+        "type": "level.started"
+      },
+      "do": [
+        {
+          "op": "timer.schedule",
+          "id": "deadline",
+          "delayTicks": 240,
+          "eventType": "level.timeout"
+        }
+      ]
+    },
+    {
+      "id": "time-expired",
+      "on": {
+        "type": "level.timeout"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeout",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "open",
+      "status": "won",
+      "when": {
+        "state": "/opened"
+      }
+    },
+    {
+      "id": "timeout",
+      "status": "lost",
+      "priority": -2,
+      "when": {
+        "state": "/timeout"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "goal",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "两指同时静止按住半秒，解开机关；单指无效，四秒超时。"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G32 多指机关"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "两指同时静止按住半秒，解开机关；单指无效，四秒超时。"
+          }
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g32-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

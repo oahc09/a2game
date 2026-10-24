@@ -1,0 +1,45 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.visual.bound-stage",
+  "version": "0.1.0",
+  "kind": "presentation",
+  "portability": "host-defined",
+  "description": "Capability-gated numeric-pointer-v1 bindings for nested numeric positions, rotations and size; affine scale/offset only, pure projection.",
+  "phase": "present",
+  "dependencies": [
+    {
+      "id": "a2game.visual.stage",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxNodes": 128,
+    "maxResolvedMagnitude": 10000,
+    "expressions": "numeric JSON pointer plus scale/offset only; no scripts"
+  },
+  "testSuites": [
+    "BOUND-VISUAL-001"
+  ]
+}

@@ -1,0 +1,367 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g23",
+  "revision": 1,
+  "meta": {
+    "title": "G23 合成经营",
+    "genres": [
+      "simulation"
+    ],
+    "description": "select0、merge1 合并店铺，再 plant、collect 完成生产目标。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.merge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.production",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 2,
+                    "upgradeCost": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "select0",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "merge1",
+                    "kind": "merge",
+                    "index": 1
+                  },
+                  {
+                    "action": "plant",
+                    "kind": "plant",
+                    "item": "seed",
+                    "index": 0
+                  },
+                  {
+                    "action": "collect",
+                    "kind": "collect",
+                    "index": 0
+                  }
+                ],
+                "goalScore": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 10,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "select0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "plant",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP"
+            }
+          }
+        ]
+      },
+      {
+        "id": "collect",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/economy/won"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "title",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "合成经营网格"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "wallet",
+          "kind": "text",
+          "at": [
+            -1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/wallet"
+          }
+        },
+        {
+          "id": "plot",
+          "kind": "text",
+          "at": [
+            1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/plots/0/item"
+          }
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -1.5
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/score"
+          }
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G23 合成经营"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "select0、merge1 合并店铺，再 plant、collect 完成生产目标。"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "grid",
+          "source": {
+            "state": "/economy/grid"
+          },
+          "columns": 2,
+          "origin": [
+            -0.45,
+            0.4
+          ],
+          "step": [
+            0.9,
+            0.9
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.82,
+                0.82
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.3,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g23-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

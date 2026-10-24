@@ -4,6 +4,166 @@
   "gameSpecVersion": "0.1.0",
   "schemaDialect": "2020-12",
   "content": {
+    "/specs/v0.1/samples/games/g01-candidate.game.json": {
+      "id": "org.a2game.games.g01",
+      "revision": 1,
+      "sha256Jcs": "13877422a2c6400b92957e6dad29c6de91d3b1da8c5ddce2d0f502a313b0cb49"
+    },
+    "/specs/v0.1/samples/games/g02-candidate.game.json": {
+      "id": "org.a2game.games.g02",
+      "revision": 1,
+      "sha256Jcs": "066cfd165bbecffe427f6a28696e4495697fe27378d6c4b99ecaa1b171941335"
+    },
+    "/specs/v0.1/samples/games/g03-candidate.game.json": {
+      "id": "org.a2game.games.g03",
+      "revision": 1,
+      "sha256Jcs": "5b5f3245e2477ee06c94666379a3c7851aa53345be9eca8be96e14eea060486d"
+    },
+    "/specs/v0.1/samples/games/g04-candidate.game.json": {
+      "id": "org.a2game.games.g04",
+      "revision": 1,
+      "sha256Jcs": "a15a3022d953ae572ed2407372e6f6a032862bbd9eededf5e792ae4936e4151c"
+    },
+    "/specs/v0.1/samples/games/g05-candidate.game.json": {
+      "id": "org.a2game.games.g05",
+      "revision": 1,
+      "sha256Jcs": "2ae2282d6f41da8f502ee6f83758aa56fe0d09347dd67cb6d1fce3a34fd15ea0"
+    },
+    "/specs/v0.1/samples/games/g06-candidate.game.json": {
+      "id": "org.a2game.games.g06",
+      "revision": 1,
+      "sha256Jcs": "9da993b05fa07079b8a3e6a89909dd25eb848c3bd46281d89dd3f65a7a44da68"
+    },
+    "/specs/v0.1/samples/games/g07-candidate.game.json": {
+      "id": "org.a2game.games.g07",
+      "revision": 1,
+      "sha256Jcs": "834e488275f897d479e7746c6fc3af7e7b878beacf5aa810795a5319434eded5"
+    },
+    "/specs/v0.1/samples/games/g08-candidate.game.json": {
+      "id": "org.a2game.games.g08",
+      "revision": 1,
+      "sha256Jcs": "b2b512729b4bbc74d7a3e06e464689c26b66e436301332404523e90c2af08d60"
+    },
+    "/specs/v0.1/samples/games/g09-candidate.game.json": {
+      "id": "org.a2game.games.g09",
+      "revision": 1,
+      "sha256Jcs": "90068e579ff5f728f287bc83486d107d011eeb5c9345e4f1889bee5266b0405a"
+    },
+    "/specs/v0.1/samples/games/g10-candidate.game.json": {
+      "id": "org.a2game.games.g10",
+      "revision": 1,
+      "sha256Jcs": "6d7a6dc9dc013be5a0c3faae89d0d8cae5f317691a9211ca79b7222469025618"
+    },
+    "/specs/v0.1/samples/games/g11-candidate.game.json": {
+      "id": "org.a2game.games.g11",
+      "revision": 1,
+      "sha256Jcs": "6b8d08b7d4d1a744ada71ed98dd0027613c1c745a2593e69c4baefd6aaae1815"
+    },
+    "/specs/v0.1/samples/games/g12-candidate.game.json": {
+      "id": "org.a2game.games.g12",
+      "revision": 1,
+      "sha256Jcs": "32d511a8fe38178fdd26a4dc912a6c1f59cd9acbb4332e8948235f794d10c8f6"
+    },
+    "/specs/v0.1/samples/games/g13-candidate.game.json": {
+      "id": "org.a2game.games.g13",
+      "revision": 1,
+      "sha256Jcs": "0719dde5b857c55d54916a06dd24a1184b4328d7e72922a4d5a5c26eb447e489"
+    },
+    "/specs/v0.1/samples/games/g14-candidate.game.json": {
+      "id": "org.a2game.games.g14",
+      "revision": 1,
+      "sha256Jcs": "3c31e57d43022939e3fd939d742ec8ececca59bb041af3147794b531ab5aab0e"
+    },
+    "/specs/v0.1/samples/games/g15-candidate.game.json": {
+      "id": "org.a2game.games.g15",
+      "revision": 1,
+      "sha256Jcs": "e4b12d0bd0b85719a8a1d49862bac428c3deeb89a3c6f6a6fbcb92336b5959ee"
+    },
+    "/specs/v0.1/samples/games/g16-candidate.game.json": {
+      "id": "org.a2game.games.g16",
+      "revision": 1,
+      "sha256Jcs": "b18a7c7c817d382f9802039017f2cc02b58fb08ef633f578e9f96404b7b6ae59"
+    },
+    "/specs/v0.1/samples/games/g17-candidate.game.json": {
+      "id": "org.a2game.games.g17",
+      "revision": 1,
+      "sha256Jcs": "19025440fcdc34ad87582dd70df2c3cdc95d789fc57859f9bb7f1eda6e13738c"
+    },
+    "/specs/v0.1/samples/games/g18-candidate.game.json": {
+      "id": "org.a2game.games.g18",
+      "revision": 1,
+      "sha256Jcs": "fd785834c4a33accb8ff784d84fc88b356d462cc2eb09dc91006afec901cbe66"
+    },
+    "/specs/v0.1/samples/games/g19-candidate.game.json": {
+      "id": "org.a2game.games.g19",
+      "revision": 1,
+      "sha256Jcs": "a3c31821f6cfe3a0915dd77c477c221c40d9814ff4864dd8771362bc21a389b1"
+    },
+    "/specs/v0.1/samples/games/g20-candidate.game.json": {
+      "id": "org.a2game.games.g20",
+      "revision": 1,
+      "sha256Jcs": "1f9019004b0e72b8490e9a2e88b8188efe0f66c4cab63bcb559c5ad50284afe2"
+    },
+    "/specs/v0.1/samples/games/g21-candidate.game.json": {
+      "id": "org.a2game.games.g21",
+      "revision": 1,
+      "sha256Jcs": "a8280927295d9daeec14033bcf1f25b4104158cd573043be07d0d75ebdfb7c97"
+    },
+    "/specs/v0.1/samples/games/g22-candidate.game.json": {
+      "id": "org.a2game.games.g22",
+      "revision": 1,
+      "sha256Jcs": "1ff7f61c46c75fc9df2212b30523e1a3aec047bc933929f954888a543481e2b3"
+    },
+    "/specs/v0.1/samples/games/g23-candidate.game.json": {
+      "id": "org.a2game.games.g23",
+      "revision": 1,
+      "sha256Jcs": "9befb0c1072b1240409def0c75ca019140e00c3ebe83297af46f04ac0fde5426"
+    },
+    "/specs/v0.1/samples/games/g24-candidate.game.json": {
+      "id": "org.a2game.games.g24",
+      "revision": 1,
+      "sha256Jcs": "470e50565fcfe1e5409440a68a94409fa6cf02564e0a96f47cd8785ec498523e"
+    },
+    "/specs/v0.1/samples/games/g25-candidate.game.json": {
+      "id": "org.a2game.games.g25",
+      "revision": 1,
+      "sha256Jcs": "1cf3078efd866179a4f4e9ff64530cb2c56f29418012dd3be2f3ca8e7b716bc8"
+    },
+    "/specs/v0.1/samples/games/g26-candidate.game.json": {
+      "id": "org.a2game.games.g26",
+      "revision": 1,
+      "sha256Jcs": "3e7a45f69290b5381d6dac3b9c3a4e2afe60999008a3b28038b10701ac9bb71a"
+    },
+    "/specs/v0.1/samples/games/g27-candidate.game.json": {
+      "id": "org.a2game.games.g27",
+      "revision": 1,
+      "sha256Jcs": "ec12ad0ecc411467d03ca39e70a48e42c2fc18d0415b340a0430805207f6baa6"
+    },
+    "/specs/v0.1/samples/games/g28-candidate.game.json": {
+      "id": "org.a2game.games.g28",
+      "revision": 1,
+      "sha256Jcs": "73ecb1595a4eae5973819044b0fa35639ac03219c610fb2766690d0283c65453"
+    },
+    "/specs/v0.1/samples/games/g29-candidate.game.json": {
+      "id": "org.a2game.games.g29",
+      "revision": 1,
+      "sha256Jcs": "54dd84d0f9ea22b9a428e84c5872bb3bba4bb63c47acc05b049298fc8dfe5b45"
+    },
+    "/specs/v0.1/samples/games/g30-candidate.game.json": {
+      "id": "org.a2game.games.g30",
+      "revision": 1,
+      "sha256Jcs": "faebe00c8c1de2e4213f8e90397f21c4953e9f5a000801674604f5f77411f557"
+    },
+    "/specs/v0.1/samples/games/g31-candidate.game.json": {
+      "id": "org.a2game.games.g31",
+      "revision": 1,
+      "sha256Jcs": "bdf0e217b6b4c062017c0df80fd0487e8fea36bbca2fa7763b62aa683d7cc5ec"
+    },
+    "/specs/v0.1/samples/games/g32-candidate.game.json": {
+      "id": "org.a2game.games.g32",
+      "revision": 1,
+      "sha256Jcs": "26d3f74c2927a2445ee4cf43a8e8acecc3831e63b55d505b9531ba7963f0e67a"
+    },
     "/specs/v0.1/samples/games/grid-merge-spawn.game.json": {
       "id": "org.a2game.samples.grid-merge-spawn",
       "revision": 2,
@@ -18,6 +178,31 @@
       "id": "org.a2game.samples.grid-push",
       "revision": 1,
       "sha256Jcs": "ff0b6aa995aae67560d1031a15a35ac63f70eb78de662df2b2eff3e0b0e6d3e2"
+    },
+    "/specs/v0.1/samples/games/h01-candidate.game.json": {
+      "id": "org.a2game.games.h01",
+      "revision": 1,
+      "sha256Jcs": "e479f2c1beb5416cf3db930015991c0c49106643ab9b14178a887a952cf21b54"
+    },
+    "/specs/v0.1/samples/games/h02-candidate.game.json": {
+      "id": "org.a2game.games.h02",
+      "revision": 1,
+      "sha256Jcs": "275c8c3fd9dc10f81bc0ed39ad8594c1b23caf241fcb09696fe71f823e609791"
+    },
+    "/specs/v0.1/samples/games/h03-candidate.game.json": {
+      "id": "org.a2game.games.h03",
+      "revision": 1,
+      "sha256Jcs": "302d36cf8a03f6a851b4fbdd1cf7890b4559f3605b0b8bc46bf2493d58b401e0"
+    },
+    "/specs/v0.1/samples/games/h04-candidate.game.json": {
+      "id": "org.a2game.games.h04",
+      "revision": 1,
+      "sha256Jcs": "a8df12ef2476bb7bf75b32719db71bc1e341bf87cb4acaaabde0fde40da5531a"
+    },
+    "/specs/v0.1/samples/games/h05-candidate.game.json": {
+      "id": "org.a2game.games.h05",
+      "revision": 1,
+      "sha256Jcs": "93f1da2ed3fd2963b9c27ad7c5f8e9698afb273284937f43d661008bd1938733"
     },
     "/specs/v0.1/samples/games/mobile-input-lab.game.json": {
       "id": "org.a2game.samples.mobile-input-lab",

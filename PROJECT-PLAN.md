@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：S8 工程及虚拟浏览器参考已验证；真机 Touch/IMU 待设备，继续独立的 S9–S11 工作。现行回执见 PROJECT-STATUS.md。
+> **当前执行阶段**：S9 有界候选工程及双 SDK 参考已验证；完整 DoD/G3/真机独立待验，继续 S10–S11。现行回执见 PROJECT-STATUS.md。
 
 ## 0. 项目目标与不可变边界
 
@@ -70,7 +70,7 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 | **S6** 实时玩法、物理与战斗 | Movement、Jump/Charge/Runner、Collider/Contact/Physics、Weapon/Projectile/Hitscan/Damage/Status/Wave/Target/AI、导航、对象池 | 命中去重、物理服务 Profile、终局、性能 | G11–G21、G30/G31 对应目标 + 不同 Host 对照 | **aabb-int-v1 参考 Profile PASS；非任意 3D 物理** |
 | **S7** 经营、策略、回合 | Economy/Inventory/Production/Shop/Upgrade/Unlock/PlacementGrid/PathFollow/Turn/Deck/Hand/LegalMove | 持久化及回合/实时混合 | G21–G24 和机制变体，跨域状态一致 | **经营/路径/回合参考 Profile PASS；Gxx / G3 另验** |
 | **S8** Mobile Touch/IMU | Raw pointer 多点/轨迹、Tap/Hold/Drag/Swipe/Pinch/Rotate、IMU Tilt/Shake/Orientation、校准/权限/滤波/回退、InputTrace | 真机权限、坐标、输入冲突、暂停与隐私 | G25–G32 真机与合成 Trace 双重验证 | **工程/虚拟输入 PASS；真机仍 NOT_RUN** |
-| **S9** 全玩法覆盖与混合 | 冻结 G01–G32；增加 H01–H05 组合验证；32 分母可扩版本 | 每种完整 GameSpec、玩法正反例、E2E、Agent 变体 | 32 款分别出 verified receipt，Hxx 独立统计 | **全部 planned（未完成覆盖 Gate）** |
+| **S9** 全玩法覆盖与混合 | 冻结 G01–G32；增加 H01–H05 组合验证；32 分母可扩版本 | 每种完整 GameSpec、玩法正反例、E2E、Agent 变体 | 32 款分别出 verified receipt，Hxx 独立统计 | **37 个独立有界候选参考通过双 SDK；完整 DoD/G3/真机未完成覆盖 Gate** |
 | **S10** Agent 生成与产品化 | 自然语言→JSON、能力目录查询、报错修复、关卡生成/Solver、难度评估、可视化调试、模型无关流程 | 自动化评测无画面 + 实浏览器；不可将人工样例当 one-shot | G3 生成、可玩性、修复闭环及质量门禁 | **NOT_RUN** |
 | **S11** 持续兼容和扩展 | 新 Host、设备、网络多人、存档迁移、性能和文档发布 | 独立 Extension/Profile，变更兼容审计 | 多版本回归、可复现 CI、兼容性发布说明 | **规划范围，不冒充已支持** |
 

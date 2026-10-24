@@ -1,0 +1,307 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g11",
+  "revision": 1,
+  "meta": {
+    "title": "G11 跳一跳",
+    "genres": [
+      "casual"
+    ],
+    "description": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.long-press",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.charge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.jump",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.landing",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "gravity": -4,
+                "jumpSpeed": 96,
+                "jumpHorizontalSpeed": 64,
+                "killBelowY": 600,
+                "goalScore": 1,
+                "maxTicks": 300,
+                "actions": {
+                  "charge": "charge"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 1000,
+            "y": 1100,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "platform_a",
+            "kind": "solid",
+            "x": 1000,
+            "y": 800,
+            "vx": 0,
+            "vy": 0,
+            "hx": 700,
+            "hy": 200,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "platform_b",
+            "kind": "solid",
+            "x": 4000,
+            "y": 800,
+            "vx": 0,
+            "vy": 0,
+            "hx": 700,
+            "hy": 200,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "goal",
+            "kind": "pickup",
+            "x": 4000,
+            "y": 1250,
+            "vx": 0,
+            "vy": 0,
+            "hx": 250,
+            "hy": 250,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "charge",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          },
+          {
+            "source": "touch.long-press",
+            "config": {
+              "minTicks": 2
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/world/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "goal",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G11 跳一跳"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
+    }
+  },
+  "tests": [
+    "../tests/g11-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

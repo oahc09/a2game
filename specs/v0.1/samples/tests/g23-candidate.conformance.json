@@ -1,0 +1,132 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g23-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g23",
+    "file": "../games/g23-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G23-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G23-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

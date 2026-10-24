@@ -20,3 +20,7 @@ export * from './modules/puzzle.js';
 export * from './modules/realtime.js';
 export * from './modules/strategy.js';
 export * from './mobile-input.js';
+export * from './modules/input-control.js';
+export * from './modules/bubble-grid.js';
+export * from './trusted-modules.js';
+export * from './modules/bootstrap.js';

@@ -1,0 +1,138 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h02-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.h02",
+    "file": "../games/h02-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-H02-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-H02-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/plots/0/level",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

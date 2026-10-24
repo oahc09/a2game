@@ -1077,6 +1077,31 @@
                 "pickup"
               ],
               "additionalProperties": false
+            },
+            "circleKinds": {
+              "type": "array",
+              "maxItems": 5,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "actor",
+                  "solid",
+                  "target",
+                  "projectile",
+                  "pickup"
+                ]
+              }
+            },
+            "valuePalette": {
+              "type": "object",
+              "maxProperties": 128,
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            },
+            "showValues": {
+              "type": "boolean"
             }
           },
           "required": [
@@ -1190,7 +1215,17 @@
                       "properties": {
                         "state": {
                           "type": "string",
-                          "pattern": "^/(?:[^~/]|~[01])+$"
+                          "pattern": "^/(?:[^~]|~[01])+$"
+                        },
+                        "scale": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        },
+                        "offset": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
                         }
                       },
                       "required": [
@@ -1206,9 +1241,36 @@
               "size": {
                 "type": "array",
                 "items": {
-                  "type": "number",
-                  "exclusiveMinimum": 0,
-                  "maximum": 10000
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "minimum": -10000,
+                      "maximum": 10000
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": {
+                          "type": "string",
+                          "pattern": "^/(?:[^~]|~[01])+$"
+                        },
+                        "scale": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        },
+                        "offset": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
                 },
                 "minItems": 3,
                 "maxItems": 3
@@ -1216,9 +1278,36 @@
               "rotation": {
                 "type": "array",
                 "items": {
-                  "type": "number",
-                  "minimum": -10000,
-                  "maximum": 10000
+                  "oneOf": [
+                    {
+                      "type": "number",
+                      "minimum": -10000,
+                      "maximum": 10000
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "state": {
+                          "type": "string",
+                          "pattern": "^/(?:[^~]|~[01])+$"
+                        },
+                        "scale": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        },
+                        "offset": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "state"
+                      ],
+                      "additionalProperties": false
+                    }
+                  ]
                 },
                 "minItems": 3,
                 "maxItems": 3
@@ -1393,13 +1482,84 @@
             ],
             "additionalProperties": false
           }
+        },
+        "bindingProfile": {
+          "const": "numeric-pointer-v1"
         }
       },
       "required": [
         "camera",
         "nodes"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "not": {
+              "required": [
+                "bindingProfile"
+              ]
+            }
+          },
+          "then": {
+            "properties": {
+              "nodes": {
+                "items": {
+                  "properties": {
+                    "at": {
+                      "type": "array",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "number",
+                            "minimum": -10000,
+                            "maximum": 10000
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "state": {
+                                "type": "string",
+                                "pattern": "^/(?:[^~/]|~[01])+$"
+                              }
+                            },
+                            "required": [
+                              "state"
+                            ],
+                            "additionalProperties": false
+                          }
+                        ]
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "size": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                        "maximum": 10000
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "rotation": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

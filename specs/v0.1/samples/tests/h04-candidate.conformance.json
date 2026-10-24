@@ -1,0 +1,86 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h04-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.h04",
+    "file": "../games/h04-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-H04-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.85,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-H04-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

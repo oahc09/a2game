@@ -1,0 +1,116 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g25-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g25",
+    "file": "../games/g25-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G25-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.75,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G25-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.4,
+              "v": 0.75,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.6,
+              "v": 0.75,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

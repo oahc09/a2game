@@ -1,0 +1,194 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.combat.bubble-grid",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Bounded integer projectile, wall bounce, grid snapping, connected color matching and unsupported cluster dropping. Shared Runtime implementation, no renderer/game-name branches.",
+  "phase": "physics",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.bounce",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.intersection",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.puzzle.connected-match",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 16
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 16
+        },
+        "cellSize": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 2000
+        },
+        "originX": {
+          "type": "integer",
+          "minimum": 32,
+          "maximum": 32000
+        },
+        "topY": {
+          "type": "integer",
+          "minimum": 32,
+          "maximum": 32000
+        },
+        "worldWidth": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 32000
+        },
+        "worldHeight": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 32000
+        },
+        "launchX": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 31984
+        },
+        "launchY": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 31984
+        },
+        "shotSpeed": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        },
+        "radius": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 400
+        },
+        "colors": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "matchLength": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 8
+        },
+        "goalScore": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "fireAction": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "aimAction": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "sceneWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "sceneHeight": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100
+        }
+      },
+      "required": [
+        "statePath",
+        "columns",
+        "rows",
+        "cellSize",
+        "originX",
+        "topY",
+        "worldWidth",
+        "worldHeight",
+        "launchX",
+        "launchY",
+        "fireAction"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "bubble.fired",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "bubble.snapped",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "bubble.cleared",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "bubble.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxCells": 256,
+    "maxProjectiles": 1,
+    "maxAmmo": 64,
+    "maxSubsteps": 8,
+    "physicsProfile": "integer AABB bubble-grid-v1; square adjacency/snap lattice, not a hex/rotational solver"
+  },
+  "testSuites": [
+    "BUBBLE-GRID-001"
+  ]
+}

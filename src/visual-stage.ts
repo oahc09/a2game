@@ -2,12 +2,12 @@ import {fail} from './errors.js';
 import {readPointer,safeFinite,safeInteger} from './utils.js';
 import type {GameDefinition,SessionObservation} from './types.js';
 
-export type StageScalar=number|{state:string};
-export interface StageNode {id:string;kind:'mesh'|'sprite';geometry?:'box'|'sphere'|'plane';at:[StageScalar,StageScalar,StageScalar];size:[number,number,number];rotation?:[number,number,number];spin?:[number,number,number];color:string;asset?:string;material?:'unlit'|'standard';}
+export type StageScalar=number|{state:string;scale?:number;offset?:number};
+export interface StageNode {id:string;kind:'mesh'|'sprite';geometry?:'box'|'sphere'|'plane';at:[StageScalar,StageScalar,StageScalar];size:[StageScalar,StageScalar,StageScalar];rotation?:[StageScalar,StageScalar,StageScalar];spin?:[number,number,number];color:string;asset?:string;material?:'unlit'|'standard';}
 export interface StageCamera {projection:'perspective'|'orthographic';at:[number,number,number];target:[number,number,number];near:number;far:number;fov:number;orthoHeight:number;}
 export interface StageParticle {id:string;count:number;origin:[number,number,number];spread:[number,number,number];velocity:[number,number,number];size:number;color:string;periodTicks:number;}
 export interface StageAudio {id:string;asset:string;event:string;volume:number;}
-export interface VisualStageSpec {camera:StageCamera;nodes:StageNode[];particles?:StageParticle[];audio?:StageAudio[];}
+export interface VisualStageSpec {bindingProfile?:'numeric-pointer-v1';camera:StageCamera;nodes:StageNode[];particles?:StageParticle[];audio?:StageAudio[];}
 export interface StageDraw {id:string;kind:'mesh'|'sprite';geometry:'box'|'sphere'|'plane';at:number[];size:number[];rotation:number[];color:string;asset?:string;material:'unlit'|'standard';}
 export interface VisualStageFrame {camera:StageCamera;nodes:StageDraw[];audio:{id:string;key:string}[];tickIndex:number;}
 function bad(message:string,path='/presentation/stage'):never{fail('A2G_E_PRESENTATION',message,{jsonPointer:path});}
@@ -17,7 +17,17 @@ function color(raw:unknown,path:string):void{if(typeof raw!=='string'||!/^#[0-9A
 export function validateVisualStage(def:GameDefinition):void{
   const raw=def.presentation.stage;if(raw===undefined)return;
   if(!def.requires.all.some(ref=>ref.id==='a2game.visual.stage'&&ref.version==='0.1.0'))fail('A2G_E_CAP_DEPENDENCY','Visual stage requires a2game.visual.stage@0.1.0');
-  const stage=obj(raw,['camera','nodes','particles','audio'],'/presentation/stage');
+  const stage=obj(raw,['bindingProfile','camera','nodes','particles','audio'],'/presentation/stage');
+  const bound=stage.bindingProfile==='numeric-pointer-v1';if(stage.bindingProfile!==undefined&&!bound)bad('Unknown binding profile');
+  if(bound&&!def.requires.all.some(ref=>ref.id==='a2game.visual.bound-stage'))fail('A2G_E_CAP_DEPENDENCY','Numeric pointer bindings require visual.bound-stage');
+  const initial=Object.fromEntries(Object.entries(def.state).map(([key,value])=>[key,value.initial]));
+  const scalar=(value:unknown,path:string,positive=false)=>{
+    if(safeFinite(value)&&Math.abs(value)<=10000&&(!positive||value>0))return;
+    if(!bound)bad('Non-numeric rotation/size requires numeric-pointer-v1',path);
+    const b=obj(value,['state','scale','offset'],path);if(typeof b.state!=='string'||!/^\/(?:[^~]|~[01])+$/.test(b.state))bad('Numeric JSON Pointer required',path);
+    if(b.scale!==undefined&&(!safeFinite(b.scale)||Math.abs(b.scale)>10000)||b.offset!==undefined&&(!safeFinite(b.offset)||Math.abs(b.offset)>10000))bad('Invalid affine binding',path);
+    const initialValue=readPointer(initial,b.state);if(!safeFinite(initialValue))bad('Binding must reference numeric initial state',path);const resolved=initialValue*Number(b.scale??1)+Number(b.offset??0);if(!safeFinite(resolved)||Math.abs(resolved)>10000||positive&&resolved<=0)bad('Invalid initial resolved binding',path);
+  };
   const camera=obj(stage.camera,['projection','at','target','near','far','fov','orthoHeight'],'/presentation/stage/camera');
   vec(camera.at,'/presentation/stage/camera/at');vec(camera.target,'/presentation/stage/camera/target');
   if(!['perspective','orthographic'].includes(String(camera.projection))||!safeFinite(camera.near)||!safeFinite(camera.far)||camera.near<=0||camera.far<=camera.near||camera.far>10000||!safeFinite(camera.fov)||camera.fov<10||camera.fov>120||!safeFinite(camera.orthoHeight)||camera.orthoHeight<=0||camera.orthoHeight>1000)bad('Invalid camera');
@@ -30,8 +40,9 @@ export function validateVisualStage(def:GameDefinition):void{
     const path=`/presentation/stage/nodes/${index}`,n=obj(rawNode,['id','kind','geometry','at','size','rotation','spin','color','asset','material'],path);id(n.id);
     if(!['mesh','sprite'].includes(String(n.kind)))bad('Invalid visual stage node',path);
     if(!Array.isArray(n.at)||n.at.length!==3)bad('Position requires three scalar bindings',path);
-    for(const value of n.at){if(safeFinite(value)&&Math.abs(value)<=10000)continue;const b=obj(value,['state'],path+'/at');if(typeof b.state!=='string'||!/^\/(?:[^~/]|~[01])+$/.test(b.state))bad('Numeric top-level JSON Pointer required',path);const field=readPointer(def.state,b.state);if(!field||typeof field!=='object'||!('type' in field)||!['int','number'].includes(String(field.type)))bad('Position binding must name a numeric state field',path);}
-    vec(n.size,path+'/size',true);if(n.rotation!==undefined)vec(n.rotation,path+'/rotation');if(n.spin!==undefined)vec(n.spin,path+'/spin');color(n.color,path+'/color');
+    for(const value of n.at){if(bound){scalar(value,path+'/at');continue;}if(safeFinite(value)&&Math.abs(value)<=10000)continue;const b=obj(value,['state'],path+'/at');if(typeof b.state!=='string'||!/^\/(?:[^~/]|~[01])+$/.test(b.state))bad('Numeric top-level JSON Pointer required',path);const field=readPointer(def.state,b.state);if(!field||typeof field!=='object'||!('type' in field)||!['int','number'].includes(String(field.type)))bad('Position binding must name a numeric state field',path);}
+    if(bound){for(const key of ['size','rotation']){if(key==='rotation'&&n[key]===undefined)continue;if(!Array.isArray(n[key])||(n[key] as unknown[]).length!==3)bad('Vec3 binding required',path);for(const value of n[key] as unknown[])scalar(value,path+'/'+key,key==='size');}}else{vec(n.size,path+'/size',true);if(n.rotation!==undefined)vec(n.rotation,path+'/rotation');}
+    if(n.spin!==undefined)vec(n.spin,path+'/spin');color(n.color,path+'/color');
     if(n.material!==undefined&&!['unlit','standard'].includes(String(n.material)))bad('Unknown trusted material preset',path);
     if(n.kind==='mesh'&&!['box','sphere','plane'].includes(String(n.geometry)))bad('Unknown geometry',path);
     if(n.asset!==undefined)asset(n.asset,'image');if(n.kind==='sprite')asset(n.asset,'image');
@@ -45,9 +56,10 @@ export function validateVisualStage(def:GameDefinition):void{
 export function projectVisualStage(def:GameDefinition,obs:SessionObservation):VisualStageFrame|undefined{
   const stage=def.presentation.stage as unknown as VisualStageSpec|undefined;if(!stage)return;
   const time=obs.tickIndex/def.world.clock.tickHz;
+  const resolve=(value:StageScalar,positive=false)=>{const raw=typeof value==='number'?value:readPointer(obs.state,value.state);if(!safeFinite(raw))bad('Resolved binding must be numeric');const n=typeof value==='number'?raw:raw*Number(value.scale??1)+Number(value.offset??0);if(!safeFinite(n)||Math.abs(n)>10000||positive&&n<=0)bad('Resolved binding exceeds visual bounds');return n;};
   const nodes:StageDraw[]=stage.nodes.map(node=>({id:node.id,kind:node.kind,geometry:node.kind==='sprite'?'plane':node.geometry!,
-    at:node.at.map(value=>{const n=typeof value==='number'?value:readPointer(obs.state,value.state);if(!safeFinite(n)||Math.abs(n)>10000)bad('Resolved position exceeds visual bounds');return n;}),
-    size:[...node.size],rotation:[0,1,2].map(axis=>(node.rotation?.[axis]??0)+(node.spin?.[axis]??0)*time),color:node.color,
+    at:node.at.map(value=>resolve(value)),
+    size:node.size.map(value=>resolve(value,true)),rotation:[0,1,2].map(axis=>resolve(node.rotation?.[axis]??0)+(node.spin?.[axis]??0)*time),color:node.color,
     ...(node.asset?{asset:node.asset}:{}),material:node.material??'unlit'}));
   for(const particle of stage.particles??[])for(let i=0;i<particle.count;i++){
     const age=((obs.tickIndex+i*17)%particle.periodTicks)/def.world.clock.tickHz;

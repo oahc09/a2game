@@ -1,0 +1,385 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.h03",
+  "revision": 1,
+  "meta": {
+    "title": "H03 换道与射击",
+    "genres": [
+      "casual"
+    ],
+    "description": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "weapon": "hitscan",
+                "fireDirection": "up",
+                "fireRequestPath": "/control/fireRequest",
+                "laneRequestPath": "/control/laneSignal",
+                "laneWidth": 2000,
+                "goalScore": 1,
+                "maxTicks": 120
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 3000,
+            "y": 1000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "enemy",
+            "kind": "target",
+            "x": 1000,
+            "y": 4500,
+            "vx": 0,
+            "vy": 0,
+            "hx": 300,
+            "hy": 300,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "control": {
+      "type": "object",
+      "initial": {
+        "angle": 0,
+        "scale": 1,
+        "axis": [
+          0,
+          0
+        ],
+        "aim": [
+          1,
+          0
+        ],
+        "power": 0,
+        "score": 0,
+        "won": false,
+        "lost": false,
+        "cutIds": [],
+        "spawned": 0,
+        "grabbing": false,
+        "grab": [
+          0.5,
+          0.5
+        ],
+        "target": [
+          0,
+          0
+        ],
+        "hasTarget": false,
+        "rotateSource": "",
+        "pinchSource": "",
+        "angleBase": 0,
+        "scaleBase": 1,
+        "balanceTicks": 0,
+        "fireRequest": false,
+        "usedInput": false,
+        "laneSignal": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "zones",
+        "valueType": "pose",
+        "bindings": [
+          {
+            "source": "touch.raw",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "left-zone",
+      "on": {
+        "type": "input.action",
+        "action": "zones",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/value/kind"
+              },
+              {
+                "const": "down"
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "event": "/value/u"
+              },
+              {
+                "const": 0.3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/control/laneSignal",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "right-zone",
+      "on": {
+        "type": "input.action",
+        "action": "zones",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/value/kind"
+              },
+              {
+                "const": "down"
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "event": "/value/u"
+              },
+              {
+                "const": 0.7
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/control/fireRequest",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/world/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "goal",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "H03 换道与射击"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
+    }
+  },
+  "tests": [
+    "../tests/h03-candidate.conformance.json"
+  ],
+  "extensions": {}
+}

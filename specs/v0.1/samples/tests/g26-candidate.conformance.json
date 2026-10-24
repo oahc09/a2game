@@ -1,0 +1,164 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g26-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g26",
+    "file": "../games/g26-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G26-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "press",
+          "value": 1.5707963267948966
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "pinch",
+          "phase": "press",
+          "value": 1.5
+        },
+        {
+          "op": "injectAction",
+          "action": "pinch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G26-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "press",
+          "value": 0.2
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "pinch",
+          "phase": "press",
+          "value": 1.5
+        },
+        {
+          "op": "injectAction",
+          "action": "pinch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

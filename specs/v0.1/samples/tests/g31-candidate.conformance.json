@@ -1,0 +1,94 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g31-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g31",
+    "file": "../games/g31-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G31-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "press",
+          "value": [
+            0.5,
+            0.3125
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G31-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 120
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

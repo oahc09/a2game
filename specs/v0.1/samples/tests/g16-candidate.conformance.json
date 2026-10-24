@@ -1,0 +1,90 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g16-candidate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g16",
+    "file": "../games/g16-candidate.game.json"
+  },
+  "cases": [
+    {
+      "id": "COVERAGE-G16-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "COVERAGE-G16-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}
