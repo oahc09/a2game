@@ -1,0 +1,703 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.realtime.world",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Trusted bounded 2D integer AABB world with movement, contacts, pooled combat and wave services. Profile aabb-int-v1; not arbitrary 3D rigid-body physics.",
+  "phase": "physics",
+  "dependencies": [
+    {
+      "id": "a2game.realtime.velocity",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.acceleration",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.charge",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.jump",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.landing",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.lane-move",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.auto-scroll",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.spawner",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.collider",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.rigid-body",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.contact",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.bounce",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.constraint",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.trigger-zone",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.follow",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.realtime.object-pool",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.health",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.damage",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.aim",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.weapon",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.cooldown",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.projectile",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.hitscan",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.auto-target",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.wave",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.horde",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.combat.status",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 32000
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 32000
+        },
+        "gravity": {
+          "type": "integer",
+          "minimum": -16,
+          "maximum": 16
+        },
+        "moveSpeed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        },
+        "jumpSpeed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        },
+        "maxCharge": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "restitution": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "maxObjects": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        },
+        "projectileSpeed": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        },
+        "damage": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "cooldownTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600
+        },
+        "invulnerabilityTicks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 600
+        },
+        "goalScore": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "weapon": {
+          "enum": [
+            "projectile",
+            "hitscan"
+          ]
+        },
+        "autoTarget": {
+          "type": "boolean"
+        },
+        "autoFire": {
+          "type": "boolean"
+        },
+        "merge": {
+          "type": "boolean"
+        },
+        "seekSpeed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 128
+        },
+        "scrollSpeed": {
+          "type": "integer",
+          "minimum": -128,
+          "maximum": 128
+        },
+        "laneWidth": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 32000
+        },
+        "actions": {
+          "type": "object",
+          "properties": {
+            "left": {
+              "type": "string",
+              "minLength": 1
+            },
+            "right": {
+              "type": "string",
+              "minLength": 1
+            },
+            "jump": {
+              "type": "string",
+              "minLength": 1
+            },
+            "charge": {
+              "type": "string",
+              "minLength": 1
+            },
+            "fire": {
+              "type": "string",
+              "minLength": 1
+            },
+            "laneLeft": {
+              "type": "string",
+              "minLength": 1
+            },
+            "laneRight": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "waves": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "properties": {
+              "tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "body": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+                  },
+                  "kind": {
+                    "enum": [
+                      "actor",
+                      "solid",
+                      "target",
+                      "projectile",
+                      "pickup"
+                    ]
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 32000
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 32000
+                  },
+                  "vx": {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                  },
+                  "vy": {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                  },
+                  "hx": {
+                    "type": "integer",
+                    "minimum": 16,
+                    "maximum": 2000
+                  },
+                  "hy": {
+                    "type": "integer",
+                    "minimum": 16,
+                    "maximum": 2000
+                  },
+                  "hp": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "team": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 8
+                  },
+                  "value": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "fixed": {
+                    "type": "boolean"
+                  },
+                  "ttl": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "invulnerableUntil": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "hits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 128
+                  }
+                },
+                "required": [
+                  "id",
+                  "kind",
+                  "x",
+                  "y",
+                  "vx",
+                  "vy",
+                  "hx",
+                  "hy",
+                  "hp",
+                  "team",
+                  "value",
+                  "fixed"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "tick",
+              "body"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "properties": {
+              "body": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minX": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "maxX": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "minY": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "maxY": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              }
+            },
+            "required": [
+              "body",
+              "minX",
+              "maxX",
+              "minY",
+              "maxY"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "statePath",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "properties": {
+        "bodies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "kind": {
+                "enum": [
+                  "actor",
+                  "solid",
+                  "target",
+                  "projectile",
+                  "pickup"
+                ]
+              },
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "vx": {
+                "type": "integer",
+                "minimum": -128,
+                "maximum": 128
+              },
+              "vy": {
+                "type": "integer",
+                "minimum": -128,
+                "maximum": 128
+              },
+              "hx": {
+                "type": "integer",
+                "minimum": 16,
+                "maximum": 2000
+              },
+              "hy": {
+                "type": "integer",
+                "minimum": 16,
+                "maximum": 2000
+              },
+              "hp": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "team": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "fixed": {
+                "type": "boolean"
+              },
+              "ttl": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "invulnerableUntil": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "owner": {
+                "type": "string"
+              },
+              "hits": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 128
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "x",
+              "y",
+              "vx",
+              "vy",
+              "hx",
+              "hy",
+              "hp",
+              "team",
+              "value",
+              "fixed"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 128
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000000
+        },
+        "charge": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "nextId": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
+        },
+        "cooldowns": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          }
+        },
+        "contacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8128
+        },
+        "spawned": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 64
+          },
+          "maxItems": 64
+        },
+        "grounded": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 128
+        },
+        "won": {
+          "type": "boolean"
+        },
+        "lost": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bodies",
+        "score",
+        "charge",
+        "nextId",
+        "cooldowns",
+        "contacts",
+        "spawned",
+        "grounded",
+        "won",
+        "lost"
+      ],
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "contact.begin",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "contact.stay",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "contact.end",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.landed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.jumped",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.spawned",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.pool-full",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.merged",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.trigger",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "combat.fired",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "combat.hit",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "combat.death",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "profile": "aabb-int-v1",
+    "unitsPerMeter": 1000,
+    "maxObjects": 128,
+    "maxVelocityPerTick": 128,
+    "maxSubsteps": 16,
+    "poolPolicy": "reject spawn without overwriting live objects",
+    "broadphase": "bounded stable all-pairs",
+    "collision": "axis-aligned rectangles; no rotational dynamics",
+    "testScope": "reference mechanisms; full gameplay and physical device gates separate"
+  },
+  "testSuites": [
+    "REALTIME-WORLD-001"
+  ]
+}

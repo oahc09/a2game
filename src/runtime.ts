@@ -331,13 +331,14 @@ export class HeadlessRuntime {
         }
         fail('A2G_E_CAP_NOT_IMPLEMENTED','Unrecognized module proposal');
     }
-    private simulateModules(stage:Stage, inputs: readonly RuntimeEvent[], tickRng:GameRng): {events:QueuedEvent[];proposals:number} {
+    private simulateModules(stage:Stage, inputs: readonly RuntimeEvent[], tickRng:GameRng,phase:'simulate'|'physics'='simulate'): {events:QueuedEvent[];proposals:number} {
         const result:QueuedEvent[]=[];
         const components = Object.values(stage.entities).flatMap(e =>
             e.components.map((component,index)=>({entityId:e.id,component,index}))
         ).sort((a,b)=>stableCompare(a.component.capability.id,b.component.capability.id)||stableCompare(a.entityId,b.entityId)||a.index-b.index);
         let moduleProposals = 0;
         for (const [index,entry] of components.entries()) {
+            if((this.registry.get(entry.component.capability).phase==='physics')!==(phase==='physics'))continue;
             const impl=this.registry.implementation(entry.component.capability);
             if (impl.role==='headless-presentation'||impl.role==='builtin') continue;
             if (impl.role!=='module'||!impl.simulate) fail('A2G_E_CAP_NOT_IMPLEMENTED','Component has no module simulation');
@@ -352,7 +353,7 @@ export class HeadlessRuntime {
             moduleProposals += (output.proposals??[]).length;
             if (moduleProposals>this.opts.maxEffectsPerTick) fail('A2G_E_BUDGET_EXCEEDED','Module proposal budget exceeded');
             for (const p of output.proposals??[]) this.applyModuleProposal(stage,p);
-            (output.events??[]).forEach((event,i)=> result.push(this.makeEvent(stage,'module',event.type,event.payload??{},[entry.component.capability.id,entry.entityId,index,i],{sourceId:event.sourceId,sourceTag:event.sourceTag})));
+            (output.events??[]).forEach((event,i)=> result.push(this.makeEvent(stage,event.type.startsWith('contact.')?'contact':'module',event.type,event.payload??{},event.type.startsWith('contact.')?[String(event.payload?.pair??''),event.type]:[entry.component.capability.id,entry.entityId,index,i],{sourceId:event.sourceId,sourceTag:event.sourceTag})));
         }
         return {events:result,proposals:moduleProposals};
     }
@@ -385,9 +386,12 @@ export class HeadlessRuntime {
                 events.push(this.makeEvent(working,'timer',timer.eventType,timer.payload,[timer.dueTick,timer.id],{sourceId:timer.id}));
                 if (timer.periodTicks!==undefined) working.timers.push({...timer,dueTick:timer.dueTick+timer.periodTicks});
             }
-            // T4: trusted module proposals only, T5: no physics in this implementation slice.
+            // T4: trusted discrete modules. T5: checkpointable fixed-tick physics profile.
             const modules=this.simulateModules(working,events.map(eventView),tickRng);
             events.push(...modules.events);
+            const physics=this.simulateModules(working,events.map(eventView),tickRng,'physics');
+            modules.proposals+=physics.proposals;events.push(...physics.events);
+            if(modules.proposals>this.opts.maxEffectsPerTick)fail('A2G_E_BUDGET_EXCEEDED','Combined simulation proposal budget exceeded');
             // T6: deferred events created before this tick; generated ones wait for next tick.
             const ready=working.deferred.filter(x=>x.sourceTick<t).sort((a,b)=>a.sourceTick-b.sourceTick||a.localIndex-b.localIndex);
             working.deferred=working.deferred.filter(x=>x.sourceTick>=t);

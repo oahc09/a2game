@@ -1,0 +1,52 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.realtime.velocity",
+  "version": "0.1.0",
+  "kind": "service",
+  "portability": "exact",
+  "description": "Internal realtime.velocity service in aabb-int-v1; consumed by realtime.world, not an executable JSON command.",
+  "phase": "physics",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "profile": "aabb-int-v1",
+    "unitsPerMeter": 1000,
+    "maxObjects": 128,
+    "maxVelocityPerTick": 128,
+    "maxSubsteps": 16,
+    "poolPolicy": "reject spawn without overwriting live objects",
+    "broadphase": "bounded stable all-pairs",
+    "collision": "axis-aligned rectangles; no rotational dynamics",
+    "testScope": "reference mechanisms; full gameplay and physical device gates separate"
+  },
+  "testSuites": [
+    "REALTIME-WORLD-001"
+  ]
+}

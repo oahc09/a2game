@@ -1,0 +1,43 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "realtime-bounce",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.realtime-bounce",
+    "file": "../games/realtime-bounce.game.json"
+  },
+  "cases": [
+    {
+      "id": "REALTIME-WORLD-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/vx",
+          "equals": -128
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

@@ -24,12 +24,13 @@
     },
     {
       "stage": "S6",
-      "status": "in_progress",
-      "deliverable": "Realtime physics, movement and combat contracts, shared implementations and Host proof"
+      "status": "completed",
+      "deliverable": "Realtime physics, movement and combat contracts, shared implementations and Host proof",
+      "acceptance": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage."
     },
     {
       "stage": "S7",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Economy, strategy and turn-based shared capabilities and representative games"
     },
     {

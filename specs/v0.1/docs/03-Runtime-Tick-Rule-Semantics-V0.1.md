@@ -48,6 +48,8 @@
 
 **T4 与 T5 的顺序**：规则感知本 tick 的已结算运动/碰撞；T7 所有条件共用 S_sim 的一致快照。若模块属于纯离散棋盘机制，T5 可空跑。Physics 不允许直接在 T10 修改任何 gameplay 值。
 
+参考 Runtime 自 S6 起执行 Manifest `phase: physics` 的 T5 模块，具体整数 AABB 积分、子步、稳定接触去重和战斗时序见 [Realtime World](13-Realtime-World-V0.1.md)。旧 simulate 模块保留 T4 行为，不能将其他求解器的结果视为该 exact Profile。
+
 **T0 控制与 tick**：在 `paused/won/lost` 状态下可以处理 `restart/resume/stop`，但不会执行 T1–T10。`flow.pause` 由规则在 T8/T9 生效，当前 tick 仍正常结束、下 tick 停止。
 
 ## 5. 事件完整排序合同

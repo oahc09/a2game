@@ -1,5 +1,10 @@
 # A2Game 项目变更记录
 
+## 2026-10-24 — S6 固定 Tick 物理与战斗参考 Profile
+
+- Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.
+- 20 个真实 SDK 场景、72 Node、35 Conformance 通过；现行证据见 project/status.json。
+
 ## 2026-10-24 — S5 参考库与真实双引擎验收
 
 - 28 份版本化 Manifest、12 份参考 JSON/Conformance；共享匹配、遮挡、翻牌、拼块、分类、方向和单行为 RNG 撤销。旧 JSON/Hash 合同保持不变。

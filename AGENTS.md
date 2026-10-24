@@ -55,3 +55,5 @@ npm run verify
 以 `project/status.json` 和本次实际回执为准，避免把本文件中的初始状态当作永久状态。S2 先取得真实 SDK、锁定来源与 SHA，再通过 HTTP 对同一份四游戏 JSON 测试输入、Node/Host Hash、画面、暂停/重开、缩放/DPR、销毁/重建和 context loss。CocosAirJS 的单文档引擎生命周期须遵守上游契约，不擅自重复初始化。环境阻塞与 Adapter/Engine 失败独立记录，不跳过校验冒充 PASS。
 
 仅增加必要的回归测试和可复用 G2 验证，避免过度设计测试用例。提交、推送和部署分别需要授权；授权提交不等于授权推送。
+
+S6 参考扩展：`src/modules/realtime.ts` / `13-Realtime-World-V0.1.md` 定义 `aabb-int-v1`；Manifest physics 模块在 T5 执行，旧 simulate 模块仍在 T4。BodyLayer 是只读整数坐标投影。参考 Profile PASS 不替代完整 Gxx/Hxx、真机或 Agent Gate。

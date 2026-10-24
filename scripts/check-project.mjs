@@ -133,6 +133,15 @@ if(status.stages.find(stage=>stage.id==='S5')?.status==='PASS'){
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S5: stale fingerprint ${path}`);}
   }catch(error){insist(false,`S5: cannot verify puzzle evidence: ${error.message}`);}
 }
+for(const [stage,suite] of [['S6','realtime'],['S7','strategy']])if(status.stages.find(row=>row.id===stage)?.status==='PASS'){
+  try{
+    const summary=read(status.mechanismRuns[suite].summary),recipes=read(`project/${suite}-reference-cases.json`).cases;
+    insist(summary.format==='a2game-mechanism-real-sdk'&&summary.suite===suite&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS',`${stage}: missing real SDK mechanism proof`);
+    insist(summary.cases?.length===recipes.length*2&&summary.parity?.length===recipes.length&&summary.parity.every(row=>row.status==='PASS'),`${stage}: incomplete dual SDK cases`);
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.final?.exactHash===result.node?.exactHash&&result.restart==='PASS'&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.initialScreenshot))&&existsSync(resolve(root,result.screenshot)),`${stage}: incomplete ${row.receipt}`);}
+    for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`${stage}: stale fingerprint ${path}`);}
+  }catch(error){insist(false,`${stage}: cannot verify mechanism evidence: ${error.message}`);}
+}
 if(failures.length){console.error(failures.join('\n'));process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

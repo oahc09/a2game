@@ -1,5 +1,6 @@
 import { validatePresentation } from './presentation.js';
 import { validatePuzzleDefinition } from './modules/puzzle.js';
+import { validateRealtimeDefinition } from './modules/realtime.js';
 import { fail, requireCondition } from './errors.js';
 import { validateExpression, looksLikeExpression } from './expression.js';
 import { CapabilityRegistry, type EffectiveCapabilities } from './registry.js';
@@ -180,6 +181,7 @@ export function compileGame(raw: unknown, registry: CapabilityRegistry): Compile
     const d = clone(raw as unknown as GameDefinition);
     validatePresentation(d);
     validatePuzzleDefinition(d,registry);
+    validateRealtimeDefinition(d);
     const scene = d.scenes.find(s => s.id === d.entryScene)!;
     return { definition:d, effective, entrySceneEntities:scene.entities, rules:[...d.rules].sort((a,b)=>(a.priority??0)-(b.priority??0)||stableCompare(a.id,b.id)) };
 }

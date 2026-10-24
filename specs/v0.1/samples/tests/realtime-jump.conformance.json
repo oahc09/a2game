@@ -1,0 +1,57 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "realtime-jump",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.realtime-jump",
+    "file": "../games/realtime-jump.game.json"
+  },
+  "cases": [
+    {
+      "id": "REALTIME-WORLD-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/vy",
+          "equals": 76
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

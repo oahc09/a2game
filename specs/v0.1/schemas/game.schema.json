@@ -1024,6 +1024,68 @@
           "items": {
             "$ref": "#/$defs/visualRepeat"
           }
+        },
+        "bodyLayer": {
+          "type": "object",
+          "properties": {
+            "statePath": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "unitsPerMeter": {
+              "const": 1000
+            },
+            "origin": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "minimum": -10000,
+                "maximum": 10000
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "palette": {
+              "type": "object",
+              "properties": {
+                "actor": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "solid": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "target": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "projectile": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                },
+                "pickup": {
+                  "type": "string",
+                  "pattern": "^#[0-9a-fA-F]{6}$"
+                }
+              },
+              "required": [
+                "actor",
+                "solid",
+                "target",
+                "projectile",
+                "pickup"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "statePath",
+            "unitsPerMeter",
+            "origin",
+            "palette"
+          ],
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

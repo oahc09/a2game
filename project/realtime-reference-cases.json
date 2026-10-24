@@ -1,0 +1,170 @@
+{
+  "format": "a2game-mechanism-cases",
+  "cases": [
+    {
+      "name": "realtime-jump",
+      "steps": [
+        {
+          "ticks": 1
+        },
+        {
+          "action": "jump",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/bodies/0/vy",
+          "equals": 76
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "realtime-flappy",
+      "steps": [
+        {
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 1
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "realtime-lanes",
+      "steps": [
+        {
+          "action": "laneRight",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/bodies/0/x",
+          "equals": 2000
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "realtime-bounce",
+      "steps": [
+        {
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/bodies/0/vx",
+          "equals": -128
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "realtime-constraint",
+      "steps": [
+        {
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/bodies/0/x",
+          "equals": 2000
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "realtime-merge",
+      "steps": [
+        {
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 2
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "realtime-projectile",
+      "steps": [
+        {
+          "action": "fire",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 1
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "realtime-hitscan",
+      "steps": [
+        {
+          "action": "fire",
+          "ticks": 1
+        },
+        {
+          "action": "fire",
+          "ticks": 1
+        },
+        {
+          "action": "fire",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 1
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "realtime-waves",
+      "steps": [
+        {
+          "ticks": 2
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 2
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "realtime-seek",
+      "steps": [
+        {
+          "ticks": 3
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/bodies/0/hp",
+          "equals": 2
+        }
+      ],
+      "expected": "playing"
+    }
+  ]
+}

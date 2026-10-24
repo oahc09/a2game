@@ -17,3 +17,4 @@ export { A2GAME_RELEASE_VERSION, A2GAME_GAMESPEC_VERSION } from './release-versi
 export * from './content-release.js';
 export * from './visual-stage.js';
 export * from './modules/puzzle.js';
+export * from './modules/realtime.js';

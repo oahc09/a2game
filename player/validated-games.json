@@ -79,6 +79,56 @@
       "revision": 1,
       "sha256Jcs": "df70ac8281623b4905201103e8fae1c3dfb754bd53953c8937af820d8cb89123"
     },
+    "/specs/v0.1/samples/games/realtime-bounce.game.json": {
+      "id": "org.a2game.samples.realtime-bounce",
+      "revision": 1,
+      "sha256Jcs": "fd9c5e8378c39dbf6a1828f5b552135180124d82d4f88bd50a38de0f663fd005"
+    },
+    "/specs/v0.1/samples/games/realtime-constraint.game.json": {
+      "id": "org.a2game.samples.realtime-constraint",
+      "revision": 1,
+      "sha256Jcs": "4a8d093f7a5be74819927528270a74ad2eab0e1318df4b2827aedcbe09cadf46"
+    },
+    "/specs/v0.1/samples/games/realtime-flappy.game.json": {
+      "id": "org.a2game.samples.realtime-flappy",
+      "revision": 1,
+      "sha256Jcs": "e9b26ebce094665ebacc5be6c5cc3a58da6649b7a59206c143d677c5c71cd62e"
+    },
+    "/specs/v0.1/samples/games/realtime-hitscan.game.json": {
+      "id": "org.a2game.samples.realtime-hitscan",
+      "revision": 1,
+      "sha256Jcs": "9674e8b194e444e3a42a8d69699ec7334495bcc3537087f77415af2ee362ec9a"
+    },
+    "/specs/v0.1/samples/games/realtime-jump.game.json": {
+      "id": "org.a2game.samples.realtime-jump",
+      "revision": 1,
+      "sha256Jcs": "3954bcb534deffd598eb9b3703c1e082fb7cecc4090d108c300c5e0e6b7b7264"
+    },
+    "/specs/v0.1/samples/games/realtime-lanes.game.json": {
+      "id": "org.a2game.samples.realtime-lanes",
+      "revision": 1,
+      "sha256Jcs": "028862c8c0f8651d26a7ef524eddb2eb8c004c734c630f3f9a15051e578fbf3a"
+    },
+    "/specs/v0.1/samples/games/realtime-merge.game.json": {
+      "id": "org.a2game.samples.realtime-merge",
+      "revision": 1,
+      "sha256Jcs": "1714600cb3479f539c510552e3ff8c25f4e34adee34de03ee4ba3c5c2694bf75"
+    },
+    "/specs/v0.1/samples/games/realtime-projectile.game.json": {
+      "id": "org.a2game.samples.realtime-projectile",
+      "revision": 1,
+      "sha256Jcs": "918b75636a05582cf6c3435b3f6e8668ba703e2a55cdc6f601b70983546e93ba"
+    },
+    "/specs/v0.1/samples/games/realtime-seek.game.json": {
+      "id": "org.a2game.samples.realtime-seek",
+      "revision": 1,
+      "sha256Jcs": "10bb2742b6a5afe7098dfd2377aead252c806ab9272ba35ca4867bf2eed9d5fb"
+    },
+    "/specs/v0.1/samples/games/realtime-waves.game.json": {
+      "id": "org.a2game.samples.realtime-waves",
+      "revision": 1,
+      "sha256Jcs": "5d58a1ddc92783e45596bd744dceeaebcb38787bd2c11bd1f7541486fc4cf36f"
+    },
     "/specs/v0.1/samples/games/tap-target.game.json": {
       "id": "org.a2game.samples.tap-target",
       "revision": 2,

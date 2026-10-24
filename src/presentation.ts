@@ -3,6 +3,7 @@ import { readPointer, safeFinite, safeInteger } from './utils.js';
 import type { GameDefinition, Json, JsonRecord, SessionObservation } from './types.js';
 import {validateVisualStage,projectVisualStage} from './visual-stage.js';
 import type {VisualStageFrame} from './visual-stage.js';
+import type {WorldBody} from './modules/realtime.js';
 
 /** Scene2D 0.1 extension: pure declarative layout, not an engine scene graph. */
 export type DataBinding = { state: string } | { item: true } | { literal: Json };
@@ -30,6 +31,7 @@ export interface Scene2DSpec {
     background: string;
     nodes: VisualNode[];
     repeat?: VisualRepeat[];
+    bodyLayer?: {statePath:string;unitsPerMeter:1000;origin:[number,number];palette:Record<WorldBody['kind'],string>};
 }
 export type DrawCommand =
     | { id: string; kind: 'rect'; at: [number,number]; size: [number,number]; fill: string }
@@ -112,9 +114,16 @@ export function validatePresentation(def:GameDefinition):void {
     if(scene===undefined)return; // 0.1 legacy HUD-only definitions remain valid.
     if(!def.requires.all.some(x=>x.id==='a2game.visual.scene2d'&&x.version==='0.1.0'))fail('A2G_E_CAP_DEPENDENCY','scene2d requires a2game.visual.scene2d@0.1.0',{jsonPointer:'/requires/all'});
     const p=record(scene,'/presentation/scene2d');
-    hasOnly(p,['width','height','background','nodes','repeat'],'/presentation/scene2d');
+    hasOnly(p,['width','height','background','nodes','repeat','bodyLayer'],'/presentation/scene2d');
     positive(p.width,'/presentation/scene2d/width');positive(p.height,'/presentation/scene2d/height');cssColor(p.background,'/presentation/scene2d/background');
     const states=new Set(Object.keys(def.state));
+    if(p.bodyLayer!==undefined){
+        const layer=record(p.bodyLayer,'/presentation/scene2d/bodyLayer');hasOnly(layer,['statePath','unitsPerMeter','origin','palette'],'/presentation/scene2d/bodyLayer');
+        checkBinding({state:layer.statePath},states,'/presentation/scene2d/bodyLayer/statePath');coordinate(layer.origin,'/presentation/scene2d/bodyLayer/origin');
+        if(layer.unitsPerMeter!==1000)fail('A2G_E_PRESENTATION','bodyLayer requires declared integer units');
+        const palette=record(layer.palette,'/presentation/scene2d/bodyLayer/palette');for(const kind of ['actor','solid','target','projectile','pickup'])cssColor(palette[kind],'/presentation/scene2d/bodyLayer/palette/'+kind);
+        if(!def.requires.all.some(ref=>ref.id==='a2game.realtime.world'))fail('A2G_E_CAP_DEPENDENCY','bodyLayer requires realtime.world');
+    }
     if(!Array.isArray(p.nodes)||p.nodes.length>128)fail('A2G_E_PRESENTATION','Invalid nodes',{jsonPointer:'/presentation/scene2d/nodes'});
     uniqueNodes(p.nodes,states,'/presentation/scene2d/nodes');
     const repeats=p.repeat??[];
@@ -175,6 +184,16 @@ export function projectPresentation(def:GameDefinition,obs:SessionObservation):P
             if(!safeInteger(cell)||cell<0||cell>4095)fail('A2G_E_PRESENTATION','Repeat cell index invalid');
             const pos:[number,number]=[repeat.origin[0]+(cell%repeat.columns)*repeat.step[0],repeat.origin[1]-Math.floor(cell/repeat.columns)*repeat.step[1]];
             for(const template of repeat.template)emit(template,`${repeat.id}[${i}].${template.id}`,pos,item);
+        }
+    }
+    if(layout.bodyLayer){
+        const layer=layout.bodyLayer,bodies=readPointer(obs.state,layer.statePath);
+        if(!Array.isArray(bodies)||bodies.length>128)fail('A2G_E_PRESENTATION','Invalid body projection');
+        for(const raw of bodies){
+            const b=raw as unknown as WorldBody;
+            if(![b.x,b.y,b.hx,b.hy].every(safeFinite)||!Object.hasOwn(layer.palette,b.kind))fail('A2G_E_PRESENTATION','Invalid body primitive');
+            if(commands.length>=maxNodes)fail('A2G_E_BUDGET_EXCEEDED','Body projection budget exceeded');
+            commands.push({id:'body:'+b.id,kind:'rect',at:[layer.origin[0]+b.x/1000,layer.origin[1]+b.y/1000],size:[b.hx*2/1000,b.hy*2/1000],fill:layer.palette[b.kind]});
         }
     }
     const stage=projectVisualStage(def,obs);

@@ -1,0 +1,43 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "realtime-waves",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.realtime-waves",
+    "file": "../games/realtime-waves.game.json"
+  },
+  "cases": [
+    {
+      "id": "REALTIME-WORLD-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

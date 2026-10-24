@@ -1,0 +1,53 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "realtime-lanes",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.realtime-lanes",
+    "file": "../games/realtime-lanes.game.json"
+  },
+  "cases": [
+    {
+      "id": "REALTIME-WORLD-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "laneRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "laneRight",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 2000
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

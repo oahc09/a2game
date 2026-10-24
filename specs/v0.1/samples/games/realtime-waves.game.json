@@ -1,0 +1,233 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.realtime-waves",
+  "revision": 1,
+  "meta": {
+    "title": "波次与有限对象池",
+    "genres": [
+      "casual"
+    ],
+    "description": "共享整数物理和战斗参考；按钮输入，唯一逻辑时钟。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "maxObjects": 2,
+                "autoFire": true,
+                "weapon": "hitscan",
+                "autoTarget": true,
+                "cooldownTicks": 1,
+                "goalScore": 2,
+                "waves": [
+                  {
+                    "tick": 0,
+                    "body": {
+                      "id": "wave_a",
+                      "kind": "target",
+                      "x": 2000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 1,
+                    "body": {
+                      "id": "wave_b",
+                      "kind": "target",
+                      "x": 3000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 1000,
+            "y": 2000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": []
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/world/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "score",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.4
+          ],
+          "fontSize": 0.27,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "波次与有限对象池"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        }
+      }
+    }
+  },
+  "tests": [
+    "../tests/realtime-waves.conformance.json"
+  ],
+  "extensions": {}
+}
