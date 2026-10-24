@@ -1,0 +1,57 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.touch.path",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "portability": "exact",
+  "description": "Bounded shared touch.path recognition over normalized samples, mobile-input-v1. Actual hardware availability/permission is a separate Host/device receipt.",
+  "phase": "recognize",
+  "dependencies": [],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "minDistanceNorm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "input.action",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "profile": "mobile-input-v1",
+    "maxPointers": 10,
+    "maxPathPoints": 128,
+    "maxTraceSamples": 4096,
+    "quantization": 0.0001,
+    "calibration": "explicit normalized calibrate sample; reset on pause/orientation change",
+    "privacy": "opt-in recording; no automatic persistence or telemetry"
+  },
+  "testSuites": [
+    "MOBILE-INPUT-001"
+  ]
+}

@@ -3,7 +3,7 @@ import {readFileSync,readdirSync,existsSync,mkdirSync,lstatSync,openSync,writeFi
 import {resolve} from 'node:path';
 import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
-import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError} from '../dist/index.js';
+import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError,mobileInputSources} from '../dist/index.js';
 import {validateJsonTree} from '../dist/utils.js';
 import {root,makeRegistry} from './registry.mjs';
 import {createAssetPolicy} from './asset-policy.mjs';
@@ -18,11 +18,9 @@ function assertProfile(game,effective){
   if(Object.keys(game.extensions??{}).length)reject('A2G_E_HOST_PROFILE','当前宿主不支持自定义 extensions。','/extensions');
   if(!game.presentation.scene2d||game.scenes.length!==1||(game.world.dimension==='3d'&&!game.presentation.stage))
     reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 或声明 visual.stage 的 3D 游戏。','/presentation/scene2d');
-  if(game.inputs.traceRecording&&game.inputs.traceRecording!=='disabled')reject('A2G_E_HOST_PROFILE','当前导入 Profile 不提供真实用户输入录制。','/inputs/traceRecording');
-  const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe'};
+  const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe',...mobileInputSources};
   const declared=[...game.requires.all,...(game.requires.anyOf??[]).flat()];
   for(const [index,action] of game.inputs.actions.entries()){
-    if(action.valueType!=='button')reject('A2G_E_HOST_PROFILE','当前导入仅支持 button 动作。',`/inputs/actions/${index}/valueType`);
     for(const [bi,binding] of action.bindings.entries()){
       const cap=supported[binding.source],ptr=`/inputs/actions/${index}/bindings/${bi}`;
       if(!cap||!declared.some(item=>item.id===cap&&item.version==='0.1.0'))reject('A2G_E_HOST_PROFILE','输入绑定未声明受支持的能力或回退能力。',ptr);

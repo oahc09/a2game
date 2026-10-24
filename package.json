@@ -21,7 +21,8 @@
     "project:check": "node scripts/check-project.mjs",
     "verify": "npm run project:check && npm test && npm run spec:validate && npm run schema:full && npm run conformance && npm run catalog:build",
     "realtime:e2e": "node scripts/mechanism-browser.mjs --suite=realtime",
-    "strategy:e2e": "node scripts/mechanism-browser.mjs --suite=strategy"
+    "strategy:e2e": "node scripts/mechanism-browser.mjs --suite=strategy",
+    "mobile:e2e": "node scripts/mobile-browser.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

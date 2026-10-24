@@ -17,7 +17,7 @@ const storageDirectory=resolve(root,'.tools',runId,'releases');
 const save=(name,data)=>writeFileSync(resolve(directory,name),JSON.stringify(data,null,2)+'\n');
 const files=directory=>readdirSync(resolve(root,directory),{withFileTypes:true}).flatMap(item=>item.isDirectory()?files(`${directory}/${item.name}`):[`${directory}/${item.name}`]);
 const code=['scripts/content-browser.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/serve.mjs',
-  'scripts/registry.mjs','scripts/asset-policy.mjs','project/asset-policy.json','player/resources.mjs','player/content-loader.mjs','player/main.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',...files('assets'),
+  'scripts/registry.mjs','scripts/asset-policy.mjs','project/asset-policy.json','player/resources.mjs','player/content-loader.mjs','player/main.mjs','player/mobile-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',...files('assets'),
   ...files('player/adapters'),...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('specs/v0.1/schemas'),...files('specs/v0.1/samples/capabilities')];
 const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex');
 const fingerprints=Object.fromEntries(code.map(path=>[path,hash(path)]));save('fingerprints.json',fingerprints);

@@ -36,12 +36,14 @@
     },
     {
       "stage": "S8",
-      "status": "in_progress",
-      "deliverable": "Mobile multi-touch/IMU implementation, permission/calibration/fallback and physical-device evidence"
+      "status": "blocked",
+      "deliverable": "Mobile multi-touch/IMU implementation, permission/calibration/fallback and physical-device evidence",
+      "implementation": "completed and validated in reference scope",
+      "blocker": "Physical-device Touch/IMU/permission/calibration evidence unavailable; continue independent later work"
     },
     {
       "stage": "S9",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Individual G01–G32 and H01–H05 definitions, conformance and coverage receipts"
     },
     {

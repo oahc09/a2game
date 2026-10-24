@@ -58,7 +58,7 @@ def main():
                 manifest = catalog.get((ref['id'], ref['version']))
                 if manifest:
                     validate(component['config'], manifest['contract']['configSchema'], f'{base}/components/{ci}/config')
-        aliases = {'keyboard.button': 'a2game.input.keyboard.button', 'touch.tap': 'a2game.input.touch.tap', 'touch.swipe': 'a2game.input.touch.swipe'}
+        aliases = {cap_id[len('a2game.input.'):]: cap_id for cap_id, cap_version in catalog if cap_id.startswith('a2game.input.') and cap_version == '0.1.0'}
         for ai, action in enumerate(game['inputs']['actions']):
             for bi, binding in enumerate(action['bindings']):
                 manifest = catalog.get((aliases.get(binding['source']), '0.1.0'))

@@ -5,6 +5,7 @@ import {ThreeAdapter} from './adapters/three-adapter.mjs';
 import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
 import {loadBuiltinGame,loadReleasedGame,importGameFile} from './content-loader.mjs';
 import {ResourceScope} from './resources.mjs';
+import {createMobileHost,createTraceRecorder} from './mobile-host.mjs';
 
 const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
@@ -19,7 +20,11 @@ const listeners=new AbortController();
 const listen=(target,type,callback)=>target.addEventListener(type,callback,{signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,resources,raf,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+let runtime,adapter,definition,resources,raf,mobileHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+function inputTimeUs(){const tick=runtime.observe().tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
+function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
+function pauseSession(){traceRecorder?.control('pause',runtime.observe().tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
+function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.observe().tickIndex);}
 const showError=e=>{errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  const canvas=dom.GameCanvas;
@@ -49,13 +54,12 @@ function updateInfo(obs){
    el.disabled=!(definition.inputs.actions.some(x=>x.id===el.dataset.action)) || obs.flow.status!=='playing';
  }
 }
-function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
+function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(traceRecorder?.diagnostics().overflow){finishTrace=false;document.getElementById('traceStatus').textContent='录制超过 4096 个样本，已停止；请重开并缩短录制。';document.getElementById('traceExport').disabled=true;}if(finishTrace){const snapshot=runtime.snapshot();if(!snapshot.inputQueue.length&&!snapshot.rawQueue.length){traceRecorder.stop(snapshot.tickIndex);finishTrace=false;document.getElementById('traceStatus').textContent='录制已结束；数据仅保存在本页内存，可导出。';document.getElementById('traceExport').disabled=false;}}const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
 function sendAction(action){
  adapter?.unlockAudio?.();
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
  const sourceId=`ui:${action}:${runtime.observe().tickIndex}`;
- runtime.injectAction({action,phase:'press',sourceId});runtime.injectAction({action,phase:'release',sourceId});
- record('action',{input:{action,phase:'press',sourceId}});record('action',{input:{action,phase:'release',sourceId}});
+ for(const phase of ['press','release']){const input={action,phase,sourceId,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder?.action(input,input.tickIndex,input.timeUs);}
  // The animation-frame accumulator is the single production Tick driver.
  // Never advance simulation from DOM input callbacks.
 }
@@ -69,7 +73,7 @@ function animate(now){
    const steps=Math.floor(carry*hz+1e-7);
    if(steps>max){
      // Explicit stall; never silently drop unprocessed simulation ticks.
-     runtime.pause();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
+     pauseSession();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
    }else if(steps>0){runtime.step(steps);carry-=steps/hz;}
  }
  if(contextState==='healthy')render();raf=requestAnimationFrame(animate);
@@ -77,15 +81,17 @@ function animate(now){
 }
 function bindInputs(){
  const extra=document.getElementById('extraActions'),existing=new Set([...document.querySelectorAll('[data-action]')].map(button=>button.dataset.action));
- for(const action of definition.inputs.actions)if(!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=action.id;extra.appendChild(button);}
+ for(const action of definition.inputs.actions)if(action.valueType==='button'&&!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=action.id;extra.appendChild(button);}
  document.querySelector('.pad').style.display=definition.inputs.actions.some(action=>existing.has(action.id))?'':'none';
+ for(const button of document.querySelectorAll('.pad [data-action]'))button.style.visibility=definition.inputs.actions.some(action=>action.id===button.dataset.action)?'':'hidden';
+ if(definition.inputs.actions.some(action=>action.id==='collect'))document.querySelector('[data-action="collect"]').textContent='收集';
  const canvas=dom.GameCanvas;
  const rawPointer=(e,kind)=>{
    if(runtime?.status!=='playing')return;
    const rect=canvas.getBoundingClientRect();
-   const input={source:'pointer',kind,tickIndex:runtime.observe().tickIndex,timeUs:Math.round(performance.now()*1000),
+   const input={source:'pointer',kind,
       payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height}};
-   runtime.injectRaw(input);record('raw',{input});
+   injectRaw(input);
  };
  listen(canvas,'pointerdown',e=>{adapter?.unlockAudio?.();if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
  listen(canvas,'pointermove',e=>{if(canvas.hasPointerCapture(e.pointerId))rawPointer(e,'move');});
@@ -101,16 +107,16 @@ function bindInputs(){
  listen(dom.pause,'click',()=>{
    if(contextState==='reload-required'){location.reload();return;}
    if(contextState!=='healthy')return;
-   if(runtime.status==='paused'){runtime.resume();record('resume');carry=0;ts=0;dom.hint.textContent='已恢复';}
-   else if(runtime.status==='playing'){runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
+   if(runtime.status==='paused'){resumeSession();record('resume');carry=0;ts=0;dom.hint.textContent='已恢复';}
+   else if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
-   runtime.restart();record('restart');carry=0;ts=0;dom.hint.textContent='已重开';render();
+   runtime.restart();record('restart');mobileHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
  listen(canvas,'webglcontextlost',e=>{
    if(adapter.disposed)return;
-   e.preventDefault();contextState='lost';runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;
+   e.preventDefault();contextState='lost';pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;
    adapter.releaseVisualsForContextLoss?.();
    updateInfo(runtime.observe());dom.hint.textContent='图形上下文已丢失，游戏已暂停';
  });
@@ -121,7 +127,8 @@ function bindInputs(){
      dom.hint.textContent='图形上下文需要重新加载；点击「重新加载」开始新一局';dom.pause.textContent='重新加载';
    }else{render();dom.hint.textContent='图形上下文已恢复；点击「继续」恢复游戏';}
  });
- listen(window,'blur',()=>{if(runtime.status==='playing'){runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
+ listen(window,'blur',()=>{if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
+ listen(document,'visibilitychange',()=>{if(document.hidden&&runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
  for(const which of ['game','backend'])listen(dom[which],'change',()=>{
    const query=new URLSearchParams({backend:dom.backend.value});
    if(dom.game.value==='imported'&&releaseId)query.set('release',releaseId);else query.set('game',dom.game.value);
@@ -130,7 +137,7 @@ function bindInputs(){
 }
 function dispose(){
  if(disposal)return disposal;
- if(raf)cancelAnimationFrame(raf);listeners.abort();runtime?.dispose();
+ if(raf)cancelAnimationFrame(raf);listeners.abort();traceRecorder?.dispose();runtime?.dispose();
  disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>resources?.dispose());return disposal;
 }
 async function main(){
@@ -146,6 +153,18 @@ async function main(){
    dom.hint.textContent=definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
      ? '在画面内滑动 / 使用方向键' : '点击中央目标 / 点击收集按钮';
    runtime=new HeadlessRuntime(definition,registry);
+   traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
+   mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
+   const mobileDeclared=definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.')||ref.id.startsWith('a2game.input.touch.')&&!['a2game.input.touch.tap','a2game.input.touch.swipe'].includes(ref.id));
+   document.getElementById('mobilePanel').hidden=!mobileDeclared&&definition.inputs.traceRecording!=='user-opt-in';
+   document.getElementById('sensorEnable').disabled=!definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.'));
+   listen(document.getElementById('sensorEnable'),'click',()=>{void mobileHost.enable();});
+   listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
+   listen(document.getElementById('sensorStop'),'click',()=>{if(runtime.status==='playing')injectRaw({source:'imu',kind:'reset',payload:{}});mobileHost.stop();});
+   document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
+   listen(document.getElementById('traceStart'),'click',()=>{runtime.restart();record('restart');mobileHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
+   listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
+   listen(document.getElementById('traceExport'),'click',()=>{try{const trace=traceRecorder.export(),url=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=definition.id+'.input-trace.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){document.getElementById('traceStatus').textContent=error.message;}});
    adapter=await createAdapter(backendName);
    // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
    render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
@@ -154,9 +173,10 @@ async function main(){
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});
    window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
-     backend:backendName,dispose,diagnostics:()=>({contextState,adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
+     backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
+     window.__a2game.injectRaw=injectRaw;
      window.__a2game.step=ticks=>{const result=runtime.step(ticks);record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{

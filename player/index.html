@@ -58,6 +58,13 @@
       <section><h2>Game state</h2><div class="stat" id="score">—</div><div id="status">INITIALIZING</div></section><div class="divider"></div>
       <section><h2>输入控制</h2><div class="pad"><div class="blank"></div><button data-action="moveUp" aria-label="Up">↑</button><div class="blank"></div><button data-action="moveLeft" aria-label="Left">←</button><button data-action="collect" aria-label="Collect">●</button><button data-action="moveRight" aria-label="Right">→</button><div class="blank"></div><button data-action="moveDown" aria-label="Down">↓</button><div class="blank"></div></div></section>
       <section id="extraActions" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px"></section>
+      <section id="mobilePanel" hidden>
+        <h2>移动输入与回放</h2>
+        <button id="sensorEnable">启用传感器</button><button id="sensorCalibrate">校准</button><button id="sensorStop">停止采集</button>
+        <p id="sensorStatus" role="status">未启动采集，可使用已声明的触控/键盘回退。</p>
+        <button id="traceStart">重开并录制输入</button><button id="traceStop">结束录制</button><button id="traceExport" disabled>导出 Trace</button>
+        <p id="traceStatus" role="status">仅在选择录制后保存在本页内存，不自动上传。</p>
+      </section>
       <section><h2>确定性状态哈希 · SHA-256</h2><div class="mono" id="hash">—</div></section>
       <section><h2>执行信息</h2><div class="mono" id="trace">—</div></section>
       <section><div id="error" role="alert"></div></section>

@@ -1,5 +1,13 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+## S8 移动输入与回放参考交付（2026-10-24，真机待验收）
+
+- 14 个移动识别 Manifest、静态 state.set 合同及实验 JSON；78 Node、45 Conformance、186 Schema 文档通过。[日志](reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log)。
+- 真实 SDK 两端通过 CDP 虚拟触控/姿态、合成 Motion、权限拒绝及临时虚拟上下文授权、校准、停止/暂停、Trace 下载与 Node/浏览器 exactHash 回放、监听器/资源释放；截图已查看。[回执](reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json)。
+- 录制需 JSON 声明及用户显式选择，仅内存保存；结束等待已排队输入消费，4096 样本上限，销毁释放。原 Tap/Swipe 路径和 Trace 金向量保留。详情见 [Mobile Input](specs/v0.1/docs/15-Mobile-Input-V0.1.md)。
+- 首两次虚拟姿态运行因 Chromium 默认拒绝权限失败，记录保留，归因 TEST_ENV_PERMISSION；生产拒绝路径正确。测试授权仅作用于销毁即失效的虚拟浏览器上下文。
+- ADB 未连接设备，[探测](reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json)。S8 保持 PARTIAL，真机 Gate NOT_RUN，继续不依赖设备的 S9–S11；不把合成输入或 Manifest 注册计为真机完成。
+
 > **截至**：2026-10-24。此页与 [`project/status.json`](project/status.json) 是进度单一入口；**不能**根据历史报告推断后续阶段已完成。工作区版本 `1.0.0` 属于 **Alpha 参考实现**；GameSpec/Capability 协议仍为 `0.1.0`。
 
 ## S6 固定 Tick 物理与战斗参考 Profile（2026-10-24）
@@ -24,7 +32,7 @@ Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage re
 
 迁移复验已通过：49 文件完整迁移，36 个 Schema/样例文件与四份游戏内容哈希不变；`npm run verify`（55 Node、12 Conformance、7 Schema/27 文档）及真实 G2（16+2 场景、8 组跨引擎 Hash）通过。迁移证明见 [`layout-check-final.json`](reports/spec-layout-2026-10-24T12-06-54-319Z/layout-check-final.json)，本轮日志见 [`verify.log`](reports/spec-layout-2026-10-24T12-06-54-319Z/verify.log)。463 份既有历史证据内容未改，最新 G2 指针单独更新。
 
-**当前 S7 参考 Profile 已交付，继续 S8；完整 Gxx/Hxx、Agent 与真机验收保持独立。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
+**S8 工程与虚拟输入参考已验证；真机验收待设备，持续推进 S9。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
 
 ## S5 益智与休闲机制交付（2026-10-24）
 
@@ -130,8 +138,8 @@ S5 参考机制交付及本版 S2/S4 回归均已通过；当前回执以 `proje
 | CoverageRegistry 候选游戏 | 32 | G01–G32，`status: planned`，保留冻结分母 |
 | 已完整 verified 游戏 | 0/32 | 实现参考功能不替代 G0+G1+G2+G3 玩法 Gate |
 | 独立混合玩法 | 0/5 | H01–H05 尚未创建各自完整 GameSpec/Conformance |
-| 已交付样例游戏 JSON | 36 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
-| 已声明参考 Capability | 89 | Capability Manifest 数量不代表标准库完成度 |
+| 已交付样例游戏 JSON | 37 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
+| 已声明参考 Capability | 104 | Capability Manifest 数量不代表标准库完成度 |
 
 ## 下一轮的具体执行目标（S3/S4）
 

@@ -127,6 +127,8 @@ export function addReferenceRuleOps(registry: CapabilityRegistry): void {
         { name: 'timer.schedule', id: 'a2game.rules.timer-schedule', writes: ['timer'] },
     ];
     for (const e of entries) {
+        const existing=registry.list().find(manifest=>manifest.id===e.id&&manifest.version==='0.1.0');
+        if(existing){requireCondition(existing.kind==='rule-op'&&existing.contract.commands.length===1&&existing.contract.commands[0]?.name===e.name,'A2G_E_CAP_CONFIG','Conflicting static rule operation manifest');continue;}
         registry.register({
             format: 'a2game-capability', manifestVersion: '0.1.0', id: e.id, version: '0.1.0', kind: 'rule-op', portability: 'exact',
             description: `Trusted A2Game reference implementation for ${e.name}`,

@@ -19,6 +19,11 @@
       "revision": 1,
       "sha256Jcs": "ff0b6aa995aae67560d1031a15a35ac63f70eb78de662df2b2eff3e0b0e6d3e2"
     },
+    "/specs/v0.1/samples/games/mobile-input-lab.game.json": {
+      "id": "org.a2game.samples.mobile-input-lab",
+      "revision": 1,
+      "sha256Jcs": "7b645433443751f532a85046d7faf72e983993845384246113e0d001de6dbe91"
+    },
     "/specs/v0.1/samples/games/puzzle-arrows.game.json": {
       "id": "org.a2game.samples.puzzle-arrows",
       "revision": 1,
@@ -162,7 +167,7 @@
     "/specs/v0.1/samples/games/strategy-tower.game.json": {
       "id": "org.a2game.samples.strategy-tower",
       "revision": 1,
-      "sha256Jcs": "ce05cb827b74aca238aaf1d0e243af8bcda94851291590b3ba64c9cdb2d6080d"
+      "sha256Jcs": "2dbe4f5d04dbcd5aed72db980b91da69189249a37dd868da6cd9d9d981d60158"
     },
     "/specs/v0.1/samples/games/strategy-turn.game.json": {
       "id": "org.a2game.samples.strategy-turn",

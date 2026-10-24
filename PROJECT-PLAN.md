@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：S7 参考 Profile 已验证并提交，继续 S8；全量 Gxx/Hxx、真机及 Agent Gate 分别验收，现行状态见 PROJECT-STATUS.md。
+> **当前执行阶段**：S8 工程及虚拟浏览器参考已验证；真机 Touch/IMU 待设备，继续独立的 S9–S11 工作。现行回执见 PROJECT-STATUS.md。
 
 ## 0. 项目目标与不可变边界
 
@@ -66,10 +66,10 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 | **S2** 真双引擎适配 | 获取并锁定 SDK、在真实 HTTP 浏览器分别启动、绘制、触摸/键盘、暂停/重开/释放、同 JSON 哈希对照 | 不能用 Mock、Canvas2D 代替真实 SDK | CocosAirJS 和 Three.js 各自真实 G2 PASS，含截图与回执 | **四样例 scene2d 子集真实 PASS；真机/其他能力另验** |
 | **S3** 内容安全与交付流水线 | 任意 AI JSON 完整 Schema 2020-12、语义/版本安全校验、资源引用/完整性/来源策略、编译计划与缓存、错误修复反馈 | 浏览器或服务端使用等效完整校验，不降低为手写子集 | 未信任内容拒绝、负例和篡改测试，安全发布 Gate | **当前宿主 Profile PASS（审核资源、内容包交付、完整重验与回执）** |
 | **S4** 通用表现 | Sprite、Texture、Mesh、Camera、Text、Animation、Particle、Audio、UI/HUD、Shader 扩展、资源生命周期；2D/2.5D/3D | 版本化 Manifest，Host 受控映射 | 不按游戏 ID 分支；双引擎截图/坐标/性能/释放 Gate | **当前版本化 Stage PASS（2D/2.5D/3D、材质、动画、粒子、事件音频与释放）** |
-| **S5** 益智与休闲标准库 | Grid、Push、Slide、Merge、Swap、MatchN、Cascade、GravityFill、Tray、Layer/Occlusion、Sort、Polyomino、Rotate、LineClear、Undo、Find/Placement | 玩法契约与回合/混合时间语义；每机制测试变体 | G01–G10、G20、G24 对应能力/玩法验收 | **PARTIAL（两种网格子集）** |
-| **S6** 实时玩法、物理与战斗 | Movement、Jump/Charge/Runner、Collider/Contact/Physics、Weapon/Projectile/Hitscan/Damage/Status/Wave/Target/AI、导航、对象池 | 命中去重、物理服务 Profile、终局、性能 | G11–G21、G30/G31 对应目标 + 不同 Host 对照 | **未实现核心模块** |
-| **S7** 经营、策略、回合 | Economy/Inventory/Production/Shop/Upgrade/Unlock/PlacementGrid/PathFollow/Turn/Deck/Hand/LegalMove | 持久化及回合/实时混合 | G21–G24 和机制变体，跨域状态一致 | **计划中** |
-| **S8** Mobile Touch/IMU | Raw pointer 多点/轨迹、Tap/Hold/Drag/Swipe/Pinch/Rotate、IMU Tilt/Shake/Orientation、校准/权限/滤波/回退、InputTrace | 真机权限、坐标、输入冲突、暂停与隐私 | G25–G32 真机与合成 Trace 双重验证 | **Swipe/合成 Trace 已做；其余计划中** |
+| **S5** 益智与休闲标准库 | Grid、Push、Slide、Merge、Swap、MatchN、Cascade、GravityFill、Tray、Layer/Occlusion、Sort、Polyomino、Rotate、LineClear、Undo、Find/Placement | 玩法契约与回合/混合时间语义；每机制测试变体 | G01–G10、G20、G24 对应能力/玩法验收 | **参考标准库 Profile PASS；逐 Gxx / Agent 另验** |
+| **S6** 实时玩法、物理与战斗 | Movement、Jump/Charge/Runner、Collider/Contact/Physics、Weapon/Projectile/Hitscan/Damage/Status/Wave/Target/AI、导航、对象池 | 命中去重、物理服务 Profile、终局、性能 | G11–G21、G30/G31 对应目标 + 不同 Host 对照 | **aabb-int-v1 参考 Profile PASS；非任意 3D 物理** |
+| **S7** 经营、策略、回合 | Economy/Inventory/Production/Shop/Upgrade/Unlock/PlacementGrid/PathFollow/Turn/Deck/Hand/LegalMove | 持久化及回合/实时混合 | G21–G24 和机制变体，跨域状态一致 | **经营/路径/回合参考 Profile PASS；Gxx / G3 另验** |
+| **S8** Mobile Touch/IMU | Raw pointer 多点/轨迹、Tap/Hold/Drag/Swipe/Pinch/Rotate、IMU Tilt/Shake/Orientation、校准/权限/滤波/回退、InputTrace | 真机权限、坐标、输入冲突、暂停与隐私 | G25–G32 真机与合成 Trace 双重验证 | **工程/虚拟输入 PASS；真机仍 NOT_RUN** |
 | **S9** 全玩法覆盖与混合 | 冻结 G01–G32；增加 H01–H05 组合验证；32 分母可扩版本 | 每种完整 GameSpec、玩法正反例、E2E、Agent 变体 | 32 款分别出 verified receipt，Hxx 独立统计 | **全部 planned（未完成覆盖 Gate）** |
 | **S10** Agent 生成与产品化 | 自然语言→JSON、能力目录查询、报错修复、关卡生成/Solver、难度评估、可视化调试、模型无关流程 | 自动化评测无画面 + 实浏览器；不可将人工样例当 one-shot | G3 生成、可玩性、修复闭环及质量门禁 | **NOT_RUN** |
 | **S11** 持续兼容和扩展 | 新 Host、设备、网络多人、存档迁移、性能和文档发布 | 独立 Extension/Profile，变更兼容审计 | 多版本回归、可复现 CI、兼容性发布说明 | **规划范围，不冒充已支持** |

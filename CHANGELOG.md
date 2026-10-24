@@ -1,5 +1,13 @@
 # A2Game 项目变更记录
 
+## S8 移动输入与回放参考交付（2026-10-24，真机待验收）
+
+- 14 个移动识别 Manifest、静态 state.set 合同及实验 JSON；78 Node、45 Conformance、186 Schema 文档通过。[日志](reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log)。
+- 真实 SDK 两端通过 CDP 虚拟触控/姿态、合成 Motion、权限拒绝及临时虚拟上下文授权、校准、停止/暂停、Trace 下载与 Node/浏览器 exactHash 回放、监听器/资源释放；截图已查看。[回执](reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json)。
+- 录制需 JSON 声明及用户显式选择，仅内存保存；结束等待已排队输入消费，4096 样本上限，销毁释放。原 Tap/Swipe 路径和 Trace 金向量保留。详情见 [Mobile Input](specs/v0.1/docs/15-Mobile-Input-V0.1.md)。
+- 首两次虚拟姿态运行因 Chromium 默认拒绝权限失败，记录保留，归因 TEST_ENV_PERMISSION；生产拒绝路径正确。测试授权仅作用于销毁即失效的虚拟浏览器上下文。
+- ADB 未连接设备，[探测](reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json)。S8 保持 PARTIAL，真机 Gate NOT_RUN，继续不依赖设备的 S9–S11；不把合成输入或 Manifest 注册计为真机完成。
+
 ## 2026-10-24 — S7 经营、策略与回合参考机制
 
 - Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.

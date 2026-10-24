@@ -1,6 +1,6 @@
 # A2Game Touch Swipe / InputTrace V0.1 · 输入附加契约
 
-状态：**归一化 Touch Swipe 识别与合成轨迹回放已验证；真实触摸硬件、IMU 采集和权限未验证。**
+状态：**旧 Swipe/Trace 基线保留；S8 扩展见 [Mobile Input](15-Mobile-Input-V0.1.md)，新增多点和 IMU 识别、显式采集/录制。真实硬件和权限 Gate 仍独立验收。**
 
 ## 1. 输入层次
 
@@ -30,7 +30,9 @@ Trace 须关联 `gameId`、`gameRevision`、`tickHz`、`seed`、`coordinateProfi
 
 `replayNormalizedInputTrace()` 会生成 `InputTraceReceipt{advanced, finalHash, finalStatus, consumed}`。实测该样例 `advanced=28`、`consumed=4`、`finalStatus=won`，其 `exactHash` 在 Node 与 Chromium 一致。
 
-## 4. 未覆盖及下一步
+## 4. 初稿的未覆盖及下一步（历史边界）
+
+本节保留最初实现边界；当前扩展合同与证据以 15-Mobile-Input-V0.1.md 和 project/status.json 为准。
 
 没有实现真实 IMU Tilt/Shake 识别、设备姿态校准、传感器权限和缺采样处理。`IMU` 当前仅做归一化结构合法性检查，**不得**在 Capability Registry 中将尚未实现的 IMU 手势注册为支持。
 

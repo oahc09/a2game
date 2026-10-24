@@ -8,9 +8,9 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S7",
-  "currentObjective": "Implement S7 against the existing full roadmap; retain independent game, Agent and physical-device gates.",
-  "nextStage": "S8",
+  "currentStage": "S8",
+  "currentObjective": "S8 implementation and virtual-browser reference passed; physical device gate remains NOT_RUN. Continue independent S9 full game/hybrid work.",
+  "nextStage": "S9",
   "stages": [
     {
       "id": "S0",
@@ -44,8 +44,8 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-24T14-44-00-774Z-52516/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-24T14-44-00-363Z-39920/summary.json"
+        "perspective": "reports/visual-stage-2026-10-24T15-13-04-787Z-3376/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-24T15-13-04-388Z-45432/summary.json"
       }
     },
     {
@@ -54,8 +54,8 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-24T14-42-09-346Z-43852/summary.json",
-        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
+        "puzzles": "reports/puzzles-2026-10-24T15-08-58-544Z-59172/summary.json",
+        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
       }
     },
     {
@@ -64,8 +64,8 @@
       "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-24T14-42-27-429Z-39720/summary.json",
-        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
+        "mechanisms": "reports/realtime-2026-10-24T15-08-58-541Z-34996/summary.json",
+        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
       }
     },
     {
@@ -74,14 +74,19 @@
       "status": "PASS",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
-        "mechanisms": "reports/strategy-2026-10-24T14-40-52-735Z-43000/summary.json",
-        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
+        "mechanisms": "reports/strategy-2026-10-24T15-06-46-204Z-39748/summary.json",
+        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
       }
     },
     {
       "id": "S8",
       "name": "Mobile multi-touch and IMU",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
+      "evidence": {
+        "reference": "reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json",
+        "deviceAvailability": "reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json"
+      }
     },
     {
       "id": "S9",
@@ -143,13 +148,12 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 36,
-    "referenceCapabilityManifests": 89
+    "referenceDemoGames": 37,
+    "referenceCapabilityManifests": 104
   },
   "blockingItems": [
-    "S8 and remaining full gameplay/profile acceptance remain to implement",
-    "Real-device Touch/IMU capture and permission not verified",
-    "32-game gameplay and AI one-shot coverage not implemented"
+    "No attached physical Touch/IMU device or permission/calibration receipt",
+    "Individual 32 Gxx and 5 Hxx gameplay/Agent acceptance is still incomplete"
   ],
   "workspaceBaseline": {
     "date": "2026-10-24",
@@ -171,8 +175,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T14-40-53-176Z-53700",
-    "summary": "reports/g2-2026-10-24T14-40-53-176Z-53700/summary.json",
+    "runId": "g2-2026-10-24T15-06-46-319Z-34204",
+    "summary": "reports/g2-2026-10-24T15-06-46-319Z-34204/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -202,23 +206,23 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T14-39-27-745Z-51524/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T14-40-53-176Z-53700/summary.json",
-    "contentSummary": "reports/content-2026-10-24T14-44-48-924Z-52692/summary.json",
+    "log": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T15-00-59-220Z-8512/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T15-06-46-319Z-34204/summary.json",
+    "contentSummary": "reports/content-2026-10-24T15-15-06-717Z-39820/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 75,
-      "total": 75
+      "pass": 78,
+      "total": 78
     },
     "conformance": {
-      "pass": 44,
-      "total": 44,
-      "suites": 38
+      "pass": 45,
+      "total": 45,
+      "suites": 39
     },
     "schema": {
       "kinds": 7,
-      "documents": 169
+      "documents": 186
     }
   },
   "historicalReleaseRun": {
@@ -285,7 +289,7 @@
     "date": "2026-10-24",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T14-44-48-924Z-52692/summary.json",
+    "summary": "reports/content-2026-10-24T15-15-06-717Z-39820/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -307,8 +311,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-24T14-44-00-774Z-52516/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-24T14-44-00-363Z-39920/summary.json",
+    "perspective": "reports/visual-stage-2026-10-24T15-13-04-787Z-3376/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-24T15-13-04-388Z-45432/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
     "limitations": [
       "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
@@ -396,11 +400,26 @@
     "a2game.turnbased.legal-move@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
     "a2game.turnbased.deck@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
     "a2game.turnbased.hand@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.player-order@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json"
+    "a2game.turnbased.player-order@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.input.touch.raw@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.double-tap@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.long-press@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.drag@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.path@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.pinch@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.rotate@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.touch.multi-hold@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.tilt@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.shake@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.orientation@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.acceleration@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.gyroscope@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.input.imu.calibration@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
+    "a2game.rules.state-set@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json"
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-24T14-42-09-346Z-43852/summary.json",
+    "summary": "reports/puzzles-2026-10-24T15-08-58-544Z-59172/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
       "RNG-restoring undo is single-behavior only; compositions use Session snapshots",
@@ -410,14 +429,24 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-24T14-42-27-429Z-39720/summary.json",
+      "summary": "reports/realtime-2026-10-24T15-08-58-541Z-34996/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "performance": "reports/realtime-perf-2026-10-24T14-32-41-200Z.json"
     },
     "strategy": {
       "status": "PASS",
-      "summary": "reports/strategy-2026-10-24T14-40-52-735Z-43000/summary.json",
+      "summary": "reports/strategy-2026-10-24T15-06-46-204Z-39748/summary.json",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate."
     }
+  },
+  "mobileInputRun": {
+    "status": "PASS_REFERENCE",
+    "summary": "reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json",
+    "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN."
+  },
+  "mobileDeviceRun": {
+    "status": "NOT_RUN",
+    "availability": "reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json",
+    "reason": "No attached Android device; physical Touch/IMU, device permission, calibration and orientation receipts are unavailable. Virtual input evidence is not a substitute."
   }
 }

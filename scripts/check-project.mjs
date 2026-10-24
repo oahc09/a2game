@@ -142,6 +142,16 @@ for(const [stage,suite] of [['S6','realtime'],['S7','strategy']])if(status.stage
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`${stage}: stale fingerprint ${path}`);}
   }catch(error){insist(false,`${stage}: cannot verify mechanism evidence: ${error.message}`);}
 }
+if(status.mobileInputRun?.status==='PASS_REFERENCE'){
+  try{
+    const summary=read(status.mobileInputRun.summary);
+    insist(summary.format==='a2game-mobile-input-real-sdk'&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS'&&summary.physicalDevice==='NOT_RUN','S8 reference: incomplete real SDK/virtual input receipt');
+    insist(summary.cases?.length===2&&new Set(summary.cases.map(row=>row.backend)).size===2,'S8 reference: both real SDKs required');
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.permissionDenied?.diagnostics?.enabled===false&&result.final?.exactHash===result.replay?.finalHash&&result.final?.exactHash===result.browserReplay?.finalHash&&result.disposal?.mobile?.listenersActive===false&&result.disposal?.recording?.count===0&&existsSync(resolve(root,row.trace))&&existsSync(resolve(root,row.screenshot)),`S8 reference: missing permission/trace/lifecycle evidence for ${row.backend}`);}
+    for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S8 reference: stale fingerprint ${path}`);}
+  }catch(error){insist(false,`Cannot verify mobile input reference: ${error.message}`);}
+}
+if(status.stages.find(row=>row.id==='S8')?.status==='PASS')insist(status.gates.RealDeviceTouchIMU==='PASS'&&status.mobileDeviceRun?.status==='PASS'&&existsSync(resolve(root,status.mobileDeviceRun?.receipt??'')),'S8 requires separate physical Touch/IMU and permission evidence; virtual browser inputs cannot complete this stage');
 if(failures.length){console.error(failures.join('\n'));process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

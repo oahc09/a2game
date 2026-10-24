@@ -126,7 +126,7 @@ def main():
     # V0.1 implementation extension: validate every registered game + its suites,
     # rather than hard-coding tap-target as the sole reference game.
     games={}
-    cap_aliases={'touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe','keyboard.button':'a2game.input.keyboard.button'}
+    cap_aliases={cap_id[len('a2game.input.'):]: cap_id for cap_id in caps if cap_id.startswith('a2game.input.')}
     all_ops={op['name'] for c in caps.values() for op in c['contract']['commands']}
     for game_path in sorted((ROOT/'samples/games').glob('*.game.json')):
         game=json.loads(game_path.read_text(encoding='utf-8'))

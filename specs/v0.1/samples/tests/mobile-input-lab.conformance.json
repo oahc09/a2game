@@ -1,0 +1,161 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "mobile-input-lab",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.mobile-input-lab",
+    "file": "../games/mobile-input-lab.game.json"
+  },
+  "cases": [
+    {
+      "id": "MOBILE-INPUT-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "tickIndex": 0,
+            "seq": 0,
+            "timeUs": 0,
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "touch",
+              "u": 0.2,
+              "v": 0.4
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "tickIndex": 1,
+            "seq": 1,
+            "timeUs": 16667,
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "touch",
+              "u": 0.7,
+              "v": 0.6
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "tickIndex": 2,
+            "seq": 2,
+            "timeUs": 33334,
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "touch",
+              "u": 0.7,
+              "v": 0.6
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/drag",
+          "equals": [
+            0.7,
+            0.6
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/hold",
+          "equals": 0
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "imu",
+            "kind": "calibrate",
+            "tickIndex": 3,
+            "seq": 3,
+            "timeUs": 50000,
+            "payload": {
+              "reference": "device-euler-rad-v1",
+              "screenAngle": 0,
+              "orientationRad": [
+                0,
+                0,
+                0
+              ],
+              "linearAccelerationMps2": [
+                0,
+                0,
+                0
+              ],
+              "angularVelocityRadps": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "imu",
+            "kind": "sample",
+            "tickIndex": 4,
+            "seq": 4,
+            "timeUs": 66667,
+            "payload": {
+              "reference": "device-euler-rad-v1",
+              "screenAngle": 0,
+              "orientationRad": [
+                0,
+                0.35,
+                0.7
+              ],
+              "linearAccelerationMps2": [
+                12,
+                0,
+                0
+              ],
+              "angularVelocityRadps": [
+                0,
+                0,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/tilt",
+          "equals": [
+            1,
+            0.5
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/shake",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

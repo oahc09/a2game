@@ -1,5 +1,6 @@
 import { A2GameError, fail } from './errors.js';
 import { exactStateHash } from './exact-hash.js';
+import {mobileInputIds,recognizeMobileInput} from './mobile-input.js';
 import { evaluate, looksLikeExpression } from './expression.js';
 import { GameRng } from './rng.js';
 import { CapabilityRegistry } from './registry.js';
@@ -145,6 +146,10 @@ export class HeadlessRuntime {
     /** V0.1 bounded recognizers: touch.tap, touch.swipe and keyboard.button. IMU samples are validated but not yet interpreted. */
     private recognizeRaw(stage: Stage, batch: NormalizedRawInput[]): NormalizedAction[] {
         const emitted: NormalizedAction[] = [];
+        if(mobileInputIds.some(id=>this.chosen(id))){
+            emitted.push(...recognizeMobileInput(stage,batch.filter(sample=>sample.source!=='keyboard'),this.plan.definition,id=>this.chosen(id)));
+            batch=batch.filter(sample=>sample.source==='keyboard');
+        }
         batch.sort((a,b)=>(a.timeUs??0)-(b.timeUs??0) || (a.seq??0)-(b.seq??0) || stableCompare(a.source,b.source));
         for (const sample of batch) {
             if (sample.source === 'imu') {

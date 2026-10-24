@@ -1,0 +1,744 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.mobile-input-lab",
+  "revision": 1,
+  "meta": {
+    "title": "移动输入与回放实验",
+    "genres": [
+      "casual"
+    ],
+    "description": "画布支持多指/拖动；传感器需显式启用与校准。按钮只演示语义回退，合成输入不等于真机。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.double-tap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.long-press",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.path",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.pinch",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.rotate",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.multi-hold",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.tilt",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.shake",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.orientation",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.acceleration",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.gyroscope",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.calibration",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "raw": {
+      "type": "object",
+      "initial": {}
+    },
+    "double": {
+      "type": "int",
+      "initial": 0
+    },
+    "hold": {
+      "type": "int",
+      "initial": 0
+    },
+    "drag": {
+      "type": "vec2",
+      "initial": [
+        0,
+        0
+      ]
+    },
+    "path": {
+      "type": "object",
+      "initial": {}
+    },
+    "pinch": {
+      "type": "number",
+      "initial": 0
+    },
+    "rotate": {
+      "type": "number",
+      "initial": 0
+    },
+    "multi": {
+      "type": "int",
+      "initial": 0
+    },
+    "tilt": {
+      "type": "vec2",
+      "initial": [
+        0,
+        0
+      ]
+    },
+    "shake": {
+      "type": "int",
+      "initial": 0
+    },
+    "orientation": {
+      "type": "vec3",
+      "initial": [
+        0,
+        0,
+        0
+      ]
+    },
+    "acceleration": {
+      "type": "vec3",
+      "initial": [
+        0,
+        0,
+        0
+      ]
+    },
+    "gyroscope": {
+      "type": "vec3",
+      "initial": [
+        0,
+        0,
+        0
+      ]
+    },
+    "calibration": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "traceRecording": "user-opt-in",
+    "actions": [
+      {
+        "id": "raw",
+        "valueType": "pose",
+        "bindings": [
+          {
+            "source": "touch.raw",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "double",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.double-tap",
+            "config": {}
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB"
+            }
+          }
+        ]
+      },
+      {
+        "id": "hold",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.long-press",
+            "config": {
+              "minTicks": 2
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          }
+        ]
+      },
+      {
+        "id": "drag",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "touch.drag",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "path",
+        "valueType": "pose",
+        "bindings": [
+          {
+            "source": "touch.path",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "pinch",
+        "valueType": "axis1",
+        "bindings": [
+          {
+            "source": "touch.pinch",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "rotate",
+        "valueType": "axis1",
+        "bindings": [
+          {
+            "source": "touch.rotate",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "multi",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.multi-hold",
+            "config": {
+              "fingers": 2,
+              "minTicks": 2
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "tilt",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "imu.tilt",
+            "config": {
+              "smoothingPercent": 100,
+              "deadZone": 0
+            }
+          }
+        ]
+      },
+      {
+        "id": "shake",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "imu.shake",
+            "config": {
+              "thresholdMps2": 10,
+              "cooldownTicks": 3
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          }
+        ]
+      },
+      {
+        "id": "orientation",
+        "valueType": "vec3",
+        "bindings": [
+          {
+            "source": "imu.orientation",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "acceleration",
+        "valueType": "vec3",
+        "bindings": [
+          {
+            "source": "imu.acceleration",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "gyroscope",
+        "valueType": "vec3",
+        "bindings": [
+          {
+            "source": "imu.gyroscope",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "calibration",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "imu.calibration",
+            "config": {}
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyN"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "on-raw",
+      "on": {
+        "type": "input.action",
+        "action": "raw",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/raw",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-double",
+      "on": {
+        "type": "input.action",
+        "action": "double",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/double",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "on-hold",
+      "on": {
+        "type": "input.action",
+        "action": "hold",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hold",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "on-drag",
+      "on": {
+        "type": "input.action",
+        "action": "drag",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/drag",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-path",
+      "on": {
+        "type": "input.action",
+        "action": "path",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/path",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-pinch",
+      "on": {
+        "type": "input.action",
+        "action": "pinch",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/pinch",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-rotate",
+      "on": {
+        "type": "input.action",
+        "action": "rotate",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/rotate",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-multi",
+      "on": {
+        "type": "input.action",
+        "action": "multi",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/multi",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "on-tilt",
+      "on": {
+        "type": "input.action",
+        "action": "tilt",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/tilt",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-shake",
+      "on": {
+        "type": "input.action",
+        "action": "shake",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/shake",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "on-orientation",
+      "on": {
+        "type": "input.action",
+        "action": "orientation",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/orientation",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-acceleration",
+      "on": {
+        "type": "input.action",
+        "action": "acceleration",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/acceleration",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-gyroscope",
+      "on": {
+        "type": "input.action",
+        "action": "gyroscope",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/gyroscope",
+          "value": {
+            "event": "/value"
+          }
+        }
+      ]
+    },
+    {
+      "id": "on-calibration",
+      "on": {
+        "type": "input.action",
+        "action": "calibration",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/calibration",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [],
+  "presentation": {
+    "hud": [
+      {
+        "id": "counters",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "长按 {0} · 多指 {1} · 摇动 {2}",
+            "args": [
+              {
+                "state": "/hold"
+              },
+              {
+                "state": "/multi"
+              },
+              {
+                "state": "/shake"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.4
+          ],
+          "fontSize": 0.32,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "Mobile Input / Trace"
+          }
+        },
+        {
+          "id": "target",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            4,
+            2.8
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.4
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "拖动 / 双指旋转缩放 / 长按；传感器显式启用"
+          }
+        },
+        {
+          "id": "holds",
+          "kind": "text",
+          "at": [
+            0,
+            0.9
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/hold"
+          }
+        },
+        {
+          "id": "multis",
+          "kind": "text",
+          "at": [
+            0,
+            0.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/multi"
+          }
+        },
+        {
+          "id": "pinch-value",
+          "kind": "text",
+          "at": [
+            0,
+            -0.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/pinch"
+          }
+        },
+        {
+          "id": "rotation",
+          "kind": "text",
+          "at": [
+            0,
+            -0.9
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/rotate"
+          }
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/mobile-input-lab.conformance.json"
+  ],
+  "extensions": {}
+}
