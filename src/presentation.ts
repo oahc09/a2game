@@ -1,6 +1,8 @@
 import { fail } from './errors.js';
 import { readPointer, safeFinite, safeInteger } from './utils.js';
 import type { GameDefinition, Json, JsonRecord, SessionObservation } from './types.js';
+import {validateVisualStage,projectVisualStage} from './visual-stage.js';
+import type {VisualStageFrame} from './visual-stage.js';
 
 /** Scene2D 0.1 extension: pure declarative layout, not an engine scene graph. */
 export type DataBinding = { state: string } | { item: true } | { literal: Json };
@@ -36,6 +38,7 @@ export type DrawCommand =
 export interface PresentationFrame {
     width: number; height: number; background: string;
     commands: DrawCommand[];
+    stage?: VisualStageFrame;
 }
 const color = /^#[0-9a-fA-F]{6}$/;
 const nodeKeys=['id','kind','at','size','radius','fill','text','fontSize','omitWhen'];
@@ -104,6 +107,7 @@ function uniqueNodes(nodes:unknown[],states:Set<string>,path:string):void{
     }
 }
 export function validatePresentation(def:GameDefinition):void {
+    validateVisualStage(def);
     const scene = def.presentation.scene2d;
     if(scene===undefined)return; // 0.1 legacy HUD-only definitions remain valid.
     if(!def.requires.all.some(x=>x.id==='a2game.visual.scene2d'&&x.version==='0.1.0'))fail('A2G_E_CAP_DEPENDENCY','scene2d requires a2game.visual.scene2d@0.1.0',{jsonPointer:'/requires/all'});
@@ -173,5 +177,6 @@ export function projectPresentation(def:GameDefinition,obs:SessionObservation):P
             for(const template of repeat.template)emit(template,`${repeat.id}[${i}].${template.id}`,pos,item);
         }
     }
-    return {width:layout.width,height:layout.height,background:layout.background,commands};
+    const stage=projectVisualStage(def,obs);
+    return {width:layout.width,height:layout.height,background:layout.background,commands,...(stage?{stage}:{})};
 }

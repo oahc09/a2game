@@ -16,8 +16,8 @@ export class ContentError extends Error {
 const reject=(code,message,pointer='')=>{throw new ContentError(code,message,422,'policy',[{pointer,message}]);};
 function assertProfile(game,effective){
   if(Object.keys(game.extensions??{}).length)reject('A2G_E_HOST_PROFILE','当前宿主不支持自定义 extensions。','/extensions');
-  if(game.world.dimension!=='2d'||!game.presentation.scene2d||game.scenes.length!==1)
-    reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 游戏。','/presentation/scene2d');
+  if(!game.presentation.scene2d||game.scenes.length!==1||(game.world.dimension==='3d'&&!game.presentation.stage))
+    reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 或声明 visual.stage 的 3D 游戏。','/presentation/scene2d');
   if(game.inputs.traceRecording&&game.inputs.traceRecording!=='disabled')reject('A2G_E_HOST_PROFILE','当前导入 Profile 不提供真实用户输入录制。','/inputs/traceRecording');
   const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe'};
   const declared=[...game.requires.all,...(game.requires.anyOf??[]).flat()];

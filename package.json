@@ -15,6 +15,7 @@
     "sdk:prepare": "node scripts/prepare-sdks.mjs",
     "g2:real": "node scripts/g2-real.mjs",
     "content:e2e": "node scripts/content-browser.mjs",
+    "stage:e2e": "node scripts/content-browser.mjs --stage",
     "verify:receipt": "node scripts/verify-workspace.mjs",
     "project:check": "node scripts/check-project.mjs",
     "verify": "npm run project:check && npm test && npm run spec:validate && npm run schema:full && npm run conformance && npm run catalog:build"

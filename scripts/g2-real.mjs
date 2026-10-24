@@ -17,9 +17,9 @@ const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).d
 const sourceFiles=directory=>readdirSync(resolve(root,directory),{withFileTypes:true}).flatMap(entry=>
   entry.isDirectory()?sourceFiles(`${directory}/${entry.name}`):[`${directory}/${entry.name}`]);
 const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/index.html','player/browser-registry.mjs',
-  'player/adapters/three-adapter.mjs','player/adapters/cocosairjs-adapter.mjs','scripts/g2-real.mjs',
+  ...sourceFiles('player/adapters'),'scripts/g2-real.mjs',
   'scripts/prepare-sdks.mjs','scripts/serve.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
-  ...sourceFiles('src'),...sourceFiles('specs/v0.1/samples/capabilities'),...sourceFiles('specs/v0.1/schemas'),
+  'scripts/registry.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/samples/games'),...sourceFiles('specs/v0.1/samples/capabilities'),...sourceFiles('specs/v0.1/schemas'),
   ...readdirSync(resolve(root,'dist')).filter(name=>name.endsWith('.js')).map(name=>`dist/${name}`),
   ...readdirSync(resolve(root,'dist/modules')).filter(name=>name.endsWith('.js')).map(name=>`dist/modules/${name}`)];
 const fingerprints=Object.fromEntries(codeFiles.map(path=>[path,hash(path)]));

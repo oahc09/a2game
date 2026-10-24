@@ -115,5 +115,15 @@ if(status.gates.G0BrowserDynamicJson==='PASS'){
   }catch(error){insist(false,`Cannot verify dynamic JSON gate: ${error.message}`);}
 }
 if(failures.length){console.error('A2Game project governance FAIL:');for(const x of failures) console.error(' -',x);process.exit(1);}
+if(status.stages.find(stage=>stage.id==='S4')?.status==='PASS'){
+  for(const projection of ['perspective','orthographic']){
+    const summary=read(status.visualStageRun[projection]);
+    insist(summary.status==='PASS'&&summary.visualStage&&summary.projection===projection&&summary.unchanged&&summary.physicalClose==='PASS',`S4: missing real ${projection} stage evidence`);
+    insist(summary.cases?.length===2&&['three','air'].every(backend=>summary.cases.some(row=>row.backend===backend)),`S4: both real SDKs required for ${projection}`);
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.visualStage?.status==='PASS'&&result.contextLoss?.status==='PASS'&&result.contextLoss.actualHash===result.contextLoss.expectedHash&&result.stageRelease?.ownedMeshes===0&&result.stageRelease.audio?.ownedSources===0&&result.audio.native.some(clock=>clock.state==='running'&&clock.time>0&&clock.starts>0),`S4: incomplete visual/audio/lifecycle proof for ${projection}/${row.backend}`);}
+    for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S4: stale fingerprint ${path}`);}
+  }
+}
+if(failures.length){console.error(failures.join('\n'));process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

@@ -13,12 +13,12 @@
     },
     {
       "stage": "S4",
-      "status": "in_progress",
+      "status": "completed",
       "deliverable": "Versioned 2D/3D presentation, assets, animation/audio and dual real-SDK lifecycle evidence"
     },
     {
       "stage": "S5",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Puzzle/casual capability contracts and gameplay library with representative variants"
     },
     {

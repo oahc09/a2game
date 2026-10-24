@@ -1,0 +1,55 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "visual-stage-reference",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.visual-stage",
+    "file": "../games/visual-stage.game.json"
+  },
+  "cases": [
+    {
+      "id": "VISUAL-STAGE-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "step",
+          "ticks": 5
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

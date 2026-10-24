@@ -4,7 +4,7 @@ import type { GameDefinition, Json, CapabilityManifest } from './types.js';
 import { stableCompare } from './utils.js';
 
 /** Application admission profile; independent of the GameSpec protocol version. */
-export const CONTENT_PROFILE = 'scene2d-trusted-assets-v1';
+export const CONTENT_PROFILE = 'trusted-reference-host-v1';
 export const CONTENT_MAX_BYTES = 256 * 1024;
 export const CONTENT_BUNDLE_MAX_BYTES = 1024 * 1024;
 export interface ReleasedResource {

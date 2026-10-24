@@ -23,6 +23,11 @@
       "id": "org.a2game.samples.tap-target",
       "revision": 2,
       "sha256Jcs": "21568201b444d3a7e1f4d0c446a0111369890f393888f897f576cb6c091f6969"
+    },
+    "/specs/v0.1/samples/games/visual-stage.game.json": {
+      "id": "org.a2game.samples.visual-stage",
+      "revision": 1,
+      "sha256Jcs": "04fb6b31f38768adb5c3974f9e34b0a5bc3687474717554e5a65e536e6fb4ed3"
     }
   }
 }

@@ -8,9 +8,9 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S4",
-  "currentObjective": "Implement versioned 2D/3D visual capabilities, textures, animation, particles and audio with real dual-SDK lifecycle evidence.",
-  "nextStage": "S5",
+  "currentStage": "S5",
+  "currentObjective": "Implement the planned puzzle/casual shared capability library, including match/cascade, layered selection/trays, pair/reveal, direction, placement/polyomino/line clearing, sorting and undo; preserve all Gxx/Hxx acceptance.",
+  "nextStage": "S6",
   "stages": [
     {
       "id": "S0",
@@ -41,7 +41,12 @@
     {
       "id": "S4",
       "name": "2D/3D presentation and lifecycle",
-      "status": "PARTIAL"
+      "status": "PASS",
+      "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
+      "evidence": {
+        "perspective": "reports/visual-stage-2026-10-24T13-39-53-470Z-57792/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-24T13-40-18-542Z-59544/summary.json"
+      }
     },
     {
       "id": "S5",
@@ -123,11 +128,11 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 4,
-    "referenceCapabilityManifests": 11
+    "referenceDemoGames": 5,
+    "referenceCapabilityManifests": 12
   },
   "blockingItems": [
-    "S4 extended 2D/3D presentation and further gameplay capabilities not implemented",
+    "S5 broader puzzle mechanics and S6/S7 realtime/strategy libraries remain to implement",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
   ],
@@ -151,8 +156,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T13-15-30-881Z-50512",
-    "summary": "reports/g2-2026-10-24T13-15-30-881Z-50512/summary.json",
+    "runId": "g2-2026-10-24T13-41-28-255Z-47612",
+    "summary": "reports/g2-2026-10-24T13-41-28-255Z-47612/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -182,23 +187,23 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T13-16-53-498Z-45848/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T13-16-53-498Z-45848/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T13-15-30-881Z-50512/summary.json",
-    "contentSummary": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
+    "log": "reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T13-43-12-540Z-46612/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T13-41-28-255Z-47612/summary.json",
+    "contentSummary": "reports/content-2026-10-24T13-40-42-987Z-52940/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 64,
-      "total": 64
+      "pass": 66,
+      "total": 66
     },
     "conformance": {
-      "pass": 12,
-      "total": 12,
-      "suites": 6
+      "pass": 13,
+      "total": 13,
+      "suites": 7
     },
     "schema": {
       "kinds": 7,
-      "documents": 27
+      "documents": 30
     }
   },
   "historicalReleaseRun": {
@@ -263,9 +268,9 @@
   },
   "contentRun": {
     "date": "2026-10-24",
-    "profile": "scene2d-trusted-assets-v1",
+    "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
+    "summary": "reports/content-2026-10-24T13-40-42-987Z-52940/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -282,5 +287,21 @@
     "storage": "Private .a2game/releases/<contextDigest>/<sha256Jcs>.json; A2GAME_CONTENT_DIR override; one writer process per directory",
     "trustedAssets": "PASS",
     "bundleTransfer": "PASS"
+  },
+  "visualStageRun": {
+    "status": "PASS",
+    "capability": "a2game.visual.stage@0.1.0",
+    "profile": "trusted-reference-host-v1",
+    "perspective": "reports/visual-stage-2026-10-24T13-39-53-470Z-57792/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-24T13-40-18-542Z-59544/summary.json",
+    "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
+    "limitations": [
+      "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
+      "Software WebGL2 evidence; no physical GPU/device claim",
+      "Native shared caches and AudioContext are not instance-owned; no total-engine-zero-leak claim"
+    ]
+  },
+  "capabilityReceipts": {
+    "a2game.visual.stage@0.1.0": "reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json"
   }
 }

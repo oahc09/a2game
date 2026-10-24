@@ -2,6 +2,7 @@
 export class CanvasPreviewAdapter {
   constructor(canvas){this.canvas=canvas;this.ctx=canvas.getContext('2d');if(!this.ctx)throw Error('2D canvas not supported');}
   draw(frame){
+    if(frame?.stage)throw Error('A2G_E_HOST_PROFILE: 通用 3D Stage 请使用真实 Three.js 或 CocosAirJS 后端。');
     if(!frame?.commands||!Array.isArray(frame.commands))throw Error('PresentationFrame expected');
     const rect=this.canvas.getBoundingClientRect();
     const w=Math.max(1,rect.width),h=Math.max(1,rect.height);

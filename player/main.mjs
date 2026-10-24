@@ -27,11 +27,11 @@ async function createAdapter(mode){
  if(mode==='three'){
    let three;
    try { three=await import('three'); }catch(e){throw Error('Three.js SDK missing. Provide player/vendor/three.module.js (official ESM build).');}
-   return new ThreeAdapter(three,canvas);
+   const result=new ThreeAdapter(three,canvas,resources);try{await result.prepare(definition);return result;}catch(error){await result.dispose();throw error;}
  }
  let air;
  try {air=await import('cocosair.js');}catch(e){throw Error('CocosAirJS SDK missing. Provide player/vendor/cocosair.js (official ESM build).');}
- return CocosAirAdapter.create(air,canvas);
+ const result=await CocosAirAdapter.create(air,canvas);try{await result.prepare(definition,resources);return result;}catch(error){await result.dispose();throw error;}
 }
 function observation(){return runtime?.observe();}
 function updateInfo(obs){
@@ -51,6 +51,7 @@ function updateInfo(obs){
 }
 function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
 function sendAction(action){
+ adapter?.unlockAudio?.();
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
  const sourceId=`ui:${action}:${runtime.observe().tickIndex}`;
  runtime.injectAction({action,phase:'press',sourceId});runtime.injectAction({action,phase:'release',sourceId});
@@ -83,7 +84,7 @@ function bindInputs(){
       payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height}};
    runtime.injectRaw(input);record('raw',{input});
  };
- listen(canvas,'pointerdown',e=>{if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
+ listen(canvas,'pointerdown',e=>{adapter?.unlockAudio?.();if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
  listen(canvas,'pointermove',e=>{if(canvas.hasPointerCapture(e.pointerId))rawPointer(e,'move');});
  listen(canvas,'pointerup',e=>rawPointer(e,'up'));
  listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
@@ -98,7 +99,7 @@ function bindInputs(){
    if(contextState==='reload-required'){location.reload();return;}
    if(contextState!=='healthy')return;
    if(runtime.status==='paused'){runtime.resume();record('resume');carry=0;ts=0;dom.hint.textContent='已恢复';}
-   else if(runtime.status==='playing'){runtime.pause();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
+   else if(runtime.status==='playing'){runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
@@ -106,7 +107,7 @@ function bindInputs(){
  });
  listen(canvas,'webglcontextlost',e=>{
    if(adapter.disposed)return;
-   e.preventDefault();contextState='lost';runtime.pause();record('pause');carry=0;
+   e.preventDefault();contextState='lost';runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;
    adapter.releaseVisualsForContextLoss?.();
    updateInfo(runtime.observe());dom.hint.textContent='图形上下文已丢失，游戏已暂停';
  });
@@ -117,7 +118,7 @@ function bindInputs(){
      dom.hint.textContent='图形上下文需要重新加载；点击「重新加载」开始新一局';dom.pause.textContent='重新加载';
    }else{render();dom.hint.textContent='图形上下文已恢复；点击「继续」恢复游戏';}
  });
- listen(window,'blur',()=>{if(runtime.status==='playing'){runtime.pause();record('pause');carry=0;render();}});
+ listen(window,'blur',()=>{if(runtime.status==='playing'){runtime.pause();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
  for(const which of ['game','backend'])listen(dom[which],'change',()=>{
    const query=new URLSearchParams({backend:dom.backend.value});
    if(dom.game.value==='imported'&&releaseId)query.set('release',releaseId);else query.set('game',dom.game.value);

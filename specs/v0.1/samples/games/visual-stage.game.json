@@ -1,0 +1,345 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.visual-stage",
+  "revision": 1,
+  "meta": {
+    "title": "通用 3D 表现与资源",
+    "description": "每次有效点击得 1 分，达到 2 分获胜。",
+    "genres": [
+      "casual",
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      }
+    ],
+    "anyOf": [
+      [
+        {
+          "id": "a2game.input.touch.tap",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.input.keyboard.button",
+          "version": "0.1.0"
+        }
+      ]
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {
+    "checker": {
+      "uri": "assets/checker.png",
+      "type": "image",
+      "integrity": "sha256-95fQz2yMd8orJyPIwNTr5UDC19WsxPj4vZSsTuo1SaI="
+    },
+    "tone": {
+      "uri": "assets/tone.wav",
+      "type": "audio",
+      "integrity": "sha256-HFY/wPVI+NrfP8ouN2E9H38zTPn8a4DE2w3IqklLWzw="
+    }
+  },
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "goal": {
+      "type": "int",
+      "initial": 2
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "collect",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "touch.tap",
+            "config": {
+              "region": "playfield"
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "disabled"
+  },
+  "rules": [
+    {
+      "id": "reward-on-press",
+      "priority": 0,
+      "on": {
+        "type": "input.action",
+        "action": "collect",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "all-collected",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "scoreLabel",
+        "kind": "text",
+        "text": "点击屏幕得分",
+        "bind": {
+          "text": {
+            "template": "Score: {0} / {1}",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "state": "/goal"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.5
+          ],
+          "fontSize": 0.32,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "A2Game / Shared 3D Stage"
+          }
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "fontSize": 0.17,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "Space / Tap to collect"
+          }
+        }
+      ]
+    },
+    "stage": {
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          0,
+          1.5,
+          8
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "near": 0.1,
+        "far": 100,
+        "fov": 45,
+        "orthoHeight": 6
+      },
+      "nodes": [
+        {
+          "id": "cube",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -1.2,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            1.5,
+            1.5
+          ],
+          "rotation": [
+            0.25,
+            0.4,
+            0
+          ],
+          "spin": [
+            0,
+            0.8,
+            0
+          ],
+          "color": "#57d7c8",
+          "material": "standard",
+          "asset": "checker"
+        },
+        {
+          "id": "sprite",
+          "kind": "sprite",
+          "at": [
+            1.2,
+            0,
+            0
+          ],
+          "size": [
+            1.5,
+            1.5,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "checker"
+        },
+        {
+          "id": "scoreOrb",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            {
+              "state": "/score"
+            },
+            -1.3,
+            -2
+          ],
+          "size": [
+            0.4,
+            0.4,
+            0.4
+          ],
+          "color": "#ecb963",
+          "material": "unlit"
+        }
+      ],
+      "particles": [
+        {
+          "id": "sparks",
+          "count": 12,
+          "origin": [
+            0,
+            1.5,
+            0
+          ],
+          "spread": [
+            5,
+            1,
+            1
+          ],
+          "velocity": [
+            0,
+            -0.2,
+            0
+          ],
+          "size": 0.08,
+          "color": "#ecb963",
+          "periodTicks": 120
+        }
+      ],
+      "audio": [
+        {
+          "id": "collectSound",
+          "asset": "tone",
+          "event": "input.action",
+          "volume": 0.25
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/visual-stage.conformance.json"
+  ],
+  "extensions": {}
+}

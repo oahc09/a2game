@@ -1,6 +1,6 @@
 # 本地动态内容准入与回执
 
-应用 Profile 为 `scene2d-trusted-assets-v1`，GameSpec/Capability 协议保持 `0.1.0`。S3 支持本地持久化回执、审核资源及可传输内容包；发送者签名、远程账户和自动部署另行实施。
+应用 Profile 为 `trusted-reference-host-v1`，GameSpec/Capability 协议保持 `0.1.0`。S3 支持本地持久化回执、审核资源及可传输内容包；S4 增加声明 `a2game.visual.stage@0.1.0` 的 3D 定义。发送者签名、远程账户和自动部署另行实施。
 
 ## 从 JSON 到运行
 
@@ -51,8 +51,8 @@ npm run player:serve
 
 ## 当前宿主策略
 
-- 支持已有能力范围内的单场景 2D `scene2d`、button 输入及 Keyboard/Tap/Swipe；绑定需声明对应能力或回退引用，至少有一个可用绑定。
-- 未审核 `assets`、自定义 `extensions`、3D/多场景、未实现的输入及真实录制策略明确拒绝。后续通过独立 Capability/Profile 增加支持，完整 2D/3D、物理、Touch/IMU 目标保留。
+- 支持已有能力范围内的单场景 `scene2d` 及版本化 `visual.stage`，button 输入及 Keyboard/Tap/Swipe；绑定需声明对应能力或回退引用，至少有一个可用绑定。3D 必须声明 Stage，并使用真实 Three.js/CocosAirJS 后端。
+- 未审核 `assets`、自定义 `extensions`、未声明 Stage 的 3D、多场景、未实现的输入及真实录制策略明确拒绝。后续通过独立 Capability/Profile 增加支持，物理、Touch/IMU 等完整目标保留。
 - 上传不能注册 Manifest、替换 Schema、执行脚本、指定服务器文件路径或请求网络资源；校验只使用部署自带的 Schema 和绑定可信实现的 Manifest。
 - 服务绑定 loopback，要求 JSON 媒体类型和同源 Origin/Host，不提供跨域许可。静态 HTTP 仅公开播放器、编译 Runtime 和版本样例，真实文件路径也必须位于这些公开目录。
 - Python 不可用、校验超时或部署上下文变化时拒绝发布，不退化为手写 Schema 子集。默认优先项目 `.venv`，可用 `A2GAME_PYTHON` 指定解释器。

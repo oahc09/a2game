@@ -4,7 +4,7 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S4——版本化表现与资源生命周期。** S2 真实双引擎四样例 `scene2d` G2 已通过；动态内容经完整 Schema/语义/能力检查后导入，本地回执支持服务重启后重新校验并加载。S3 已补齐审核资源和可传输内容包，下一主线为 S4，32+5 玩法、真机和 Agent 另行验收。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)，导入契约见 [content-release.md](docs/content-release.md)。
+> **当前阶段：S5——益智与休闲标准库。** S2 真实双引擎四样例 `scene2d` G2 已通过；动态内容经完整 Schema/语义/能力检查后导入，本地回执支持服务重启后重新校验并加载。S3 已补齐审核资源和可传输内容包，S4 新增版本化 2D/3D Stage，下一主线为 S5，32+5 玩法、真机和 Agent 另行验收。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)，导入契约见 [content-release.md](docs/content-release.md)。
 
 ## 一、先看能运行什么
 
@@ -225,8 +225,8 @@ a2game/
 
 ## 八、当前完成情况和下一个可执行任务
 
-**当前验证**：64/64 Node、12/12 JSON Conformance、7 Schema/27 文档、4 游戏目录 PASS；真实双 SDK HTTP Chromium G2 四样例子集 PASS（16+2 场景，8 组跨引擎 Hash 一致）。新增动态 JSON 变体也通过两端导入、Node Hash、负例恢复、后端切换及实际服务进程重启后加载，见[动态内容回执](reports/content-2026-10-24T13-13-36-731Z-49356/summary.json)。原 G2 证据见 [Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。旧隔离环境的 HTTP 策略阻塞记录保留于 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，不代表本次环境。
+**当前验证**：66/66 Node、13/13 JSON Conformance、7 Schema/30 文档、5 游戏目录 PASS；真实双 SDK HTTP Chromium G2 四样例子集 PASS（16+2 场景，8 组跨引擎 Hash 一致）。新增动态 JSON 变体也通过两端导入、Node Hash、负例恢复、后端切换及实际服务进程重启后加载，见[动态内容回执](reports/content-2026-10-24T13-13-36-731Z-49356/summary.json)。原 G2 证据见 [Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。旧隔离环境的 HTTP 策略阻塞记录保留于 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，不代表本次环境。
 
-**未完成/未验证**：远程可信发布与资源下载管理、多进程存储配额；Sprite/Mesh/Camera/Particles/Audio；三消与塔防/射击完整模块；物理 GPU、多点/IMU 真机；32+5 全量玩法；Agent G3。
+**未完成/未验证**：远程账户/签名和自动部署、审核目录外资源供应链、多进程存储配额；一般模型/骨骼编辑器和任意 Shader 扩展；三消与塔防/射击完整模块；物理 GPU、多点/IMU 真机；32+5 全量玩法；Agent G3。
 
-**下一步**：按版本化 Capability 扩展 S4 表现与资源生命周期；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。
+**下一步**：实施 S5 益智/休闲标准库，保持 S4 表现能力的真实双 SDK 回归；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。

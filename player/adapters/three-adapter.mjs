@@ -1,15 +1,19 @@
+import {ThreeStageHost} from './three-stage.mjs';
 /** Three.js host projection. Only PresentationFrame is understood: no gameplay/state special cases. */
 export class ThreeAdapter {
-  constructor(THREE,canvas){
+  constructor(THREE,canvas,resources){
     for(const name of ['WebGLRenderer','Scene','OrthographicCamera','Mesh','MeshBasicMaterial','PlaneGeometry','CircleGeometry','CanvasTexture'])
       if(!THREE?.[name])throw Error(`Missing Three.js module export: ${name}`);
-    this.THREE=THREE;this.canvas=canvas;
+    this.THREE=THREE;this.canvas=canvas;this.resources=resources;
     this.renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false});
     this.scene=new THREE.Scene();
     this.camera=new THREE.OrthographicCamera(-4,4,3,-3,0.1,100);
     this.camera.position.set(0,0,15);this.camera.lookAt(0,0,0);
     this.meshes=[];this.lastSignature='';this.disposed=false;
   }
+  async prepare(definition){if(definition.presentation.stage){this.stage=new ThreeStageHost(this.THREE,this.renderer,this.resources);await this.stage.prepare(definition.presentation.stage);}}
+  unlockAudio(){this.stage?.audio?.unlock();}
+  pauseAudio(){this.stage?.audio?.pause();}
   makeVisual(cmd,z){
     const T=this.THREE;
     let geometry,material;
@@ -46,7 +50,7 @@ export class ThreeAdapter {
   releaseVisualsForContextLoss(){
     // Detach resource disposal listeners while the old context is lost. Restoring
     // then rebuilds visuals from the frame, avoiding stale WebGL handle deletion.
-    this.clear();this.lastSignature='';
+    this.clear();this.stage?.clear();this.lastSignature='';
   }
   draw(frame){
     if(this.disposed)throw Error('A2G_E_DISPOSED: Three.js adapter disposed');
@@ -65,12 +69,14 @@ export class ThreeAdapter {
       this.lastSignature=signature;this.clear();
       frame.commands.forEach((cmd,i)=>this.makeVisual(cmd,i*0.005));
     }
-    this.renderer.render(this.scene,this.camera);
+    if(frame.stage){
+      this.stage.draw(frame.stage,w,h,frame.background);this.renderer.autoClear=false;this.renderer.clearDepth();this.renderer.render(this.scene,this.camera);this.renderer.autoClear=true;
+    }else this.renderer.render(this.scene,this.camera);
   }
   diagnostics(){return {disposed:this.disposed,ownedMeshes:this.meshes.length,
-    gpu:this.renderer.info?{...this.renderer.info.memory}:null};}
+    stage:this.stage?.diagnostics(),gpu:this.renderer.info?{...this.renderer.info.memory}:null};}
   dispose(){
     if(this.disposed)return;
-    this.disposed=true;this.clear();this.renderer.dispose();
+    this.disposed=true;this.stage?.dispose();this.clear();this.renderer.dispose();
   }
 }

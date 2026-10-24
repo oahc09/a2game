@@ -8,7 +8,17 @@
 
 迁移复验已通过：49 文件完整迁移，36 个 Schema/样例文件与四份游戏内容哈希不变；`npm run verify`（55 Node、12 Conformance、7 Schema/27 文档）及真实 G2（16+2 场景、8 组跨引擎 Hash）通过。迁移证明见 [`layout-check-final.json`](reports/spec-layout-2026-10-24T12-06-54-319Z/layout-check-final.json)，本轮日志见 [`verify.log`](reports/spec-layout-2026-10-24T12-06-54-319Z/verify.log)。463 份既有历史证据内容未改，最新 G2 指针单独更新。
 
-**S3 — 当前宿主 Profile 的完整准入、审核资源与可传输内容包已交付；下一主线 S4。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
+**S3 — 当前宿主 Profile 的完整准入、审核资源与可传输内容包已交付；下一主线 S5。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
+
+## S4 版本化通用表现交付（2026-10-24）
+
+仓库验证全部 PASS：66/66 Node、13/13 Conformance、7 Schema/30 文档。日志：[reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log](reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log)；能力覆盖：[reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json](reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json)。
+
+- 新增 `a2game.visual.stage@0.1.0`，原 `scene2d` 不变；完整 Schema/语义/能力约束涵盖 Camera、Sprite/Texture、Mesh、unlit/PBR Shader 预设、HUD、Tick 旋转动画、有界粒子和事件音频。规范见 [Visual Stage](specs/v0.1/docs/11-Visual-Stage-V0.1.md)。
+- 两端均使用真实 SDK 原生对象，单 Canvas/单 SDK 渲染器。动画由共享逻辑 Tick 投影，暂停冻结、不消耗玩法 RNG；表现不进入 exact logical hash。
+- 透视与正交/2.5D 各在真实 Three.js 和 CocosAirJS 通过：实际纹理/网格像素、动画像素变化、输入和 Node Hash、DPR/缩放、原生 AudioBufferSourceNode 与运行音频时钟、内容包、进程重启、context loss 与自有资源释放。回执：[透视](reports/visual-stage-2026-10-24T13-39-53-470Z-57792/summary.json)、[正交](reports/visual-stage-2026-10-24T13-40-18-542Z-59544/summary.json)，截图已人工查看。
+- context loss 的暂停按既有契约清空输入源缓存；恢复 Hash 与 Node 的同一 pause/resume 序列一致。AIR 受控重载，Three 重建 GPU 资源后显式继续。SDK 共享缓存不计入实例所有权，不声明引擎总内存零泄漏。
+- 本次新增 1 Manifest、1 参考 JSON、1 Conformance 和 2 条必要 Node 回归；参考数为 5 游戏/12 Manifest，32+5 完整 verified 仍为 0。S4 PASS 限本版本声明能力；一般模型/骨骼编辑器和任意 Shader 解释不在此能力中，扩展须独立版本与验收。
 
 ## S3 阶段交付（2026-10-24）
 
@@ -44,7 +54,7 @@
 - 8 组相同 JSON/操作序列在 Node、Three.js、CocosAirJS 的 initial/keyboard/pointer/restart 检查点 exactHash 一致；绘制、横竖视口缩放、截图像素探针通过，截图已人工查看。
 - Three.js 连续三次重建后资源计数稳定，销毁后 ownedMeshes/geometries/textures 均为 0；context loss 时清理旧资源后恢复重建，无 `INVALID_OPERATION` 清理警告。
 - AIR 官方 `close()` 释放场景、暂停 SDK 时钟、移除布局/上下文观察；回执 pending/failures 均为空。保留 runtime/scheduler/builtin/shared caches；关闭后同文档初始化按上游报 `AIR_E_APP_CLOSED`，须重载。context loss 后显示重新加载入口，不声称 GPU 自愈或总内存零泄漏。
-- 回执指针：[Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。最终运行：[summary.json](reports/g2-2026-10-24T13-15-30-881Z-50512/summary.json)。运行前后源码指纹一致，浏览器与临时 HTTP 服务已关闭；失败运行保留并在[交付记录](reports/g2-implementation-20261024.md)归因。
+- 回执指针：[Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。最终运行：[summary.json](reports/g2-2026-10-24T13-41-28-255Z-47612/summary.json)。运行前后源码指纹一致，浏览器与临时 HTTP 服务已关闭；失败运行保留并在[交付记录](reports/g2-implementation-20261024.md)归因。
 
 ## 当前具备的可运行功能
 
@@ -94,12 +104,12 @@
 | CoverageRegistry 候选游戏 | 32 | G01–G32，`status: planned`，保留冻结分母 |
 | 已完整 verified 游戏 | 0/32 | 实现参考功能不替代 G0+G1+G2+G3 玩法 Gate |
 | 独立混合玩法 | 0/5 | H01–H05 尚未创建各自完整 GameSpec/Conformance |
-| 已交付样例游戏 JSON | 4 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
-| 已声明参考 Capability | 11 | Capability Manifest 数量不代表标准库完成度 |
+| 已交付样例游戏 JSON | 5 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
+| 已声明参考 Capability | 12 | Capability Manifest 数量不代表标准库完成度 |
 
 ## 下一轮的具体执行目标（S3/S4）
 
-S3 已完成当前 Profile 的资源准入与内容包交付，审核范围外的资源及未知能力拒绝。S4：按版本化 Capability 扩展 Sprite/Texture/Mesh/Camera 等表现和所有权管理；每项附双引擎 G2 证据。详见[本地准入契约](docs/content-release.md)。
+S3 已完成当前 Profile 的资源准入与内容包交付，审核范围外的资源及未知能力拒绝。S4 已交付版本化 Stage 与双引擎证据；下一步 S5 补齐益智/休闲机制，之后按既有 S6–S11 范围持续实施。详见[本地准入契约](docs/content-release.md)。
 
 只有真实 SDK 的全流程证据存在且 PASS，才能调整 `project/status.json.gates` 与本页状态。之后继续 S3/S4、Gameplay/Touch/IMU、32+5 全量计划，不得因 G2 完成缩减其余目标。完整任务与分阶段 DoD 见 [PROJECT-PLAN.md](PROJECT-PLAN.md)。
 

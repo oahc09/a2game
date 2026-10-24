@@ -1,5 +1,12 @@
 # A2Game 项目变更记录
 
+## S4 版本化 2D/3D Visual Stage — 2026-10-24
+
+- 新增独立 Manifest、增量 Schema、语义检查、参考游戏和 Conformance；保留旧 scene2d 语义。支持 Camera、审核纹理/Sprite、原生 Mesh、unlit/PBR Shader 预设、HUD、Tick 动画、有界粒子和事件音频。
+- Three.js/CocosAirJS 均使用原生对象和一个 SDK 渲染器；适配器拥有 GPU/音频对象，Session 资源作用域拥有字节/位图/URL，按顺序释放。初始化失败也执行清理。
+- 透视与正交/2.5D 两组真实双 SDK 验证通过：实际像素、原生音频节点/时钟、输入/Node Hash、缩放、服务重启、context loss 和释放。暂停 Hash 按相同 Node 操作序列比较，未修改哈希算法。
+- 新完整准入 Profile 为 `trusted-reference-host-v1`，允许已声明 Stage 的 3D 定义；旧 Profile 重新导入升级，协议仍为 `0.1.0`。下一步 S5；全 32+5、Agent 和真机 Gate 不升级。
+
 ## S3 审核资源与内容交付 — 2026-10-24
 
 - 完成当前宿主 Profile 的资源白名单、来源/许可与字节级 SHA 校验、资源预算和统一释放；新增可复现的 CC0 PNG/WAV 参考资源。上传不能注册资源或发起任意下载。

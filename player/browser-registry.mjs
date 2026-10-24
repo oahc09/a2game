@@ -1,6 +1,6 @@
 import {CapabilityRegistry,addReferenceRuleOps,gridSlideMergeImplementation,gridPushImplementation} from '../dist/index.js';
 const files=[
-'a2game.core.flow','a2game.core.rules','a2game.core.state','a2game.input.keyboard.button',
+'a2game.core.flow','a2game.core.rules','a2game.core.state','a2game.input.keyboard.button','a2game.visual.stage',
 'a2game.input.touch.tap','a2game.input.touch.swipe','a2game.puzzle.grid-slide-merge','a2game.puzzle.grid-push','a2game.rules.state-add','a2game.visual.text','a2game.visual.scene2d'];
 export async function createBrowserRegistry() {
   const registry=new CapabilityRegistry();
