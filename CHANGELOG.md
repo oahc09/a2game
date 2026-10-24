@@ -1,5 +1,10 @@
 # A2Game 项目变更记录
 
+## 2026-10-24 — S7 经营、策略与回合参考机制
+
+- Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.
+- 18 个真实 SDK 场景、75 Node、44 Conformance 通过；现行证据见 project/status.json。
+
 ## 2026-10-24 — S6 固定 Tick 物理与战斗参考 Profile
 
 - Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.

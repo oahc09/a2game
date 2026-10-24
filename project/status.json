@@ -8,9 +8,9 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S6",
-  "currentObjective": "Shared integer realtime physics and combat reference profile, followed by strategy/economy.",
-  "nextStage": "S7",
+  "currentStage": "S7",
+  "currentObjective": "Implement S7 against the existing full roadmap; retain independent game, Agent and physical-device gates.",
+  "nextStage": "S8",
   "stages": [
     {
       "id": "S0",
@@ -44,8 +44,8 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-24T14-31-45-033Z-41148/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-24T14-31-44-032Z-3000/summary.json"
+        "perspective": "reports/visual-stage-2026-10-24T14-44-00-774Z-52516/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-24T14-44-00-363Z-39920/summary.json"
       }
     },
     {
@@ -54,8 +54,8 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-24T14-30-38-153Z-4064/summary.json",
-        "verification": "reports/verify-2026-10-24T14-29-42-449Z-42488/verify.log"
+        "puzzles": "reports/puzzles-2026-10-24T14-42-09-346Z-43852/summary.json",
+        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
       }
     },
     {
@@ -64,14 +64,19 @@
       "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-24T14-33-52-314Z-36852/summary.json",
-        "verification": "reports/verify-2026-10-24T14-29-42-449Z-42488/verify.log"
+        "mechanisms": "reports/realtime-2026-10-24T14-42-27-429Z-39720/summary.json",
+        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
       }
     },
     {
       "id": "S7",
       "name": "Strategy economy and turn-based",
-      "status": "PLANNED"
+      "status": "PASS",
+      "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
+      "evidence": {
+        "mechanisms": "reports/strategy-2026-10-24T14-40-52-735Z-43000/summary.json",
+        "verification": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log"
+      }
     },
     {
       "id": "S8",
@@ -138,11 +143,11 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 27,
-    "referenceCapabilityManifests": 68
+    "referenceDemoGames": 36,
+    "referenceCapabilityManifests": 89
   },
   "blockingItems": [
-    "S7 and remaining full gameplay/profile acceptance remain to implement",
+    "S8 and remaining full gameplay/profile acceptance remain to implement",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
   ],
@@ -166,8 +171,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T14-30-38-182Z-49764",
-    "summary": "reports/g2-2026-10-24T14-30-38-182Z-49764/summary.json",
+    "runId": "g2-2026-10-24T14-40-53-176Z-53700",
+    "summary": "reports/g2-2026-10-24T14-40-53-176Z-53700/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -197,23 +202,23 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T14-29-42-449Z-42488/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T14-29-42-449Z-42488/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T14-30-38-182Z-49764/summary.json",
-    "contentSummary": "reports/content-2026-10-24T14-31-45-047Z-46504/summary.json",
+    "log": "reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T14-39-27-745Z-51524/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T14-40-53-176Z-53700/summary.json",
+    "contentSummary": "reports/content-2026-10-24T14-44-48-924Z-52692/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 72,
-      "total": 72
+      "pass": 75,
+      "total": 75
     },
     "conformance": {
-      "pass": 35,
-      "total": 35,
-      "suites": 29
+      "pass": 44,
+      "total": 44,
+      "suites": 38
     },
     "schema": {
       "kinds": 7,
-      "documents": 130
+      "documents": 169
     }
   },
   "historicalReleaseRun": {
@@ -280,7 +285,7 @@
     "date": "2026-10-24",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T14-31-45-047Z-46504/summary.json",
+    "summary": "reports/content-2026-10-24T14-44-48-924Z-52692/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -302,8 +307,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-24T14-31-45-033Z-41148/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-24T14-31-44-032Z-3000/summary.json",
+    "perspective": "reports/visual-stage-2026-10-24T14-44-00-774Z-52516/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-24T14-44-00-363Z-39920/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
     "limitations": [
       "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
@@ -370,11 +375,32 @@
     "a2game.combat.auto-target@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
     "a2game.combat.wave@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
     "a2game.combat.horde@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.status@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json"
+    "a2game.combat.status@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
+    "a2game.strategy.economy-loop@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.path-follow@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.turn@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.cards@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.economy@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.inventory@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.cost@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.reward@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.production@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.collect@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.upgrade@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.unlock@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.shop@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.placement-grid@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.path@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.tower@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.strategy.range@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.legal-move@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.deck@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.hand@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
+    "a2game.turnbased.player-order@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json"
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-24T14-30-38-153Z-4064/summary.json",
+    "summary": "reports/puzzles-2026-10-24T14-42-09-346Z-43852/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
       "RNG-restoring undo is single-behavior only; compositions use Session snapshots",
@@ -384,9 +410,14 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-24T14-33-52-314Z-36852/summary.json",
+      "summary": "reports/realtime-2026-10-24T14-42-27-429Z-39720/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "performance": "reports/realtime-perf-2026-10-24T14-32-41-200Z.json"
+    },
+    "strategy": {
+      "status": "PASS",
+      "summary": "reports/strategy-2026-10-24T14-40-52-735Z-43000/summary.json",
+      "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate."
     }
   }
 }

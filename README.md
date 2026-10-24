@@ -4,14 +4,14 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S5——益智与休闲标准库。** S2 真实双引擎四样例 `scene2d` G2 已通过；动态内容经完整 Schema/语义/能力检查后导入，本地回执支持服务重启后重新校验并加载。S3 已补齐审核资源和可传输内容包，S4 新增版本化 2D/3D Stage，下一主线为 S5，32+5 玩法、真机和 Agent 另行验收。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)，导入契约见 [content-release.md](docs/content-release.md)。
+> **当前阶段：S7 参考机制已验证，继续 S8。** 当前有 36 份参考 JSON、89 份 Manifest，涵盖益智、2D/3D 表现、整数物理/战斗及经营/回合；真实双 SDK 证据见 [项目状态](PROJECT-STATUS.md)。32+5 完整游戏、真机及 Agent Gate 独立验收，不能从参考数推断完成度。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
 
 ## 一、先看能运行什么
 
 | 功能 / 后端 | 现在能否运行 | 说明 |
 |---|---|---|
-| TypeScript Headless Runtime | **可以** | 计时/规则/状态/回滚、合并、推箱子，Node.js 测试 |
-| 浏览器 Canvas2D 预览 | **可以** | 4 份预校验 JSON 游戏，无外部游戏引擎 SDK |
+| TypeScript Headless Runtime | **可以** | 计时/事务/回放、益智、整数物理/战斗、经营/回合，Node.js 测试 |
+| 浏览器 Canvas2D 预览 | **可以** | 36 份预校验参考 JSON，无外部游戏引擎 SDK |
 | Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
 | CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
 | 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **未实现/未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |

@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：S6 参考 Profile 已验证并提交，继续 S7；全量 Gxx/Hxx、真机及 Agent Gate 分别验收，现行状态见 PROJECT-STATUS.md。
+> **当前执行阶段**：S7 参考 Profile 已验证并提交，继续 S8；全量 Gxx/Hxx、真机及 Agent Gate 分别验收，现行状态见 PROJECT-STATUS.md。
 
 ## 0. 项目目标与不可变边界
 

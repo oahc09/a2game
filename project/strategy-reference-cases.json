@@ -1,0 +1,272 @@
+{
+  "format": "a2game-mechanism-cases",
+  "cases": [
+    {
+      "name": "strategy-farm",
+      "steps": [
+        {
+          "action": "collect",
+          "ticks": 1
+        },
+        {
+          "action": "plant",
+          "ticks": 1
+        },
+        {
+          "action": "collect",
+          "ticks": 1
+        },
+        {
+          "action": "collect",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/economy/wallet",
+          "equals": 11
+        },
+        {
+          "path": "/economy/inventory/seed",
+          "equals": 1
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-upgrade",
+      "steps": [
+        {
+          "action": "upgrade",
+          "ticks": 1
+        },
+        {
+          "action": "plant",
+          "ticks": 1
+        },
+        {
+          "ticks": 2
+        },
+        {
+          "action": "collect",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/economy/wallet",
+          "equals": 12
+        },
+        {
+          "path": "/economy/inventory/seed",
+          "equals": 2
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-shop",
+      "steps": [
+        {
+          "action": "buy",
+          "ticks": 1
+        },
+        {
+          "action": "unlock",
+          "ticks": 1
+        },
+        {
+          "action": "buy",
+          "ticks": 1
+        },
+        {
+          "action": "place",
+          "ticks": 1
+        },
+        {
+          "action": "buy",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/economy/wallet",
+          "equals": 1
+        },
+        {
+          "path": "/economy/grid/0",
+          "equals": 1
+        },
+        {
+          "path": "/economy/inventory/seed",
+          "equals": 0
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "strategy-merge",
+      "steps": [
+        {
+          "action": "select0",
+          "ticks": 1
+        },
+        {
+          "action": "merge1",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/economy/grid",
+          "equals": [
+            0,
+            2,
+            0,
+            0
+          ]
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-turn",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/turn/winner",
+          "equals": 1
+        },
+        {
+          "path": "/turn/moves",
+          "equals": 5
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-cards",
+      "steps": [
+        {
+          "action": "draw",
+          "ticks": 1
+        },
+        {
+          "action": "draw",
+          "ticks": 1
+        },
+        {
+          "action": "play0",
+          "ticks": 1
+        },
+        {
+          "action": "draw",
+          "ticks": 1
+        },
+        {
+          "action": "play0",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/cards/discard",
+          "equals": [
+            2,
+            3
+          ]
+        },
+        {
+          "path": "/cards/deck",
+          "equals": [
+            4
+          ]
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-shuffle",
+      "steps": [
+        {
+          "action": "draw",
+          "ticks": 1
+        },
+        {
+          "action": "draw",
+          "ticks": 1
+        },
+        {
+          "action": "play0",
+          "ticks": 1
+        }
+      ],
+      "checks": [
+        {
+          "path": "/cards/initialized",
+          "equals": true
+        }
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "strategy-path",
+      "steps": [
+        {
+          "ticks": 2
+        }
+      ],
+      "checks": [
+        {
+          "path": "/path/arrived",
+          "equals": true
+        },
+        {
+          "path": "/world/bodies/0/x",
+          "equals": 1256
+        }
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "strategy-tower",
+      "steps": [
+        {
+          "ticks": 3
+        }
+      ],
+      "checks": [
+        {
+          "path": "/world/score",
+          "equals": 1
+        }
+      ],
+      "expected": "won"
+    }
+  ]
+}

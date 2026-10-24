@@ -1,0 +1,67 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "strategy-merge",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.strategy-merge",
+    "file": "../games/strategy-merge.game.json"
+  },
+  "cases": [
+    {
+      "id": "STRATEGY-LIBRARY-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/grid",
+          "equals": [
+            0,
+            2,
+            0,
+            0
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        }
+      ]
+    }
+  ]
+}

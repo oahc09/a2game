@@ -1,0 +1,76 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "strategy-shuffle",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.strategy-shuffle",
+    "file": "../games/strategy-shuffle.game.json"
+  },
+  "cases": [
+    {
+      "id": "STRATEGY-LIBRARY-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "play0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "play0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/initialized",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "restart"
+        }
+      ]
+    }
+  ]
+}

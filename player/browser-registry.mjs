@@ -1,4 +1,4 @@
-import {CapabilityRegistry,addReferenceRuleOps,gridSlideMergeImplementation,gridPushImplementation,puzzleImplementations,puzzleServiceIds,realtimeWorldImplementation,realtimeServiceIds} from '../dist/index.js';
+import {CapabilityRegistry,addReferenceRuleOps,gridSlideMergeImplementation,gridPushImplementation,puzzleImplementations,puzzleServiceIds,realtimeWorldImplementation,realtimeServiceIds,strategyImplementations,strategyServiceIds} from '../dist/index.js';
 export async function createBrowserRegistry() {
   const registry=new CapabilityRegistry();
   const indexResponse=await fetch('./capability-index.json');if(!indexResponse.ok)throw Error('能力索引缺失，请运行 npm run catalog:build。');
@@ -8,8 +8,8 @@ export async function createBrowserRegistry() {
     const response=await fetch(new URL(url,import.meta.url));
     if(!response.ok)throw Error(`Missing capability manifest ${id}`);
     const m=await response.json();
-    const implementation=puzzleImplementations[m.id]??(m.id==='a2game.realtime.world'?realtimeWorldImplementation:m.id==='a2game.puzzle.grid-slide-merge'?gridSlideMergeImplementation: m.id==='a2game.puzzle.grid-push'?gridPushImplementation:
-      {role:m.kind==='core'||[...puzzleServiceIds,...realtimeServiceIds].includes(m.id)?'builtin':m.kind==='rule-op'?'rule-op':
+    const implementation=puzzleImplementations[m.id]??strategyImplementations[m.id]??(m.id==='a2game.realtime.world'?realtimeWorldImplementation:m.id==='a2game.puzzle.grid-slide-merge'?gridSlideMergeImplementation: m.id==='a2game.puzzle.grid-push'?gridPushImplementation:
+      {role:m.kind==='core'||[...puzzleServiceIds,...realtimeServiceIds,...strategyServiceIds].includes(m.id)?'builtin':m.kind==='rule-op'?'rule-op':
              m.kind==='input-source'||m.kind==='recognizer'?'recognizer':'headless-presentation'});
     registry.register(m,implementation);
   }

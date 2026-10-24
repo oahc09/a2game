@@ -64,7 +64,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if((press('jump')||release('charge'))&&w.grounded.includes(actor.id)){
             actor.vy=Math.min(128,Number(c.jumpSpeed??96)+w.charge);w.charge=0;emit('realtime.jumped',{id:actor.id});
         }
-        const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0).sort((a,b)=>(Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y))-(Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y))||stableCompare(a.id,b.id));
+        const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y)<=Number(c.weaponRange??32000)).sort((a,b)=>(Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y))-(Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y))||stableCompare(a.id,b.id));
         if((press('fire')||c.autoFire===true)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
             const target=targets[0];let fired=false;
             if(c.weapon==='hitscan'){

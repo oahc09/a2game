@@ -1,0 +1,238 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.strategy-cards",
+  "revision": 1,
+  "meta": {
+    "title": "牌库、手牌与弃牌",
+    "genres": [
+      "strategy"
+    ],
+    "description": "共享经营/回合参考：逻辑时钟、合法操作和可回放状态。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.cards",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.cards",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/cards",
+                "drawAction": "draw",
+                "playActions": [
+                  "play0"
+                ],
+                "maxHand": 1,
+                "shuffle": false,
+                "goalScore": 5
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "cards": {
+      "type": "object",
+      "initial": {
+        "deck": [
+          2,
+          3,
+          4
+        ],
+        "hand": [],
+        "discard": [],
+        "initialized": false,
+        "score": 0,
+        "won": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "draw",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "play0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/cards/won"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "title",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "牌库、手牌与弃牌"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.55
+          ],
+          "fontSize": 0.3,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "牌库、手牌与弃牌"
+          }
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -1.5
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/cards/score"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "hand",
+          "source": {
+            "state": "/cards/hand"
+          },
+          "columns": 8,
+          "origin": [
+            -1.5,
+            0.2
+          ],
+          "step": [
+            0.8,
+            0.8
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "card",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.7,
+                1
+              ],
+              "fill": "#35465e"
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.35,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/strategy-cards.conformance.json"
+  ],
+  "extensions": {}
+}

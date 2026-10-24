@@ -1,0 +1,85 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "strategy-upgrade",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.strategy-upgrade",
+    "file": "../games/strategy-upgrade.game.json"
+  },
+  "cases": [
+    {
+      "id": "STRATEGY-LIBRARY-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/inventory/seed",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        }
+      ]
+    }
+  ]
+}

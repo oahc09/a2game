@@ -30,12 +30,13 @@
     },
     {
       "stage": "S7",
-      "status": "in_progress",
-      "deliverable": "Economy, strategy and turn-based shared capabilities and representative games"
+      "status": "completed",
+      "deliverable": "Economy, strategy and turn-based shared capabilities and representative games",
+      "acceptance": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate."
     },
     {
       "stage": "S8",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Mobile multi-touch/IMU implementation, permission/calibration/fallback and physical-device evidence"
     },
     {

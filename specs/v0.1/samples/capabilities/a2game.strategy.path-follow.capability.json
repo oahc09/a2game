@@ -1,0 +1,212 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.strategy.path-follow",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Trusted shared strategy.path-follow bounded mechanism; no game-name branches.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.economy",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.inventory",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.cost",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.reward",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.production",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.collect",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.upgrade",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.unlock",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.shop",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.placement-grid",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.path",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.tower",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.range",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "waypoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 32000
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false
+          },
+          "maxItems": 64
+        },
+        "speed": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 128
+        },
+        "worldPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "bodyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "statePath",
+        "waypoints",
+        "speed"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "strategy.changed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.collected",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.upgraded",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.arrived",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.detached",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "turn.changed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "turn.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "cards.drawn",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "cards.played",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxPlots": 16,
+    "maxGridCells": 256,
+    "maxBoardCells": 361,
+    "maxCards": 128,
+    "maxHand": 32,
+    "maxWaypoints": 64,
+    "clock": "shared integer tick; turn actions do not advance production independently"
+  },
+  "testSuites": [
+    "STRATEGY-LIBRARY-001"
+  ]
+}

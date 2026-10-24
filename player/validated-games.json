@@ -129,6 +129,51 @@
       "revision": 1,
       "sha256Jcs": "5d58a1ddc92783e45596bd744dceeaebcb38787bd2c11bd1f7541486fc4cf36f"
     },
+    "/specs/v0.1/samples/games/strategy-cards.game.json": {
+      "id": "org.a2game.samples.strategy-cards",
+      "revision": 1,
+      "sha256Jcs": "0d1f78e4477a7ecab1fb8998e64dc6795d545b1f30c6bab6cb27bc7d638af3bd"
+    },
+    "/specs/v0.1/samples/games/strategy-farm.game.json": {
+      "id": "org.a2game.samples.strategy-farm",
+      "revision": 1,
+      "sha256Jcs": "d1bfaa9335f6dc9bbaf66172f726467f7ca718df6d28b7f18a6afaa36ff2fff8"
+    },
+    "/specs/v0.1/samples/games/strategy-merge.game.json": {
+      "id": "org.a2game.samples.strategy-merge",
+      "revision": 1,
+      "sha256Jcs": "f3518555385335876d79aeeb52be9b7639eb4066976e2fe7e7578939464e5290"
+    },
+    "/specs/v0.1/samples/games/strategy-path.game.json": {
+      "id": "org.a2game.samples.strategy-path",
+      "revision": 1,
+      "sha256Jcs": "ad2ce6ee7ef513f0b20110d9b7a53a250ad35c44aca18046a05eeb50eca96ac5"
+    },
+    "/specs/v0.1/samples/games/strategy-shop.game.json": {
+      "id": "org.a2game.samples.strategy-shop",
+      "revision": 1,
+      "sha256Jcs": "5b71d4e0be6789e68b28aa4d1863abd0ede3476cbe7858f4786c8f1764ca5c70"
+    },
+    "/specs/v0.1/samples/games/strategy-shuffle.game.json": {
+      "id": "org.a2game.samples.strategy-shuffle",
+      "revision": 1,
+      "sha256Jcs": "b7d69747826423936507bd3486981479f7f52875d0cdb02affabb7673bf8321a"
+    },
+    "/specs/v0.1/samples/games/strategy-tower.game.json": {
+      "id": "org.a2game.samples.strategy-tower",
+      "revision": 1,
+      "sha256Jcs": "ce05cb827b74aca238aaf1d0e243af8bcda94851291590b3ba64c9cdb2d6080d"
+    },
+    "/specs/v0.1/samples/games/strategy-turn.game.json": {
+      "id": "org.a2game.samples.strategy-turn",
+      "revision": 1,
+      "sha256Jcs": "6bf19ee8965e7780d57f3200369f2d9a67531c12b6d27749818a3c8a8ee19358"
+    },
+    "/specs/v0.1/samples/games/strategy-upgrade.game.json": {
+      "id": "org.a2game.samples.strategy-upgrade",
+      "revision": 1,
+      "sha256Jcs": "1ba89b5de204f84556916d479087eed5e30453e7b5fc07190e235fa0a6126ed2"
+    },
     "/specs/v0.1/samples/games/tap-target.game.json": {
       "id": "org.a2game.samples.tap-target",
       "revision": 2,

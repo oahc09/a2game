@@ -1,0 +1,346 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.strategy-turn",
+  "revision": 1,
+  "meta": {
+    "title": "合法落子与轮换",
+    "genres": [
+      "strategy"
+    ],
+    "description": "共享经营/回合参考：逻辑时钟、合法操作和可回放状态。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.turn",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.turn",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/turn",
+                "width": 3,
+                "height": 3,
+                "players": 2,
+                "winLength": 3,
+                "selectActions": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "turn": {
+      "type": "object",
+      "initial": {
+        "board": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "player": 1,
+        "moves": 0,
+        "winner": 0,
+        "draw": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/turn/winner"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "title",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "合法落子与轮换"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.55
+          ],
+          "fontSize": 0.3,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "合法落子与轮换"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "board",
+          "source": {
+            "state": "/turn/board"
+          },
+          "columns": 3,
+          "origin": [
+            -0.9,
+            0.9
+          ],
+          "step": [
+            0.9,
+            0.9
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.82,
+                0.82
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.3,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/strategy-turn.conformance.json"
+  ],
+  "extensions": {}
+}

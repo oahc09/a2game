@@ -1,0 +1,175 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.turnbased.turn",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Trusted shared turnbased.turn bounded mechanism; no game-name branches.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.legal-move",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.deck",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.hand",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.player-order",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 19
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 19
+        },
+        "players": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 4
+        },
+        "winLength": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 19
+        },
+        "selectActions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "maxItems": 361
+        },
+        "endTurnAction": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      },
+      "required": [
+        "statePath",
+        "width",
+        "height",
+        "players",
+        "winLength",
+        "selectActions"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "strategy.changed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.collected",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.upgraded",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.arrived",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "strategy.detached",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "turn.changed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "turn.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "cards.drawn",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "cards.played",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxPlots": 16,
+    "maxGridCells": 256,
+    "maxBoardCells": 361,
+    "maxCards": 128,
+    "maxHand": 32,
+    "maxWaypoints": 64,
+    "clock": "shared integer tick; turn actions do not advance production independently"
+  },
+  "testSuites": [
+    "STRATEGY-LIBRARY-001"
+  ]
+}

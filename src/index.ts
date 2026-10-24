@@ -18,3 +18,4 @@ export * from './content-release.js';
 export * from './visual-stage.js';
 export * from './modules/puzzle.js';
 export * from './modules/realtime.js';
+export * from './modules/strategy.js';

@@ -10,13 +10,21 @@ Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full 
 - 仓库验证：72 Node、35 Conformance、130 Schema 文档全部通过。[日志](reports/verify-2026-10-24T14-29-42-449Z-42488/verify.log)。
 - S2/S4/S5 现行源码回归已通过；旧报告全部保留。32 Gxx / 5 Hxx、Agent 和真机 Gate 分别验收。
 
+## S7 经营、策略与回合参考机制（2026-10-24）
+
+Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.
+
+- 18 个真实双 SDK 场景、9 组 Node/Three/AIR Hash 对照通过；数值断言、实际输入、暂停/重开、画面与自有资源释放均已验证。[回执](reports/strategy-2026-10-24T14-40-52-735Z-43000/summary.json)。
+- 仓库验证：75 Node、44 Conformance、169 Schema 文档全部通过。[日志](reports/verify-2026-10-24T14-39-27-745Z-51524/verify.log)。
+- S2/S4/S5 现行源码回归已通过；旧报告全部保留。32 Gxx / 5 Hxx、Agent 和真机 Gate 分别验收。
+
 ## 当前处于哪个阶段？
 
 目录调整：协议包现位于 `specs/v0.1/`，docs/schemas/samples、版本工具及旧协议内容完整保留。旧报告和历史文档里的 `A2Game-V0.1-Spec/` 是当时路径；本次迁移同步更新运行入口和白名单，并重新执行真实 SDK G2，现行回执以 `project/status.json` 为准。
 
 迁移复验已通过：49 文件完整迁移，36 个 Schema/样例文件与四份游戏内容哈希不变；`npm run verify`（55 Node、12 Conformance、7 Schema/27 文档）及真实 G2（16+2 场景、8 组跨引擎 Hash）通过。迁移证明见 [`layout-check-final.json`](reports/spec-layout-2026-10-24T12-06-54-319Z/layout-check-final.json)，本轮日志见 [`verify.log`](reports/spec-layout-2026-10-24T12-06-54-319Z/verify.log)。463 份既有历史证据内容未改，最新 G2 指针单独更新。
 
-**S3 — 当前宿主 Profile 的完整准入、审核资源与可传输内容包已交付；下一主线 S7。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
+**当前 S7 参考 Profile 已交付，继续 S8；完整 Gxx/Hxx、Agent 与真机验收保持独立。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
 
 ## S5 益智与休闲机制交付（2026-10-24）
 
@@ -122,8 +130,8 @@ S5 参考机制交付及本版 S2/S4 回归均已通过；当前回执以 `proje
 | CoverageRegistry 候选游戏 | 32 | G01–G32，`status: planned`，保留冻结分母 |
 | 已完整 verified 游戏 | 0/32 | 实现参考功能不替代 G0+G1+G2+G3 玩法 Gate |
 | 独立混合玩法 | 0/5 | H01–H05 尚未创建各自完整 GameSpec/Conformance |
-| 已交付样例游戏 JSON | 27 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
-| 已声明参考 Capability | 68 | Capability Manifest 数量不代表标准库完成度 |
+| 已交付样例游戏 JSON | 36 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
+| 已声明参考 Capability | 89 | Capability Manifest 数量不代表标准库完成度 |
 
 ## 下一轮的具体执行目标（S3/S4）
 

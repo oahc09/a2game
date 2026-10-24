@@ -1,0 +1,50 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.strategy.placement-grid",
+  "version": "0.1.0",
+  "kind": "service",
+  "portability": "exact",
+  "description": "Internal strategy.placement-grid service consumed by strategy/turn behavior profiles; not an arbitrary JSON command.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxPlots": 16,
+    "maxGridCells": 256,
+    "maxBoardCells": 361,
+    "maxCards": 128,
+    "maxHand": 32,
+    "maxWaypoints": 64,
+    "clock": "shared integer tick; turn actions do not advance production independently"
+  },
+  "testSuites": [
+    "STRATEGY-LIBRARY-001"
+  ]
+}
