@@ -1,4 +1,4 @@
-import {sha256Canonical,verifyReleasedGame,capabilityManifestDigest,CONTENT_MAX_BYTES} from '../dist/index.js';
+import {sha256Canonical,verifyReleasedGame,capabilityManifestDigest,CONTENT_BUNDLE_MAX_BYTES} from '../dist/index.js';
 
 async function api(response){
   const result=await response.json();
@@ -19,12 +19,13 @@ export async function loadBuiltinGame(name){
   return game;
 }
 export async function importGameFile(file){
-  if(file.size>CONTENT_MAX_BYTES)throw Error('JSON 文件超过 256 KiB 上限。');
+  if(file.size>CONTENT_BUNDLE_MAX_BYTES)throw Error('JSON 或内容包超过 1 MiB 上限。');
   const text=new TextDecoder('utf-8',{fatal:true}).decode(await file.arrayBuffer());
-  return api(await fetch('/api/releases',{method:'POST',headers:{'Content-Type':'application/json'},body:text}));
+  let isBundle=false;try{isBundle=JSON.parse(text).format==='a2game-release-bundle';}catch{}
+  return api(await fetch(isBundle?'/api/bundles':'/api/releases',{method:'POST',headers:{'Content-Type':'application/json'},body:text}));
 }
 export async function loadReleasedGame(digest,registry){
   if(!/^[a-f0-9]{64}$/.test(digest))throw Error('A2G_E_RELEASE_INTEGRITY: 发布标识无效。');
   const envelope=await api(await fetch(`/api/releases/${digest}`));
-  return {definition:verifyReleasedGame(envelope,digest,capabilityManifestDigest(registry.list())),receipt:envelope.receipt};
+  return {definition:verifyReleasedGame(envelope,digest,capabilityManifestDigest(registry.list())),receipt:envelope.receipt,resources:envelope.resources};
 }

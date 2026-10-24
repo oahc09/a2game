@@ -1,6 +1,6 @@
 # 本地动态内容准入与回执
 
-应用 Profile 为 `scene2d-local-release-v1`，GameSpec/Capability 协议保持 `0.1.0`。S3 已支持本地持久化回执；远程发布、签名分发和资源下载仍在后续范围。
+应用 Profile 为 `scene2d-trusted-assets-v1`，GameSpec/Capability 协议保持 `0.1.0`。S3 支持本地持久化回执、审核资源及可传输内容包；发送者签名、远程账户和自动部署另行实施。
 
 ## 从 JSON 到运行
 
@@ -8,7 +8,21 @@
 2. 服务拒绝重复键、非有限数、超过 64 层或 256 KiB 的 JSON。使用完整 Draft 2020-12 校验 GameSpec、可信 Manifest、所有组件配置及已知输入绑定配置。
 3. 共享 `compileGame` 校验引用、版本、依赖与语义，再检查宿主策略。隔离的 Headless Session 检查初始表现和一个 Tick 的模块布局；它不作为正式游戏会话，也不证明任意后续输入下的玩法正确性。
 4. 全部成功后，按 JCS/SHA256 内容地址创建不可变记录并返回回执。播放器服务默认保存到本地私有目录；失败不写入发布记录、不替换当前浏览器 Session。
-5. 播放器通过 `GET /api/releases/<sha256Jcs>` 读取回执和 JSON，核对内容、ID、revision、Manifest 摘要后才构建 Session。切换后端保留内容地址，在新文档中从初始状态运行。
+5. 播放器通过 `GET /api/releases/<sha256Jcs>` 读取回执和 JSON，核对内容、ID、revision、Manifest 及资源清单摘要；逐份下载审核资源，核对实际字节 SHA 并解码后才构建 Session。切换后端保留内容地址，在新文档中从初始状态运行。退出时关闭位图并撤销对象 URL。
+
+## 资源与内容包
+
+`project/asset-policy.json` 是部署方维护的审核目录，记录 URI、类型、精确 `integrity`、字节数、来源和许可。游戏必须与该目录一致，最多 32 份资源、合计 8 MiB。默认包含仓库生成的 CC0 PNG/WAV 示例，生成器为 `scripts/build-reference-assets.mjs`。上传不能注册资源、指定服务器路径或发起任意外网下载。
+
+`GET /api/assets/<sha256>` 每次读取都核对审核字节，浏览器再次核对长度与 SHA。没有公开整个 `assets/` 目录。修改审核目录后需重启服务，内容须重新准入。表现后端只获得当前 Session 拥有的资源作用域，资源不进入逻辑状态 Hash。
+
+导入的游戏可点击“导出内容包”，下载 `a2game-release-bundle@1`，再在另一台具有相同已审核资源的宿主导入。包包含 `definition/resources/sha256Jcs`，不嵌入未经审核的资源字节。接收方独立完整校验，不凭发送方声称的 PASS 放行。
+
+- `GET /api/releases/<sha256>/bundle`：导出内容包。
+- `POST /api/bundles`：接收 UTF-8 JSON 内容包并独立完整准入；最大 1 MiB，内部游戏仍限 256 KiB。
+- “导入游戏 JSON”同时接受普通游戏或内容包；错误包不替换当前 Session。
+
+早期 `scene2d-local-release-v1` 回执不能直接沿用：保留旧记录，以原游戏 JSON 重新导入，新回执增加 `resourcesDigest`，无资源游戏使用空资源清单摘要。
 
 本机 Agent 也可以调用同一个接口：
 
@@ -38,14 +52,14 @@ npm run player:serve
 ## 当前宿主策略
 
 - 支持已有能力范围内的单场景 2D `scene2d`、button 输入及 Keyboard/Tap/Swipe；绑定需声明对应能力或回退引用，至少有一个可用绑定。
-- 非空 `assets`、自定义 `extensions`、3D/多场景、未实现的输入及真实录制策略明确拒绝。后续通过独立 Capability/Profile 增加支持，完整 2D/3D、物理、Touch/IMU 目标保留。
+- 未审核 `assets`、自定义 `extensions`、3D/多场景、未实现的输入及真实录制策略明确拒绝。后续通过独立 Capability/Profile 增加支持，完整 2D/3D、物理、Touch/IMU 目标保留。
 - 上传不能注册 Manifest、替换 Schema、执行脚本、指定服务器文件路径或请求网络资源；校验只使用部署自带的 Schema 和绑定可信实现的 Manifest。
 - 服务绑定 loopback，要求 JSON 媒体类型和同源 Origin/Host，不提供跨域许可。静态 HTTP 仅公开播放器、编译 Runtime 和版本样例，真实文件路径也必须位于这些公开目录。
 - Python 不可用、校验超时或部署上下文变化时拒绝发布，不退化为手写 Schema 子集。默认优先项目 `.venv`，可用 `A2GAME_PYTHON` 指定解释器。
 
 ## 回执和修复反馈
 
-`a2game-content-release` / `receiptVersion: 1` 包含 `status/profile/id/revision/sha256Jcs/manifestDigest/contextDigest/validator/createdAt`。Manifest 摘要按 ID/version 排序，不依赖 Node 与浏览器的注册顺序。`contextDigest` 固定编译 Runtime、Schema、Manifest 和准入实现的文件指纹；服务运行期间这些文件改变，读取及新发布返回 `A2G_E_RELEASE_STALE`，须重启服务并重新导入。
+`a2game-content-release` / `receiptVersion: 1` 包含 `status/profile/id/revision/sha256Jcs/manifestDigest/contextDigest/resourcesDigest/validator/createdAt`。Manifest 摘要按 ID/version 排序，不依赖 Node 与浏览器的注册顺序。`contextDigest` 固定编译 Runtime、Schema、Manifest、资源策略和准入实现的文件指纹；服务运行期间这些文件改变，读取及新发布返回 `A2G_E_RELEASE_STALE`，须重启服务并重新导入。
 
 回执信任来自本机同源服务，不是面向远程分发的数字签名。失败响应为 `{error:{code,message,stage,diagnostics}}`，不返回服务器堆栈；诊断包含 JSON Pointer，供用户或 Agent 修复。
 

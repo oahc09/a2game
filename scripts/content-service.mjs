@@ -6,6 +6,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError} from '../dist/index.js';
 import {validateJsonTree} from '../dist/utils.js';
 import {root,makeRegistry} from './registry.mjs';
+import {createAssetPolicy} from './asset-policy.mjs';
 
 export class ContentError extends Error {
   constructor(code,message,statusCode=422,stage='policy',diagnostics=[]){
@@ -14,7 +15,6 @@ export class ContentError extends Error {
 }
 const reject=(code,message,pointer='')=>{throw new ContentError(code,message,422,'policy',[{pointer,message}]);};
 function assertProfile(game,effective){
-  if(Object.keys(game.assets??{}).length)reject('A2G_E_RESOURCE_POLICY','当前导入 Profile 尚不支持资源加载，请移除 assets 或等待对应资源能力。','/assets');
   if(Object.keys(game.extensions??{}).length)reject('A2G_E_HOST_PROFILE','当前宿主不支持自定义 extensions。','/extensions');
   if(game.world.dimension!=='2d'||!game.presentation.scene2d||game.scenes.length!==1)
     reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 游戏。','/presentation/scene2d');
@@ -59,7 +59,7 @@ function validateFull(python,payload){
 function contextFiles(){
   const flat=dir=>readdirSync(resolve(root,dir),{withFileTypes:true}).flatMap(item=>item.isDirectory()?flat(`${dir}/${item.name}`):[`${dir}/${item.name}`]);
   return [...flat('dist').filter(path=>path.endsWith('.js')),...flat('specs/v0.1/schemas'),...flat('specs/v0.1/samples/capabilities'),
-    'scripts/registry.mjs','scripts/content-service.mjs','scripts/validate-content.py'];
+    'scripts/registry.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json'];
 }
 // Private local data, never served as static files. A final record appears only after a complete write.
 function diskStore(directory,contextDigest,maxReleases){
@@ -99,6 +99,7 @@ export function createContentService({python,maxReleases=32,storageDirectory=nul
   python??=process.env.A2GAME_PYTHON??(existsSync(localPython)?localPython:'python');
   const fingerprints=()=>Object.fromEntries(contextFiles().map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
   const contextDigest=sha256Canonical(fingerprints()),manifests=makeRegistry().list(),manifestDigest=capabilityManifestDigest(manifests);
+  const assetPolicy=createAssetPolicy();
   const store=storageDirectory===null?null:diskStore(storageDirectory,contextDigest,maxReleases);
   const records=new Map();let active=0;
   const assertContext=()=>{if(sha256Canonical(fingerprints())!==contextDigest)throw new ContentError('A2G_E_RELEASE_STALE','校验环境已改变，请重启本地服务并重新导入。',409,'integrity');};
@@ -107,6 +108,7 @@ export function createContentService({python,maxReleases=32,storageDirectory=nul
     try{
       const envelope=JSON.parse(encoded);verifyReleasedGame(envelope,digest,manifestDigest);
       if(envelope.receipt.contextDigest!==contextDigest)throw Error('Context differs');
+      if(sha256Canonical(envelope.resources)!==sha256Canonical(assetPolicy.resolve(envelope.definition)))throw Error('Resource policy differs');
       if(records.has(digest)&&records.get(digest)!==encoded)throw Error('Immutable record differs');
       return envelope;
     }catch{throw new ContentError('A2G_E_RELEASE_INTEGRITY','本地发布记录与已校验内容或环境不符，请检查存储后重新导入。',409,'integrity');}
@@ -120,28 +122,28 @@ export function createContentService({python,maxReleases=32,storageDirectory=nul
       const plan=compileGame(game,makeRegistry());assertProfile(plan.definition,plan.effective);
       const runtime=new HeadlessRuntime(plan.definition,makeRegistry());
       try{projectPresentation(game,runtime.observe());runtime.start();runtime.step(1);projectPresentation(game,runtime.observe());}finally{runtime.dispose();}
-      assertContext();return result;
+      const resources=assetPolicy.resolve(game);assertContext();return {...result,resources};
     }catch(error){
       if(error instanceof A2GameError)throw new ContentError(error.code,error.message,422,'semantic',[{pointer:error.info.jsonPointer??'',message:error.message}]);
       throw error;
     }finally{active--;}
   };
   return {
-    async release(text){
+    async release(text,sourceText=text){
       if(Buffer.byteLength(text,'utf8')>CONTENT_MAX_BYTES)throw new ContentError('A2G_E_CONTENT_SIZE','JSON 文件超过 256 KiB 上限。',413,'parse');
       assertContext();
       let game;
       try{game=JSON.parse(text.replace(/^\uFEFF/,''));}catch{throw new ContentError('A2G_E_JSON_PARSE','文件不是有效 JSON。',400,'parse');}
       try{validateJsonTree(game);}catch(error){throw new ContentError(error.code,error.message,422,'parse',[{pointer:error.info?.jsonPointer??'',message:error.message}]);}
-      const result=await validate(text.replace(/^\uFEFF/,''),game);
+      const result=await validate(sourceText.replace(/^\uFEFF/,''),game);
       const digest=sha256Canonical(game);
       const existing=store?store.read(digest):records.get(digest);
       if(existing!=null){const envelope=assertRecord(existing,digest);records.set(digest,existing);return envelope.receipt;}
       if((store?.count()??records.size)>=maxReleases)throw new ContentError('A2G_E_RELEASE_CAPACITY','本地发布存储已满，请管理存储或使用新的 A2GAME_CONTENT_DIR。',409,'policy');
       const receipt={format:'a2game-content-release',receiptVersion:1,status:'PASS',profile:CONTENT_PROFILE,
         id:game.id,revision:game.revision,sha256Jcs:digest,manifestDigest,contextDigest,
-        validator:result.validator,createdAt:new Date().toISOString()};
-      const encoded=records.get(digest)??JSON.stringify({receipt,definition:game});
+        resourcesDigest:sha256Canonical(result.resources),validator:result.validator,createdAt:new Date().toISOString()};
+      const encoded=records.get(digest)??JSON.stringify({receipt,definition:game,resources:result.resources});
       const saved=store?store.write(digest,encoded):encoded;assertRecord(saved,digest);records.set(digest,saved);
       return JSON.parse(saved).receipt;
     },
@@ -161,6 +163,19 @@ export function createContentService({python,maxReleases=32,storageDirectory=nul
       }
       return envelope;
     },
+    async exportBundle(digest){const {definition,resources}=await this.read(digest);return {format:'a2game-release-bundle',bundleVersion:1,sha256Jcs:digest,definition,resources};},
+    async importBundle(text){
+      let bundle;try{bundle=JSON.parse(text.replace(/^\uFEFF/,''));}catch{throw new ContentError('A2G_E_JSON_PARSE','内容包不是有效 JSON。',400,'parse');}
+      validateJsonTree(bundle);
+      if(bundle?.format!=='a2game-release-bundle'||bundle.bundleVersion!==1||!bundle.definition||typeof bundle.definition!=='object'||Array.isArray(bundle.definition)||!Array.isArray(bundle.resources)||typeof bundle.sha256Jcs!=='string'||Object.keys(bundle).some(key=>!['format','bundleVersion','sha256Jcs','definition','resources'].includes(key))||
+        sha256Canonical(bundle.definition)!==bundle.sha256Jcs)
+        throw new ContentError('A2G_E_RELEASE_INTEGRITY','内容包的格式、内容 SHA 或资源清单不符。',422,'integrity');
+      let expected;try{expected=assetPolicy.resolve(bundle.definition);}catch(error){if(error instanceof TypeError)throw new ContentError('A2G_E_RELEASE_INTEGRITY','内容包资源结构无效。',422,'integrity');throw error;}
+      if(sha256Canonical(bundle.resources)!==sha256Canonical(expected))throw new ContentError('A2G_E_RESOURCE_INTEGRITY','内容包资源清单不符。',422,'integrity');
+      // Sender metadata never grants trust: the receiving host performs its complete admission again.
+      return this.release(JSON.stringify(bundle.definition),text);
+    },
+    readAsset(digest){assertDigest(digest);assertContext();return assetPolicy.readDigest(digest);},
     get size(){return store?.count()??records.size;}
   };
 }

@@ -3,7 +3,7 @@
 按以下顺序阅读并执行：`README.md` → `PROJECT-PLAN.md` → `PROJECT-STATUS.md` → `project/status.json` → 对应 `specs/v0.1/docs/*.md` → 源码与测试。若存在宿主或用户更高优先级指令，优先遵守；不得以此文件绕过权限要求。
 
 1. **版本**：工作区发行 `1.0.0`；实际 npm 版本 `1.0.0`；GameSpec/Capability Protocol `0.1.0`。协议现位于 `specs/v0.1/`；保留历史协议内容和旧 `v03-*` 证据，禁止混淆发行版本与协议版本。
-2. **状态**：当前 S3 已交付本地动态 JSON 完整准入/持久化回执及真实双 SDK 导入与服务重启子集，整体 S3 仍 PARTIAL；S2 四份 `scene2d` G2 保持独立回执。G1 全目录 PARTIAL；G3、真机 Touch/IMU 仍 NOT_RUN。不得改写成全量完成，现行状态以 `project/status.json` 为准。
+2. **状态**：S3 当前宿主 Profile 的完整准入、审核资源、持久化回执和可传输内容包已通过，下一主线 S4；S2 四份 `scene2d` G2 保持独立回执。G1 全目录 PARTIAL；G3、真机 Touch/IMU 仍 NOT_RUN。不得把局部 Profile 或参考样例改写成全量完成，现行状态以 `project/status.json` 为准。
 3. **架构**：AI 输出 JSON；全 Schema + Capability 检查；共享 Headless Tick/Rules/State；Host 只消费 PresentationFrame/注入输入。禁止按游戏名在 Adapter 实现玩法、禁止执行 JSON 任意脚本。
 4. **范围**：完整范围包括 32 Gxx + 5 Hxx、Touch/IMU、多点触控、2D/3D/物理、Puzzle/Realtime/Combat/Strategy/Economy/Turn-Based、Agent 生成与 Conformance；不能因当前示例有限就删掉未来目标。
 5. **实施**：改前看差异；小步增量，保留用户内容；新增 Capability 必须补 Manifest、GameSpec、Schema/语义检查、正反例、Conformance、Host 支持和 Coverage receipt；先证据后升级状态。

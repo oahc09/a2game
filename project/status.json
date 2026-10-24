@@ -8,9 +8,9 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S3",
-  "currentObjective": "Local dynamic JSON admission and persistent receipts verified across server process restarts; continue S3 asset provenance/integrity and remote delivery before S4 expansion.",
-  "nextStage": "S4",
+  "currentStage": "S4",
+  "currentObjective": "Implement versioned 2D/3D visual capabilities, textures, animation, particles and audio with real dual-SDK lifecycle evidence.",
+  "nextStage": "S5",
   "stages": [
     {
       "id": "S0",
@@ -31,8 +31,12 @@
     {
       "id": "S3",
       "name": "Dynamic AI JSON validation and release pipeline",
-      "status": "PARTIAL",
-      "scope": "scene2d-local-release-v1 local persistent receipts, full revalidation on restore and real dual-SDK process-restart proof; remote publishing and assets pending"
+      "status": "PASS",
+      "scope": "Current scene2d-trusted-assets-v1 host profile: full Schema/semantics/capabilities, approved-source assets with byte integrity, persistent receipts, receiving-host revalidation and portable bundle delivery. New gameplay/Host capabilities are independently gated.",
+      "evidence": {
+        "content": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
+        "verification": "reports/verify-2026-10-24T13-16-53-498Z-45848/verify.log"
+      }
     },
     {
       "id": "S4",
@@ -123,7 +127,7 @@
     "referenceCapabilityManifests": 11
   },
   "blockingItems": [
-    "Remote release delivery and asset provenance/integrity admission not implemented; local scene2d profile rejects assets and unsupported host features",
+    "S4 extended 2D/3D presentation and further gameplay capabilities not implemented",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
   ],
@@ -147,8 +151,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T13-03-38-642Z-47780",
-    "summary": "reports/g2-2026-10-24T13-03-38-642Z-47780/summary.json",
+    "runId": "g2-2026-10-24T13-15-30-881Z-50512",
+    "summary": "reports/g2-2026-10-24T13-15-30-881Z-50512/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -178,14 +182,14 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/s3-persistence-2026-10-24T12-57-26-272Z/verify.log",
-    "conformanceReceipt": "reports/s3-persistence-2026-10-24T12-57-26-272Z/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T13-03-38-642Z-47780/summary.json",
-    "contentSummary": "reports/content-2026-10-24T13-03-06-871Z-54276/summary.json",
+    "log": "reports/verify-2026-10-24T13-16-53-498Z-45848/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T13-16-53-498Z-45848/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T13-15-30-881Z-50512/summary.json",
+    "contentSummary": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 63,
-      "total": 63
+      "pass": 64,
+      "total": 64
     },
     "conformance": {
       "pass": 12,
@@ -259,9 +263,9 @@
   },
   "contentRun": {
     "date": "2026-10-24",
-    "profile": "scene2d-local-release-v1",
+    "profile": "scene2d-trusted-assets-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T13-03-06-871Z-54276/summary.json",
+    "summary": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -270,11 +274,13 @@
     "nodeThreeAirParity": "PASS",
     "scope": "Uncatalogued three-tap JSON, keyboard/pointer, rejection recovery, backend switch, HTTP server process exit/restart with identical receipt and initial hash",
     "limitations": [
-      "No assets, remote publishing, signing, multi-writer coordination or complete G3 coverage",
-      "Chromium mobile viewport is not real-device Touch/IMU; WebGL2 uses SwiftShader",
-      "Atomic rename on local filesystem; no power-loss durability guarantee"
+      "Only deployment-approved assets; portable bundles require matching approved resources on the receiver",
+      "No sender signing, remote account service, automatic deployment or multi-writer storage",
+      "Chromium/SwiftShader evidence is not physical GPU or real-device Touch/IMU"
     ],
     "persistentRestart": "PASS",
-    "storage": "Private .a2game/releases/<contextDigest>/<sha256Jcs>.json; A2GAME_CONTENT_DIR override; one writer process per directory"
+    "storage": "Private .a2game/releases/<contextDigest>/<sha256Jcs>.json; A2GAME_CONTENT_DIR override; one writer process per directory",
+    "trustedAssets": "PASS",
+    "bundleTransfer": "PASS"
   }
 }

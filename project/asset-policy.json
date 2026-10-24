@@ -1,0 +1,26 @@
+{
+  "format": "a2game-asset-policy",
+  "version": 1,
+  "maxAssets": 32,
+  "maxTotalBytes": 8388608,
+  "entries": [
+    {
+      "uri": "assets/checker.png",
+      "type": "image",
+      "mime": "image/png",
+      "bytes": 186,
+      "integrity": "sha256-95fQz2yMd8orJyPIwNTr5UDC19WsxPj4vZSsTuo1SaI=",
+      "source": "Repository-authored procedural fixture",
+      "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/tone.wav",
+      "type": "audio",
+      "mime": "audio/wav",
+      "bytes": 3244,
+      "integrity": "sha256-HFY/wPVI+NrfP8ouN2E9H38zTPn8a4DE2w3IqklLWzw=",
+      "source": "Repository-authored procedural fixture",
+      "license": "CC0-1.0"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S3——动态 AI JSON 本地完整准入与持久化回执。** S2 真实双引擎四样例 `scene2d` G2 已通过；动态内容经完整 Schema/语义/能力检查后导入，本地回执支持服务重启后重新校验并加载。S3 的远程发布及资源管理仍待实现，32+5 玩法、真机和 Agent 另行验收。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)，导入契约见 [content-release.md](docs/content-release.md)。
+> **当前阶段：S4——版本化表现与资源生命周期。** S2 真实双引擎四样例 `scene2d` G2 已通过；动态内容经完整 Schema/语义/能力检查后导入，本地回执支持服务重启后重新校验并加载。S3 已补齐审核资源和可传输内容包，下一主线为 S4，32+5 玩法、真机和 Agent 另行验收。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)，导入契约见 [content-release.md](docs/content-release.md)。
 
 ## 一、先看能运行什么
 
@@ -88,7 +88,7 @@ npm run player:serve
 
 默认 `tap-target` 可直接点击画布或按空格；顶部“游戏”切换其他 JSON，方向键/滑动/页面方向键控制网格玩法。右侧显示状态、Tick 与 SHA-256 exact 状态哈希。“重新开始”重置一局，“暂停/继续”控制游戏时间。
 
-点击“导入游戏 JSON”可运行未加入内置白名单的新定义。文件先由同源本地服务完成完整 Draft 2020-12、组件/绑定配置、引用/能力及宿主策略校验，再按带 SHA256 的回执加载；失败显示错误码与 JSON Pointer，并保留当前游戏。当前支持已有能力内的单场景 `scene2d`、Keyboard/Tap/Swipe，资源或未实现能力明确拒绝。文件上限 256 KiB，回执默认保存在 `.a2game/releases/`（不入库）；相同环境下服务重启后仍可加载，环境改变须重新导入。自定义目录和恢复规则见[本地内容准入](docs/content-release.md)。
+点击“导入游戏 JSON”可运行未加入内置白名单的新定义。文件先由同源本地服务完成完整 Draft 2020-12、组件/绑定配置、引用/能力及宿主策略校验，再按带 SHA256 的回执加载；失败显示错误码与 JSON Pointer，并保留当前游戏。当前支持已有能力内的单场景 `scene2d`、Keyboard/Tap/Swipe，未审核资源或未实现能力明确拒绝。文件上限 256 KiB，回执默认保存在 `.a2game/releases/`（不入库）；相同环境下服务重启后仍可加载，环境改变须重新导入。自定义目录和恢复规则见[本地内容准入](docs/content-release.md)。
 
 **退出：** PowerShell 中按 `Ctrl+C`。如果端口被占用，可在启动前使用：
 
@@ -225,8 +225,8 @@ a2game/
 
 ## 八、当前完成情况和下一个可执行任务
 
-**当前验证**：63/63 Node、12/12 JSON Conformance、7 Schema/27 文档、4 游戏目录 PASS；真实双 SDK HTTP Chromium G2 四样例子集 PASS（16+2 场景，8 组跨引擎 Hash 一致）。新增动态 JSON 变体也通过两端导入、Node Hash、负例恢复、后端切换及实际服务进程重启后加载，见[动态内容回执](reports/content-2026-10-24T13-03-06-871Z-54276/summary.json)。原 G2 证据见 [Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。旧隔离环境的 HTTP 策略阻塞记录保留于 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，不代表本次环境。
+**当前验证**：64/64 Node、12/12 JSON Conformance、7 Schema/27 文档、4 游戏目录 PASS；真实双 SDK HTTP Chromium G2 四样例子集 PASS（16+2 场景，8 组跨引擎 Hash 一致）。新增动态 JSON 变体也通过两端导入、Node Hash、负例恢复、后端切换及实际服务进程重启后加载，见[动态内容回执](reports/content-2026-10-24T13-13-36-731Z-49356/summary.json)。原 G2 证据见 [Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。旧隔离环境的 HTTP 策略阻塞记录保留于 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，不代表本次环境。
 
 **未完成/未验证**：远程可信发布与资源下载管理、多进程存储配额；Sprite/Mesh/Camera/Particles/Audio；三消与塔防/射击完整模块；物理 GPU、多点/IMU 真机；32+5 全量玩法；Agent G3。
 
-**下一步**：继续 S3 资源来源与完整性管理、远程交付策略，再按版本化 Capability 扩展 S4 表现与资源生命周期；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。
+**下一步**：按版本化 Capability 扩展 S4 表现与资源生命周期；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。

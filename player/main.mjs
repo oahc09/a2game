@@ -4,6 +4,7 @@ import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {ThreeAdapter} from './adapters/three-adapter.mjs';
 import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
 import {loadBuiltinGame,loadReleasedGame,importGameFile} from './content-loader.mjs';
+import {ResourceScope} from './resources.mjs';
 
 const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
@@ -18,7 +19,7 @@ const listeners=new AbortController();
 const listen=(target,type,callback)=>target.addEventListener(type,callback,{signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,raf,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+let runtime,adapter,definition,resources,raf,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 const showError=e=>{errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  const canvas=dom.GameCanvas;
@@ -126,13 +127,14 @@ function bindInputs(){
 function dispose(){
  if(disposal)return disposal;
  if(raf)cancelAnimationFrame(raf);listeners.abort();runtime?.dispose();
- disposal=Promise.resolve().then(()=>adapter?.dispose());return disposal;
+ disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>resources?.dispose());return disposal;
 }
 async function main(){
  try{
    const registry=await createBrowserRegistry();
    if(releaseId){
      const released=await loadReleasedGame(releaseId,registry);definition=released.definition;
+     resources=new ResourceScope(released.resources);await resources.load();
      const option=document.createElement('option');option.value='imported';option.textContent=`导入：${definition.meta.title}`;
      dom.game.appendChild(option);dom.game.value='imported';
      document.getElementById('importStatus').textContent='已校验并加载；本地发布已保存。';
@@ -148,7 +150,7 @@ async function main(){
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});
    window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
-     backend:backendName,dispose,diagnostics:()=>({contextState,adapter:adapter.diagnostics?.(),listenersActive:!listeners.signal.aborted})};
+     backend:backendName,dispose,diagnostics:()=>({contextState,adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.step=ticks=>{const result=runtime.step(ticks);record('step',{ticks});if(contextState==='healthy')render();return result;};
@@ -163,6 +165,13 @@ async function main(){
  }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
 window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
+const exportButton=document.getElementById('exportGame');exportButton.disabled=!releaseId;
+exportButton.addEventListener('click',async()=>{
+ try{
+   const response=await fetch(`/api/releases/${releaseId}/bundle`);if(!response.ok)throw Error('无法导出内容包，请检查回执状态。');
+   const url=URL.createObjectURL(await response.blob()),link=document.createElement('a');link.href=url;link.download=`${releaseId}.a2game.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }catch(error){document.getElementById('importStatus').textContent=`导出失败：${error.message}`;}
+});
 // Available even when a previous release expired or an SDK failed to start.
 document.getElementById('importGame').addEventListener('change',async event=>{
  const input=event.target,file=input.files?.[0],status=document.getElementById('importStatus');if(!file)return;

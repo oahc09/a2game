@@ -64,6 +64,22 @@ test('missing full validator never substitutes the semantic subset or creates a 
 });
 function resolveMissingPython(){return `${spec}/tools/nonexistent-python-for-admission-test`;}
 
+test('approved resource bytes and portable bundles are independently validated by the receiving host',async()=>{
+  const policy=readJson(join(root,'project/asset-policy.json')),definition=game();
+  const entry=policy.entries[0];definition.assets={icon:{uri:entry.uri,type:entry.type,integrity:entry.integrity}};
+  const receipt=await service.release(JSON.stringify(definition)),envelope=await service.read(receipt.sha256Jcs);
+  assert.equal(envelope.resources.length,1);assert.equal(envelope.resources[0].bytes,entry.bytes);
+  const asset=await fetch(origin+envelope.resources[0].href);assert.equal(asset.status,200);assert.equal((await asset.arrayBuffer()).byteLength,entry.bytes);
+  assert.equal((await fetch(origin+'/assets/checker.png')).status,404);
+  const bundle=await service.exportBundle(receipt.sha256Jcs),receiver=createContentService();
+  const accepted=await receiver.importBundle(JSON.stringify(bundle));assert.equal(accepted.sha256Jcs,receipt.sha256Jcs);assert.equal(receiver.size,1);
+  const corrupt=structuredClone(bundle);corrupt.definition.meta.title='tampered';
+  await assert.rejects(()=>receiver.importBundle(JSON.stringify(corrupt)),{code:'A2G_E_RELEASE_INTEGRITY'});
+  const invalid=structuredClone(definition);invalid.assets.icon.integrity='sha256-'+Buffer.alloc(32).toString('base64');
+  await assert.rejects(()=>service.release(JSON.stringify(invalid)),{code:'A2G_E_RESOURCE_INTEGRITY'});
+  await assert.rejects(()=>createContentService({python:resolveMissingPython()}).importBundle(JSON.stringify(bundle)),{code:'A2G_E_VALIDATOR_UNAVAILABLE'});
+});
+
 test('persistent releases survive a new service, retain receipts, revalidate on restore and preserve capacity',async()=>{
   // Use the workspace filesystem, which may be exFAT rather than the system temp volume's NTFS.
   mkdirSync(join(root,'.tools'),{recursive:true});
@@ -71,7 +87,7 @@ test('persistent releases survive a new service, retain receipts, revalidate on 
   const original=createContentService({storageDirectory,maxReleases:1}),definition=game();
   const receipt=await original.release(JSON.stringify(definition)),digest=receipt.sha256Jcs;
   const restored=createContentService({storageDirectory,maxReleases:1});
-  assert.equal(restored.size,1);assert.deepEqual(await restored.read(digest),{receipt,definition});
+  assert.equal(restored.size,1);assert.deepEqual(await restored.read(digest),{receipt,definition,resources:[]});
   assert.deepEqual(await restored.release(JSON.stringify(definition)),receipt);
   const different=game();different.meta.title='second release';
   await assert.rejects(()=>restored.release(JSON.stringify(different)),{code:'A2G_E_RELEASE_CAPACITY'});

@@ -96,7 +96,7 @@ for(const [gate, receipt] of [
 if(status.gates.G0BrowserDynamicJson==='PASS'){
   try{
     const evidence=read(status.contentRun.summary);
-    insist(evidence.format==='a2game-content-admission-browser'&&evidence.status==='PASS'&&evidence.profile==='scene2d-local-release-v1','Dynamic JSON gate requires a PASS real-browser receipt');
+    insist(evidence.format==='a2game-content-admission-browser'&&evidence.status==='PASS'&&evidence.profile===status.contentRun.profile,'Dynamic JSON gate requires a PASS real-browser receipt for the declared profile');
     insist(evidence.unchanged&&evidence.physicalClose==='PASS'&&evidence.nodeThreeAirParity,'Dynamic JSON evidence must close cleanly with matching Node/Host hashes');
     insist(evidence.cases.length===2&&new Set(evidence.cases.map(item=>item.backend)).size===2,'Dynamic JSON must run in both real SDKs');
     for(const item of evidence.cases){
@@ -105,6 +105,7 @@ if(status.gates.G0BrowserDynamicJson==='PASS'){
       insist(result.final.exactHash===result.node.exactHash&&result.release.receipt.sha256Jcs===evidence.sha256Jcs,`Content/hash proof differs: ${item.backend}`);
       insist(result.rejections.some(row=>row.code==='A2G_E_SCHEMA')&&result.rejections.some(row=>row.code==='A2G_E_CAP_UNKNOWN'),`Missing content rejection proof: ${item.backend}`);
       if(status.contentRun.persistentRestart==='PASS')insist(evidence.persistentRestart&&result.persistentRestart?.status==='PASS'&&result.persistentRestart.previousPid!==result.persistentRestart.pid&&result.persistentRestart.receiptUnchanged&&result.persistentRestart.inputAfterRestart==='PASS',`Missing persistent restart proof: ${item.backend}`);
+      if(status.contentRun.trustedAssets==='PASS')insist(result.resources?.ownedResources===2&&result.resources.decodedImages===1&&result.resourceRelease?.ownedResources===0&&result.resourceRelease.disposed&&result.bundleTransfer?.status==='PASS',`Missing approved assets/bundle/lifecycle proof: ${item.backend}`);
     }
     for(const [path,digest] of Object.entries(read(evidence.fingerprints))){
       const file=resolve(root,path);insist(file.startsWith(root+sep)&&/^[a-f0-9]{64}$/.test(digest),`Invalid content fingerprint ${path}`);

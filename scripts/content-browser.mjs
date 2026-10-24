@@ -4,7 +4,7 @@ import {readFileSync,writeFileSync,mkdirSync,readdirSync,appendFileSync} from 'n
 import {createHash} from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {chromium} from 'playwright';
-import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
+import {HeadlessRuntime,sha256Canonical,CONTENT_PROFILE} from '../dist/index.js';
 import {makeRegistry,readJson,spec,root} from './registry.mjs';
 import {resolve} from 'node:path';
 
@@ -14,13 +14,14 @@ const storageDirectory=resolve(root,'.tools',runId,'releases');
 const save=(name,data)=>writeFileSync(resolve(directory,name),JSON.stringify(data,null,2)+'\n');
 const files=directory=>readdirSync(resolve(root,directory),{withFileTypes:true}).flatMap(item=>item.isDirectory()?files(`${directory}/${item.name}`):[`${directory}/${item.name}`]);
 const code=['scripts/content-browser.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/serve.mjs',
-  'scripts/registry.mjs','player/content-loader.mjs','player/main.mjs','player/index.html','player/browser-registry.mjs',
+  'scripts/registry.mjs','scripts/asset-policy.mjs','project/asset-policy.json','player/resources.mjs','player/content-loader.mjs','player/main.mjs','player/index.html','player/browser-registry.mjs',...files('assets'),
   ...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('specs/v0.1/schemas'),...files('specs/v0.1/samples/capabilities')];
 const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex');
 const fingerprints=Object.fromEntries(code.map(path=>[path,hash(path)]));save('fingerprints.json',fingerprints);
 const game=readJson(resolve(spec,'samples/games/tap-target.game.json'));
 game.id='org.a2game.imported.three-taps';game.revision=1;game.meta.title='动态导入 · 三次点击获胜';
 game.state.goal.initial=3;game.presentation.scene2d.nodes.find(node=>node.id==='title').text.literal='Imported / Three taps';
+game.assets=Object.fromEntries(readJson(resolve(root,'project/asset-policy.json')).entries.map((entry,index)=>[`fixture${index}`,{uri:entry.uri,type:entry.type,integrity:entry.integrity}]));
 save('input.game.json',game);
 const payload=value=>({name:'imported.game.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(value))});
 const cases=[];let browser,server,origin,browserVersion,failure,physicalClose;
@@ -68,6 +69,7 @@ try{
       await upload(page,game);
       result.release=await (await context.request.get(`${origin}/api/releases/${sha256Canonical(game)}`)).json();
       assert.equal(result.release.receipt.status,'PASS');assert.deepEqual(result.release.definition,game);
+      result.resources=await page.evaluate(()=>window.__a2game.diagnostics().resources);assert.equal(result.resources.ownedResources,2);assert.equal(result.resources.decodedImages,1);
       assert.equal(await page.locator('#game').inputValue(),'imported');
       assert.match(await page.locator('#importStatus').textContent(),/已校验并加载/);
       result.initial=await page.evaluate(()=>window.__a2game.getState());
@@ -81,6 +83,15 @@ try{
         result.node=node.observe();assert.equal(result.final.exactHash,result.node.exactHash);
       }finally{node.dispose();}
       const path=resolve(directory,`${backend}-imported.png`);await page.screenshot({path,fullPage:true});result.screenshot=`reports/${runId}/${backend}-imported.png`;
+      const downloadPromise=page.waitForEvent('download');await page.locator('#exportGame').click();const download=await downloadPromise;
+      const bundle=JSON.parse(readFileSync(await download.path(),'utf8'));assert.equal(bundle.sha256Jcs,sha256Canonical(game));
+      save(`${backend}.bundle.json`,bundle);
+      await Promise.all([page.waitForNavigation(),page.locator('#importGame').setInputFiles(payload(bundle))]);await ready(page);
+      assert.equal((await page.evaluate(()=>window.__a2game.getState())).exactHash,result.initial.exactHash);
+      // Re-establish the final hash before checking that rejected content leaves the running game intact.
+      for(let i=0;i<3;i++){await page.keyboard.press('Space');await page.evaluate(()=>window.__a2game.step(1));}
+      const beforeRejection=await page.evaluate(()=>window.__a2game.getHash());
+      result.bundleTransfer={status:'PASS',sha256Jcs:bundle.sha256Jcs,resources:bundle.resources.length};
       result.rejections=[];
       for(const [expected,change] of [
         ['A2G_E_SCHEMA',invalid=>{invalid.presentation.hud[0].arbitrary=true;}],
@@ -89,7 +100,7 @@ try{
         const invalid=structuredClone(game);change(invalid);
         await page.locator('#importGame').setInputFiles(payload(invalid));
         await page.waitForFunction(code=>document.getElementById('importStatus').textContent.includes(code),expected);
-        assert.equal(await page.evaluate(()=>window.__a2game.getHash()),result.final.exactHash);
+        assert.equal(await page.evaluate(()=>window.__a2game.getHash()),beforeRejection);
         result.rejections.push({code:expected,feedback:await page.locator('#importStatus').textContent()});
       }
       // A failed import must leave the picker usable; admitting the original content works again.
@@ -109,7 +120,7 @@ try{
       await page.keyboard.press('Space');await page.evaluate(()=>window.__a2game.step(1));
       assert.equal((await page.evaluate(()=>window.__a2game.getState())).state.score,1);
       result.persistentRestart={status:'PASS',previousPid,pid:server.pid,stopped,receiptUnchanged:true,initialHash:afterRestart.exactHash,inputAfterRestart:'PASS'};
-      await page.evaluate(()=>window.__a2game.dispose());assert.deepEqual(result.errors,[]);
+      await page.evaluate(()=>window.__a2game.dispose());result.resourceRelease=await page.evaluate(()=>window.__a2game.diagnostics().resources);assert.equal(result.resourceRelease.ownedResources,0);assert.equal(result.resourceRelease.disposed,true);assert.deepEqual(result.errors,[]);
       assert.ok(result.messages.every(message=>/status of 422/.test(message)),'Unexpected console error');result.status='PASS';
     }catch(error){result.failure=String(error);result.stack=error.stack;}
     finally{await context.tracing.stop({path:resolve(directory,`${backend}-trace.zip`)});await context.close();save(`${backend}.json`,result);}
@@ -124,7 +135,7 @@ const unchanged=Object.entries(fingerprints).every(([path,digest])=>hash(path)==
 const parity=cases.length===2&&cases[0].final?.exactHash&&cases[0].final.exactHash===cases[1].final?.exactHash;
 const persistentRestart=cases.length===2&&cases.every(item=>item.persistentRestart?.status==='PASS');
 const status=!failure&&unchanged&&parity&&persistentRestart&&physicalClose==='PASS'&&cases.every(item=>item.status==='PASS')?'PASS':'FAIL';
-save('summary.json',{format:'a2game-content-admission-browser',runId,status,profile:'scene2d-local-release-v1',browser:browserVersion,
+save('summary.json',{format:'a2game-content-admission-browser',runId,status,profile:CONTENT_PROFILE,browser:browserVersion,
   unchanged,physicalClose,nodeThreeAirParity:parity,persistentRestart,serverStops,sha256Jcs:sha256Canonical(game),failure,
   fingerprints:`reports/${runId}/fingerprints.json`,sdk:`reports/${runId}/sdk-provenance.json`,
   cases:cases.map(item=>({backend:item.backend,status:item.status,receipt:`reports/${runId}/${item.backend}.json`,screenshot:item.screenshot}))});
