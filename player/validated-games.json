@@ -19,6 +19,66 @@
       "revision": 1,
       "sha256Jcs": "ff0b6aa995aae67560d1031a15a35ac63f70eb78de662df2b2eff3e0b0e6d3e2"
     },
+    "/specs/v0.1/samples/games/puzzle-arrows.game.json": {
+      "id": "org.a2game.samples.puzzle-arrows",
+      "revision": 1,
+      "sha256Jcs": "03a7a238a71bc9de8ac705b69bb1f88bad4763b3a44216b4620d046178fb39a3"
+    },
+    "/specs/v0.1/samples/games/puzzle-connected.game.json": {
+      "id": "org.a2game.samples.puzzle-connected",
+      "revision": 1,
+      "sha256Jcs": "af3ba886d8a11568e4500aeef42d2f7398d1f348c73f9b1ce3d6f0350cfda0a6"
+    },
+    "/specs/v0.1/samples/games/puzzle-falling.game.json": {
+      "id": "org.a2game.samples.puzzle-falling",
+      "revision": 1,
+      "sha256Jcs": "0503ed628967d9e78f11996efdf72dd66bd0cb99391f36f960b36f133339caf8"
+    },
+    "/specs/v0.1/samples/games/puzzle-mahjong.game.json": {
+      "id": "org.a2game.samples.puzzle-mahjong",
+      "revision": 1,
+      "sha256Jcs": "cfd4b89e5414945cfb5aee41cd4f7bc863becbefb3446998a9f9215bfda77148"
+    },
+    "/specs/v0.1/samples/games/puzzle-match.game.json": {
+      "id": "org.a2game.samples.puzzle-match",
+      "revision": 1,
+      "sha256Jcs": "93d0cd3bd4cd3e96c1ccebf31c90d2fa0c4c3687dfa75d8ea8d8bc9e09831ce1"
+    },
+    "/specs/v0.1/samples/games/puzzle-memory.game.json": {
+      "id": "org.a2game.samples.puzzle-memory",
+      "revision": 1,
+      "sha256Jcs": "2e31a69199fb8ec4dde38c13678cc7839b7d493a73f1b4f42daf82c1f51a7d0c"
+    },
+    "/specs/v0.1/samples/games/puzzle-placement.game.json": {
+      "id": "org.a2game.samples.puzzle-placement",
+      "revision": 1,
+      "sha256Jcs": "01536b2251f0c7d81f6749285d53ce0d1cc97ca367beaf7248f5f485de76233e"
+    },
+    "/specs/v0.1/samples/games/puzzle-polyomino.game.json": {
+      "id": "org.a2game.samples.puzzle-polyomino",
+      "revision": 1,
+      "sha256Jcs": "727297e6a0a86b2cea1402dfb4f6c675644ce4d1e04c1112d7ce1055d6964252"
+    },
+    "/specs/v0.1/samples/games/puzzle-push-undo.game.json": {
+      "id": "org.a2game.samples.puzzle-push-undo",
+      "revision": 1,
+      "sha256Jcs": "0d9c423a88ee45cf5932c407abcfe8717b14b2d15b99cf59b4ae22077f18087a"
+    },
+    "/specs/v0.1/samples/games/puzzle-slide-undo.game.json": {
+      "id": "org.a2game.samples.puzzle-slide-undo",
+      "revision": 1,
+      "sha256Jcs": "b553d07bc067cfa38e94b2b5b0724dacea053073b85c6f00d7589ce054c695f4"
+    },
+    "/specs/v0.1/samples/games/puzzle-sort.game.json": {
+      "id": "org.a2game.samples.puzzle-sort",
+      "revision": 1,
+      "sha256Jcs": "5d37e72bd3e27f2e159db97809bd48ea12c6c4a7e7cc6d7d256558f479651606"
+    },
+    "/specs/v0.1/samples/games/puzzle-tray.game.json": {
+      "id": "org.a2game.samples.puzzle-tray",
+      "revision": 1,
+      "sha256Jcs": "df70ac8281623b4905201103e8fae1c3dfb754bd53953c8937af820d8cb89123"
+    },
     "/specs/v0.1/samples/games/tap-target.game.json": {
       "id": "org.a2game.samples.tap-target",
       "revision": 2,

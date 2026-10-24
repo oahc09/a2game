@@ -10,7 +10,17 @@
 
 **S3 — 当前宿主 Profile 的完整准入、审核资源与可传输内容包已交付；下一主线 S5。** S0 的协议/测试设计已具备；S1 的 Headless 参考子集已通过，但完整 Gameplay Library 和完整 G1 都未完成。真实 Three.js / CocosAirJS 已在 HTTP Chromium 中执行相同四份 JSON，并核对输入、exactHash、画面与资源生命周期。S4–S11 均不得默认为已实现；32 Gxx/5 Hxx verified 仍为 0。
 
+## S5 益智与休闲机制交付（2026-10-24）
+
+共享库增加交换匹配/级联补位、遮挡托盘、麻将/记忆翻牌、方向射线、拼块旋转/消行/下落、目标归位、颜色分类、连通消除及推箱/滑动撤销。所有逻辑在 Runtime，Host 仅通用绘制和输入。合同见 [Puzzle Library](specs/v0.1/docs/12-Puzzle-Library-V0.1.md)。
+
+- 12 份参考 JSON、28 份新 Manifest（共 17 游戏/40 Manifest）；70/70 Node、25/25 Conformance（19 套）、7 Schema/82 文档通过。日志：[verify.log](reports/verify-2026-10-24T14-20-52-831Z-16536/verify.log)。
+- 真实 Three.js/CocosAirJS 各 12 场景通过，共 24 场景/12 组跨引擎 Hash；输入、暂停、胜利、重开与自有资源释放均验证，截图已查看。[回执](reports/puzzles-2026-10-24T14-22-27-662Z-50412/summary.json)。首轮夹具缺少必填 genres 的拒绝记录保留，归因 AGENT_FIXTURE_SCHEMA，已修复生成器并完整重跑。
+- 本版既有内容/资源/包交付、透视/正交 Stage 及四游戏 G2 16+2 场景均复验通过。RNG 撤销限单行为场景；组合使用整 Session 快照。格子按钮不构成拖动/真实 Touch 验收，32+5 verified 仍为 0。
+
 ## S4 版本化通用表现交付（2026-10-24）
+
+S5 参考机制交付及本版 S2/S4 回归均已通过；当前回执以 `project/status.json` 为准。
 
 仓库验证全部 PASS：66/66 Node、13/13 Conformance、7 Schema/30 文档。日志：[reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log](reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log)；能力覆盖：[reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json](reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json)。
 
@@ -89,7 +99,7 @@
 | G0 预校验样例 | **PASS（样例范围）** | 7 Schema / 27 文档历史回执；每次发布重新 `npm run schema:full` |
 | G0 浏览器动态 AI JSON | **PASS（本地 scene2d Profile）** | 完整 Draft 2020-12、组件/绑定配置、语义/能力与宿主策略；同源持久化回执及重启后完整校验，见本轮 S3 证据；资源和远程发布待做 |
 | G1 Headless 参考子集 | **PASS（子集）** | 历史 54/54 Node、6 套 12/12 Conformance；本次重验见 `reports/release-1.0.0-validation.json`（生成后） |
-| G1 完整能力目录 | **PARTIAL** | 目前仅两种棋盘机制 + 点击参考，其余仍需实现 |
+| G1 完整能力目录 | **PARTIAL** | 益智参考机制已交付；实时/策略及全 Gxx/Hxx 仍需验收 |
 | Browser + Canvas2D | **PASS（历史 5 场景）** | `reports/browser-core-smoke.json`；不是实际 SDK G2 |
 | Node↔Chromium ExactHash | **PASS（历史 5 场景）** | `reports/browser-node-parity.json`；不包含物理/GPU 验收 |
 | G2 CocosAirJS 真 SDK | **PASS（四样例 scene2d）** | `reports/g2-cocosairjs-real.json`；8 场景 + 原生时钟/context loss；不包括真机输入或完整引擎卸载 |
@@ -104,8 +114,8 @@
 | CoverageRegistry 候选游戏 | 32 | G01–G32，`status: planned`，保留冻结分母 |
 | 已完整 verified 游戏 | 0/32 | 实现参考功能不替代 G0+G1+G2+G3 玩法 Gate |
 | 独立混合玩法 | 0/5 | H01–H05 尚未创建各自完整 GameSpec/Conformance |
-| 已交付样例游戏 JSON | 5 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
-| 已声明参考 Capability | 12 | Capability Manifest 数量不代表标准库完成度 |
+| 已交付样例游戏 JSON | 17 | 当前 Headless/Canvas2D/真实双 SDK 的 scene2d 参考验证 |
+| 已声明参考 Capability | 40 | Capability Manifest 数量不代表标准库完成度 |
 
 ## 下一轮的具体执行目标（S3/S4）
 

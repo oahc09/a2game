@@ -57,6 +57,7 @@
     <aside>
       <section><h2>Game state</h2><div class="stat" id="score">—</div><div id="status">INITIALIZING</div></section><div class="divider"></div>
       <section><h2>输入控制</h2><div class="pad"><div class="blank"></div><button data-action="moveUp" aria-label="Up">↑</button><div class="blank"></div><button data-action="moveLeft" aria-label="Left">←</button><button data-action="collect" aria-label="Collect">●</button><button data-action="moveRight" aria-label="Right">→</button><div class="blank"></div><button data-action="moveDown" aria-label="Down">↓</button><div class="blank"></div></div></section>
+      <section id="extraActions" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px"></section>
       <section><h2>确定性状态哈希 · SHA-256</h2><div class="mono" id="hash">—</div></section>
       <section><h2>执行信息</h2><div class="mono" id="trace">—</div></section>
       <section><div id="error" role="alert"></div></section>

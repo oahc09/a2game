@@ -1,0 +1,385 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.samples.puzzle-slide-undo",
+  "revision": 1,
+  "meta": {
+    "title": "种子随机补位测试 · 撤销",
+    "description": "通过四方向操作合并相同数字，展示底层玩法原语跨引擎独立执行。",
+    "genres": [
+      "puzzle",
+      "casual"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.slide",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.swipe",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "boardController",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.slide",
+                "version": "0.1.0"
+              },
+              "config": {
+                "width": 4,
+                "height": 4,
+                "boardPath": "/board",
+                "bestPath": "/best",
+                "spawnCount": 1,
+                "actions": {
+                  "left": "moveLeft",
+                  "right": "moveRight",
+                  "up": "moveUp",
+                  "down": "moveDown"
+                },
+                "historyPath": "/history",
+                "undoAction": "undo"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "board": {
+      "type": "array",
+      "initial": [
+        2,
+        2,
+        2,
+        2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "best": {
+      "type": "int",
+      "initial": 2
+    },
+    "goal": {
+      "type": "int",
+      "initial": 32
+    },
+    "history": {
+      "type": "array",
+      "initial": []
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "moveLeft",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "left",
+              "minDistanceNorm": 0.12,
+              "maxDurationUs": 1200000
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveRight",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "right",
+              "minDistanceNorm": 0.12,
+              "maxDurationUs": 1200000
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveUp",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "up",
+              "minDistanceNorm": 0.12,
+              "maxDurationUs": 1200000
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveDown",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "down",
+              "minDistanceNorm": 0.12,
+              "maxDurationUs": 1200000
+            }
+          }
+        ]
+      },
+      {
+        "id": "undo",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyZ"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "disabled"
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "reach-goal",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/best"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "best",
+        "kind": "text",
+        "text": "合并最高数字",
+        "bind": {
+          "text": {
+            "template": "Max tile: {0}",
+            "args": [
+              {
+                "state": "/best"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "back",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.15
+          ],
+          "fill": "#202f46",
+          "size": [
+            4.6,
+            4.6
+          ]
+        },
+        {
+          "id": "caption",
+          "kind": "text",
+          "at": [
+            -1.7,
+            2.55
+          ],
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "A2Game / 2048"
+          },
+          "fontSize": 0.31
+        },
+        {
+          "id": "best",
+          "kind": "text",
+          "at": [
+            2.3,
+            2.55
+          ],
+          "fill": "#f3ce8b",
+          "text": {
+            "state": "/best"
+          },
+          "fontSize": 0.5
+        }
+      ],
+      "repeat": [
+        {
+          "id": "tiles",
+          "source": {
+            "state": "/board"
+          },
+          "columns": 4,
+          "origin": [
+            -1.68,
+            1.52
+          ],
+          "step": [
+            1.12,
+            1.12
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "cell",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#243851",
+                  "2": "#577f9f",
+                  "4": "#368aa5",
+                  "8": "#2a9b91",
+                  "16": "#89b482",
+                  "32": "#dfaf66",
+                  "64": "#df8c66",
+                  "128": "#ce6877"
+                },
+                "fallback": "#8e65ae"
+              },
+              "size": [
+                1.03,
+                1.03
+              ]
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "fontSize": 0.52,
+              "omitWhen": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/puzzle-slide-undo.conformance.json"
+  ],
+  "extensions": {}
+}

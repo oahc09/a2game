@@ -1,0 +1,144 @@
+{
+  "format": "a2game-puzzle-reference-cases",
+  "cases": [
+    {
+      "name": "puzzle-match",
+      "invalid": [
+        "cell0",
+        "cell2"
+      ],
+      "solve": [
+        "cell1",
+        "cell4"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-tray",
+      "invalid": [
+        "cell0"
+      ],
+      "solve": [
+        "cell1",
+        "cell3",
+        "cell5",
+        "cell0",
+        "cell2",
+        "cell4"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-mahjong",
+      "invalid": [
+        "cell1"
+      ],
+      "solve": [
+        "cell0",
+        "cell3",
+        "cell1",
+        "cell2"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-memory",
+      "invalid": [],
+      "solve": [
+        "cell0",
+        "cell2",
+        "cell1",
+        "cell3"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-arrows",
+      "invalid": [
+        "cell0"
+      ],
+      "solve": [
+        "cell2",
+        "cell1",
+        "cell0"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-polyomino",
+      "invalid": [
+        "cell1"
+      ],
+      "solve": [
+        "cell0",
+        "cell2"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-falling",
+      "invalid": [],
+      "solve": [
+        "drop"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-placement",
+      "invalid": [
+        "cell0",
+        "cell3"
+      ],
+      "solve": [
+        "cell0",
+        "cell1",
+        "cell2",
+        "cell3"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-sort",
+      "invalid": [
+        "cell2"
+      ],
+      "solve": [
+        "cell0",
+        "cell2",
+        "cell1",
+        "cell3",
+        "cell0",
+        "cell3",
+        "cell1",
+        "cell2"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-connected",
+      "invalid": [],
+      "solve": [
+        "cell0"
+      ],
+      "expected": "won"
+    },
+    {
+      "name": "puzzle-push-undo",
+      "invalid": [],
+      "solve": [
+        "moveRight",
+        "undo"
+      ],
+      "expected": "playing"
+    },
+    {
+      "name": "puzzle-slide-undo",
+      "invalid": [],
+      "solve": [
+        "moveLeft",
+        "undo"
+      ],
+      "expected": "playing"
+    }
+  ]
+}

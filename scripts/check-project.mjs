@@ -124,6 +124,15 @@ if(status.stages.find(stage=>stage.id==='S4')?.status==='PASS'){
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S4: stale fingerprint ${path}`);}
   }
 }
+if(status.stages.find(stage=>stage.id==='S5')?.status==='PASS'){
+  try{
+    const summary=read(status.puzzleRun.summary);
+    insist(summary.format==='a2game-puzzle-library-real-sdk'&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS','S5: missing current real SDK puzzle proof');
+    insist(summary.cases?.length===24&&summary.parity?.length===12&&summary.parity.every(row=>row.status==='PASS'),'S5: all twelve mechanisms require dual Host parity');
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.final?.exactHash===result.node?.exactHash&&result.restart==='PASS'&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.initialScreenshot))&&existsSync(resolve(root,result.screenshot)),`S5: incomplete input/hash/visual/lifecycle proof for ${row.receipt}`);}
+    for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S5: stale fingerprint ${path}`);}
+  }catch(error){insist(false,`S5: cannot verify puzzle evidence: ${error.message}`);}
+}
 if(failures.length){console.error(failures.join('\n'));process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

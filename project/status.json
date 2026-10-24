@@ -44,14 +44,19 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-24T13-39-53-470Z-57792/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-24T13-40-18-542Z-59544/summary.json"
+        "perspective": "reports/visual-stage-2026-10-24T14-21-13-619Z-6364/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-24T14-21-12-524Z-30132/summary.json"
       }
     },
     {
       "id": "S5",
       "name": "Puzzle and casual gameplay library",
-      "status": "PARTIAL"
+      "status": "PASS",
+      "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
+      "evidence": {
+        "puzzles": "reports/puzzles-2026-10-24T14-22-27-662Z-50412/summary.json",
+        "verification": "reports/verify-2026-10-24T14-20-52-831Z-16536/verify.log"
+      }
     },
     {
       "id": "S6",
@@ -128,11 +133,11 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 5,
-    "referenceCapabilityManifests": 12
+    "referenceDemoGames": 17,
+    "referenceCapabilityManifests": 40
   },
   "blockingItems": [
-    "S5 broader puzzle mechanics and S6/S7 realtime/strategy libraries remain to implement",
+    "S6/S7 realtime/strategy libraries and individual Gxx/Hxx gameplay DoD remain to implement",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
   ],
@@ -156,8 +161,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T13-41-28-255Z-47612",
-    "summary": "reports/g2-2026-10-24T13-41-28-255Z-47612/summary.json",
+    "runId": "g2-2026-10-24T14-22-05-067Z-58472",
+    "summary": "reports/g2-2026-10-24T14-22-05-067Z-58472/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -187,23 +192,23 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T13-43-12-540Z-46612/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T13-43-12-540Z-46612/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T13-41-28-255Z-47612/summary.json",
-    "contentSummary": "reports/content-2026-10-24T13-40-42-987Z-52940/summary.json",
+    "log": "reports/verify-2026-10-24T14-20-52-831Z-16536/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T14-20-52-831Z-16536/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T14-22-05-067Z-58472/summary.json",
+    "contentSummary": "reports/content-2026-10-24T14-21-13-614Z-46784/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 66,
-      "total": 66
+      "pass": 70,
+      "total": 70
     },
     "conformance": {
-      "pass": 13,
-      "total": 13,
-      "suites": 7
+      "pass": 25,
+      "total": 25,
+      "suites": 19
     },
     "schema": {
       "kinds": 7,
-      "documents": 30
+      "documents": 82
     }
   },
   "historicalReleaseRun": {
@@ -270,7 +275,7 @@
     "date": "2026-10-24",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T13-40-42-987Z-52940/summary.json",
+    "summary": "reports/content-2026-10-24T14-21-13-614Z-46784/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -292,8 +297,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-24T13-39-53-470Z-57792/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-24T13-40-18-542Z-59544/summary.json",
+    "perspective": "reports/visual-stage-2026-10-24T14-21-13-619Z-6364/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-24T14-21-12-524Z-30132/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
     "limitations": [
       "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
@@ -303,5 +308,14 @@
   },
   "capabilityReceipts": {
     "a2game.visual.stage@0.1.0": "reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json"
+  },
+  "puzzleRun": {
+    "status": "PASS",
+    "summary": "reports/puzzles-2026-10-24T14-22-27-662Z-50412/summary.json",
+    "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
+    "limitations": [
+      "RNG-restoring undo is single-behavior only; compositions use Session snapshots",
+      "Semantic DOM buttons are not physical Touch/IMU, raw hit-testing or drag validation"
+    ]
   }
 }

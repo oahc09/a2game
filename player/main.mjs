@@ -1,4 +1,4 @@
-import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {ThreeAdapter} from './adapters/three-adapter.mjs';
@@ -39,10 +39,10 @@ function updateInfo(obs){
  dom.hash.textContent=obs.exactHash;
  const boundText=definition.presentation.hud?.find(x=>x.kind==='text')?.bind?.text;
  if(boundText?.template&&Array.isArray(boundText.args)){
-   const args=boundText.args.map(x=>x.state?obs.state[x.state.slice(1)]:'?');
+   const args=boundText.args.map(x=>x.state?readPointer(obs.state,x.state):'?');
    dom.score.textContent=boundText.template.replace(/\{(\d+)\}/g,(all,index)=>index<args.length?String(args[index]):all);
  }else dom.score.textContent=Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
- const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||''}`).join('\n');
+ const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
  for(const el of document.querySelectorAll('[data-action]')){
@@ -76,6 +76,9 @@ function animate(now){
  }catch(error){showError(error);void dispose().catch(cleanup=>console.error(cleanup));}
 }
 function bindInputs(){
+ const extra=document.getElementById('extraActions'),existing=new Set([...document.querySelectorAll('[data-action]')].map(button=>button.dataset.action));
+ for(const action of definition.inputs.actions)if(!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=action.id;extra.appendChild(button);}
+ document.querySelector('.pad').style.display=definition.inputs.actions.some(action=>existing.has(action.id))?'':'none';
  const canvas=dom.GameCanvas;
  const rawPointer=(e,kind)=>{
    if(runtime?.status!=='playing')return;

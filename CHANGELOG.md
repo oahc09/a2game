@@ -1,5 +1,16 @@
 # A2Game 项目变更记录
 
+## 2026-10-24 — S5 参考库与真实双引擎验收
+
+- 28 份版本化 Manifest、12 份参考 JSON/Conformance；共享匹配、遮挡、翻牌、拼块、分类、方向和单行为 RNG 撤销。旧 JSON/Hash 合同保持不变。
+- 70 Node、25 Conformance、82 Schema 文档及 24 个真实 SDK 益智场景通过；12 组 Node/Three/AIR Hash 一致，S2/S4 回归通过。单独游戏/Agent/真机 Gate 不升级。
+- 新的浏览器能力索引和通用 Action 按钮，避免按游戏名编写 Adapter。
+
+## S5 益智库（开发中）— 2026-10-24
+
+- 新增三消/连锁、遮挡槽位、配对/翻牌、方向消除、多格放置/落块、整理与连通消除合同和共享算法，补充推箱/滑动的有界撤销与 RNG 恢复；正在收集全套验证与真实 Host 回执，阶段尚未升级。
+- 通用动作按钮按 JSON 的语义动作生成，支持嵌套状态 HUD；Adapter 不按游戏名实现玩法。RNG 恢复仅交给可信模块，撤销限定单行为场景，多行为使用完整 Session 快照。
+
 ## S4 版本化 2D/3D Visual Stage — 2026-10-24
 
 - 新增独立 Manifest、增量 Schema、语义检查、参考游戏和 Conformance；保留旧 scene2d 语义。支持 Camera、审核纹理/Sprite、原生 Mesh、unlit/PBR Shader 预设、HUD、Tick 动画、有界粒子和事件音频。

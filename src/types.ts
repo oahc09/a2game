@@ -83,7 +83,7 @@ export interface ModuleContext {
     tickIndex: number; tickHz: number;
     entity: Readonly<RuntimeEntity>; config: Readonly<JsonRecord>; instanceIndex: number;
     inputs: ReadonlyArray<RuntimeEvent>;
-    rng: Readonly<{ nextU32(): number; randf(): number; randomInt(min: number, maxInclusive: number): number }>;
+    rng: Readonly<{ nextU32(): number; randf(): number; randomInt(min: number, maxInclusive: number): number; state():number[]; restore(state:readonly number[]):void }>;
     world: Readonly<{ state: JsonRecord; entities: Record<string, RuntimeEntity> }>;
 }
 export interface ModuleResult { proposals?: SimulationProposal[]; events?: IncomingEvent[]; }

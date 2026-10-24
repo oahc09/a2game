@@ -1,0 +1,59 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "puzzle-push-undo",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.puzzle-push-undo",
+    "file": "../games/puzzle-push-undo.game.json"
+  },
+  "cases": [
+    {
+      "id": "PUZZLE-UNDO-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/history",
+          "equals": []
+        }
+      ]
+    }
+  ]
+}

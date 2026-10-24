@@ -345,7 +345,7 @@ export class HeadlessRuntime {
             const ctx:ModuleContext = {
                 tickIndex:stage.tickIndex,tickHz:this.plan.definition.world.clock.tickHz,entity:clone(entity),
                 config:clone(entry.component.config),instanceIndex:entry.index,inputs:clone(inputs),
-                rng:{nextU32:()=>tickRng.nextU32(),randf:()=>tickRng.randf(),randomInt:(min,max)=>tickRng.randomInt(min,max)},
+                rng:{nextU32:()=>tickRng.nextU32(),randf:()=>tickRng.randf(),randomInt:(min,max)=>tickRng.randomInt(min,max),state:()=>tickRng.state(),restore:state=>tickRng.restore([...state])},
                 world:clone({state:stage.state,entities:stage.entities}),
             };
             const output=impl.simulate(ctx);

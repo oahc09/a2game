@@ -18,12 +18,13 @@
     },
     {
       "stage": "S5",
-      "status": "in_progress",
-      "deliverable": "Puzzle/casual capability contracts and gameplay library with representative variants"
+      "status": "completed",
+      "deliverable": "Puzzle/casual capability contracts and gameplay library with representative variants",
+      "acceptance": "Reference library scope only; Gxx/Hxx/G3 remain separately gated"
     },
     {
       "stage": "S6",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Realtime physics, movement and combat contracts, shared implementations and Host proof"
     },
     {

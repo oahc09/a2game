@@ -1,0 +1,49 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.puzzle.grid",
+  "version": "0.1.0",
+  "kind": "service",
+  "portability": "exact",
+  "description": "Trusted shared puzzle library service: grid; consumed by versioned behavior implementations, never executable JSON.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxCells": 256,
+    "maxHistory": 16,
+    "maxCascadeWaves": 16,
+    "pieceGridSize": 4,
+    "maxPieceCells": 16,
+    "undoScope": "single-behavior scene; whole-session snapshots for compositions"
+  },
+  "testSuites": [
+    "PUZZLE-LIBRARY-001"
+  ]
+}
