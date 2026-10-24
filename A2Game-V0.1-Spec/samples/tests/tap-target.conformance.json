@@ -1,0 +1,165 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "tap-target-core",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.tap-target",
+    "file": "../games/tap-target.game.json"
+  },
+  "cases": [
+    {
+      "id": "two-taps-win",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "two-taps-in-one-tick",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "pause-no-catch-up",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "paused"
+        },
+        {
+          "op": "resume"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

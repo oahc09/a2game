@@ -1,0 +1,37 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.visual.scene2d",
+  "version": "0.1.0",
+  "kind": "presentation",
+  "portability": "host-defined",
+  "description": "有限 2D 原语 rect/circle/text + 声明式重复网格；观测状态的只读映射，禁止执行任意脚本。",
+  "phase": "present",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "$ref": "urn:a2game:schemas:game:0.1.0#/$defs/scene2d"
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "PRES-001",
+    "PRES-002"
+  ]
+}

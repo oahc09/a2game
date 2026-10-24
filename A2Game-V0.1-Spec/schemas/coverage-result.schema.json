@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:a2game:schemas:coverage-result:0.1.0",
+  "title": "A2Game Coverage Test Result Receipt 0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "receiptVersion",
+    "gameId",
+    "testCaseId",
+    "adapterId",
+    "platformProfile",
+    "capabilitySetDigest",
+    "testRevision",
+    "status",
+    "evidence"
+  ],
+  "properties": {
+    "format": {
+      "const": "a2game-coverage-result"
+    },
+    "receiptVersion": {
+      "const": "0.1.0"
+    },
+    "gameId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "testCaseId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapterId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "platformProfile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilitySetDigest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "testRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtimeRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "physicsProfile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "NOT_RUN",
+        "BLOCKED",
+        "NOT_APPLICABLE"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "runId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eventTraceUri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stateTraceUri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "screenCaptureUri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "diagnosticsUri": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "PASS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "required": [
+              "runId",
+              "eventTraceUri"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "BLOCKED",
+              "NOT_APPLICABLE"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    }
+  ]
+}

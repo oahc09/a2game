@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:a2game:schemas:capability:0.1.0",
+  "title": "A2Game Capability Manifest 0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "manifestVersion",
+    "id",
+    "version",
+    "kind",
+    "portability",
+    "description",
+    "phase",
+    "dependencies",
+    "contract",
+    "testSuites"
+  ],
+  "properties": {
+    "format": {
+      "const": "a2game-capability"
+    },
+    "manifestVersion": {
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*){2,}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "kind": {
+      "enum": [
+        "core",
+        "behavior",
+        "rule-op",
+        "input-source",
+        "recognizer",
+        "service",
+        "presentation"
+      ]
+    },
+    "portability": {
+      "enum": [
+        "exact",
+        "tolerant",
+        "host-defined"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "phase": {
+      "enum": [
+        "collect",
+        "normalize",
+        "recognize",
+        "simulate",
+        "physics",
+        "rule",
+        "commit",
+        "observe",
+        "present"
+      ]
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/capRef"
+      }
+    },
+    "contract": {
+      "type": "object",
+      "required": [
+        "configSchema",
+        "stateSchema",
+        "commands",
+        "events",
+        "stateWrites",
+        "lifecycle"
+      ],
+      "properties": {
+        "configSchema": {
+          "type": "object"
+        },
+        "stateSchema": {
+          "type": "object"
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command"
+          }
+        },
+        "stateWrites": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "lifecycle": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "initialize",
+              "tick",
+              "pause",
+              "resume",
+              "reset",
+              "dispose"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "testSuites": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "limits": {
+      "type": "object"
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "capRef": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*){2,}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "command": {
+      "type": "object",
+      "required": [
+        "name",
+        "payloadSchema"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "payloadSchema": {
+          "type": "object"
+        },
+        "idempotent": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,2142 @@
+{
+  "format": "a2game-coverage",
+  "registryVersion": "0.1.0",
+  "games": [
+    {
+      "id": "G01",
+      "version": "0.1.0",
+      "name": "推箱子",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "grid",
+          "push",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.swipe",
+        "keyboard.button"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.grid",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.push",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.swipe",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.keyboard.button",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G01"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G02",
+      "version": "0.1.0",
+      "name": "2048",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "slide",
+          "merge",
+          "rng"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.swipe",
+        "keyboard.button"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.slide",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.merge",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rng",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.swipe",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.keyboard.button",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G02"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G03",
+      "version": "0.1.0",
+      "name": "三消",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "swap",
+          "match-n",
+          "cascade"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.swap",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.match-n",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.cascade",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G03"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G04",
+      "version": "0.1.0",
+      "name": "堆叠三消",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "layered-stack",
+          "tray",
+          "match-n"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.layered-stack",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.tray",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.match-n",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G04"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G05",
+      "version": "0.1.0",
+      "name": "麻将叠牌配对",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "occlusion",
+          "pair-match"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.occlusion",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.pair-match",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G05"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G06",
+      "version": "0.1.0",
+      "name": "箭头迷宫消除",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "direction",
+          "occupancy",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.direction",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.occupancy",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G06"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G07",
+      "version": "0.1.0",
+      "name": "翻牌配对",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "reveal",
+          "pair-match",
+          "timer"
+        ]
+      },
+      "executionModels": [
+        "timed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.reveal",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.pair-match",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.timer",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G07"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G08",
+      "version": "0.1.0",
+      "name": "Block Puzzle",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "polyomino",
+          "placement",
+          "line-clear"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.polyomino",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.placement",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.line-clear",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G08"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G09",
+      "version": "0.1.0",
+      "name": "俄罗斯方块",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "polyomino",
+          "rotate-piece",
+          "line-clear"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap",
+        "keyboard.button"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.polyomino",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.rotate-piece",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.line-clear",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.keyboard.button",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G09"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G10",
+      "version": "0.1.0",
+      "name": "找物整理",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "select",
+          "placement",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.select",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.placement",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G10"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G11",
+      "version": "0.1.0",
+      "name": "跳一跳",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "charge",
+          "jump",
+          "landing"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.long-press"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.charge",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.jump",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.landing",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.long-press",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G11"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G12",
+      "version": "0.1.0",
+      "name": "Flappy",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "velocity",
+          "trigger-zone",
+          "score"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.velocity",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.trigger-zone",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.score",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G12"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G13",
+      "version": "0.1.0",
+      "name": "换道跑酷",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "lane-move",
+          "auto-scroll",
+          "spawner"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.swipe"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.lane-move",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.auto-scroll",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.spawner",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.swipe",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G13"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G14",
+      "version": "0.1.0",
+      "name": "打砖块",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "collider",
+          "bounce",
+          "health"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.collider",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.bounce",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.health",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G14"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G15",
+      "version": "0.1.0",
+      "name": "弹球",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "rigid-body",
+          "constraint",
+          "trigger-zone"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.rigid-body",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.constraint",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.trigger-zone",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G15"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G16",
+      "version": "0.1.0",
+      "name": "物理合成",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "rigid-body",
+          "contact",
+          "merge"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.rigid-body",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.contact",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.merge",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G16"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G17",
+      "version": "0.1.0",
+      "name": "纵版飞机",
+      "taxonomy": {
+        "genres": [
+          "shooter"
+        ],
+        "mechanics": [
+          "weapon",
+          "projectile",
+          "wave"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag",
+        "keyboard.button"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.weapon",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.projectile",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.wave",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.keyboard.button",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G17"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G18",
+      "version": "0.1.0",
+      "name": "俯视射击",
+      "taxonomy": {
+        "genres": [
+          "shooter"
+        ],
+        "mechanics": [
+          "aim",
+          "health",
+          "damage"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag",
+        "keyboard.button"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.aim",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.health",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.damage",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.keyboard.button",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G18"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G19",
+      "version": "0.1.0",
+      "name": "僵尸生存",
+      "taxonomy": {
+        "genres": [
+          "shooter"
+        ],
+        "mechanics": [
+          "auto-target",
+          "horde",
+          "upgrade"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.auto-target",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.horde",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.upgrade",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G19"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G20",
+      "version": "0.1.0",
+      "name": "泡泡龙弹射",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "aim",
+          "bounce",
+          "connected-match"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.aim",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.bounce",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.connected-match",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G20"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G21",
+      "version": "0.1.0",
+      "name": "塔防",
+      "taxonomy": {
+        "genres": [
+          "strategy"
+        ],
+        "mechanics": [
+          "placement",
+          "path-follow",
+          "weapon",
+          "wave"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.placement",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.path-follow",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.weapon",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.wave",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G21"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G22",
+      "version": "0.1.0",
+      "name": "农场",
+      "taxonomy": {
+        "genres": [
+          "simulation"
+        ],
+        "mechanics": [
+          "production",
+          "timer",
+          "collect"
+        ]
+      },
+      "executionModels": [
+        "timed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.production",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.timer",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.collect",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G22"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G23",
+      "version": "0.1.0",
+      "name": "合成经营",
+      "taxonomy": {
+        "genres": [
+          "simulation"
+        ],
+        "mechanics": [
+          "merge",
+          "production",
+          "economy-loop"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.merge",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.production",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.economy-loop",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G23"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G24",
+      "version": "0.1.0",
+      "name": "五子棋",
+      "taxonomy": {
+        "genres": [
+          "board-game"
+        ],
+        "mechanics": [
+          "turn",
+          "legal-move",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "turnbased"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.turnbased.turn",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.turnbased.legal-move",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G24"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G25",
+      "version": "0.1.0",
+      "name": "水果切割",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "touch-path",
+          "intersection",
+          "score"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.path"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.intersection",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.score",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.path",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G25"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G26",
+      "version": "0.1.0",
+      "name": "双指旋转拼图",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "multi-touch",
+          "rotate",
+          "placement"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.pinch",
+        "touch.rotate"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.rotate",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.placement",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.input.touch.pinch",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.input.touch.rotate",
+            "version": "0.1.0"
+          }
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G26"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G27",
+      "version": "0.1.0",
+      "name": "重力迷宫",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "imu-tilt",
+          "collision",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "imu.tilt",
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.collision",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.imu.tilt",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G27"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G28",
+      "version": "0.1.0",
+      "name": "平衡堆叠",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "imu-tilt",
+          "balance",
+          "placement"
+        ]
+      },
+      "executionModels": [
+        "mixed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "imu.tilt",
+        "touch.drag",
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.balance",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.puzzle.placement",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.input.touch.tap",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.imu.tilt",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G28"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G29",
+      "version": "0.1.0",
+      "name": "摇一摇机关",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "imu-shake",
+          "timer",
+          "unlock"
+        ]
+      },
+      "executionModels": [
+        "discrete"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "imu.shake",
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.timer",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.strategy.unlock",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.imu.shake",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.touch.tap",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G29"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G30",
+      "version": "0.1.0",
+      "name": "弹弓打靶",
+      "taxonomy": {
+        "genres": [
+          "casual"
+        ],
+        "mechanics": [
+          "drag",
+          "charge",
+          "projectile"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.drag"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.realtime.charge",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.projectile",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G30"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G31",
+      "version": "0.1.0",
+      "name": "姿态打靶",
+      "taxonomy": {
+        "genres": [
+          "shooter"
+        ],
+        "mechanics": [
+          "imu-orientation",
+          "aim",
+          "hitscan"
+        ]
+      },
+      "executionModels": [
+        "realtime"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "imu.orientation",
+        "touch.drag",
+        "touch.tap"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.aim",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.combat.hitscan",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.input.touch.tap",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.imu.orientation",
+              "version": "0.1.0"
+            },
+            {
+              "id": "a2game.input.touch.drag",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G31"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    },
+    {
+      "id": "G32",
+      "version": "0.1.0",
+      "name": "多指机关",
+      "taxonomy": {
+        "genres": [
+          "puzzle"
+        ],
+        "mechanics": [
+          "multi-hold",
+          "timer",
+          "goal"
+        ]
+      },
+      "executionModels": [
+        "timed"
+      ],
+      "dimensions": [
+        "2d"
+      ],
+      "inputs": [
+        "touch.multi-hold"
+      ],
+      "requiredCapabilities": {
+        "all": [
+          {
+            "id": "a2game.core.state",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.rules",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.timer",
+            "version": "0.1.0"
+          },
+          {
+            "id": "a2game.core.goal",
+            "version": "0.1.0"
+          }
+        ],
+        "anyOf": [
+          [
+            {
+              "id": "a2game.input.touch.multi-hold",
+              "version": "0.1.0"
+            }
+          ]
+        ]
+      },
+      "optionalCapabilities": [],
+      "testSuites": [
+        "COVERAGE-G32"
+      ],
+      "profiles": [
+        "headless",
+        "desktop-web",
+        "mobile-web"
+      ],
+      "status": "planned"
+    }
+  ]
+}

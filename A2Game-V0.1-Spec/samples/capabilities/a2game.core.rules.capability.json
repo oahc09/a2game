@@ -1,0 +1,40 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.core.rules",
+  "version": "0.1.0",
+  "kind": "core",
+  "portability": "exact",
+  "description": "事件匹配、表达式 AST、Rule EffectBuffer。",
+  "phase": "rule",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "CORE-003",
+    "CORE-005",
+    "CORE-006"
+  ]
+}

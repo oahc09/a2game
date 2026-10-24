@@ -1,0 +1,1029 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:a2game:schemas:game:0.1.0",
+  "title": "A2Game GameSpec 0.1.0 (structural draft)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "specVersion",
+    "id",
+    "revision",
+    "meta",
+    "requires",
+    "world",
+    "scenes",
+    "entryScene",
+    "state",
+    "inputs",
+    "rules",
+    "outcomes",
+    "presentation"
+  ],
+  "properties": {
+    "format": {
+      "const": "a2game"
+    },
+    "specVersion": {
+      "const": "0.1.0"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "title",
+        "genres"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "requires": {
+      "$ref": "#/$defs/requires"
+    },
+    "world": {
+      "type": "object",
+      "required": [
+        "dimension",
+        "coordinateSystem",
+        "units",
+        "clock"
+      ],
+      "properties": {
+        "dimension": {
+          "enum": [
+            "2d",
+            "3d"
+          ]
+        },
+        "coordinateSystem": {
+          "const": "rh-y-up"
+        },
+        "units": {
+          "const": "meter"
+        },
+        "clock": {
+          "type": "object",
+          "required": [
+            "tickHz",
+            "seed"
+          ],
+          "properties": {
+            "tickHz": {
+              "enum": [
+                30,
+                60,
+                120
+              ]
+            },
+            "seed": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "maxCatchUpTicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "assets": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "prototypes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "state": {
+            "type": "object"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/component"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "scenes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "entities"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/entity"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "entryScene": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/stateField"
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "actions"
+      ],
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inputAction"
+          }
+        },
+        "traceRecording": {
+          "enum": [
+            "disabled",
+            "user-opt-in"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "outcomes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/outcome"
+      }
+    },
+    "presentation": {
+      "type": "object",
+      "required": [
+        "hud",
+        "cues"
+      ],
+      "properties": {
+        "hud": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hud"
+          }
+        },
+        "cues": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "scene2d": {
+          "$ref": "#/$defs/scene2d"
+        }
+      },
+      "additionalProperties": false
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "$defs": {
+    "capRef": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*(?:\\.[a-z][a-z0-9-]*){2,}$"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "requires": {
+      "type": "object",
+      "required": [
+        "all"
+      ],
+      "properties": {
+        "all": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/capRef"
+          },
+          "uniqueItems": true
+        },
+        "anyOf": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/capRef"
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "expr": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "const": {}
+          },
+          "required": [
+            "const"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          },
+          "required": [
+            "state"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "event": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          },
+          "required": [
+            "event"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "entityState": {
+              "type": "object",
+              "required": [
+                "entity",
+                "path"
+              ],
+              "properties": {
+                "entity": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "path": {
+                  "type": "string",
+                  "pattern": "^/"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "entityState"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "type": "string",
+              "minLength": 1
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/expr"
+              }
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "component": {
+      "type": "object",
+      "required": [
+        "capability",
+        "config"
+      ],
+      "properties": {
+        "capability": {
+          "$ref": "#/$defs/capRef"
+        },
+        "config": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "entity": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prototype": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "state": {
+          "type": "object"
+        },
+        "transform": {
+          "type": "object",
+          "properties": {
+            "position": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 3,
+                  "maxItems": 3
+                }
+              ]
+            },
+            "rotationRad": {
+              "type": "number"
+            },
+            "scale": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 3
+            }
+          },
+          "additionalProperties": false
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/component"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateField": {
+      "type": "object",
+      "required": [
+        "type",
+        "initial"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "bool",
+            "int",
+            "number",
+            "string",
+            "vec2",
+            "vec3",
+            "enum",
+            "entityRef",
+            "array",
+            "object"
+          ]
+        },
+        "initial": {},
+        "constraints": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "inputBinding": {
+      "type": "object",
+      "required": [
+        "source"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "config": {
+          "type": "object"
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false
+    },
+    "inputAction": {
+      "type": "object",
+      "required": [
+        "id",
+        "valueType",
+        "bindings"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "valueType": {
+          "enum": [
+            "button",
+            "axis1",
+            "vec2",
+            "vec3",
+            "pose"
+          ]
+        },
+        "policy": {
+          "enum": [
+            "first-ready",
+            "simultaneous",
+            "explicit-switch"
+          ]
+        },
+        "bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/inputBinding"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "on",
+        "do"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priority": {
+          "type": "integer",
+          "minimum": -100000,
+          "maximum": 100000
+        },
+        "on": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "minLength": 1
+            },
+            "action": {
+              "type": "string",
+              "minLength": 1
+            },
+            "edge": {
+              "enum": [
+                "press",
+                "hold",
+                "release",
+                "cancel"
+              ]
+            },
+            "sourceTag": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "if": {
+          "$ref": "#/$defs/expr"
+        },
+        "do": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/effect"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "effect": {
+      "type": "object",
+      "required": [
+        "op"
+      ],
+      "properties": {
+        "op": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "when"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "won",
+            "lost"
+          ]
+        },
+        "priority": {
+          "type": "integer"
+        },
+        "when": {
+          "$ref": "#/$defs/expr"
+        }
+      },
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "required": [
+        "uri",
+        "type"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "enum": [
+            "image",
+            "audio",
+            "font",
+            "model",
+            "atlas",
+            "binary",
+            "json"
+          ]
+        },
+        "integrity": {
+          "type": "string",
+          "pattern": "^sha256-[A-Za-z0-9+/=]+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "hud": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "text",
+            "button",
+            "bar",
+            "icon",
+            "panel"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "bind": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "visualBinding": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "state"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "pattern": "^/"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "item"
+          ],
+          "properties": {
+            "item": {
+              "const": true
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "literal"
+          ],
+          "properties": {
+            "literal": {}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "visualColor": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        {
+          "type": "object",
+          "required": [
+            "from",
+            "map",
+            "fallback"
+          ],
+          "properties": {
+            "from": {
+              "$ref": "#/$defs/visualBinding"
+            },
+            "map": {
+              "type": "object",
+              "maxProperties": 128,
+              "additionalProperties": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            },
+            "fallback": {
+              "type": "string",
+              "pattern": "^#[0-9a-fA-F]{6}$"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "visualNode": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "at",
+        "fill"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[_a-zA-Z][_a-zA-Z0-9-]*$"
+        },
+        "kind": {
+          "enum": [
+            "rect",
+            "circle",
+            "text"
+          ]
+        },
+        "at": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "size": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "radius": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "fill": {
+          "$ref": "#/$defs/visualColor"
+        },
+        "text": {
+          "$ref": "#/$defs/visualBinding"
+        },
+        "fontSize": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "omitWhen": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "rect"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "size"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "circle"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "radius"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "text"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "text",
+              "fontSize"
+            ]
+          }
+        }
+      ],
+      "additionalProperties": false
+    },
+    "visualRepeat": {
+      "type": "object",
+      "required": [
+        "id",
+        "source",
+        "columns",
+        "origin",
+        "step",
+        "indexMode",
+        "template"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[_a-zA-Z][_a-zA-Z0-9-]*$"
+        },
+        "source": {
+          "$ref": "#/$defs/visualBinding"
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "origin": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "step": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "indexMode": {
+          "enum": [
+            "array",
+            "cell"
+          ]
+        },
+        "template": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/visualNode"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "scene2d": {
+      "type": "object",
+      "required": [
+        "width",
+        "height",
+        "background",
+        "nodes"
+      ],
+      "properties": {
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000
+        },
+        "background": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "nodes": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "$ref": "#/$defs/visualNode"
+          }
+        },
+        "repeat": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "$ref": "#/$defs/visualRepeat"
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

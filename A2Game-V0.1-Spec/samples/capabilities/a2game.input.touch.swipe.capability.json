@@ -1,0 +1,56 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.touch.swipe",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "portability": "exact",
+  "description": "归一化单指指针释放后识别上下左右方向；取消手势不发出动作。",
+  "phase": "recognize",
+  "dependencies": [],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "required": [
+        "direction"
+      ],
+      "properties": {
+        "direction": {
+          "enum": [
+            "left",
+            "right",
+            "up",
+            "down"
+          ]
+        },
+        "minDistanceNorm": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "maxDurationUs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "SWIPE-001",
+    "SWIPE-002"
+  ]
+}

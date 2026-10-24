@@ -1,0 +1,41 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.touch.tap",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "portability": "exact",
+  "description": "由标准化 pointer down/up 识别 Tap，受参数/触点归属约束。",
+  "phase": "recognize",
+  "dependencies": [],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "input.action",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "INPUT-001",
+    "INPUT-002"
+  ]
+}

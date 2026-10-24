@@ -1,0 +1,69 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.samples.grid-push",
+    "gameRevision": 1,
+    "tickHz": 60,
+    "seed": 42,
+    "inputNormalizerVersion": "0.1.0",
+    "coordinateProfile": "viewport-top-left-v1",
+    "recognizers": {
+      "touch.swipe": "0.1.0"
+    }
+  },
+  "events": [
+    {
+      "tickIndex": 0,
+      "seq": 0,
+      "source": "pointer",
+      "kind": "down",
+      "timeUs": 1000,
+      "payload": {
+        "pointerId": 1,
+        "pointerType": "touch",
+        "u": 0.5,
+        "v": 0.75
+      }
+    },
+    {
+      "tickIndex": 10,
+      "seq": 1,
+      "source": "pointer",
+      "kind": "up",
+      "timeUs": 180000,
+      "payload": {
+        "pointerId": 1,
+        "pointerType": "touch",
+        "u": 0.7,
+        "v": 0.75
+      }
+    },
+    {
+      "tickIndex": 18,
+      "seq": 2,
+      "source": "pointer",
+      "kind": "down",
+      "timeUs": 300000,
+      "payload": {
+        "pointerId": 2,
+        "pointerType": "touch",
+        "u": 0.6,
+        "v": 0.7
+      }
+    },
+    {
+      "tickIndex": 27,
+      "seq": 3,
+      "source": "pointer",
+      "kind": "up",
+      "timeUs": 450000,
+      "payload": {
+        "pointerId": 2,
+        "pointerType": "touch",
+        "u": 0.6,
+        "v": 0.35
+      }
+    }
+  ]
+}

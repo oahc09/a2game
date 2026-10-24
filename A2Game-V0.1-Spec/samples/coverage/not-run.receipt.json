@@ -1,0 +1,13 @@
+{
+  "format": "a2game-coverage-result",
+  "receiptVersion": "0.1.0",
+  "gameId": "G01",
+  "testCaseId": "COVERAGE-G01",
+  "adapterId": "cocosairjs-a2game",
+  "platformProfile": "desktop-web",
+  "capabilitySetDigest": "unavailable",
+  "testRevision": "0.1.0-draft.1",
+  "status": "NOT_RUN",
+  "reason": "Runtime and adapters have not been implemented.",
+  "evidence": {}
+}

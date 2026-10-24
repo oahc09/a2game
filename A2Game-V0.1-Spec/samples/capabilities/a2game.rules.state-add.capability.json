@@ -1,0 +1,61 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.rules.state-add",
+  "version": "0.1.0",
+  "kind": "rule-op",
+  "portability": "exact",
+  "description": "state.add：对 int/number 的安全有序累加；操作名为 state.add。",
+  "phase": "commit",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [
+      {
+        "name": "state.add",
+        "payloadSchema": {
+          "type": "object",
+          "required": [
+            "path",
+            "value"
+          ],
+          "properties": {
+            "path": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "value": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    ],
+    "events": [],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "CORE-003"
+  ]
+}

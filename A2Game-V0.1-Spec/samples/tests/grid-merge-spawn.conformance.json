@@ -1,0 +1,98 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "grid-merge-seeded-spawn",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.grid-merge-spawn",
+    "file": "../games/grid-merge-spawn.game.json"
+  },
+  "cases": [
+    {
+      "id": "invalid-move-no-rng-consumption",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board",
+          "equals": [
+            2,
+            2,
+            2,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board",
+          "equals": [
+            4,
+            4,
+            0,
+            0,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "grid.moved",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

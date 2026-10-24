@@ -1,0 +1,160 @@
+{
+  "format": "a2game-project-status",
+  "formatVersion": 1,
+  "asOf": "2026-10-24",
+  "release": {
+    "version": "1.0.0",
+    "maturity": "alpha-reference",
+    "gameSpecVersion": "0.1.0",
+    "capabilityManifestVersion": "0.1.0"
+  },
+  "currentStage": "S2",
+  "currentObjective": "Run real CocosAirJS and Three.js browser G2 using the same verified GameSpec; retain G2 NOT_RUN until SDK evidence exists.",
+  "stages": [
+    {
+      "id": "S0",
+      "name": "Protocol and coverage baseline",
+      "status": "DESIGN_COMPLETE"
+    },
+    {
+      "id": "S1",
+      "name": "Shared headless reference runtime",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "S2",
+      "name": "Real CocosAirJS and Three.js G2",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "S3",
+      "name": "Dynamic AI JSON validation and release pipeline",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "S4",
+      "name": "2D/3D presentation and lifecycle",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "S5",
+      "name": "Puzzle and casual gameplay library",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "S6",
+      "name": "Realtime physics and combat",
+      "status": "PLANNED"
+    },
+    {
+      "id": "S7",
+      "name": "Strategy economy and turn-based",
+      "status": "PLANNED"
+    },
+    {
+      "id": "S8",
+      "name": "Mobile multi-touch and IMU",
+      "status": "PARTIAL"
+    },
+    {
+      "id": "S9",
+      "name": "32 game + 5 hybrid conformance",
+      "status": "PLANNED"
+    },
+    {
+      "id": "S10",
+      "name": "AI game generation and G3",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "S11",
+      "name": "Further platform and compatibility expansion",
+      "status": "PLANNED"
+    }
+  ],
+  "gates": {
+    "G0SampleSchema": "PASS",
+    "G0BrowserDynamicJson": "NOT_IMPLEMENTED",
+    "G1ReferenceSubset": "PASS",
+    "G1FullCatalog": "PARTIAL",
+    "G2CocosAirJSRealSDK": "NOT_RUN",
+    "G2ThreeJSRealSDK": "NOT_RUN",
+    "G3GameplayAgent": "NOT_RUN",
+    "RealDeviceTouchIMU": "NOT_RUN"
+  },
+  "baselineEvidence": {
+    "origin": "V0.3 historical report; rechecked separately for 1.0.0",
+    "nodeTests": {
+      "pass": 54,
+      "total": 54,
+      "file": "reports/v03-node-tests.tap"
+    },
+    "conformance": {
+      "suites": 6,
+      "pass": 12,
+      "total": 12,
+      "file": "reports/v03-conformance.log"
+    },
+    "schemas": {
+      "kinds": 7,
+      "documents": 27,
+      "file": "reports/v03-schema-full.log"
+    },
+    "browserCanvas2d": {
+      "scenarios": 5,
+      "file": "reports/browser-core-smoke.json"
+    },
+    "nodeChromiumParity": {
+      "pass": 5,
+      "total": 5,
+      "file": "reports/browser-node-parity.json"
+    }
+  },
+  "coverage": {
+    "registry": "A2Game-V0.1-Spec/samples/coverage/games.json",
+    "plannedGames": 32,
+    "verifiedGames": 0,
+    "hybridCases": 5,
+    "verifiedHybridCases": 0,
+    "referenceDemoGames": 4,
+    "referenceCapabilityManifests": 11
+  },
+  "blockingItems": [
+    "Actual CocosAirJS SDK browser end-to-end has not run",
+    "Actual Three.js SDK browser end-to-end has not run",
+    "Browser dynamic arbitrary AI JSON full Draft 2020-12 validation not implemented",
+    "Real-device Touch/IMU capture and permission not verified",
+    "32-game gameplay and AI one-shot coverage not implemented"
+  ],
+  "workspaceBaseline": {
+    "date": "2026-10-24",
+    "verification": "PASS",
+    "command": "npm run verify",
+    "log": "reports/workspace-baseline-20261024.log",
+    "nodeTests": {"pass": 55, "total": 55},
+    "conformance": {"pass": 12, "total": 12},
+    "schema": {"kinds": 7, "documents": 27}
+  },
+  "currentRun": {
+    "date": "2026-10-24",
+    "receipt": "reports/release-1.0.0-validation.json",
+    "nodeTests": {
+      "pass": 55,
+      "total": 55
+    },
+    "conformance": {
+      "pass": 12,
+      "total": 12,
+      "suites": 6
+    },
+    "schema": {
+      "kinds": 7,
+      "documents": 27
+    },
+    "browserCoreHashParity": {
+      "pass": 5,
+      "total": 5
+    },
+    "httpNavigation": "BLOCKED_BY_ADMINISTRATOR"
+  }
+}

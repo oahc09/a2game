@@ -1,0 +1,116 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.puzzle.grid-slide-merge",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "对整型格子执行规则确定的压缩、同值一次合并，可选种子随机补位；不依赖渲染引擎。",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.rules",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 8
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 8
+        },
+        "boardPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "bestPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "spawnCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "actions": {
+          "type": "object",
+          "required": [
+            "left",
+            "right",
+            "up",
+            "down"
+          ],
+          "properties": {
+            "left": {
+              "type": "string"
+            },
+            "right": {
+              "type": "string"
+            },
+            "up": {
+              "type": "string"
+            },
+            "down": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "boardPath",
+        "bestPath",
+        "actions"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "grid.moved",
+        "payloadSchema": {
+          "type": "object",
+          "properties": {
+            "direction": {
+              "type": "string"
+            },
+            "spawned": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "GRID-001",
+    "GRID-002"
+  ]
+}

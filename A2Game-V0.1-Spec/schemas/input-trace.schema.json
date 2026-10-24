@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:a2game:schemas:input-trace:0.1.0",
+  "title": "A2Game Normalized Input Trace 0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "traceVersion",
+    "session",
+    "events"
+  ],
+  "properties": {
+    "format": {
+      "const": "a2game-input-trace"
+    },
+    "traceVersion": {
+      "const": "0.1.0"
+    },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gameId",
+        "gameRevision",
+        "tickHz",
+        "seed",
+        "inputNormalizerVersion",
+        "coordinateProfile",
+        "recognizers"
+      ],
+      "properties": {
+        "gameId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "gameRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "tickHz": {
+          "enum": [
+            30,
+            60,
+            120
+          ]
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "inputNormalizerVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "coordinateProfile": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recognizers": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tickIndex",
+          "seq",
+          "source",
+          "kind",
+          "timeUs",
+          "payload"
+        ],
+        "properties": {
+          "tickIndex": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "seq": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source": {
+            "enum": [
+              "pointer",
+              "keyboard",
+              "imu",
+              "system",
+              "action"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "timeUs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "payload": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

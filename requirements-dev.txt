@@ -1,0 +1,2 @@
+# Full JSON Schema Draft 2020-12 validator; required by npm run spec:validate and npm run schema:full.
+jsonschema==4.26.0

@@ -1,0 +1,22 @@
+{
+  "name": "@a2game/headless-reference",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Engine-neutral A2Game 1.0.0 reference workspace (GameSpec 0.1.0, pre-production)",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "conformance": "npm run build && node scripts/run-conformance.mjs",
+    "spec:validate": "python A2Game-V0.1-Spec/tools/validate_specs.py",
+    "schema:full": "python scripts/preflight.py",
+    "catalog:build": "npm run build && npm run schema:full && node scripts/create-validated-catalog.mjs",
+    "player:serve": "node scripts/serve.mjs",
+    "project:check": "node scripts/check-project.mjs",
+    "verify": "npm run project:check && npm test && npm run spec:validate && npm run schema:full && npm run conformance && npm run catalog:build"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "format": "a2game-negative-cases",
+  "specVersion": "0.1.0",
+  "cases": [
+    { "case": "unsupported-protocol", "expectedCode": "A2G_E_SPEC_VERSION" },
+    { "case": "unknown-root", "expectedCode": "A2G_E_UNKNOWN_FIELD" },
+    { "case": "missing-scene", "expectedCode": "A2G_E_SCENE_REF" },
+    { "case": "unknown-capability", "expectedCode": "A2G_E_CAP_UNKNOWN" },
+    { "case": "illegal-rule-op", "expectedCode": "A2G_E_CAP_UNKNOWN" },
+    { "case": "script-url", "expectedCode": "A2G_E_ASSET_URI" },
+    { "case": "bad-state-initial", "expectedCode": "A2G_E_STATE_TYPE" }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "runtime-core-order",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.tap-target",
+    "file": "../games/tap-target.game.json"
+  },
+  "cases": [
+    {
+      "id": "restarted-game-does-not-leak-old-score",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

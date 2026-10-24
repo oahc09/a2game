@@ -1,0 +1,167 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "grid-push-core",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.grid-push",
+    "file": "../games/grid-push.game.json"
+  },
+  "cases": [
+    {
+      "id": "wall-move-does-not-consume-step",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 16
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "push-box-into-goal",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 17
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            7
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/solved",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "grid.box-pushed",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "restart-restores-the-level",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 16
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            12
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

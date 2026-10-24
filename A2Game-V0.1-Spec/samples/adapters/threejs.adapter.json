@@ -1,0 +1,17 @@
+{
+  "format": "a2game-adapter-capabilities",
+  "manifestVersion": "0.1.0",
+  "adapterId": "threejs-a2game",
+  "adapterVersion": "0.1.0",
+  "runtimeVersion": "0.1.0",
+  "status": "planned",
+  "supportedCapabilities": [],
+  "physicsProfiles": [],
+  "targetPlatforms": [
+    "desktop-web",
+    "mobile-web"
+  ],
+  "limitations": [
+    "Design only: no A2Game adapter implementation or conformance results."
+  ]
+}

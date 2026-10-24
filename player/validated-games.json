@@ -1,0 +1,28 @@
+{
+  "format": "a2game-validated-game-catalog",
+  "formatVersion": 1,
+  "gameSpecVersion": "0.1.0",
+  "schemaDialect": "2020-12",
+  "content": {
+    "/A2Game-V0.1-Spec/samples/games/grid-merge-spawn.game.json": {
+      "id": "org.a2game.samples.grid-merge-spawn",
+      "revision": 2,
+      "sha256Jcs": "4ee9abd8875211ce0a8b636bcb7fc84fa2c6bef30f066c5e96ce5bccdcf04855"
+    },
+    "/A2Game-V0.1-Spec/samples/games/grid-merge.game.json": {
+      "id": "org.a2game.samples.grid-merge",
+      "revision": 2,
+      "sha256Jcs": "481dc30f1ac37cee1cd6dd9f344b74bfe6e89e9a5f720bdb76ffd1f14bc7e2ee"
+    },
+    "/A2Game-V0.1-Spec/samples/games/grid-push.game.json": {
+      "id": "org.a2game.samples.grid-push",
+      "revision": 1,
+      "sha256Jcs": "ff0b6aa995aae67560d1031a15a35ac63f70eb78de662df2b2eff3e0b0e6d3e2"
+    },
+    "/A2Game-V0.1-Spec/samples/games/tap-target.game.json": {
+      "id": "org.a2game.samples.tap-target",
+      "revision": 2,
+      "sha256Jcs": "21568201b444d3a7e1f4d0c446a0111369890f393888f897f576cb6c091f6969"
+    }
+  }
+}

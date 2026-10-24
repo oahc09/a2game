@@ -1,0 +1,21 @@
+# Dependencies and local Python environment
+node_modules/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Rebuild with npm run build; retain reviewed reports and source JSON catalog
+dist/
+
+# SDKs are obtained from upstream and identified by a provenance receipt
+player/vendor/*.js
+.tools/
+output/
+
+# Local configuration and editor files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.tsbuildinfo

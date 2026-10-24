@@ -1,0 +1,66 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g1-exact-state-hash-v1",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.tap-target",
+    "file": "../games/tap-target.game.json"
+  },
+  "cases": [
+    {
+      "id": "stable-ready-and-start-hash",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "assert",
+          "path": "/exactHash",
+          "equals": "8d142e432d6c3f98abb28c965b6a90447fab9f8a08ecc9df3bc3e6ada5733c74"
+        },
+        {
+          "op": "start"
+        },
+        {
+          "op": "assert",
+          "path": "/exactHash",
+          "equals": "600d9b83142037aa1f09c4bdec731b7f371e182cc823ee7f8e33e7c00a60bf93"
+        },
+        {
+          "op": "assert",
+          "path": "/exactHashVersion",
+          "equals": 1
+        }
+      ]
+    },
+    {
+      "id": "hash-after-click",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press",
+          "sourceId": "test"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release",
+          "sourceId": "test"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/exactHash",
+          "equals": "d46b20916c6967e9291ac402f1127c71101f17d5b459e27c707dc2c855b08bf1"
+        }
+      ]
+    }
+  ]
+}

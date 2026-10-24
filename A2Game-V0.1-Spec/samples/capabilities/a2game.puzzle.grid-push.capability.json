@@ -1,0 +1,125 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.puzzle.grid-push",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "推箱子风格网格合法性、原子推动与目标格成功判定。",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "required": [
+        "width",
+        "height",
+        "wallsPath",
+        "goalsPath",
+        "boxesPath",
+        "playerPath",
+        "movesPath",
+        "solvedPath",
+        "actions"
+      ],
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 32
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 32
+        },
+        "wallsPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "goalsPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "boxesPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "playerPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "movesPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "solvedPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "actions": {
+          "type": "object",
+          "required": [
+            "left",
+            "right",
+            "up",
+            "down"
+          ],
+          "properties": {
+            "left": {
+              "type": "string"
+            },
+            "right": {
+              "type": "string"
+            },
+            "up": {
+              "type": "string"
+            },
+            "down": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "grid.player-moved",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "grid.box-pushed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "PUSH-001",
+    "PUSH-002",
+    "PUSH-003"
+  ]
+}

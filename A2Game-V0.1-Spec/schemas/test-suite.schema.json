@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:a2game:schemas:conformance:0.1.0",
+  "title": "A2Game Conformance Suite 0.1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "specVersion",
+    "suiteId",
+    "subject",
+    "cases"
+  ],
+  "properties": {
+    "format": {
+      "const": "a2game-conformance"
+    },
+    "specVersion": {
+      "const": "0.1.0"
+    },
+    "suiteId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "type",
+        "id",
+        "file"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "game",
+            "capability",
+            "runtime",
+            "adapter"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "seed",
+          "steps"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "seed": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/step"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "step": {
+      "type": "object",
+      "required": [
+        "op"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "start",
+            "injectAction",
+            "injectRaw",
+            "step",
+            "assert",
+            "assertEvent",
+            "pause",
+            "resume",
+            "restart",
+            "snapshot",
+            "restore",
+            "expectError"
+          ]
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phase": {
+          "enum": [
+            "press",
+            "hold",
+            "release",
+            "cancel"
+          ]
+        },
+        "value": {},
+        "sourceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ticks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equals": {},
+        "approximately": {
+          "type": "number"
+        },
+        "absTol": {
+          "type": "number",
+          "minimum": 0
+        },
+        "relTol": {
+          "type": "number",
+          "minimum": 0
+        },
+        "units": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eventType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sinceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "raw": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

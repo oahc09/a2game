@@ -1,0 +1,40 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.keyboard.button",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "portability": "exact",
+  "description": "标准化键盘键到 button action，保留有序边沿。",
+  "phase": "recognize",
+  "dependencies": [],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "input.action",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "INPUT-009"
+  ]
+}
