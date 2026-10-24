@@ -1,6 +1,7 @@
 /** Governance validator: prevents silent release, gate, scope and roadmap drift. */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, sep } from 'node:path';
+import { createHash } from 'node:crypto';
 const root = resolve(import.meta.dirname, '..');
 const read = path => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
 const text = path => readFileSync(resolve(root, path), 'utf8');
@@ -65,7 +66,33 @@ for(const token of ['IMU','Touch','CocosAirJS','Three.js','G0','G1','G2','G3','A
 for(const [gate, receipt] of [
   ['G2CocosAirJSRealSDK','reports/g2-cocosairjs-real.json'],
   ['G2ThreeJSRealSDK','reports/g2-threejs-real.json']
-]) if(status.gates[gate]==='PASS') insist(existsSync(resolve(root,receipt)),`${gate} cannot PASS without real SDK receipt: ${receipt}`);
+]) if(status.gates[gate]==='PASS') {
+  try {
+    const pointer=read(receipt),evidence=read(pointer.receipt);
+    const backend=gate==='G2CocosAirJSRealSDK'?'air':'three';
+    insist(pointer.status==='PASS'&&evidence.status==='PASS'&&pointer.runId===evidence.runId,`${gate}: receipt is not PASS for the active run`);
+    insist(evidence.backend===backend&&evidence.format==='a2game-g2-real-sdk',`${gate}: wrong SDK receipt`);
+    insist(evidence.physicalClose?.status==='PASS'&&evidence.fingerprintsUnchanged===true,`${gate}: incomplete shutdown or concurrent edit`);
+    insist(evidence.cases?.length===8&&evidence.cases.every(item=>item.status==='PASS'),`${gate}: four games x two viewport/DPR profiles must pass`);
+    insist(evidence.nativeContext?.status==='PASS',`${gate}: native clock/context-loss check missing`);
+    insist(evidence.crossEngineParity?.length===8&&evidence.crossEngineParity.every(item=>item.status==='PASS'),`${gate}: cross-engine hashes must pass`);
+    const sdk=read(evidence.sdk),lock=read('project/sdk-lock.json');
+    insist(sdk.three.version===lock.three.version&&sdk.cocosairjs.commit===lock.cocosairjs.commit,`${gate}: SDK source differs from lock`);
+    for(const [path,digest] of Object.entries(read(evidence.fingerprints))){
+      const file=resolve(root,path);
+      insist(file.startsWith(root+sep)&&/^[a-f0-9]{64}$/.test(digest),`${gate}: invalid fingerprint ${path}`);
+      // dist is rebuilt after the governance step on a clean checkout.
+      if(existsSync(file))insist(createHash('sha256').update(readFileSync(file)).digest('hex')===digest,`${gate}: stale evidence for ${path}; rerun real G2 or reset the gate`);
+      else insist(path.startsWith('dist/'),`${gate}: missing fingerprinted source ${path}`);
+    }
+    for(const item of evidence.cases){
+      for(const key of ['initial','keyboard','pointer','restart'])insist(
+        item[key]?.node?.exactHash===item[key]?.observation?.exactHash&&item[key]?.node?.tickIndex===item[key]?.observation?.tickIndex,
+        `${gate}: Node/Host proof missing for ${item.id}/${key}`);
+      for(const visual of [item.visual,item.resized])insist(visual?.checks?.length>0&&existsSync(resolve(root,visual.screenshot)),`${gate}: screenshot/pixel proof missing for ${item.id}`);
+    }
+  }catch(error){insist(false,`${gate}: cannot verify receipt: ${error.message}`);}
+}
 if(failures.length){console.error('A2Game project governance FAIL:');for(const x of failures) console.error(' -',x);process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：`S2 — 真实双引擎 G2 前置准备`；`S1` 已有 Headless/Canvas2D 子集，但整个 G1 尚不完整。证据与更新规则见 [PROJECT-STATUS.md](PROJECT-STATUS.md)。
+> **当前执行阶段**：`S2 — 真实双引擎 G2 四样例 scene2d 子集已通过`，下一主线为 S3/S4；`S1` 已有 Headless 参考子集，但整个 G1 尚不完整。证据与更新规则见 [PROJECT-STATUS.md](PROJECT-STATUS.md)。
 
 ## 0. 项目目标与不可变边界
 
@@ -50,8 +50,8 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
    ├── Conformance/Replay/Save/Observe
    └── PresentationFrame（只读）
           ├── Canvas2D 预览（参考）
-          ├── CocosAirJS Host Adapter（真实 G2 待跑）
-          ├── Three.js Host Adapter（真实 G2 待跑）
+          ├── CocosAirJS Host Adapter（四样例 scene2d 真实 G2 PASS）
+          ├── Three.js Host Adapter（四样例 scene2d 真实 G2 PASS）
           └── 后续新 Host
 ```
 
@@ -63,7 +63,7 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 |---|---|---|---|---|
 | **S0** 协议与样例基线 | 四份主规范、7 Schema、Capability/Adapter/Coverage 样例、32 候选 | 版本语义、静态交叉引用 | G0 格式/引用基线证据可复现 | **完成设计；实现仍将扩展** |
 | **S1** Headless 共享逻辑 | 事件规则、状态事务/回滚、计时、RNG、exact hash、快照、输入轨迹、网格合并与推箱子 | 通过正反例与并发冲突测试 | G1 参考子集 PASS；完整标准库另算 | **子集通过，整体 PARTIAL** |
-| **S2** 真双引擎适配 | 获取并锁定 SDK、在真实 HTTP 浏览器分别启动、绘制、触摸/键盘、暂停/重开/释放、同 JSON 哈希对照 | 不能用 Mock、Canvas2D 代替真实 SDK | CocosAirJS 和 Three.js 各自真实 G2 PASS，含截图与回执 | **当前阶段：待真实验证** |
+| **S2** 真双引擎适配 | 获取并锁定 SDK、在真实 HTTP 浏览器分别启动、绘制、触摸/键盘、暂停/重开/释放、同 JSON 哈希对照 | 不能用 Mock、Canvas2D 代替真实 SDK | CocosAirJS 和 Three.js 各自真实 G2 PASS，含截图与回执 | **四样例 scene2d 子集真实 PASS；真机/其他能力另验** |
 | **S3** 内容安全与交付流水线 | 任意 AI JSON 完整 Schema 2020-12、语义/版本安全校验、资源引用/完整性/来源策略、编译计划与缓存、错误修复反馈 | 浏览器或服务端使用等效完整校验，不降低为手写子集 | 未信任内容拒绝、负例和篡改测试，安全发布 Gate | **PARTIAL（目前仅预校验白名单）** |
 | **S4** 通用表现 | Sprite、Texture、Mesh、Camera、Text、Animation、Particle、Audio、UI/HUD、Shader 扩展、资源生命周期；2D/2.5D/3D | 版本化 Manifest，Host 受控映射 | 不按游戏 ID 分支；双引擎截图/坐标/性能/释放 Gate | **PARTIAL（仅 rect/circle/text/repeat）** |
 | **S5** 益智与休闲标准库 | Grid、Push、Slide、Merge、Swap、MatchN、Cascade、GravityFill、Tray、Layer/Occlusion、Sort、Polyomino、Rotate、LineClear、Undo、Find/Placement | 玩法契约与回合/混合时间语义；每机制测试变体 | G01–G10、G20、G24 对应能力/玩法验收 | **PARTIAL（两种网格子集）** |
@@ -131,7 +131,9 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 5. AI 从自然语言生成至少一次规则变体并通过验证，记录模型/提示/输出/修复成本。
 6. 写入对应 `CoverageResult` 证据和版本；否则保持 `planned` 或 `PARTIAL`。
 
-## 5. S2 下一次可执行任务（不得越过）
+## 5. S2 可复用验收合同（四样例 scene2d 已执行；扩展须重验）
+
+2026-10-24 实际回执：`reports/g2-threejs-real.json`、`reports/g2-cocosairjs-real.json`。命令 `npm run sdk:prepare`、`npm run g2:real`；16 游戏/视口场景及 2 原生时钟/context loss 场景通过。下列合同继续约束后续新能力；不意味着整个 32+5 或 S4 已完成。
 
 1. 在独立本地工作区安装本 README 锁定的 Three.js 版本和真实 CocosAirJS SDK 构建，记录来源、SHA、构建方式。**不得伪造 vendor 文件**。
 2. 运行 G0/G1 基线，保证和当前 Headless 结果一致；进入浏览器以前检查实际输出。
@@ -160,7 +162,7 @@ PROJECT-STATUS.md + project/status.json (仅在真实验收后更新)
 
 | 风险 | 控制措施 |
 |---|---|
-| 浏览器真实 SDK 未验证 | G2 保持 NOT_RUN；当前只有 Mock/Canvas2D 证据 |
+| 新表现能力或设备缺乏真实 SDK 验证 | 既有 G2 只覆盖四样例 scene2d；新增能力/平台必须有独立真实回执，不沿用旧 PASS |
 | `1.0.0` 误认成稳定正式产品 | 每份入口写明“参考工作区发行版本；技术成熟度 Alpha”；协议独立版本 `0.1.0` |
 | 仅在 Python 构建时完整校验 | 浏览器动态 AI JSON 前，部署等效 Schema 2020-12 校验或可信后端预验证服务 |
 | 玩法核心与 Renderer 相互污染 | Adapter 接口仅消费 PresentationFrame/标准平台事件，禁止按游戏 ID 分支 |

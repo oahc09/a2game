@@ -8,9 +8,15 @@ const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','e
 const params=new URLSearchParams(location.search);
 const gameName=['tap-target','grid-merge','grid-merge-spawn','grid-push'].includes(params.get('game'))?params.get('game'):'tap-target';
 const backendName=['preview','air','three'].includes(params.get('backend'))?params.get('backend'):'preview';
+// Explicit automation mode replaces the production clock; both use the same runtime.
+const manualClock=params.get('clock')==='manual';
+const operations=[];
+const record=(op,payload)=>{if(manualClock)operations.push({op,...payload});};
+const listeners=new AbortController();
+const listen=(target,type,callback)=>target.addEventListener(type,callback,{signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,raf,ts=0,carry=0,errorMessage='';
+let runtime,adapter,definition,raf,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 const showError=e=>{errorMessage=e instanceof Error?`${e.name}: ${e.message}`:String(e);dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function fetchValidatedGame(name){
  const catalogResp=await fetch('./validated-games.json');if(!catalogResp.ok)throw Error('Missing G0 validated catalog: run npm run catalog:build');
@@ -51,19 +57,20 @@ function updateInfo(obs){
    el.disabled=!(definition.inputs.actions.some(x=>x.id===el.dataset.action)) || obs.flow.status!=='playing';
  }
 }
-function render(){if(!runtime||!adapter)return;const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
+function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
 function sendAction(action){
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
  const sourceId=`ui:${action}:${runtime.observe().tickIndex}`;
  runtime.injectAction({action,phase:'press',sourceId});runtime.injectAction({action,phase:'release',sourceId});
+ record('action',{input:{action,phase:'press',sourceId}});record('action',{input:{action,phase:'release',sourceId}});
  // The animation-frame accumulator is the single production Tick driver.
  // Never advance simulation from DOM input callbacks.
 }
 function animate(now){
- if(!runtime)return;
+ if(disposal)return;
  if(!ts)ts=now;
  const dt=Math.max(0,(now-ts)/1000);ts=now;
- if(runtime.status==='playing'){
+ if(!manualClock&&runtime.status==='playing'){
    carry+=dt;const hz=definition.world.clock.tickHz,max=definition.world.clock.maxCatchUpTicks??5;
    const steps=Math.floor(carry*hz+1e-7);
    if(steps>max){
@@ -71,34 +78,58 @@ function animate(now){
      runtime.pause();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
    }else if(steps>0){runtime.step(steps);carry-=steps/hz;}
  }
- render();raf=requestAnimationFrame(animate);
+ if(contextState==='healthy')render();raf=requestAnimationFrame(animate);
 }
-function relPos(e){const r=dom.GameCanvas.getBoundingClientRect();return {u:(e.clientX-r.left)/r.width,v:(e.clientY-r.top)/r.height};}
 function bindInputs(){
  const canvas=dom.GameCanvas;
  const rawPointer=(e,kind)=>{
    if(runtime?.status!=='playing')return;
    const rect=canvas.getBoundingClientRect();
-   runtime.injectRaw({source:'pointer',kind,tickIndex:runtime.observe().tickIndex,timeUs:Math.round(performance.now()*1000),
-      payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height}});
+   const input={source:'pointer',kind,tickIndex:runtime.observe().tickIndex,timeUs:Math.round(performance.now()*1000),
+      payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height}};
+   runtime.injectRaw(input);record('raw',{input});
  };
- canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');});
- canvas.addEventListener('pointermove',e=>{if(canvas.hasPointerCapture(e.pointerId))rawPointer(e,'move');});
- canvas.addEventListener('pointerup',e=>rawPointer(e,'up'));
- canvas.addEventListener('pointercancel',e=>rawPointer(e,'cancel'));
- canvas.addEventListener('lostpointercapture',e=>rawPointer(e,'cancel'));
- window.addEventListener('keydown',e=>{
+ listen(canvas,'pointerdown',e=>{if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
+ listen(canvas,'pointermove',e=>{if(canvas.hasPointerCapture(e.pointerId))rawPointer(e,'move');});
+ listen(canvas,'pointerup',e=>rawPointer(e,'up'));
+ listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
+ listen(canvas,'lostpointercapture',e=>rawPointer(e,'cancel'));
+ listen(window,'keydown',e=>{
    if(e.repeat||e.target instanceof HTMLSelectElement)return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
    if(bound){e.preventDefault();sendAction(bound.id);}
  });
- document.querySelectorAll('[data-action]').forEach(btn=>btn.addEventListener('click',()=>sendAction(btn.dataset.action)));
- dom.pause.addEventListener('click',()=>{
-   if(runtime.status==='paused'){runtime.resume();carry=0;ts=0;dom.hint.textContent='已恢复';}
-   else if(runtime.status==='playing'){runtime.pause();carry=0;dom.hint.textContent='已暂停';}render();
+ document.querySelectorAll('[data-action]').forEach(btn=>listen(btn,'click',()=>sendAction(btn.dataset.action)));
+ listen(dom.pause,'click',()=>{
+   if(contextState==='reload-required'){location.reload();return;}
+   if(contextState!=='healthy')return;
+   if(runtime.status==='paused'){runtime.resume();record('resume');carry=0;ts=0;dom.hint.textContent='已恢复';}
+   else if(runtime.status==='playing'){runtime.pause();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
  });
- dom.restart.addEventListener('click',()=>{runtime.restart();carry=0;ts=0;dom.hint.textContent='已重开';render();});
- for(const which of ['game','backend'])dom[which].addEventListener('change',()=>{location.search=new URLSearchParams({game:dom.game.value,backend:dom.backend.value}).toString();});
+ listen(dom.restart,'click',()=>{
+   if(contextState!=='healthy')return;
+   runtime.restart();record('restart');carry=0;ts=0;dom.hint.textContent='已重开';render();
+ });
+ listen(canvas,'webglcontextlost',e=>{
+   if(adapter.disposed)return;
+   e.preventDefault();contextState='lost';runtime.pause();record('pause');carry=0;
+   adapter.releaseVisualsForContextLoss?.();
+   updateInfo(runtime.observe());dom.hint.textContent='图形上下文已丢失，游戏已暂停';
+ });
+ listen(canvas,'webglcontextrestored',()=>{
+   if(adapter.disposed)return;
+   contextState=backendName==='air'?'reload-required':'healthy';carry=0;ts=0;
+   if(contextState==='reload-required'){
+     dom.hint.textContent='图形上下文需要重新加载；点击「重新加载」开始新一局';dom.pause.textContent='重新加载';
+   }else{render();dom.hint.textContent='图形上下文已恢复；点击「继续」恢复游戏';}
+ });
+ listen(window,'blur',()=>{if(runtime.status==='playing'){runtime.pause();record('pause');carry=0;render();}});
+ for(const which of ['game','backend'])listen(dom[which],'change',()=>{location.search=new URLSearchParams({game:dom.game.value,backend:dom.backend.value}).toString();});
+}
+function dispose(){
+ if(disposal)return disposal;
+ if(raf)cancelAnimationFrame(raf);listeners.abort();runtime?.dispose();
+ disposal=Promise.resolve().then(()=>adapter?.dispose());return disposal;
 }
 async function main(){
  try{
@@ -108,9 +139,26 @@ async function main(){
    const registry=await createBrowserRegistry();
    runtime=new HeadlessRuntime(definition,registry);
    adapter=await createAdapter(backendName);
+   // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
+   render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
    runtime.start();bindInputs();render();raf=requestAnimationFrame(animate);
-   window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,backend:backendName};
- }catch(e){showError(e);}
+   window.render_game_to_text=()=>JSON.stringify({coordinateSystem:'center origin, +X right, +Y up; pointer top-left',
+     backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
+     presentation:projectPresentation(definition,runtime.observe())});
+   window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
+     backend:backendName,dispose,diagnostics:()=>({contextState,adapter:adapter.diagnostics?.(),listenersActive:!listeners.signal.aborted})};
+   if(manualClock){
+     window.__a2game.getOperations=()=>structuredClone(operations);
+     window.__a2game.step=ticks=>{const result=runtime.step(ticks);record('step',{ticks});if(contextState==='healthy')render();return result;};
+     window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
+     window.advanceTime=ms=>{
+       if(!Number.isFinite(ms)||ms<0)throw Error('Invalid advanceTime');
+       if(runtime.status==='playing')carry+=ms*definition.world.clock.tickHz/1000;
+       const ticks=Math.floor(carry+1e-7);carry-=ticks;
+       if(ticks)window.__a2game.step(ticks);
+     };
+   }
+ }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
-window.addEventListener('pagehide',()=>{if(raf)cancelAnimationFrame(raf);try{runtime?.dispose();void adapter?.dispose();}catch(e){console.error(e);}});
+window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
 main();

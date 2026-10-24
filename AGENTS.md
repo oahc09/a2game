@@ -3,7 +3,7 @@
 按以下顺序阅读并执行：`README.md` → `PROJECT-PLAN.md` → `PROJECT-STATUS.md` → `project/status.json` → 对应 `A2Game-V0.1-Spec/docs/*.md` → 源码与测试。若存在宿主或用户更高优先级指令，优先遵守；不得以此文件绕过权限要求。
 
 1. **版本**：工作区发行 `1.0.0`；实际 npm 版本 `1.0.0`；GameSpec/Capability Protocol `0.1.0`。保留 Spec 0.1 历史目录和旧 `v03-*` 证据，不做全局字符串替换。
-2. **状态**：当前 S2 真实双引擎 G2 准备阶段。G0 已交付静态子集 PASS，G1 已交付 Headless 子集 PASS 但全目录 PARTIAL；CocosAirJS/Three.js G2 NOT_RUN；G3 NOT_RUN。不得改写成全量完成。
+2. **状态**：S2 真实双引擎 G2 已通过四份 `scene2d` 参考 JSON 子集（回执见 `reports/g2-*-real.json`），下一主线为 S3/S4。G0 已交付静态子集 PASS，G1 Headless 子集 PASS 但全目录 PARTIAL；G3、真机 Touch/IMU 仍 NOT_RUN。不得改写成全量完成，现行状态以 `project/status.json` 为准。
 3. **架构**：AI 输出 JSON；全 Schema + Capability 检查；共享 Headless Tick/Rules/State；Host 只消费 PresentationFrame/注入输入。禁止按游戏名在 Adapter 实现玩法、禁止执行 JSON 任意脚本。
 4. **范围**：完整范围包括 32 Gxx + 5 Hxx、Touch/IMU、多点触控、2D/3D/物理、Puzzle/Realtime/Combat/Strategy/Economy/Turn-Based、Agent 生成与 Conformance；不能因当前示例有限就删掉未来目标。
 5. **实施**：改前看差异；小步增量，保留用户内容；新增 Capability 必须补 Manifest、GameSpec、Schema/语义检查、正反例、Conformance、Host 支持和 Coverage receipt；先证据后升级状态。
@@ -19,6 +19,7 @@
 - `src/modules/`：共享玩法；目前仅网格滑动合并、随机补位、推箱子参考子集。
 - `player/main.mjs`：HTTP 加载、SHA256 白名单、DOM 输入、唯一生产 Tick 调度；`player/adapters/`：纯表现后端。
 - `test/`：Node 与 Mock 合同；`scripts/run-conformance.mjs`：JSON 逻辑套件。Mock 测试不构成 G2 证据。
+- `project/sdk-lock.json`：真实 SDK 来源锁定；`scripts/prepare-sdks.mjs` 生成本地 SDK/SHA 清单，`scripts/g2-real.mjs` 通过真实 HTTP 执行跨引擎验收。
 - `A2Game-V0.1-Spec/`：协议、Schema、11 份能力 Manifest、4 份游戏 JSON、32 款候选登记。
 - `reports/`：需保留的历史证据；每次真实 SDK 运行使用独立目录，记录来源、SHA、浏览器、输入、截图、Hash 与释放结果。
 
@@ -43,6 +44,8 @@ npm run verify
 ```
 
 `package-lock.json` 应纳入版本管理；`dist/`、`node_modules/`、`.venv/`、下载的 SDK 和临时浏览器产物不入库。不得删除现有历史报告来整理目录。
+
+真实 SDK 验收：按 `README.md` 准备锁定版本的 CocosAirJS，执行 `npm run sdk:prepare`、`npx playwright install chromium`、`npm run g2:real`。每次运行保留独立目录；`reports/g2-*-real.json` 是当前回执指针。已通过的 G2 会由 `project:check` 检查真实结果、源码指纹与截图，不得沿用代码变更前的 PASS。
 
 ## 当前主线与交接
 

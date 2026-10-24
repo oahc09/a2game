@@ -8,7 +8,7 @@ export class ThreeAdapter {
     this.scene=new THREE.Scene();
     this.camera=new THREE.OrthographicCamera(-4,4,3,-3,0.1,100);
     this.camera.position.set(0,0,15);this.camera.lookAt(0,0,0);
-    this.meshes=[];this.lastSignature='';
+    this.meshes=[];this.lastSignature='';this.disposed=false;
   }
   makeVisual(cmd,z){
     const T=this.THREE;
@@ -20,17 +20,20 @@ export class ThreeAdapter {
       geometry=new T.CircleGeometry(cmd.radius,48);
       material=new T.MeshBasicMaterial({color:cmd.fill});
     }else{
-      const sheet=document.createElement('canvas');sheet.width=512;sheet.height=128;
+      const sheet=document.createElement('canvas');
       const ctx=sheet.getContext('2d');if(!ctx)throw Error('Text canvas unavailable');
-      ctx.font='700 68px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=cmd.fill;
-      ctx.fillText(cmd.text,256,64);
+      const font='700 64px system-ui';ctx.font=font;
+      sheet.width=Math.max(1,Math.ceil(ctx.measureText(cmd.text).width+16));sheet.height=96;
+      ctx.font=font;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=cmd.fill;
+      ctx.fillText(cmd.text,sheet.width/2,sheet.height/2);
       const texture=new T.CanvasTexture(sheet);
-      // 2D text has a stable view-space height; canvas width can be scaled to fit long labels.
-      const width=Math.max(cmd.fontSize,Math.min(5,cmd.fontSize*4));
-      geometry=new T.PlaneGeometry(width,cmd.fontSize);
+      if(T.SRGBColorSpace)texture.colorSpace=T.SRGBColorSpace;
+      geometry=new T.PlaneGeometry(sheet.width/64*cmd.fontSize,sheet.height/64*cmd.fontSize);
       material=new T.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false});
     }
     const mesh=new T.Mesh(geometry,material);
+    // PresentationFrame is an ordered painter's list, including transparent text.
+    mesh.renderOrder=this.meshes.length;material.depthTest=false;material.depthWrite=false;
     mesh.position.set(cmd.at[0],cmd.at[1],z);
     this.scene.add(mesh);this.meshes.push(mesh);
   }
@@ -40,10 +43,18 @@ export class ThreeAdapter {
     }
     this.meshes=[];
   }
+  releaseVisualsForContextLoss(){
+    // Detach resource disposal listeners while the old context is lost. Restoring
+    // then rebuilds visuals from the frame, avoiding stale WebGL handle deletion.
+    this.clear();this.lastSignature='';
+  }
   draw(frame){
+    if(this.disposed)throw Error('A2G_E_DISPOSED: Three.js adapter disposed');
     if(!frame?.commands)throw Error('PresentationFrame expected');
     const rect=this.canvas.getBoundingClientRect(),w=Math.max(rect.width,1),h=Math.max(rect.height,1);
-    this.renderer.setPixelRatio(Math.min(globalThis.devicePixelRatio||1,2));this.renderer.setSize(w,h,false);
+    const dpr=Math.min(globalThis.devicePixelRatio||1,2);
+    const sizeSignature=`${w}:${h}:${dpr}`;
+    if(this.sizeSignature!==sizeSignature){this.renderer.setPixelRatio(dpr);this.renderer.setSize(w,h,false);this.sizeSignature=sizeSignature;}
     const scale=Math.min(w/frame.width,h/frame.height);
     this.camera.left=-w/(2*scale);this.camera.right=w/(2*scale);
     this.camera.top=h/(2*scale);this.camera.bottom=-h/(2*scale);
@@ -56,5 +67,10 @@ export class ThreeAdapter {
     }
     this.renderer.render(this.scene,this.camera);
   }
-  dispose(){this.clear();this.renderer.dispose();}
+  diagnostics(){return {disposed:this.disposed,ownedMeshes:this.meshes.length,
+    gpu:this.renderer.info?{...this.renderer.info.memory}:null};}
+  dispose(){
+    if(this.disposed)return;
+    this.disposed=true;this.clear();this.renderer.dispose();
+  }
 }

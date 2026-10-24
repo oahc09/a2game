@@ -9,7 +9,8 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S2",
-  "currentObjective": "Run real CocosAirJS and Three.js browser G2 using the same verified GameSpec; retain G2 NOT_RUN until SDK evidence exists.",
+  "currentObjective": "Real CocosAirJS/Three.js scene2d G2 reference subset PASS. Next: S3 full dynamic AI JSON validation and S4 versioned presentation capabilities; retain 0/32 gameplay verified and 0/5 hybrid verified.",
+  "nextStage": "S3",
   "stages": [
     {
       "id": "S0",
@@ -24,7 +25,8 @@
     {
       "id": "S2",
       "name": "Real CocosAirJS and Three.js G2",
-      "status": "NOT_RUN"
+      "status": "PASS",
+      "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded"
     },
     {
       "id": "S3",
@@ -77,8 +79,8 @@
     "G0BrowserDynamicJson": "NOT_IMPLEMENTED",
     "G1ReferenceSubset": "PASS",
     "G1FullCatalog": "PARTIAL",
-    "G2CocosAirJSRealSDK": "NOT_RUN",
-    "G2ThreeJSRealSDK": "NOT_RUN",
+    "G2CocosAirJSRealSDK": "PASS",
+    "G2ThreeJSRealSDK": "PASS",
     "G3GameplayAgent": "NOT_RUN",
     "RealDeviceTouchIMU": "NOT_RUN"
   },
@@ -120,8 +122,6 @@
     "referenceCapabilityManifests": 11
   },
   "blockingItems": [
-    "Actual CocosAirJS SDK browser end-to-end has not run",
-    "Actual Three.js SDK browser end-to-end has not run",
     "Browser dynamic arbitrary AI JSON full Draft 2020-12 validation not implemented",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
@@ -135,7 +135,39 @@
     "conformance": {"pass": 12, "total": 12},
     "schema": {"kinds": 7, "documents": 27}
   },
+  "g2Run": {
+    "date": "2026-10-24",
+    "runId": "g2-2026-10-24T11-56-54-131Z-9708",
+    "summary": "reports/g2-2026-10-24T11-56-54-131Z-9708/summary.json",
+    "threeReceipt": "reports/g2-threejs-real.json",
+    "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
+    "browser": "Chromium 156.0.8078.4",
+    "renderer": "WebGL2 ANGLE Vulkan SwiftShader",
+    "gameViewportCases": {"pass": 16, "total": 16},
+    "nativeClockContextCases": {"pass": 2, "total": 2},
+    "nodeThreeAirParity": {"pass": 8, "total": 8},
+    "httpNavigation": "PASS",
+    "physicalClose": "PASS",
+    "limitations": [
+      "scene2d four-game reference subset only; not complete Gxx/Hxx or Agent G3",
+      "Chromium mobile viewport and DOM Pointer are not physical Touch/IMU or physical GPU verification",
+      "AIR close retains runtime/builtin/shared caches and requires reload for reinitialization",
+      "No portable complete GPU allocation measurement or zero-total-leak claim"
+    ]
+  },
   "currentRun": {
+    "date": "2026-10-24",
+    "command": "npm run verify",
+    "status": "PASS",
+    "log": "reports/g2-workspace-verify-20261024.log",
+    "conformanceReceipt": "reports/g2-workspace-conformance-20261024.json",
+    "nodeTests": {"pass": 55, "total": 55},
+    "conformance": {"pass": 12, "total": 12, "suites": 6},
+    "schema": {"kinds": 7, "documents": 27},
+    "g2Summary": "reports/g2-2026-10-24T11-56-54-131Z-9708/summary.json",
+    "httpNavigation": "PASS"
+  },
+  "historicalReleaseRun": {
     "date": "2026-10-24",
     "receipt": "reports/release-1.0.0-validation.json",
     "nodeTests": {

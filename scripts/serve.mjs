@@ -19,4 +19,4 @@ const server=createServer(async(req,res)=>{
    res.end(bytes);
  }catch(e){res.writeHead(404,{'Content-Type':'text/plain'});res.end('File not found');}
 });
-server.listen(port,'127.0.0.1',()=>console.log(`A2Game preview: http://127.0.0.1:${port}/player/index.html`));
+server.listen(port,'127.0.0.1',()=>console.log(`A2Game preview: http://127.0.0.1:${server.address().port}/player/index.html`));

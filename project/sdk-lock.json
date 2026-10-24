@@ -1,0 +1,13 @@
+{
+  "format": "a2game-sdk-lock",
+  "three": {
+    "version": "0.186.1",
+    "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz"
+  },
+  "cocosairjs": {
+    "version": "1.0.0",
+    "source": "https://github.com/oahc09/cocosairjs.git",
+    "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "entry": "build/cocosair.module.js"
+  }
+}

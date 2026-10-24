@@ -37,7 +37,7 @@ function mockAir(){
 }
 test('Three.js adapter projects generic PresentationFrame; reuses and releases resources (mock only)',()=>{
   const oldDoc=globalThis.document;
-  globalThis.document={createElement:()=>({getContext:()=>({fillText(){},fillStyle:'',font:'',textAlign:'',textBaseline:''})})};
+  globalThis.document={createElement:()=>({getContext:()=>({measureText:text=>({width:text.length*36}),fillText(){},fillStyle:'',font:'',textAlign:'',textBaseline:''})})};
   try{
     const {THREE,tally}=mockThree(), adapter=new ThreeAdapter(THREE,{getBoundingClientRect:()=>({width:800,height:600})});
     const initial=sampleFrame(), frozen=structuredClone(initial);
@@ -45,7 +45,11 @@ test('Three.js adapter projects generic PresentationFrame; reuses and releases r
     adapter.draw(initial);assert.equal(tally.created,before);
     adapter.draw({...initial,commands:[...initial.commands,{kind:'text',id:'extra',at:[0,0],text:'hello',fontSize:.4,fill:'#ffffff'}]});
     assert.ok(tally.renders>=3);assert.deepEqual(initial,frozen);
+    adapter.draw(initial);adapter.releaseVisualsForContextLoss();assert.equal(adapter.meshes.length,0);
+    adapter.draw(initial);assert.ok(adapter.meshes.length>0,'Context restore must rebuild the same frame');
     adapter.dispose();
+    const disposedCount=tally.geometryDisposes;adapter.dispose();assert.equal(tally.geometryDisposes,disposedCount);
+    assert.throws(()=>adapter.draw(initial),/A2G_E_DISPOSED/);
     assert.equal(tally.geometryDisposes,tally.materialDisposes);
     assert.ok(tally.textureDisposes>=1);
     assert.ok(tally.geometryDisposes>0&&tally.rendererDisposed);
@@ -60,5 +64,6 @@ test('CocosAirJS adapter consumes same PresentationFrame and releases scene (moc
   assert.ok(count>0&&circles>0);
   adapter.draw({...initial,commands:[...initial.commands,{id:'extra',kind:'text',at:[0,0],text:'hello',fontSize:.5,fill:'#ffffff'}]});
   assert.ok(tally.labels>0);assert.deepEqual(initial,frozen);
-  await adapter.dispose();assert.equal(tally.released,1);assert.ok(tally.destroys>0);
+  await adapter.dispose();await adapter.dispose();assert.equal(tally.released,1);assert.ok(tally.destroys>0);
+  assert.throws(()=>adapter.draw(initial),/A2G_E_DISPOSED/);
 });

@@ -4,7 +4,7 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，所以 `A2Game-V0.1-Spec/` 和 JSON 内 `specVersion` 不需要也不能直接改为 `1.0.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S2——真实 CocosAirJS + Three.js G2 验证准备。** 目前 Headless/Canvas2D 子集可运行；两份真实 SDK 均**未通过 G2**。完整全阶段计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，真实进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，后续 Agent 先读 [AGENTS.md](AGENTS.md)。 本轮操作和验收汇总见 [DELIVERY-REPORT.md](DELIVERY-REPORT.md)。
+> **当前阶段：S2——真实 CocosAirJS + Three.js G2 四样例 `scene2d` 子集已通过，下一主线为 S3/S4。** 真实 HTTP Chromium 已验证输入、Node/Host 状态哈希、画面、DPR/缩放和资源生命周期；不代表 32+5 玩法或真机/Agent 完成。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)。本次交付见 [G2 记录](reports/g2-implementation-20261024.md)，初始源码包交付记录保留在 [DELIVERY-REPORT.md](DELIVERY-REPORT.md)。
 
 ## 一、先看能运行什么
 
@@ -12,8 +12,8 @@
 |---|---|---|
 | TypeScript Headless Runtime | **可以** | 计时/规则/状态/回滚、合并、推箱子，Node.js 测试 |
 | 浏览器 Canvas2D 预览 | **可以** | 4 份预校验 JSON 游戏，无外部游戏引擎 SDK |
-| Three.js Renderer | **有源码，真实 G2 未验证** | 需要安装固定版本 ESM；第一次本机运行需单独核验 |
-| CocosAirJS Renderer | **有源码，真实 G2 未验证** | 需要已有 CocosAirJS 引擎构建；不能凭 Mock 判 PASS |
+| Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
+| CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
 | 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **未实现/未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |
 
 已包含的可交互游戏（只在当前定义/能力子集内运行）：
@@ -98,16 +98,16 @@ npm run player:serve
 
 不要双击 `player/index.html` 用 `file://` 打开：页面通过 HTTP 加载 JSON、模块和白名单。对于不信任的 AI JSON，**不得**跳过完整格式/引用/能力校验直接在页面动态加载。
 
-## 三、让 Three.js / CocosAirJS 真实运行（实验性 G2）
+## 三、让 Three.js / CocosAirJS 真实运行和复验 G2
 
-先确保第二节的 Canvas2D 已通过，再开始本节；两者仍需在你的机器上完成独立 G2 E2E 验收。
+先完成第二节的构建与校验，再开始本节。2026-10-24 已在 Windows/Chromium `156.0.8078.4`、WebGL2 ANGLE SwiftShader 上通过四样例 G2；新机器或 SDK/源码变化后应重新运行，不能沿用这次 PASS。
 
 ### 方式 A：Three.js（首次需要联网）
 
 在项目根目录：
 
 ```powershell
-npm install --no-save three@0.186.1
+npm ci
 Copy-Item .\node_modules\three\build\three.module.js .\player\vendor\three.module.js
 Copy-Item .\node_modules\three\build\three.core.js .\player\vendor\three.core.js
 npm run player:serve
@@ -115,22 +115,38 @@ npm run player:serve
 
 浏览器访问：`http://127.0.0.1:8765/player/index.html?backend=three`。
 
-**注意：** `three.module.js` 会相对导入 `three.core.js`，必须复制**相同版本的两份文件**。`npm install --no-save` 只用于取得 SDK，本项目基础 Runtime 不依赖它；请记录实际 Three.js 版本/文件 SHA 并运行 G2 检查。这个步骤不是宣布 G2 已通过。
+`three.module.js` 会相对导入 `three.core.js`，两者必须为相同版本。Three.js 和浏览器工具已作为固定版本开发依赖锁定；基础 Headless Runtime 没有新增生产依赖。完整双引擎验证建议使用下面的 `sdk:prepare` 自动复制并记录 SHA。
 
-### 方式 B：CocosAirJS（需要你的引擎 SDK）
+### 方式 B：CocosAirJS（需要可访问的真实引擎 SDK）
 
-1. 在已有的 `oahc09/cocosairjs` 构建目录中取得实际 `build/cocosair.module.js`；必要时参考 [CocosAirJS 官方仓库 README](https://github.com/oahc09/cocosairjs) 执行 `npm ci`、`npm run build:all`。这是**另一个仓库**，不要在当前 A2Game 目录内执行它的构建命令。
-2. 从 CocosAirJS 构建目录复制主 JS 到 `player/vendor/cocosair.js`，保持页面只使用这**同一份引擎入口**：
+源码版本固定在 `project/sdk-lock.json`。首次准备时，在独立的 `.tools/cocosairjs` 工作副本中执行：
 
 ```powershell
-$airBuild = 'D:\dev\cocosairjs\build\cocosair.module.js'  # 根据实际路径修改
-Copy-Item $airBuild .\player\vendor\cocosair.js
+git clone https://github.com/oahc09/cocosairjs.git .tools/cocosairjs
+git -C .tools/cocosairjs checkout --detach fa54a3f6942bfb3035d5c92d174a054ec4ab55ab
+Push-Location .tools/cocosairjs
+npm ci --ignore-scripts
+$env:NODE_OPTIONS = '--max-old-space-size=6144'
+npm run build
+Pop-Location
+npm run sdk:prepare
 npm run player:serve
 ```
 
-3. 浏览器访问 `http://127.0.0.1:8765/player/index.html?backend=air`。
+浏览器访问 `http://127.0.0.1:8765/player/index.html?backend=air`。如果已有相同版本的引擎工作副本，可设置 `$env:A2GAME_AIR_ROOT='D:\dev\cocosairjs'` 后运行 `npm run sdk:prepare`。脚本检查真实版本和源代码提交，生成本地 `player/vendor/sdk-provenance.json`；SDK JS 不入库。
 
-仅在 SDK 文件存在后尝试此后端。该演示采用 CocosAirJS `createAirApp`/容器模式，不依赖 WebGPU、Box2D3 或 Spark 额外资源。具体依赖布局参见 [`player/vendor/README.md`](player/vendor/README.md)。首次可能暴露 Adapter 错误；记录引擎 SHA、浏览器 Console、截图、输入轨迹和资源释放结果，不能把失败默认为通过。
+该演示采用 CocosAirJS `createAirApp`/容器模式，不依赖 WebGPU、Box2D3 或 Spark 额外资源。具体布局见 [`player/vendor/README.md`](player/vendor/README.md)。引擎关闭后按官方契约重载文档；context loss 后提供“重新加载”入口开始新一局。
+
+### 自动复验
+
+```powershell
+npx playwright install chromium
+npm run g2:real
+```
+
+脚本自行启动本地临时端口 HTTP 服务和真实 Chromium，关闭后保存独立 `reports/g2-<时间>-<进程>/`。包括 16 个游戏/视口场景、2 个原生时钟/context loss 场景、8 组 Node/Three/AIR Hash 对照、SDK SHA、截图像素、DOM 输入日志、浏览器 Trace、资源与关闭回执。当前指针为 `reports/g2-threejs-real.json` / `reports/g2-cocosairjs-real.json`；失败尝试保留。
+
+验证页面使用显式 `clock=manual` 接管玩法 Tick，渲染继续随 rAF 更新；另有正常时钟的实际交互验收。普通页面不记录输入操作。移动尺寸/DPR 模拟不等于移动真机 Touch/IMU，WebGL2 软件驱动不等于物理 GPU；不保证两个 SDK 文字逐像素相同或总 GPU 内存零泄漏。
 
 ### G2 的实际完成标准
 
@@ -200,14 +216,14 @@ A2Game-1.0.0/
 | 404、CORS、JSON 读取失败 | 用 `npm run player:serve` 通过 HTTP 访问；不要用 `file://` |
 | `A2G_E_RELEASE_INTEGRITY` / 游戏未验证 | 修改过 JSON 但未执行 `npm run schema:full` + `npm run catalog:build`；禁止关闭白名单/哈希检查 |
 | Three.js 模块找不到 | 复制相同 `0.186.1` 版本的 `three.module.js` 和 `three.core.js` 到 `player/vendor/` |
-| CocosAirJS 模块找不到或启动失败 | 先确认真实 SDK 构建及其依赖、浏览器 Console、canvas/container 和资源路径；G2 仍属未验证 |
+| CocosAirJS 模块找不到或启动失败 | 运行 `sdk:prepare` 核对锁定源码；检查 Console、canvas/container、资源路径；本机以新 G2 回执为准 |
 | `python scripts/browser-smoke.py` 报 Playwright/Chromium | 本脚本是可选真浏览器回归；先装 Playwright/Chromium，平台阻断则记录 BLOCKED |
 | 用户新 JSON 的字段通过但游戏不运行 | Schema 只验证结构；还需 Manifest/语义/能力实现、Conformance 与必要资源 |
 
 ## 八、当前完成情况和下一个可执行任务
 
-**本轮 1.0.0 隔离复验**：55/55 Node tests、12/12 JSON Conformance、7 Schema/27 文档、4 游戏 JSON、5/5 Node↔Chromium Hash PASS；本地 HTTP 返回 200，但 Chromium `page.goto()` 被环境策略拦截。证据见 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，真实双引擎 G2 仍 NOT_RUN。
+**当前验证**：55/55 Node、12/12 JSON Conformance、7 Schema/27 文档、4 游戏目录 PASS；真实双 SDK HTTP Chromium G2 四样例子集 PASS（16+2 场景，8 组跨引擎 Hash 一致）。证据见 [Three.js](reports/g2-threejs-real.json)、[CocosAirJS](reports/g2-cocosairjs-real.json)。旧隔离环境的 HTTP 策略阻塞记录保留于 [`reports/release-1.0.0-validation.json`](reports/release-1.0.0-validation.json)，不代表本次环境。
 
-**未完成/未验证**：真实 CocosAirJS 和 Three.js G2；动态 AI JSON 的浏览器全 Schema；Sprite/Mesh/Camera/Particles/Audio；三消与塔防/射击完整模块；多点/IMU 真机；32+5 全量玩法；Agent G3。
+**未完成/未验证**：动态 AI JSON 的浏览器全 Schema；Sprite/Mesh/Camera/Particles/Audio；三消与塔防/射击完整模块；物理 GPU、多点/IMU 真机；32+5 全量玩法；Agent G3。
 
-**下一阶段**：按 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 做真实 SDK 的 G2，再逐步推进其他所有规划能力。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。
+**下一阶段**：S3 动态 AI JSON 全量校验与交付流水线，S4 版本化表现能力与资源生命周期；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。

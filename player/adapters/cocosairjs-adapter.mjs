@@ -3,35 +3,49 @@ export class CocosAirAdapter {
   static async create(air,canvas){
     const names=['createAirApp','Scene','Node','UITransform','Graphics','Color','Layers','createUICanvas','labelNode','Label'];
     for(const key of names)if(!air?.[key])throw Error(`Missing CocosAirJS SDK export: ${key}`);
-    const adapter=new CocosAirAdapter(air,canvas);await adapter.init();return adapter;
+    const adapter=new CocosAirAdapter(air,canvas);
+    try{await adapter.init();return adapter;}catch(error){await adapter.dispose();throw error;}
   }
-  constructor(air,canvas){this.air=air;this.canvas=canvas;this.labels=[];this.current='';}
+  constructor(air,canvas){this.air=air;this.canvas=canvas;this.nodes=[];this.current='';this.disposed=false;}
   async init(){
     const a=this.air;
-    this.app=await a.createAirApp({canvas:this.canvas,screenMode:'container',container:this.canvas.parentElement,designResolution:{width:900,height:640,policy:2}});
+    this.container=this.canvas.closest?.('.stage')??this.canvas.parentElement;
+    this.width=this.container?.clientWidth||900;this.height=this.container?.clientHeight||640;
+    this.app=await a.createAirApp({canvas:this.canvas,screenMode:'container',container:this.container,designResolution:{width:this.width,height:this.height,policy:2}});
     this.scene=new a.Scene('A2Game');
-    this.ui=a.createUICanvas(this.scene,'A2GameUI',{designWidth:900,designHeight:640});
-    const node=new a.Node('PresentationGraphics');node.layer=a.Layers.Enum.UI_2D;
-    node.addComponent(a.UITransform).setContentSize(900,640);
-    this.graphics=node.addComponent(a.Graphics);this.ui.addChild(node);
+    this.ui=a.createUICanvas(this.scene,'A2GameUI',{designWidth:this.width,designHeight:this.height});
     this.app.run(this.scene);
   }
-  clearLabels(){for(const node of this.labels)node.destroy();this.labels=[];}
+  clear(){for(const node of this.nodes)node.destroy();this.nodes=[];}
+  makeGraphics(){
+    const a=this.air,node=new a.Node('PresentationGraphics');node.layer=a.Layers.Enum.UI_2D;
+    node.addComponent(a.UITransform).setContentSize(this.width,this.height);this.ui.addChild(node);this.nodes.push(node);
+    return node.addComponent(a.Graphics);
+  }
   draw(frame){
+    if(this.disposed)throw Error('A2G_E_DISPOSED: CocosAirJS adapter disposed');
     if(!frame?.commands)throw Error('PresentationFrame expected');
-    const signature=JSON.stringify(frame);
+    const width=this.container?.clientWidth||900,height=this.container?.clientHeight||640;
+    if(width!==this.width||height!==this.height){
+      this.width=width;this.height=height;this.air.view?.setDesignResolutionSize(width,height,2);
+      this.ui.getComponent(this.air.UITransform)?.setContentSize(width,height);
+    }
+    const signature=`${width}:${height}:${JSON.stringify(frame)}`;
     if(signature===this.current)return;
     this.current=signature;
-    const a=this.air,g=this.graphics,scale=Math.min(900/frame.width,640/frame.height);
-    g.clear();this.clearLabels();
+    const a=this.air,scale=Math.min(width/frame.width,height/frame.height);
+    this.clear();let g=this.makeGraphics();
     const rgb=value=>new a.Color(parseInt(value.slice(1,3),16),parseInt(value.slice(3,5),16),parseInt(value.slice(5,7),16),255);
-    g.fillColor=rgb(frame.background);g.rect(-450,-320,900,640);g.fill();
+    if(a.Canvas)this.ui.getComponent(a.Canvas).cameraComponent.clearColor=rgb(frame.background);
+    g.fillColor=rgb(frame.background);g.rect(-width/2,-height/2,width,height);g.fill();
     for(const cmd of frame.commands){
       const x=cmd.at[0]*scale,y=cmd.at[1]*scale;
       if(cmd.kind==='text'){
         const label=a.labelNode(this.ui,cmd.text,cmd.id,{fontSize:Math.max(1,cmd.fontSize*scale),position:[x,y],color:rgb(cmd.fill)});
-        this.labels.push(label);
+        this.nodes.push(label);g=null;
       }else{
+        // A new Graphics node after text preserves the frame's drawing order.
+        if(!g)g=this.makeGraphics();
         g.fillColor=rgb(cmd.fill);
         if(cmd.kind==='rect')g.rect(x-cmd.size[0]*scale/2,y-cmd.size[1]*scale/2,cmd.size[0]*scale,cmd.size[1]*scale);
         else if(cmd.kind==='circle')g.circle(x,y,cmd.radius*scale);
@@ -39,5 +53,17 @@ export class CocosAirAdapter {
       }
     }
   }
-  async dispose(){this.clearLabels();if(this.app?.releaseScene)await this.app.releaseScene();}
+  diagnostics(){return {disposed:this.disposed,ownedNodes:this.nodes.length,sceneAlive:this.scene?.isValid??null,
+    context:this.app?.contextHealth?.snapshot(),release:this.releaseReceipt??null};}
+  dispose(){
+    if(this.disposal)return this.disposal;
+    this.disposed=true;this.clear();
+    this.disposal=Promise.resolve().then(async()=>{
+      // close also detaches SDK layout/context observers; runtime reconstruction requires reload.
+      this.releaseReceipt=await (this.app?.close?.()??this.app?.releaseScene?.());
+      if(this.releaseReceipt?.status==='failed')throw Error('A2G_E_RELEASE_FAILED: CocosAirJS scene cleanup failed');
+      return this.releaseReceipt;
+    });
+    return this.disposal;
+  }
 }

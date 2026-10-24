@@ -12,11 +12,16 @@
     "schema:full": "python scripts/preflight.py",
     "catalog:build": "npm run build && npm run schema:full && node scripts/create-validated-catalog.mjs",
     "player:serve": "node scripts/serve.mjs",
+    "sdk:prepare": "node scripts/prepare-sdks.mjs",
+    "g2:real": "node scripts/g2-real.mjs",
     "project:check": "node scripts/check-project.mjs",
     "verify": "npm run project:check && npm test && npm run spec:validate && npm run schema:full && npm run conformance && npm run catalog:build"
   },
   "license": "UNLICENSED",
   "devDependencies": {
+    "playwright": "1.64.1",
+    "pngjs": "7.0.0",
+    "three": "0.186.1",
     "typescript": "5.8.3"
   }
 }

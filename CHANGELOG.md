@@ -1,5 +1,15 @@
 # A2Game 项目变更记录
 
+## S2 真实双引擎 G2 参考子集 — 2026-10-24
+
+- 使用真实 Three.js `0.186.1`、CocosAirJS `fa54a3f6942bfb3035d5c92d174a054ec4ab55ab` 本地构建（Build 209）、Chromium `156.0.8078.4`，通过 HTTP 加载相同的四份预验证 JSON。
+- 16 个游戏/视口/DPR 场景、2 个原生时钟/context loss 场景通过；8 组 Node/Three/AIR exactHash 一致。保存截图、像素探针、DOM 输入操作、Trace、SDK SHA、源码指纹及物理关闭回执。
+- 修复 Three.js 长文本裁切、指令绘制顺序、重建时绘制已释放实例、context loss 后旧 WebGL 资源清理；修复 AIR 容器尺寸、缩放和矢量/文本顺序。首帧预热后再启动玩法时钟。
+- 显式 `clock=manual` 测试模式替换玩法时钟并支持 `advanceTime`，渲染仍随 rAF 更新；普通页面保留单一生产 Tick。监听器可统一撤销，销毁幂等，AIR 使用官方 `close()` 并按契约受控重载。
+- 新增 `sdk:prepare`、`g2:real`、SDK 来源锁与证据检查；失败和已被新修复取代的历史运行全部保留。
+- 验收范围是 `scene2d` 四样例；实际 WebGL2 使用 ANGLE/SwiftShader，未验证物理 GPU/真机 Touch/IMU、完整玩法目录及 Agent G3。AIR 运行时/内置缓存由上游保留，不声称总 GPU 内存零泄漏。
+- 当前回执：`reports/g2-threejs-real.json`、`reports/g2-cocosairjs-real.json`；详细交付见 `reports/g2-implementation-20261024.md`。
+
 ## 工程基线整理 — 2026-10-24
 
 - 补充 `AGENTS.md` 的源码导航、安装/验证入口和真实 G2 交接约束。

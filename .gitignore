@@ -9,6 +9,7 @@ dist/
 
 # SDKs are obtained from upstream and identified by a provenance receipt
 player/vendor/*.js
+player/vendor/sdk-provenance.json
 .tools/
 output/
 

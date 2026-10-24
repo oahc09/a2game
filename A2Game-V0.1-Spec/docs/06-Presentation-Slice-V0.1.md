@@ -1,6 +1,6 @@
 # A2Game `scene2d` V0.1 · 声明式表现子集（增量规范）
 
-状态：**V0.1 附加 Profile；已在 Headless/Canvas2D 验证，真实 AIR/Three G2 未验证。**
+状态：**V0.1 附加 Profile；Headless/Canvas2D 已验证；2026-10-24 四份参考 JSON 的真实 AIR/Three G2 已通过。** 现行回执见 `../../reports/g2-cocosairjs-real.json`、`../../reports/g2-threejs-real.json`，不包含尚未声明的 Sprite/Mesh 等扩展或移动真机。
 
 ## 1. 协议边界
 
@@ -34,13 +34,13 @@
 ## 4. Host 适配
 
 - `CanvasPreviewAdapter`：Canvas2D 参考实现，Chromium 实际绘制验收；非 G2 目标后端。
-- `ThreeAdapter`：将矩形/圆形映射到 MeshBasicMaterial/Geometry，文字映射到 CanvasTexture；此轮仅完成 Mock API/释放契约验证，缺真实 Three.js SDK 验收。
-- `CocosAirAdapter`：使用 CocosAirJS Scene、createUICanvas、Graphics 和 Label，启动时使用 `screenMode:container`；此轮仅完成 Mock API/释放契约验证，缺真实 SDK 验收。
+- `ThreeAdapter`：将矩形/圆形映射到 MeshBasicMaterial/Geometry，文字映射到 CanvasTexture；真实 SDK 四样例已通过。文字按测量尺寸创建纹理；按指令绘制次序呈现，context loss 后清理并重建绘制资源。
+- `CocosAirAdapter`：使用 CocosAirJS Scene、createUICanvas、Graphics 和 Label，启动时使用 `screenMode:container`；真实 SDK 四样例已通过。矢量与文字保持指令顺序，按容器尺寸适配；`close()` 的保留资源及重载要求遵守上游契约。
 - 三个适配器输入均为同一 `PresentationFrame`，不得因具体游戏创建特殊绘制路径。
 - 动态文字纹理、渲染目标、材质和节点的对象所有权必须由各适配器管理并在 `dispose()` 时释放。
 
-## 5. 本轮证据与下一步
+## 5. 历史证据与下一步
 
-4 份 JSON 样例均可投影为非空的限额内指令，且投影前后 `exactHash` 不变。Chromium 4 款真实 Canvas2D 截图和 Touch Trace 第五种回放状态均已产生；与 Node `exactHash` 的 5 组对照一致。真实 SDK 和 UI 命中交互不属于这项验收。
+初始基线：4 份 JSON 样例均可投影为非空的限额内指令，且投影前后 `exactHash` 不变。Chromium 4 款真实 Canvas2D 截图和 Touch Trace 第五种回放状态均已产生；与 Node `exactHash` 的 5 组对照一致。该历史基线不包含真实 SDK；2026-10-24 的独立真实 G2 见上述回执。
 
 后续 `Sprite/Texture/Mesh/Camera/Animation/Particle` 应作为新的、版本化的 Capability，不能无版本地扩大这个有限 `scene2d` 字段的语义。
