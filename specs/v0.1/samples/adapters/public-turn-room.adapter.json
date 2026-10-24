@@ -1,0 +1,48 @@
+{
+  "format": "a2game-adapter-capabilities",
+  "manifestVersion": "0.1.0",
+  "adapterId": "a2game-public-turn-room",
+  "adapterVersion": "0.1.0",
+  "runtimeVersion": "0.1.0",
+  "status": "verified",
+  "supportedCapabilities": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.rules",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.flow",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.turn",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.turnbased.legal-move",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.scene2d",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.text",
+      "version": "0.1.0"
+    }
+  ],
+  "physicsProfiles": [],
+  "targetPlatforms": [
+    "local-loopback-web"
+  ],
+  "limitations": [
+    "Verified only in the bounded reference profile; exact current evidence is linked in project/adapter-evidence.json.",
+    "Public two-seat turn-only, empty initial board, no extra rule modules/assets or hidden state.",
+    "Server owns the only logic Tick; clients consume read-only PresentationFrame and send declared button actions.",
+    "Same-origin loopback only; no Internet authentication, realtime rollback, hidden-information filtering or durable room recovery claim."
+  ]
+}

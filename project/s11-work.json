@@ -1,0 +1,30 @@
+{
+  "format": "a2game-stage-work",
+  "stage": "S11",
+  "status": "engineering_completed",
+  "steps": [
+    {
+      "task": "加入有界重放存档、旧版信封迁移与不兼容拒绝，保留旧协议和金向量",
+      "status": "completed"
+    },
+    {
+      "task": "提供共享服务端逻辑的本机双人回合参考及两个真实 SDK 客户端",
+      "status": "completed"
+    },
+    {
+      "task": "补齐 Host/设备扩展合同、性能回执、可复现 CI 和兼容说明",
+      "status": "completed"
+    },
+    {
+      "task": "刷新当前源码的完整校验与受影响浏览器证据，提交并记录独立生成/真机缺口",
+      "status": "completed"
+    }
+  ],
+  "pending": [
+    "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
+    "Independent generator/model/variant G3 acceptance NOT_RUN; engineering provider fixture is not independent",
+    "Full per-game quality and variant DoD are not proven by bounded introductory/endgame candidates",
+    "Physical Gamepad acceptance NOT_RUN",
+    "Remote CI configured but NOT_RUN; no push/deployment authorization was used"
+  ]
+}

@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：S9 有界候选工程及双 SDK 参考已验证；完整 DoD/G3/真机独立待验，继续 S10–S11。现行回执见 PROJECT-STATUS.md。
+> **当前执行阶段**：S11 初始兼容扩展工程已交付；完整 Gxx/Hxx DoD、独立 G3、物理设备和远端 CI 分别待验。当前回执与范围以 PROJECT-STATUS.md / project/status.json 为准。
 
 ## 0. 项目目标与不可变边界
 
@@ -72,7 +72,7 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 | **S8** Mobile Touch/IMU | Raw pointer 多点/轨迹、Tap/Hold/Drag/Swipe/Pinch/Rotate、IMU Tilt/Shake/Orientation、校准/权限/滤波/回退、InputTrace | 真机权限、坐标、输入冲突、暂停与隐私 | G25–G32 真机与合成 Trace 双重验证 | **工程/虚拟输入 PASS；真机仍 NOT_RUN** |
 | **S9** 全玩法覆盖与混合 | 冻结 G01–G32；增加 H01–H05 组合验证；32 分母可扩版本 | 每种完整 GameSpec、玩法正反例、E2E、Agent 变体 | 32 款分别出 verified receipt，Hxx 独立统计 | **37 个独立有界候选参考通过双 SDK；完整 DoD/G3/真机未完成覆盖 Gate** |
 | **S10** Agent 生成与产品化 | 自然语言→JSON、能力目录查询、报错修复、关卡生成/Solver、难度评估、可视化调试、模型无关流程 | 自动化评测无画面 + 实浏览器；不可将人工样例当 one-shot | G3 生成、可玩性、修复闭环及质量门禁 | **生成/修复/求解/双 SDK 调试工程参考通过；独立模型 G3 NOT_RUN** |
-| **S11** 持续兼容和扩展 | 新 Host、设备、网络多人、存档迁移、性能和文档发布 | 独立 Extension/Profile，变更兼容审计 | 多版本回归、可复现 CI、兼容性发布说明 | **规划范围，不冒充已支持** |
+| **S11** 持续兼容和扩展 | 新 Host、设备、网络多人、存档迁移、性能和文档发布 | 独立 Extension/Profile，变更兼容审计 | 多版本回归、可复现 CI、兼容性发布说明 | **初始参考 Profile PASS：存档/本机公开回合/Gamepad/Node 多版本/性能/CI 配置；物理、完整 G3、远端 CI 另验** |
 
 阶段之间可以并行实施互不冲突的能力包，但**不能越过对应 Gate**，例如 S4 增加 Mesh 并不能将 S2 真 SDK G2 判为通过。
 

@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createTurnRoomService} from '../scripts/turn-room-service.mjs';
+import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
+import {makeRegistry} from '../scripts/registry.mjs';
+const definition=JSON.parse(readFileSync('specs/v0.1/samples/games/g24-candidate.game.json')),releaseId=sha256Canonical(definition),contentService={read:async()=>({definition})};
+test('authoritative public turn rooms reject spoof/replay/stale/illegal actions without consuming Tick or sequence; journal independently replays',async()=>{
+ const rooms=createTurnRoomService({contentService}),owner=await rooms.create({releaseId}),peer=rooms.join(owner.roomId,{}),move=(seat,action,version,sequence)=>rooms.move(owner.roomId,seat.token,{action,version,sequence});
+ try{assert.throws(()=>rooms.read(owner.roomId,'wrong'),e=>e.code==='A2G_E_ROOM_SEAT');assert.throws(()=>rooms.join(owner.roomId,{}),e=>e.code==='A2G_E_ROOM_FULL');assert.throws(()=>move(peer,'cell5',0,1),e=>e.code==='A2G_E_ROOM_TURN');const a=move(owner,'cell0',0,1);assert.equal(a.version,1);assert.throws(()=>move(owner,'cell1',0,1),e=>e.code==='A2G_E_ROOM_STALE');assert.throws(()=>move(peer,'cell0',1,1),e=>e.code==='A2G_E_ROOM_ILLEGAL');assert.equal(rooms.read(owner.roomId,peer.token).observation.tickIndex,1);assert.throws(()=>rooms.move(owner.roomId,peer.token,{action:'cell5',version:1,sequence:1,seat:1}),e=>e.code==='A2G_E_ROOM_REQUEST');
+  const recipe=[[peer,'cell5',1],[owner,'cell1',2],[peer,'cell6',2],[owner,'cell2',3],[peer,'cell7',3],[owner,'cell3',4],[peer,'cell8',4],[owner,'cell4',5]];for(const [seat,action,sequence] of recipe)move(seat,action,rooms.read(owner.roomId,seat.token).version,sequence);
+  const journal=rooms.journal(owner.roomId,owner.token),runtime=new HeadlessRuntime(definition,makeRegistry());runtime.start();try{for(const entry of journal.inputs){for(const phase of ['press','release'])runtime.injectAction({action:entry.action,phase,sourceId:`seat:${entry.seat}:${entry.sequence}`});runtime.step(1);}assert.equal(runtime.observe().exactHash,journal.hash);assert.equal(runtime.status,'won');}finally{runtime.dispose();}
+  assert.throws(()=>rooms.close(owner.roomId,peer.token),e=>e.code==='A2G_E_ROOM_OWNER');rooms.close(owner.roomId,owner.token);assert.equal(rooms.diagnostics().ownedSessions,0);
+  const second=await rooms.create({releaseId}),secondPeer=rooms.join(second.roomId,{}),actions=[0,5,2,6,4,7,11,8,13,9];for(const [i,cell] of actions.entries()){const seat=i%2?secondPeer:second;rooms.move(second.roomId,seat.token,{version:i,sequence:Math.floor(i/2)+1,action:'cell'+cell});}const won=rooms.read(second.roomId,secondPeer.token).observation;assert.equal(won.state.turn.winner,2);assert.equal(won.flow.status,'won');rooms.close(second.roomId,second.token);
+ }finally{rooms.dispose();}
+});
+test('room profile excludes hidden/realtime state and resource games; admission capacity races, TTL and shutdown release owned sessions',async()=>{
+ let clock=0;const rooms=createTurnRoomService({contentService,maxRooms:1,ttlMs:10,now:()=>clock});try{const results=await Promise.allSettled([rooms.create({releaseId}),rooms.create({releaseId})]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);const owner=results.find(r=>r.status==='fulfilled').value;clock=11;assert.throws(()=>rooms.read(owner.roomId,owner.token),e=>e.code==='A2G_E_ROOM_NOT_FOUND');assert.equal(rooms.diagnostics().rooms,0);await rooms.create({releaseId});rooms.dispose();assert.deepEqual(rooms.diagnostics(),{disposed:true,rooms:0,ownedSessions:0});}finally{rooms.dispose();}
+ const bad=structuredClone(definition);bad.state.hidden={type:'object',initial:{cards:[1]}};const rejected=createTurnRoomService({contentService:{read:async()=>({definition:bad})}});try{await assert.rejects(rejected.create({releaseId}),e=>e.code==='A2G_E_ROOM_PROFILE');assert.equal(rejected.diagnostics().ownedSessions,0);}finally{rejected.dispose();}
+});

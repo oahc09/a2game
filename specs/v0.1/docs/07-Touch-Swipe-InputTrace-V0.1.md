@@ -2,6 +2,8 @@
 
 状态：**旧 Swipe/Trace 基线保留；S8 扩展见 [Mobile Input](15-Mobile-Input-V0.1.md)，新增多点和 IMU 识别、显式采集/录制。真实硬件和权限 Gate 仍独立验收。**
 
+S11 的 Gamepad source、语义动作视口比例保留及有界重放存档见 [兼容与扩展](18-Compatibility-Extensions-V0.1.md)。它们使用已有 Trace 包络与 exact projection v1，旧 Swipe 金向量继续回归。
+
 ## 1. 输入层次
 
 `SPEC_CONFLICT INPUT-CONFIG-001`（2026-10-24 已修复）：早期 Tap/Keyboard Manifest 只允许空 `config`，与样例已有 `region` / `code` 以及 Runtime 读取阈值的行为不一致。当前 Manifest 和生成器补齐以下参数，不修改已有输入算法或协议版本：`touch.tap.config` 允许 `region: "playfield"`、`maxDurationUs`（整数 0..10000000，默认 350000）、`maxDistanceNorm`（0..2，默认 0.04）；此处 playfield 指整个游戏画布，不提供实体 HitTest。`keyboard.button.config` 要求非空 `code`（最长 64 字符）。未知配置字段仍拒绝。完整内容导入按这些 Manifest 的 Draft 2020-12 Schema 校验每个绑定和组件配置。

@@ -1,0 +1,69 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.input.gamepad.button",
+  "version": "0.1.0",
+  "kind": "recognizer",
+  "portability": "exact",
+  "phase": "recognize",
+  "description": "Shared bounded normalized Gamepad button recognizer; native API acquisition is a separate opt-in Host input profile.",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "button": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 31
+        }
+      },
+      "required": [
+        "button"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "input.action",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxDevices": 4,
+    "maxButtons": 32,
+    "maxAxes": 16,
+    "axisQuantum": 0.0001,
+    "valueType": "button",
+    "disconnect": "release buttons and neutral axes; pause clears held cache"
+  },
+  "testSuites": [
+    "GAMEPAD-001"
+  ]
+}

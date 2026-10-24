@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g24",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G24 五子棋",
     "genres": [
@@ -775,13 +775,13 @@
       "id": "won",
       "status": "won",
       "when": {
-        "op": "eq",
+        "op": "gt",
         "args": [
           {
             "state": "/turn/winner"
           },
           {
-            "const": 1
+            "const": 0
           }
         ]
       }

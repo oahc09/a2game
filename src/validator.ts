@@ -3,6 +3,7 @@ import { validatePuzzleDefinition } from './modules/puzzle.js';
 import { validateRealtimeDefinition } from './modules/realtime.js';
 import { validateStrategyDefinition } from './modules/strategy.js';
 import {validateMobileBindings} from './mobile-input.js';
+import {validateGamepadBindings} from './gamepad-input.js';
 import {validateInputControlDefinition} from './modules/input-control.js';
 import {validateBubbleDefinition} from './modules/bubble-grid.js';
 import {validateBootstrapDefinition} from './modules/bootstrap.js';
@@ -189,6 +190,7 @@ export function compileGame(raw: unknown, registry: CapabilityRegistry): Compile
     validateRealtimeDefinition(d);
     validateStrategyDefinition(d);
     validateMobileBindings(d);
+    validateGamepadBindings(d);
     validateInputControlDefinition(d);
     validateBubbleDefinition(d);
     validateBootstrapDefinition(d);

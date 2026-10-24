@@ -1,5 +1,14 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+## S11 初始兼容扩展工程交付（2026-10-25）
+
+- 重放存档 v1/v2、可信精确版本迁移、未知版本拒绝；本机双席位权威回合 Host；显式启用的 Gamepad 按钮/双轴及键盘回退。[合同](specs/v0.1/docs/18-Compatibility-Extensions-V0.1.md)。
+- 真实双 SDK 的同局状态/Hash、断开恢复、非法/越权拒绝、存档重放、虚拟手柄和释放通过，截图已检查。[扩展回执](reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json)。
+- 当前 88 Node、121 Conformance、284 Schema 文档通过。[完整验证](reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log)。跨主版本选定合同：v24.14.0 50/50；v22.23.4 50/50。[矩阵](reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json)。128 Body Headless 固定负载 P95 1.539ms，非 GPU/最坏碰撞帧率承诺。[测量](reports/performance-2026-10-24T17-18-55-241Z-63920/summary.json)。
+- 所有受影响的 G2/内容/Stage/益智/实时/经营/移动输入/候选/生成调试浏览器证据已按当前源码刷新；见 [现行状态](project/status.json)。修订号 G24 升至 2；Windows Python 子进程显式 UTF-8，并回归父环境 ASCII。
+- 修复静态 Adapter 规则与既有 Schema 的冲突 ADAPTER-STATUS-002；实现态有界声明，verified 需当前源码回执。CI 配置已按官方 commit 固定，**远端未执行、未推送、未部署**。
+- 本轮交付至 S11 的参考工程；完整项目仍为 Alpha。真实 Android、物理手柄、独立生成器 G3、逐款完整 DoD 与远端 CI 分开待验收，verified 仍为 **0/32、0/5**。[设备探测](reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json)。
+
 ## S10 生成与调试工程交付（2026-10-25）
 
 - 模型无关 stdin/stdout 合同、严格 JSON、完整准入及 Conformance、最多三次诊断修复、预算化按钮求解和第二 Session 回放。[流程](reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json)。本次明确为确定性工程夹具，G3 NOT_RUN。
@@ -21,7 +30,7 @@
 - 首两次虚拟姿态运行因 Chromium 默认拒绝权限失败，记录保留，归因 TEST_ENV_PERMISSION；生产拒绝路径正确。测试授权仅作用于销毁即失效的虚拟浏览器上下文。
 - ADB 未连接设备，[探测](reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json)。S8 保持 PARTIAL，真机 Gate NOT_RUN，继续不依赖设备的 S9–S11；不把合成输入或 Manifest 注册计为真机完成。
 
-> **截至**：2026-10-24。此页与 [`project/status.json`](project/status.json) 是进度单一入口；**不能**根据历史报告推断后续阶段已完成。工作区版本 `1.0.0` 属于 **Alpha 参考实现**；GameSpec/Capability 协议仍为 `0.1.0`。
+> **截至**：2026-10-25。此页与 [`project/status.json`](project/status.json) 是进度单一入口；**不能**根据历史报告推断后续阶段已完成。工作区版本 `1.0.0` 属于 **Alpha 参考实现**；GameSpec/Capability 协议仍为 `0.1.0`。
 
 ## S6 固定 Tick 物理与战斗参考 Profile（2026-10-24）
 

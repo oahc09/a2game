@@ -20,6 +20,8 @@
   "a2game.core.score",
   "a2game.core.state",
   "a2game.core.timer",
+  "a2game.input.gamepad.axis2",
+  "a2game.input.gamepad.button",
   "a2game.input.imu.acceleration",
   "a2game.input.imu.calibration",
   "a2game.input.imu.gyroscope",

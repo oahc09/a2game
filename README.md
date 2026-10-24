@@ -4,17 +4,17 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S10 生成与调试工程参考已验证，继续 S11。** 当前 74 份 JSON、123 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+> **当前阶段：S11 初始兼容扩展工程参考已交付。** 当前 75 份 JSON、125 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
 
 ## 一、先看能运行什么
 
 | 功能 / 后端 | 现在能否运行 | 说明 |
 |---|---|---|
 | TypeScript Headless Runtime | **可以** | 计时/事务/回放、益智、整数物理/战斗、经营/回合，Node.js 测试 |
-| 浏览器 Canvas2D 预览 | **可以** | 74 份预校验 JSON，无外部游戏引擎 SDK |
+| 浏览器 Canvas2D 预览 | **可以** | 75 份预校验 JSON，无外部游戏引擎 SDK |
 | Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
 | CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
-| 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **未实现/未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |
+| 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **完整 DoD / Agent / 真机未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |
 
 已包含的可交互游戏（只在当前定义/能力子集内运行）：
 
@@ -88,7 +88,7 @@ npm run player:serve
 
 默认 `tap-target` 可直接点击画布或按空格；顶部“游戏”切换其他 JSON，方向键/滑动/页面方向键控制网格玩法。右侧显示状态、Tick 与 SHA-256 exact 状态哈希。“重新开始”重置一局，“暂停/继续”控制游戏时间。
 
-点击“导入游戏 JSON”可运行未加入内置白名单的新定义。文件先由同源本地服务完成完整 Draft 2020-12、组件/绑定配置、引用/能力及宿主策略校验，再按带 SHA256 的回执加载；失败显示错误码与 JSON Pointer，并保留当前游戏。当前支持已有能力内的单场景 `scene2d`、Keyboard/Tap/Swipe，未审核资源或未实现能力明确拒绝。文件上限 256 KiB，回执默认保存在 `.a2game/releases/`（不入库）；相同环境下服务重启后仍可加载，环境改变须重新导入。自定义目录和恢复规则见[本地内容准入](docs/content-release.md)。
+点击“导入游戏 JSON”可运行未加入内置白名单的新定义。文件先由同源本地服务完成完整 Draft 2020-12、组件/绑定配置、引用/能力及宿主策略校验，再按带 SHA256 的回执加载；失败显示错误码与 JSON Pointer，并保留当前游戏。当前支持声明范围内的单场景 scene2d/Stage、键盘、Touch/IMU 和 Gamepad 输入参考 Profile，未审核资源或未实现能力明确拒绝。文件上限 256 KiB，回执默认保存在 `.a2game/releases/`（不入库）；相同环境下服务重启后仍可加载，环境改变须重新导入。自定义目录和恢复规则见[本地内容准入](docs/content-release.md)。
 
 **退出：** PowerShell 中按 `Ctrl+C`。如果端口被占用，可在启动前使用：
 
@@ -232,3 +232,5 @@ a2game/
 **下一步**：实施 S5 益智/休闲标准库，保持 S4 表现能力的真实双 SDK 回归；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。
 
 生成工程：`npm run agent:fixture -- --browser` 重现明确标注的工程夹具；真实生成器按 `project/agent-provider.example.json` 配置后执行 `npm run agent:run -- <配置.json>`。调试包通过 `/player/inspect.html` 逐步查看，详见 [生成与修复合同](specs/v0.1/docs/17-Agent-Workflow-V0.1.md)。
+
+S11：`npm run compat:e2e` 验证真实双 SDK 的公开回合棋桌、虚拟手柄和存档。设置 `$env:A2GAME_ROOMS='1'` 后启动服务可访问 `/player/room.html`；存档、迁移、隔离 Node 矩阵、性能与 CI 边界见 [兼容扩展合同](specs/v0.1/docs/18-Compatibility-Extensions-V0.1.md)。Android/物理手柄与独立生成器尚无正式验收，远端 CI 未运行。

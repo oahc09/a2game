@@ -1,6 +1,7 @@
 import { A2GameError, fail } from './errors.js';
 import { exactStateHash } from './exact-hash.js';
 import {mobileInputIds,recognizeMobileInput} from './mobile-input.js';
+import {recognizeGamepadInput,gamepadInputSources} from './gamepad-input.js';
 import { evaluate, looksLikeExpression } from './expression.js';
 import { GameRng } from './rng.js';
 import { CapabilityRegistry } from './registry.js';
@@ -136,7 +137,7 @@ export class HeadlessRuntime {
     injectRaw(sample: NormalizedRawInput): void {
         this.assertAlive();
         if (this.session.status !== 'playing' && this.session.status !== 'ready') fail('A2G_E_FLOW','Raw gameplay input rejected while inactive');
-        if (!isRecord(sample) || !isRecord(sample.payload) || !['pointer','keyboard','imu'].includes(sample.source)) fail('A2G_E_INPUT_RAW','Invalid raw input');
+        if (!isRecord(sample) || !isRecord(sample.payload) || !['pointer','keyboard','imu','gamepad'].includes(sample.source)) fail('A2G_E_INPUT_RAW','Invalid raw input');
         const tickIndex = sample.tickIndex ?? (sample.timeUs === undefined ? this.session.tickIndex : Math.floor(sample.timeUs*this.plan.definition.world.clock.tickHz/1000000));
         if (!safeInteger(tickIndex) || tickIndex < this.session.tickIndex) fail('A2G_E_INPUT_RAW','Raw input tick in the past');
         const seq = sample.seq ?? this.session.sequence++;
@@ -146,6 +147,10 @@ export class HeadlessRuntime {
     /** V0.1 bounded recognizers: touch.tap, touch.swipe and keyboard.button. IMU samples are validated but not yet interpreted. */
     private recognizeRaw(stage: Stage, batch: NormalizedRawInput[]): NormalizedAction[] {
         const emitted: NormalizedAction[] = [];
+        const pads=batch.filter(sample=>sample.source==='gamepad');
+        if(Object.values(gamepadInputSources).some(id=>this.chosen(id)))emitted.push(...recognizeGamepadInput(stage,pads,this.plan.definition,id=>this.chosen(id)));
+        else if(pads.length)fail('A2G_E_CAP_DEPENDENCY','Gamepad input requires a declared recognizer');
+        batch=batch.filter(sample=>sample.source!=='gamepad');
         if(mobileInputIds.some(id=>this.chosen(id))){
             emitted.push(...recognizeMobileInput(stage,batch.filter(sample=>sample.source!=='keyboard'),this.plan.definition,id=>this.chosen(id)));
             batch=batch.filter(sample=>sample.source==='keyboard');

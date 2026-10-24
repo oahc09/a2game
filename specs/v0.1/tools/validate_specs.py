@@ -242,8 +242,24 @@ def main():
     for path in sorted((ROOT/'samples/adapters').glob('*.adapter.json')):
         a=json.loads(path.read_text(encoding='utf-8'))
         validate_json(path.name,a,schemas['adapter'])
-        if a['status']!='planned' or a['supportedCapabilities']:
-            issue(f'{path.name}: must remain unverified empty adapter declaration')
+        if a['status']=='planned' and a['supportedCapabilities']:
+            issue(f'{path.name}: a planned adapter cannot claim supported capabilities')
+        if a['status']!='planned' and not a['supportedCapabilities']:
+            issue(f'{path.name}: implemented adapters must declare a bounded capability profile')
+        for ref in a['supportedCapabilities']:
+            if ref['id'] not in caps or caps[ref['id']]['version']!=ref['version']:
+                issue(f'{path.name}: unknown supported capability/version {ref}')
+        if a['status']=='verified':
+            evidence_path=ROOT.parent.parent/'project/adapter-evidence.json'
+            entries=json.loads(evidence_path.read_text(encoding='utf-8')).get('adapters',[]) if evidence_path.is_file() else []
+            entry=next((e for e in entries if e.get('adapterId')==a['adapterId']),None)
+            if not entry or entry.get('status')!='PASS_REFERENCE' or not entry.get('receipts'):
+                issue(f'{path.name}: verified adapter needs current reference receipts')
+            else:
+                for relative in entry['receipts']:
+                    receipt=(ROOT.parent.parent/relative).resolve()
+                    if not receipt.is_relative_to(ROOT.parent.parent.resolve()) or not receipt.is_file() or json.loads(receipt.read_text(encoding='utf-8')).get('status')!='PASS':
+                        issue(f'{path.name}: invalid reference evidence {relative}')
 
     negatives=load('samples/tests/negative-fixtures.json')
     for neg in negatives['cases']:

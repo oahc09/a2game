@@ -1,0 +1,65 @@
+{
+  "format": "a2game-extension-profiles",
+  "version": 1,
+  "protocolVersion": "0.1.0",
+  "profiles": [
+    {
+      "id": "replay-save-v2",
+      "status": "PASS_REFERENCE",
+      "contract": "src/replay-save.ts",
+      "budgets": {
+        "maxEvents": 4096,
+        "maxTicks": 3600,
+        "maxBytes": 1048576
+      },
+      "limitations": [
+        "Replay archive with explicit trusted exact-pair migrations; no arbitrary serialized snapshot restore",
+        "Legacy v1 is an explicit reference envelope fixture, not a claim about historic production save files"
+      ],
+      "evidence": [
+        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
+        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
+        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+      ]
+    },
+    {
+      "id": "local-public-turn-v1",
+      "status": "PASS_REFERENCE",
+      "contract": "scripts/turn-room-service.mjs",
+      "budgets": {
+        "maxRooms": 8,
+        "maxSeats": 2,
+        "ttlMs": 600000,
+        "maxRequestBytes": 8192
+      },
+      "limitations": [
+        "Loopback same-origin only; ephemeral in-memory seats",
+        "Draw is turn.draw terminal state; the unchanged GameStatus protocol does not introduce draw as a new flow value"
+      ],
+      "evidence": [
+        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
+        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
+        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+      ]
+    },
+    {
+      "id": "gamepad-button-axis-v1",
+      "status": "PASS_REFERENCE",
+      "contract": "src/gamepad-input.ts",
+      "budgets": {
+        "maxDevices": 4,
+        "maxButtons": 32,
+        "maxAxes": 16
+      },
+      "limitations": [
+        "Explicit opt-in native API polling at the existing Tick boundary",
+        "Virtual API fixture does not satisfy physical-device input acceptance"
+      ],
+      "evidence": [
+        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
+        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
+        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+      ]
+    }
+  ]
+}

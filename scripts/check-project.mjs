@@ -142,6 +142,26 @@ for(const [stage,suite] of [['S6','realtime'],['S7','strategy']])if(status.stage
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`${stage}: stale fingerprint ${path}`);}
   }catch(error){insist(false,`${stage}: cannot verify mechanism evidence: ${error.message}`);}
 }
+for(const name of readdirSync(resolve(root,'specs/v0.1/samples/adapters')).filter(n=>n.endsWith('.adapter.json'))){
+  const adapter=read('specs/v0.1/samples/adapters/'+name);if(adapter.status!=='verified')continue;
+  try{const entry=read('project/adapter-evidence.json').adapters.find(e=>e.adapterId===adapter.adapterId);insist(entry?.status==='PASS_REFERENCE'&&entry.receipts?.length>0,`Adapter ${adapter.adapterId}: current reference receipts required`);
+    if(adapter.adapterId==='a2game-public-turn-room')insist(status.compatibilityRun?.status==='PASS_REFERENCE'&&entry.receipts.includes(status.compatibilityRun.browser),'Room adapter must link current native SDK extension evidence');
+    else if(['threejs-a2game','cocosairjs-a2game'].includes(adapter.adapterId)){const gate=adapter.adapterId==='threejs-a2game'?'G2ThreeJSRealSDK':'G2CocosAirJSRealSDK';insist(status.gates[gate]==='PASS'&&status.stages.find(s=>s.id==='S4')?.status==='PASS'&&status.candidateRun?.status==='PASS_REFERENCE'&&entry.receipts.includes(status.visualStageRun.perspective)&&entry.receipts.includes(status.visualStageRun.orthographic)&&entry.receipts.includes(status.candidateRun.summary),`Adapter ${adapter.adapterId}: current G2/Stage/bound visual receipts required`);}
+    else insist(false,`Adapter ${adapter.adapterId}: add a reviewed verification gate binding before claiming verified`);
+    for(const receipt of entry?.receipts??[])insist(read(receipt).status==='PASS',`Adapter ${adapter.adapterId}: failed reference ${receipt}`);
+  }catch(error){insist(false,`Adapter ${adapter.adapterId}: evidence unavailable: ${error.message}`);}
+}
+if(status.compatibilityRun?.status==='PASS_REFERENCE'){
+  try{
+    const summary=read(status.compatibilityRun.browser),matrix=read(status.compatibilityRun.matrix),performance=read(status.compatibilityRun.performance),profiles=read('project/extension-profiles.json');
+    insist(summary.format==='a2game-compatibility-real-sdk'&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS'&&summary.parity&&summary.cases?.length===3,'S11: incomplete native SDK extension proof');
+    for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS',`S11: failed extension ${row.receipt}`);if(row.kind==='public-turn-room')insist(result.final?.observation?.exactHash===result.node?.exactHash&&result.reconnect==='PASS'&&result.crossOrigin==='PASS'&&result.disposal?.length===2&&result.disposal.every(d=>d.disposed&&d.listenersActive===false&&d.adapter?.disposed&&(d.adapter.ownedMeshes??d.adapter.ownedNodes)===0)&&result.screenshots.every(p=>existsSync(resolve(root,p))),`S11: incomplete authoritative room ${row.receipt}`);else insist(result.replay==='PASS'&&result.save?.finalHash===result.final?.exactHash&&result.disposal?.gamepad?.disposed&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.screenshot)),`S11: incomplete Gamepad/save ${row.receipt}`);}
+    insist(matrix.format==='a2game-node-compatibility-matrix'&&matrix.status==='PASS'&&matrix.unchanged&&matrix.runs?.length>=2&&new Set(matrix.runs.map(r=>r.version.split('.')[0])).size>=2&&matrix.runs.every(r=>r.status==='PASS'&&r.pass===r.total&&existsSync(resolve(root,r.log))),'S11: missing multi-major regression');
+    insist(performance.format==='a2game-performance-profile'&&performance.status==='MEASURED'&&performance.workload?.bodies===128&&performance.workload?.measuredTicks>=120&&Object.values(performance.milliseconds??{}).every(n=>Number.isFinite(n)&&n>=0),'S11: missing bounded performance measurement');
+    for(const receipts of [read(summary.fingerprints),matrix.fingerprints,performance.fingerprints])for(const [path,digest] of Object.entries(receipts)){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S11: stale source ${path}`);}
+    insist(profiles.profiles?.length===3&&profiles.profiles.every(p=>p.status==='PASS_REFERENCE')&&status.compatibilityRun.remoteCI==='NOT_RUN','S11: extension profile scope or remote CI evidence differs');
+  }catch(error){insist(false,`S11: cannot verify compatibility evidence: ${error.message}`);}
+}
 if(status.agentWorkflowRun?.status==='PASS_REFERENCE'){
   try{
     const workflow=read(status.agentWorkflowRun.workflow),browser=read(status.agentWorkflowRun.browser);

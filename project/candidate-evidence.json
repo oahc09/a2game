@@ -1,8 +1,8 @@
 {
   "format": "a2game-candidate-evidence",
   "scope": "bounded-reference-levels-v1",
-  "summary": "reports/candidates-2026-10-24T16-05-30-615Z-61728/summary.json",
-  "verification": "reports/verify-2026-10-24T16-04-27-463Z-35684/verify.log",
+  "summary": "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json",
+  "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log",
   "G0": "PASS_REFERENCE",
   "G1": "PASS_REFERENCE",
   "G2": "PASS_REFERENCE",
@@ -14,372 +14,372 @@
     {
       "id": "G01",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G01.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G01.coverage-receipt.json"
     },
     {
       "id": "G02",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G02.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G02.coverage-receipt.json"
     },
     {
       "id": "G03",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G03.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G03.coverage-receipt.json"
     },
     {
       "id": "G04",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G04.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G04.coverage-receipt.json"
     },
     {
       "id": "G05",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G05.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G05.coverage-receipt.json"
     },
     {
       "id": "G06",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G06.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G06.coverage-receipt.json"
     },
     {
       "id": "G07",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G07.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G07.coverage-receipt.json"
     },
     {
       "id": "G08",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G08.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G08.coverage-receipt.json"
     },
     {
       "id": "G09",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G09.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G09.coverage-receipt.json"
     },
     {
       "id": "G10",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G10.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G10.coverage-receipt.json"
     },
     {
       "id": "G11",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G11.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G11.coverage-receipt.json"
     },
     {
       "id": "G12",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G12.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G12.coverage-receipt.json"
     },
     {
       "id": "G01",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G01.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G01.coverage-receipt.json"
     },
     {
       "id": "G02",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G02.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G02.coverage-receipt.json"
     },
     {
       "id": "G03",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G03.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G03.coverage-receipt.json"
     },
     {
       "id": "G04",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G04.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G04.coverage-receipt.json"
     },
     {
       "id": "G05",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G05.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G05.coverage-receipt.json"
     },
     {
       "id": "G06",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G06.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G06.coverage-receipt.json"
     },
     {
       "id": "G07",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G07.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G07.coverage-receipt.json"
     },
     {
       "id": "G08",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G08.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G08.coverage-receipt.json"
     },
     {
       "id": "G09",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G09.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G09.coverage-receipt.json"
     },
     {
       "id": "G10",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G10.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G10.coverage-receipt.json"
     },
     {
       "id": "G11",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G11.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G11.coverage-receipt.json"
     },
     {
       "id": "G12",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G12.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G12.coverage-receipt.json"
     },
     {
       "id": "G13",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G13.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G13.coverage-receipt.json"
     },
     {
       "id": "G14",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G14.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G14.coverage-receipt.json"
     },
     {
       "id": "G15",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G15.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G15.coverage-receipt.json"
     },
     {
       "id": "G16",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G16.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G16.coverage-receipt.json"
     },
     {
       "id": "G17",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G17.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G17.coverage-receipt.json"
     },
     {
       "id": "G18",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G18.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G18.coverage-receipt.json"
     },
     {
       "id": "G19",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G19.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G19.coverage-receipt.json"
     },
     {
       "id": "G20",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G20.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G20.coverage-receipt.json"
     },
     {
       "id": "G21",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G21.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G21.coverage-receipt.json"
     },
     {
       "id": "G22",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G22.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G22.coverage-receipt.json"
     },
     {
       "id": "G23",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G23.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G23.coverage-receipt.json"
     },
     {
       "id": "G24",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G24.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G24.coverage-receipt.json"
     },
     {
       "id": "G13",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G13.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G13.coverage-receipt.json"
     },
     {
       "id": "G14",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G14.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G14.coverage-receipt.json"
     },
     {
       "id": "G15",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G15.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G15.coverage-receipt.json"
     },
     {
       "id": "G16",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G16.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G16.coverage-receipt.json"
     },
     {
       "id": "G17",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G17.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G17.coverage-receipt.json"
     },
     {
       "id": "G18",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G18.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G18.coverage-receipt.json"
     },
     {
       "id": "G19",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G19.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G19.coverage-receipt.json"
     },
     {
       "id": "G20",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G20.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G20.coverage-receipt.json"
     },
     {
       "id": "G21",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G21.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G21.coverage-receipt.json"
     },
     {
       "id": "G22",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G22.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G22.coverage-receipt.json"
     },
     {
       "id": "G23",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G23.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G23.coverage-receipt.json"
     },
     {
       "id": "G24",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G24.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G24.coverage-receipt.json"
     },
     {
       "id": "G25",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G25.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G25.coverage-receipt.json"
     },
     {
       "id": "G26",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G26.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G26.coverage-receipt.json"
     },
     {
       "id": "G27",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G27.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G27.coverage-receipt.json"
     },
     {
       "id": "G28",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G28.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G28.coverage-receipt.json"
     },
     {
       "id": "G29",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G29.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G29.coverage-receipt.json"
     },
     {
       "id": "G30",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G30.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G30.coverage-receipt.json"
     },
     {
       "id": "G31",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G31.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G31.coverage-receipt.json"
     },
     {
       "id": "G32",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-G32.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-G32.coverage-receipt.json"
     },
     {
       "id": "H01",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-H01.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-H01.coverage-receipt.json"
     },
     {
       "id": "H02",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-H02.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-H02.coverage-receipt.json"
     },
     {
       "id": "H03",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-H03.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-H03.coverage-receipt.json"
     },
     {
       "id": "H04",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-H04.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-H04.coverage-receipt.json"
     },
     {
       "id": "G25",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G25.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G25.coverage-receipt.json"
     },
     {
       "id": "G26",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G26.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G26.coverage-receipt.json"
     },
     {
       "id": "G27",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G27.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G27.coverage-receipt.json"
     },
     {
       "id": "G28",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G28.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G28.coverage-receipt.json"
     },
     {
       "id": "G29",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G29.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G29.coverage-receipt.json"
     },
     {
       "id": "G30",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G30.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G30.coverage-receipt.json"
     },
     {
       "id": "G31",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G31.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G31.coverage-receipt.json"
     },
     {
       "id": "G32",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-G32.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-G32.coverage-receipt.json"
     },
     {
       "id": "H01",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-H01.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-H01.coverage-receipt.json"
     },
     {
       "id": "H02",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-H02.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-H02.coverage-receipt.json"
     },
     {
       "id": "H03",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-H03.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-H03.coverage-receipt.json"
     },
     {
       "id": "H04",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-H04.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-H04.coverage-receipt.json"
     },
     {
       "id": "H05",
       "backend": "three",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/three-H05.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/three-H05.coverage-receipt.json"
     },
     {
       "id": "H05",
       "backend": "air",
-      "receipt": "reports/candidates-2026-10-24T16-05-30-615Z-61728/air-H05.coverage-receipt.json"
+      "receipt": "reports/candidates-2026-10-24T17-10-19-260Z-9504/air-H05.coverage-receipt.json"
     }
   ]
 }

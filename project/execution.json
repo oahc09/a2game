@@ -57,8 +57,17 @@
     },
     {
       "stage": "S11",
-      "status": "in_progress",
-      "deliverable": "Host/device extensions, multiplayer, save migration, performance, CI and compatibility documentation"
+      "status": "completed",
+      "deliverable": "Host/device extensions, multiplayer, save migration, performance, CI and compatibility documentation",
+      "acceptance": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
+  ],
+  "status": "engineering_delivered_through_S11_acceptance_partial",
+  "pendingAcceptance": [
+    "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
+    "Independent generator/model/variant G3 acceptance NOT_RUN; engineering provider fixture is not independent",
+    "Full per-game quality and variant DoD are not proven by bounded introductory/endgame candidates",
+    "Physical Gamepad acceptance NOT_RUN",
+    "Remote CI configured but NOT_RUN; no push/deployment authorization was used"
   ]
 }

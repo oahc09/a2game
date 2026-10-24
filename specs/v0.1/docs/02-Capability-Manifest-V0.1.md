@@ -183,6 +183,8 @@ interface A2GameServiceRegistry {
 
 Adapter Manifest 记录 `adapterId/adapterVersion/runtimeVersion/platform/capabilities/physicsProfiles/limitations/status`。其中 `status=planned|implemented-unverified|verified`；验证结果应单独存证，不可仅由自报状态认定 PASS。
 
+`SPEC_CONFLICT ADAPTER-STATUS-002`（2026-10-25 修复）：初始静态脚本将所有 Adapter 永久限制为空的 planned 声明，与本节及既有 Schema 的三态合同冲突。当前规则保留 planned 不得自报支持的限制；实现态必须声明已知精确版本的有界能力，verified 必须在 `project/adapter-evidence.json` 关联 PASS 回执，并由 `project:check` 验证当前源码指纹。verified 仅适用于 Manifest limitations 中声明的参考 Profile，不自动提升物理设备或 G3。
+
 ## 8. 能力生命周期、热更新和安全
 
 - `register` 发生在加载 GameSpec 前，能力已完成可信实现绑定；加载中的 Session 不可通过内容修改注册表。

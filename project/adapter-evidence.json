@@ -1,0 +1,48 @@
+{
+  "format": "a2game-adapter-reference-evidence",
+  "adapters": [
+    {
+      "adapterId": "threejs-a2game",
+      "status": "PASS_REFERENCE",
+      "scope": [
+        "Verified only in the bounded reference profile; exact current evidence is linked in project/adapter-evidence.json.",
+        "Native primitive/texture/text/audio stage profile only; arbitrary materials/shaders and general 3D physics are not claimed.",
+        "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
+      ],
+      "receipts": [
+        "reports/g2-2026-10-24T17-10-19-273Z-26740/three-receipt.json",
+        "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
+        "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
+        "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json"
+      ]
+    },
+    {
+      "adapterId": "cocosairjs-a2game",
+      "status": "PASS_REFERENCE",
+      "scope": [
+        "Verified only in the bounded reference profile; exact current evidence is linked in project/adapter-evidence.json.",
+        "Native primitive/texture/text/audio stage profile only; arbitrary materials/shaders and general 3D physics are not claimed.",
+        "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
+      ],
+      "receipts": [
+        "reports/g2-2026-10-24T17-10-19-273Z-26740/air-receipt.json",
+        "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
+        "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
+        "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json"
+      ]
+    },
+    {
+      "adapterId": "a2game-public-turn-room",
+      "status": "PASS_REFERENCE",
+      "scope": [
+        "Verified only in the bounded reference profile; exact current evidence is linked in project/adapter-evidence.json.",
+        "Public two-seat turn-only, empty initial board, no extra rule modules/assets or hidden state.",
+        "Server owns the only logic Tick; clients consume read-only PresentationFrame and send declared button actions.",
+        "Same-origin loopback only; no Internet authentication, realtime rollback, hidden-information filtering or durable room recovery claim."
+      ],
+      "receipts": [
+        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json"
+      ]
+    }
+  ]
+}

@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url';
 import {CONTENT_MAX_BYTES,CONTENT_BUNDLE_MAX_BYTES} from '../dist/index.js';
 import {ContentError,createContentService} from './content-service.mjs';
 import {AssetError} from './asset-policy.mjs';
+import {createTurnRoomService,RoomError} from './turn-room-service.mjs';
 
 const root=resolve(import.meta.dirname,'..');
 const types={'.html':'text/html; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml'};
@@ -18,7 +19,8 @@ function body(req,limit=CONTENT_MAX_BYTES){
     req.once('error',reject);req.once('end',()=>accept(Buffer.concat(chunks)));
   });
 }
-export function createPlayerServer({contentService=createContentService({storageDirectory:process.env.A2GAME_CONTENT_DIR??resolve(root,'.a2game/releases')})}={}){
+export function createPlayerServer({contentService=createContentService({storageDirectory:process.env.A2GAME_CONTENT_DIR??resolve(root,'.a2game/releases')}),enableRooms=false}={}){
+  const rooms=enableRooms?createTurnRoomService({contentService}):null;
   const server=createServer({requestTimeout:10000,headersTimeout:10000},async(req,res)=>{
     const json=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(data));};
     res.setHeader('Cache-Control','no-store');res.setHeader('X-Content-Type-Options','nosniff');
@@ -30,6 +32,18 @@ export function createPlayerServer({contentService=createContentService({storage
       if((req.headers.origin&&req.headers.origin!==origin)||req.headers['sec-fetch-site']==='cross-site')
         throw new ContentError('A2G_E_ORIGIN','请求必须来自当前播放器同源页面。',403,'policy');
       const path=decodeURIComponent(target.pathname);
+      if(path.startsWith('/api/rooms')){
+        if(!rooms)throw new RoomError('A2G_E_ROOM_DISABLED','未启用本机公开回合参考。',404);
+        const token=req.headers.authorization?.match(/^Bearer ([a-f0-9-]{36})$/)?.[1],match=path.match(/^\/api\/rooms\/([a-f0-9-]{36})(?:\/(join|moves|journal))?$/);
+        if(path==='/api/rooms'&&req.method==='POST'||match&&['join','moves'].includes(match[2])&&req.method==='POST'){
+          if(req.headers['content-type']?.split(';')[0].trim()!=='application/json')throw new RoomError('A2G_E_ROOM_REQUEST','请使用 application/json。',415);
+          let input;try{input=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(await body(req,8192)));}catch(error){if(error instanceof ContentError)throw error;throw new RoomError('A2G_E_ROOM_REQUEST','请求必须为有效 UTF-8 JSON。',400);}
+          if(path==='/api/rooms')json(201,await rooms.create(input));else if(match[2]==='join')json(201,rooms.join(match[1],input));else json(200,rooms.move(match[1],token,input));return;
+        }
+        if(match&&req.method==='GET'){json(200,match[2]==='journal'?rooms.journal(match[1],token):!match[2]?rooms.read(match[1],token):(()=>{throw new RoomError('A2G_E_ROOM_REQUEST','不支持的房间接口。',405);})());return;}
+        if(match&&!match[2]&&req.method==='DELETE'){json(200,rooms.close(match[1],token));return;}
+        throw new RoomError('A2G_E_ROOM_REQUEST','不支持的房间路径或方法。',405);
+      }
       if(['/api/releases','/api/bundles'].includes(path)&&req.method==='POST'){
         if(req.headers['content-type']?.split(';')[0].trim()!=='application/json')
           throw new ContentError('A2G_E_CONTENT_TYPE','请使用 application/json 上传游戏。',415,'parse');
@@ -56,17 +70,18 @@ export function createPlayerServer({contentService=createContentService({storage
       res.end(req.method==='HEAD'?undefined:bytes);
     }catch(error){
       req.resume();res.setHeader('Connection','close');
-      if(error instanceof ContentError||error instanceof AssetError)json(error.statusCode,{error:{code:error.code,message:error.message,stage:error.stage,diagnostics:error.diagnostics}});
+      if(error instanceof ContentError||error instanceof AssetError||error instanceof RoomError)json(error.statusCode,{error:{code:error.code,message:error.message,stage:error.stage,diagnostics:error.diagnostics}});
       else if(['ENOENT','ENOTDIR'].includes(error.code))json(404,{error:{code:'A2G_E_NOT_FOUND',message:'文件不存在。'}});
       else{console.error(JSON.stringify({event:'player-request-error',message:String(error)}));json(500,{error:{code:'A2G_E_SERVER',message:'本地服务无法完成请求，请检查服务日志。'}});}
     }
   });
+  server.once('close',()=>rooms?.dispose());
   return server;
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
   const port=Number(process.env.A2GAME_PORT??8765);
   if(!Number.isInteger(port)||port<0||port>65535)throw Error('A2GAME_PORT must be 0..65535');
-  const server=createPlayerServer();
+  const server=createPlayerServer({enableRooms:process.env.A2GAME_ROOMS==='1'});
   server.listen(port,'127.0.0.1',()=>console.log(`A2Game preview: http://127.0.0.1:${server.address().port}/player/index.html`));
   process.once('SIGTERM',()=>server.close());
 }

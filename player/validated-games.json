@@ -121,8 +121,8 @@
     },
     "/specs/v0.1/samples/games/g24-candidate.game.json": {
       "id": "org.a2game.games.g24",
-      "revision": 1,
-      "sha256Jcs": "470e50565fcfe1e5409440a68a94409fa6cf02564e0a96f47cd8785ec498523e"
+      "revision": 2,
+      "sha256Jcs": "01a4c855e396634aae68e9a39e30b3ddaffcf4808e2ee815e39c22d2c9c13354"
     },
     "/specs/v0.1/samples/games/g25-candidate.game.json": {
       "id": "org.a2game.games.g25",
@@ -163,6 +163,11 @@
       "id": "org.a2game.games.g32",
       "revision": 1,
       "sha256Jcs": "26d3f74c2927a2445ee4cf43a8e8acecc3831e63b55d505b9531ba7963f0e67a"
+    },
+    "/specs/v0.1/samples/games/gamepad-lab.game.json": {
+      "id": "org.a2game.samples.gamepad-lab",
+      "revision": 2,
+      "sha256Jcs": "7a28f9ac7fb04d36bcb811df8623b2606ee93bdb0fde783b9247826e763da1be"
     },
     "/specs/v0.1/samples/games/grid-merge-spawn.game.json": {
       "id": "org.a2game.samples.grid-merge-spawn",

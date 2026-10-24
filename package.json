@@ -26,7 +26,11 @@
     "candidates:e2e": "node scripts/candidates-browser.mjs",
     "agent:run": "node scripts/agent-workflow.mjs",
     "agent:e2e": "node scripts/agent-browser.mjs",
-    "agent:fixture": "node scripts/run-agent-fixture.mjs"
+    "agent:fixture": "node scripts/run-agent-fixture.mjs",
+    "compat:e2e": "node scripts/compat-browser.mjs",
+    "compat:matrix": "node scripts/compat-matrix.mjs",
+    "performance:profile": "node scripts/benchmark-profile.mjs",
+    "save:replay": "node scripts/replay-save.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

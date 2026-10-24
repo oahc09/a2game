@@ -1,7 +1,7 @@
 {
   "format": "a2game-project-status",
   "formatVersion": 1,
-  "asOf": "2026-10-24",
+  "asOf": "2026-10-25",
   "release": {
     "version": "1.0.0",
     "maturity": "alpha-reference",
@@ -9,8 +9,8 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "Implement bounded compatibility/extensions: replay saves/migration, public turn-room networking, extension contracts, performance and reproducible CI; preserve full coverage and external gates.",
-  "nextStage": "S11",
+  "currentObjective": "Initial S11 reference engineering delivered. Full per-game DoD, independent G3, physical inputs and remote CI remain separate pending acceptance.",
+  "nextStage": null,
   "stages": [
     {
       "id": "S0",
@@ -26,7 +26,11 @@
       "id": "S2",
       "name": "Real CocosAirJS and Three.js G2",
       "status": "PASS",
-      "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded"
+      "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded",
+      "evidence": {
+        "g2": "reports/g2-2026-10-24T17-10-19-273Z-26740/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+      }
     },
     {
       "id": "S3",
@@ -34,18 +38,19 @@
       "status": "PASS",
       "scope": "Current scene2d-trusted-assets-v1 host profile: full Schema/semantics/capabilities, approved-source assets with byte integrity, persistent receipts, receiving-host revalidation and portable bundle delivery. New gameplay/Host capabilities are independently gated.",
       "evidence": {
-        "content": "reports/content-2026-10-24T13-13-36-731Z-49356/summary.json",
-        "verification": "reports/verify-2026-10-24T13-16-53-498Z-45848/verify.log"
+        "content": "reports/content-2026-10-24T17-16-10-135Z-60712/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
       "id": "S4",
       "name": "2D/3D presentation and lifecycle",
-      "status": "PARTIAL",
+      "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-24T15-13-04-787Z-3376/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-24T15-13-04-388Z-45432/summary.json"
+        "perspective": "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
@@ -54,28 +59,28 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-24T15-08-58-544Z-59172/summary.json",
-        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
+        "puzzles": "reports/puzzles-2026-10-24T17-11-07-353Z-4272/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
       "id": "S6",
       "name": "Realtime physics and combat",
-      "status": "PARTIAL",
+      "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-24T15-08-58-541Z-34996/summary.json",
-        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
+        "mechanisms": "reports/realtime-2026-10-24T17-13-10-520Z-51816/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
       "id": "S7",
       "name": "Strategy economy and turn-based",
-      "status": "PARTIAL",
+      "status": "PASS",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
-        "mechanisms": "reports/strategy-2026-10-24T15-06-46-204Z-39748/summary.json",
-        "verification": "reports/verify-2026-10-24T15-00-59-220Z-8512/verify.log"
+        "mechanisms": "reports/strategy-2026-10-24T17-14-17-208Z-6508/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
@@ -84,8 +89,9 @@
       "status": "PARTIAL",
       "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
       "evidence": {
-        "reference": "reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json",
-        "deviceAvailability": "reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json"
+        "reference": "reports/mobile-2026-10-24T17-16-47-332Z-41552/summary.json",
+        "deviceAvailability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
@@ -93,8 +99,8 @@
       "name": "32 game + 5 hybrid conformance",
       "status": "PARTIAL",
       "evidence": {
-        "candidates": "reports/candidates-2026-10-24T16-05-30-615Z-61728/summary.json",
-        "verification": "reports/verify-2026-10-24T16-04-27-463Z-35684/verify.log"
+        "candidates": "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       },
       "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
     },
@@ -104,20 +110,27 @@
       "status": "PARTIAL",
       "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
       "evidence": {
-        "workflow": "reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json",
-        "browser": "reports/agent-browser-2026-10-24T16-20-13-673Z-39272/summary.json",
-        "verification": "reports/verify-2026-10-24T16-20-13-918Z-46000/verify.log"
+        "workflow": "reports/agent-2026-10-24T17-16-59-243Z-61204/summary.json",
+        "browser": "reports/agent-browser-2026-10-24T17-17-06-706Z-50904/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
       }
     },
     {
       "id": "S11",
       "name": "Further platform and compatibility expansion",
-      "status": "PLANNED"
+      "status": "PASS",
+      "evidence": {
+        "compatibility": "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
+        "matrix": "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
+        "performance": "reports/performance-2026-10-24T17-18-55-241Z-63920/summary.json",
+        "verification": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+      },
+      "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
   ],
   "gates": {
     "G0SampleSchema": "PASS",
-    "G0BrowserDynamicJson": "NOT_RUN",
+    "G0BrowserDynamicJson": "PASS",
     "G1ReferenceSubset": "PASS",
     "G1FullCatalog": "PARTIAL",
     "G2CocosAirJSRealSDK": "PASS",
@@ -159,12 +172,15 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 74,
-    "referenceCapabilityManifests": 123
+    "referenceDemoGames": 75,
+    "referenceCapabilityManifests": 125
   },
   "blockingItems": [
-    "No attached physical Touch/IMU device or permission/calibration receipt",
-    "Individual 32 Gxx and 5 Hxx gameplay/Agent acceptance is still incomplete"
+    "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
+    "Independent generator/model/variant G3 acceptance NOT_RUN; engineering provider fixture is not independent",
+    "Full per-game quality and variant DoD are not proven by bounded introductory/endgame candidates",
+    "Physical Gamepad acceptance NOT_RUN",
+    "Remote CI configured but NOT_RUN; no push/deployment authorization was used"
   ],
   "workspaceBaseline": {
     "date": "2026-10-24",
@@ -186,8 +202,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T15-06-46-319Z-34204",
-    "summary": "reports/g2-2026-10-24T15-06-46-319Z-34204/summary.json",
+    "runId": "g2-2026-10-24T17-10-19-273Z-26740",
+    "summary": "reports/g2-2026-10-24T17-10-19-273Z-26740/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -217,23 +233,23 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T16-20-13-918Z-46000/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T16-20-13-918Z-46000/conformance.json",
-    "g2Summary": "reports/g2-2026-10-24T15-06-46-319Z-34204/summary.json",
-    "contentSummary": "reports/content-2026-10-24T15-15-06-717Z-39820/summary.json",
+    "log": "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T17-19-05-070Z-25176/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T17-10-19-273Z-26740/summary.json",
+    "contentSummary": "reports/content-2026-10-24T17-16-10-135Z-60712/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 82,
-      "total": 82
+      "pass": 88,
+      "total": 88
     },
     "conformance": {
-      "pass": 119,
-      "total": 119,
-      "suites": 76
+      "pass": 121,
+      "total": 121,
+      "suites": 77
     },
     "schema": {
       "kinds": 7,
-      "documents": 279
+      "documents": 284
     }
   },
   "historicalReleaseRun": {
@@ -300,7 +316,7 @@
     "date": "2026-10-24",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-24T15-15-06-717Z-39820/summary.json",
+    "summary": "reports/content-2026-10-24T17-16-10-135Z-60712/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -322,8 +338,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-24T15-13-04-787Z-3376/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-24T15-13-04-388Z-45432/summary.json",
+    "perspective": "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
     "limitations": [
       "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
@@ -332,124 +348,135 @@
     ]
   },
   "capabilityReceipts": {
-    "a2game.visual.stage@0.1.0": "reports/visual-stage-capability-2026-10-24T13-46-15-262Z.json",
-    "a2game.puzzle.grid-push@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.grid-slide-merge@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.grid@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.occupancy@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.match-n@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.cascade@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.gravity-fill@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.layered-stack@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.occlusion@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.reveal@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.polyomino@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.rotate-piece@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.line-clear@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.select@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.undo@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.merge@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.swap@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.tray@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.pair-match@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.direction@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.placement@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.falling-piece@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.sort@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.connected-match@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.push@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.puzzle.slide@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.core.goal@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.core.rng@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.core.score@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.core.timer@0.1.0": "reports/puzzle-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.world@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.velocity@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.acceleration@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.charge@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.jump@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.landing@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.lane-move@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.auto-scroll@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.spawner@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.collider@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.rigid-body@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.contact@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.bounce@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.constraint@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.trigger-zone@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.follow@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.realtime.object-pool@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.health@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.damage@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.aim@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.weapon@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.cooldown@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.projectile@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.hitscan@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.auto-target@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.wave@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.horde@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.combat.status@0.1.0": "reports/realtime-capabilities-2026-10-24T14-35-03-959Z.json",
-    "a2game.strategy.economy-loop@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.path-follow@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.turn@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.cards@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.economy@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.inventory@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.cost@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.reward@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.production@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.collect@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.upgrade@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.unlock@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.shop@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.placement-grid@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.path@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.tower@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.strategy.range@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.legal-move@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.deck@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.hand@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.turnbased.player-order@0.1.0": "reports/strategy-capabilities-2026-10-24T14-46-02-850Z.json",
-    "a2game.input.touch.raw@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.double-tap@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.long-press@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.drag@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.path@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.pinch@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.rotate@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.touch.multi-hold@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.tilt@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.shake@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.orientation@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.acceleration@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.gyroscope@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.input.imu.calibration@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.rules.state-set@0.1.0": "reports/mobile-capabilities-2026-10-24T15-16-50-852Z.json",
-    "a2game.combat.bubble-grid@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.core.bootstrap@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.core.clock@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.input.touch.select@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.realtime.balance@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.realtime.collision@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.realtime.input-control@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.realtime.intersection@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.realtime.rotate@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.entity-despawn@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.entity-spawn@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.entity-state-set@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.event-emit@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.feedback-emit@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.flow-pause@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.state-clamp@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.rules.timer-schedule@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.visual.body-style@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json",
-    "a2game.visual.bound-stage@0.1.0": "reports/s9-capabilities-2026-10-24T16-10-22-633Z.json"
+    "a2game.visual.stage@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.grid-push@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.grid-slide-merge@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.grid@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.occupancy@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.match-n@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.cascade@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.gravity-fill@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.layered-stack@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.occlusion@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.reveal@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.polyomino@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.rotate-piece@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.line-clear@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.select@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.undo@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.merge@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.swap@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.tray@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.pair-match@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.direction@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.placement@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.falling-piece@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.sort@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.connected-match@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.push@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.puzzle.slide@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.goal@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.rng@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.score@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.timer@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.world@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.velocity@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.acceleration@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.charge@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.jump@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.landing@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.lane-move@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.auto-scroll@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.spawner@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.collider@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.rigid-body@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.contact@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.bounce@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.constraint@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.trigger-zone@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.follow@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.object-pool@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.health@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.damage@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.aim@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.weapon@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.cooldown@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.projectile@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.hitscan@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.auto-target@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.wave@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.horde@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.status@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.economy-loop@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.path-follow@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.turn@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.cards@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.economy@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.inventory@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.cost@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.reward@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.production@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.collect@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.upgrade@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.unlock@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.shop@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.placement-grid@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.path@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.tower@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.strategy.range@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.legal-move@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.deck@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.hand@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.turnbased.player-order@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.raw@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.double-tap@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.long-press@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.drag@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.path@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.pinch@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.rotate@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.multi-hold@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.tilt@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.shake@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.orientation@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.acceleration@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.gyroscope@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.imu.calibration@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.state-set@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.combat.bubble-grid@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.bootstrap@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.clock@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.select@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.balance@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.collision@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.input-control@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.intersection@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.realtime.rotate@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.entity-despawn@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.entity-spawn@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.entity-state-set@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.event-emit@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.feedback-emit@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.flow-pause@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.state-clamp@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.timer-schedule@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.visual.body-style@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.visual.bound-stage@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.flow@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.rules@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.core.state@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.keyboard.button@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.swipe@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.touch.tap@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.rules.state-add@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.visual.scene2d@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.visual.text@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.gamepad.button@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json",
+    "a2game.input.gamepad.axis2@0.1.0": "reports/reference-capabilities-final-2026-10-24T17-22-11-393Z.json"
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-24T16-06-53-038Z-38700/summary.json",
+    "summary": "reports/puzzles-2026-10-24T17-11-07-353Z-4272/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
       "RNG-restoring undo is single-behavior only; compositions use Session snapshots",
@@ -459,36 +486,52 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-24T15-08-58-541Z-34996/summary.json",
+      "summary": "reports/realtime-2026-10-24T17-13-10-520Z-51816/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
-      "performance": "reports/realtime-perf-2026-10-24T14-32-41-200Z.json"
+      "performance": "reports/performance-2026-10-24T17-18-55-241Z-63920/summary.json"
     },
     "strategy": {
       "status": "PASS",
-      "summary": "reports/strategy-2026-10-24T15-06-46-204Z-39748/summary.json",
+      "summary": "reports/strategy-2026-10-24T17-14-17-208Z-6508/summary.json",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate."
     }
   },
   "mobileInputRun": {
-    "status": "NOT_RUN",
-    "summary": "reports/mobile-2026-10-24T15-04-43-944Z-63356/summary.json",
+    "status": "PASS_REFERENCE",
+    "summary": "reports/mobile-2026-10-24T17-16-47-332Z-41552/summary.json",
     "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN."
   },
   "mobileDeviceRun": {
     "status": "NOT_RUN",
-    "availability": "reports/mobile-device-probe-2026-10-24T15-16-50-835Z.json",
-    "reason": "No attached Android device; physical Touch/IMU, device permission, calibration and orientation receipts are unavailable. Virtual input evidence is not a substitute."
+    "availability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
+    "reason": "No Android device attached; physical Touch/IMU, permission and calibration tests have no receipt."
   },
   "candidateRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/candidates-2026-10-24T16-05-30-615Z-61728/summary.json",
+    "summary": "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json",
     "evidence": "project/candidate-evidence.json",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
   },
   "agentWorkflowRun": {
     "status": "PASS_REFERENCE",
-    "workflow": "reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json",
-    "browser": "reports/agent-browser-2026-10-24T16-20-13-673Z-39272/summary.json",
+    "workflow": "reports/agent-2026-10-24T17-16-59-243Z-61204/summary.json",
+    "browser": "reports/agent-browser-2026-10-24T17-17-06-706Z-50904/summary.json",
     "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN."
+  },
+  "compatibilityRun": {
+    "status": "PASS_REFERENCE",
+    "browser": "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
+    "matrix": "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
+    "performance": "reports/performance-2026-10-24T17-18-55-241Z-63920/summary.json",
+    "remoteCI": "NOT_RUN",
+    "physicalGamepad": "NOT_RUN",
+    "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
+  },
+  "engineeringDelivery": {
+    "throughStage": "S11",
+    "status": "PASS_REFERENCE",
+    "fullAcceptance": "PARTIAL",
+    "browserEvidence": "reports/s11-current-refresh-2026-10-24T17-17-22-278Z.json",
+    "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
   }
 }

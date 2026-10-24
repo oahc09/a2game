@@ -16,9 +16,9 @@ const save=(name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(va
 const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex');
 const sourceFiles=directory=>readdirSync(resolve(root,directory),{withFileTypes:true}).flatMap(entry=>
   entry.isDirectory()?sourceFiles(`${directory}/${entry.name}`):[`${directory}/${entry.name}`]);
-const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/mobile-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',
+const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/mobile-host.mjs','player/gamepad-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',
   ...sourceFiles('player/adapters'),'scripts/g2-real.mjs',
-  'scripts/prepare-sdks.mjs','scripts/serve.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
+  'scripts/prepare-sdks.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
   'scripts/registry.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/samples/games'),...sourceFiles('specs/v0.1/samples/capabilities'),...sourceFiles('specs/v0.1/schemas'),
   ...readdirSync(resolve(root,'dist')).filter(name=>name.endsWith('.js')).map(name=>`dist/${name}`),
   ...readdirSync(resolve(root,'dist/modules')).filter(name=>name.endsWith('.js')).map(name=>`dist/modules/${name}`)];

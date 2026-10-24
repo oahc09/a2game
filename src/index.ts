@@ -24,3 +24,5 @@ export * from './modules/input-control.js';
 export * from './modules/bubble-grid.js';
 export * from './trusted-modules.js';
 export * from './modules/bootstrap.js';
+export * from './replay-save.js';
+export * from './gamepad-input.js';

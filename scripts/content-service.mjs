@@ -3,7 +3,7 @@ import {readFileSync,readdirSync,existsSync,mkdirSync,lstatSync,openSync,writeFi
 import {resolve} from 'node:path';
 import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
-import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError,mobileInputSources} from '../dist/index.js';
+import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError,mobileInputSources,gamepadInputSources} from '../dist/index.js';
 import {validateJsonTree} from '../dist/utils.js';
 import {root,makeRegistry} from './registry.mjs';
 import {createAssetPolicy} from './asset-policy.mjs';
@@ -18,7 +18,7 @@ function assertProfile(game,effective){
   if(Object.keys(game.extensions??{}).length)reject('A2G_E_HOST_PROFILE','当前宿主不支持自定义 extensions。','/extensions');
   if(!game.presentation.scene2d||game.scenes.length!==1||(game.world.dimension==='3d'&&!game.presentation.stage))
     reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 或声明 visual.stage 的 3D 游戏。','/presentation/scene2d');
-  const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe',...mobileInputSources};
+  const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe',...mobileInputSources,...gamepadInputSources};
   const declared=[...game.requires.all,...(game.requires.anyOf??[]).flat()];
   for(const [index,action] of game.inputs.actions.entries()){
     for(const [bi,binding] of action.bindings.entries()){
@@ -33,7 +33,7 @@ function assertProfile(game,effective){
 }
 function validateFull(python,payload){
   return new Promise((accept,rejectPromise)=>{
-    const child=spawn(python,[resolve(root,'scripts/validate-content.py')],{stdio:['pipe','pipe','pipe'],windowsHide:true});
+    const child=spawn(python,[resolve(root,'scripts/validate-content.py')],{stdio:['pipe','pipe','pipe'],windowsHide:true,env:{...process.env,PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8'}});
     let output='',overflow=false;
     const timeout=setTimeout(()=>{child.kill();rejectPromise(new ContentError('A2G_E_VALIDATOR_TIMEOUT','完整 Schema 校验超时，请缩小输入后重试。',503,'infra'));},8000);
     child.stdout.setEncoding('utf8');

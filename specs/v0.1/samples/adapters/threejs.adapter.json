@@ -4,14 +4,40 @@
   "adapterId": "threejs-a2game",
   "adapterVersion": "0.1.0",
   "runtimeVersion": "0.1.0",
-  "status": "planned",
-  "supportedCapabilities": [],
-  "physicsProfiles": [],
+  "status": "verified",
+  "supportedCapabilities": [
+    {
+      "id": "a2game.visual.scene2d",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.text",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.stage",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.bound-stage",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.visual.body-style",
+      "version": "0.1.0"
+    }
+  ],
+  "physicsProfiles": [
+    "aabb-int-v1 (shared Runtime, not native engine rigid-body solver)",
+    "bubble-grid-v1 (shared Runtime)"
+  ],
   "targetPlatforms": [
     "desktop-web",
     "mobile-web"
   ],
   "limitations": [
-    "Design only: no A2Game adapter implementation or conformance results."
+    "Verified only in the bounded reference profile; exact current evidence is linked in project/adapter-evidence.json.",
+    "Native primitive/texture/text/audio stage profile only; arbitrary materials/shaders and general 3D physics are not claimed.",
+    "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
   ]
 }

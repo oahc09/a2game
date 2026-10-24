@@ -95,7 +95,8 @@
               "keyboard",
               "imu",
               "system",
-              "action"
+              "action",
+              "gamepad"
             ]
           },
           "kind": {

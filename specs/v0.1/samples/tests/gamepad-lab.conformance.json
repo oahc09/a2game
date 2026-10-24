@@ -1,0 +1,220 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "gamepad-lab",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.samples.gamepad-lab",
+    "file": "../games/gamepad-lab.game.json"
+  },
+  "cases": [
+    {
+      "id": "GAMEPAD-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                true
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                false
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                true
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                false
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                true
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                false
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "GAMEPAD-HOLD-DISCONNECT",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [
+                true
+              ],
+              "axes": [
+                0.8,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": false,
+              "buttons": [],
+              "axes": []
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/axis",
+          "equals": [
+            0,
+            0
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}
