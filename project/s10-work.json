@@ -1,0 +1,26 @@
+{
+  "format": "a2game-stage-work",
+  "stage": "S10",
+  "status": "engineering_completed",
+  "steps": [
+    {
+      "task": "提供模型无关的标准输入输出生成器接口，记录提示、输出与有界修复诊断",
+      "status": "completed"
+    },
+    {
+      "task": "对生成 JSON 执行完整准入、正反例和有界求解，输出可玩性与成本指标",
+      "status": "completed"
+    },
+    {
+      "task": "加入浏览器回放和逐步调试入口，用明确标注的夹具验证整条工程链",
+      "status": "completed"
+    },
+    {
+      "task": "记录真实独立生成器尚未配置的 G3 缺口，提交工程交付后继续 S11",
+      "status": "completed"
+    }
+  ],
+  "pending": [
+    "No independent model generator command/endpoint configured; G3, full per-game quality and variants remain unverified"
+  ]
+}

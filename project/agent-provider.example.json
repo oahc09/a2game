@@ -1,0 +1,7 @@
+{
+  "prompt": "使用能力目录编写独立游戏 JSON，提供成功和负例 Conformance，以及可获胜的规范输入解法。",
+  "command": ["node", "path/to/your-generator-adapter.mjs"],
+  "maxAttempts": 3,
+  "timeoutMs": 60000,
+  "solverBudget": {"maxNodes": 256, "maxDepth": 8}
+}

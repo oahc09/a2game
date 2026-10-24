@@ -50,12 +50,14 @@
     },
     {
       "stage": "S10",
-      "status": "in_progress",
-      "deliverable": "Model-independent generation/repair workflow with genuine Agent G3 evidence"
+      "status": "blocked",
+      "deliverable": "Model-independent generation/repair workflow with genuine Agent G3 evidence",
+      "implementation": "Completed model-independent tooling and real-SDK debugger engineering profile",
+      "blocker": "Independent generator/G3 acceptance is unavailable; fixtures are not counted"
     },
     {
       "stage": "S11",
-      "status": "pending",
+      "status": "in_progress",
       "deliverable": "Host/device extensions, multiplayer, save migration, performance, CI and compatibility documentation"
     }
   ]

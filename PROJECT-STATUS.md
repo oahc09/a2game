@@ -1,5 +1,11 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+## S10 生成与调试工程交付（2026-10-25）
+
+- 模型无关 stdin/stdout 合同、严格 JSON、完整准入及 Conformance、最多三次诊断修复、预算化按钮求解和第二 Session 回放。[流程](reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json)。本次明确为确定性工程夹具，G3 NOT_RUN。
+- 真实 SDK 的调试包导入、前进/回退/重开、Node Hash、资源释放和 390px 窄屏通过，截图已检查。[浏览器](reports/agent-browser-2026-10-24T16-20-13-673Z-39272/summary.json)。修复隐藏 iframe 导致的 CocosAirJS 启动尺寸问题，失败报告保留。
+- 82 Node、119 Conformance、279 Schema 文档通过。[验证](reports/verify-2026-10-24T16-20-13-918Z-46000/verify.log)。使用 [Agent 合同](specs/v0.1/docs/17-Agent-Workflow-V0.1.md)、配置示例和 /player/inspect.html；未配置的真实独立生成器不被夹具替代。继续 S11。
+
 ## S9 独立候选参考交付（2026-10-25）
 
 - 32 Gxx、5 Hxx 各有独立 JSON 和正反例；总计 74 JSON、123 Manifest。80 Node、119 Conformance、279 Schema 文档通过。[验证](reports/verify-2026-10-24T16-04-27-463Z-35684/verify.log)。

@@ -142,6 +142,17 @@ for(const [stage,suite] of [['S6','realtime'],['S7','strategy']])if(status.stage
     for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`${stage}: stale fingerprint ${path}`);}
   }catch(error){insist(false,`${stage}: cannot verify mechanism evidence: ${error.message}`);}
 }
+if(status.agentWorkflowRun?.status==='PASS_REFERENCE'){
+  try{
+    const workflow=read(status.agentWorkflowRun.workflow),browser=read(status.agentWorkflowRun.browser);
+    insist(workflow.format==='a2game-agent-workflow'&&workflow.status==='PASS_REFERENCE'&&workflow.G3==='NOT_RUN'&&workflow.attempts.some(a=>a.status==='PASS'),'S10: missing admitted/solved generation workflow');
+    for(const [path,digest] of Object.entries(workflow.toolchain??{}))insist(createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')===digest,`S10: stale workflow tool ${path}`);
+    insist(browser.format==='a2game-agent-browser'&&browser.status==='PASS'&&browser.unchanged&&browser.physicalClose==='PASS'&&browser.parity&&browser.cases?.length===2,'S10: incomplete real SDK debugger proof');
+    for(const row of browser.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.final?.exactHash===result.node?.exactHash&&result.rewind==='PASS'&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.screenshot))&&existsSync(resolve(root,result.mobileScreenshot)),`S10: incomplete debugger lifecycle ${row.receipt}`);}
+    for(const [path,digest] of Object.entries(read(browser.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`S10: stale browser source ${path}`);}
+    if(workflow.provenance?.kind==='fixture')insist(status.gates.G3GameplayAgent!=='PASS','Fixture generation cannot satisfy G3');
+  }catch(error){insist(false,`S10: cannot verify workflow evidence: ${error.message}`);}
+}
 if(status.candidateRun?.status==='PASS_REFERENCE'){
   try{
     const summary=read(status.candidateRun.summary),recipes=read('project/game-candidates.json').cases;

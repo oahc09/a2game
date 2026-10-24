@@ -8,8 +8,8 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S10",
-  "currentObjective": "Implement model-independent generation, diagnostic repair and bounded playability tooling; genuine independent Agent G3 remains gated.",
+  "currentStage": "S11",
+  "currentObjective": "Implement bounded compatibility/extensions: replay saves/migration, public turn-room networking, extension contracts, performance and reproducible CI; preserve full coverage and external gates.",
   "nextStage": "S11",
   "stages": [
     {
@@ -101,7 +101,13 @@
     {
       "id": "S10",
       "name": "AI game generation and G3",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
+      "evidence": {
+        "workflow": "reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json",
+        "browser": "reports/agent-browser-2026-10-24T16-20-13-673Z-39272/summary.json",
+        "verification": "reports/verify-2026-10-24T16-20-13-918Z-46000/verify.log"
+      }
     },
     {
       "id": "S11",
@@ -211,14 +217,14 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-24T16-04-27-463Z-35684/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-24T16-04-27-463Z-35684/conformance.json",
+    "log": "reports/verify-2026-10-24T16-20-13-918Z-46000/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-24T16-20-13-918Z-46000/conformance.json",
     "g2Summary": "reports/g2-2026-10-24T15-06-46-319Z-34204/summary.json",
     "contentSummary": "reports/content-2026-10-24T15-15-06-717Z-39820/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 80,
-      "total": 80
+      "pass": 82,
+      "total": 82
     },
     "conformance": {
       "pass": 119,
@@ -478,5 +484,11 @@
     "summary": "reports/candidates-2026-10-24T16-05-30-615Z-61728/summary.json",
     "evidence": "project/candidate-evidence.json",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
+  },
+  "agentWorkflowRun": {
+    "status": "PASS_REFERENCE",
+    "workflow": "reports/agent-2026-10-24T16-20-01-545Z-64376/summary.json",
+    "browser": "reports/agent-browser-2026-10-24T16-20-13-673Z-39272/summary.json",
+    "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN."
   }
 }

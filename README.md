@@ -4,7 +4,7 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S9 独立候选参考已验证，继续 S10。** 当前 74 份 JSON、123 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+> **当前阶段：S10 生成与调试工程参考已验证，继续 S11。** 当前 74 份 JSON、123 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
 
 ## 一、先看能运行什么
 
@@ -230,3 +230,5 @@ a2game/
 **未完成/未验证**：远程账户/签名和自动部署、审核目录外资源供应链、多进程存储配额；一般模型/骨骼编辑器和任意 Shader 扩展；三消与塔防/射击完整模块；物理 GPU、多点/IMU 真机；32+5 全量玩法；Agent G3。
 
 **下一步**：实施 S5 益智/休闲标准库，保持 S4 表现能力的真实双 SDK 回归；新增能力继续执行 [PROJECT-PLAN.md §5](PROJECT-PLAN.md) 的真实 G2 合同。研发变更时同步 [PROJECT-STATUS.md](PROJECT-STATUS.md)、[`project/status.json`](project/status.json) 与 `CHANGELOG.md`；不能把失败、未测或 Mock PASS 改成已完成。
+
+生成工程：`npm run agent:fixture -- --browser` 重现明确标注的工程夹具；真实生成器按 `project/agent-provider.example.json` 配置后执行 `npm run agent:run -- <配置.json>`。调试包通过 `/player/inspect.html` 逐步查看，详见 [生成与修复合同](specs/v0.1/docs/17-Agent-Workflow-V0.1.md)。

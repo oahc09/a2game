@@ -23,7 +23,10 @@
     "realtime:e2e": "node scripts/mechanism-browser.mjs --suite=realtime",
     "strategy:e2e": "node scripts/mechanism-browser.mjs --suite=strategy",
     "mobile:e2e": "node scripts/mobile-browser.mjs",
-    "candidates:e2e": "node scripts/candidates-browser.mjs"
+    "candidates:e2e": "node scripts/candidates-browser.mjs",
+    "agent:run": "node scripts/agent-workflow.mjs",
+    "agent:e2e": "node scripts/agent-browser.mjs",
+    "agent:fixture": "node scripts/run-agent-fixture.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {
