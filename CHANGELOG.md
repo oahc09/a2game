@@ -1,5 +1,20 @@
 # A2Game 项目变更记录
 
+## S3 本地回执持久化 — 2026-10-24
+
+- 播放器服务默认保存按校验环境/内容 SHA 寻址的本地发布记录；服务重启后首次读取重新完整校验，原回执与内容不变。可用 `A2GAME_CONTENT_DIR` 指定私有存储目录，默认数据不入库。
+- 使用独占临时文件、文件同步和同目录原子重命名，兼容当前 exFAT 工作盘；损坏记录、环境失配、存储故障和容量满时明确拒绝，保留旧环境记录。当前限定单服务写入，无远程签名或断电持久性声明。
+- 增加 2 条必要存储回归；扩展真实双 SDK `content:e2e`，验证实际 HTTP 进程退出/重启、回执和初始 Hash 不变及继续输入。回执：[summary.json](reports/content-2026-10-24T13-03-06-871Z-54276/summary.json)；原 G2 16+2 场景复验通过。
+- S3 保持 PARTIAL，后续为资源来源/完整性与远程交付，再扩展 S4。
+
+## S3 本地动态 JSON 准入 — 2026-10-24
+
+- 新增同源 `POST/GET /api/releases`、完整 Draft 2020-12 校验、配置/语义/能力与宿主策略检查，以及带内容、Manifest 和环境 SHA 的进程内回执；校验器缺失或环境变化时拒绝发布。
+- 播放器增加 JSON 文件导入、错误诊断与失败后恢复；动态内容可在真实 Three.js/CocosAirJS 间切换，内置样例保留原 SHA 白名单。
+- 修复 `SPEC_CONFLICT INPUT-CONFIG-001`，使 Tap/Keyboard Manifest 配置与已有样例/运行时契约一致；同步生成器与规范并增加正反例。GameSpec/Capability 仍为 `0.1.0`。
+- 新增 6 条必要回归与可复用 `content:e2e`。新三次点击变体在两端与 Node Hash 一致，负例恢复、画面、切换与释放通过；原 G2 16+2 场景、8 组 Hash 复验通过。详见[准入契约](docs/content-release.md)、[动态内容回执](reports/content-2026-10-24T12-36-07-539Z-56252/summary.json)和[项目状态](PROJECT-STATUS.md)。
+- S3 保持 PARTIAL：当前仅单场景 scene2d、已有能力、无资源的本地进程回执；资源管理与持久化/远程发布仍待实施，未增加全目录 verified 数。
+
 ## 协议目录迁移 — 2026-10-24
 
 - 将协议包从 `A2Game-V0.1-Spec/` 迁移到 `specs/v0.1/`，保留 docs/schemas/samples、版本工具及历史协议内容；GameSpec/Capability 版本仍为 `0.1.0`。

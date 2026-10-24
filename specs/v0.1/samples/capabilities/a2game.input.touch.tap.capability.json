@@ -11,6 +11,11 @@
   "contract": {
     "configSchema": {
       "type": "object",
+      "properties": {
+        "region": {"enum": ["playfield"]},
+        "maxDurationUs": {"type": "integer", "minimum": 0, "maximum": 10000000},
+        "maxDistanceNorm": {"type": "number", "minimum": 0, "maximum": 2}
+      },
       "additionalProperties": false
     },
     "stateSchema": {

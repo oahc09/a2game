@@ -4,6 +4,8 @@
 
 ## 1. 输入层次
 
+`SPEC_CONFLICT INPUT-CONFIG-001`（2026-10-24 已修复）：早期 Tap/Keyboard Manifest 只允许空 `config`，与样例已有 `region` / `code` 以及 Runtime 读取阈值的行为不一致。当前 Manifest 和生成器补齐以下参数，不修改已有输入算法或协议版本：`touch.tap.config` 允许 `region: "playfield"`、`maxDurationUs`（整数 0..10000000，默认 350000）、`maxDistanceNorm`（0..2，默认 0.04）；此处 playfield 指整个游戏画布，不提供实体 HitTest。`keyboard.button.config` 要求非空 `code`（最长 64 字符）。未知配置字段仍拒绝。完整内容导入按这些 Manifest 的 Draft 2020-12 Schema 校验每个绑定和组件配置。
+
 `Source Adapter (Pointer/Touch/Keyboard/IMU) -> NormalizedRawInput -> Recognizer -> NormalizedAction -> Game Rule/Gameplay Module`。
 
 `touch.swipe` 由能力 `a2game.input.touch.swipe@0.1.0` 提供。声明绑定 `source:"touch.swipe"`，`config` 至少包含 `direction: left|right|up|down`；可声明 `minDistanceNorm`、`maxDurationUs`。手势符合阈值后发出同 Tick 成对的 `press` 和 `release`，不得将某次释放误记为持续保持。

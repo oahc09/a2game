@@ -1,13 +1,15 @@
-import {HeadlessRuntime,sha256Canonical,projectPresentation} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {ThreeAdapter} from './adapters/three-adapter.mjs';
 import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
+import {loadBuiltinGame,loadReleasedGame,importGameFile} from './content-loader.mjs';
 
 const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
 const gameName=['tap-target','grid-merge','grid-merge-spawn','grid-push'].includes(params.get('game'))?params.get('game'):'tap-target';
 const backendName=['preview','air','three'].includes(params.get('backend'))?params.get('backend'):'preview';
+const releaseId=params.get('release');
 // Explicit automation mode replaces the production clock; both use the same runtime.
 const manualClock=params.get('clock')==='manual';
 const operations=[];
@@ -17,18 +19,7 @@ const listen=(target,type,callback)=>target.addEventListener(type,callback,{sign
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
 let runtime,adapter,definition,raf,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
-const showError=e=>{errorMessage=e instanceof Error?`${e.name}: ${e.message}`:String(e);dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
-async function fetchValidatedGame(name){
- const catalogResp=await fetch('./validated-games.json');if(!catalogResp.ok)throw Error('Missing G0 validated catalog: run npm run catalog:build');
- const catalog=await catalogResp.json();
- const path=`/specs/v0.1/samples/games/${name}.game.json`;
- const record=catalog.content?.[path];if(!record)throw Error(`Game ${name} was not validated at G0`);
- const response=await fetch(path);if(!response.ok)throw Error(`Game request failed ${response.status}`);
- const obj=await response.json();
- if(record.sha256Jcs!==sha256Canonical(obj)||record.id!==obj.id||record.revision!==obj.revision)
-     throw Error('A2G_E_RELEASE_INTEGRITY: Game JSON differs from fully validated G0 artifact');
- return obj;
-}
+const showError=e=>{errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  const canvas=dom.GameCanvas;
  if(mode==='preview') return new CanvasPreviewAdapter(canvas);
@@ -68,6 +59,7 @@ function sendAction(action){
 }
 function animate(now){
  if(disposal)return;
+ try{
  if(!ts)ts=now;
  const dt=Math.max(0,(now-ts)/1000);ts=now;
  if(!manualClock&&runtime.status==='playing'){
@@ -79,6 +71,7 @@ function animate(now){
    }else if(steps>0){runtime.step(steps);carry-=steps/hz;}
  }
  if(contextState==='healthy')render();raf=requestAnimationFrame(animate);
+ }catch(error){showError(error);void dispose().catch(cleanup=>console.error(cleanup));}
 }
 function bindInputs(){
  const canvas=dom.GameCanvas;
@@ -95,7 +88,7 @@ function bindInputs(){
  listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
  listen(canvas,'lostpointercapture',e=>rawPointer(e,'cancel'));
  listen(window,'keydown',e=>{
-   if(e.repeat||e.target instanceof HTMLSelectElement)return;
+   if(e.repeat||e.target instanceof HTMLSelectElement||e.target instanceof HTMLInputElement)return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
    if(bound){e.preventDefault();sendAction(bound.id);}
  });
@@ -124,7 +117,11 @@ function bindInputs(){
    }else{render();dom.hint.textContent='图形上下文已恢复；点击「继续」恢复游戏';}
  });
  listen(window,'blur',()=>{if(runtime.status==='playing'){runtime.pause();record('pause');carry=0;render();}});
- for(const which of ['game','backend'])listen(dom[which],'change',()=>{location.search=new URLSearchParams({game:dom.game.value,backend:dom.backend.value}).toString();});
+ for(const which of ['game','backend'])listen(dom[which],'change',()=>{
+   const query=new URLSearchParams({backend:dom.backend.value});
+   if(dom.game.value==='imported'&&releaseId)query.set('release',releaseId);else query.set('game',dom.game.value);
+   if(manualClock)query.set('clock','manual');location.search=query.toString();
+ });
 }
 function dispose(){
  if(disposal)return disposal;
@@ -133,10 +130,15 @@ function dispose(){
 }
 async function main(){
  try{
-   definition=await fetchValidatedGame(gameName);
+   const registry=await createBrowserRegistry();
+   if(releaseId){
+     const released=await loadReleasedGame(releaseId,registry);definition=released.definition;
+     const option=document.createElement('option');option.value='imported';option.textContent=`导入：${definition.meta.title}`;
+     dom.game.appendChild(option);dom.game.value='imported';
+     document.getElementById('importStatus').textContent='已校验并加载；本地发布已保存。';
+   }else definition=await loadBuiltinGame(gameName);
    dom.hint.textContent=definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
      ? '在画面内滑动 / 使用方向键' : '点击中央目标 / 点击收集按钮';
-   const registry=await createBrowserRegistry();
    runtime=new HeadlessRuntime(definition,registry);
    adapter=await createAdapter(backendName);
    // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
@@ -161,4 +163,16 @@ async function main(){
  }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
 window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
+// Available even when a previous release expired or an SDK failed to start.
+document.getElementById('importGame').addEventListener('change',async event=>{
+ const input=event.target,file=input.files?.[0],status=document.getElementById('importStatus');if(!file)return;
+ input.disabled=true;status.textContent='正在校验游戏…';
+ try{
+   const {receipt}=await importGameFile(file),query=new URLSearchParams({backend:dom.backend.value,release:receipt.sha256Jcs});
+   if(manualClock)query.set('clock','manual');location.search=query.toString();
+ }catch(error){
+   const details=error.diagnostics?.slice(0,3).map(item=>`${item.pointer||'/'}：${item.message}`).join('\n');
+   status.textContent=`导入失败：${error.code??''} ${error.message}${details?'\n'+details:''}`;
+ }finally{input.disabled=false;input.value='';}
+});
 main();

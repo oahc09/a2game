@@ -12,6 +12,7 @@ player/vendor/*.js
 player/vendor/sdk-provenance.json
 .tools/
 output/
+.a2game/
 
 # Local configuration and editor files
 .env

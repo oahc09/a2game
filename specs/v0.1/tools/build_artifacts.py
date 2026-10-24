@@ -203,8 +203,10 @@ items=[
                commands=[{'name':'state.add','payloadSchema':{'type':'object','required':['path','value'],'properties':{'path':{'type':'string','pattern':'^/'},'value':{'type':'number'}},'additionalProperties':False}}],writes=['global'],deps=['a2game.core.state']),
     capability('a2game.visual.text','presentation','present','host-defined','HUD 文本显示，允许绑定逻辑状态，只读。',['ADAPTER-003'],deps=['a2game.core.state']),
     capability('a2game.input.touch.tap','recognizer','recognize','exact','由标准化 pointer down/up 识别 Tap，受参数/触点归属约束。',['INPUT-001','INPUT-002'],
+               config={'type':'object','properties':{'region':{'enum':['playfield']},'maxDurationUs':{'type':'integer','minimum':0,'maximum':10000000},'maxDistanceNorm':{'type':'number','minimum':0,'maximum':2}},'additionalProperties':False},
                events=[{'name':'input.action','payloadSchema':{'type':'object'}}]),
     capability('a2game.input.keyboard.button','recognizer','recognize','exact','标准化键盘键到 button action，保留有序边沿。',['INPUT-009'],
+               config={'type':'object','required':['code'],'properties':{'code':{'type':'string','minLength':1,'maxLength':64}},'additionalProperties':False},
                events=[{'name':'input.action','payloadSchema':{'type':'object'}}]),
 ]
 for cap in items:

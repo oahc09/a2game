@@ -17,7 +17,9 @@
   h1{font-size:clamp(22px,3vw,34px);margin:10px 0 4px;letter-spacing:-.02em}p{color:var(--muted);margin:6px 0 14px;line-height:1.6}
   .pill{border:1px solid #35516c;border-radius:20px;padding:7px 12px;color:#adc2d6;font-size:12px}
   .toolbar,.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
-  select,button{border:1px solid #3a526f;border-radius:10px;background:#1b2a40;color:#f2f8ff;padding:10px 13px;font:inherit;cursor:pointer}
+  select,button,.import-control{border:1px solid #3a526f;border-radius:10px;background:#1b2a40;color:#f2f8ff;padding:10px 13px;font:inherit;cursor:pointer}
+  .import-control:focus-within{outline:2px solid #76ccdf}.file-input{position:absolute;width:1px;height:1px;opacity:0}
+  #importStatus{font-size:12px;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;margin:0 0 12px}
   button:hover{background:#29415a}button:disabled{opacity:.42;cursor:default}
   .grid{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;align-items:stretch}
   .stage{min-width:0;height:562px;position:relative;border:1px solid #314257;border-radius:18px;overflow:hidden;background:#0d1729;box-shadow:0 14px 60px #0008}
@@ -46,7 +48,9 @@
     <label>游戏 <select id="game"><option value="tap-target">点击计分</option><option value="grid-merge">合并网格</option><option value="grid-merge-spawn">随机补位合并</option><option value="grid-push">推箱子</option></select></label>
     <label>后端 <select id="backend"><option value="preview">Canvas2D 预览</option><option value="three">Three.js SDK</option><option value="air">CocosAirJS SDK</option></select></label>
     <button id="restart">重新开始</button><button id="pause">暂停</button>
+    <label class="import-control">导入游戏 JSON<input id="importGame" class="file-input" type="file" accept=".json,application/json" aria-label="导入游戏 JSON"/></label>
   </div>
+  <p id="importStatus" role="status" aria-live="polite">选择 JSON 文件，经完整校验后在当前后端运行。</p>
   <div class="grid">
     <div class="stage"><canvas id="GameCanvas" aria-label="Game viewport"></canvas><div class="corner" id="engineLabel">Headless + Canvas2D Preview</div><div class="overlay" id="hint">点击目标 / 使用方向键</div></div>
     <aside>

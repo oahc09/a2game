@@ -93,6 +93,26 @@ for(const [gate, receipt] of [
     }
   }catch(error){insist(false,`${gate}: cannot verify receipt: ${error.message}`);}
 }
+if(status.gates.G0BrowserDynamicJson==='PASS'){
+  try{
+    const evidence=read(status.contentRun.summary);
+    insist(evidence.format==='a2game-content-admission-browser'&&evidence.status==='PASS'&&evidence.profile==='scene2d-local-release-v1','Dynamic JSON gate requires a PASS real-browser receipt');
+    insist(evidence.unchanged&&evidence.physicalClose==='PASS'&&evidence.nodeThreeAirParity,'Dynamic JSON evidence must close cleanly with matching Node/Host hashes');
+    insist(evidence.cases.length===2&&new Set(evidence.cases.map(item=>item.backend)).size===2,'Dynamic JSON must run in both real SDKs');
+    for(const item of evidence.cases){
+      const result=read(item.receipt);
+      insist(item.status==='PASS'&&result.status==='PASS'&&existsSync(resolve(root,item.screenshot)),`Missing content import proof: ${item.backend}`);
+      insist(result.final.exactHash===result.node.exactHash&&result.release.receipt.sha256Jcs===evidence.sha256Jcs,`Content/hash proof differs: ${item.backend}`);
+      insist(result.rejections.some(row=>row.code==='A2G_E_SCHEMA')&&result.rejections.some(row=>row.code==='A2G_E_CAP_UNKNOWN'),`Missing content rejection proof: ${item.backend}`);
+      if(status.contentRun.persistentRestart==='PASS')insist(evidence.persistentRestart&&result.persistentRestart?.status==='PASS'&&result.persistentRestart.previousPid!==result.persistentRestart.pid&&result.persistentRestart.receiptUnchanged&&result.persistentRestart.inputAfterRestart==='PASS',`Missing persistent restart proof: ${item.backend}`);
+    }
+    for(const [path,digest] of Object.entries(read(evidence.fingerprints))){
+      const file=resolve(root,path);insist(file.startsWith(root+sep)&&/^[a-f0-9]{64}$/.test(digest),`Invalid content fingerprint ${path}`);
+      if(existsSync(file))insist(createHash('sha256').update(readFileSync(file)).digest('hex')===digest,`Stale dynamic content evidence for ${path}`);
+      else insist(path.startsWith('dist/'),`Missing content source ${path}`);
+    }
+  }catch(error){insist(false,`Cannot verify dynamic JSON gate: ${error.message}`);}
+}
 if(failures.length){console.error('A2Game project governance FAIL:');for(const x of failures) console.error(' -',x);process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

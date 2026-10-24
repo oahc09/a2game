@@ -8,9 +8,9 @@
     "gameSpecVersion": "0.1.0",
     "capabilityManifestVersion": "0.1.0"
   },
-  "currentStage": "S2",
-  "currentObjective": "Real CocosAirJS/Three.js scene2d G2 reference subset PASS. Next: S3 full dynamic AI JSON validation and S4 versioned presentation capabilities; retain 0/32 gameplay verified and 0/5 hybrid verified.",
-  "nextStage": "S3",
+  "currentStage": "S3",
+  "currentObjective": "Local dynamic JSON admission and persistent receipts verified across server process restarts; continue S3 asset provenance/integrity and remote delivery before S4 expansion.",
+  "nextStage": "S4",
   "stages": [
     {
       "id": "S0",
@@ -31,7 +31,8 @@
     {
       "id": "S3",
       "name": "Dynamic AI JSON validation and release pipeline",
-      "status": "PARTIAL"
+      "status": "PARTIAL",
+      "scope": "scene2d-local-release-v1 local persistent receipts, full revalidation on restore and real dual-SDK process-restart proof; remote publishing and assets pending"
     },
     {
       "id": "S4",
@@ -76,7 +77,7 @@
   ],
   "gates": {
     "G0SampleSchema": "PASS",
-    "G0BrowserDynamicJson": "NOT_IMPLEMENTED",
+    "G0BrowserDynamicJson": "PASS",
     "G1ReferenceSubset": "PASS",
     "G1FullCatalog": "PARTIAL",
     "G2CocosAirJSRealSDK": "PASS",
@@ -122,7 +123,7 @@
     "referenceCapabilityManifests": 11
   },
   "blockingItems": [
-    "Browser dynamic arbitrary AI JSON full Draft 2020-12 validation not implemented",
+    "Remote release delivery and asset provenance/integrity admission not implemented; local scene2d profile rejects assets and unsupported host features",
     "Real-device Touch/IMU capture and permission not verified",
     "32-game gameplay and AI one-shot coverage not implemented"
   ],
@@ -146,8 +147,8 @@
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T12-07-53-439Z-48524",
-    "summary": "reports/g2-2026-10-24T12-07-53-439Z-48524/summary.json",
+    "runId": "g2-2026-10-24T13-03-38-642Z-47780",
+    "summary": "reports/g2-2026-10-24T13-03-38-642Z-47780/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -177,11 +178,14 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/spec-layout-2026-10-24T12-06-54-319Z/verify.log",
-    "conformanceReceipt": "reports/spec-layout-2026-10-24T12-06-54-319Z/conformance.json",
+    "log": "reports/s3-persistence-2026-10-24T12-57-26-272Z/verify.log",
+    "conformanceReceipt": "reports/s3-persistence-2026-10-24T12-57-26-272Z/conformance.json",
+    "g2Summary": "reports/g2-2026-10-24T13-03-38-642Z-47780/summary.json",
+    "contentSummary": "reports/content-2026-10-24T13-03-06-871Z-54276/summary.json",
+    "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 55,
-      "total": 55
+      "pass": 63,
+      "total": 63
     },
     "conformance": {
       "pass": 12,
@@ -191,9 +195,7 @@
     "schema": {
       "kinds": 7,
       "documents": 27
-    },
-    "g2Summary": "reports/g2-2026-10-24T12-07-53-439Z-48524/summary.json",
-    "httpNavigation": "PASS"
+    }
   },
   "historicalReleaseRun": {
     "date": "2026-10-24",
@@ -254,5 +256,25 @@
     "receipt": "reports/spec-layout-2026-10-24T12-06-54-319Z/layout-check-final.json",
     "movedFiles": 49,
     "unchangedSchemaSampleFiles": 36
+  },
+  "contentRun": {
+    "date": "2026-10-24",
+    "profile": "scene2d-local-release-v1",
+    "status": "PASS",
+    "summary": "reports/content-2026-10-24T13-03-06-871Z-54276/summary.json",
+    "command": "npm run content:e2e",
+    "realSDKBackends": [
+      "three",
+      "air"
+    ],
+    "nodeThreeAirParity": "PASS",
+    "scope": "Uncatalogued three-tap JSON, keyboard/pointer, rejection recovery, backend switch, HTTP server process exit/restart with identical receipt and initial hash",
+    "limitations": [
+      "No assets, remote publishing, signing, multi-writer coordination or complete G3 coverage",
+      "Chromium mobile viewport is not real-device Touch/IMU; WebGL2 uses SwiftShader",
+      "Atomic rename on local filesystem; no power-loss durability guarantee"
+    ],
+    "persistentRestart": "PASS",
+    "storage": "Private .a2game/releases/<contextDigest>/<sha256Jcs>.json; A2GAME_CONTENT_DIR override; one writer process per directory"
   }
 }

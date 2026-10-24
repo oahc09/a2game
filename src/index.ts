@@ -14,3 +14,4 @@ export * from './presentation.js';
 export { simulateGridPush, gridPushImplementation } from './modules/grid-push.js';
 export * from './input-trace.js';
 export { A2GAME_RELEASE_VERSION, A2GAME_GAMESPEC_VERSION } from './release-version.js';
+export * from './content-release.js';
