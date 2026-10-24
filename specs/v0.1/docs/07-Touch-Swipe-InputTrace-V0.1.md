@@ -24,7 +24,7 @@ Trace 须关联 `gameId`、`gameRevision`、`tickHz`、`seed`、`coordinateProfi
 
 ## 3. 参考样例
 
-`A2Game-V0.1-Spec/samples/tests/grid-push-swipe.input-trace.json` 包含两段 Swipe：第 10 个 Tick 向右移动、第 27 个 Tick 向上推动箱子到目标格。输入事件顺序、超时、cancel、短距离和指针身份均有自动化测试。
+`specs/v0.1/samples/tests/grid-push-swipe.input-trace.json` 包含两段 Swipe：第 10 个 Tick 向右移动、第 27 个 Tick 向上推动箱子到目标格。输入事件顺序、超时、cancel、短距离和指针身份均有自动化测试。
 
 `replayNormalizedInputTrace()` 会生成 `InputTraceReceipt{advanced, finalHash, finalStatus, consumed}`。实测该样例 `advanced=28`、`consumed=4`、`finalStatus=won`，其 `exactHash` 在 Node 与 Chromium 一致。
 

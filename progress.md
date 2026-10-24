@@ -9,3 +9,5 @@ Original prompt: 1.了解当前项目情况，创建AGENTS.md方便AI快速理�
 - 已修复文本裁切、AIR 容器缩放、绘制次序、失效实例重建竞态及 Three context restore 清理警告；最新原生 context 场景无 warning/error。
 - 细节与限制见 `reports/g2-implementation-20261024.md`。下一目标 S3/S4；G3、真机和完整 32+5 未验收。不沿用源码更改前的 G2 PASS。
 - 收尾 `npm run verify` 全部 PASS，独立日志 `reports/g2-workspace-verify-20261024.log`；技能客户端在两端推箱获胜，tick 3、moves 2、Hash 相同。原始 Conformance 报告保留，当前回执另存。
+- 2026-10-24 用户要求按 `specs/v0.1/{docs,schemas,samples}` 组织目录；已迁移完整协议包并同步运行入口。旧证据及历史文档原路径保留，等待新路径的基线与真实 SDK G2 验证。
+- 目录迁移完成：49 文件、36 个 Schema/样例内容不变，修复规范总览及历史基线文档的相对链接。`npm run verify` PASS；新路径 G2 运行 `g2-2026-10-24T12-07-53-439Z-48524` 为 16+2 场景 PASS、8 组跨引擎 Hash 一致。迁移证明保存在 `reports/spec-layout-2026-10-24T12-06-54-319Z/`，既有历史报告保留原字节。

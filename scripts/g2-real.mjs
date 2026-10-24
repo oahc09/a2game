@@ -18,7 +18,7 @@ const sourceFiles=directory=>readdirSync(resolve(root,directory),{withFileTypes:
   entry.isDirectory()?sourceFiles(`${directory}/${entry.name}`):[`${directory}/${entry.name}`]);
 const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/index.html','player/browser-registry.mjs',
   'player/adapters/three-adapter.mjs','player/adapters/cocosairjs-adapter.mjs','scripts/g2-real.mjs',
-  'scripts/prepare-sdks.mjs',...sourceFiles('src'),...sourceFiles('A2Game-V0.1-Spec/samples/capabilities'),
+  'scripts/prepare-sdks.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/samples/capabilities'),
   ...readdirSync(resolve(root,'dist')).filter(name=>name.endsWith('.js')).map(name=>`dist/${name}`),
   ...readdirSync(resolve(root,'dist/modules')).filter(name=>name.endsWith('.js')).map(name=>`dist/modules/${name}`)];
 const fingerprints=Object.fromEntries(codeFiles.map(path=>[path,hash(path)]));

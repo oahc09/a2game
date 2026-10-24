@@ -1,5 +1,12 @@
 # A2Game 项目变更记录
 
+## 协议目录迁移 — 2026-10-24
+
+- 将协议包从 `A2Game-V0.1-Spec/` 迁移到 `specs/v0.1/`，保留 docs/schemas/samples、版本工具及历史协议内容；GameSpec/Capability 版本仍为 `0.1.0`。
+- 同步规范校验、Headless 注册、播放器 HTTP URL、SHA 白名单、测试、文档导航与 CoverageRegistry 路径；旧报告/Trace 和历史文档中的原始路径保留，不改写历史证据。
+- 迁移后重新采集真实 SDK G2：16 个游戏/视口场景、2 个原生时钟/context loss 场景及 8 组跨引擎哈希全部通过；`npm run verify` 通过。49 文件完整迁移，36 个 Schema/样例文件及 4 份游戏白名单内容哈希不变。
+- 迁移校验与仓库日志见 `reports/spec-layout-2026-10-24T12-06-54-319Z/`；旧报告/Trace 内容保持原样，当前 G2 指针更新至新目录运行。
+
 ## S2 真实双引擎 G2 参考子集 — 2026-10-24
 
 - 使用真实 Three.js `0.186.1`、CocosAirJS `fa54a3f6942bfb3035d5c92d174a054ec4ab55ab` 本地构建（Build 209）、Chromium `156.0.8078.4`，通过 HTTP 加载相同的四份预验证 JSON。

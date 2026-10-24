@@ -24,7 +24,7 @@ test('Draft 2020-12 Python validator admits sample and rejects structural modifi
 });
 test('Release catalog only whitelists full-schema-validated exact JCS digest',()=>{
  const catalog=JSON.parse(readFileSync(new URL('../player/validated-games.json',import.meta.url)));
- const path='/A2Game-V0.1-Spec/samples/games/tap-target.game.json';
+ const path='/specs/v0.1/samples/games/tap-target.game.json';
  const entry=catalog.content[path];const def=game();
  assert.equal(entry.sha256Jcs,sha256Canonical(def));
  const injected=structuredClone(def);injected.state.score.initial=99;

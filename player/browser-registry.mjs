@@ -5,7 +5,7 @@ const files=[
 export async function createBrowserRegistry() {
   const registry=new CapabilityRegistry();
   for(const id of files){
-    const url=`../A2Game-V0.1-Spec/samples/capabilities/${id}.capability.json`;
+    const url=`../specs/v0.1/samples/capabilities/${id}.capability.json`;
     const response=await fetch(new URL(url,import.meta.url));
     if(!response.ok)throw Error(`Missing capability manifest ${id}`);
     const m=await response.json();

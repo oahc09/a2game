@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test test/*.test.mjs",
     "conformance": "npm run build && node scripts/run-conformance.mjs",
-    "spec:validate": "python A2Game-V0.1-Spec/tools/validate_specs.py",
+    "spec:validate": "python specs/v0.1/tools/validate_specs.py",
     "schema:full": "python scripts/preflight.py",
     "catalog:build": "npm run build && npm run schema:full && node scripts/create-validated-catalog.mjs",
     "player:serve": "node scripts/serve.mjs",

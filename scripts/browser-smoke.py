@@ -19,7 +19,7 @@ run([*compiler,'--module','amd','--moduleResolution','node','--target','ES2022',
 js=AMD.read_text(encoding='utf-8')
 html=(ROOT/'player/index.html').read_text(encoding='utf-8').replace('<script type="module" src="./main.mjs"></script>','')
 canvas_source=(ROOT/'player/adapters/canvas-preview.mjs').read_text(encoding='utf-8').replace('export class CanvasPreviewAdapter','class CanvasPreviewAdapter')
-base=ROOT/'A2Game-V0.1-Spec'/'samples'
+base=ROOT/'specs/v0.1'/'samples'
 caps=[json.loads(p.read_text(encoding='utf-8')) for p in sorted((base/'capabilities').glob('*.capability.json'))]
 results=[]
 with sync_playwright() as p:

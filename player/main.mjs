@@ -21,7 +21,7 @@ const showError=e=>{errorMessage=e instanceof Error?`${e.name}: ${e.message}`:St
 async function fetchValidatedGame(name){
  const catalogResp=await fetch('./validated-games.json');if(!catalogResp.ok)throw Error('Missing G0 validated catalog: run npm run catalog:build');
  const catalog=await catalogResp.json();
- const path=`/A2Game-V0.1-Spec/samples/games/${name}.game.json`;
+ const path=`/specs/v0.1/samples/games/${name}.game.json`;
  const record=catalog.content?.[path];if(!record)throw Error(`Game ${name} was not validated at G0`);
  const response=await fetch(path);if(!response.ok)throw Error(`Game request failed ${response.status}`);
  const obj=await response.json();

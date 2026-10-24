@@ -2,7 +2,7 @@
 
 **定位**：AI 直接生成 JSON → 全格式/语义校验 → 共享 TypeScript 玩法 Runtime → Canvas2D/CocosAirJS/Three.js 等可替换渲染宿主。
 
-> **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，所以 `A2Game-V0.1-Spec/` 和 JSON 内 `specVersion` 不需要也不能直接改为 `1.0.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
+> **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
 > **当前阶段：S2——真实 CocosAirJS + Three.js G2 四样例 `scene2d` 子集已通过，下一主线为 S3/S4。** 真实 HTTP Chromium 已验证输入、Node/Host 状态哈希、画面、DPR/缩放和资源生命周期；不代表 32+5 玩法或真机/Agent 完成。完整计划见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，现行进度见 [PROJECT-STATUS.md](PROJECT-STATUS.md)，AI 先读 [AGENTS.md](AGENTS.md)。本次交付见 [G2 记录](reports/g2-implementation-20261024.md)，初始源码包交付记录保留在 [DELIVERY-REPORT.md](DELIVERY-REPORT.md)。
 
@@ -154,7 +154,7 @@ npm run g2:real
 
 ## 四、开发 / 验证新 AI 游戏 JSON
 
-1. 读取 `A2Game-V0.1-Spec/docs/01-GameSpec-V0.1.md`、`02-Capability-Manifest-V0.1.md`，从 `samples/games/*.game.json` 复制合法最小例子；确保 `specVersion` 仍符合当前协议 `0.1.0`。
+1. 读取 `specs/v0.1/docs/01-GameSpec-V0.1.md`、`02-Capability-Manifest-V0.1.md`，从 `samples/games/*.game.json` 复制合法最小例子；确保 `specVersion` 仍符合当前协议 `0.1.0`。
 2. 基于已**实现**的 Capability 而不是候选目录生成游戏、资源和测试；禁止 `eval`、脚本 URL 或任意 TS 函数注入。
 3. 先在本地进行**完整 Schema** 验证（命令中把路径换成真实文件路径）：
 
@@ -163,7 +163,7 @@ python scripts/validate-one.py game 'D:\dev\a2game-custom\my-game.game.json'
 ```
 
 4. 再进行 `compileGame` 的引用、版本、依赖和语义检查；为新玩法提交单元测试与 Conformance（只通过 Schema 并不等于可运行）。
-5. 把经过完整评审的游戏 JSON 添加到 `A2Game-V0.1-Spec/samples/games/`；如果需在内置播放器选择器中出现新的游戏，还必须更新 `player/index.html` 的 `#game` 选项及 `player/main.mjs` 的白名单/加载路由（目前尚不是通用动态游戏浏览器）。运行 `npm run verify` 重建可信 SHA256 白名单后，才允许页面加载该文件。
+5. 把经过完整评审的游戏 JSON 添加到 `specs/v0.1/samples/games/`；如果需在内置播放器选择器中出现新的游戏，还必须更新 `player/index.html` 的 `#game` 选项及 `player/main.mjs` 的白名单/加载路由（目前尚不是通用动态游戏浏览器）。运行 `npm run verify` 重建可信 SHA256 白名单后，才允许页面加载该文件。
 6. 如果能力缺失，按 `PROJECT-PLAN.md` 的 Capability DoD 新增模块与 Manifest/测试/Adapter，而不是把实现藏在 JSON 里或直接调用某一个引擎接口。
 
 ## 五、可选：Chromium 截图与 Node↔Browser 哈希对照
@@ -182,18 +182,19 @@ node scripts/verify-browser-parity.mjs
 ## 六、目录地图与全部计划
 
 ```text
-A2Game-1.0.0/
+a2game/
 ├── README.md                   # 你正在阅读：完整操作说明
 ├── AGENTS.md                   # 其他 Agent 的持续执行约束
 ├── PROJECT-PLAN.md             # 全部阶段、32 游戏、5 组合、DoD、变更纪律
 ├── PROJECT-STATUS.md           # 当前所在阶段与实际 Gate
 ├── CHANGELOG.md                # 发行变化与历史追溯
 ├── project/status.json         # 机器可读状态；project:check 守护
-├── A2Game-V0.1-Spec/          # 0.1.0 GameSpec/Capability/Tick/Conformance 正式协议及样例
-│   ├── docs/01-...04-*.md      # 四份主规范
-│   ├── docs/05-...07-*.md      # 32 游戏扩展、Presentation、Touch/Trace
-│   ├── schemas/               # 7 个 JSON Schema
-│   └── samples/               # GameSpec、Capability、Coverage、Conformance、Trace
+├── specs/
+│   └── v0.1/                  # GameSpec/Capability/Tick/Conformance 协议 0.1.0
+│       ├── docs/              # 主规范、表现/输入契约及历史基线
+│       ├── schemas/           # 7 个 JSON Schema
+│       ├── samples/           # GameSpec、Capability、Coverage、Conformance、Trace
+│       └── tools/             # 此版本的规范构建与静态校验工具
 ├── src/                       # 共享 TypeScript 玩法/表现/输入参考实现
 ├── test/                      # Node 单元和 Mock Adapter 测试
 ├── player/                    # Canvas2D/Three/AIR 浏览器播放器和 SDK vendor 布局

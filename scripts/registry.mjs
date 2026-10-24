@@ -2,7 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { CapabilityRegistry, addReferenceRuleOps, gridSlideMergeImplementation,gridPushImplementation } from '../dist/index.js';
 export const root = resolve(import.meta.dirname, '..');
-export const spec = resolve(root, 'A2Game-V0.1-Spec');
+export const spec = resolve(root, 'specs/v0.1');
 export function readJson(filename) { return JSON.parse(readFileSync(filename, 'utf8')); }
 export function makeRegistry({disabledIds=[]} = {}) {
     const registry = new CapabilityRegistry();

@@ -10,7 +10,7 @@ import sys
 from jsonschema import Draft202012Validator, FormatChecker
 
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-SPEC=ROOT/'A2Game-V0.1-Spec'
+SPEC=ROOT/'specs/v0.1'
 SCHEMAS=SPEC/'schemas'
 MAPPING={
     'game':'samples/games/*.game.json',

@@ -11,13 +11,13 @@ const files = [
   'package.json','README.md','AGENTS.md','PROJECT-PLAN.md','PROJECT-STATUS.md',
   'CHANGELOG.md','project/status.json','requirements-dev.txt','src/release-version.ts',
   'IMPLEMENTATION-REPORT.md','IMPLEMENTATION-NEXT.md',
-  'A2Game-V0.1-Spec/docs/01-GameSpec-V0.1.md',
-  'A2Game-V0.1-Spec/docs/02-Capability-Manifest-V0.1.md',
-  'A2Game-V0.1-Spec/docs/03-Runtime-Tick-Rule-Semantics-V0.1.md',
-  'A2Game-V0.1-Spec/docs/04-Conformance-Test-V0.1.md',
-  'A2Game-V0.1-Spec/docs/05-Coverage-Registry-V0.1.md',
-  'A2Game-V0.1-Spec/docs/06-Presentation-Slice-V0.1.md',
-  'A2Game-V0.1-Spec/docs/07-Touch-Swipe-InputTrace-V0.1.md'
+  'specs/v0.1/docs/01-GameSpec-V0.1.md',
+  'specs/v0.1/docs/02-Capability-Manifest-V0.1.md',
+  'specs/v0.1/docs/03-Runtime-Tick-Rule-Semantics-V0.1.md',
+  'specs/v0.1/docs/04-Conformance-Test-V0.1.md',
+  'specs/v0.1/docs/05-Coverage-Registry-V0.1.md',
+  'specs/v0.1/docs/06-Presentation-Slice-V0.1.md',
+  'specs/v0.1/docs/07-Touch-Swipe-InputTrace-V0.1.md'
 ];
 for (const f of files) insist(existsSync(resolve(root, f)), `Required path missing: ${f}`);
 if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
@@ -28,9 +28,9 @@ const readme = text('README.md');
 const plan = text('PROJECT-PLAN.md');
 const statusDoc = text('PROJECT-STATUS.md');
 const source = text('src/release-version.ts');
-const coverage = read('A2Game-V0.1-Spec/samples/coverage/games.json');
-const gameDir = resolve(root, 'A2Game-V0.1-Spec/samples/games');
-const capDir = resolve(root, 'A2Game-V0.1-Spec/samples/capabilities');
+const coverage = read('specs/v0.1/samples/coverage/games.json');
+const gameDir = resolve(root, 'specs/v0.1/samples/games');
+const capDir = resolve(root, 'specs/v0.1/samples/capabilities');
 const actualGameCount = readdirSync(gameDir).filter(x => x.endsWith('.game.json')).length;
 const actualCapCount = readdirSync(capDir).filter(x => x.endsWith('.capability.json')).length;
 const statuses = new Set(['PASS','PARTIAL','NOT_RUN','NOT_IMPLEMENTED','PLANNED','BLOCKED','FAIL','DESIGN_COMPLETE']);

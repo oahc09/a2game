@@ -242,7 +242,7 @@ Session 状态含：`definitionId/revision`、活动场景、`tickIndex`、业�
 
 ## 9. 最小完整 GameSpec
 
-见 [`../samples/games/tap-target.game.json`](../samples/games/tap-target.game.json)：一个点击计分至 2 分结束的无资源小游戏，展示 `Input → Rule → State → Outcome → HUD` 闭环。格式需由 `schemas/game.schema.json` 静态校验，行为由 `samples/tests/tap-target.conformance.json` 给出预期；不宣称播放器已实现。
+见 [`samples/games/tap-target.game.json`](samples/games/tap-target.game.json)：一个点击计分至 2 分结束的无资源小游戏，展示 `Input → Rule → State → Outcome → HUD` 闭环。格式需由 `schemas/game.schema.json` 静态校验，行为由 `samples/tests/tap-target.conformance.json` 给出预期；不宣称播放器已实现。
 
 ## 10. 未来扩展兼容规则
 

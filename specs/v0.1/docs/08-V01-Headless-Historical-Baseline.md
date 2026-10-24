@@ -1,4 +1,4 @@
-> **V0.1 Browser Bridge Slice 2（2026-10-24）**：新增完整 Schema 发布门禁、RFC 8785/SHA-256 状态哈希、三样例网页播放器、CocosAirJS/Three.js 适配器源码、Chromium Canvas2D 验证与 Node↔Chromium Hash 对照。当前状态与局限详见 [`IMPLEMENTATION-NEXT.md`](IMPLEMENTATION-NEXT.md)。下面保留第一阶段 Headless 基线说明。
+> **V0.1 Browser Bridge Slice 2（2026-10-24）**：新增完整 Schema 发布门禁、RFC 8785/SHA-256 状态哈希、三样例网页播放器、CocosAirJS/Three.js 适配器源码、Chromium Canvas2D 验证与 Node↔Chromium Hash 对照。当前状态与局限详见 [`IMPLEMENTATION-NEXT.md`](../../../IMPLEMENTATION-NEXT.md)。下面保留第一阶段 Headless 基线说明。
 
 # A2Game V0.1 — Headless Runtime Reference Implementation
 

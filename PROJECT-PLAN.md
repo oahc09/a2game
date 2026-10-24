@@ -22,7 +22,7 @@
 
 | 内容 | 权威文件 | 不应混淆的事项 |
 |---|---|---|
-| GameSpec JSON 结构 | `A2Game-V0.1-Spec/docs/01-GameSpec-V0.1.md` + `schemas/game.schema.json` | 项目 1.0.0 ≠ JSON `specVersion: 1.0.0` |
+| GameSpec JSON 结构 | `specs/v0.1/docs/01-GameSpec-V0.1.md` + `schemas/game.schema.json` | 项目 1.0.0 ≠ JSON `specVersion: 1.0.0` |
 | 能力、版本和宿主协商 | `.../docs/02-Capability-Manifest-V0.1.md` + `schemas/capability.schema.json` | 计划 Capability ≠ 已注册实现 |
 | Tick/Rule 执行与随机数 | `.../docs/03-Runtime-Tick-Rule-Semantics-V0.1.md` | 不允许实现任意改变 Tick 顺序 |
 | 验收口径 / Gate | `.../docs/04-Conformance-Test-V0.1.md` | PASS 必须有可复现回执 |
@@ -148,9 +148,9 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 
 ```text
 src/modules/<capability>.ts
-A2Game-V0.1-Spec/samples/capabilities/<id>.capability.json
-A2Game-V0.1-Spec/samples/games/<reference>.game.json
-A2Game-V0.1-Spec/samples/tests/<reference>.conformance.json
+specs/v0.1/samples/capabilities/<id>.capability.json
+specs/v0.1/samples/games/<reference>.game.json
+specs/v0.1/samples/tests/<reference>.conformance.json
 test/<capability>.test.mjs
 reports/<gate-receipt>.json
 PROJECT-STATUS.md + project/status.json (仅在真实验收后更新)

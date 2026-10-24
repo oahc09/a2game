@@ -113,7 +113,7 @@
     }
   },
   "coverage": {
-    "registry": "A2Game-V0.1-Spec/samples/coverage/games.json",
+    "registry": "specs/v0.1/samples/coverage/games.json",
     "plannedGames": 32,
     "verifiedGames": 0,
     "hybridCases": 5,
@@ -131,21 +131,39 @@
     "verification": "PASS",
     "command": "npm run verify",
     "log": "reports/workspace-baseline-20261024.log",
-    "nodeTests": {"pass": 55, "total": 55},
-    "conformance": {"pass": 12, "total": 12},
-    "schema": {"kinds": 7, "documents": 27}
+    "nodeTests": {
+      "pass": 55,
+      "total": 55
+    },
+    "conformance": {
+      "pass": 12,
+      "total": 12
+    },
+    "schema": {
+      "kinds": 7,
+      "documents": 27
+    }
   },
   "g2Run": {
     "date": "2026-10-24",
-    "runId": "g2-2026-10-24T11-56-54-131Z-9708",
-    "summary": "reports/g2-2026-10-24T11-56-54-131Z-9708/summary.json",
+    "runId": "g2-2026-10-24T12-07-53-439Z-48524",
+    "summary": "reports/g2-2026-10-24T12-07-53-439Z-48524/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
     "renderer": "WebGL2 ANGLE Vulkan SwiftShader",
-    "gameViewportCases": {"pass": 16, "total": 16},
-    "nativeClockContextCases": {"pass": 2, "total": 2},
-    "nodeThreeAirParity": {"pass": 8, "total": 8},
+    "gameViewportCases": {
+      "pass": 16,
+      "total": 16
+    },
+    "nativeClockContextCases": {
+      "pass": 2,
+      "total": 2
+    },
+    "nodeThreeAirParity": {
+      "pass": 8,
+      "total": 8
+    },
     "httpNavigation": "PASS",
     "physicalClose": "PASS",
     "limitations": [
@@ -159,12 +177,22 @@
     "date": "2026-10-24",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/g2-workspace-verify-20261024.log",
-    "conformanceReceipt": "reports/g2-workspace-conformance-20261024.json",
-    "nodeTests": {"pass": 55, "total": 55},
-    "conformance": {"pass": 12, "total": 12, "suites": 6},
-    "schema": {"kinds": 7, "documents": 27},
-    "g2Summary": "reports/g2-2026-10-24T11-56-54-131Z-9708/summary.json",
+    "log": "reports/spec-layout-2026-10-24T12-06-54-319Z/verify.log",
+    "conformanceReceipt": "reports/spec-layout-2026-10-24T12-06-54-319Z/conformance.json",
+    "nodeTests": {
+      "pass": 55,
+      "total": 55
+    },
+    "conformance": {
+      "pass": 12,
+      "total": 12,
+      "suites": 6
+    },
+    "schema": {
+      "kinds": 7,
+      "documents": 27
+    },
+    "g2Summary": "reports/g2-2026-10-24T12-07-53-439Z-48524/summary.json",
     "httpNavigation": "PASS"
   },
   "historicalReleaseRun": {
@@ -188,5 +216,43 @@
       "total": 5
     },
     "httpNavigation": "BLOCKED_BY_ADMINISTRATOR"
+  },
+  "layoutMigration": {
+    "from": "A2Game-V0.1-Spec/",
+    "to": "specs/v0.1/",
+    "status": "PASS",
+    "previousG2Run": {
+      "date": "2026-10-24",
+      "runId": "g2-2026-10-24T11-56-54-131Z-9708",
+      "summary": "reports/g2-2026-10-24T11-56-54-131Z-9708/summary.json",
+      "threeReceipt": "reports/g2-threejs-real.json",
+      "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
+      "browser": "Chromium 156.0.8078.4",
+      "renderer": "WebGL2 ANGLE Vulkan SwiftShader",
+      "gameViewportCases": {
+        "pass": 16,
+        "total": 16
+      },
+      "nativeClockContextCases": {
+        "pass": 2,
+        "total": 2
+      },
+      "nodeThreeAirParity": {
+        "pass": 8,
+        "total": 8
+      },
+      "httpNavigation": "PASS",
+      "physicalClose": "PASS",
+      "limitations": [
+        "scene2d four-game reference subset only; not complete Gxx/Hxx or Agent G3",
+        "Chromium mobile viewport and DOM Pointer are not physical Touch/IMU or physical GPU verification",
+        "AIR close retains runtime/builtin/shared caches and requires reload for reinitialization",
+        "No portable complete GPU allocation measurement or zero-total-leak claim"
+      ]
+    },
+    "reason": "Fresh real SDK G2 passed after the directory and HTTP URL migration",
+    "receipt": "reports/spec-layout-2026-10-24T12-06-54-319Z/layout-check-final.json",
+    "movedFiles": 49,
+    "unchangedSchemaSampleFiles": 36
   }
 }

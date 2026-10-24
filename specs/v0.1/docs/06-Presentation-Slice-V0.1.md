@@ -1,6 +1,6 @@
 # A2Game `scene2d` V0.1 · 声明式表现子集（增量规范）
 
-状态：**V0.1 附加 Profile；Headless/Canvas2D 已验证；2026-10-24 四份参考 JSON 的真实 AIR/Three G2 已通过。** 现行回执见 `../../reports/g2-cocosairjs-real.json`、`../../reports/g2-threejs-real.json`，不包含尚未声明的 Sprite/Mesh 等扩展或移动真机。
+状态：**V0.1 附加 Profile；Headless/Canvas2D 已验证；2026-10-24 四份参考 JSON 的真实 AIR/Three G2 已通过。** 现行回执见 `../../../reports/g2-cocosairjs-real.json`、`../../../reports/g2-threejs-real.json`，不包含尚未声明的 Sprite/Mesh 等扩展或移动真机。
 
 ## 1. 协议边界
 

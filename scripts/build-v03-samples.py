@@ -3,7 +3,7 @@
 from pathlib import Path
 import json
 ROOT=Path(__file__).resolve().parents[1]
-SPEC=ROOT/'A2Game-V0.1-Spec'
+SPEC=ROOT/'specs/v0.1'
 GAMES=SPEC/'samples/games'; CAPS=SPEC/'samples/capabilities';TESTS=SPEC/'samples/tests'
 def load(path):return json.loads(path.read_text())
 def write(path,obj):path.write_text(json.dumps(obj,ensure_ascii=False,indent=2)+'\n')
