@@ -110,6 +110,7 @@
   "a2game.strategy.range",
   "a2game.strategy.reward",
   "a2game.strategy.shop",
+  "a2game.strategy.tower-defense",
   "a2game.strategy.tower",
   "a2game.strategy.unlock",
   "a2game.strategy.upgrade",

@@ -1,6 +1,7 @@
 /** Individually authored bounded introductory/endgame levels. These are candidates, never G3/physical receipts. */
 import {readFileSync,writeFileSync} from 'node:fs';
 import {initialControlState} from '../dist/index.js';
+import {initialDefenseState} from '../dist/modules/tower-defense.js';
 const read=p=>JSON.parse(readFileSync(p,'utf8')),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n'),ref=id=>({id,version:'0.1.0'});
 const registry=read('specs/v0.1/samples/coverage/games.json'),base=read('specs/v0.1/samples/games/tap-target.game.json'),puzzles=read('project/puzzle-reference-cases.json').cases;
 const records=[],s=state=>({state}),k=value=>({const:value}),op=(op,...args)=>({op,args}),eq=(path,v)=>op('eq',s(path),k(v)),gte=(path,v)=>op('gte',s(path),k(v));
@@ -32,6 +33,16 @@ function touchCells(g,mode='tap'){
  }
  cap(g,'a2game.input.touch.select','a2game.input.touch.raw');
 }
+function defenseLevel(){
+ const g=fresh();field(g,'defense',initialDefenseState(4,1));
+ const cells=[{x:3000,y:2000},{x:4500,y:2000},{x:6000,y:2000}],actions=[];
+ for(let index=0;index<cells.length;index++)for(const kind of ['place','select','merge','upgrade']){const action=kind+index;actions.push({action,kind,index});const cell=cells[index];addInput(g,button(action,'Key'+String.fromCharCode(65+index*4+['place','select','merge','upgrade'].indexOf(kind)),kind==='place'?'touch.select':undefined,kind==='place'?{sceneWidth:10,sceneHeight:8,x:cell.x/1000-4,y:cell.y/1000-3,hx:0.25,hy:0.25,mode:'tap'}:{}));}cap(g,'a2game.input.touch.raw');
+ component(g,'a2game.strategy.tower-defense',{statePath:'/defense',width:8000,height:6000,cost:2,damage:1,range:6000,speed:64,cooldownTicks:8,maxTicks:220,cells,path:[{x:7000,y:3000},{x:4000,y:3000},{x:1000,y:3000}],waves:[{tick:1,hp:3,reward:2},{tick:35,hp:6,reward:3},{tick:70,hp:10,reward:4}],actions});
+ renderWorld(g,'/defense/bodies');
+ for(const [index,p] of cells.entries())g.presentation.scene2d.nodes.push({id:'slot'+index,kind:'rect',at:[p.x/1000-4,p.y/1000-3],size:[0.5,0.5],fill:'#35465e'},{id:'slot-label'+index,kind:'text',at:[p.x/1000-4,p.y/1000-3-0.55],fontSize:0.18,fill:'#b5cee8',text:{literal:String(index)}});
+ g.presentation.scene2d.nodes.push({id:'path',kind:'rect',at:[0,0],size:[6.2,0.1],fill:'#a8c5d9'});
+ g.presentation.hud=[{id:'status',kind:'text',bind:{text:{template:'金币 {0} · 击退 {1}\n生命 {2} · 波次 {3}',args:['wallet','score','lives','waveCursor'].map(id=>({state:'/defense/'+id}))}}}];g.outcomes=[{id:'won',status:'won',when:s('/defense/won')},{id:'lost',status:'lost',priority:-1,when:s('/defense/lost')}];return g;
+}
 function cloneGame(name){const g=read(`specs/v0.1/samples/games/${name}.game.json`);delete g.inputs.traceRecording;return g;}
 function noUndo(g){for(const e of g.scenes[0].entities)for(const c of e.components){delete c.config.undoAction;delete c.config.historyPath;}g.inputs.actions=g.inputs.actions.filter(a=>a.id!=='undo');}
 function write(id,g,positive,negative,options={}){
@@ -45,7 +56,7 @@ function write(id,g,positive,negative,options={}){
  const convert=rows=>rows.flatMap(row=>[...(row.action?[{op:'injectAction',action:row.action,phase:'press',...(row.value!==undefined?{value:row.value}:{})},{op:'injectAction',action:row.action,phase:'release'}]:[]),...(row.actions??[]).map(a=>({op:'injectAction',...a})),...(row.raw??[]).map(raw=>({op:'injectRaw',raw})),...(row.pause?[{op:'pause'}]:[]),{op:'step',ticks:row.ticks??1},...(row.resume?[{op:'resume'}]:[])]);
  const cases=[{id:'COVERAGE-'+id+'-POSITIVE',seed:42,steps:[{op:'start'},...convert(positive),...(options.checks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:options.expected??'won'},{op:'restart'},{op:'assert',path:'/tickIndex',equals:0}]},{id:'COVERAGE-'+id+'-NEGATIVE',seed:42,steps:[{op:'start'},...convert(negative),...(options.negativeChecks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:options.negativeExpected??'playing'}]}];
  save(`specs/v0.1/samples/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:g.id,file:`../games/${name}.game.json`},cases});
- records.push({id,name,title,steps:positive,negative,expected:options.expected??'won',negativeExpected:options.negativeExpected??'playing',checks:options.checks??[],negativeChecks:options.negativeChecks??[],scope:options.scope??'Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.',gates:{G0:'NOT_RUN',G1:'NOT_RUN',G2:'NOT_RUN',G3:'NOT_RUN',physical:entry?.inputs.some(i=>i.startsWith('imu.')||i==='touch.multi-hold')?'NOT_RUN':'NOT_APPLICABLE'},verified:false});
+ records.push({id,name,title,steps:positive,negative,expected:options.expected??'won',negativeExpected:options.negativeExpected??'playing',checks:options.checks??[],negativeChecks:options.negativeChecks??[],...(options.nativePointerActions?{nativePointerActions:options.nativePointerActions,nativePointerWait:options.nativePointerWait??0}:{}),scope:options.scope??'Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.',gates:{G0:'NOT_RUN',G1:'NOT_RUN',G2:'NOT_RUN',G3:'NOT_RUN',physical:entry?.inputs.some(i=>i.startsWith('imu.')||i==='touch.multi-hold')?'NOT_RUN':'NOT_APPLICABLE'},verified:false});
 }
 // G01-G10: individual boards, hidden layers, target slots and touch selection.
 {
@@ -56,6 +67,12 @@ function write(id,g,positive,negative,options={}){
 }
 for(const [id,name] of [['G03','puzzle-match'],['G04','puzzle-tray'],['G05','puzzle-mahjong'],['G06','puzzle-arrows'],['G07','puzzle-memory'],['G08','puzzle-polyomino'],['G09','puzzle-falling'],['G10','puzzle-placement']]){
  const g=cloneGame(name),recipe=puzzles.find(r=>r.name===name);let positive=recipe.solve.map(a=>act(a)),negative=(recipe.invalid.length?recipe.invalid:['undo']).map(a=>act(a)),options={hint:'点选棋盘或右侧 cell 按钮；按行从 0 编号，undo 撤销。'};
+ if(id==='G05'){
+  const config=g.scenes[0].entities[0].components[0].config;config.height=2;config.selectActions=Array.from({length:8},(_,i)=>'cell'+i);config.blockers=[[4],[4],[7],[7],[],[],[],[]];
+  const p=g.state.puzzle.initial;p.board=[1,2,2,1,3,0,0,3];p.display=[0,0,0,0,3,-1,-1,3];
+  g.inputs.actions=g.inputs.actions.filter(a=>a.id==='undo');for(let i=0;i<8;i++)addInput(g,button('cell'+i,'Digit'+(i+1)));
+  positive=[4,7,0,3,1,2].map(i=>act('cell'+i));negative=[act('cell0')];options={revision:2,hint:'先移除上层 4/7，再移除 0/3、1/2；覆盖牌与两侧封闭牌不可选。',negativeChecks:[{path:'/puzzle/moves',equals:0},{path:'/puzzle/selected',equals:[]}],nativePointerActions:positive.map(a=>a.action)};
+ }
  if(id==='G07')g.scenes[0].entities[0].components[0].config.closeTicks=60;
  if(id==='G09'){g.state.puzzle.initial.board.splice(12,4,0,0,1,1);g.state.puzzle.initial.display.splice(12,4,-1,-1,1,1);positive=['left','left','drop'].map(a=>act(a));negative=[act('drop')];options.negativeExpected='lost';options.hint='left/right 移动，rotate 旋转，drop 下落并填满底行。';}
  if(id==='G10'){const r=structuredClone(g.presentation.scene2d.repeat[0]);r.id='targets';r.source={literal:[0,1,0,2]};r.origin=[2,0.5];g.presentation.scene2d.repeat.push(r);options.hint='先点物品，再点目标槽；右侧小格显示目标编号。';}
@@ -93,7 +110,7 @@ for(const [id,name] of [['G03','puzzle-match'],['G04','puzzle-tray'],['G05','puz
  const g=fresh();field(g,'bubble',{board:[1,1,1,2,2,2,...Array(12).fill(0)],ammo:1,color:1,score:0,aim:[0,1],shot:{active:false,x:4000,y:500,vx:0,vy:0},won:false,lost:false,visuals:[]});component(g,'a2game.combat.bubble-grid',{statePath:'/bubble',columns:6,rows:3,cellSize:700,originX:1900,topY:4500,worldWidth:8000,worldHeight:6000,launchX:4000,launchY:500,colors:2,goalScore:4,fireAction:'fire',aimAction:'aim',sceneWidth:10,sceneHeight:8});renderWorld(g,'/bubble/visuals');addInput(g,sensor('aim','touch.drag','vec2'));addInput(g,button('fire','Space','touch.tap'));outcome(g,'/bubble/won','/bubble/lost');write('G20',g,[act('aim',1,point(2600,4500)),act('fire',100)],[act('fire',100)],{negativeExpected:'lost',hint:'拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。'});
 }
 {
- const g=cloneGame('puzzle-placement');noUndo(g);field(g,'world',world([body('hero','actor',1000,2000),body('enemy','target',5000,2000)]));field(g,'control',initialControlState());field(g,'path',{x:5000,y:2000,cursor:0,arrived:false});component(g,'a2game.strategy.path-follow',{statePath:'/path',worldPath:'/world',bodyId:'enemy',waypoints:[{x:1000,y:2000}],speed:16});component(g,'a2game.realtime.world',{statePath:'/world',width:8000,height:6000,weapon:'hitscan',autoTarget:true,fireRequestPath:'/control/fireRequest',goalScore:1,maxTicks:100});cap(g,'a2game.rules.state-set');g.rules=[{id:'placed-tower',on:{type:'puzzle.changed'},if:s('/puzzle/won'),do:[{op:'state.set',path:'/control/fireRequest',value:true}]}];g.outcomes=[{id:'won',status:'won',when:s('/world/won')},{id:'lost',status:'lost',when:s('/world/lost')}];touchCells(g,'drag-select');write('G21',g,['cell0','cell1','cell2','cell3'].map(a=>act(a)).concat(wait(1)),[wait(100)],{negativeExpected:'lost',hint:'整理四格解锁炮台，拦截沿路径前进的敌人。'});
+ const g=defenseLevel();write('G21',g,[act('place0'),act('place1'),wait(170)],[wait(220)],{revision:2,negativeExpected:'lost',checks:[{path:'/defense/score',equals:3},{path:'/defense/lives',equals:1}],nativePointerActions:['place0','place1'],nativePointerWait:170,hint:'点击格子或 place0/1 建塔，upgrade0 升级；抵御三波，漏怪失败。'});
 }
 {
  const g=cloneGame('strategy-farm');write('G22',g,[act('plant'),wait(2),act('collect')],[act('collect')],{hint:'plant 播种，等待两 Tick 后 collect 收获；暂停冻结生产。'});
@@ -130,7 +147,7 @@ for(const [id,name] of [['G03','puzzle-match'],['G04','puzzle-tray'],['G05','puz
 }
 // H01-H05 are independent definitions and state interactions, never aliases of Gxx receipts.
 {
- const g=cloneGame('grid-merge-spawn');noUndo(g);g.state.board.initial=[2,2,...Array(14).fill(0)];g.state.goal.initial=2048;field(g,'world',world([body('hero','actor',1000,2000),body('enemy','target',5000,2000,{hp:5})]));field(g,'path',{x:5000,y:2000,cursor:0,arrived:false});component(g,'a2game.strategy.path-follow',{statePath:'/path',worldPath:'/world',bodyId:'enemy',waypoints:[{x:1000,y:2000}],speed:16});component(g,'a2game.realtime.world',{statePath:'/world',width:8000,height:6000,autoFire:true,autoTarget:true,weapon:'hitscan',damageBonusPath:'/best',cooldownTicks:120,goalScore:1,maxTicks:100});g.outcomes=[{id:'defended',status:'won',when:s('/world/won')},{id:'lost',status:'lost',when:s('/world/lost')}];write('H01',g,[act('moveLeft')],[wait(100)],{title:'合成炮台保卫战',negativeExpected:'lost',hint:'合并 2+2 提升本 Tick 炮台伤害，击退路径上的敌人。',checks:[{path:'/best',equals:4}]});
+ const g=defenseLevel();write('H01',g,[act('place0'),act('place1'),act('select0'),act('merge1'),wait(170)],[wait(220)],{revision:2,title:'合成炮台保卫战',negativeExpected:'lost',hint:'place0、place1 建塔，select0 后 merge1 合成；旧炮与武器释放，抵御三波。',checks:[{path:'/defense/towers/0/level',equals:2},{path:'/defense/towers/0/cell',equals:1},{path:'/defense/score',equals:3}]});
 }
 {
  const g=cloneGame('puzzle-match');noUndo(g);const eco=cloneGame('strategy-upgrade');field(g,'economy',eco.state.economy.initial);g.state.economy.initial.wallet=0;component(g,'a2game.strategy.economy-loop',eco.scenes[0].entities[0].components[0].config);field(g,'rewarded',false,'bool');addInput(g,button('upgrade','KeyU'));addInput(g,button('plant','KeyP'));addInput(g,button('collect','KeyC'));cap(g,'a2game.rules.state-set','a2game.rules.state-add');g.rules=[{id:'match-reward',on:{type:'puzzle.changed'},if:op('and',s('/puzzle/won'),op('not',s('/rewarded'))),do:[{op:'state.add',path:'/economy/wallet',value:3},{op:'state.set',path:'/rewarded',value:true}]}];g.outcomes=[{id:'upgraded',status:'won',when:op('and',s('/puzzle/won'),gte('/economy/plots/0/level',1))}];touchCells(g,'drag-select');write('H02',g,[act('cell1'),act('cell4'),act('upgrade')],[act('cell1'),{actions:[press('cell4'),release('cell4'),press('upgrade'),release('upgrade')],ticks:1}],{title:'三消与升级',negativeChecks:[{path:'/economy/plots/0/level',equals:0},{path:'/economy/wallet',equals:3}],hint:'三消成功的奖励在规则阶段到账，下一 Tick 才能 upgrade。'});

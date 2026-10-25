@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g05",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G05 麻将叠牌配对",
     "genres": [
       "puzzle"
     ],
-    "description": "点选棋盘或右侧 cell 按钮；按行从 0 编号，undo 撤销。"
+    "description": "先移除上层 4/7，再移除 0/3、1/2；覆盖牌与两侧封闭牌不可选。"
   },
   "requires": {
     "all": [
@@ -87,16 +87,32 @@
               "config": {
                 "statePath": "/puzzle",
                 "width": 4,
-                "height": 1,
+                "height": 2,
                 "selectActions": [
                   "cell0",
                   "cell1",
                   "cell2",
-                  "cell3"
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7"
                 ],
                 "undoAction": "undo",
                 "variant": "mahjong",
                 "blockers": [
+                  [
+                    4
+                  ],
+                  [
+                    4
+                  ],
+                  [
+                    7
+                  ],
+                  [
+                    7
+                  ],
                   [],
                   [],
                   [],
@@ -118,13 +134,21 @@
           1,
           2,
           2,
-          1
+          1,
+          3,
+          0,
+          0,
+          3
         ],
         "display": [
-          1,
-          2,
-          2,
-          1
+          0,
+          0,
+          0,
+          0,
+          3,
+          -1,
+          -1,
+          3
         ],
         "preview": [],
         "selected": [],
@@ -146,9 +170,21 @@
   "inputs": {
     "actions": [
       {
-        "id": "cell0",
+        "id": "undo",
         "valueType": "button",
         "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell0",
+        "valueType": "button",
         "bindings": [
           {
             "source": "keyboard.button",
@@ -173,7 +209,6 @@
       {
         "id": "cell1",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
@@ -198,7 +233,6 @@
       {
         "id": "cell2",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
@@ -223,7 +257,6 @@
       {
         "id": "cell3",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
@@ -246,14 +279,97 @@
         ]
       },
       {
-        "id": "undo",
+        "id": "cell4",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
               "code": "Digit5"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.275,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.42499999999999993,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.42500000000000004,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.275,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
             }
           }
         ]
@@ -328,7 +444,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "点选棋盘或右侧 cell 按钮；按行从 0 编号，undo 撤销。"
+            "literal": "先移除上层 4/7，再移除 0/3、1/2；覆盖牌与两侧封闭牌不可选。"
           }
         }
       ],

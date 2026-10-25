@@ -17,9 +17,9 @@
         "Legacy v1 is an explicit reference envelope fixture, not a claim about historic production save files"
       ],
       "evidence": [
-        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
-        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
-        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+        "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json",
+        "reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json",
+        "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
       ]
     },
     {
@@ -37,9 +37,9 @@
         "Draw is turn.draw terminal state; the unchanged GameStatus protocol does not introduce draw as a new flow value"
       ],
       "evidence": [
-        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
-        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
-        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+        "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json",
+        "reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json",
+        "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
       ]
     },
     {
@@ -56,9 +56,9 @@
         "Virtual API fixture does not satisfy physical-device input acceptance"
       ],
       "evidence": [
-        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json",
-        "reports/node-matrix-2026-10-24T17-15-04-327Z-48572/summary.json",
-        "reports/verify-2026-10-24T17-19-05-070Z-25176/verify.log"
+        "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json",
+        "reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json",
+        "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
       ]
     }
   ]

@@ -1,0 +1,87 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g02-4096",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g02-4096",
+    "file": "../games/g02-4096.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G02-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G02-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/best",
+          "equals": 2048
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

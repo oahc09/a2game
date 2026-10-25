@@ -17,12 +17,12 @@
         },
         {
           "op": "injectAction",
-          "action": "cell0",
+          "action": "place0",
           "phase": "press"
         },
         {
           "op": "injectAction",
-          "action": "cell0",
+          "action": "place0",
           "phase": "release"
         },
         {
@@ -31,40 +31,12 @@
         },
         {
           "op": "injectAction",
-          "action": "cell1",
+          "action": "place1",
           "phase": "press"
         },
         {
           "op": "injectAction",
-          "action": "cell1",
-          "phase": "release"
-        },
-        {
-          "op": "step",
-          "ticks": 1
-        },
-        {
-          "op": "injectAction",
-          "action": "cell2",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "cell2",
-          "phase": "release"
-        },
-        {
-          "op": "step",
-          "ticks": 1
-        },
-        {
-          "op": "injectAction",
-          "action": "cell3",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "cell3",
+          "action": "place1",
           "phase": "release"
         },
         {
@@ -73,7 +45,17 @@
         },
         {
           "op": "step",
-          "ticks": 1
+          "ticks": 170
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/lives",
+          "equals": 1
         },
         {
           "op": "assert",
@@ -99,7 +81,7 @@
         },
         {
           "op": "step",
-          "ticks": 100
+          "ticks": 220
         },
         {
           "op": "assert",

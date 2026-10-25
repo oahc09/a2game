@@ -69,5 +69,11 @@
     "Full per-game quality and variant DoD are not proven by bounded introductory/endgame candidates",
     "Physical Gamepad acceptance NOT_RUN",
     "Remote CI configured but NOT_RUN; no push/deployment authorization was used"
-  ]
+  ],
+  "followUp": {
+    "authorizedOn": "2026-10-25",
+    "scope": "Continue nonphysical work; physical devices excluded by user",
+    "status": "reference_delivered",
+    "evidence": "reports/nonphysical-current-refresh-2026-10-25T04-30-32-408Z.json"
+  }
 }

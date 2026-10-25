@@ -1,0 +1,5 @@
+{
+  "endpoint": "http://127.0.0.1:8787/generate",
+  "timeoutMs": 50000,
+  "maxResponseBytes": 786432
+}

@@ -4,14 +4,16 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S11 初始兼容扩展工程参考已交付。** 当前 75 份 JSON、125 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+> **当前阶段：S11 初始兼容扩展工程参考已交付。** 当前 84 份 JSON、126 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+
+播放器「游戏」菜单现在列出全部已校验定义，按基础示例、Gxx/Hxx 参考玩法、作者编写的规则变体和机制实验分组；可直接选择 G21/H01 等玩法。`?game=g21-candidate&backend=three` 可直达，仍校验目录 SHA。带资源的内置关卡经过完整资源准入后加载。新增 9 个变体可运行 `npm run variants:e2e`；它们不计独立 Agent G3。
 
 ## 一、先看能运行什么
 
 | 功能 / 后端 | 现在能否运行 | 说明 |
 |---|---|---|
 | TypeScript Headless Runtime | **可以** | 计时/事务/回放、益智、整数物理/战斗、经营/回合，Node.js 测试 |
-| 浏览器 Canvas2D 预览 | **可以** | 75 份预校验 JSON，无外部游戏引擎 SDK |
+| 浏览器 Canvas2D 预览 | **可以** | 目录共 84 份预校验 JSON；scene2d 使用 Canvas2D，3D Stage 使用真实 SDK |
 | Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
 | CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
 | 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **完整 DoD / Agent / 真机未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |

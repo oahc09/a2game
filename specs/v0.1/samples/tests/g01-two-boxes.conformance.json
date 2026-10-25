@@ -1,0 +1,132 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g01-two-boxes",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g01-two-boxes",
+    "file": "../games/g01-two-boxes.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G01-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveDown",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveDown",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveRight",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            6,
+            7
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G01-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "moveUp",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

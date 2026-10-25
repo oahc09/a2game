@@ -23,7 +23,7 @@
 - `test/`：Node 与 Mock 合同；`scripts/run-conformance.mjs`：JSON 逻辑套件。Mock 测试不构成 G2 证据。
 - `project/sdk-lock.json`：真实 SDK 来源锁定；`scripts/prepare-sdks.mjs` 生成本地 SDK/SHA 清单，`scripts/g2-real.mjs` 通过真实 HTTP 执行跨引擎验收。
 - `scripts/content-service.mjs`、`validate-content.py`：本地动态内容完整准入和持久化发布；默认私有数据位于 `.a2game/releases/`，由 `A2GAME_CONTENT_DIR` 覆盖，不入库。恢复记录须重新完整校验，环境不匹配须重新导入。`src/content-release.ts`、`player/content-loader.mjs`：回执及加载完整性检查。API 与宿主策略见 `docs/content-release.md`；`npm run content:e2e` 保留动态导入、真实服务进程重启和双 SDK 证据。
-- `specs/v0.1/`：协议、Schema、125 份能力 Manifest、75 份游戏 JSON、32 款候选登记。
+- `specs/v0.1/`：协议、Schema、126 份能力 Manifest、84 份游戏 JSON、32 款候选登记。
 - `reports/`：需保留的历史证据；每次真实 SDK 运行使用独立目录，记录来源、SHA、浏览器、输入、截图、Hash 与释放结果。
 
 ## 从检出到验证
@@ -69,3 +69,5 @@ S10：`scripts/agent-workflow.mjs`、`agent-solver.mjs` 与 `17-Agent-Workflow-V
 S11：`18-Compatibility-Extensions-V0.1.md` / `project/extension-profiles.json`。`src/replay-save.ts` 用有界 Trace 重放和宿主可信迁移，禁止反序列化任意快照/迁移脚本。`scripts/turn-room-service.mjs` + `player/room.*` 是显式启用的同源 loopback 双人公开回合，非互联网/隐藏信息服务。`src/gamepad-input.ts` / `player/gamepad-host.mjs` 仅在显式启用后沿唯一 Tick 采样，断连/暂停/重开/销毁释放；虚拟 Gamepad 不计物理证据。
 
 当前工程交付至 S11；S8/S9/S10 完整 Gate 仍受物理输入、独立 G3 和逐款完整 DoD 约束。`compatibilityRun`、`candidateRun`、`agentWorkflowRun` 的 PASS_REFERENCE 需当前源码指纹。改动后先重置受影响状态；Adapter verified 也必须降为 implemented-unverified，取得新回执后再提升。浏览器验收最多并发 2 个进程，避免 8 秒完整校验的环境竞争；源码冻结后再取证。CI 已配置但远端未跑，用户未授权推送/部署。
+
+2026-10-25 用户要求继续所有非真机工作；物理设备任务暂不执行。`project/nonphysical-work.json` 跟踪本轮交付；`src/modules/tower-defense.ts` / `19-Tower-Defense-V0.1.md` 为共享塔防与合成所有权合同。G05/G21/H01 revision 2 与旧报告分开；`project/rule-variants.json` 的 9 份作者变体通过 `variants:e2e` 取证，不计独立 G3，修改后须重置 `variantsRun.status`。播放器目录选择仅从已校验目录加载，资源继续完整准入。`scripts/http-generator.mjs` 是宿主配置的可选 HTTP 传输，不执行模型给出的 URL；真实生成器未配置不能伪造 G3。当前 Git 未配置 remote，远端 CI 未运行。

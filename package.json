@@ -30,7 +30,8 @@
     "compat:e2e": "node scripts/compat-browser.mjs",
     "compat:matrix": "node scripts/compat-matrix.mjs",
     "performance:profile": "node scripts/benchmark-profile.mjs",
-    "save:replay": "node scripts/replay-save.mjs"
+    "save:replay": "node scripts/replay-save.mjs",
+    "variants:e2e": "node scripts/candidates-browser.mjs --variants"
   },
   "license": "UNLICENSED",
   "devDependencies": {

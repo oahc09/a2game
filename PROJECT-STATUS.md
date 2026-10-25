@@ -1,5 +1,13 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+## 非真机主线补齐（2026-10-25，参考验收通过）
+
+- G05 实际层叠遮挡；G21/H01 建塔、升级、波次、经济、合成实体和旧武器回收。新增 9 份作者编写的关卡/规则变体，独立于 G3。
+- HTTP 生成器接入完成有界传输与拒绝回归；真实独立服务未提供，G3 保持 NOT_RUN。当前 84 JSON、126 Manifest；93 Node、139 Conformance、303 Schema 文档通过，[验证](reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log)。所有受影响的真实双 SDK 证据已刷新，[候选](reports/candidates-2026-10-25T04-25-48-300Z-31432/summary.json)、[9 个变体](reports/variants-2026-10-25T04-26-44-000Z-63900/summary.json)、[证据索引](reports/nonphysical-current-refresh-2026-10-25T04-30-32-408Z.json)。
+- 按用户要求跳过物理设备任务，继续其他实施；不推送、不部署。Node 22/24 选定合同各 55/55，[矩阵](reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json)。
+- 播放器完整目录选择与链接直达已接通，资源仍经完整准入；G05/G21 增加真实浏览器 PointerEvent 命中验收。390px 窄屏、长按钮与玩法说明已检查；[首轮指纹失效归因](reports/nonphysical-source-iteration-2026-10-25T04-25-04-918Z.json) 保留。
+
+
 ## S11 初始兼容扩展工程交付（2026-10-25）
 
 - 重放存档 v1/v2、可信精确版本迁移、未知版本拒绝；本机双席位权威回合 Host；显式启用的 Gamepad 按钮/双轴及键盘回退。[合同](specs/v0.1/docs/18-Compatibility-Extensions-V0.1.md)。

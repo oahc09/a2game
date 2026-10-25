@@ -4,13 +4,13 @@ import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {ThreeAdapter} from './adapters/three-adapter.mjs';
 import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
-import {loadBuiltinGame,loadReleasedGame,importGameFile} from './content-loader.mjs';
+import {loadBuiltinCatalog,loadBuiltinGame,loadBuiltinResources,loadReleasedGame,importGameFile} from './content-loader.mjs';
 import {ResourceScope} from './resources.mjs';
 import {createMobileHost,createTraceRecorder} from './mobile-host.mjs';
 
-const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint'].map(x=>[x,document.getElementById(x)]));
+const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint','instructions'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
-const gameName=['tap-target','grid-merge','grid-merge-spawn','grid-push'].includes(params.get('game'))?params.get('game'):'tap-target';
+const gameName=params.get('game')??'tap-target';
 const backendName=['preview','air','three'].includes(params.get('backend'))?params.get('backend'):'preview';
 const releaseId=params.get('release');
 // Explicit automation mode replaces the production clock; both use the same runtime.
@@ -144,15 +144,18 @@ function dispose(){
 async function main(){
  try{
    const registry=await createBrowserRegistry();
+   const catalog=await loadBuiltinCatalog(),groups=new Map();dom.game.replaceChildren();
+   for(const entry of catalog){const label=['tap-target','grid-merge','grid-merge-spawn','grid-push'].includes(entry.name)?'基础示例':/^[gh]\d\d-candidate$/.test(entry.name)?'Gxx / Hxx 参考玩法':/^[gh]\d\d-/.test(entry.name)?'作者编写的规则变体':'机制实验';let group=groups.get(label);if(!group){group=document.createElement('optgroup');group.label=label;groups.set(label,group);dom.game.appendChild(group);}const option=document.createElement('option');option.value=entry.name;option.textContent=entry.title;group.appendChild(option);}
+   dom.game.value=gameName;
    if(releaseId){
      const released=await loadReleasedGame(releaseId,registry);definition=released.definition;
      resources=new ResourceScope(released.resources);await resources.load();
      const option=document.createElement('option');option.value='imported';option.textContent=`导入：${definition.meta.title}`;
      dom.game.appendChild(option);dom.game.value='imported';
      document.getElementById('importStatus').textContent='已校验并加载；本地发布已保存。';
-   }else definition=await loadBuiltinGame(gameName);
-   dom.hint.textContent=definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
-     ? '在画面内滑动 / 使用方向键' : '点击中央目标 / 点击收集按钮';
+   }else{definition=await loadBuiltinGame(gameName);resources=new ResourceScope(await loadBuiltinResources(definition,registry));await resources.load();}
+   dom.instructions.textContent=definition.meta.description??(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
+     ? '在画面内滑动 / 使用方向键' : '使用画面或右侧按钮操作');
    runtime=new HeadlessRuntime(definition,registry);
    traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});

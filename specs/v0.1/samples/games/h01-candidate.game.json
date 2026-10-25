@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.h01",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "H01 合成炮台保卫战",
     "genres": [
       "casual"
     ],
-    "description": "合并 2+2 提升本 Tick 炮台伤害，击退路径上的敌人。"
+    "description": "place0、place1 建塔，select0 后 merge1 合成；旧炮与武器释放，抵御三波。"
   },
   "requires": {
     "all": [
@@ -25,7 +25,7 @@
         "version": "0.1.0"
       },
       {
-        "id": "a2game.puzzle.grid-slide-merge",
+        "id": "a2game.core.goal",
         "version": "0.1.0"
       },
       {
@@ -33,23 +33,27 @@
         "version": "0.1.0"
       },
       {
-        "id": "a2game.visual.text",
-        "version": "0.1.0"
-      },
-      {
         "id": "a2game.visual.scene2d",
         "version": "0.1.0"
       },
       {
-        "id": "a2game.input.touch.swipe",
+        "id": "a2game.visual.text",
         "version": "0.1.0"
       },
       {
-        "id": "a2game.strategy.path-follow",
+        "id": "a2game.input.touch.select",
         "version": "0.1.0"
       },
       {
-        "id": "a2game.realtime.world",
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
         "version": "0.1.0"
       }
     ]
@@ -71,61 +75,130 @@
       "id": "main",
       "entities": [
         {
-          "id": "boardController",
+          "id": "controller",
           "components": [
             {
               "capability": {
-                "id": "a2game.puzzle.grid-slide-merge",
+                "id": "a2game.strategy.tower-defense",
                 "version": "0.1.0"
               },
               "config": {
-                "width": 4,
-                "height": 4,
-                "boardPath": "/board",
-                "bestPath": "/best",
-                "spawnCount": 1,
-                "actions": {
-                  "left": "moveLeft",
-                  "right": "moveRight",
-                  "up": "moveUp",
-                  "down": "moveDown"
-                }
-              }
-            },
-            {
-              "capability": {
-                "id": "a2game.strategy.path-follow",
-                "version": "0.1.0"
-              },
-              "config": {
-                "statePath": "/path",
-                "worldPath": "/world",
-                "bodyId": "enemy",
-                "waypoints": [
+                "statePath": "/defense",
+                "width": 8000,
+                "height": 6000,
+                "cost": 2,
+                "damage": 1,
+                "range": 6000,
+                "speed": 64,
+                "cooldownTicks": 8,
+                "maxTicks": 220,
+                "cells": [
                   {
-                    "x": 1000,
+                    "x": 3000,
+                    "y": 2000
+                  },
+                  {
+                    "x": 4500,
+                    "y": 2000
+                  },
+                  {
+                    "x": 6000,
                     "y": 2000
                   }
                 ],
-                "speed": 16
-              }
-            },
-            {
-              "capability": {
-                "id": "a2game.realtime.world",
-                "version": "0.1.0"
-              },
-              "config": {
-                "statePath": "/world",
-                "width": 8000,
-                "height": 6000,
-                "autoFire": true,
-                "autoTarget": true,
-                "weapon": "hitscan",
-                "damageBonusPath": "/best",
-                "cooldownTicks": 120,
-                "goalScore": 1,
-                "maxTicks": 100
+                "path": [
+                  {
+                    "x": 7000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 4000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 1000,
+                    "y": 3000
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 1,
+                    "hp": 3,
+                    "reward": 2
+                  },
+                  {
+                    "tick": 35,
+                    "hp": 6,
+                    "reward": 3
+                  },
+                  {
+                    "tick": 70,
+                    "hp": 10,
+                    "reward": 4
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "place0",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "select0",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "merge0",
+                    "kind": "merge",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade0",
+                    "kind": "upgrade",
+                    "index": 0
+                  },
+                  {
+                    "action": "place1",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "select1",
+                    "kind": "select",
+                    "index": 1
+                  },
+                  {
+                    "action": "merge1",
+                    "kind": "merge",
+                    "index": 1
+                  },
+                  {
+                    "action": "upgrade1",
+                    "kind": "upgrade",
+                    "index": 1
+                  },
+                  {
+                    "action": "place2",
+                    "kind": "place",
+                    "index": 2
+                  },
+                  {
+                    "action": "select2",
+                    "kind": "select",
+                    "index": 2
+                  },
+                  {
+                    "action": "merge2",
+                    "kind": "merge",
+                    "index": 2
+                  },
+                  {
+                    "action": "upgrade2",
+                    "kind": "upgrade",
+                    "index": 2
+                  }
+                ]
               }
             }
           ]
@@ -135,171 +208,203 @@
   ],
   "entryScene": "main",
   "state": {
-    "board": {
-      "type": "array",
-      "initial": [
-        2,
-        2,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0
-      ]
-    },
-    "best": {
-      "type": "int",
-      "initial": 2
-    },
-    "goal": {
-      "type": "int",
-      "initial": 2048
-    },
-    "world": {
+    "defense": {
       "type": "object",
       "initial": {
-        "bodies": [
-          {
-            "id": "hero",
-            "kind": "actor",
-            "x": 1000,
-            "y": 2000,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 100,
-            "hp": 1,
-            "team": 1,
-            "value": 1,
-            "fixed": false
-          },
-          {
-            "id": "enemy",
-            "kind": "target",
-            "x": 5000,
-            "y": 2000,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 100,
-            "hp": 5,
-            "team": 2,
-            "value": 1,
-            "fixed": false
-          }
-        ],
+        "wallet": 4,
         "score": 0,
-        "charge": 0,
+        "lives": 1,
         "nextId": 0,
-        "cooldowns": {},
-        "contacts": [],
-        "spawned": [],
-        "grounded": [],
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
         "won": false,
         "lost": false
-      }
-    },
-    "path": {
-      "type": "object",
-      "initial": {
-        "x": 5000,
-        "y": 2000,
-        "cursor": 0,
-        "arrived": false
       }
     }
   },
   "inputs": {
     "actions": [
       {
-        "id": "moveLeft",
+        "id": "place0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "ArrowLeft"
+              "code": "KeyA"
             }
           },
           {
-            "source": "touch.swipe",
+            "source": "touch.select",
             "config": {
-              "direction": "left",
-              "minDistanceNorm": 0.12,
-              "maxDurationUs": 1200000
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": -1,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
             }
           }
         ]
       },
       {
-        "id": "moveRight",
+        "id": "select0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "ArrowRight"
-            }
-          },
-          {
-            "source": "touch.swipe",
-            "config": {
-              "direction": "right",
-              "minDistanceNorm": 0.12,
-              "maxDurationUs": 1200000
+              "code": "KeyB"
             }
           }
         ]
       },
       {
-        "id": "moveUp",
+        "id": "merge0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "ArrowUp"
-            }
-          },
-          {
-            "source": "touch.swipe",
-            "config": {
-              "direction": "up",
-              "minDistanceNorm": 0.12,
-              "maxDurationUs": 1200000
+              "code": "KeyC"
             }
           }
         ]
       },
       {
-        "id": "moveDown",
+        "id": "upgrade0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "ArrowDown"
+              "code": "KeyD"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE"
             }
           },
           {
-            "source": "touch.swipe",
+            "source": "touch.select",
             "config": {
-              "direction": "down",
-              "minDistanceNorm": 0.12,
-              "maxDurationUs": 1200000
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 0.5,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyI"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 2,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL"
             }
           }
         ]
@@ -309,32 +414,41 @@
   "rules": [],
   "outcomes": [
     {
-      "id": "defended",
+      "id": "won",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "state": "/defense/won"
       }
     },
     {
       "id": "lost",
       "status": "lost",
+      "priority": -1,
       "when": {
-        "state": "/world/lost"
+        "state": "/defense/lost"
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "best",
+        "id": "status",
         "kind": "text",
-        "text": "合并最高数字",
         "bind": {
           "text": {
-            "template": "Max tile: {0}",
+            "template": "金币 {0} · 击退 {1}\n生命 {2} · 波次 {3}",
             "args": [
               {
-                "state": "/best"
+                "state": "/defense/wallet"
+              },
+              {
+                "state": "/defense/score"
+              },
+              {
+                "state": "/defense/lives"
+              },
+              {
+                "state": "/defense/waveCursor"
               }
             ]
           }
@@ -343,55 +457,107 @@
     ],
     "cues": [],
     "scene2d": {
-      "width": 8,
-      "height": 6,
+      "width": 10,
+      "height": 8,
       "background": "#0d1729",
       "nodes": [
         {
-          "id": "back",
+          "id": "slot0",
+          "kind": "rect",
+          "at": [
+            -1,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label0",
+          "kind": "text",
+          "at": [
+            -1,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "0"
+          }
+        },
+        {
+          "id": "slot1",
+          "kind": "rect",
+          "at": [
+            0.5,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label1",
+          "kind": "text",
+          "at": [
+            0.5,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "1"
+          }
+        },
+        {
+          "id": "slot2",
+          "kind": "rect",
+          "at": [
+            2,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label2",
+          "kind": "text",
+          "at": [
+            2,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "2"
+          }
+        },
+        {
+          "id": "path",
           "kind": "rect",
           "at": [
             0,
-            -0.15
+            0
           ],
-          "fill": "#202f46",
           "size": [
-            4.6,
-            4.6
-          ]
-        },
-        {
-          "id": "caption",
-          "kind": "text",
-          "at": [
-            -1.7,
-            2.55
+            6.2,
+            0.1
           ],
-          "fill": "#b5cee8",
-          "text": {
-            "literal": "A2Game / 2048"
-          },
-          "fontSize": 0.31
-        },
-        {
-          "id": "best",
-          "kind": "text",
-          "at": [
-            2.3,
-            2.55
-          ],
-          "fill": "#f3ce8b",
-          "text": {
-            "state": "/best"
-          },
-          "fontSize": 0.5
+          "fill": "#a8c5d9"
         },
         {
           "id": "title",
           "kind": "text",
           "at": [
             0,
-            2.6
+            3.6
           ],
           "fontSize": 0.26,
           "fill": "#b5cee8",
@@ -404,79 +570,43 @@
           "kind": "text",
           "at": [
             0,
-            -2.65
+            -3.65
           ],
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "合并 2+2 提升本 Tick 炮台伤害，击退路径上的敌人。"
+            "literal": "place0、place1 建塔，select0 后 merge1 合成；旧炮与武器释放，抵御三波。"
           }
         }
       ],
-      "repeat": [
-        {
-          "id": "tiles",
-          "source": {
-            "state": "/board"
-          },
-          "columns": 4,
-          "origin": [
-            -1.68,
-            1.52
-          ],
-          "step": [
-            1.12,
-            1.12
-          ],
-          "indexMode": "array",
-          "template": [
-            {
-              "id": "cell",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#243851",
-                  "2": "#577f9f",
-                  "4": "#368aa5",
-                  "8": "#2a9b91",
-                  "16": "#89b482",
-                  "32": "#dfaf66",
-                  "64": "#df8c66",
-                  "128": "#ce6877"
-                },
-                "fallback": "#8e65ae"
-              },
-              "size": [
-                1.03,
-                1.03
-              ]
-            },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "fontSize": 0.52,
-              "omitWhen": [
-                0
-              ]
-            }
-          ]
-        }
-      ]
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
     }
   },
   "tests": [

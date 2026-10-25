@@ -169,6 +169,14 @@
       "title": "麻将叠牌配对",
       "steps": [
         {
+          "action": "cell4",
+          "ticks": 1
+        },
+        {
+          "action": "cell7",
+          "ticks": 1
+        },
+        {
           "action": "cell0",
           "ticks": 1
         },
@@ -187,14 +195,32 @@
       ],
       "negative": [
         {
-          "action": "cell1",
+          "action": "cell0",
           "ticks": 1
         }
       ],
       "expected": "won",
       "negativeExpected": "playing",
       "checks": [],
-      "negativeChecks": [],
+      "negativeChecks": [
+        {
+          "path": "/puzzle/moves",
+          "equals": 0
+        },
+        {
+          "path": "/puzzle/selected",
+          "equals": []
+        }
+      ],
+      "nativePointerActions": [
+        "cell4",
+        "cell7",
+        "cell0",
+        "cell3",
+        "cell1",
+        "cell2"
+      ],
+      "nativePointerWait": 0,
       "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
       "gates": {
         "G0": "NOT_RUN",
@@ -795,34 +821,40 @@
       "title": "塔防",
       "steps": [
         {
-          "action": "cell0",
+          "action": "place0",
           "ticks": 1
         },
         {
-          "action": "cell1",
+          "action": "place1",
           "ticks": 1
         },
         {
-          "action": "cell2",
-          "ticks": 1
-        },
-        {
-          "action": "cell3",
-          "ticks": 1
-        },
-        {
-          "ticks": 1
+          "ticks": 170
         }
       ],
       "negative": [
         {
-          "ticks": 100
+          "ticks": 220
         }
       ],
       "expected": "won",
       "negativeExpected": "lost",
-      "checks": [],
+      "checks": [
+        {
+          "path": "/defense/score",
+          "equals": 3
+        },
+        {
+          "path": "/defense/lives",
+          "equals": 1
+        }
+      ],
       "negativeChecks": [],
+      "nativePointerActions": [
+        "place0",
+        "place1"
+      ],
+      "nativePointerWait": 170,
       "scope": "Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.",
       "gates": {
         "G0": "NOT_RUN",
@@ -1550,21 +1582,44 @@
       "title": "合成炮台保卫战",
       "steps": [
         {
-          "action": "moveLeft",
+          "action": "place0",
           "ticks": 1
+        },
+        {
+          "action": "place1",
+          "ticks": 1
+        },
+        {
+          "action": "select0",
+          "ticks": 1
+        },
+        {
+          "action": "merge1",
+          "ticks": 1
+        },
+        {
+          "ticks": 170
         }
       ],
       "negative": [
         {
-          "ticks": 100
+          "ticks": 220
         }
       ],
       "expected": "won",
       "negativeExpected": "lost",
       "checks": [
         {
-          "path": "/best",
-          "equals": 4
+          "path": "/defense/towers/0/level",
+          "equals": 2
+        },
+        {
+          "path": "/defense/towers/0/cell",
+          "equals": 1
+        },
+        {
+          "path": "/defense/score",
+          "equals": 3
         }
       ],
       "negativeChecks": [],

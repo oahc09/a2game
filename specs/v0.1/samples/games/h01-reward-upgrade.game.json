@@ -1,0 +1,616 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.h01-reward-upgrade",
+  "revision": 1,
+  "meta": {
+    "title": "H01 合成后用首波奖励升级：未升级无法击退末波",
+    "genres": [
+      "casual"
+    ],
+    "description": "合成后用首波奖励升级：未升级无法击退末波"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/defense",
+                "width": 8000,
+                "height": 6000,
+                "cost": 2,
+                "damage": 1,
+                "range": 6000,
+                "speed": 64,
+                "cooldownTicks": 8,
+                "maxTicks": 220,
+                "cells": [
+                  {
+                    "x": 3000,
+                    "y": 2000
+                  },
+                  {
+                    "x": 4500,
+                    "y": 2000
+                  },
+                  {
+                    "x": 6000,
+                    "y": 2000
+                  }
+                ],
+                "path": [
+                  {
+                    "x": 7000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 4000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 1000,
+                    "y": 3000
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 1,
+                    "hp": 3,
+                    "reward": 4
+                  },
+                  {
+                    "tick": 35,
+                    "hp": 6,
+                    "reward": 3
+                  },
+                  {
+                    "tick": 70,
+                    "hp": 32,
+                    "reward": 4
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "place0",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "select0",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "merge0",
+                    "kind": "merge",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade0",
+                    "kind": "upgrade",
+                    "index": 0
+                  },
+                  {
+                    "action": "place1",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "select1",
+                    "kind": "select",
+                    "index": 1
+                  },
+                  {
+                    "action": "merge1",
+                    "kind": "merge",
+                    "index": 1
+                  },
+                  {
+                    "action": "upgrade1",
+                    "kind": "upgrade",
+                    "index": 1
+                  },
+                  {
+                    "action": "place2",
+                    "kind": "place",
+                    "index": 2
+                  },
+                  {
+                    "action": "select2",
+                    "kind": "select",
+                    "index": 2
+                  },
+                  {
+                    "action": "merge2",
+                    "kind": "merge",
+                    "index": 2
+                  },
+                  {
+                    "action": "upgrade2",
+                    "kind": "upgrade",
+                    "index": 2
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "defense": {
+      "type": "object",
+      "initial": {
+        "wallet": 4,
+        "score": 0,
+        "lives": 1,
+        "nextId": 0,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "place0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": -1,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 0.5,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyI"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 2,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/defense/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/defense/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "status",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "金币 {0} · 击退 {1}\n生命 {2} · 波次 {3}",
+            "args": [
+              {
+                "state": "/defense/wallet"
+              },
+              {
+                "state": "/defense/score"
+              },
+              {
+                "state": "/defense/lives"
+              },
+              {
+                "state": "/defense/waveCursor"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "slot0",
+          "kind": "rect",
+          "at": [
+            -1,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label0",
+          "kind": "text",
+          "at": [
+            -1,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "0"
+          }
+        },
+        {
+          "id": "slot1",
+          "kind": "rect",
+          "at": [
+            0.5,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label1",
+          "kind": "text",
+          "at": [
+            0.5,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "1"
+          }
+        },
+        {
+          "id": "slot2",
+          "kind": "rect",
+          "at": [
+            2,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label2",
+          "kind": "text",
+          "at": [
+            2,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "2"
+          }
+        },
+        {
+          "id": "path",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6.2,
+            0.1
+          ],
+          "fill": "#a8c5d9"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "H01 合成后用首波奖励升级：未升级无法击退末波"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "合成后用首波奖励升级：未升级无法击退末波"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
+        },
+        "showValues": true
+      }
+    }
+  },
+  "tests": [
+    "../tests/h01-reward-upgrade.conformance.json"
+  ],
+  "extensions": {}
+}

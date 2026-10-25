@@ -1,0 +1,467 @@
+{
+  "format": "a2game-rule-variants",
+  "profile": "authored-rule-variants-v1",
+  "G3": "NOT_RUN",
+  "scope": "Additional nonphysical level/rule regression; authored examples never count as independent Agent variants.",
+  "cases": [
+    {
+      "id": "G01",
+      "name": "g01-two-boxes",
+      "title": "G01 双箱目标：分别入位，未完成第二箱不能胜利",
+      "steps": [
+        {
+          "action": "moveUp",
+          "ticks": 1
+        },
+        {
+          "action": "moveDown",
+          "ticks": 1
+        },
+        {
+          "action": "moveRight",
+          "ticks": 1
+        },
+        {
+          "action": "moveUp",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "moveUp",
+          "ticks": 1
+        },
+        {
+          "action": "moveUp",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [
+        {
+          "path": "/boxes",
+          "equals": [
+            6,
+            7
+          ]
+        }
+      ],
+      "negativeChecks": [],
+      "change": "双箱目标：分别入位，未完成第二箱不能胜利",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G02",
+      "name": "g02-4096",
+      "title": "G02 4096 目标：同一滑动内的新块不能再次合并",
+      "steps": [
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        },
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "moveLeft",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/best",
+          "equals": 2048
+        }
+      ],
+      "change": "4096 目标：同一滑动内的新块不能再次合并",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G05",
+      "name": "g05-three-layers",
+      "title": "G05 三层麻将：先 8/11，再 4/7，最后消除底层",
+      "steps": [
+        {
+          "action": "cell8",
+          "ticks": 1
+        },
+        {
+          "action": "cell11",
+          "ticks": 1
+        },
+        {
+          "action": "cell4",
+          "ticks": 1
+        },
+        {
+          "action": "cell7",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell4",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/puzzle/moves",
+          "equals": 0
+        }
+      ],
+      "change": "三层麻将：先 8/11，再 4/7，最后消除底层",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G08",
+      "name": "g08-column-clear",
+      "title": "G08 旋转拼块填满两列：未旋转的右下角放置无效",
+      "steps": [
+        {
+          "action": "rotate",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "rotate",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/puzzle/moves",
+          "equals": 0
+        }
+      ],
+      "change": "旋转拼块填满两列：未旋转的右下角放置无效",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G09",
+      "name": "g09-rotate-drop",
+      "title": "G09 竖向出生拼块必须旋转，再平移填满底行",
+      "steps": [
+        {
+          "action": "rotate",
+          "ticks": 1
+        },
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "drop",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "left",
+          "ticks": 1
+        },
+        {
+          "action": "drop",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [],
+      "change": "竖向出生拼块必须旋转，再平移填满底行",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G21",
+      "name": "g21-reverse-waves",
+      "title": "G21 反向路径四波防御：建造成本 3，防守四波",
+      "steps": [
+        {
+          "action": "place0",
+          "ticks": 1
+        },
+        {
+          "action": "place1",
+          "ticks": 1
+        },
+        {
+          "ticks": 240
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 261
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [
+        {
+          "path": "/defense/score",
+          "equals": 4
+        }
+      ],
+      "negativeChecks": [],
+      "change": "反向路径四波防御：建造成本 3，防守四波",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "G24",
+      "name": "g24-connect-four",
+      "title": "G24 6×6 四连：验证第二位玩家与非法占位",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell6",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell7",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell8",
+          "ticks": 1
+        },
+        {
+          "action": "cell12",
+          "ticks": 1
+        },
+        {
+          "action": "cell9",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "playing",
+      "checks": [
+        {
+          "path": "/turn/winner",
+          "equals": 2
+        }
+      ],
+      "negativeChecks": [
+        {
+          "path": "/turn/player",
+          "equals": 2
+        },
+        {
+          "path": "/turn/moves",
+          "equals": 1
+        }
+      ],
+      "change": "6×6 四连：验证第二位玩家与非法占位",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "H01",
+      "name": "h01-reward-upgrade",
+      "title": "H01 合成后用首波奖励升级：未升级无法击退末波",
+      "steps": [
+        {
+          "action": "place0",
+          "ticks": 1
+        },
+        {
+          "action": "place1",
+          "ticks": 1
+        },
+        {
+          "action": "select0",
+          "ticks": 1
+        },
+        {
+          "action": "merge1",
+          "ticks": 1
+        },
+        {
+          "ticks": 15
+        },
+        {
+          "action": "upgrade1",
+          "ticks": 1
+        },
+        {
+          "ticks": 180
+        }
+      ],
+      "negative": [
+        {
+          "action": "place0",
+          "ticks": 1
+        },
+        {
+          "action": "place1",
+          "ticks": 1
+        },
+        {
+          "action": "select0",
+          "ticks": 1
+        },
+        {
+          "action": "merge1",
+          "ticks": 1
+        },
+        {
+          "ticks": 216
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [
+        {
+          "path": "/defense/towers/0/level",
+          "equals": 3
+        }
+      ],
+      "negativeChecks": [
+        {
+          "path": "/defense/towers/0/level",
+          "equals": 2
+        }
+      ],
+      "change": "合成后用首波奖励升级：未升级无法击退末波",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    },
+    {
+      "id": "H05",
+      "name": "h05-deadline-tie",
+      "title": "H05 四 Tick 截止：同 Tick 完成与超时冲突时失败优先",
+      "steps": [
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "negative": [
+        {
+          "ticks": 1
+        },
+        {
+          "action": "cell0",
+          "ticks": 1
+        },
+        {
+          "action": "cell1",
+          "ticks": 1
+        },
+        {
+          "action": "cell2",
+          "ticks": 1
+        },
+        {
+          "action": "cell3",
+          "ticks": 1
+        }
+      ],
+      "expected": "won",
+      "negativeExpected": "lost",
+      "checks": [],
+      "negativeChecks": [
+        {
+          "path": "/puzzle/won",
+          "equals": true
+        },
+        {
+          "path": "/timeout",
+          "equals": true
+        }
+      ],
+      "change": "四 Tick 截止：同 Tick 完成与超时冲突时失败优先",
+      "authorship": "repository-authored; not independent G3",
+      "verified": false
+    }
+  ]
+}

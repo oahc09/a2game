@@ -1,0 +1,81 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g21-reverse-waves",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g21-reverse-waves",
+    "file": "../games/g21-reverse-waves.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G21-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 240
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G21-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 261
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

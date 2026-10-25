@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g21",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G21 塔防",
     "genres": [
       "strategy"
     ],
-    "description": "整理四格解锁炮台，拦截沿路径前进的敌人。"
+    "description": "点击格子或 place0/1 建塔，upgrade0 升级；抵御三波，漏怪失败。"
   },
   "requires": {
     "all": [
@@ -41,27 +41,27 @@
         "version": "0.1.0"
       },
       {
-        "id": "a2game.puzzle.placement",
-        "version": "0.1.0"
-      },
-      {
-        "id": "a2game.strategy.path-follow",
-        "version": "0.1.0"
-      },
-      {
-        "id": "a2game.realtime.world",
-        "version": "0.1.0"
-      },
-      {
-        "id": "a2game.rules.state-set",
-        "version": "0.1.0"
-      },
-      {
         "id": "a2game.input.touch.select",
         "version": "0.1.0"
       },
       {
         "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.placement",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.path-follow",
         "version": "0.1.0"
       },
       {
@@ -85,9 +85,11 @@
     "clock": {
       "tickHz": 60,
       "seed": 42,
-      "maxCatchUpTicks": 8
+      "maxCatchUpTicks": 5
     }
   },
+  "assets": {},
+  "prototypes": {},
   "scenes": [
     {
       "id": "main",
@@ -97,59 +99,126 @@
           "components": [
             {
               "capability": {
-                "id": "a2game.puzzle.placement",
+                "id": "a2game.strategy.tower-defense",
                 "version": "0.1.0"
               },
               "config": {
-                "statePath": "/puzzle",
-                "width": 2,
-                "height": 2,
-                "selectActions": [
-                  "cell0",
-                  "cell1",
-                  "cell2",
-                  "cell3"
-                ],
-                "targets": [
-                  0,
-                  1,
-                  0,
-                  2
-                ]
-              }
-            },
-            {
-              "capability": {
-                "id": "a2game.strategy.path-follow",
-                "version": "0.1.0"
-              },
-              "config": {
-                "statePath": "/path",
-                "worldPath": "/world",
-                "bodyId": "enemy",
-                "waypoints": [
+                "statePath": "/defense",
+                "width": 8000,
+                "height": 6000,
+                "cost": 2,
+                "damage": 1,
+                "range": 6000,
+                "speed": 64,
+                "cooldownTicks": 8,
+                "maxTicks": 220,
+                "cells": [
                   {
-                    "x": 1000,
+                    "x": 3000,
+                    "y": 2000
+                  },
+                  {
+                    "x": 4500,
+                    "y": 2000
+                  },
+                  {
+                    "x": 6000,
                     "y": 2000
                   }
                 ],
-                "speed": 16
-              }
-            },
-            {
-              "capability": {
-                "id": "a2game.realtime.world",
-                "version": "0.1.0"
-              },
-              "config": {
-                "statePath": "/world",
-                "width": 8000,
-                "height": 6000,
-                "weapon": "hitscan",
-                "autoTarget": true,
-                "fireRequestPath": "/control/fireRequest",
-                "goalScore": 1,
-                "maxTicks": 100
+                "path": [
+                  {
+                    "x": 7000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 4000,
+                    "y": 3000
+                  },
+                  {
+                    "x": 1000,
+                    "y": 3000
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 1,
+                    "hp": 3,
+                    "reward": 2
+                  },
+                  {
+                    "tick": 35,
+                    "hp": 6,
+                    "reward": 3
+                  },
+                  {
+                    "tick": 70,
+                    "hp": 10,
+                    "reward": 4
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "place0",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "select0",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "merge0",
+                    "kind": "merge",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade0",
+                    "kind": "upgrade",
+                    "index": 0
+                  },
+                  {
+                    "action": "place1",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "select1",
+                    "kind": "select",
+                    "index": 1
+                  },
+                  {
+                    "action": "merge1",
+                    "kind": "merge",
+                    "index": 1
+                  },
+                  {
+                    "action": "upgrade1",
+                    "kind": "upgrade",
+                    "index": 1
+                  },
+                  {
+                    "action": "place2",
+                    "kind": "place",
+                    "index": 2
+                  },
+                  {
+                    "action": "select2",
+                    "kind": "select",
+                    "index": 2
+                  },
+                  {
+                    "action": "merge2",
+                    "kind": "merge",
+                    "index": 2
+                  },
+                  {
+                    "action": "upgrade2",
+                    "kind": "upgrade",
+                    "index": 2
+                  }
+                ]
               }
             }
           ]
@@ -159,282 +228,247 @@
   ],
   "entryScene": "main",
   "state": {
-    "puzzle": {
+    "defense": {
       "type": "object",
       "initial": {
-        "board": [
-          1,
-          0,
-          2,
-          0
-        ],
-        "display": [
-          1,
-          -1,
-          2,
-          -1
-        ],
-        "preview": [],
-        "selected": [],
-        "removed": [],
-        "tray": [],
-        "tubes": [],
+        "wallet": 4,
         "score": 0,
-        "moves": 0,
-        "won": false,
-        "lost": false,
-        "history": [],
-        "closeAt": -1,
-        "active": 0,
-        "anchor": 1,
-        "rotation": 0
-      }
-    },
-    "world": {
-      "type": "object",
-      "initial": {
-        "bodies": [
-          {
-            "id": "hero",
-            "kind": "actor",
-            "x": 1000,
-            "y": 2000,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 100,
-            "hp": 1,
-            "team": 1,
-            "value": 1,
-            "fixed": false
-          },
-          {
-            "id": "enemy",
-            "kind": "target",
-            "x": 5000,
-            "y": 2000,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 100,
-            "hp": 1,
-            "team": 2,
-            "value": 1,
-            "fixed": false
-          }
-        ],
-        "score": 0,
-        "charge": 0,
+        "lives": 1,
         "nextId": 0,
-        "cooldowns": {},
-        "contacts": [],
-        "spawned": [],
-        "grounded": [],
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
         "won": false,
         "lost": false
-      }
-    },
-    "control": {
-      "type": "object",
-      "initial": {
-        "angle": 0,
-        "scale": 1,
-        "axis": [
-          0,
-          0
-        ],
-        "aim": [
-          1,
-          0
-        ],
-        "power": 0,
-        "score": 0,
-        "won": false,
-        "lost": false,
-        "cutIds": [],
-        "spawned": 0,
-        "grabbing": false,
-        "grab": [
-          0.5,
-          0.5
-        ],
-        "target": [
-          0,
-          0
-        ],
-        "hasTarget": false,
-        "rotateSource": "",
-        "pinchSource": "",
-        "angleBase": 0,
-        "scaleBase": 1,
-        "balanceTicks": 0,
-        "fireRequest": false,
-        "usedInput": false,
-        "laneSignal": 0
-      }
-    },
-    "path": {
-      "type": "object",
-      "initial": {
-        "x": 5000,
-        "y": 2000,
-        "cursor": 0,
-        "arrived": false
       }
     }
   },
   "inputs": {
     "actions": [
       {
-        "id": "cell0",
+        "id": "place0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit1"
+              "code": "KeyA"
             }
           },
           {
             "source": "touch.select",
             "config": {
-              "sceneWidth": 8,
-              "sceneHeight": 6,
-              "x": -0.425,
-              "y": 0.425,
-              "hx": 0.3825,
-              "hy": 0.3825,
-              "mode": "drag-select"
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": -1,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
             }
           }
         ]
       },
       {
-        "id": "cell1",
+        "id": "select0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit2"
-            }
-          },
-          {
-            "source": "touch.select",
-            "config": {
-              "sceneWidth": 8,
-              "sceneHeight": 6,
-              "x": 0.425,
-              "y": 0.425,
-              "hx": 0.3825,
-              "hy": 0.3825,
-              "mode": "drag-select"
+              "code": "KeyB"
             }
           }
         ]
       },
       {
-        "id": "cell2",
+        "id": "merge0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit3"
-            }
-          },
-          {
-            "source": "touch.select",
-            "config": {
-              "sceneWidth": 8,
-              "sceneHeight": 6,
-              "x": -0.425,
-              "y": -0.425,
-              "hx": 0.3825,
-              "hy": 0.3825,
-              "mode": "drag-select"
+              "code": "KeyC"
             }
           }
         ]
       },
       {
-        "id": "cell3",
+        "id": "upgrade0",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit4"
+              "code": "KeyD"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE"
             }
           },
           {
             "source": "touch.select",
             "config": {
-              "sceneWidth": 8,
-              "sceneHeight": 6,
-              "x": 0.425,
-              "y": -0.425,
-              "hx": 0.3825,
-              "hy": 0.3825,
-              "mode": "drag-select"
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 0.5,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "place2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyI"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 8,
+              "x": 2,
+              "y": -1,
+              "hx": 0.25,
+              "hy": 0.25,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "select2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          }
+        ]
+      },
+      {
+        "id": "merge2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL"
             }
           }
         ]
       }
     ]
   },
-  "rules": [
-    {
-      "id": "placed-tower",
-      "on": {
-        "type": "puzzle.changed"
-      },
-      "if": {
-        "state": "/puzzle/won"
-      },
-      "do": [
-        {
-          "op": "state.set",
-          "path": "/control/fireRequest",
-          "value": true
-        }
-      ]
-    }
-  ],
+  "rules": [],
   "outcomes": [
     {
       "id": "won",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "state": "/defense/won"
       }
     },
     {
       "id": "lost",
       "status": "lost",
+      "priority": -1,
       "when": {
-        "state": "/world/lost"
+        "state": "/defense/lost"
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "score",
+        "id": "status",
         "kind": "text",
         "bind": {
           "text": {
-            "template": "分数 {0} · 操作 {1}",
+            "template": "金币 {0} · 击退 {1}\n生命 {2} · 波次 {3}",
             "args": [
               {
-                "state": "/puzzle/score"
+                "state": "/defense/wallet"
               },
               {
-                "state": "/puzzle/moves"
+                "state": "/defense/score"
+              },
+              {
+                "state": "/defense/lives"
+              },
+              {
+                "state": "/defense/waveCursor"
               }
             ]
           }
@@ -443,16 +477,107 @@
     ],
     "cues": [],
     "scene2d": {
-      "width": 8,
-      "height": 6,
+      "width": 10,
+      "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "slot0",
+          "kind": "rect",
+          "at": [
+            -1,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label0",
+          "kind": "text",
+          "at": [
+            -1,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "0"
+          }
+        },
+        {
+          "id": "slot1",
+          "kind": "rect",
+          "at": [
+            0.5,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label1",
+          "kind": "text",
+          "at": [
+            0.5,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "1"
+          }
+        },
+        {
+          "id": "slot2",
+          "kind": "rect",
+          "at": [
+            2,
+            -1
+          ],
+          "size": [
+            0.5,
+            0.5
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "slot-label2",
+          "kind": "text",
+          "at": [
+            2,
+            -1.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "2"
+          }
+        },
+        {
+          "id": "path",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6.2,
+            0.1
+          ],
+          "fill": "#a8c5d9"
+        },
         {
           "id": "title",
           "kind": "text",
           "at": [
             0,
-            2.6
+            3.6
           ],
           "fontSize": 0.26,
           "fill": "#b5cee8",
@@ -465,190 +590,47 @@
           "kind": "text",
           "at": [
             0,
-            -2.65
+            -3.65
           ],
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "整理四格解锁炮台，拦截沿路径前进的敌人。"
+            "literal": "点击格子或 place0/1 建塔，upgrade0 升级；抵御三波，漏怪失败。"
           }
         }
       ],
-      "repeat": [
-        {
-          "id": "board",
-          "source": {
-            "state": "/puzzle/display"
-          },
-          "columns": 2,
-          "origin": [
-            -0.425,
-            0.425
-          ],
-          "step": [
-            0.85,
-            0.85
-          ],
-          "indexMode": "array",
-          "template": [
-            {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.782,
-                0.782
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78",
-                  "6": "#a8c5d9",
-                  "7": "#f5d26f",
-                  "-1": "#0d1729"
-                },
-                "fallback": "#a8c5d9"
-              }
-            },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.2975,
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "omitWhen": [
-                -1,
-                0
-              ]
-            }
-          ]
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
         },
-        {
-          "id": "selection",
-          "source": {
-            "state": "/puzzle/selected"
-          },
-          "columns": 2,
-          "origin": [
-            -0.425,
-            0.425
-          ],
-          "step": [
-            0.85,
-            0.85
-          ],
-          "indexMode": "cell",
-          "template": [
-            {
-              "id": "mark",
-              "kind": "circle",
-              "at": [
-                -0.255,
-                0.255
-              ],
-              "radius": 0.068,
-              "fill": "#f5d26f"
-            }
-          ]
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "valuePalette": {
+          "1": "#57d7c8",
+          "2": "#ecb963",
+          "4": "#bd86d9",
+          "8": "#dc6d78"
         },
-        {
-          "id": "tray",
-          "source": {
-            "state": "/puzzle/tray"
-          },
-          "columns": 8,
-          "origin": [
-            -1.8,
-            -1.9
-          ],
-          "step": [
-            0.45,
-            0.45
-          ],
-          "indexMode": "array",
-          "template": [
-            {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.4,
-                0.4
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78",
-                  "6": "#a8c5d9",
-                  "7": "#f5d26f",
-                  "-1": "#0d1729"
-                },
-                "fallback": "#a8c5d9"
-              }
-            }
-          ]
-        },
-        {
-          "id": "preview",
-          "source": {
-            "state": "/puzzle/preview"
-          },
-          "columns": 4,
-          "origin": [
-            2.3,
-            1.6
-          ],
-          "step": [
-            0.32,
-            0.32
-          ],
-          "indexMode": "cell",
-          "template": [
-            {
-              "id": "cell",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.29,
-                0.29
-              ],
-              "fill": "#f5d26f"
-            }
-          ]
-        }
-      ]
+        "showValues": true
+      }
     }
   },
   "tests": [
     "../tests/g21-candidate.conformance.json"
-  ]
+  ],
+  "extensions": {}
 }

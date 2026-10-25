@@ -1,0 +1,549 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.g08-column-clear",
+  "revision": 1,
+  "meta": {
+    "title": "G08 旋转拼块填满两列：未旋转的右下角放置无效",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "旋转拼块填满两列：未旋转的右下角放置无效"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.placement",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.polyomino",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.line-clear",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 8
+    }
+  },
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.placement",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/puzzle",
+                "width": 2,
+                "height": 2,
+                "selectActions": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3"
+                ],
+                "undoAction": "undo",
+                "pieces": [
+                  [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ]
+                  ]
+                ],
+                "rotateAction": "rotate",
+                "targetScore": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "puzzle": {
+      "type": "object",
+      "initial": {
+        "board": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "display": [
+          -1,
+          -1,
+          -1,
+          -1
+        ],
+        "preview": [
+          0,
+          1
+        ],
+        "selected": [],
+        "removed": [],
+        "tray": [],
+        "tubes": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false,
+        "history": [],
+        "closeAt": -1,
+        "active": 0,
+        "anchor": 1,
+        "rotation": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.425,
+              "y": 0.425,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.425,
+              "y": 0.425,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.425,
+              "y": -0.425,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.425,
+              "y": -0.425,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "undo",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5"
+            }
+          }
+        ]
+      },
+      {
+        "id": "rotate",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "state": "/puzzle/won"
+      }
+    },
+    {
+      "id": "failed",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "state": "/puzzle/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "score",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "分数 {0} · 操作 {1}",
+            "args": [
+              {
+                "state": "/puzzle/score"
+              },
+              {
+                "state": "/puzzle/moves"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G08 旋转拼块填满两列：未旋转的右下角放置无效"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "旋转拼块填满两列：未旋转的右下角放置无效"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "board",
+          "source": {
+            "state": "/puzzle/display"
+          },
+          "columns": 2,
+          "origin": [
+            -0.425,
+            0.425
+          ],
+          "step": [
+            0.85,
+            0.85
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.782,
+                0.782
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#0d1729"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.2975,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                -1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "selection",
+          "source": {
+            "state": "/puzzle/selected"
+          },
+          "columns": 2,
+          "origin": [
+            -0.425,
+            0.425
+          ],
+          "step": [
+            0.85,
+            0.85
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "mark",
+              "kind": "circle",
+              "at": [
+                -0.255,
+                0.255
+              ],
+              "radius": 0.068,
+              "fill": "#f5d26f"
+            }
+          ]
+        },
+        {
+          "id": "tray",
+          "source": {
+            "state": "/puzzle/tray"
+          },
+          "columns": 8,
+          "origin": [
+            -1.8,
+            -1.9
+          ],
+          "step": [
+            0.45,
+            0.45
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.4,
+                0.4
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#0d1729"
+                },
+                "fallback": "#a8c5d9"
+              }
+            }
+          ]
+        },
+        {
+          "id": "preview",
+          "source": {
+            "state": "/puzzle/preview"
+          },
+          "columns": 4,
+          "origin": [
+            2.3,
+            1.6
+          ],
+          "step": [
+            0.32,
+            0.32
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "cell",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.29,
+                0.29
+              ],
+              "fill": "#f5d26f"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g08-column-clear.conformance.json"
+  ]
+}

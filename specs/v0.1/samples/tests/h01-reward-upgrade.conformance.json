@@ -1,0 +1,188 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h01-reward-upgrade",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.h01-reward-upgrade",
+    "file": "../games/h01-reward-upgrade.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-H01-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 15
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/level",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-H01-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 216
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/level",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

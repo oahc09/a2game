@@ -71,6 +71,7 @@ jobs:
       - run: npx playwright install chromium
       - run: npm run g2:real
       - run: npm run candidates:e2e
+      - run: npm run variants:e2e
       - run: npm run compat:e2e
       - run: npm run agent:fixture -- --browser
       - run: node scripts/ci-evidence.mjs collect

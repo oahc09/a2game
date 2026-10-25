@@ -10,10 +10,10 @@
         "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
       ],
       "receipts": [
-        "reports/g2-2026-10-24T17-10-19-273Z-26740/three-receipt.json",
-        "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
-        "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
-        "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json"
+        "reports/g2-2026-10-25T04-25-48-353Z-52216/three-receipt.json",
+        "reports/visual-stage-2026-10-25T04-21-51-053Z-59132/summary.json",
+        "reports/visual-stage-2026-10-25T04-21-51-183Z-39764/summary.json",
+        "reports/candidates-2026-10-25T04-25-48-300Z-31432/summary.json"
       ]
     },
     {
@@ -25,10 +25,10 @@
         "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
       ],
       "receipts": [
-        "reports/g2-2026-10-24T17-10-19-273Z-26740/air-receipt.json",
-        "reports/visual-stage-2026-10-24T17-14-45-506Z-10520/summary.json",
-        "reports/visual-stage-2026-10-24T17-15-47-534Z-48868/summary.json",
-        "reports/candidates-2026-10-24T17-10-19-260Z-9504/summary.json"
+        "reports/g2-2026-10-25T04-25-48-353Z-52216/air-receipt.json",
+        "reports/visual-stage-2026-10-25T04-21-51-053Z-59132/summary.json",
+        "reports/visual-stage-2026-10-25T04-21-51-183Z-39764/summary.json",
+        "reports/candidates-2026-10-25T04-25-48-300Z-31432/summary.json"
       ]
     },
     {
@@ -41,7 +41,7 @@
         "Same-origin loopback only; no Internet authentication, realtime rollback, hidden-information filtering or durable room recovery claim."
       ],
       "receipts": [
-        "reports/compat-2026-10-24T17-17-06-323Z-46128/summary.json"
+        "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json"
       ]
     }
   ]

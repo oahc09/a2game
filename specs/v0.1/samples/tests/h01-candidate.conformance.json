@@ -17,12 +17,12 @@
         },
         {
           "op": "injectAction",
-          "action": "moveLeft",
+          "action": "place0",
           "phase": "press"
         },
         {
           "op": "injectAction",
-          "action": "moveLeft",
+          "action": "place0",
           "phase": "release"
         },
         {
@@ -30,9 +30,65 @@
           "ticks": 1
         },
         {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "place1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "merge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 170
+        },
+        {
           "op": "assert",
-          "path": "/state/best",
-          "equals": 4
+          "path": "/state/defense/towers/0/level",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/cell",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 3
         },
         {
           "op": "assert",
@@ -58,7 +114,7 @@
         },
         {
           "op": "step",
-          "ticks": 100
+          "ticks": 220
         },
         {
           "op": "assert",

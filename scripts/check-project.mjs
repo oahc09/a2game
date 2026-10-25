@@ -193,6 +193,15 @@ if(status.mobileInputRun?.status==='PASS_REFERENCE'){
   }catch(error){insist(false,`Cannot verify mobile input reference: ${error.message}`);}
 }
 if(status.stages.find(row=>row.id==='S8')?.status==='PASS')insist(status.gates.RealDeviceTouchIMU==='PASS'&&status.mobileDeviceRun?.status==='PASS'&&existsSync(resolve(root,status.mobileDeviceRun?.receipt??'')),'S8 requires separate physical Touch/IMU and permission evidence; virtual browser inputs cannot complete this stage');
+if(status.variantsRun?.status==='PASS_REFERENCE'){
+ try{
+  const summary=read(status.variantsRun.summary),recipes=read('project/rule-variants.json').cases;
+  insist(summary.format==='a2game-rule-variants-real-sdk'&&summary.status==='PASS'&&summary.unchanged&&summary.physicalClose==='PASS','Variants: missing current real SDK receipt');
+  insist(recipes.length===9&&new Set(recipes.map(r=>r.name)).size===9&&summary.cases.length===recipes.length*2&&summary.parity.length===recipes.length&&summary.parity.every(r=>r.status==='PASS'),'Variants: incomplete authored positive/negative matrix');
+  for(const row of summary.cases){const result=read(row.receipt);insist(result.status==='PASS'&&result.final?.exactHash===result.node?.exactHash&&result.negative?.exactHash===result.negativeNode?.exactHash&&result.restart==='PASS'&&result.disposal?.listenersActive===false&&result.disposal?.resources?.ownedResources===0&&existsSync(resolve(root,result.screenshot))&&existsSync(resolve(root,result.negativeScreenshot)),`Variants: incomplete ${row.receipt}`);}
+  for(const [path,digest] of Object.entries(read(summary.fingerprints))){const file=resolve(root,path);insist(file.startsWith(root+sep)&&(!existsSync(file)?path.startsWith('dist/'):createHash('sha256').update(readFileSync(file)).digest('hex')===digest),`Variants: stale fingerprint ${path}`);}
+ }catch(error){insist(false,`Variants: cannot verify evidence: ${error.message}`);}
+}
 if(failures.length){console.error(failures.join('\n'));process.exit(1);}
 console.log(`A2Game project governance PASS — release ${pkg.version}, protocol ${status.release.gameSpecVersion}, current ${status.currentStage}, frozen games ${codes.length}, reference demos ${actualGameCount}, capability manifests ${actualCapCount}`);
 console.log(`Real G2: CocosAirJS ${status.gates.G2CocosAirJSRealSDK}; Three.js ${status.gates.G2ThreeJSRealSDK}; G3 ${status.gates.G3GameplayAgent}`);

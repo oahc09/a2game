@@ -1,0 +1,1189 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.g24-connect-four",
+  "revision": 1,
+  "meta": {
+    "title": "G24 6×6 四连：验证第二位玩家与非法占位",
+    "genres": [
+      "board-game"
+    ],
+    "description": "6×6 四连：验证第二位玩家与非法占位"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.turn",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.legal-move",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.turn",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/turn",
+                "width": 6,
+                "height": 6,
+                "players": 2,
+                "winLength": 4,
+                "selectActions": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8",
+                  "cell9",
+                  "cell10",
+                  "cell11",
+                  "cell12",
+                  "cell13",
+                  "cell14",
+                  "cell15",
+                  "cell16",
+                  "cell17",
+                  "cell18",
+                  "cell19",
+                  "cell20",
+                  "cell21",
+                  "cell22",
+                  "cell23",
+                  "cell24",
+                  "cell25",
+                  "cell26",
+                  "cell27",
+                  "cell28",
+                  "cell29",
+                  "cell30",
+                  "cell31",
+                  "cell32",
+                  "cell33",
+                  "cell34",
+                  "cell35"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "turn": {
+      "type": "object",
+      "initial": {
+        "board": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "player": 1,
+        "moves": 0,
+        "winner": 0,
+        "draw": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": 2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyI"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell9",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell10",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell11",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": 1.2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell12",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyM"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell13",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyN"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell14",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyO"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell15",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell16",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyQ"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell17",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyR"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": 0.3999999999999999,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell18",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell19",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyT"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell20",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell21",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyV"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell22",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell23",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyX"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": -0.40000000000000036,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell24",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyY"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell25",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyZ"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell26",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit0"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell27",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell28",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell29",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": -1.2000000000000002,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell30",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -2,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell31",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -1.2,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell32",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.3999999999999999,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell33",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.40000000000000036,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell34",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 1.2000000000000002,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell35",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 2,
+              "y": -2,
+              "hx": 0.36,
+              "hy": 0.36,
+              "mode": "tap"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/turn/winner"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "title",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "literal": "合法落子与轮换"
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G24 6×6 四连：验证第二位玩家与非法占位"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "6×6 四连：验证第二位玩家与非法占位"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "board",
+          "source": {
+            "state": "/turn/board"
+          },
+          "columns": 6,
+          "origin": [
+            -2,
+            2
+          ],
+          "step": [
+            0.8,
+            0.8
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.64,
+                0.64
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.3,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                0
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g24-connect-four.conformance.json"
+  ],
+  "extensions": {}
+}
