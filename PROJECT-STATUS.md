@@ -1,6 +1,6 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
-2026-10-28 仓库维护：保留 `713e9d9f` 将 `reports/` 移出 Git 的决定；本地验收证据、私有发布数据、SDK 和依赖保留。已清理完成验收的临时目录与日志，Git 已打包的重复松散对象使用原生命令处理；详见 `project/status.json` 的 `repositoryMaintenanceRun` 与 [维护说明](docs/repository-maintenance.md)。源码、玩法与正式验收计数未变。待推送历史包含超 GitHub 限制的大 Trace，普通 push 需要先解决历史交付方式；不会直接删除或重写原提交。
+2026-10-28 仓库维护：保留 `713e9d9f` 将 `reports/` 移出 Git 的决定；本地验收证据、私有发布数据、SDK 和依赖保留。已清理完成验收的临时目录与日志，Git 已打包的重复松散对象使用原生命令处理；详见 `project/status.json` 的 `repositoryMaintenanceRun` 与 [维护说明](docs/repository-maintenance.md)。源码、玩法与正式验收计数未变。按用户选择，超限旧历史保留于本地 `archive/local-history-20261028`，`main` 使用以远端原基线为父提交的源码快照 `b42ccf27`，正常快进交付，不使用 force push。
 
 ## 当前优先：37 款独立 G3（2026-10-28，真实 CLI 全目录已执行）
 

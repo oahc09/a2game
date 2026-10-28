@@ -1139,7 +1139,16 @@
       "independentG3": "reports/repository-maintenance-20261028/g3-check.log",
       "acceptance": "reports/repository-maintenance-20261028/acceptance-check.log"
     },
-    "historyConstraint": "20 unpublished commits contain oversized report blobs; normal GitHub push is blocked. Existing local commits retained; a remote-based source snapshot can be reviewed separately.",
+    "historyConstraint": "Oversized unpublished report history is retained on the local archive branch; main uses a source snapshot descending from the existing remote baseline without force push.",
+    "delivery": {
+      "strategy": "USER_APPROVED_REMOTE_BASED_SOURCE_SNAPSHOT",
+      "archiveBranch": "archive/local-history-20261028",
+      "archiveTip": "97d56daf54054b9ce5b60dbf9adc3585dbeff2fb",
+      "sourceSnapshot": "b42ccf27b5c32c6aff323f74d0527a5e2024f857",
+      "remoteBase": "b910c16473282956d7ddaed64fcdddea304bffd8",
+      "sourceTreeEqualsArchiveBeforeDeliveryMetadata": true,
+      "forcePush": false
+    },
     "summary": "reports/repository-maintenance-20261028/summary.json"
   }
 }
