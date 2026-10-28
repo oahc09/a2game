@@ -167,3 +167,7 @@ Session 状态含：`definitionId/revision`、活动场景、`tickIndex`、业�
 5. 完成至少一个实际可玩的端到端实例后，才能称为 GameSpec Implementation PASS。
 
 **相关规范**：`02-Capability-Manifest-V0.1.md`（能力）、`03-Runtime-Tick-Rule-Semantics-V0.1.md`（执行）、`04-Conformance-Test-V0.1.md`（测试）。
+
+## 2026-10-27 显式兼容增量
+
+outcomes[].status 除 won/lost 外允许已有的 stopped，用于不指定胜负的中立结束。T9 提交后发 game.stopped 并冻结 gameplay；普通输入、start/resume 被拒绝，只能重开或销毁。游戏保留 winner/draw 等业务字段区分原因；不新增 draw GameStatus。旧 JSON 的裁决和 Hash 不变；旧宿主未更新完整 Schema/Runtime 时必须拒绝这种新定义。

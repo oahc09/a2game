@@ -1,0 +1,92 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g19-horde-upgrade",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g19-horde-upgrade",
+    "file": "../games/g19-horde-upgrade.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G19-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "skill",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "skill",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 200
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/skill/active",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G19-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 230
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

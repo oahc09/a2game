@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g18",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G18 俯视射击",
     "genres": [
       "shooter"
     ],
-    "description": "拖动瞄准，Space 或 fire 射击；射线会被实体墙遮挡。"
+    "description": "WASD 移动与拖动瞄准分离；正面墙体挡住射线，绕墙后 Space 射击。"
   },
   "requires": {
     "all": [
@@ -103,8 +103,13 @@
                 "goalScore": 1,
                 "maxTicks": 120,
                 "actions": {
-                  "fire": "fire"
-                }
+                  "fire": "fire",
+                  "left": "moveLeft",
+                  "right": "moveRight",
+                  "up": "moveUp",
+                  "down": "moveDown"
+                },
+                "heldMovement": true
               }
             },
             {
@@ -165,6 +170,20 @@
             "hp": 1,
             "team": 2,
             "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "wall",
+            "kind": "solid",
+            "x": 4000,
+            "y": 3000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 600,
+            "hy": 100,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
             "fixed": true
           }
         ],
@@ -242,6 +261,58 @@
             }
           }
         ]
+      },
+      {
+        "id": "moveLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
       }
     ]
   },
@@ -266,11 +337,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "拖动瞄准，Space 或 fire 射击；射线会被实体墙遮挡。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -304,7 +380,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "拖动瞄准，Space 或 fire 射击；射线会被实体墙遮挡。"
+            "literal": "WASD 移动与拖动瞄准分离；正面墙体挡住射线，绕墙后 Space 射击。"
           }
         }
       ],
@@ -328,13 +404,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

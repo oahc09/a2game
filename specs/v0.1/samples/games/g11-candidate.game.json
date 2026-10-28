@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g11",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G11 跳一跳",
     "genres": [
       "casual"
     ],
-    "description": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+    "description": "按住 Space 或长按蓄力，松开连跳两平台；约 4 Tick 蓄力落中心，中心连击加分，偏心落点重置连击。"
   },
   "requires": {
     "all": [
@@ -63,6 +63,14 @@
       {
         "id": "a2game.realtime.landing",
         "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
       }
     ]
   },
@@ -96,10 +104,10 @@
                 "height": 6000,
                 "gravity": -4,
                 "jumpSpeed": 96,
-                "jumpHorizontalSpeed": 64,
+                "jumpHorizontalSpeed": 60,
+                "platformLanding": true,
                 "killBelowY": 600,
-                "goalScore": 1,
-                "maxTicks": 300,
+                "maxTicks": 480,
                 "actions": {
                   "charge": "charge"
                 }
@@ -127,7 +135,7 @@
             "hy": 100,
             "hp": 1,
             "team": 1,
-            "value": 1,
+            "value": 0,
             "fixed": false
           },
           {
@@ -137,11 +145,11 @@
             "y": 800,
             "vx": 0,
             "vy": 0,
-            "hx": 700,
+            "hx": 600,
             "hy": 200,
             "hp": 1,
             "team": 2,
-            "value": 1,
+            "value": 0,
             "fixed": true
           },
           {
@@ -151,25 +159,25 @@
             "y": 800,
             "vx": 0,
             "vy": 0,
-            "hx": 700,
+            "hx": 450,
             "hy": 200,
             "hp": 1,
             "team": 2,
-            "value": 1,
+            "value": 0,
             "fixed": true
           },
           {
-            "id": "goal",
-            "kind": "pickup",
-            "x": 4000,
-            "y": 1250,
+            "id": "platform_c",
+            "kind": "solid",
+            "x": 7000,
+            "y": 800,
             "vx": 0,
             "vy": 0,
-            "hx": 250,
-            "hy": 250,
+            "hx": 450,
+            "hy": 200,
             "hp": 1,
             "team": 2,
-            "value": 1,
+            "value": 0,
             "fixed": true
           }
         ],
@@ -183,6 +191,17 @@
         "won": false,
         "lost": false
       }
+    },
+    "jump": {
+      "type": "object",
+      "initial": {
+        "landings": 0,
+        "combo": 0,
+        "bestCombo": 0,
+        "score": 0,
+        "lastOffset": 0,
+        "lastSurface": "platform_a"
+      }
     }
   },
   "inputs": {
@@ -194,7 +213,8 @@
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Space"
+              "code": "Space",
+              "hold": true
             }
           },
           {
@@ -207,17 +227,458 @@
       }
     ]
   },
-  "rules": [],
+  "rules": [
+    {
+      "id": "land-platform_b-true",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/surface"
+              },
+              {
+                "const": "platform_b"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/jump/landings"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "event": "/centerOffset"
+                  },
+                  {
+                    "const": -100
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "event": "/centerOffset"
+                  },
+                  {
+                    "const": 100
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/jump/landings",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastOffset",
+          "value": {
+            "event": "/centerOffset"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastSurface",
+          "value": "platform_b"
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/combo",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/bestCombo",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "state": "/jump/bestCombo"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "state": "/jump/combo"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/jump/combo"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "land-platform_b-false",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/surface"
+              },
+              {
+                "const": "platform_b"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/jump/landings"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "gte",
+                    "args": [
+                      {
+                        "event": "/centerOffset"
+                      },
+                      {
+                        "const": -100
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lte",
+                    "args": [
+                      {
+                        "event": "/centerOffset"
+                      },
+                      {
+                        "const": 100
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/jump/landings",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastOffset",
+          "value": {
+            "event": "/centerOffset"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastSurface",
+          "value": "platform_b"
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/combo",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/score",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "land-platform_c-true",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/surface"
+              },
+              {
+                "const": "platform_c"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/jump/landings"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "event": "/centerOffset"
+                  },
+                  {
+                    "const": -100
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "event": "/centerOffset"
+                  },
+                  {
+                    "const": 100
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/jump/landings",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastOffset",
+          "value": {
+            "event": "/centerOffset"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastSurface",
+          "value": "platform_c"
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/combo",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/bestCombo",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "state": "/jump/bestCombo"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "state": "/jump/combo"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/jump/combo"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "land-platform_c-false",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/surface"
+              },
+              {
+                "const": "platform_c"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/jump/landings"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "gte",
+                    "args": [
+                      {
+                        "event": "/centerOffset"
+                      },
+                      {
+                        "const": -100
+                      }
+                    ]
+                  },
+                  {
+                    "op": "lte",
+                    "args": [
+                      {
+                        "event": "/centerOffset"
+                      },
+                      {
+                        "const": 100
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/jump/landings",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastOffset",
+          "value": {
+            "event": "/centerOffset"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/lastSurface",
+          "value": "platform_c"
+        },
+        {
+          "op": "state.set",
+          "path": "/jump/combo",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/jump/score",
+          "value": 1
+        }
+      ]
+    }
+  ],
   "outcomes": [
     {
-      "id": "won",
+      "id": "finish",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "op": "eq",
+        "args": [
+          {
+            "state": "/jump/landings"
+          },
+          {
+            "const": 2
+          }
+        ]
       }
     },
     {
-      "id": "lost",
+      "id": "fall",
       "status": "lost",
       "priority": -1,
       "when": {
@@ -228,11 +689,28 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "jump",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+            "template": "平台 {0}/2 · 连击 {1} · 得分 {2}\n蓄力 {3} · 落点偏移 {4}",
+            "args": [
+              {
+                "state": "/jump/landings"
+              },
+              {
+                "state": "/jump/combo"
+              },
+              {
+                "state": "/jump/score"
+              },
+              {
+                "state": "/world/charge"
+              },
+              {
+                "state": "/jump/lastOffset"
+              }
+            ]
           }
         }
       }
@@ -266,8 +744,47 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "按住 Space 或长按画布蓄力，松开跳到下一平台。"
+            "literal": "按住 Space 或长按蓄力，松开连跳两平台；约 4 Tick 蓄力落中心，中心连击加分，偏心落点重置连击。"
           }
+        },
+        {
+          "id": "gameplay-center-platform_a",
+          "kind": "rect",
+          "at": [
+            -3,
+            -1.97
+          ],
+          "size": [
+            0.2,
+            0.04
+          ],
+          "fill": "#f5d26f"
+        },
+        {
+          "id": "gameplay-center-platform_b",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.97
+          ],
+          "size": [
+            0.2,
+            0.04
+          ],
+          "fill": "#f5d26f"
+        },
+        {
+          "id": "gameplay-center-platform_c",
+          "kind": "rect",
+          "at": [
+            3,
+            -1.97
+          ],
+          "size": [
+            0.2,
+            0.04
+          ],
+          "fill": "#f5d26f"
         }
       ],
       "bodyLayer": {
@@ -290,13 +807,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

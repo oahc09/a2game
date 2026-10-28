@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g21",
-  "revision": 2,
+  "revision": 3,
   "meta": {
     "title": "G21 塔防",
     "genres": [
@@ -619,12 +619,6 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
         "showValues": true
       }
     }

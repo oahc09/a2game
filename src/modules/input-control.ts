@@ -12,6 +12,7 @@ export function initialControlState():JsonRecord{return {angle:0,scale:1,axis:[0
 export const controlServiceIds=['intersection','rotate','collision','balance'].map(name=>'a2game.realtime.'+name);
 function checkState(s:JsonRecord):void{
  if(!safeFinite(s.angle)||Math.abs(s.angle)>10000||!safeFinite(s.scale)||s.scale<0.125||s.scale>8||!safeFinite(s.power)||s.power<0||s.power>1||!safeInteger(s.score)||s.score<0||s.score>100000000||!safeInteger(s.spawned)||s.spawned<0||s.spawned>1000000||!safeInteger(s.balanceTicks)||s.balanceTicks<0||!Array.isArray(s.cutIds)||s.cutIds.length>128||s.cutIds.some(id=>typeof id!=='string')||![s.won,s.lost,s.grabbing,s.hasTarget,s.fireRequest].every(value=>typeof value==='boolean'))error('Invalid control state');
+ for(const key of ['axisSource','aimSource'])if(s[key]!==undefined&&(typeof s[key]!=='string'||String(s[key]).length>256))error('Invalid input source provenance');
  for(const key of ['axis','aim','grab','target']){const value=s[key];if(!Array.isArray(value)||value.length!==2||!value.every(safeFinite))error('Invalid control vector');}
 }
 export function simulateInputControl(ctx:ModuleContext):ModuleResult{
@@ -19,20 +20,21 @@ export function simulateInputControl(ctx:ModuleContext):ModuleResult{
  const w=clone(validateIntegerWorld(readPointer(ctx.world.state,String(c.worldPath)),c)),events:NonNullable<ModuleResult['events']>=[],body=w.bodies.find(body=>body.id===c.bodyId),normalized=ctx.normalizedInputs??{};
  const sceneWidth=Number(c.sceneWidth??Number(c.width)/1000),sceneHeight=Number(c.sceneHeight??Number(c.height)/1000),origin=Array.isArray(c.origin)?c.origin as number[]:[-Number(c.width)/2000,-Number(c.height)/2000];let aspect=sceneWidth/sceneHeight;
  const point=(value:Json):[number,number]=>{if(!Array.isArray(value)||value.length!==2||!value.every(safeFinite))error('Expected normalized pointer point');return viewportToWorld(value[0] as number,value[1] as number,aspect,sceneWidth,sceneHeight,origin);};
+ if(c.clearLostImu!==undefined&&typeof c.clearLostImu!=='boolean')error('Invalid IMU loss policy');
  let dragReceived=false;
  for(const input of ctx.inputs){
   if(input.type!=='input.action'||input.edge!=='press')continue;const value=input.payload.value,source=input.sourceId??String(input.payload.sourceId??'');
   aspect=typeof input.payload.viewportAspect==='number'?input.payload.viewportAspect:sceneWidth/sceneHeight;
-  if(input.action===c.dragAction&&Array.isArray(value)){s.target=point(value);s.hasTarget=true;dragReceived=true;s.usedInput=true;if(c.axisFromDrag===true)s.axis=[quantize(clamp(Number(value[0])*2-1,-1,1)),quantize(clamp(Number(value[1])*2-1,-1,1))];if(c.aimFromDrag===true&&body){const delta=[Number((s.target as number[])[0])-body.x,Number((s.target as number[])[1])-body.y],length=Math.hypot(...delta);if(length>0)s.aim=delta.map(n=>quantize(n/length));}}
-  if(input.action===c.tiltAction&&Array.isArray(value)&&value.length===2&&value.every(safeFinite)){s.axis=value.map(v=>quantize(clamp(Number(v),-1,1)));s.usedInput=true;}
-  if(input.action===c.orientationAction&&Array.isArray(value)&&value.length===3&&value.every(safeFinite)){const angle=Number(value[2]);s.aim=[quantize(Math.cos(angle)),quantize(Math.sin(angle))];}
+  if(input.action===c.dragAction&&Array.isArray(value)){s.target=point(value);s.hasTarget=true;dragReceived=true;s.usedInput=true;if(c.clearLostImu===true){if(c.axisFromDrag===true)s.axisSource=source;if(c.aimFromDrag===true)s.aimSource=source;}if(c.axisFromDrag===true)s.axis=[quantize(clamp(Number(value[0])*2-1,-1,1)),quantize(clamp(Number(value[1])*2-1,-1,1))];if(c.aimFromDrag===true&&body){const delta=[Number((s.target as number[])[0])-body.x,Number((s.target as number[])[1])-body.y],length=Math.hypot(...delta);if(length>0)s.aim=delta.map(n=>quantize(n/length));}}
+  if(input.action===c.tiltAction&&Array.isArray(value)&&value.length===2&&value.every(safeFinite)){s.axis=value.map(v=>quantize(clamp(Number(v),-1,1)));s.usedInput=true;if(c.clearLostImu===true)s.axisSource=source;}
+  if(input.action===c.orientationAction&&Array.isArray(value)&&value.length===3&&value.every(safeFinite)){const angle=Number(value[2]);s.aim=[quantize(Math.cos(angle)),quantize(Math.sin(angle))];if(c.clearLostImu===true)s.aimSource=source;}
   if(input.action===c.rotateAction&&safeFinite(value)){if(s.rotateSource!==source){s.rotateSource=source;s.angleBase=s.angle;}s.angle=wrapAngle(Number(s.angleBase)+value);}
   if(input.action===c.pinchAction&&safeFinite(value)){if(s.pinchSource!==source){s.pinchSource=source;s.scaleBase=s.scale;}s.scale=quantize(clamp(Number(s.scaleBase)*value,0.125,8));}
   if(input.action===c.rawAction&&isRecord(value)&&safeFinite(value.u)&&safeFinite(value.v)){
    if(Number(value.count??1)>1){s.grabbing=false;s.power=0;continue;}
    if(value.kind==='down'){s.grabbing=true;s.grab=[value.u,value.v];s.power=0;}
    if(s.grabbing&&value.kind==='move'&&c.slingshot===true){const pull=[Number((s.grab as number[])[0])-value.u,value.v-Number((s.grab as number[])[1])],length=Math.hypot(...pull);s.power=quantize(clamp(length/0.5,0,1));if(length>0)s.aim=pull.map(v=>quantize(v/length));}
-   if(value.kind==='up'||value.kind==='cancel'){if(c.slingshot===true&&s.grabbing&&value.kind==='up'&&Number(s.power)>0.02)s.fireRequest=true;s.grabbing=false;}
+   if(value.kind==='up'||value.kind==='cancel'){if(c.slingshot===true&&s.grabbing&&value.kind==='up'&&Number(s.power)>0.02)s.fireRequest=true;if(value.kind==='cancel'&&c.cancelClearsPower===true)s.power=0;s.grabbing=false;}
   }
   if(input.action===c.spawnAction){
    if(w.bodies.length>=Number(c.spawnLimit??32)){s.lost=true;events.push({type:'control.failed',payload:{reason:'pool-full'}});}
@@ -49,6 +51,7 @@ export function simulateInputControl(ctx:ModuleContext):ModuleResult{
    }
   }
  }
+ if(c.clearLostImu===true){if(String(s.axisSource??'').startsWith('imu:')&&(!normalized['~imu']||!normalized['~imu:'+String(c.tiltAction)])){s.axis=[0,0];s.axisSource='';}if(String(s.aimSource??'').startsWith('imu:')&&(!normalized['~imu']||!normalized['~imu:'+String(c.orientationAction)])){s.aim=[0,0];s.aimSource='';}}
  const activePointer=Object.keys(normalized).some(key=>/^\d+$/.test(key));
  if(c.axisFromDrag===true&&!activePointer&&!dragReceived&&!normalized['~imu'])s.axis=[0,0];
  if(body){
@@ -66,7 +69,10 @@ export const inputControlImplementation:TrustedCapabilityImplementation={role:'m
 export function validateInputControlDefinition(def:GameDefinition):void{
  const initial=Object.fromEntries(Object.entries(def.state).map(([key,field])=>[key,field.initial]));
  for(const entity of [...def.scenes.flatMap(scene=>scene.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.realtime.input-control'){
-  const c=component.config,s=readPointer(initial,String(c.statePath));if(!isRecord(s))error('Missing initial controller state');checkState(s as JsonRecord);const w=validateIntegerWorld(readPointer(initial,String(c.worldPath)),c);if(c.bodyId&&!w.bodies.some(body=>body.id===c.bodyId))error('Unknown controlled Body');
+  const c=component.config;if(c.clearLostImu!==undefined&&typeof c.clearLostImu!=='boolean'||c.cancelClearsPower!==undefined&&typeof c.cancelClearsPower!=='boolean')error('Invalid opted-in input clearing policy');const s=readPointer(initial,String(c.statePath));if(!isRecord(s))error('Missing initial controller state');checkState(s as JsonRecord);const w=validateIntegerWorld(readPointer(initial,String(c.worldPath)),c);if(c.bodyId&&!w.bodies.some(body=>body.id===c.bodyId))error('Unknown controlled Body');
+  if(c.clearLostImu===true)for(const key of ['tiltAction','orientationAction']){
+   const action=def.inputs.actions.find(a=>a.id===c[key]);if(action?.bindings.some(b=>['imu.tilt','imu.orientation'].includes(b.source)&&b.config?.trackSample!==true))error('IMU loss clearing requires tracked sample validity');
+  }
   const half=Number(c.spawnHalfSize??128),y=Number(c.spawnY??Number(c.height)-half);if(y<half||y>Number(c.height)-half||half*2>Number(c.width))error('Drop template exceeds world bounds');
   for(const [key,value] of Object.entries(c))if(key.endsWith('Action')&&!def.inputs.actions.some(action=>action.id===value))error('Unknown controller action');
  }

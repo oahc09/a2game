@@ -4,16 +4,34 @@
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
 >
-> **当前阶段：S11 初始兼容扩展工程参考已交付。** 当前 84 份 JSON、126 份 Manifest；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
+> **当前阶段：S11 初始兼容扩展工程参考已交付。** 当前 112 份 JSON、127 份 Manifest，必需玩法缺口已降至 0 款（参考验收）；37 份 Gxx/Hxx 候选的真实双 SDK 参考证据见 [项目状态](PROJECT-STATUS.md)。完整玩法 DoD、独立 Agent 与真机 Gate 继续单独验收，verified 仍为 0/32、0/5。完整路线见 [PROJECT-PLAN.md](PROJECT-PLAN.md)，AI 先读 [AGENTS.md](AGENTS.md)。
 
-播放器「游戏」菜单现在列出全部已校验定义，按基础示例、Gxx/Hxx 参考玩法、作者编写的规则变体和机制实验分组；可直接选择 G21/H01 等玩法。`?game=g21-candidate&backend=three` 可直达，仍校验目录 SHA。带资源的内置关卡经过完整资源准入后加载。新增 9 个变体可运行 `npm run variants:e2e`；它们不计独立 Agent G3。
+播放器「游戏」菜单现在列出全部已校验定义，按基础示例、Gxx/Hxx 参考玩法、作者编写的规则变体和机制实验分组；可直接选择 G21/H01 等玩法。`?game=g21-candidate&backend=three` 可直达，仍校验目录 SHA。带资源的内置关卡经过完整资源准入后加载。全部 37 个作者变体可运行 `npm run variants:e2e`；它们不计独立 Agent G3。
+
+P0 逐款 AI 实测与待人工确认项见 [质量清单](docs/quality-review.md)，覆盖 37 款双 SDK 和 320/390px 布局。
+
+P2 正式验收档案与登记前检查见 [验收流程](docs/final-acceptance.md)。`npm run acceptance:build` 归档现有证据，`acceptance:check` 核对档案；参考通过与正式通过分别计数。
+
+当前优先 [37 款独立 G3](docs/independent-g3.md)：已直接使用现有 Codex CLI 执行全部 37 款，33 款通过完整准入、正反例和真实双 SDK 工程验证。G02/G11/G24/G26 仍失败，正式 G3 仍 0/37；[独立生成索引](project/independent-g3-run.json) 保留调用、原始输出、截图及逐项待验。`g3:plan` 不调用模型，也保留通用模型 API 入口。
+
+仓库源码与本地产物的边界见 [维护说明](docs/repository-maintenance.md)。`reports/` 已移出 Git，本地历史证据继续保留；新检出需恢复相应证据后才能完整核对现有验收状态。
+
+逐款玩法完成标准和剩余缺口见 [完整验收清单](docs/gameplay-acceptance.md)。`npm run gameplay:check` 执行 37 款的基础正反例、关键边界及作者变体正反例；完整质量、独立 G3 与真机按原 Gate 单独验收。
+
+G11 按住 Space/长按蓄力后松开，连续跳到两个平台；中心落点奖励连击，偏心落地重置连击，落空失败。G24 支持横竖双斜五连；满盘无胜者时保留 `turn.draw` 和胜者 0，以已有的 `stopped` 状态中立结束，不再接受落子。
+
+G13/H03 使用固定三车道、三段滚动障碍和两个有序检查点；H03 同时支持换道与真实弹丸射击，命中、障碍拦截及临时对象回收均由共享 Runtime 决定。G06 已扩展为 3×3 四向箭头与镜像布局，支持直接点选画布。它们仍须独立完成正式验收 Gate。
+
+G23 合成后解锁工厂，生产扣费并在成熟后收获；H02 三消金币可升级角色，下一 Tick 起实际提高攻击伤害，击败敌人才过关。玩法联动、金币/生命和下次/上次伤害均来自共享状态，真实双 SDK 使用同一份 JSON。
+
+G09 使用空棋盘连续拼块：左右键移动、↑旋转、Space 硬降，也可等待重力落下，消四行获胜，出生被挡即顶出。G12 点击画布或 Space 拍翼，避开上下门柱，完全越柱后计分；作者变体增加第三道门。
 
 ## 一、先看能运行什么
 
 | 功能 / 后端 | 现在能否运行 | 说明 |
 |---|---|---|
 | TypeScript Headless Runtime | **可以** | 计时/事务/回放、益智、整数物理/战斗、经营/回合，Node.js 测试 |
-| 浏览器 Canvas2D 预览 | **可以** | 目录共 84 份预校验 JSON；scene2d 使用 Canvas2D，3D Stage 使用真实 SDK |
+| 浏览器 Canvas2D 预览 | **可以** | 目录共 112 份预校验 JSON；scene2d 使用 Canvas2D，3D Stage 使用真实 SDK |
 | Three.js Renderer | **真实 G2 四样例子集 PASS** | 固定 `0.186.1`，HTTP Chromium 实测；见 `reports/g2-threejs-real.json` |
 | CocosAirJS Renderer | **真实 G2 四样例子集 PASS** | 固定源码/构建 SHA，HTTP Chromium 实测；见 `reports/g2-cocosairjs-real.json` |
 | 32 款完整小游戏、5 个混合玩法、IMU 真机、AI one-shot | **完整 DoD / Agent / 真机未验收** | 保留在路线图，不因版本 1.0.0 改称已完成 |

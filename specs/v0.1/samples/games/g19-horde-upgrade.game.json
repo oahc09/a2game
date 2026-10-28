@@ -1,0 +1,652 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.g19-horde-upgrade",
+  "revision": 2,
+  "meta": {
+    "title": "G19 装甲三波与技能：临时增伤结束后继续升级伤害",
+    "genres": [
+      "shooter"
+    ],
+    "description": "装甲三波与技能：临时增伤结束后继续升级伤害"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.timer",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.timer-schedule",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.auto-target",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.horde",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.upgrade",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "weapon": "hitscan",
+                "autoFire": true,
+                "autoTarget": true,
+                "damageBonusPath": "/skill/bonus",
+                "cooldownTicks": 10,
+                "seekSpeed": 32,
+                "goalScore": 3,
+                "maxTicks": 230,
+                "waves": [
+                  {
+                    "tick": 70,
+                    "body": {
+                      "id": "wave_two",
+                      "kind": "target",
+                      "x": 7000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 6,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 130,
+                    "body": {
+                      "id": "wave_three",
+                      "kind": "target",
+                      "x": 7000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 12,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  }
+                ],
+                "heldMovement": true,
+                "actions": {
+                  "left": "moveLeft",
+                  "right": "moveRight",
+                  "up": "moveUp",
+                  "down": "moveDown"
+                }
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 2,
+                    "upgradeCost": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "plant",
+                    "kind": "plant",
+                    "item": "seed",
+                    "index": 0
+                  },
+                  {
+                    "action": "collect",
+                    "kind": "collect",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade",
+                    "kind": "upgrade",
+                    "item": "seed",
+                    "index": 0
+                  }
+                ],
+                "goalScore": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 4000,
+            "y": 2000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 1,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          },
+          {
+            "id": "enemy",
+            "kind": "target",
+            "x": 6000,
+            "y": 2000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 100,
+            "hy": 100,
+            "hp": 14,
+            "team": 2,
+            "value": 1,
+            "fixed": false
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 2,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    },
+    "skill": {
+      "type": "object",
+      "initial": {
+        "charges": 1,
+        "bonus": 0,
+        "active": false,
+        "used": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          }
+        ]
+      },
+      {
+        "id": "plant",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP"
+            }
+          }
+        ]
+      },
+      {
+        "id": "collect",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC"
+            }
+          }
+        ]
+      },
+      {
+        "id": "skill",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "upgrade-bonus",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/skill/active"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        }
+      ]
+    },
+    {
+      "id": "upgrade-during-skill",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "if": {
+        "state": "/skill/active"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill-cast",
+      "on": {
+        "type": "input.action",
+        "action": "skill",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/skill/charges"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/skill/active"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/skill/charges",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/skill/used",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/active",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        },
+        {
+          "op": "timer.schedule",
+          "id": "skill-end",
+          "delayTicks": 40,
+          "eventType": "skill.expired"
+        }
+      ]
+    },
+    {
+      "id": "skill-expire",
+      "on": {
+        "type": "skill.expired"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/active",
+          "value": false
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/world/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "horde",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "击退 {0} · 金币 {1} · 升级 {2}",
+            "args": [
+              {
+                "state": "/world/score"
+              },
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/plots/0/level"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G19 僵尸生存 · 变体"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "装甲三波与技能：临时增伤结束后继续升级伤害"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "showValues": false
+      }
+    }
+  },
+  "tests": [
+    "../tests/g19-horde-upgrade.conformance.json"
+  ],
+  "extensions": {}
+}

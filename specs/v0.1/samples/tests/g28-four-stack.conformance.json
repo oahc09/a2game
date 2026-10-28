@@ -1,0 +1,138 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g28-four-stack",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g28-four-stack",
+    "file": "../games/g28-four-stack.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G28-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 90
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 90
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 90
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/placed",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/stableTicks",
+          "equals": 60
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G28-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drag",
+          "phase": "press",
+          "value": [
+            0.75,
+            0.5
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "drag",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

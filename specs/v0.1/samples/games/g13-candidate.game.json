@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g13",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G13 换道跑酷",
     "genres": [
       "casual"
     ],
-    "description": "左右滑动或方向键换道，躲过障碍后抵达终点。"
+    "description": "←/→ 或滑动在三车道换道；依次左、中、右避开三段障碍，通过两个检查点。"
   },
   "requires": {
     "all": [
@@ -63,6 +63,10 @@
       {
         "id": "a2game.realtime.spawner",
         "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
       }
     ]
   },
@@ -94,13 +98,90 @@
                 "statePath": "/world",
                 "width": 8000,
                 "height": 6000,
-                "laneWidth": 2000,
-                "goalTick": 100,
-                "maxTicks": 120,
+                "laneCenters": [
+                  2000,
+                  4000,
+                  6000
+                ],
+                "maxTicks": 300,
                 "actions": {
                   "laneLeft": "left",
                   "laneRight": "right"
-                }
+                },
+                "waves": [
+                  {
+                    "tick": 35,
+                    "body": {
+                      "id": "checkpoint_1",
+                      "kind": "pickup",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 2000,
+                      "hy": 60,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false,
+                      "ttl": 100
+                    }
+                  },
+                  {
+                    "tick": 90,
+                    "body": {
+                      "id": "obstacle_b",
+                      "kind": "solid",
+                      "x": 2000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 350,
+                      "hy": 180,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 0,
+                      "fixed": false,
+                      "ttl": 90
+                    }
+                  },
+                  {
+                    "tick": 145,
+                    "body": {
+                      "id": "obstacle_c",
+                      "kind": "solid",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 350,
+                      "hy": 180,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 0,
+                      "fixed": false,
+                      "ttl": 90
+                    }
+                  },
+                  {
+                    "tick": 170,
+                    "body": {
+                      "id": "checkpoint_2",
+                      "kind": "pickup",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 2000,
+                      "hy": 60,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false,
+                      "ttl": 100
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -117,7 +198,7 @@
           {
             "id": "hero",
             "kind": "actor",
-            "x": 3000,
+            "x": 4000,
             "y": 1000,
             "vx": 0,
             "vy": 0,
@@ -125,22 +206,23 @@
             "hy": 100,
             "hp": 1,
             "team": 1,
-            "value": 1,
+            "value": 0,
             "fixed": false
           },
           {
-            "id": "obstacle",
-            "kind": "target",
-            "x": 3000,
-            "y": 5000,
+            "id": "obstacle_a",
+            "kind": "solid",
+            "x": 4000,
+            "y": 5500,
             "vx": 0,
             "vy": -64,
-            "hx": 100,
-            "hy": 100,
+            "hx": 350,
+            "hy": 180,
             "hp": 1,
             "team": 2,
-            "value": 1,
-            "fixed": false
+            "value": 0,
+            "fixed": false,
+            "ttl": 90
           }
         ],
         "score": 0,
@@ -152,6 +234,14 @@
         "grounded": [],
         "won": false,
         "lost": false
+      }
+    },
+    "runner": {
+      "type": "object",
+      "initial": {
+        "checkpoints": 0,
+        "kills": 0,
+        "crashed": false
       }
     }
   },
@@ -195,32 +285,206 @@
       }
     ]
   },
-  "rules": [],
+  "rules": [
+    {
+      "id": "crash-a",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_a"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "crash-b",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_b"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "crash-c",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_c"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-1",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "checkpoint_1"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/checkpoints",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-2",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "checkpoint_2"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/checkpoints",
+          "value": 2
+        }
+      ]
+    }
+  ],
   "outcomes": [
     {
-      "id": "won",
+      "id": "finish",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "op": "eq",
+        "args": [
+          {
+            "state": "/runner/checkpoints"
+          },
+          {
+            "const": 2
+          }
+        ]
       }
     },
     {
-      "id": "lost",
+      "id": "crash",
       "status": "lost",
-      "priority": -1,
+      "priority": -2,
       "when": {
-        "state": "/world/lost"
+        "op": "or",
+        "args": [
+          {
+            "state": "/runner/crashed"
+          },
+          {
+            "state": "/world/lost"
+          }
+        ]
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "runner",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "左右滑动或方向键换道，躲过障碍后抵达终点。"
+            "template": "检查点 {0}/2",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              }
+            ]
           }
         }
       }
@@ -231,6 +495,71 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "gameplay-road",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6.8,
+            5.6
+          ],
+          "fill": "#17273c"
+        },
+        {
+          "id": "gameplay-lane-0",
+          "kind": "rect",
+          "at": [
+            -3,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-1",
+          "kind": "rect",
+          "at": [
+            -1,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-2",
+          "kind": "rect",
+          "at": [
+            1,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-3",
+          "kind": "rect",
+          "at": [
+            3,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
         {
           "id": "title",
           "kind": "text",
@@ -254,7 +583,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "左右滑动或方向键换道，躲过障碍后抵达终点。"
+            "literal": "←/→ 或滑动在三车道换道；依次左、中、右避开三段障碍，通过两个检查点。"
           }
         }
       ],
@@ -274,17 +603,9 @@
         },
         "circleKinds": [
           "actor",
-          "target",
-          "projectile",
-          "pickup"
+          "projectile"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

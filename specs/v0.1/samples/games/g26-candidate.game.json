@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g26",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G26 双指旋转拼图",
     "genres": [
@@ -251,8 +251,8 @@
             "config": {
               "sceneWidth": 8,
               "sceneHeight": 6,
-              "x": -0.425,
-              "y": 0.425,
+              "x": -2.6,
+              "y": -1.2,
               "hx": 0.3825,
               "hy": 0.3825,
               "mode": "drag-select"
@@ -276,8 +276,8 @@
             "config": {
               "sceneWidth": 8,
               "sceneHeight": 6,
-              "x": 0.425,
-              "y": 0.425,
+              "x": -1.75,
+              "y": -1.2,
               "hx": 0.3825,
               "hy": 0.3825,
               "mode": "drag-select"
@@ -301,8 +301,8 @@
             "config": {
               "sceneWidth": 8,
               "sceneHeight": 6,
-              "x": -0.425,
-              "y": -0.425,
+              "x": -2.6,
+              "y": -2.05,
               "hx": 0.3825,
               "hy": 0.3825,
               "mode": "drag-select"
@@ -326,8 +326,8 @@
             "config": {
               "sceneWidth": 8,
               "sceneHeight": 6,
-              "x": 0.425,
-              "y": -0.425,
+              "x": -1.75,
+              "y": -2.05,
               "hx": 0.3825,
               "hy": 0.3825,
               "mode": "drag-select"
@@ -436,8 +436,8 @@
           },
           "columns": 2,
           "origin": [
-            -0.425,
-            0.425
+            -2.6,
+            -1.2
           ],
           "step": [
             0.85,
@@ -469,7 +469,7 @@
                   "5": "#dc6d78",
                   "6": "#a8c5d9",
                   "7": "#f5d26f",
-                  "-1": "#0d1729"
+                  "-1": "#243851"
                 },
                 "fallback": "#a8c5d9"
               }
@@ -500,8 +500,8 @@
           },
           "columns": 2,
           "origin": [
-            -0.425,
-            0.425
+            -2.6,
+            -1.2
           ],
           "step": [
             0.85,
@@ -598,6 +598,75 @@
               "fill": "#f5d26f"
             }
           ]
+        },
+        {
+          "id": "targets",
+          "source": {
+            "literal": [
+              0,
+              1,
+              0,
+              2
+            ]
+          },
+          "columns": 2,
+          "origin": [
+            1.8,
+            -1.2
+          ],
+          "step": [
+            0.85,
+            0.85
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.782,
+                0.782
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#243851"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.2975,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                -1,
+                0
+              ]
+            }
+          ]
         }
       ]
     },
@@ -618,7 +687,11 @@
         "near": 0.1,
         "far": 100,
         "fov": 45,
-        "orthoHeight": 8
+        "orthoHeight": 8,
+        "fitSize": [
+          8,
+          8
+        ]
       },
       "nodes": [
         {

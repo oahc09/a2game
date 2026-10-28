@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.g01-two-boxes",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G01 双箱目标：分别入位，未完成第二箱不能胜利",
     "genres": [
@@ -310,7 +310,7 @@
           "fontSize": 0.26,
           "fill": "#b5cee8",
           "text": {
-            "literal": "G01 双箱目标：分别入位，未完成第二箱不能胜利"
+            "literal": "G01 推箱子 · 变体"
           }
         },
         {

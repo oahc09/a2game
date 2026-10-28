@@ -30,6 +30,16 @@
           "ticks": 1
         },
         {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/factoryUnlocked",
+          "equals": false
+        },
+        {
           "op": "injectAction",
           "action": "select0",
           "phase": "press"
@@ -58,6 +68,40 @@
           "ticks": 1
         },
         {
+          "op": "assert",
+          "path": "/state/factoryUnlocked",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/plots/0/level",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 8
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/plots/0/item",
+          "equals": "seed"
+        },
+        {
           "op": "injectAction",
           "action": "collect",
           "phase": "press"
@@ -70,6 +114,44 @@
         {
           "op": "step",
           "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/inventory",
+          "equals": {}
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/score",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/inventory/seed",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 14
         },
         {
           "op": "assert",
@@ -95,6 +177,20 @@
         },
         {
           "op": "injectAction",
+          "action": "plant",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "plant",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
           "action": "collect",
           "phase": "press"
         },
@@ -120,6 +216,21 @@
         {
           "op": "step",
           "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/factoryUnlocked",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/wallet",
+          "equals": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/plots/0/item",
+          "equals": ""
         },
         {
           "op": "assert",

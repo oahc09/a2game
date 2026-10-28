@@ -27,7 +27,80 @@
         },
         {
           "op": "step",
-          "ticks": 100
+          "ticks": 110
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/spawned",
+          "equals": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies",
+          "equals": [
+            {
+              "id": "hero",
+              "kind": "actor",
+              "x": 6000,
+              "y": 1000,
+              "vx": 0,
+              "vy": 0,
+              "hx": 100,
+              "hy": 100,
+              "hp": 1,
+              "team": 1,
+              "value": 0,
+              "fixed": false
+            }
+          ]
         },
         {
           "op": "assert",
@@ -53,7 +126,17 @@
         },
         {
           "op": "step",
-          "ticks": 100
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/crashed",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 0
         },
         {
           "op": "assert",

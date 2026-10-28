@@ -20,18 +20,90 @@
           "ticks": 1
         },
         {
-          "op": "injectAction",
-          "action": "charge",
-          "phase": "press"
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
         },
         {
-          "op": "injectAction",
-          "action": "charge",
-          "phase": "release"
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/charge",
+          "equals": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
         },
         {
           "op": "step",
           "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/combo",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/combo",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/score",
+          "equals": 5
         },
         {
           "op": "assert",
@@ -56,13 +128,122 @@
           "op": "start"
         },
         {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
           "op": "step",
-          "ticks": 300
+          "ticks": 60
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 150
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 0
         },
         {
           "op": "assert",
           "path": "/flow/status",
           "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "PER-GAME-G11-OFF-CENTER-RESET",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "injectAction",
+          "action": "charge",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "charge",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/combo",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/bestCombo",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
         }
       ]
     }

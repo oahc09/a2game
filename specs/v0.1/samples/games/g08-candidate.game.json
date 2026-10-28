@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g08",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G08 Block Puzzle",
     "genres": [
@@ -410,7 +410,7 @@
                   "5": "#dc6d78",
                   "6": "#a8c5d9",
                   "7": "#f5d26f",
-                  "-1": "#0d1729"
+                  "-1": "#243851"
                 },
                 "fallback": "#a8c5d9"
               }

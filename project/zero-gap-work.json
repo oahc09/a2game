@@ -1,0 +1,351 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_goal_delivered",
+  "targetRemainingGameplay": 0,
+  "initialRemainingGameplay": 17,
+  "deviceScope": "Physical tasks remain deferred by user; do not count synthetic input as physical proof",
+  "steps": [
+    {
+      "id": "rigid",
+      "status": "completed",
+      "deliverable": "G15/G28 使用共享真实三维刚体求解器，验证碰撞、旋转、触发、放置与释放"
+    },
+    {
+      "id": "gameplay",
+      "status": "completed",
+      "deliverable": "G02/G16/G18/G19/G20/G22/H05 补完整对局、失败循环、战斗、弹射、存档及资源命中"
+    },
+    {
+      "id": "mobile",
+      "status": "completed",
+      "deliverable": "G25/G26/G27/G29/G30/G31/G32/H04 补逐款原始输入、校准、失联、取消与回退证据"
+    }
+  ],
+  "rigidEvidence": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G15",
+      "G28"
+    ],
+    "headless": "reports/gameplay-2026-10-27T04-32-26-602Z-44164/summary.json",
+    "browser": "reports/candidates-2026-10-27T04-33-25-504Z-47112/summary.json",
+    "variants": "reports/variants-2026-10-27T04-34-11-104Z-10328/summary.json",
+    "matrix": "reports/node-matrix-2026-10-27T04-34-22-926Z-42096/summary.json",
+    "skill": "reports/rigid-skill-2026-10-27T04-42-57-329Z/summary.json",
+    "scope": "Locked cannon-es bounded rigid-body profile, complete quantized motion state and genuine collision/torque; independent quality/G3/physical gates remain separate.",
+    "browserIndex": "reports/nonphysical-current-refresh-2026-10-27T04-42-45-502Z.json",
+    "verification": "reports/verify-2026-10-27T04-41-59-763Z-35652/verify.log"
+  },
+  "gameplayEvidence": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G02",
+      "G16",
+      "G18",
+      "G19",
+      "G20",
+      "G22",
+      "H05"
+    ],
+    "headless": "reports/gameplay-2026-10-27T05-56-40-900Z-48476/summary.json",
+    "browser": "reports/candidates-2026-10-27T05-56-32-772Z-48608/summary.json",
+    "variants": "reports/variants-2026-10-27T05-57-33-783Z-22164/summary.json",
+    "skill": "reports/full-gameplay-skill-2026-10-27T05-45-23-569Z/summary.json",
+    "scope": "Standard seeded 2048/4096 full games and no-move loss, settled rooted merge overflow, wall/aim, timed horde skill, bank trajectory, farm persisted replay and asset drag countdown. Independent quality/G3/physical gates remain separate.",
+    "browserIndex": "reports/nonphysical-current-refresh-2026-10-27T06-18-04-687Z.json",
+    "visualReview": "reports/full-gameplay-visual-review-2026-10-27T06-23-50-347Z.json"
+  },
+  "actualRemainingGameplay": 0,
+  "inputEvidence": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G25",
+      "G26",
+      "G27",
+      "G29",
+      "G30",
+      "G31",
+      "G32",
+      "H04"
+    ],
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "nativeCases": 32,
+    "native": [
+      {
+        "id": "G25",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-H04-physics-tilt-fallback.png"
+      }
+    ],
+    "skill": "reports/input-gameplay-skill-2026-10-27T06-45-35-732Z/summary.json",
+    "scope": "All registered mandatory input/mechanics gaps in bounded author profiles. Desktop mouse/keyboard, CDP virtual touch and synthetic IMU/permission/screen fixtures; not physical devices or independent G3.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "browserIndex": "reports/nonphysical-current-refresh-2026-10-27T11-59-18-030Z.json",
+    "matrix": "reports/node-matrix-2026-10-27T06-59-52-165Z-10856/summary.json",
+    "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
+    "visualReview": "reports/input-gameplay-visual-review-2026-10-27T06-59-10-622Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "governance": "reports/input-gameplay-governance-20261027-final.log"
+  },
+  "fullAcceptance": "PARTIAL",
+  "pending": [
+    "Complete manual interaction/visual quality review",
+    "Genuine independent Agent/G3 acceptance",
+    "Applicable physical Touch/IMU/device acceptance deferred by user"
+  ],
+  "currentBrowserIndex": "reports/nonphysical-current-refresh-2026-10-27T11-59-18-030Z.json",
+  "quality": "reports/quality-review-2026-10-27T11-59-56-311Z.json"
+}

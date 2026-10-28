@@ -1,0 +1,969 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.h02-exact-cost",
+  "revision": 2,
+  "meta": {
+    "title": "H02 消除奖励刚好支付升级：同 Tick 不能透支下一阶段奖励",
+    "genres": [
+      "casual"
+    ],
+    "description": "消除奖励刚好支付升级：同 Tick 不能透支下一阶段奖励"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.swap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 8
+    }
+  },
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.swap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/puzzle",
+                "width": 3,
+                "height": 3,
+                "selectActions": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8"
+                ],
+                "matchLength": 3,
+                "targetScore": 3
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 2,
+                    "upgradeCost": 3
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "upgrade",
+                    "kind": "upgrade",
+                    "item": "seed",
+                    "index": 0
+                  }
+                ],
+                "goalScore": 2
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "weapon": "hitscan",
+                "fireDirection": "up",
+                "damageBonusPath": "/combat/bonus",
+                "cooldownTicks": 1,
+                "goalScore": 1,
+                "actions": {
+                  "fire": "fire"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "puzzle": {
+      "type": "object",
+      "initial": {
+        "board": [
+          1,
+          2,
+          1,
+          3,
+          1,
+          4,
+          4,
+          3,
+          2
+        ],
+        "display": [
+          1,
+          2,
+          1,
+          3,
+          1,
+          4,
+          4,
+          3,
+          2
+        ],
+        "preview": [],
+        "selected": [],
+        "removed": [],
+        "tray": [],
+        "tubes": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false,
+        "history": [],
+        "closeAt": -1,
+        "active": 0,
+        "anchor": 1,
+        "rotation": 0
+      }
+    },
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 0,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    },
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 6500,
+            "y": 1700,
+            "vx": 0,
+            "vy": 0,
+            "hx": 180,
+            "hy": 180,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "target",
+            "kind": "target",
+            "x": 6500,
+            "y": 4000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 250,
+            "hy": 250,
+            "hp": 4,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "combat": {
+      "type": "object",
+      "initial": {
+        "bonus": 0,
+        "nextDamage": 1,
+        "lastDamage": 0,
+        "targetHP": 4
+      }
+    },
+    "rewarded": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.85,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.85,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.85,
+              "y": 0,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell4",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0,
+              "y": 0,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.85,
+              "y": 0,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.85,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.85,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "drag-select"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "match-reward",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "state": "/puzzle/won"
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "state": "/rewarded"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/economy/wallet",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/rewarded",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "upgrade-character",
+      "on": {
+        "type": "strategy.upgraded"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/combat/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combat/nextDamage",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/economy/plots/0/level"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "combat-feedback",
+      "on": {
+        "type": "combat.hit"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/combat/lastDamage",
+          "value": {
+            "event": "/amount"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combat/targetHP",
+          "value": {
+            "event": "/hp"
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "upgraded-victory",
+      "status": "won",
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "state": "/puzzle/won"
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "state": "/world/won"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "upgrade",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "消除 {0} · 金币 {1} · 等级 {2}\n下次伤害 {3} · 上次命中 {4} · 敌人生命 {5}",
+            "args": [
+              {
+                "state": "/puzzle/score"
+              },
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "state": "/combat/nextDamage"
+              },
+              {
+                "state": "/combat/lastDamage"
+              },
+              {
+                "state": "/combat/targetHP"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "H02 三消与升级 · 变体"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "消除奖励刚好支付升级：同 Tick 不能透支下一阶段奖励"
+          }
+        },
+        {
+          "id": "gameplay-battle-label",
+          "kind": "text",
+          "at": [
+            2.5,
+            1.8
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "敌人"
+          }
+        },
+        {
+          "id": "gameplay-target-hp",
+          "kind": "text",
+          "at": [
+            2.5,
+            0.5
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/combat/targetHP"
+          }
+        },
+        {
+          "id": "gameplay-hero-label",
+          "kind": "text",
+          "at": [
+            2.5,
+            -1.9
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "角色 · Space 攻击"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "board",
+          "source": {
+            "state": "/puzzle/display"
+          },
+          "columns": 3,
+          "origin": [
+            -0.85,
+            0.85
+          ],
+          "step": [
+            0.85,
+            0.85
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.782,
+                0.782
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#0d1729"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.2975,
+              "fill": "#ffffff",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                -1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "selection",
+          "source": {
+            "state": "/puzzle/selected"
+          },
+          "columns": 3,
+          "origin": [
+            -0.85,
+            0.85
+          ],
+          "step": [
+            0.85,
+            0.85
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "mark",
+              "kind": "circle",
+              "at": [
+                -0.255,
+                0.255
+              ],
+              "radius": 0.068,
+              "fill": "#f5d26f"
+            }
+          ]
+        },
+        {
+          "id": "tray",
+          "source": {
+            "state": "/puzzle/tray"
+          },
+          "columns": 8,
+          "origin": [
+            -1.8,
+            -1.9
+          ],
+          "step": [
+            0.45,
+            0.45
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.4,
+                0.4
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#0d1729"
+                },
+                "fallback": "#a8c5d9"
+              }
+            }
+          ]
+        },
+        {
+          "id": "preview",
+          "source": {
+            "state": "/puzzle/preview"
+          },
+          "columns": 4,
+          "origin": [
+            2.3,
+            1.6
+          ],
+          "step": [
+            0.32,
+            0.32
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "cell",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.29,
+                0.29
+              ],
+              "fill": "#f5d26f"
+            }
+          ]
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "showValues": false
+      }
+    }
+  },
+  "tests": [
+    "../tests/h02-exact-cost.conformance.json"
+  ]
+}

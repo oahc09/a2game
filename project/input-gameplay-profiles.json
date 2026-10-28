@@ -1,0 +1,15 @@
+{
+  "format": "a2game-per-game-native-input-profiles",
+  "scope": "Desktop mouse/keyboard, CDP touch, synthetic IMU/permission/screen; not physical devices",
+  "profiles": {
+    "G25": "continuous-cut-dedup-bomb-miss",
+    "G26": "two-touch-rotation-scale-regrab",
+    "G27": "tilt-calibration-loss-fallback",
+    "G29": "shake-cooldown-stop-fallback",
+    "G30": "slingshot-cancel-multi-power-release",
+    "G31": "orientation-rezero-screen-fallback",
+    "G32": "multi-hold-cancel-blur-retry",
+    "H04": "tilt-physics-stop-and-merge"
+  },
+  "physical": "DEFERRED_BY_USER"
+}

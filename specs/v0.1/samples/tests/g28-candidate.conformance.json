@@ -27,7 +27,7 @@
         },
         {
           "op": "step",
-          "ticks": 60
+          "ticks": 90
         },
         {
           "op": "injectAction",
@@ -41,7 +41,7 @@
         },
         {
           "op": "step",
-          "ticks": 60
+          "ticks": 90
         },
         {
           "op": "injectAction",
@@ -55,7 +55,17 @@
         },
         {
           "op": "step",
-          "ticks": 120
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/placed",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/stableTicks",
+          "equals": 60
         },
         {
           "op": "assert",
@@ -84,8 +94,8 @@
           "action": "drag",
           "phase": "press",
           "value": [
-            0.85,
-            0.25
+            0.75,
+            0.5
           ]
         },
         {
@@ -109,21 +119,12 @@
         },
         {
           "op": "step",
-          "ticks": 1
+          "ticks": 300
         },
         {
-          "op": "injectAction",
-          "action": "drop",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "drop",
-          "phase": "release"
-        },
-        {
-          "op": "step",
-          "ticks": 1
+          "op": "assert",
+          "path": "/state/rigid/placed",
+          "equals": 1
         },
         {
           "op": "assert",

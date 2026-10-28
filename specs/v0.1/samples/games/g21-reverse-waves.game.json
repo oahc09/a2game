@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.g21-reverse-waves",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G21 反向路径四波防御：建造成本 3，防守四波",
     "genres": [
@@ -587,7 +587,7 @@
           "fontSize": 0.26,
           "fill": "#b5cee8",
           "text": {
-            "literal": "G21 反向路径四波防御：建造成本 3，防守四波"
+            "literal": "G21 塔防 · 变体"
           }
         },
         {
@@ -624,12 +624,6 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
         "showValues": true
       }
     }

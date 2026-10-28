@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g19",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G19 僵尸生存",
     "genres": [
       "shooter"
     ],
-    "description": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+    "description": "WASD 移动，U 升级、K 释放一次性增伤；技能 40 Tick 后恢复升级伤害，抵御三波追踪敌群。"
   },
   "requires": {
     "all": [
@@ -53,6 +53,14 @@
         "version": "0.1.0"
       },
       {
+        "id": "a2game.core.timer",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.timer-schedule",
+        "version": "0.1.0"
+      },
+      {
         "id": "a2game.combat.auto-target",
         "version": "0.1.0"
       },
@@ -66,6 +74,14 @@
       },
       {
         "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
         "version": "0.1.0"
       }
     ]
@@ -101,11 +117,54 @@
                 "weapon": "hitscan",
                 "autoFire": true,
                 "autoTarget": true,
-                "damageBonusPath": "/economy/plots/0/level",
-                "cooldownTicks": 120,
-                "seekSpeed": 16,
-                "goalScore": 1,
-                "maxTicks": 100
+                "damageBonusPath": "/skill/bonus",
+                "cooldownTicks": 10,
+                "seekSpeed": 32,
+                "goalScore": 3,
+                "maxTicks": 230,
+                "waves": [
+                  {
+                    "tick": 70,
+                    "body": {
+                      "id": "wave_two",
+                      "kind": "target",
+                      "x": 7000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 6,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 130,
+                    "body": {
+                      "id": "wave_three",
+                      "kind": "target",
+                      "x": 7000,
+                      "y": 2000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 100,
+                      "hy": 100,
+                      "hp": 8,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  }
+                ],
+                "heldMovement": true,
+                "actions": {
+                  "left": "moveLeft",
+                  "right": "moveRight",
+                  "up": "moveUp",
+                  "down": "moveDown"
+                }
               }
             },
             {
@@ -169,7 +228,7 @@
             "hy": 100,
             "hp": 1,
             "team": 1,
-            "value": 1,
+            "value": 0,
             "fixed": false
           },
           {
@@ -181,7 +240,7 @@
             "vy": 0,
             "hx": 100,
             "hy": 100,
-            "hp": 2,
+            "hp": 14,
             "team": 2,
             "value": 1,
             "fixed": false
@@ -223,6 +282,15 @@
         "won": false,
         "lost": false
       }
+    },
+    "skill": {
+      "type": "object",
+      "initial": {
+        "charges": 1,
+        "bonus": 0,
+        "active": false,
+        "used": 0
+      }
     }
   },
   "inputs": {
@@ -262,10 +330,224 @@
             }
           }
         ]
+      },
+      {
+        "id": "skill",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK"
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
       }
     ]
   },
-  "rules": [],
+  "rules": [
+    {
+      "id": "upgrade-bonus",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/skill/active"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        }
+      ]
+    },
+    {
+      "id": "upgrade-during-skill",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "if": {
+        "state": "/skill/active"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "skill-cast",
+      "on": {
+        "type": "input.action",
+        "action": "skill",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/skill/charges"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/skill/active"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/skill/charges",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/skill/used",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/active",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        },
+        {
+          "op": "timer.schedule",
+          "id": "skill-end",
+          "delayTicks": 40,
+          "eventType": "skill.expired"
+        }
+      ]
+    },
+    {
+      "id": "skill-expire",
+      "on": {
+        "type": "skill.expired"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/skill/active",
+          "value": false
+        },
+        {
+          "op": "state.set",
+          "path": "/skill/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        }
+      ]
+    }
+  ],
   "outcomes": [
     {
       "id": "won",
@@ -286,11 +568,22 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "horde",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+            "template": "击退 {0} · 金币 {1} · 升级 {2}",
+            "args": [
+              {
+                "state": "/world/score"
+              },
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/plots/0/level"
+              }
+            ]
           }
         }
       }
@@ -324,7 +617,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "及时 upgrade 升级伤害；炮台自动瞄准追近的敌群。"
+            "literal": "WASD 移动，U 升级、K 释放一次性增伤；技能 40 Tick 后恢复升级伤害，抵御三波追踪敌群。"
           }
         }
       ],
@@ -348,13 +641,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

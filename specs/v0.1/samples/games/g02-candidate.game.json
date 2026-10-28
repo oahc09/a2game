@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g02",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G02 2048",
     "genres": [
       "puzzle"
     ],
-    "description": "2048 终盘挑战：方向键或滑动合并，达到 2048。"
+    "description": "标准两个 2 开局，方向键/滑动合并至 2048；无合法步失败，undo 撤销最近一步及随机补位。"
   },
   "requires": {
     "all": [
@@ -91,7 +91,8 @@
                   "down": "moveDown"
                 },
                 "historyPath": "/history",
-                "undoAction": "undo"
+                "undoAction": "undo",
+                "stalledPath": "/stalled"
               }
             }
           ]
@@ -104,9 +105,7 @@
     "board": {
       "type": "array",
       "initial": [
-        512,
-        512,
-        1024,
+        2,
         0,
         0,
         0,
@@ -115,6 +114,8 @@
         0,
         0,
         0,
+        0,
+        2,
         0,
         0,
         0,
@@ -124,7 +125,7 @@
     },
     "best": {
       "type": "int",
-      "initial": 1024
+      "initial": 2
     },
     "goal": {
       "type": "int",
@@ -133,6 +134,10 @@
     "history": {
       "type": "array",
       "initial": []
+    },
+    "stalled": {
+      "type": "bool",
+      "initial": false
     }
   },
   "inputs": {
@@ -252,6 +257,14 @@
           }
         ]
       }
+    },
+    {
+      "id": "no-moves",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "state": "/stalled"
+      }
     }
   ],
   "presentation": {
@@ -292,30 +305,17 @@
           ]
         },
         {
-          "id": "caption",
-          "kind": "text",
-          "at": [
-            -1.7,
-            2.55
-          ],
-          "fill": "#b5cee8",
-          "text": {
-            "literal": "A2Game / 2048"
-          },
-          "fontSize": 0.31
-        },
-        {
           "id": "best",
           "kind": "text",
           "at": [
-            2.3,
+            2.6,
             2.55
           ],
           "fill": "#f3ce8b",
           "text": {
             "state": "/best"
           },
-          "fontSize": 0.5
+          "fontSize": 0.3
         },
         {
           "id": "title",
@@ -340,7 +340,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "2048 终盘挑战：方向键或滑动合并，达到 2048。"
+            "literal": "标准两个 2 开局，方向键/滑动合并至 2048；无合法步失败，undo 撤销最近一步及随机补位。"
           }
         }
       ],
@@ -400,7 +400,7 @@
               "text": {
                 "item": true
               },
-              "fontSize": 0.52,
+              "fontSize": 0.3,
               "omitWhen": [
                 0
               ]

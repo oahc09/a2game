@@ -40,6 +40,7 @@
   "a2game.input.touch.select",
   "a2game.input.touch.swipe",
   "a2game.input.touch.tap",
+  "a2game.physics.rigid3d",
   "a2game.puzzle.cascade",
   "a2game.puzzle.connected-match",
   "a2game.puzzle.direction",

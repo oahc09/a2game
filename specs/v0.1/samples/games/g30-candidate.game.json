@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g30",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G30 弹弓打靶",
     "genres": [
@@ -123,7 +123,8 @@
                   -3
                 ],
                 "rawAction": "pull",
-                "slingshot": true
+                "slingshot": true,
+                "cancelClearsPower": true
               }
             }
           ]
@@ -252,11 +253,19 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "pull",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "向左拉开并松手，按拉力发射；取消或多指中断不会发射。"
+            "template": "拉力 {0} · 发射 {1}",
+            "args": [
+              {
+                "state": "/control/power"
+              },
+              {
+                "state": "/world/nextId"
+              }
+            ]
           }
         }
       }
@@ -267,6 +276,19 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "gameplay-launcher",
+          "kind": "rect",
+          "at": [
+            -2,
+            -1.95
+          ],
+          "size": [
+            0.16,
+            0.7
+          ],
+          "fill": "#a8c5d9"
+        },
         {
           "id": "title",
           "kind": "text",
@@ -314,13 +336,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

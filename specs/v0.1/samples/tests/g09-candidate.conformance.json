@@ -44,6 +44,25 @@
           "ticks": 1
         },
         {
+          "op": "step",
+          "ticks": 84
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/active",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 0
+        },
+        {
           "op": "injectAction",
           "action": "drop",
           "phase": "press"
@@ -56,6 +75,171 @@
         {
           "op": "step",
           "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "rotate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/board",
+          "equals": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
           "op": "assert",
@@ -80,18 +264,18 @@
           "op": "start"
         },
         {
-          "op": "injectAction",
-          "action": "drop",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "drop",
-          "phase": "release"
-        },
-        {
           "op": "step",
-          "ticks": 1
+          "ticks": 600
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/active",
+          "equals": 3
         },
         {
           "op": "assert",

@@ -34,3 +34,7 @@ T4 模块提交后执行 T5 物理，T7 条件共享同一快照，T8 提交规�
 `npm run candidates:e2e` 通过真实 HTTP、锁定的 CocosAirJS 和 Three.js，对同一 JSON 的正反例分别校验 Node/Host Hash、跨引擎 Hash、暂停、重开和销毁，保存截图/操作/源码指纹。每批最多 12 个不同发布项，不放宽每服务 32 个发布项的限制。G03 另走真实浏览器 DOM PointerEvent 命中选择。规范化虚拟输入、桌面 PointerEvent 均不代替 Android 真机 Touch/IMU。
 
 所有候选保持 `verified:false`。正式 CoverageResult 只有在对应 G0/G1/G2/G3、完整玩法 DoD 以及适用真机合同全部满足后，才能升级冻结登记。
+
+## 2026-10-27 逐款完整路径
+
+G20 显式 trajectoryPreview:true 才输出反射瞄准点和 bounces 计数/bubble.bounced；实际弹道仍按原整数子步反弹/吸附。G22 两秒成熟两轮生产，作者变体三秒三轮；显式 Trace 保存为校验过的 ReplaySave，JSON 存储和真实页面重载后，仅从已验证重放得到的可信快照恢复播放器，再验证提前/重复收获与暂停不推进。H05 宿主审核两份本仓库 CC0 PNG，SHA/完整准入后解码成 Stage sprites，实际 DOM 拖放经过同一 HitTest；周期计时器驱动剩余 Tick HUD，暂停冻结，截止同 Tick 依既有更高优先级失败。此参考不提升完整人工质量、独立 G3 或适用真机 Gate。

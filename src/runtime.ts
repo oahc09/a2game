@@ -92,6 +92,8 @@ export class HeadlessRuntime {
     }
     private assertAlive(): void { if (this.disposed) fail('A2G_E_DISPOSED','Session disposed'); }
     get status(): GameStatus { return this.session.status; }
+    /** Read the shared clock without allocating a full observation/event-history copy. */
+    get tickIndex(): number { return this.session.tickIndex; }
     get effectiveCapabilities() { return clone(this.plan.effective); }
     start(): void {
         this.assertAlive();
@@ -145,7 +147,7 @@ export class HeadlessRuntime {
         this.session.rawQueue.push(clone({...sample, tickIndex, seq, timeUs:sample.timeUs ?? 0}));
     }
     /** V0.1 bounded recognizers: touch.tap, touch.swipe and keyboard.button. IMU samples are validated but not yet interpreted. */
-    private recognizeRaw(stage: Stage, batch: NormalizedRawInput[]): NormalizedAction[] {
+    private recognizeRaw(stage: Stage, batch: NormalizedRawInput[], actions: NormalizedAction[]=[]): NormalizedAction[] {
         const emitted: NormalizedAction[] = [];
         const pads=batch.filter(sample=>sample.source==='gamepad');
         if(Object.values(gamepadInputSources).some(id=>this.chosen(id)))emitted.push(...recognizeGamepadInput(stage,pads,this.plan.definition,id=>this.chosen(id)));
@@ -212,6 +214,18 @@ export class HeadlessRuntime {
                     if (!action.bindings.some(b=>b.source==='keyboard.button' && b.config?.code===code)) continue;
                     emitted.push({ action:action.id, phase:sample.kind==='down'?'press':sample.kind==='up'?'release':'cancel', tickIndex:stage.tickIndex, timeUs:sample.timeUs, seq:sample.seq,sourceId:`keyboard:${code}` });
                 }
+            }
+        }
+        // Opt-in held keyboard bindings use the existing pressed-source snapshot ledger.
+        // Release/cancel in this Tick suppresses its hold; legacy tap bindings are unchanged.
+        if(this.chosen('a2game.input.keyboard.button'))for(const action of this.plan.definition.inputs.actions){
+            const bindings=action.bindings.filter(binding=>binding.source==='keyboard.button'&&binding.config?.hold===true);if(!bindings.length)continue;
+            for(const sourceId of stage.pressedSources[action.id]??[]){
+                const code=sourceId.startsWith('keyboard:')?sourceId.slice(9):undefined;
+                if(code===undefined&&!sourceId.startsWith('ui-hold:')||code!==undefined&&!bindings.some(b=>b.config?.code===code))continue;
+                if(code!==undefined&&batch.some(sample=>sample.source==='keyboard'&&sample.payload.code===code&&(sample.kind==='up'||sample.kind==='cancel')))continue;
+                if(actions.some(a=>a.action===action.id&&a.sourceId===sourceId&&(a.phase==='release'||a.phase==='cancel'))||emitted.some(a=>a.action===action.id&&a.phase==='hold'))continue;
+                emitted.push({action:action.id,phase:'hold',sourceId,tickIndex:stage.tickIndex,timeUs:Math.ceil(stage.tickIndex*1000000/this.plan.definition.world.clock.tickHz),seq:0});
             }
         }
         return emitted;
@@ -388,7 +402,7 @@ export class HeadlessRuntime {
             working.rawQueue=working.rawQueue.filter(x=>x.tickIndex!==t);
             const actions=working.inputQueue.filter(x=>x.tickIndex===t);
             working.inputQueue=working.inputQueue.filter(x=>x.tickIndex!==t);
-            actions.push(...this.recognizeRaw(working,raw));
+            actions.push(...this.recognizeRaw(working,raw,actions));
             const events:QueuedEvent[]=this.acceptedActions(working,actions);
             // T3: repeat timers advance from old dueTick (never from wall time).
             const due=working.timers.filter(x=>x.dueTick<=t).sort((a,b)=>a.dueTick-b.dueTick||stableCompare(a.id,b.id));
@@ -478,5 +492,5 @@ export class HeadlessRuntime {
     }
     debugRng():number { this.assertAlive(); const value = this.rng.nextU32(); this.session.rng = this.rng.state(); return value; }
     getFeedback():JsonRecord[] { return clone(this.session.feedback); }
-    dispose():void { if (this.disposed) return; this.disposed=true; this.session.inputQueue=[];this.session.rawQueue=[];this.session.timers=[];this.session.deferred=[];this.session.feedback=[]; }
+    dispose():void { if (this.disposed) return; this.disposed=true; this.session.inputQueue=[];this.session.rawQueue=[];this.session.activePointers={};this.session.pressedSources={};this.session.events=[];this.session.timers=[];this.session.deferred=[];this.session.feedback=[]; }
 }

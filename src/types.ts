@@ -29,7 +29,7 @@ export interface GameRule {
     do: Effect[];
 }
 export interface Effect { op: string; [key: string]: unknown; }
-export interface GameOutcome { id: string; status: 'won' | 'lost'; priority?: number; when: Expression; }
+export interface GameOutcome { id: string; status: 'won' | 'lost' | 'stopped'; priority?: number; when: Expression; }
 export interface GameDefinition {
     format: 'a2game'; specVersion: '0.1.0'; id: string; revision: number;
     meta: { title: string; [key: string]: Json };

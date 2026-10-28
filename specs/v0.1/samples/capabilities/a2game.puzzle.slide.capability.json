@@ -79,6 +79,10 @@
         "undoAction": {
           "type": "string",
           "minLength": 1
+        },
+        "stalledPath": {
+          "type": "string",
+          "pattern": "^/"
         }
       },
       "required": [

@@ -16,7 +16,11 @@
   "contract": {
     "configSchema": {
       "type": "object",
-      "properties": {},
+      "properties": {
+        "trackSample": {
+          "type": "boolean"
+        }
+      },
       "additionalProperties": false
     },
     "stateSchema": {

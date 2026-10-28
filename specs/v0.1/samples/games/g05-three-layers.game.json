@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.g05-three-layers",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G05 三层麻将：先 8/11，再 4/7，最后消除底层",
     "genres": [
@@ -547,7 +547,7 @@
           "fontSize": 0.26,
           "fill": "#b5cee8",
           "text": {
-            "literal": "G05 三层麻将：先 8/11，再 4/7，最后消除底层"
+            "literal": "G05 麻将叠牌配对 · 变体"
           }
         },
         {

@@ -21,3 +21,6 @@ output/
 .DS_Store
 Thumbs.db
 *.tsbuildinfo
+# Reviewed evidence is retained locally and restored separately for full gates.
+# See docs/repository-maintenance.md; do not delete it as disposable output.
+/reports/

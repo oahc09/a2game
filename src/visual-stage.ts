@@ -4,7 +4,7 @@ import type {GameDefinition,SessionObservation} from './types.js';
 
 export type StageScalar=number|{state:string;scale?:number;offset?:number};
 export interface StageNode {id:string;kind:'mesh'|'sprite';geometry?:'box'|'sphere'|'plane';at:[StageScalar,StageScalar,StageScalar];size:[StageScalar,StageScalar,StageScalar];rotation?:[StageScalar,StageScalar,StageScalar];spin?:[number,number,number];color:string;asset?:string;material?:'unlit'|'standard';}
-export interface StageCamera {projection:'perspective'|'orthographic';at:[number,number,number];target:[number,number,number];near:number;far:number;fov:number;orthoHeight:number;}
+export interface StageCamera {projection:'perspective'|'orthographic';at:[number,number,number];target:[number,number,number];near:number;far:number;fov:number;orthoHeight:number;fitSize?:[number,number];}
 export interface StageParticle {id:string;count:number;origin:[number,number,number];spread:[number,number,number];velocity:[number,number,number];size:number;color:string;periodTicks:number;}
 export interface StageAudio {id:string;asset:string;event:string;volume:number;}
 export interface VisualStageSpec {bindingProfile?:'numeric-pointer-v1';camera:StageCamera;nodes:StageNode[];particles?:StageParticle[];audio?:StageAudio[];}
@@ -28,10 +28,11 @@ export function validateVisualStage(def:GameDefinition):void{
     if(b.scale!==undefined&&(!safeFinite(b.scale)||Math.abs(b.scale)>10000)||b.offset!==undefined&&(!safeFinite(b.offset)||Math.abs(b.offset)>10000))bad('Invalid affine binding',path);
     const initialValue=readPointer(initial,b.state);if(!safeFinite(initialValue))bad('Binding must reference numeric initial state',path);const resolved=initialValue*Number(b.scale??1)+Number(b.offset??0);if(!safeFinite(resolved)||Math.abs(resolved)>10000||positive&&resolved<=0)bad('Invalid initial resolved binding',path);
   };
-  const camera=obj(stage.camera,['projection','at','target','near','far','fov','orthoHeight'],'/presentation/stage/camera');
+  const camera=obj(stage.camera,['projection','at','target','near','far','fov','orthoHeight','fitSize'],'/presentation/stage/camera');
   vec(camera.at,'/presentation/stage/camera/at');vec(camera.target,'/presentation/stage/camera/target');
   if(!['perspective','orthographic'].includes(String(camera.projection))||!safeFinite(camera.near)||!safeFinite(camera.far)||camera.near<=0||camera.far<=camera.near||camera.far>10000||!safeFinite(camera.fov)||camera.fov<10||camera.fov>120||!safeFinite(camera.orthoHeight)||camera.orthoHeight<=0||camera.orthoHeight>1000)bad('Invalid camera');
   if(camera.at.every((n,i)=>n===(camera.target as number[])[i]))bad('Camera target equals its position');
+  if(camera.fitSize!==undefined&&(camera.projection!=='orthographic'||!Array.isArray(camera.fitSize)||camera.fitSize.length!==2||!camera.fitSize.every(n=>safeFinite(n)&&n>0&&n<=1000)))bad('Orthographic fitSize must contain two positive world extents');
   if(!Array.isArray(stage.nodes)||stage.nodes.length>128)bad('At most 128 stage nodes');
   const ids=new Set<string>();
   const id=(raw:unknown)=>{if(typeof raw!=='string'||!/^[_A-Za-z][_A-Za-z0-9-]*$/.test(raw)||ids.has(raw))bad('Invalid or duplicate stage ID');ids.add(raw);};

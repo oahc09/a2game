@@ -30,6 +30,40 @@
           "ticks": 1
         },
         {
+          "op": "injectAction",
+          "action": "skill",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "skill",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 200
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/skill/used",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/skill/active",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/skill/bonus",
+          "equals": 1
+        },
+        {
           "op": "assert",
           "path": "/flow/status",
           "equals": "won"
@@ -52,8 +86,18 @@
           "op": "start"
         },
         {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
           "op": "step",
-          "ticks": 100
+          "ticks": 230
         },
         {
           "op": "assert",

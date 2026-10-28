@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.h05-deadline-tie",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "H05 四 Tick 截止：同 Tick 完成与超时冲突时失败优先",
     "genres": [
@@ -66,6 +66,18 @@
       },
       {
         "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.bound-stage",
         "version": "0.1.0"
       }
     ]
@@ -164,6 +176,23 @@
     "timeout": {
       "type": "bool",
       "initial": false
+    },
+    "remaining": {
+      "type": "int",
+      "initial": 4
+    },
+    "objects": {
+      "type": "object",
+      "initial": {
+        "apple": {
+          "x": -0.425,
+          "y": 0.425
+        },
+        "key": {
+          "x": -0.425,
+          "y": -0.425
+        }
+      }
     }
   },
   "inputs": {
@@ -282,6 +311,13 @@
           "id": "deadline",
           "delayTicks": 4,
           "eventType": "level.timeout"
+        },
+        {
+          "op": "timer.schedule",
+          "id": "countdown",
+          "delayTicks": 1,
+          "periodTicks": 1,
+          "eventType": "level.second"
         }
       ]
     },
@@ -295,6 +331,262 @@
           "op": "state.set",
           "path": "/timeout",
           "value": true
+        }
+      ]
+    },
+    {
+      "id": "countdown",
+      "on": {
+        "type": "level.second"
+      },
+      "if": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/remaining"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/remaining",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "apple-at-0",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/0"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/apple/x",
+          "value": -0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/apple/y",
+          "value": 0.425
+        }
+      ]
+    },
+    {
+      "id": "apple-at-1",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/1"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/apple/x",
+          "value": 0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/apple/y",
+          "value": 0.425
+        }
+      ]
+    },
+    {
+      "id": "apple-at-2",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/2"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/apple/x",
+          "value": -0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/apple/y",
+          "value": -0.425
+        }
+      ]
+    },
+    {
+      "id": "apple-at-3",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/3"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/apple/x",
+          "value": 0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/apple/y",
+          "value": -0.425
+        }
+      ]
+    },
+    {
+      "id": "key-at-0",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/0"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/key/x",
+          "value": -0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/key/y",
+          "value": 0.425
+        }
+      ]
+    },
+    {
+      "id": "key-at-1",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/1"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/key/x",
+          "value": 0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/key/y",
+          "value": 0.425
+        }
+      ]
+    },
+    {
+      "id": "key-at-2",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/2"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/key/x",
+          "value": -0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/key/y",
+          "value": -0.425
+        }
+      ]
+    },
+    {
+      "id": "key-at-3",
+      "on": {
+        "type": "puzzle.changed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/puzzle/board/3"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/objects/key/x",
+          "value": 0.425
+        },
+        {
+          "op": "state.set",
+          "path": "/objects/key/y",
+          "value": -0.425
         }
       ]
     }
@@ -328,14 +620,14 @@
   "presentation": {
     "hud": [
       {
-        "id": "score",
+        "id": "time",
         "kind": "text",
         "bind": {
           "text": {
-            "template": "分数 {0} · 操作 {1}",
+            "template": "剩余 Tick {0} / 4 · 移动 {1}",
             "args": [
               {
-                "state": "/puzzle/score"
+                "state": "/remaining"
               },
               {
                 "state": "/puzzle/moves"
@@ -376,183 +668,538 @@
           "text": {
             "literal": "四 Tick 截止：同 Tick 完成与超时冲突时失败优先"
           }
+        },
+        {
+          "id": "item-0-t",
+          "kind": "rect",
+          "at": [
+            -0.425,
+            0.765
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-0-b",
+          "kind": "rect",
+          "at": [
+            -0.425,
+            0.08499999999999996
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-0-l",
+          "kind": "rect",
+          "at": [
+            -0.765,
+            0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-0-r",
+          "kind": "rect",
+          "at": [
+            -0.08499999999999996,
+            0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-1-t",
+          "kind": "rect",
+          "at": [
+            0.425,
+            0.765
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-1-b",
+          "kind": "rect",
+          "at": [
+            0.425,
+            0.08499999999999996
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-1-l",
+          "kind": "rect",
+          "at": [
+            0.08499999999999996,
+            0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-1-r",
+          "kind": "rect",
+          "at": [
+            0.765,
+            0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-2-t",
+          "kind": "rect",
+          "at": [
+            -0.425,
+            -0.08499999999999996
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-2-b",
+          "kind": "rect",
+          "at": [
+            -0.425,
+            -0.765
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-2-l",
+          "kind": "rect",
+          "at": [
+            -0.765,
+            -0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-2-r",
+          "kind": "rect",
+          "at": [
+            -0.08499999999999996,
+            -0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-3-t",
+          "kind": "rect",
+          "at": [
+            0.425,
+            -0.08499999999999996
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-3-b",
+          "kind": "rect",
+          "at": [
+            0.425,
+            -0.765
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-3-l",
+          "kind": "rect",
+          "at": [
+            0.08499999999999996,
+            -0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "item-3-r",
+          "kind": "rect",
+          "at": [
+            0.765,
+            -0.425
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-0-t",
+          "kind": "rect",
+          "at": [
+            2,
+            0.8400000000000001
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-0-b",
+          "kind": "rect",
+          "at": [
+            2,
+            0.15999999999999998
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-0-l",
+          "kind": "rect",
+          "at": [
+            1.66,
+            0.5
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-0-r",
+          "kind": "rect",
+          "at": [
+            2.34,
+            0.5
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-1-t",
+          "kind": "rect",
+          "at": [
+            2.85,
+            0.8400000000000001
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-1-b",
+          "kind": "rect",
+          "at": [
+            2.85,
+            0.15999999999999998
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-1-l",
+          "kind": "rect",
+          "at": [
+            2.5100000000000002,
+            0.5
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-1-r",
+          "kind": "rect",
+          "at": [
+            3.19,
+            0.5
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-2-t",
+          "kind": "rect",
+          "at": [
+            2,
+            -0.009999999999999953
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-2-b",
+          "kind": "rect",
+          "at": [
+            2,
+            -0.69
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-2-l",
+          "kind": "rect",
+          "at": [
+            1.66,
+            -0.35
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-2-r",
+          "kind": "rect",
+          "at": [
+            2.34,
+            -0.35
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-3-t",
+          "kind": "rect",
+          "at": [
+            2.85,
+            -0.009999999999999953
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-3-b",
+          "kind": "rect",
+          "at": [
+            2.85,
+            -0.69
+          ],
+          "size": [
+            0.7,
+            0.018
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-3-l",
+          "kind": "rect",
+          "at": [
+            2.5100000000000002,
+            -0.35
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
+        },
+        {
+          "id": "target-3-r",
+          "kind": "rect",
+          "at": [
+            3.19,
+            -0.35
+          ],
+          "size": [
+            0.018,
+            0.7
+          ],
+          "fill": "#596e86"
         }
       ],
-      "repeat": [
+      "repeat": []
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "orthographic",
+        "at": [
+          0,
+          0,
+          10
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "near": 0.1,
+        "far": 20,
+        "fov": 45,
+        "orthoHeight": 6,
+        "fitSize": [
+          8,
+          6
+        ]
+      },
+      "nodes": [
         {
-          "id": "board",
-          "source": {
-            "state": "/puzzle/display"
-          },
-          "columns": 2,
-          "origin": [
-            -0.425,
-            0.425
-          ],
-          "step": [
-            0.85,
-            0.85
-          ],
-          "indexMode": "array",
-          "template": [
+          "id": "apple",
+          "kind": "sprite",
+          "asset": "apple",
+          "at": [
             {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.782,
-                0.782
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78",
-                  "6": "#a8c5d9",
-                  "7": "#f5d26f",
-                  "-1": "#0d1729"
-                },
-                "fallback": "#a8c5d9"
-              }
+              "state": "/objects/apple/x"
             },
             {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.2975,
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "omitWhen": [
-                -1,
-                0
-              ]
-            }
-          ]
+              "state": "/objects/apple/y"
+            },
+            0
+          ],
+          "size": [
+            0.55,
+            0.55,
+            0.01
+          ],
+          "color": "#ffffff"
         },
         {
-          "id": "selection",
-          "source": {
-            "state": "/puzzle/selected"
-          },
-          "columns": 2,
-          "origin": [
-            -0.425,
-            0.425
+          "id": "apple-target",
+          "kind": "sprite",
+          "asset": "apple",
+          "at": [
+            2.85,
+            0.5,
+            0
           ],
-          "step": [
-            0.85,
-            0.85
+          "size": [
+            0.55,
+            0.55,
+            0.01
           ],
-          "indexMode": "cell",
-          "template": [
-            {
-              "id": "mark",
-              "kind": "circle",
-              "at": [
-                -0.255,
-                0.255
-              ],
-              "radius": 0.068,
-              "fill": "#f5d26f"
-            }
-          ]
+          "color": "#ffffff"
         },
         {
-          "id": "tray",
-          "source": {
-            "state": "/puzzle/tray"
-          },
-          "columns": 8,
-          "origin": [
-            -1.8,
-            -1.9
-          ],
-          "step": [
-            0.45,
-            0.45
-          ],
-          "indexMode": "array",
-          "template": [
+          "id": "key",
+          "kind": "sprite",
+          "asset": "key",
+          "at": [
             {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.4,
-                0.4
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78",
-                  "6": "#a8c5d9",
-                  "7": "#f5d26f",
-                  "-1": "#0d1729"
-                },
-                "fallback": "#a8c5d9"
-              }
-            }
-          ]
+              "state": "/objects/key/x"
+            },
+            {
+              "state": "/objects/key/y"
+            },
+            0
+          ],
+          "size": [
+            0.55,
+            0.55,
+            0.01
+          ],
+          "color": "#ffffff"
         },
         {
-          "id": "preview",
-          "source": {
-            "state": "/puzzle/preview"
-          },
-          "columns": 4,
-          "origin": [
-            2.3,
-            1.6
+          "id": "key-target",
+          "kind": "sprite",
+          "asset": "key",
+          "at": [
+            2.85,
+            -0.35,
+            0
           ],
-          "step": [
-            0.32,
-            0.32
+          "size": [
+            0.55,
+            0.55,
+            0.01
           ],
-          "indexMode": "cell",
-          "template": [
-            {
-              "id": "cell",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.29,
-                0.29
-              ],
-              "fill": "#f5d26f"
-            }
-          ]
+          "color": "#ffffff"
         }
       ]
     }
   },
   "tests": [
     "../tests/h05-deadline-tie.conformance.json"
-  ]
+  ],
+  "assets": {
+    "apple": {
+      "uri": "assets/hidden-apple.png",
+      "type": "image",
+      "integrity": "sha256-2vvxNMVFBaXs2yt/YPZFEgWaJ626kg2wieDcv3CZJPQ="
+    },
+    "key": {
+      "uri": "assets/hidden-key.png",
+      "type": "image",
+      "integrity": "sha256-z+64MEtMuNTD1rxOixn9tXnY5d2vXflMQAKT8OronGs="
+    }
+  }
 }

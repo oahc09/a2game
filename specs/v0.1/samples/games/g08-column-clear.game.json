@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.g08-column-clear",
-  "revision": 1,
+  "revision": 2,
   "meta": {
-    "title": "G08 旋转拼块填满两列：未旋转的右下角放置无效",
+    "title": "G08 竖向拼块填满两列：右下角越界放置无效",
     "genres": [
       "puzzle"
     ],
-    "description": "旋转拼块填满两列：未旋转的右下角放置无效"
+    "description": "竖向拼块填满两列：右下角越界放置无效"
   },
   "requires": {
     "all": [
@@ -106,8 +106,8 @@
                       0
                     ],
                     [
-                      1,
-                      0
+                      0,
+                      1
                     ]
                   ],
                   [
@@ -116,8 +116,8 @@
                       0
                     ],
                     [
-                      1,
-                      0
+                      0,
+                      1
                     ]
                   ]
                 ],
@@ -149,7 +149,7 @@
         ],
         "preview": [
           0,
-          1
+          4
         ],
         "selected": [],
         "removed": [],
@@ -352,7 +352,7 @@
           "fontSize": 0.26,
           "fill": "#b5cee8",
           "text": {
-            "literal": "G08 旋转拼块填满两列：未旋转的右下角放置无效"
+            "literal": "G08 Block Puzzle · 变体"
           }
         },
         {
@@ -365,7 +365,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "旋转拼块填满两列：未旋转的右下角放置无效"
+            "literal": "竖向拼块填满两列：右下角越界放置无效"
           }
         }
       ],
@@ -410,7 +410,7 @@
                   "5": "#dc6d78",
                   "6": "#a8c5d9",
                   "7": "#f5d26f",
-                  "-1": "#0d1729"
+                  "-1": "#243851"
                 },
                 "fallback": "#a8c5d9"
               }

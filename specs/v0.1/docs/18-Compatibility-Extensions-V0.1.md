@@ -65,3 +65,7 @@ npm run player:serve
 校验器和生成器子进程显式使用 UTF-8 标准输入输出，避免依赖 Windows Python 的区域编码；工程回归会故意把父环境设为 ASCII，再验证中文标题和完整修复链。CI 同样显式设置 UTF-8。
 
 回归通过只提升对应参考 Profile。冻结 verified 分母仍为 32 Gxx、5 Hxx；真实独立生成器、逐款完整质量 DoD、Android Touch/IMU 和物理手柄的未完成项保持单独状态，不由 S11 的兼容工程代替。
+
+## 2026-10-27 显式兼容增量
+
+保持 turn.draw 作为业务标记，不向 GameStatus 加入 draw 值；显式的 GameSpec 兼容增量允许 Outcome 提交已存在的 stopped，供 G24 中立结束。公开回合服务继续独立检查 turn.draw，已有房间合同无需依赖新 Outcome。完整 Schema、类型与语义校验同步；旧宿主拒绝不支持的定义，不将和棋伪作获胜。

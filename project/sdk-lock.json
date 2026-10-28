@@ -9,5 +9,14 @@
     "source": "https://github.com/oahc09/cocosairjs.git",
     "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
     "entry": "build/cocosair.module.js"
+  },
+  "sharedPhysics": {
+    "package": "cannon-es",
+    "version": "0.20.0",
+    "source": "https://registry.npmjs.org/cannon-es/-/cannon-es-0.20.0.tgz",
+    "entry": "node_modules/cannon-es/dist/cannon-es.js",
+    "sha256": "f0700cbd3a482954949b9d58c1b0f76dcc74767750297647a39d8c40dd63d37c",
+    "nodeEntry": "node_modules/cannon-es/dist/cannon-es.cjs.js",
+    "nodeSha256": "58255a3214dfcddd41e4d5dbc47e3fb39e5679da67c1f47ca5ce0c788c9eef3f"
   }
 }

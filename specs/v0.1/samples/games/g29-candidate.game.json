@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g29",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G29 摇一摇机关",
     "genres": [
@@ -326,11 +326,19 @@
   "presentation": {
     "hud": [
       {
-        "id": "title",
+        "id": "energy",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "商店、解锁与放置"
+            "template": "能量 {0} · 摇动 {1}",
+            "args": [
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/shakes"
+              }
+            ]
           }
         }
       }
@@ -341,45 +349,6 @@
       "height": 6,
       "background": "#0d1729",
       "nodes": [
-        {
-          "id": "wallet",
-          "kind": "text",
-          "at": [
-            -1.3,
-            1.3
-          ],
-          "fontSize": 0.26,
-          "fill": "#b5cee8",
-          "text": {
-            "state": "/economy/wallet"
-          }
-        },
-        {
-          "id": "plot",
-          "kind": "text",
-          "at": [
-            1.3,
-            1.3
-          ],
-          "fontSize": 0.26,
-          "fill": "#b5cee8",
-          "text": {
-            "state": "/economy/plots/0/item"
-          }
-        },
-        {
-          "id": "score",
-          "kind": "text",
-          "at": [
-            0,
-            -1.5
-          ],
-          "fontSize": 0.26,
-          "fill": "#b5cee8",
-          "text": {
-            "state": "/economy/score"
-          }
-        },
         {
           "id": "title",
           "kind": "text",
@@ -405,68 +374,67 @@
           "text": {
             "literal": "摇动三次积累能量，再 unlock；无传感器可点击 shakeFallback。"
           }
-        }
-      ],
-      "repeat": [
+        },
         {
-          "id": "grid",
-          "source": {
-            "state": "/economy/grid"
-          },
-          "columns": 2,
-          "origin": [
-            -0.45,
-            0.4
+          "id": "gameplay-energy",
+          "kind": "circle",
+          "at": [
+            0,
+            0
           ],
-          "step": [
-            0.9,
-            0.9
-          ],
-          "indexMode": "array",
-          "template": [
-            {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.82,
-                0.82
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78"
-                },
-                "fallback": "#a8c5d9"
-              }
+          "radius": 1,
+          "fill": {
+            "from": {
+              "state": "/economy/wallet"
             },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.3,
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "omitWhen": [
-                0
-              ]
-            }
-          ]
+            "map": {
+              "0": "#35465e",
+              "1": "#4b9bd5",
+              "2": "#ecb963",
+              "3": "#57d7c8",
+              "4": "#57d7c8"
+            },
+            "fallback": "#57d7c8"
+          }
+        },
+        {
+          "id": "gameplay-energy-value",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fontSize": 0.8,
+          "fill": "#ffffff",
+          "text": {
+            "state": "/economy/wallet"
+          }
+        },
+        {
+          "id": "gameplay-energy-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "能量"
+          }
+        },
+        {
+          "id": "gameplay-unlock-label",
+          "kind": "text",
+          "at": [
+            0,
+            -1.5
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "能量足够后点击 unlock"
+          }
         }
       ]
     }

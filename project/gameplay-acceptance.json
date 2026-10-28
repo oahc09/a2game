@@ -1,0 +1,2719 @@
+{
+  "format": "a2game-gameplay-acceptance",
+  "formatVersion": 1,
+  "asOf": "2026-10-27",
+  "scope": "Per-game DoD and focused boundary evidence; authored variants do not satisfy independent G3; physical work deferred.",
+  "verifiedGames": 0,
+  "verifiedHybrids": 0,
+  "cases": [
+    {
+      "id": "G01",
+      "title": "推箱子",
+      "game": "specs/v0.1/samples/games/g01-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g01-two-boxes.game.json",
+      "completion": "推箱、全部目标、非法推动原子不变、可撤销与重新解题",
+      "boundary": {
+        "id": "G01-BOUNDARY",
+        "steps": [
+          {
+            "action": "moveUp",
+            "ticks": 1
+          },
+          {
+            "action": "moveRight",
+            "ticks": 1
+          },
+          {
+            "action": "moveRight",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/boxes",
+            "equals": [
+              13
+            ]
+          },
+          {
+            "path": "/moves",
+            "equals": 2
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "多关路线、死锁提示与实际手势全流程"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G02",
+      "title": "2048",
+      "game": "specs/v0.1/samples/games/g02-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g02-4096.game.json",
+      "completion": "单次合并、种子补位、无效移动不消耗随机、撤销恢复随机与无路失败",
+      "boundary": {
+        "id": "G02-BOUNDARY",
+        "steps": [
+          {
+            "action": "moveLeft",
+            "ticks": 1
+          },
+          {
+            "action": "undo",
+            "ticks": 1
+          },
+          {
+            "action": "moveLeft",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/best",
+            "equals": 2
+          },
+          {
+            "path": "/stalled",
+            "equals": false
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "双小块标准开局完整 2048/4096、随机补位/撤销与无路失败"
+      ],
+      "futureIdeas": [
+        "更多种子的长期对局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G03",
+      "title": "三消",
+      "game": "specs/v0.1/samples/games/g03-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g03-recolored-cascade.game.json",
+      "completion": "相邻交换、无匹配回滚、连锁、重力补位与目标分数",
+      "boundary": {
+        "id": "G03-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/moves",
+            "equals": 0
+          },
+          {
+            "path": "/puzzle/selected",
+            "equals": []
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "多阶段目标、移动预算和拖动交换完整体验"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G04",
+      "title": "堆叠三消",
+      "game": "specs/v0.1/samples/games/g04-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g04-capacity-three.game.json",
+      "completion": "覆盖牌禁选、托盘容量、三张先消后判满与清空目标",
+      "boundary": {
+        "id": "G04-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "action": "cell2",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          },
+          {
+            "action": "cell4",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/tray",
+            "equals": [
+              2,
+              1,
+              2,
+              1
+            ]
+          }
+        ],
+        "expected": "lost"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "更多布局与失败后撤销/重试体验"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G05",
+      "title": "麻将叠牌配对",
+      "game": "specs/v0.1/samples/games/g05-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g05-three-layers.game.json",
+      "completion": "上层遮挡、双侧封闭、配对次序与撤销恢复遮挡",
+      "boundary": {
+        "id": "G05-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell4",
+            "ticks": 1
+          },
+          {
+            "action": "cell7",
+            "ticks": 1
+          },
+          {
+            "action": "undo",
+            "ticks": 1
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/moves",
+            "equals": 1
+          },
+          {
+            "path": "/puzzle/board/0",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "更大可解牌局、无可配对终局与层次视觉"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G06",
+      "title": "箭头迷宫消除",
+      "game": "specs/v0.1/samples/games/g06-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g06-left-rays.game.json",
+      "completion": "四方向射线阻挡、移除次序、空格和边界处理",
+      "boundary": {
+        "id": "G06-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          },
+          {
+            "action": "cell1",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/moves",
+            "equals": 2
+          },
+          {
+            "path": "/puzzle/score",
+            "equals": 2
+          },
+          {
+            "path": "/puzzle/board/0",
+            "equals": 0
+          },
+          {
+            "path": "/puzzle/board/3",
+            "equals": 0
+          },
+          {
+            "path": "/puzzle/board/1",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "3×3 四向射线、上/下阻挡与出界移除、空格重选及镜像布局"
+      ],
+      "futureIdeas": [
+        "更多可解的二维混合箭头布局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G07",
+      "title": "翻牌配对",
+      "game": "specs/v0.1/samples/games/g07-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g07-mismatch-lock.game.json",
+      "completion": "配对移除、错配延迟翻回、快速第三点禁选与计时",
+      "boundary": {
+        "id": "G07-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "action": "cell2",
+            "ticks": 1
+          },
+          {
+            "ticks": 60
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/selected",
+            "equals": []
+          },
+          {
+            "path": "/puzzle/moves",
+            "equals": 2
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "随机牌局、配对计时/失败标准和实际触摸快点"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G08",
+      "title": "Block Puzzle",
+      "game": "specs/v0.1/samples/games/g08-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g08-column-clear.game.json",
+      "completion": "多格原子放置、旋转、越界拒绝及同时行列消除",
+      "boundary": {
+        "id": "G08-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/moves",
+            "equals": 1
+          },
+          {
+            "path": "/puzzle/score",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "持续手牌、无可放置失败与拖拽预览"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G09",
+      "title": "俄罗斯方块",
+      "game": "specs/v0.1/samples/games/g09-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g09-rotate-drop.game.json",
+      "completion": "旋转碰撞、移动边界、重力锁定、消行与顶出失败",
+      "boundary": {
+        "id": "G09-BOUNDARY",
+        "steps": [
+          {
+            "action": "left",
+            "ticks": 1
+          },
+          {
+            "action": "left",
+            "ticks": 1
+          },
+          {
+            "action": "left",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/anchor",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "四个 tetromino 连续局、重力锁定/硬降、旋转消四行及即时顶出"
+      ],
+      "futureIdeas": [
+        "标准七种拼块、多块连续局、难度/速度和顶部失败"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G10",
+      "title": "找物整理",
+      "game": "specs/v0.1/samples/games/g10-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g10-crossed-targets.game.json",
+      "completion": "命中选择、物品与目标匹配、错放原子拒绝、归位完成",
+      "boundary": {
+        "id": "G10-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell1",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/moves",
+            "equals": 1
+          },
+          {
+            "path": "/puzzle/board",
+            "equals": [
+              0,
+              1,
+              2,
+              0
+            ]
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "完整拖拽拾放、可辨识物品资源与多目标关卡"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G11",
+      "title": "跳一跳",
+      "game": "specs/v0.1/samples/games/g11-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g11-longer-jump.game.json",
+      "completion": "按压时长决定跳跃、落地/坠落、连续平台与连击",
+      "boundary": {
+        "id": "G11-BOUNDARY",
+        "steps": [
+          {
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "keyboard",
+                "kind": "down",
+                "payload": {
+                  "code": "Space"
+                }
+              }
+            ],
+            "ticks": 5
+          },
+          {
+            "raw": [
+              {
+                "source": "keyboard",
+                "kind": "cancel",
+                "payload": {
+                  "code": "Space"
+                }
+              }
+            ],
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 0
+          },
+          {
+            "path": "/world/charge",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "连续三平台、中心连击奖励、偏心重置、过度蓄力坠落及远距变体"
+      ],
+      "futureIdeas": [
+        "连续平台、中心落点/连击与蓄力可视反馈"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false,
+      "additionalScenarios": [
+        {
+          "name": "off-center-reset",
+          "steps": [
+            {
+              "ticks": 1
+            },
+            {
+              "raw": [
+                {
+                  "source": "keyboard",
+                  "kind": "down",
+                  "payload": {
+                    "code": "Space"
+                  }
+                }
+              ],
+              "ticks": 4
+            },
+            {
+              "raw": [
+                {
+                  "source": "keyboard",
+                  "kind": "up",
+                  "payload": {
+                    "code": "Space"
+                  }
+                }
+              ],
+              "ticks": 60
+            },
+            {
+              "action": "charge",
+              "ticks": 60
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/jump/landings",
+              "equals": 2
+            },
+            {
+              "path": "/jump/combo",
+              "equals": 0
+            },
+            {
+              "path": "/jump/bestCombo",
+              "equals": 1
+            },
+            {
+              "path": "/jump/score",
+              "equals": 3
+            }
+          ],
+          "hudIncludes": [
+            "连击 0"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G12",
+      "title": "Flappy",
+      "game": "specs/v0.1/samples/games/g12-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g12-third-gate.game.json",
+      "completion": "拍翼/重力、门触发只计一次、障碍碰撞和坠落失败",
+      "boundary": {
+        "id": "G12-BOUNDARY",
+        "steps": [
+          {
+            "action": "flap",
+            "ticks": 20,
+            "checks": [
+              {
+                "path": "/world/score",
+                "equals": 0
+              }
+            ]
+          },
+          {
+            "ticks": 4
+          },
+          {
+            "action": "flap",
+            "ticks": 2
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "上下门柱真实碰撞、身体越过门柱后计分、死亡无分及三道门变体"
+      ],
+      "futureIdeas": [
+        "真正门柱碰撞、持续生成/难度及通过门线计分"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G13",
+      "title": "换道跑酷",
+      "game": "specs/v0.1/samples/games/g13-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g13-second-obstacle.game.json",
+      "completion": "有限换道、滚动障碍、波次、检查点与暂停恢复",
+      "boundary": {
+        "id": "G13-BOUNDARY",
+        "steps": [
+          {
+            "action": "left",
+            "ticks": 1
+          },
+          {
+            "action": "left",
+            "ticks": 1
+          },
+          {
+            "action": "left",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/bodies/0/x",
+            "equals": 2000
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "固定三车道边界、三段滚动障碍、两个有序检查点、TTL 回收及镜像路线"
+      ],
+      "futureIdeas": [
+        "持续障碍/检查点、道路视觉与多段难度曲线"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G14",
+      "title": "打砖块",
+      "game": "specs/v0.1/samples/games/g14-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g14-right-paddle.game.json",
+      "completion": "移动挡板、反弹、砖块生命、漏球与关卡推进",
+      "boundary": {
+        "id": "G14-BOUNDARY",
+        "steps": [
+          {
+            "ticks": 60
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 0
+          }
+        ],
+        "expected": "lost"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "多砖布局、方向反弹、关卡推进与快速拖动接球"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G15",
+      "title": "弹球",
+      "game": "specs/v0.1/samples/games/g15-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g15-high-trigger.game.json",
+      "completion": "三维球体/边界反弹、有序触发及能量/生命周期",
+      "boundary": {
+        "id": "G15-BOUNDARY",
+        "steps": [
+          {
+            "action": "kick",
+            "ticks": 1
+          },
+          {
+            "action": "kick",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/rigid/launched",
+            "equals": true
+          },
+          {
+            "path": "/rigid/score",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "锁定真实三维刚体求解、球体/边界反弹与有序双触发"
+      ],
+      "futureIdeas": [
+        "更多弹板机关与关卡布局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G16",
+      "title": "物理合成",
+      "game": "specs/v0.1/samples/games/g16-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g16-four-drops.game.json",
+      "completion": "放置同值体、接触合成一次、实体替换及溢出失败",
+      "boundary": {
+        "id": "G16-BOUNDARY",
+        "steps": [
+          {
+            "action": "drop",
+            "ticks": 60
+          },
+          {
+            "action": "drop",
+            "ticks": 60
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 4
+          },
+          {
+            "path": "/control/spawned",
+            "equals": 2
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "四球分级合成到 8、错序堆叠溢出及重开回收"
+      ],
+      "futureIdeas": [
+        "更多掉落队列与关卡布局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G17",
+      "title": "纵版飞机",
+      "game": "specs/v0.1/samples/games/g17-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g17-armored-waves.game.json",
+      "completion": "独立移动、弹丸发射节奏、波次、敌我伤害和弹丸回收",
+      "boundary": {
+        "id": "G17-BOUNDARY",
+        "steps": [
+          {
+            "action": "fire",
+            "ticks": 80
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/nextId",
+            "equals": 1
+          },
+          {
+            "path": "/world/score",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "连续波次、敌弹/生命与完整射击生存循环"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G18",
+      "title": "俯视射击",
+      "game": "specs/v0.1/samples/games/g18-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g18-armored-target.game.json",
+      "completion": "二维移动与瞄准分离、射线遮挡、冷却及生命/伤害",
+      "boundary": {
+        "id": "G18-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "keyboard",
+                "kind": "down",
+                "payload": {
+                  "code": "KeyA"
+                }
+              },
+              {
+                "source": "keyboard",
+                "kind": "down",
+                "payload": {
+                  "code": "KeyW"
+                }
+              }
+            ],
+            "ticks": 5
+          },
+          {
+            "raw": [
+              {
+                "source": "keyboard",
+                "kind": "up",
+                "payload": {
+                  "code": "KeyA"
+                }
+              },
+              {
+                "source": "keyboard",
+                "kind": "cancel",
+                "payload": {
+                  "code": "KeyW"
+                }
+              }
+            ],
+            "ticks": 2
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "WASD 与独立瞄准、真实墙体遮挡/绕行及装甲冷却"
+      ],
+      "futureIdeas": [
+        "双摇杆设备与更长生存关卡"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G19",
+      "title": "僵尸生存",
+      "game": "specs/v0.1/samples/games/g19-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g19-horde-upgrade.game.json",
+      "completion": "自动索敌稳定顺序、敌群追踪、升级与技能/生存",
+      "boundary": {
+        "id": "G19-BOUNDARY",
+        "steps": [
+          {
+            "action": "plant",
+            "ticks": 1
+          },
+          {
+            "action": "upgrade",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/economy/plots/0/level",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "三波追踪敌群、一次性技能实际增伤、到期恢复与升级"
+      ],
+      "futureIdeas": [
+        "更多波次、技能选择与跨局成长"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G20",
+      "title": "泡泡龙弹射",
+      "game": "specs/v0.1/samples/games/g20-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g20-hanging-bubbles.game.json",
+      "completion": "瞄准、反弹、吸附、连接消除与失去支撑坠落",
+      "boundary": {
+        "id": "G20-BOUNDARY",
+        "steps": [
+          {
+            "action": "fire",
+            "ticks": 1
+          },
+          {
+            "action": "fire",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/bubble/ammo",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "轨迹预览、侧墙反弹后吸附、连接消除及悬挂掉落"
+      ],
+      "futureIdeas": [
+        "更多弹药轮次和棋盘推进"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G21",
+      "title": "塔防",
+      "game": "specs/v0.1/samples/games/g21-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g21-reverse-waves.game.json",
+      "completion": "建塔/路径/范围/冷却、多波敌人、奖励及漏怪失败",
+      "boundary": {
+        "id": "G21-BOUNDARY",
+        "steps": [
+          {
+            "action": "place0",
+            "ticks": 1
+          },
+          {
+            "action": "place0",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/defense/wallet",
+            "equals": 2
+          },
+          {
+            "path": "/defense/towers/0/cell",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "完整布局策略、多个塔种/路线与逐波质量审查"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G22",
+      "title": "农场",
+      "game": "specs/v0.1/samples/games/g22-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g22-two-harvests.game.json",
+      "completion": "播种成本、成熟计时、收获去重、重复生产与存档恢复",
+      "boundary": {
+        "id": "G22-BOUNDARY",
+        "steps": [
+          {
+            "action": "plant",
+            "ticks": 1
+          },
+          {
+            "action": "collect",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/economy/score",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "两/三轮成熟生产、去重收获、玩法回放存档恢复与兼容拒绝"
+      ],
+      "futureIdeas": [
+        "更多地块/产品与长周期生产"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G23",
+      "title": "合成经营",
+      "game": "specs/v0.1/samples/games/g23-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g23-production-chain.game.json",
+      "completion": "合成后生产链、经济消耗/回报、解锁与库存一致",
+      "boundary": {
+        "id": "G23-BOUNDARY",
+        "steps": [
+          {
+            "action": "select0",
+            "ticks": 1
+          },
+          {
+            "actions": [
+              {
+                "action": "merge1",
+                "phase": "press"
+              },
+              {
+                "action": "merge1",
+                "phase": "release"
+              },
+              {
+                "action": "plant",
+                "phase": "press"
+              },
+              {
+                "action": "plant",
+                "phase": "release"
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "action": "merge1",
+            "ticks": 1
+          },
+          {
+            "action": "collect",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/economy/score",
+            "equals": 2
+          },
+          {
+            "path": "/economy/wallet",
+            "equals": 10
+          },
+          {
+            "path": "/economy/plots/0/item",
+            "equals": ""
+          },
+          {
+            "path": "/economy/plots/0/level",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "合成解锁工厂、成本/成熟/重复收集、双倍产量与两轮生产"
+      ],
+      "futureIdeas": [
+        "更多产品与工厂布局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G24",
+      "title": "五子棋",
+      "game": "specs/v0.1/samples/games/g24-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g24-connect-four.game.json",
+      "completion": "合法落子/轮换、横竖双斜胜负、和棋与终局冻结",
+      "boundary": {
+        "id": "G24-BOUNDARY",
+        "steps": [
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell5",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/turn/moves",
+            "equals": 2
+          },
+          {
+            "path": "/turn/player",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "横竖双斜五连、合法满盘和棋/中立结束、同 Tick 终局拒绝与画布落子"
+      ],
+      "futureIdeas": [
+        "横竖双斜/和棋逐项验收及完整棋局交互"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false,
+      "additionalScenarios": [
+        {
+          "name": "vertical-terminal-batch",
+          "steps": [
+            {
+              "action": "cell0",
+              "ticks": 1
+            },
+            {
+              "action": "cell1",
+              "ticks": 1
+            },
+            {
+              "action": "cell5",
+              "ticks": 1
+            },
+            {
+              "action": "cell2",
+              "ticks": 1
+            },
+            {
+              "action": "cell10",
+              "ticks": 1
+            },
+            {
+              "action": "cell3",
+              "ticks": 1
+            },
+            {
+              "action": "cell15",
+              "ticks": 1
+            },
+            {
+              "action": "cell4",
+              "ticks": 1
+            },
+            {
+              "actions": [
+                {
+                  "action": "cell20",
+                  "phase": "press"
+                },
+                {
+                  "action": "cell20",
+                  "phase": "release"
+                },
+                {
+                  "action": "cell24",
+                  "phase": "press"
+                },
+                {
+                  "action": "cell24",
+                  "phase": "release"
+                }
+              ],
+              "ticks": 1
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/turn/winner",
+              "equals": 1
+            },
+            {
+              "path": "/turn/moves",
+              "equals": 9
+            },
+            {
+              "path": "/turn/board/24",
+              "equals": 0
+            }
+          ]
+        },
+        {
+          "name": "diagonal-down",
+          "steps": [
+            {
+              "action": "cell0",
+              "ticks": 1
+            },
+            {
+              "action": "cell1",
+              "ticks": 1
+            },
+            {
+              "action": "cell6",
+              "ticks": 1
+            },
+            {
+              "action": "cell2",
+              "ticks": 1
+            },
+            {
+              "action": "cell12",
+              "ticks": 1
+            },
+            {
+              "action": "cell3",
+              "ticks": 1
+            },
+            {
+              "action": "cell18",
+              "ticks": 1
+            },
+            {
+              "action": "cell4",
+              "ticks": 1
+            },
+            {
+              "action": "cell24",
+              "ticks": 1
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/turn/winner",
+              "equals": 1
+            },
+            {
+              "path": "/turn/moves",
+              "equals": 9
+            }
+          ]
+        },
+        {
+          "name": "diagonal-up",
+          "steps": [
+            {
+              "action": "cell4",
+              "ticks": 1
+            },
+            {
+              "action": "cell0",
+              "ticks": 1
+            },
+            {
+              "action": "cell8",
+              "ticks": 1
+            },
+            {
+              "action": "cell1",
+              "ticks": 1
+            },
+            {
+              "action": "cell12",
+              "ticks": 1
+            },
+            {
+              "action": "cell2",
+              "ticks": 1
+            },
+            {
+              "action": "cell16",
+              "ticks": 1
+            },
+            {
+              "action": "cell3",
+              "ticks": 1
+            },
+            {
+              "action": "cell20",
+              "ticks": 1
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/turn/winner",
+              "equals": 1
+            },
+            {
+              "path": "/turn/moves",
+              "equals": 9
+            }
+          ]
+        },
+        {
+          "name": "full-board-draw",
+          "steps": [
+            {
+              "action": "cell0",
+              "ticks": 1
+            },
+            {
+              "action": "cell2",
+              "ticks": 1
+            },
+            {
+              "action": "cell1",
+              "ticks": 1
+            },
+            {
+              "action": "cell3",
+              "ticks": 1
+            },
+            {
+              "action": "cell4",
+              "ticks": 1
+            },
+            {
+              "action": "cell5",
+              "ticks": 1
+            },
+            {
+              "action": "cell7",
+              "ticks": 1
+            },
+            {
+              "action": "cell6",
+              "ticks": 1
+            },
+            {
+              "action": "cell8",
+              "ticks": 1
+            },
+            {
+              "action": "cell9",
+              "ticks": 1
+            },
+            {
+              "action": "cell10",
+              "ticks": 1
+            },
+            {
+              "action": "cell12",
+              "ticks": 1
+            },
+            {
+              "action": "cell11",
+              "ticks": 1
+            },
+            {
+              "action": "cell13",
+              "ticks": 1
+            },
+            {
+              "action": "cell14",
+              "ticks": 1
+            },
+            {
+              "action": "cell15",
+              "ticks": 1
+            },
+            {
+              "action": "cell17",
+              "ticks": 1
+            },
+            {
+              "action": "cell16",
+              "ticks": 1
+            },
+            {
+              "action": "cell18",
+              "ticks": 1
+            },
+            {
+              "action": "cell19",
+              "ticks": 1
+            },
+            {
+              "action": "cell20",
+              "ticks": 1
+            },
+            {
+              "action": "cell22",
+              "ticks": 1
+            },
+            {
+              "action": "cell21",
+              "ticks": 1
+            },
+            {
+              "action": "cell23",
+              "ticks": 1
+            },
+            {
+              "action": "cell24",
+              "ticks": 1
+            }
+          ],
+          "expected": "stopped",
+          "checks": [
+            {
+              "path": "/turn/board",
+              "equals": [
+                1,
+                1,
+                2,
+                2,
+                1,
+                2,
+                2,
+                1,
+                1,
+                2,
+                1,
+                1,
+                2,
+                2,
+                1,
+                2,
+                2,
+                1,
+                1,
+                2,
+                1,
+                1,
+                2,
+                2,
+                1
+              ]
+            },
+            {
+              "path": "/turn/moves",
+              "equals": 25
+            },
+            {
+              "path": "/turn/winner",
+              "equals": 0
+            },
+            {
+              "path": "/turn/draw",
+              "equals": true
+            }
+          ],
+          "hudIncludes": [
+            "和棋 true"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G25",
+      "title": "水果切割",
+      "game": "specs/v0.1/samples/games/g25-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g25-four-fruits.game.json",
+      "completion": "轨迹低采样交点、每果只计一次、炸弹及时间/漏果",
+      "boundary": {
+        "id": "G25-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.25,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "move",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.46,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "move",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.25,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/control/score",
+            "equals": 2
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "continuous-cut-dedup-bomb-miss",
+      "implementedGameplay": [
+        "动态水果/漏果、连贯低采样实际轨迹、去重/炸弹与失败重试"
+      ],
+      "futureIdeas": [
+        "更多动态波次与适用设备轨迹"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false,
+      "additionalScenarios": [
+        {
+          "name": "missed-moving-fruit",
+          "steps": [
+            {
+              "ticks": 180
+            }
+          ],
+          "expected": "lost",
+          "checks": [
+            {
+              "path": "/control/lost",
+              "equals": true
+            },
+            {
+              "path": "/control/score",
+              "equals": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G26",
+      "title": "双指旋转拼图",
+      "game": "specs/v0.1/samples/games/g26-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g26-half-turn.game.json",
+      "completion": "双指归属、角度与缩放、取消释放、匹配姿态再归位",
+      "boundary": {
+        "id": "G26-BOUNDARY",
+        "steps": [
+          {
+            "action": "rotate",
+            "ticks": 1,
+            "value": 0.2
+          },
+          {
+            "action": "pinch",
+            "ticks": 1,
+            "value": 1.5
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "action": "cell2",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/puzzle/won",
+            "equals": true
+          },
+          {
+            "path": "/control/won",
+            "equals": false
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "two-touch-rotation-scale-regrab",
+      "implementedGameplay": [
+        "CDP 双触旋转/缩放、取消与新指对相对基准、姿态与归位同时完成"
+      ],
+      "futureIdeas": [
+        "更多拼图布局和设备双指验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G27",
+      "title": "重力迷宫",
+      "game": "specs/v0.1/samples/games/g27-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g27-lower-detour.game.json",
+      "completion": "倾斜/回退移动、碰撞、目标、校准和权限失联",
+      "boundary": {
+        "id": "G27-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.2,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "move",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.75,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 50
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/bodies/1/x",
+            "equals": 3700
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "tilt-calibration-loss-fallback",
+      "implementedGameplay": [
+        "虚拟权限、校准/屏幕方向/样本失联清零、实际鼠标绕墙回退"
+      ],
+      "futureIdeas": [
+        "更多迷宫路径和适用设备验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false,
+      "additionalScenarios": [
+        {
+          "name": "calibration-loss-fallback",
+          "steps": [
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "calibrate",
+                  "payload": {
+                    "reference": "device-euler-rad-v1",
+                    "screenAngle": 0,
+                    "orientationRad": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "linearAccelerationMps2": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "angularVelocityRadps": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "available": {
+                      "orientation": true,
+                      "linearAcceleration": true,
+                      "angularVelocity": true
+                    }
+                  }
+                }
+              ],
+              "ticks": 1
+            },
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "sample",
+                  "payload": {
+                    "reference": "device-euler-rad-v1",
+                    "screenAngle": 0,
+                    "orientationRad": [
+                      0,
+                      0,
+                      0.7
+                    ],
+                    "linearAccelerationMps2": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "angularVelocityRadps": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "available": {
+                      "orientation": true,
+                      "linearAcceleration": true,
+                      "angularVelocity": true
+                    }
+                  }
+                }
+              ],
+              "ticks": 1,
+              "checks": [
+                {
+                  "path": "/control/axis/0",
+                  "equals": 0.25
+                }
+              ]
+            },
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "reset",
+                  "payload": {}
+                }
+              ],
+              "ticks": 1,
+              "checks": [
+                {
+                  "path": "/control/axis",
+                  "equals": [
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "raw": [
+                {
+                  "source": "pointer",
+                  "kind": "down",
+                  "payload": {
+                    "pointerId": 1,
+                    "u": 0.2,
+                    "v": 0.5,
+                    "viewportAspect": 1.25
+                  }
+                }
+              ],
+              "ticks": 1
+            },
+            {
+              "raw": [
+                {
+                  "source": "pointer",
+                  "kind": "move",
+                  "payload": {
+                    "pointerId": 1,
+                    "u": 0.2,
+                    "v": 0.3125,
+                    "viewportAspect": 1.25
+                  }
+                }
+              ],
+              "ticks": 15
+            },
+            {
+              "raw": [
+                {
+                  "source": "pointer",
+                  "kind": "move",
+                  "payload": {
+                    "pointerId": 1,
+                    "u": 0.75,
+                    "v": 0.3125,
+                    "viewportAspect": 1.25
+                  }
+                }
+              ],
+              "ticks": 60
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/world/score",
+              "equals": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G28",
+      "title": "平衡堆叠",
+      "game": "specs/v0.1/samples/games/g28-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g28-four-stack.game.json",
+      "completion": "真实三维刚体放置、角速度/旋转、碰撞支撑与倾覆",
+      "boundary": {
+        "id": "G28-BOUNDARY",
+        "steps": [
+          {
+            "action": "drop",
+            "ticks": 90
+          }
+        ],
+        "checks": [
+          {
+            "path": "/rigid/placed",
+            "equals": 1
+          },
+          {
+            "path": "/rigid/won",
+            "equals": false
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "真实三维碰撞堆叠、角速度/旋转倾覆、三/四块稳定放置"
+      ],
+      "futureIdeas": [
+        "更多真实几何与堆叠布局"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G29",
+      "title": "摇一摇机关",
+      "game": "specs/v0.1/samples/games/g29-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g29-four-shakes.game.json",
+      "completion": "摇动去抖、能量消费/解锁、超时/失联与回退",
+      "boundary": {
+        "id": "G29-BOUNDARY",
+        "steps": [
+          {
+            "action": "shakeFallback",
+            "ticks": 1
+          },
+          {
+            "action": "unlock",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/economy/wallet",
+            "equals": 1
+          },
+          {
+            "path": "/economy/unlocked",
+            "equals": []
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "shake-cooldown-stop-fallback",
+      "implementedGameplay": [
+        "合成 Motion 原始 Shake 冷却去抖、停止后忽略及键盘能量回退"
+      ],
+      "futureIdeas": [
+        "更多机关组合和适用设备验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G30",
+      "title": "弹弓打靶",
+      "game": "specs/v0.1/samples/games/g30-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g30-far-target.game.json",
+      "completion": "拉力/方向、释放恰好发射一次、多指/取消中断",
+      "boundary": {
+        "id": "G30-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.5,
+                  "v": 0.6875,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "move",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.09999999999999998,
+                  "v": 0.6875,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "cancel",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.09999999999999998,
+                  "v": 0.6875,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 160
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/nextId",
+            "equals": 0
+          },
+          {
+            "path": "/control/grabbing",
+            "equals": false
+          }
+        ],
+        "expected": "lost"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "slingshot-cancel-multi-power-release",
+      "implementedGameplay": [
+        "实际拖动拉力、取消/多指清零、不发射与一次释放一弹"
+      ],
+      "futureIdeas": [
+        "更多目标布局与设备拖动验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "G31",
+      "title": "姿态打靶",
+      "game": "specs/v0.1/samples/games/g31-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g31-orientation-armor.game.json",
+      "completion": "姿态零点/屏幕方向、独立射击、命中和传感器回退",
+      "boundary": {
+        "id": "G31-BOUNDARY",
+        "steps": [
+          {
+            "action": "orientation",
+            "ticks": 1,
+            "value": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "action": "fire",
+            "ticks": 10
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "orientation-rezero-screen-fallback",
+      "implementedGameplay": [
+        "合成姿态零点/屏幕重校准、独立命中、失联清零与鼠标回退"
+      ],
+      "futureIdeas": [
+        "动态靶场与设备姿态验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false,
+      "additionalScenarios": [
+        {
+          "name": "pose-loss-fallback",
+          "steps": [
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "calibrate",
+                  "payload": {
+                    "reference": "device-euler-rad-v1",
+                    "screenAngle": 0,
+                    "orientationRad": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "linearAccelerationMps2": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "angularVelocityRadps": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "available": {
+                      "orientation": true,
+                      "linearAcceleration": true,
+                      "angularVelocity": true
+                    }
+                  }
+                }
+              ],
+              "ticks": 1
+            },
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "sample",
+                  "payload": {
+                    "reference": "device-euler-rad-v1",
+                    "screenAngle": 0,
+                    "orientationRad": [
+                      0,
+                      0,
+                      1.5707963267948966
+                    ],
+                    "linearAccelerationMps2": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "angularVelocityRadps": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "available": {
+                      "orientation": true,
+                      "linearAcceleration": true,
+                      "angularVelocity": true
+                    }
+                  }
+                }
+              ],
+              "ticks": 1,
+              "checks": [
+                {
+                  "path": "/control/aim/1",
+                  "equals": 1
+                }
+              ]
+            },
+            {
+              "raw": [
+                {
+                  "source": "imu",
+                  "kind": "reset",
+                  "payload": {}
+                }
+              ],
+              "ticks": 1,
+              "checks": [
+                {
+                  "path": "/control/aim",
+                  "equals": [
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "action": "aim",
+              "ticks": 1,
+              "value": [
+                0.5,
+                0.3125
+              ]
+            },
+            {
+              "action": "fire",
+              "ticks": 1
+            }
+          ],
+          "expected": "won",
+          "checks": [
+            {
+              "path": "/world/score",
+              "equals": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "G32",
+      "title": "多指机关",
+      "game": "specs/v0.1/samples/games/g32-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/g32-three-fingers.game.json",
+      "completion": "指定指数量和时长、cancel 清空保持、超时及重试",
+      "boundary": {
+        "id": "G32-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.3,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              },
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 2,
+                  "u": 0.7,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 15
+          },
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "cancel",
+                "payload": {
+                  "pointerId": 2,
+                  "u": 0.7,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 20
+          }
+        ],
+        "checks": [
+          {
+            "path": "/opened",
+            "equals": false
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "multi-hold-cancel-blur-retry",
+      "implementedGameplay": [
+        "CDP 指数量与完整保持时长、cancel/blur 清空及重新完整计时"
+      ],
+      "futureIdeas": [
+        "分区机关与设备多指验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "H01",
+      "title": "合成炮台保卫战",
+      "game": "specs/v0.1/samples/games/h01-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/h01-reward-upgrade.game.json",
+      "completion": "合成实体替换/旧武器释放、冷却继承、波次与经济时序",
+      "boundary": {
+        "id": "H01-BOUNDARY",
+        "steps": [
+          {
+            "action": "place0",
+            "ticks": 1
+          },
+          {
+            "action": "place1",
+            "ticks": 1
+          },
+          {
+            "action": "select0",
+            "ticks": 1
+          },
+          {
+            "action": "merge1",
+            "ticks": 1
+          },
+          {
+            "action": "merge1",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/defense/towers/0/level",
+            "equals": 2
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [],
+      "futureIdeas": [
+        "合成策略、多种波次与完整手动交互质量"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "H02",
+      "title": "三消与升级",
+      "game": "specs/v0.1/samples/games/h02-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/h02-exact-cost.game.json",
+      "completion": "消除奖励跨阶段到账、升级影响角色、HUD 与伤害同步",
+      "boundary": {
+        "id": "H02-BOUNDARY",
+        "steps": [
+          {
+            "action": "fire",
+            "ticks": 1
+          },
+          {
+            "action": "cell1",
+            "ticks": 1
+          },
+          {
+            "actions": [
+              {
+                "action": "cell4",
+                "phase": "press"
+              },
+              {
+                "action": "cell4",
+                "phase": "release"
+              },
+              {
+                "action": "upgrade",
+                "phase": "press"
+              },
+              {
+                "action": "upgrade",
+                "phase": "release"
+              }
+            ],
+            "ticks": 1
+          },
+          {
+            "action": "upgrade",
+            "ticks": 1
+          },
+          {
+            "action": "upgrade",
+            "ticks": 1
+          },
+          {
+            "action": "fire",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/economy/plots/0/level",
+            "equals": 1
+          },
+          {
+            "path": "/economy/wallet",
+            "equals": 1
+          },
+          {
+            "path": "/combat/nextDamage",
+            "equals": 2
+          },
+          {
+            "path": "/combat/lastDamage",
+            "equals": 2
+          },
+          {
+            "path": "/combat/targetHP",
+            "equals": 1
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "三消到账、付费升级、下一 Tick 实际增伤、同 Tick 旧伤害及 HUD/生命同步"
+      ],
+      "futureIdeas": [
+        "更多角色与可选升级路线"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "H03",
+      "title": "换道与射击",
+      "game": "specs/v0.1/samples/games/h03-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/h03-swapped-zones.game.json",
+      "completion": "移动/开火并发分区、唯一 Tick、弹丸生命周期及跑酷障碍",
+      "boundary": {
+        "id": "H03-BOUNDARY",
+        "steps": [
+          {
+            "raw": [
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 1,
+                  "u": 0.2,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              },
+              {
+                "source": "pointer",
+                "kind": "down",
+                "payload": {
+                  "pointerId": 2,
+                  "u": 0.8,
+                  "v": 0.5,
+                  "viewportAspect": 1.25
+                }
+              }
+            ],
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/control/laneSignal",
+            "equals": -1
+          },
+          {
+            "path": "/control/fireRequest",
+            "equals": true
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "跑酷/双区同时输入、延后一 Tick 请求、真实弹丸击敌/障碍拦截及全部临时对象回收"
+      ],
+      "futureIdeas": [
+        "真正跑酷滚动障碍及弹丸回收，双指原始事件归属及镜像分区"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "H04",
+      "title": "物理合成与倾斜",
+      "game": "specs/v0.1/samples/games/h04-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/h04-larger-merge.game.json",
+      "completion": "倾斜/回退施力、合成去重、物理状态同步、权限校准",
+      "boundary": {
+        "id": "H04-BOUNDARY",
+        "steps": [
+          {
+            "ticks": 20
+          }
+        ],
+        "checks": [
+          {
+            "path": "/world/score",
+            "equals": 0
+          },
+          {
+            "path": "/control/usedInput",
+            "equals": false
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "nativeInputProfile": "tilt-physics-stop-and-merge",
+      "implementedGameplay": [
+        "虚拟 Tilt 与实际整数重力同步、失联不再加速及回退合成去重"
+      ],
+      "futureIdeas": [
+        "更多物理合成布局和适用设备验收"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "DEFERRED_BY_USER",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    },
+    {
+      "id": "H05",
+      "title": "找物与限时关卡",
+      "game": "specs/v0.1/samples/games/h05-candidate.game.json",
+      "variant": "specs/v0.1/samples/games/h05-deadline-tie.game.json",
+      "completion": "找物 HitTest、限时冻结、成功/超时同 Tick 裁决及重试",
+      "boundary": {
+        "id": "H05-BOUNDARY",
+        "steps": [
+          {
+            "ticks": 1
+          },
+          {
+            "pause": true,
+            "ticks": 5000,
+            "resume": true
+          },
+          {
+            "action": "cell0",
+            "ticks": 1
+          },
+          {
+            "action": "cell3",
+            "ticks": 1
+          }
+        ],
+        "checks": [
+          {
+            "path": "/timeout",
+            "equals": false
+          },
+          {
+            "path": "/puzzle/moves",
+            "equals": 0
+          }
+        ],
+        "expected": "playing"
+      },
+      "remainingGameplay": [],
+      "implementedGameplay": [
+        "审核 PNG 苹果/钥匙资源、真实 HitTest 拖放、倒计时与截止裁决"
+      ],
+      "futureIdeas": [
+        "更多资源场景与人工交互质量"
+      ],
+      "quality": {
+        "visualReview": "NOT_RUN",
+        "nativeInteraction": "NOT_RUN"
+      },
+      "independentG3": "NOT_RUN",
+      "physical": "NOT_APPLICABLE",
+      "fullAcceptance": "PARTIAL",
+      "verified": false
+    }
+  ]
+}

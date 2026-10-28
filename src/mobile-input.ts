@@ -31,13 +31,14 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
    for(const {action,binding,cfg} of bindings.filter(row=>row.binding.source.startsWith('imu.'))){
     const source='imu:'+action.id,key='~imu:'+action.id,previous=cache[key]??{},neutral=calibration?.neutral as number[]|undefined;
     const available=isRecord(payload.available)?payload.available:{};
+    if(cfg.trackSample===true&&available.orientation===false){delete cache['~imu'];delete cache[key];continue;}
     if(binding.source==='imu.acceleration'&&available.linearAcceleration!==false)pulse(action.id,payload.linearAccelerationMps2.map(q),source,time);
     else if(binding.source==='imu.gyroscope'&&available.angularVelocity!==false)pulse(action.id,payload.angularVelocityRadps.map(q),source,time);
     else if(binding.source==='imu.shake'){
      if(available.linearAcceleration!==false&&Math.hypot(...payload.linearAccelerationMps2)>=Number(cfg.thresholdMps2??12)&&stage.tickIndex>=Number(previous.nextTick??0)){pulse(action.id,undefined,source,time);cache[key]={nextTick:stage.tickIndex+Number(cfg.cooldownTicks??30)};}
     }else if(neutral){
      const orientation=payload.orientationRad.map((value,i)=>wrap(value-neutral[i]!));
-     if(binding.source==='imu.orientation')pulse(action.id,orientation,source,time);
+     if(binding.source==='imu.orientation'){if(cfg.trackSample===true)cache[key]={valid:true};pulse(action.id,orientation,source,time);}
      if(binding.source==='imu.tilt'){
       const range=Number(cfg.rangeRad??0.7),rawX=orientation[2]!/range,rawY=orientation[1]!/range;
       const [x,y]=angle===90?[-rawY,rawX]:angle===180?[-rawX,-rawY]:angle===270?[rawY,-rawX]:[rawX,rawY];
@@ -108,5 +109,8 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
 }
 export function validateMobileBindings(def:GameDefinition):void{
  const types:Record<string,string>={'touch.select':'button','touch.raw':'pose','touch.double-tap':'button','touch.long-press':'button','touch.drag':'vec2','touch.path':'pose','touch.pinch':'axis1','touch.rotate':'axis1','touch.multi-hold':'button','imu.tilt':'vec2','imu.shake':'button','imu.orientation':'vec3','imu.acceleration':'vec3','imu.gyroscope':'vec3','imu.calibration':'button'};
- for(const action of def.inputs.actions)for(const binding of action.bindings)if(types[binding.source]&&action.valueType!==types[binding.source])fail('A2G_E_INPUT_ACTION',`Binding ${binding.source} requires ${types[binding.source]}`);
+ for(const action of def.inputs.actions)for(const binding of action.bindings){
+  if(types[binding.source]&&action.valueType!==types[binding.source])fail('A2G_E_INPUT_ACTION',`Binding ${binding.source} requires ${types[binding.source]}`);
+  if(binding.config?.trackSample!==undefined&&(!['imu.tilt','imu.orientation'].includes(binding.source)||typeof binding.config.trackSample!=='boolean'))fail('A2G_E_CAP_CONFIG','trackSample requires an IMU tilt/orientation boolean');
+ }
 }

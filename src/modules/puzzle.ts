@@ -83,7 +83,16 @@ export function simulatePuzzle(ctx:ModuleContext,mode:PuzzleMode):ModuleResult{
   if(mode==='pair'&&p.closeAt>=0&&ctx.tickIndex>=p.closeAt){p.selected=[];p.closeAt=-1;changed();}
   const pieces=cfg.pieces as number[][][]|undefined;
   const cells=(anchor:number,rotation:number):number[]|null=>{const shape=rotatePolyomino(pieces![p.active]!,rotation),result:number[]=[];for(const [x,y] of shape){const col=anchor%width+x!,row=Math.floor(anchor/width)+y!;if(col<0||col>=width||row<0||row>=height||p.board[row*width+col])return null;result.push(row*width+col);}return result;};
-  const lock=(anchor:number)=>{const indexes=cells(anchor,p.rotation);if(!indexes)return false;checkpoint();for(const index of indexes)p.board[index]=p.active%6+1;const result=clearLines(p.board,width,height,mode==='falling');p.board=result.board;p.score+=result.lines;p.moves++;p.active++;p.rotation=0;p.anchor=Math.floor(width/2);p.won=p.active>=pieces!.length;if(cfg.targetScore!==undefined){p.won=p.score>=Number(cfg.targetScore);if(p.active>=pieces!.length&&!p.won)p.lost=true;}changed();return true;};
+  const lock=(anchor:number)=>{
+    const indexes=cells(anchor,p.rotation);if(!indexes)return false;checkpoint();
+    for(const index of indexes)p.board[index]=p.active%6+1;
+    const result=clearLines(p.board,width,height,mode==='falling');p.board=result.board;p.score+=result.lines;p.moves++;p.active++;p.rotation=0;p.anchor=Math.floor(width/2);
+    p.won=p.active>=pieces!.length;if(cfg.targetScore!==undefined){p.won=p.score>=Number(cfg.targetScore);if(p.active>=pieces!.length&&!p.won)p.lost=true;}
+    // Spawn belongs to this lock transaction; later input cannot rescue an overlapping piece.
+    if(mode==='falling'&&!p.won&&!p.lost&&!cells(p.anchor,0)){p.lost=true;invalid('spawn-blocked');}
+    changed();return true;
+  };
+  if(mode==='falling'&&!p.won&&!p.lost&&pieces&&p.active<pieces.length&&!cells(p.anchor,p.rotation)){p.lost=true;invalid('spawn-blocked');}
   for(const input of ctx.inputs){
     if(input.type!=='input.action'||input.edge!=='press')continue;
     if(input.action===cfg.undoAction){const previous=p.history.pop();if(previous){const history=p.history;p=normalize(previous.data,cfg,mode);p.history=history;ctx.rng.restore(previous.rng);undid=true;events.push({type:'puzzle.undone',payload:{moves:p.moves}});}continue;}
@@ -141,26 +150,27 @@ export function simulatePuzzle(ctx:ModuleContext,mode:PuzzleMode):ModuleResult{
   return {proposals:[{kind:'state.set',path:String(cfg.statePath),value:p as unknown as Json}],events};
 }
 function undoable(implementation:TrustedCapabilityImplementation,fields:string[]):TrustedCapabilityImplementation{return {role:'module',simulate(ctx){
+  const selected=fields.filter(field=>typeof ctx.config[field]==='string');
   const historyPath=ctx.config.historyPath,undoAction=ctx.config.undoAction;if(typeof historyPath!=='string'||typeof undoAction!=='string')return implementation.simulate!(ctx);
   const history=clone(readPointer(ctx.world.state,historyPath));if(!Array.isArray(history)||history.length>16)error('Undo history must be an array of at most 16 checkpoints');
   if(ctx.inputs.some(input=>input.type==='input.action'&&input.edge==='press'&&input.action===undoAction)){
     const previous=history.pop() as unknown as Checkpoint|undefined;if(!previous)return {};
     if(!isRecord(previous.data)||!Array.isArray(previous.rng))error('Invalid undo checkpoint');ctx.rng.restore(previous.rng);
-    return {proposals:[...fields.map(field=>{const path=String(ctx.config[field]);if(!Object.hasOwn(previous.data,path))error('Missing undo field');return {kind:'state.set' as const,path,value:previous.data[path]!};}),{kind:'state.set',path:historyPath,value:history}],events:[{type:'puzzle.undone',payload:{}}]};
+    return {proposals:[...selected.map(field=>{const path=String(ctx.config[field]);if(!Object.hasOwn(previous.data,path))error('Missing undo field');return {kind:'state.set' as const,path,value:previous.data[path]!};}),{kind:'state.set',path:historyPath,value:history}],events:[{type:'puzzle.undone',payload:{}}]};
   }
-  const rng=ctx.rng.state(),result=implementation.simulate!(ctx);if(result.proposals?.length){const data=Object.fromEntries(fields.map(field=>{const path=String(ctx.config[field]);return [path,clone(readPointer(ctx.world.state,path))];}));history.push({data,rng} as unknown as Json);if(history.length>16)history.shift();result.proposals.push({kind:'state.set',path:historyPath,value:history});}return result;
+  const rng=ctx.rng.state(),result=implementation.simulate!(ctx);if(result.proposals?.length){const data=Object.fromEntries(selected.map(field=>{const path=String(ctx.config[field]);return [path,clone(readPointer(ctx.world.state,path))];}));history.push({data,rng} as unknown as Json);if(history.length>16)history.shift();result.proposals.push({kind:'state.set',path:historyPath,value:history});}return result;
 }};}
 export const puzzleImplementations:Record<string,TrustedCapabilityImplementation>=Object.fromEntries(Object.entries(modes).map(([id,mode])=>[id,{role:'module',simulate:(ctx:ModuleContext)=>simulatePuzzle(ctx,mode)}]));
 puzzleImplementations['a2game.puzzle.push']=undoable(gridPushImplementation,['playerPath','boxesPath','movesPath','solvedPath']);
-puzzleImplementations['a2game.puzzle.slide']=undoable(gridSlideMergeImplementation,['boardPath','bestPath']);
+puzzleImplementations['a2game.puzzle.slide']=undoable(gridSlideMergeImplementation,['boardPath','bestPath','stalledPath']);
 export const puzzleServiceIds=['grid','occupancy','match-n','cascade','gravity-fill','layered-stack','occlusion','reveal','polyomino','rotate-piece','line-clear','select','undo','merge'].map(name=>'a2game.puzzle.'+name);
 export function validatePuzzleDefinition(def:GameDefinition,registry:CapabilityRegistry):void{
   const state=Object.fromEntries(Object.entries(def.state).map(([key,field])=>[key,field.initial]));
   for(const scene of def.scenes){const components=scene.entities.flatMap(entity=>[...(def.prototypes?.[entity.prototype??'']?.components??[]),...(entity.components??[])]).filter(component=>registry.get(component.capability).kind==='behavior');if(components.length>1&&components.some(component=>Object.hasOwn(component.config,'undoAction')))error('RNG-restoring board undo requires a single behavior per scene; multi-behavior sessions use whole-session snapshots');}
   const entities:GameEntity[]=[...def.scenes.flatMap(scene=>scene.entities),...Object.values(def.prototypes??{})];
   for(const entity of entities)for(const component of entity.components??[]){
-    if(['a2game.puzzle.push','a2game.puzzle.slide'].includes(component.capability.id)){
-      const cfg=component.config;if(Boolean(cfg.historyPath)!==Boolean(cfg.undoAction))error('Undo requires both historyPath and undoAction');
+    if(['a2game.puzzle.push','a2game.puzzle.slide','a2game.puzzle.grid-slide-merge'].includes(component.capability.id)){
+      const cfg=component.config;if(cfg.stalledPath!==undefined&&(typeof cfg.stalledPath!=='string'||typeof readPointer(state,String(cfg.stalledPath))!=='boolean'||[cfg.boardPath,cfg.bestPath,cfg.historyPath].includes(cfg.stalledPath)))error('Invalid independent boolean stalled path');if(Boolean(cfg.historyPath)!==Boolean(cfg.undoAction))error('Undo requires both historyPath and undoAction');
       if(cfg.historyPath){const history=readPointer(state,String(cfg.historyPath));if(!Array.isArray(history)||history.length)error('Authored initial undo history must be empty');if(!def.inputs.actions.some(action=>action.id===cfg.undoAction))error('Unknown undo input action');const paths=['boardPath','bestPath','playerPath','boxesPath','movesPath','solvedPath'].flatMap(key=>typeof cfg[key]==='string'?[String(cfg[key])]:[]);if(paths.includes(String(cfg.historyPath)))error('Undo history must have independent storage');}continue;
     }
     const mode=modes[component.capability.id];if(!mode)continue;validateConfig(component.config,mode);const p=normalize(readPointer(state,String(component.config.statePath)),component.config,mode);if(p.history.length)error('Authored initial undo history must be empty');

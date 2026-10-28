@@ -1,5 +1,84 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-28 仓库维护：保留 `713e9d9f` 将 `reports/` 移出 Git 的决定；本地验收证据、私有发布数据、SDK 和依赖保留。已清理完成验收的临时目录与日志，Git 已打包的重复松散对象使用原生命令处理；详见 `project/status.json` 的 `repositoryMaintenanceRun` 与 [维护说明](docs/repository-maintenance.md)。源码、玩法与正式验收计数未变。待推送历史包含超 GitHub 限制的大 Trace，普通 push 需要先解决历史交付方式；不会直接删除或重写原提交。
+
+## 当前优先：37 款独立 G3（2026-10-28，真实 CLI 全目录已执行）
+
+按用户指定直接使用现有 `codex-cli 0.159.2`，沿用当前认证和默认模型。37 款均已实际生成，**33/37 工程参考通过**完整准入、有界正反例、通关解法和真实 Three.js/CocosAirJS 回放。G02 输出合同不完整；G11、G24、G26 正反例失败，保留原始输出及诊断。原始生成调用共 108 次（含 3 次失败试跑与 2 次宿主主动中止），另有 1 次连通探测；费用未知，缺失的用量不按零统计。
+
+G01/G05 的画面由生成器单独修复，额外强制核对玩法、输入、规则、状态、测试和解法保持一致；未直接修改模型输出。G12/H03 的完整校验超时、H01/G21 的本地 HTTP 503 均另存复测记录，不隐藏原始失败，也不把基础设施问题计为模型能力结论。最新选定版本、原生输入、截图观察与完整 SHA 依赖图见 [独立生成索引](project/independent-g3-run.json) 和 [接入/复测说明](docs/independent-g3.md)。
+
+各轮公共宿主上下文与反馈不同，33/37 不是统一提示的一次成功率。正式 **独立 G3 仍 0/37，verified 仍 0/32＋0/5**；玩法语义、难度、持续游玩、来源签收、人工质量和适用物理验收继续独立。Runtime、播放器、Schema、Manifest 未变，既有 12 组参考证据继续只读复核。
+
+选定版本的原生桌面复核 **25 款、50/50 双 SDK 流程通过**：实际键盘/按钮及按住/释放 → 原生宿主输入 → Node Trace/Host Hash、重开、零资源释放。另 8 款解法含 Touch/IMU/模拟量，保持 NOT_RUN；4 款生成失败亦不计入原生通过。版本 3 绑定每款定义 SHA，保存自身源码且前后摘要一致，[原生回执](reports/g3-native-2026-10-27T16-35-57-549Z-26772/summary.json)。这 25 款不等于正式 G3 通过。
+
+本阶段工程 **106/106 Node、203/203 Conformance、360 份 Schema 文档通过**，[完整日志](reports/verify-2026-10-27T16-41-24-803Z-32064/verify.log)；[Node 22 相关回归 5/5](reports/g3-node22-final-20261028.log)、[P2 原档案只读复查](reports/g3-p2-audit-20261028.log)通过。独立生成归档 1,576 个文件的 SHA 与当前源码已只读核对通过。
+
+### CLI 接入阶段记录（2026-10-27）
+
+用户现已指定直接使用本机 Codex CLI。`codex-cli 0.159.2` 沿现有认证及默认模型成功完成连通测试，新增隔离 CLI Profile，真实 G01 接入试跑保留 3 次失败输出（输入 source / 观察路径）。已补充公共 HostProfile 的输入源映射、`/flow/status`、按钮边沿与宿主范围，继续真实生成及修复；不提供现有关卡/解法。CLI 生成与原有 60 秒准入阶段分开，运行记录见 `project/status.json`，正式 G3 尚未提升。
+
+CLI 接入阶段已完成：**106 Node / 203 Conformance / 360 Schema 文档 PASS**；G01 在补充宿主合同后的批次首次通过完整准入、正反例、解法、真实双 SDK Hash/暂停/重开/释放。[实跑回执](reports/g3-codex-2026-10-27T14-28-31-578Z-20456/summary.json)。AI 查看四张截图发现棋盘越界与字体问题，已记入 [独立变体质量记录](project/independent-g3-review.json)，正式 G3 不提升。其余 36 款已分两批运行，最多两个浏览器进程；跨批调用和失败均保留。
+
+上下文升级与原生输入阶段：前 8 款工程通过结果（G01/G03/G04/G06/G07/G09/G22/G23）均通过实际键盘/按钮的双 SDK 流程，**16/16 原生输入回执通过**，[实测](reports/g3-native-2026-10-27T15-07-29-752Z-50384/summary.json)。宽泛 stateSchema 导致的初态字段缺失已通过公开可信库 ABI 补入 HostProfile v2；保留旧试跑 49 次调用及两个主动中止的记录，剩余 20 款按新上下文继续，G28 已新增工程通过。不同上下文分别统计，原始游戏/输出不手改，正式 G3 仍为 NOT_RUN。
+
+已准备 32＋5 份独立自然语言变体任务，新增 Chat Completions API 适配、显式任务/调用预算和逐款检查点。通用浏览器入口覆盖任意长度获胜解法、完整有界正反例、Node/Host Hash、初始/通关画面、暂停/重开及释放；[五步双 SDK 工程夹具](reports/g3-fixture-2026-10-27T14-04-09-132Z-32648/summary.json)通过，不计独立模型。未修改 Runtime、播放器、GameSpec 或已有 SDK 证据。当前已选用本机 Codex CLI，正式 **独立 G3 0/37、verified 0/32＋0/5**；质量、来源及适用真机仍分开验收。配置与服务要求见 [接入说明](docs/independent-g3.md)。
+
+工程 **105 Node / 203 Conformance / 360 Schema 文档 PASS**，[验证日志](reports/verify-2026-10-27T14-05-35-694Z-47232/verify.log)；新增 3 项在 Node 22 亦通过。实际批处理以 `A2G_E_G3_FIXTURE` 拒绝夹具，1 次调用、0 个独立通过，见 [拒绝回执](reports/g3-batch-2026-10-27T14-07-29-119Z-46000/summary.json)。原 P2 档案只读复查通过，无需重跑未变化的 12 组 SDK 参考证据。
+
+## P2 正式验收档案（2026-10-27，归档通过，正式验收待外部证据）
+
+已归档 **37 份逐款档案、74 份分 SDK 的正式 NOT_RUN 回执**，完整 CoverageResult Schema 通过。来源摘要、当前源码/回执、冻结身份与适用设备要求、读路径和正式计数检查通过；自洽摘要的伪造 PASS 仍被拒绝。工程 **102 Node / 203 Conformance / 360 Schema 文档 PASS**，[日志](reports/verify-2026-10-27T13-00-31-812Z-11208/verify.log)。本轮复用原范围内的真实 SDK 证据，未修改 Runtime、播放器或 GameSpec。37 款人工确认、37 款独立 G3 与 10 款真机证据仍待验，登记门禁按预期返回 A2G_E_ACCEPTANCE_NOT_READY；正式 verified 保持 **0/32、0/5**。见 [P2 流程](docs/final-acceptance.md)、[逐款档案目录](reports/acceptance-2026-10-27T13-10-03-797Z-14948/README.md)。
+
+## P0 质量验收（2026-10-27，AI 实测通过，人工确认待验）
+
+37 款的基础/变体双 SDK 148 实例通过，其中基础关卡 222 个桌面/390px/320px 布局检查；已实际查看两套 SDK 的初始/通关画面。G13/H03 正式时钟键盘、暂停冻结、恢复和重开 4 流程通过。中文按钮/反馈、邻近操作区、显式传感器/录制、可折叠诊断、缩放及 resize 时序已修正。101 Node / 203 Conformance / 360 Schema 文档、12 组当前浏览器回执通过。见 [质量回执](reports/quality-review-2026-10-27T11-59-56-311Z.json)、[本轮清单](docs/quality-review.md)。完整人工质量、独立 G3 与适用真机保持待验，正式 verified 仍 0/32、0/5。
+
+## 必需玩法缺口清零目标（2026-10-27，参考达成）
+
+**必需玩法缺口 17 → 0 款。** 三批分别补真实三维刚体、7 款完整玩法/存档/资源、8 款原始输入与回退。当前 **101 Node、203 Conformance、193 逐款逻辑场景、148 基础/变体双 SDK 实例、32 个逐款原始输入流程**，7 种 Schema / 360 文档及 12 组当前浏览器回执通过。[交付证据](project/zero-gap-work.json)、[工程日志](reports/verify-2026-10-27T06-52-11-692Z-12540/verify.log)。人工完整质量、独立 G3 和适用真机保持独立 Gate，正式 verified 仍为 **0/32、0/5**。
+
+## G11 连续跳跃与 G24 终局第五批（2026-10-27，参考验收通过）
+
+- G11 基础 revision 3、远距变体 revision 2：连续三平台，中心落地形成连击并加分，偏心落地清零连击、保留最佳连击，过度蓄力落空失败。显式 `platformLanding` 才停止横向漂移并附加实际支撑/落点事件，旧整数世界语义保持。
+- G24 基础/四连变体 revision 3：横竖双斜、满盘和棋、中立 `stopped` 及终局拒绝。只扩展 Outcome 允许已有 stopped，GameStatus 集合保持；类型、Schema、语义、宿主表现及 01/03/14/18 号规范同步。
+- 新增 5 个必要场景，逐款 Headless 共 190 个；148 个真实双 SDK 基础/变体实例、全部附加场景、12 组当前浏览器回执及 148 份 CoverageResult 完整 Schema 通过。Node 22/24 选定合同各 55/55。[本批证据](project/jump-turn-work.json)、[浏览器索引](reports/nonphysical-current-refresh-2026-10-27T03-46-17-424Z.json)。
+- 已查看实际键盘跳跃、中心/偏心 HUD、和棋中立状态、竖线/斜线与作者变体画面。[AI 参考检查](reports/jump-turn-visual-review-2026-10-27T03-43-47-728Z.json)。必需玩法缺口由 19 降至 17 款；完整人工质量、独立 G3、适用真机仍单独待验，完整 verified 保持 **0/32、0/5**。
+- 最终工程验证 **98/98 Node、200/200 Conformance、7 种 Schema / 359 文档 PASS**，[日志](reports/verify-2026-10-27T03-47-08-553Z-7824/verify.log)；本批本地提交，未推送。
+
+## G13/H03 跑酷与 G06 穿插收口第四批（2026-10-27，参考验收通过）
+
+- G13/H03 基础 revision 3、镜像变体 revision 2：固定三车道首尾钳制，三段滚动障碍、两个有序检查点；H03 同 Tick 双区输入经下一 Tick 请求消费，真实弹丸击敌、被障碍拦截及全部临时对象回收。唯一 Tick 的检查点中途暂停 5000 Tick 不推进滚动世界。
+- G06 基础/镜像 revision 2：3×3 四向箭头，上方出界与下方阻挡、空格重选及逐格真实画布点选；作者变体镜像方向与解法。
+- 185 个逐款逻辑场景、148 个真实双 SDK 基础/变体实例及 12 组当前浏览器参考验收通过；148 份 CoverageResult 完整 Schema 通过。Node 22/24 选定兼容合同各 55/55。[本批证据](project/runner-work.json)、[当前浏览器索引](reports/nonphysical-current-refresh-2026-10-27T03-01-35-377Z.json)。
+- 已查看检查点/碰撞 HUD、两端实际弹丸、虚拟 DOM 双指通关与三款变体画面。[AI 参考画面检查](reports/runner-visual-review-2026-10-27T02-58-40-484Z.json)。弹丸显式半尺寸 64，默认 16 的旧 JSON 保持兼容；只新增一条必要 Node 回归。必需玩法缺口由 22 降至 19 款，完整人工质量、独立 G3 与适用真机继续单独待验，完整 verified 仍为 **0/32、0/5**。
+- 最终工程验证 **97/97 Node、195/195 Conformance、7 种 Schema / 359 文档 PASS**，[日志](reports/verify-2026-10-27T03-02-32-967Z-13524/verify.log)；本批本地提交，未推送。
+
+## 连续拼块与门柱碰撞第三批（2026-10-27，参考验收通过）
+
+- G09 空棋盘连续四个 tetromino、重力锁定、旋转消行与即时顶出；基础/变体 revision 3。修复锁定后新块被占用却能被后续移动救出的时序缺陷。
+- G12 上下门柱实际碰撞、门后计分及三道门变体；基础 revision 3、变体 revision 2。角色/门柱 value 为 0，只有通过触发线得分。
+- 185 个逐款逻辑场景、148 个真实双 SDK 基础/变体实例及 12 组当前浏览器参考验收通过；148 份 CoverageResult 完整 Schema 通过。Node 22/24 选定兼容合同各 55/55。完整 verified 仍为 **0/32、0/5**；真机继续暂缓，完整人工质量及独立 G3 单独验收。
+- 已查看实际按键、重力锁定、顶出、门柱/门后计分及初始变体画面。[本批证据](project/falling-flappy-work.json)、[AI 参考画面检查](reports/falling-flappy-visual-review-2026-10-26T23-37-50-636Z.json)。最终工程验证 **96/96 Node、195/195 Conformance、7 种 Schema / 359 文档 PASS**，[日志](reports/verify-2026-10-26T23-41-21-186Z-11144/verify.log)；本批本地提交，未推送。
+
+## 逐款联动补齐第二批（2026-10-26，参考验收通过）
+
+- G23 合成实际解锁工厂并提高收获产量，H02 三消奖励实际支付角色升级、影响下一 Tick 攻击伤害与 HUD。基础 revision 3、作者变体 revision 2；详情见 [逐款合同](docs/gameplay-acceptance.md)。
+- 185 个逐款逻辑场景、148 个真实双 SDK 基础/变体实例、12 组当前浏览器参考验收通过；148 份 CoverageResult 完整 Schema 通过。Node 22/24 选定兼容合同各 55/55。只刷新受源码/目录指纹影响的回执，保留失败与中断记录。
+- 已查看两端合成产量、升级同 Tick 旧伤害和下一 Tick 增伤、敌人移除、初始变体画面；收集按钮不再挤成两行，390px 检查覆盖全部动作按钮。[本批证据](project/gameplay-linkage-work.json)、[AI 参考画面检查](reports/gameplay-linkage-visual-review-2026-10-26T15-34-20-051Z.json)。
+- 本批补齐 G23/H02 两项必需玩法联动；完整人工质量、独立 G3 仍待验，完整 verified 保持 **0/32、0/5**，真机继续暂缓。最终工程验证 **95/95 Node、195/195 Conformance、7 种 Schema / 359 文档 PASS**，[日志](reports/verify-2026-10-26T15-36-39-519Z-11012/verify.log)；本批本地提交，未推送。
+
+## 逐款完整验收第一批（2026-10-26，参考批次通过）
+
+- 全部 32+5 身份有各自的完成标准和关键边界；作者变体从 9 扩展至 37，目录共 112 JSON、126 Manifest。[逐款合同](docs/gameplay-acceptance.md)、[机器清单](project/gameplay-acceptance.json)。必需缺口与额外内容建议分开记录，后者不增设验收门槛。
+- 185 个 Headless 场景检查基础/变体正反例、边界、暂停、快照、重开和逐操作 Hash 回放。[Headless 回执](reports/gameplay-2026-10-26T14-18-29-942Z-54696/summary.json)。
+- 37 基础 + 37 变体，共 148 个真实 SDK 实例检查通过；基础另验逐款边界，全部检查 390px 布局、HUD、非空画面、失败后重试、Node/Host/跨引擎 Hash 和释放。[基础](reports/candidates-2026-10-26T14-19-32-356Z-41092/summary.json)、[变体](reports/variants-2026-10-26T14-20-12-514Z-43608/summary.json)。148 份有明确参考范围的 CoverageResult 已通过完整 Schema。
+- 修复键盘/屏幕按钮持续按住、OR 来源去重、取消蓄力、暂停后停止移动，以及 AIR 画布焦点吞键。G18 可独立二维移动与瞄准/射击；对应 GameSpec 修订号已递增。
+- 逐款画面检查修正标题重叠、四位数字挤压、空棋盘/放置区域/目标槽、角色配色、砖块形状、初始拼块和泡泡投影及 HUD。[AI 参考画面检查](reports/gameplay-visual-review-2026-10-26T14-25-50-346Z.json)；不替代完整人工质量与独立 G3。
+- 当前 12 组源码冻结后的真实 SDK 参考回执已刷新，[证据索引](reports/nonphysical-current-refresh-2026-10-26T14-29-58-328Z.json)。完整 verified 仍为 **0/32、0/5**；逐款必需玩法缺口、人工完整质量、独立 G3 与适用真机单独待验，物理任务按用户要求暂缓。
+- 完整工程验证 **95/95 Node、195/195 Conformance、7 种 Schema / 359 文档 PASS**，[日志](reports/verify-2026-10-26T14-36-02-941Z-63544/verify.log)。新增治理检查在模拟未生成 dist 的条件下通过，保持检出后可先执行 project:check。
+- main 先前已推送至 origin 的 b910c16；本批新增改动验证后本地提交，未执行新推送或部署。远端 CI 结果尚未核实。
+
 ## 非真机主线补齐（2026-10-25，参考验收通过）
 
 - G05 实际层叠遮挡；G21/H01 建塔、升级、波次、经济、合成实体和旧武器回收。新增 9 份作者编写的关卡/规则变体，独立于 G3。
@@ -182,3 +261,13 @@ S3 已完成当前 Profile 的资源准入与内容包交付，审核范围外�
 2026-10-24 工程基线整理：补充 `AGENTS.md` 快速导航，纳入 npm 锁文件和 `.gitignore`；本机使用项目内 Python 环境运行 `npm run verify` 全部通过（55/55 Node、12/12 Conformance、7 Schema/27 文档、4 游戏目录）。日志：`reports/workspace-baseline-20261024.log`。此次不升级真实 SDK G2，后续在基线提交后推进。
 
 每轮都记录：执行日期、仓库或源码包基线、变更文件、实际运行命令、PASS/FAIL/BLOCKED、未完成原因、覆盖分母与证据文件。同步维护本页、`project/status.json`、`CHANGELOG.md`，并运行 `npm run project:check`。历史 `IMPLEMENTATION-REPORT.md`、`IMPLEMENTATION-NEXT.md` 和 `reports/v03-*` 保留以便审计。
+
+## 清零第二批（参考验收通过）
+
+G02/G16/G18/G19/G20/G22/H05 取得当前 190 场景、148 双 SDK 基础/变体及 12 组浏览器证据；农场在真实页面重载后恢复并续玩，找物使用审核 PNG 与实际拖放。100 Node / 200 Conformance / 360 Schema 文档 PASS，[日志](reports/verify-2026-10-27T05-56-51-748Z-35480/verify.log)。必需玩法缺口由 15 降至 8 款，继续逐款虚拟输入收口；完整质量/G3/真机仍单独待验。
+
+完整 2048 长局补充性能修正：宿主改用只读 Runtime.tickIndex 生成输入时间，手动时钟仅在操作/推进/缩放时绘制，避免空闲帧重复复制事件历史；玩法、Hash 和逐步断言保持。受影响源码指纹重新取证。
+
+## 清零第三批（参考验收通过）
+
+G25/G26/G27/G29/G30/G31/G32/H04 基础/变体的 32 个真实 SDK 原始输入流程通过。动态水果漏果、双指重抓（含 ±π 等价）、60 Tick 样本失联停止、失联施力/瞄准清零、摇动去抖、弹弓取消/多指/一次释放、多指 cancel/blur 重试均有逐款状态、Node 回放和截图；真机继续暂缓。

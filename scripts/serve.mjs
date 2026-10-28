@@ -3,6 +3,7 @@ import {createServer} from 'node:http';
 import {readFile,stat,realpath} from 'node:fs/promises';
 import {resolve,sep,extname} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
 import {CONTENT_MAX_BYTES,CONTENT_BUNDLE_MAX_BYTES} from '../dist/index.js';
 import {ContentError,createContentService} from './content-service.mjs';
 import {AssetError} from './asset-policy.mjs';
@@ -60,6 +61,12 @@ export function createPlayerServer({contentService=createContentService({storage
       if(release&&req.method==='GET'){json(200,await contentService.read(release[1]));return;}
       if(!['GET','HEAD'].includes(req.method))throw new ContentError('A2G_E_METHOD','此接口不支持该方法。',405,'policy');
       const publicPath=path==='/'||path==='/player'?'/player/index.html':path;
+      if(publicPath==='/player/physics/cannon-es.js'){
+        const lock=JSON.parse(await readFile(resolve(root,'project/sdk-lock.json'),'utf8')).sharedPhysics;
+        const bytes=await readFile(resolve(root,'node_modules/cannon-es/dist/cannon-es.js'));
+        if(lock?.entry!=='node_modules/cannon-es/dist/cannon-es.js'||createHash('sha256').update(bytes).digest('hex')!==lock.sha256)throw new ContentError('A2G_E_INTEGRITY','共享物理模块与锁定来源不符。',503,'policy');
+        res.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});res.end(req.method==='HEAD'?undefined:bytes);return;
+      }
       const allowed=['/player/','/dist/','/specs/v0.1/samples/'].some(prefix=>publicPath.startsWith(prefix));
       if(!allowed)throw new ContentError('A2G_E_NOT_FOUND','文件或发布回执不存在。',404,'policy');
       const filename=await realpath(resolve(root,'.'+publicPath));

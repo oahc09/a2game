@@ -89,6 +89,152 @@
           "equals": "lost"
         }
       ]
+    },
+    {
+      "id": "PER-GAME-G31-POSE-LOSS-FALLBACK",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "imu",
+            "kind": "calibrate",
+            "payload": {
+              "reference": "device-euler-rad-v1",
+              "screenAngle": 0,
+              "orientationRad": [
+                0,
+                0,
+                0
+              ],
+              "linearAccelerationMps2": [
+                0,
+                0,
+                0
+              ],
+              "angularVelocityRadps": [
+                0,
+                0,
+                0
+              ],
+              "available": {
+                "orientation": true,
+                "linearAcceleration": true,
+                "angularVelocity": true
+              }
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "imu",
+            "kind": "sample",
+            "payload": {
+              "reference": "device-euler-rad-v1",
+              "screenAngle": 0,
+              "orientationRad": [
+                0,
+                0,
+                1.5707963267948966
+              ],
+              "linearAccelerationMps2": [
+                0,
+                0,
+                0
+              ],
+              "angularVelocityRadps": [
+                0,
+                0,
+                0
+              ],
+              "available": {
+                "orientation": true,
+                "linearAcceleration": true,
+                "angularVelocity": true
+              }
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/aim/1",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "imu",
+            "kind": "reset",
+            "payload": {}
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/aim",
+          "equals": [
+            0,
+            0
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "press",
+          "value": [
+            0.5,
+            0.3125
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
     }
   ]
 }

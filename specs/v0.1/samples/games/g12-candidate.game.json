@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g12",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G12 Flappy",
     "genres": [
       "casual"
     ],
-    "description": "点击或 Space 拍翼，穿过两道门；坠落失败。"
+    "description": "点击或 Space 拍翼穿过门柱；身体完全越过门柱后计分，碰柱或坠落失败。"
   },
   "requires": {
     "all": [
@@ -127,35 +127,91 @@
             "hy": 100,
             "hp": 1,
             "team": 1,
-            "value": 1,
+            "value": 0,
             "fixed": false
           },
           {
             "id": "gate_a",
             "kind": "pickup",
-            "x": 2100,
-            "y": 3000,
+            "x": 2500,
+            "y": 3300,
             "vx": 0,
             "vy": 0,
-            "hx": 100,
-            "hy": 600,
+            "hx": 16,
+            "hy": 1000,
             "hp": 1,
             "team": 2,
             "value": 1,
             "fixed": true
           },
           {
-            "id": "gate_b",
-            "kind": "pickup",
-            "x": 4100,
-            "y": 3000,
+            "id": "pipe_a_bottom",
+            "kind": "target",
+            "x": 2100,
+            "y": 1100,
             "vx": 0,
             "vy": 0,
-            "hx": 100,
-            "hy": 600,
+            "hx": 140,
+            "hy": 1100,
+            "hp": 1,
+            "team": 2,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "pipe_a_top",
+            "kind": "target",
+            "x": 2100,
+            "y": 5200,
+            "vx": 0,
+            "vy": 0,
+            "hx": 140,
+            "hy": 800,
+            "hp": 1,
+            "team": 2,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "gate_b",
+            "kind": "pickup",
+            "x": 4500,
+            "y": 3300,
+            "vx": 0,
+            "vy": 0,
+            "hx": 16,
+            "hy": 1000,
             "hp": 1,
             "team": 2,
             "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "pipe_b_bottom",
+            "kind": "target",
+            "x": 4100,
+            "y": 1100,
+            "vx": 0,
+            "vy": 0,
+            "hx": 140,
+            "hy": 1100,
+            "hp": 1,
+            "team": 2,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "pipe_b_top",
+            "kind": "target",
+            "x": 4100,
+            "y": 5200,
+            "vx": 0,
+            "vy": 0,
+            "hx": 140,
+            "hy": 800,
+            "hp": 1,
+            "team": 2,
+            "value": 0,
             "fixed": true
           }
         ],
@@ -212,11 +268,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "gates",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "点击或 Space 拍翼，穿过两道门；坠落失败。"
+            "template": "通过 {0}/2",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -250,7 +311,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "点击或 Space 拍翼，穿过两道门；坠落失败。"
+            "literal": "点击或 Space 拍翼穿过门柱；身体完全越过门柱后计分，碰柱或坠落失败。"
           }
         }
       ],
@@ -270,17 +331,9 @@
         },
         "circleKinds": [
           "actor",
-          "target",
-          "projectile",
-          "pickup"
+          "projectile"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

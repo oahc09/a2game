@@ -20,8 +20,8 @@
           "action": "aim",
           "phase": "press",
           "value": [
-            0.36,
-            0.3125
+            0.009999999999999953,
+            0.4375
           ]
         },
         {
@@ -45,7 +45,17 @@
         },
         {
           "op": "step",
-          "ticks": 100
+          "ticks": 220
+        },
+        {
+          "op": "assert",
+          "path": "/state/bubble/score",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/bubble/bounces",
+          "equals": 1
         },
         {
           "op": "assert",

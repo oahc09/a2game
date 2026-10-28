@@ -34,7 +34,7 @@ export class CocosAirAdapter {
       this.width=width;this.height=height;this.air.view?.setDesignResolutionSize(width,height,2);
       this.ui.getComponent(this.air.UITransform)?.setContentSize(width,height);
     }
-    if(frame.stage)this.stage.draw(frame.stage,frame.background);
+    if(frame.stage)this.stage.draw(frame.stage,frame.background,width/height);
     const signature=`${width}:${height}:${frame.background}:${JSON.stringify(frame.commands)}`;
     if(signature===this.current)return;
     this.current=signature;

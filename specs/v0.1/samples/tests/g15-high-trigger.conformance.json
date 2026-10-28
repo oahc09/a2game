@@ -1,0 +1,63 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g15-high-trigger",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g15-high-trigger",
+    "file": "../games/g15-high-trigger.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G15-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G15-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 480
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

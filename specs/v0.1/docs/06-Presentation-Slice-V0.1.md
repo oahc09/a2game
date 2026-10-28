@@ -31,6 +31,16 @@
 
 上述上限是 **V0.1 Presentation 子集约定**，并不声称已覆盖粒子、模型、骨骼、图片、Shader、HitTest 或物理。
 
+### 3.1 已有 BodyLayer 与验收参数说明（2026-10-27，文档澄清）
+
+后续版本已加入的 `scene2d.bodyLayer` 仍按 [13 号规范](13-Realtime-World-V0.1.md) 读取 `WorldBody[]`。`statePath` **相对于 `SessionObservation.state`，必须直接指向 Body 数组**，例如世界对象存于 `/world`、Bodies 存于其 `bodies` 字段时，应引用 `/world/bodies`；不能引用整个 `/world` 对象。每个 Body 必须具有合法的整数 `x/y/hx/hy` 与 `kind`，`palette` 为 actor/solid/target/projectile/pickup 提供颜色；`unitsPerMeter:1000`、`origin` 继续使用场景中心原点和 Y 向上坐标。此说明不增加 API、不放宽既有校验。
+
+表现布局应将完整棋盘、标题与目标置于 `[-width/2,width/2] × [-height/2,height/2]`，包括文字尺寸和图形半径；字体大小为逻辑单位，应考虑缩放后的实际可读性。只显示部分棋盘或原始 true/false 不代表质量通过。
+
+操作说明应解释目标、输入及规则；益智关卡不应在初始画面直接列出完整获胜操作顺序。消除后的编号、遮挡层与结束反馈应保持可读，不能仅以场景非空或逻辑获胜作为完整质量验收。
+
+Conformance 使用观察路径 `/flow/status` 断言 `won` 与独立负例的 `playing/lost`。按 [04 号规范](04-Conformance-Test-V0.1.md) 与现有执行器，`assertEvent` 需要 `eventType` 和**整数 `count`**，可选 `sinceTick`；不提供 `count` 不等于“至少发生一次”。不知道精确事件次数时，应选择可复现的状态/终局断言，不猜测事件数量。
+
 ## 4. Host 适配
 
 - `CanvasPreviewAdapter`：Canvas2D 参考实现，Chromium 实际绘制验收；非 G2 目标后端。

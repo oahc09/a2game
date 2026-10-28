@@ -1,0 +1,40 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_batch_delivered",
+  "deviceScope": "Physical tasks deferred by user",
+  "steps": [
+    {
+      "id": "linkage",
+      "status": "completed",
+      "deliverable": "合成解锁生产、升级改变角色伤害；HUD 展示实际联动状态"
+    },
+    {
+      "id": "evidence",
+      "status": "completed",
+      "deliverable": "记录成本、成熟、同 Tick 时序和双 SDK 的实际交互与回放"
+    },
+    {
+      "id": "delivery",
+      "status": "completed",
+      "deliverable": "更新逐款缺口与状态，验证后本地提交"
+    }
+  ],
+  "evidence": {
+    "headless": "reports/gameplay-2026-10-26T15-22-26-462Z-44244/summary.json",
+    "browser": "reports/candidates-2026-10-26T15-28-50-923Z-4060/summary.json",
+    "variants": "reports/variants-2026-10-26T15-29-30-219Z-28264/summary.json",
+    "visualReview": "reports/gameplay-linkage-visual-review-2026-10-26T15-34-20-051Z.json",
+    "coverageSchema": "reports/gameplay-linkage-coverage-schema-2026-10-26T15-35-59Z.json",
+    "index": "reports/nonphysical-current-refresh-2026-10-26T15-35-46-316Z.json",
+    "matrix": "reports/node-matrix-2026-10-26T15-24-06-320Z-28264/summary.json",
+    "skill": "reports/gameplay-linkage-skill-2026-10-26T15-28-03-679Z",
+    "sourceIteration": "reports/gameplay-linkage-source-iteration-2026-10-26T15-28-03-376Z.json"
+  },
+  "fullAcceptance": "PARTIAL",
+  "pending": [
+    "Per-game remainingGameplay items in project/gameplay-acceptance.json",
+    "Complete manual quality and genuine independent G3",
+    "Physical tasks deferred by user"
+  ],
+  "verification": "reports/verify-2026-10-26T15-36-39-519Z-11012/verify.log"
+}

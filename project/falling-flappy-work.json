@@ -1,0 +1,40 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_batch_delivered",
+  "deviceScope": "Physical tasks deferred by user",
+  "steps": [
+    {
+      "id": "gameplay",
+      "status": "completed",
+      "deliverable": "连续四格拼块、重力锁定和即时顶出；Flappy 门柱碰撞与门后计分"
+    },
+    {
+      "id": "evidence",
+      "status": "completed",
+      "deliverable": "验证完整胜负、边界、变体和真实双 SDK 的交互/画面/释放"
+    },
+    {
+      "id": "delivery",
+      "status": "completed",
+      "deliverable": "同步逐款缺口与当前回执，验证后本地提交"
+    }
+  ],
+  "evidence": {
+    "headless": "reports/gameplay-2026-10-26T23-32-59-113Z-12488/summary.json",
+    "browser": "reports/candidates-2026-10-26T23-33-37-269Z-10772/summary.json",
+    "variants": "reports/variants-2026-10-26T23-34-15-051Z-48544/summary.json",
+    "visualReview": "reports/falling-flappy-visual-review-2026-10-26T23-37-50-636Z.json",
+    "coverageSchema": "reports/falling-flappy-coverage-schema-2026-10-26T23-41-20Z.json",
+    "index": "reports/nonphysical-current-refresh-2026-10-26T23-40-56-898Z.json",
+    "matrix": "reports/node-matrix-2026-10-26T23-33-09-281Z-43152/summary.json",
+    "performance": "reports/performance-2026-10-26T23-31-20-435Z-16164/summary.json",
+    "skill": "reports/falling-flappy-skill-2026-10-26T23-32-16-850Z/summary.json"
+  },
+  "fullAcceptance": "PARTIAL",
+  "pending": [
+    "Remaining per-game gameplay contracts in project/gameplay-acceptance.json",
+    "Complete manual quality and genuine independent G3",
+    "Physical tasks deferred by user"
+  ],
+  "verification": "reports/verify-2026-10-26T23-41-21-186Z-11144/verify.log"
+}

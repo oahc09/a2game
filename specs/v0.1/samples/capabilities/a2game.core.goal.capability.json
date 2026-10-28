@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "kind": "core",
   "portability": "exact",
-  "description": "Existing shared Runtime goal service exposed explicitly for catalog composition; no new per-game behavior.",
+  "description": "Existing shared Runtime goal service exposed explicitly for catalog composition; no new per-game behavior. 2026-10-27 compatible increment: outcome status stopped ends a neutral result; winner/draw remain explicit game state.",
   "phase": "simulate",
   "dependencies": [
     {

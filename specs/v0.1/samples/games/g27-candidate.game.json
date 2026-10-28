@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g27",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G27 重力迷宫",
     "genres": [
@@ -117,7 +117,8 @@
                 "bodyId": "hero",
                 "moveMode": "tilt",
                 "dragAction": "drag",
-                "tiltAction": "tilt"
+                "tiltAction": "tilt",
+                "clearLostImu": true
               }
             }
           ]
@@ -243,7 +244,9 @@
         "bindings": [
           {
             "source": "imu.tilt",
-            "config": {}
+            "config": {
+              "trackSample": true
+            }
           }
         ]
       }
@@ -270,11 +273,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "启用并校准传感器后倾斜；也可拖动圆点绕过墙到达目标。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -332,13 +340,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

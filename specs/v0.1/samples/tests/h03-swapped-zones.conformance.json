@@ -1,0 +1,170 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h03-swapped-zones",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.h03-swapped-zones",
+    "file": "../games/h03-swapped-zones.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-H03-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.15,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 2,
+              "u": 0.85,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 110
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 2000
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-H03-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.15,
+              "v": 0.5,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/crashed",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

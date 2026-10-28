@@ -1,0 +1,43 @@
+{
+  "format": "a2game-quality-work",
+  "status": "ai_reviewed_pending_human",
+  "scope": "37 bounded base games; G13/H03 first. Actual desktop and virtual browser quality checks, not human/G3/physical sign-off.",
+  "steps": [
+    {
+      "id": "shared",
+      "status": "completed",
+      "deliverable": "修正共用按钮命名、窄屏操作距离、结果反馈及无关采集控件"
+    },
+    {
+      "id": "catalog",
+      "status": "completed",
+      "deliverable": "逐款核对 37 款的双 SDK 操作、胜负重试、边界和 320/390px 画面"
+    },
+    {
+      "id": "receipts",
+      "status": "completed",
+      "deliverable": "归档实际画面审查、未验项及当前源码证据，验证后本地提交"
+    }
+  ],
+  "fixed": [
+    "Readable Chinese action labels and keyboard hints",
+    "Adjacent primary controls and compact narrow layout",
+    "Localized terminal/pause/retry messages",
+    "Explicit sensor/recording visibility and collapsed diagnostics",
+    "Browser zoom and favicon",
+    "Deferred resize redraw with disposal cancellation"
+  ],
+  "summary": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
+  "reviewedGames": 37,
+  "baseLayoutCases": 222,
+  "production": "reports/runner-quality-2026-10-27T11-44-34-063Z/summary.json",
+  "skill": "reports/runner-skill-2026-10-27T11-44-58-656Z/summary.json",
+  "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+  "pending": [
+    "Human confirmation of visual style, small in-canvas annotations and long-play feel; current DOM instructions remain readable.",
+    "Independent Agent/G3 acceptance.",
+    "Applicable physical Touch/IMU acceptance deferred by user."
+  ],
+  "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+  "governance": "reports/quality-governance-20261027-final.log"
+}

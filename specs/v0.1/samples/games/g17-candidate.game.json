@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g17",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G17 纵版飞机",
     "genres": [
@@ -272,11 +272,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "拖动飞机对准敌机，Space 或 fire 发射；限时击落目标。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -334,13 +339,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

@@ -1,0 +1,42 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_batch_delivered",
+  "deviceScope": "Physical tasks deferred by user",
+  "steps": [
+    {
+      "id": "gameplay",
+      "status": "completed",
+      "deliverable": "G11 连续三平台、中心落点连击与偏心重置；G24 四方向/和棋及终局拒绝"
+    },
+    {
+      "id": "evidence",
+      "status": "completed",
+      "deliverable": "复用逐款验收覆盖新增必要场景、真实按键/画布交互、双 SDK 画面与释放"
+    },
+    {
+      "id": "delivery",
+      "status": "completed",
+      "deliverable": "同步当前证据及剩余缺口，通过工程验证后本地提交"
+    }
+  ],
+  "visualReview": "reports/jump-turn-visual-review-2026-10-27T03-43-47-728Z.json",
+  "evidence": {
+    "headless": "reports/gameplay-2026-10-27T03-33-25-686Z-13556/summary.json",
+    "browser": "reports/candidates-2026-10-27T03-36-38-194Z-41716/summary.json",
+    "variants": "reports/variants-2026-10-27T03-38-16-688Z-33416/summary.json",
+    "index": "reports/nonphysical-current-refresh-2026-10-27T03-46-17-424Z.json",
+    "matrix": "reports/node-matrix-2026-10-27T03-38-26-645Z-15484/summary.json",
+    "performance": "reports/performance-2026-10-27T03-38-26-734Z-15616/summary.json",
+    "skill": "reports/jump-turn-skill-2026-10-27T03-36-27-791Z/summary.json",
+    "coverageSchema": "reports/jump-turn-coverage-schema-2026-10-27T03-47-07Z.json",
+    "visualReview": "reports/jump-turn-visual-review-2026-10-27T03-43-47-728Z.json",
+    "conformanceRetention": "reports/jump-turn-conformance-retention-2026-10-27T03-50-45-703Z.json"
+  },
+  "fullAcceptance": "PARTIAL",
+  "pending": [
+    "17 per-game gameplay gaps in project/gameplay-acceptance.json",
+    "Complete manual quality and genuine independent G3",
+    "Physical tasks deferred by user"
+  ],
+  "verification": "reports/verify-2026-10-27T03-47-08-553Z-7824/verify.log"
+}

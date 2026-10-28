@@ -27,7 +27,7 @@
         },
         {
           "op": "step",
-          "ticks": 60
+          "ticks": 10
         },
         {
           "op": "injectAction",
@@ -41,7 +41,45 @@
         },
         {
           "op": "step",
-          "ticks": 60
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 16
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/spawned",
+          "equals": 4
         },
         {
           "op": "assert",
@@ -80,9 +118,47 @@
           "ticks": 60
         },
         {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/spawned",
+          "equals": 3
+        },
+        {
           "op": "assert",
           "path": "/flow/status",
-          "equals": "playing"
+          "equals": "lost"
         }
       ]
     }

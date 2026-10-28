@@ -21,6 +21,24 @@
       "integrity": "sha256-HFY/wPVI+NrfP8ouN2E9H38zTPn8a4DE2w3IqklLWzw=",
       "source": "Repository-authored procedural fixture",
       "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/hidden-apple.png",
+      "type": "image",
+      "mime": "image/png",
+      "bytes": 521,
+      "integrity": "sha256-2vvxNMVFBaXs2yt/YPZFEgWaJ626kg2wieDcv3CZJPQ=",
+      "source": "Repository-authored pixel-art apple for H05",
+      "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/hidden-key.png",
+      "type": "image",
+      "mime": "image/png",
+      "bytes": 436,
+      "integrity": "sha256-z+64MEtMuNTD1rxOixn9tXnY5d2vXflMQAKT8OronGs=",
+      "source": "Repository-authored pixel-art key for H05",
+      "license": "CC0-1.0"
     }
   ]
 }

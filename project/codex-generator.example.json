@@ -1,0 +1,7 @@
+{
+  "executable": "C:/path/to/installed/codex.exe",
+  "generationTimeoutMs": 300000,
+  "maxTasks": 37,
+  "maxCalls": 111,
+  "maxAttempts": 3
+}

@@ -647,7 +647,8 @@
         "status": {
           "enum": [
             "won",
-            "lost"
+            "lost",
+            "stopped"
           ]
         },
         "priority": {
@@ -1165,6 +1166,16 @@
               "type": "number",
               "exclusiveMinimum": 0,
               "maximum": 1000
+            },
+            "fitSize": {
+              "type": "array",
+              "items": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 1000
+              },
+              "minItems": 2,
+              "maxItems": 2
             }
           },
           "required": [
@@ -1176,7 +1187,23 @@
             "fov",
             "orthoHeight"
           ],
-          "additionalProperties": false
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "required": [
+                  "fitSize"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "projection": {
+                    "const": "orthographic"
+                  }
+                }
+              }
+            }
+          ]
         },
         "nodes": {
           "type": "array",

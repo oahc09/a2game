@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.h03",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "H03 换道与射击",
     "genres": [
       "casual"
     ],
-    "description": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+    "description": "左区左移、中区右移、右区开火；双指左移并射击，再右移两次过检查点；←/→ 和 Space 可操作。"
   },
   "requires": {
     "all": [
@@ -49,11 +49,19 @@
         "version": "0.1.0"
       },
       {
+        "id": "a2game.input.touch.swipe",
+        "version": "0.1.0"
+      },
+      {
         "id": "a2game.input.touch.raw",
         "version": "0.1.0"
       },
       {
         "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
         "version": "0.1.0"
       }
     ]
@@ -86,13 +94,98 @@
                 "statePath": "/world",
                 "width": 8000,
                 "height": 6000,
-                "weapon": "hitscan",
+                "laneCenters": [
+                  2000,
+                  4000,
+                  6000
+                ],
+                "maxTicks": 300,
+                "actions": {
+                  "laneLeft": "left",
+                  "laneRight": "right",
+                  "fire": "fire"
+                },
+                "waves": [
+                  {
+                    "tick": 35,
+                    "body": {
+                      "id": "checkpoint_1",
+                      "kind": "pickup",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 2000,
+                      "hy": 60,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false,
+                      "ttl": 100
+                    }
+                  },
+                  {
+                    "tick": 90,
+                    "body": {
+                      "id": "obstacle_b",
+                      "kind": "solid",
+                      "x": 2000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 350,
+                      "hy": 180,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 0,
+                      "fixed": false,
+                      "ttl": 90
+                    }
+                  },
+                  {
+                    "tick": 145,
+                    "body": {
+                      "id": "obstacle_c",
+                      "kind": "solid",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 350,
+                      "hy": 180,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 0,
+                      "fixed": false,
+                      "ttl": 90
+                    }
+                  },
+                  {
+                    "tick": 170,
+                    "body": {
+                      "id": "checkpoint_2",
+                      "kind": "pickup",
+                      "x": 4000,
+                      "y": 5500,
+                      "vx": 0,
+                      "vy": -64,
+                      "hx": 2000,
+                      "hy": 60,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false,
+                      "ttl": 100
+                    }
+                  }
+                ],
+                "weapon": "projectile",
                 "fireDirection": "up",
+                "projectileSpeed": 128,
+                "projectileHalfSize": 64,
+                "cooldownTicks": 8,
                 "fireRequestPath": "/control/fireRequest",
-                "laneRequestPath": "/control/laneSignal",
-                "laneWidth": 2000,
-                "goalScore": 1,
-                "maxTicks": 120
+                "laneRequestPath": "/control/laneSignal"
               }
             }
           ]
@@ -109,7 +202,7 @@
           {
             "id": "hero",
             "kind": "actor",
-            "x": 3000,
+            "x": 4000,
             "y": 1000,
             "vx": 0,
             "vy": 0,
@@ -117,22 +210,38 @@
             "hy": 100,
             "hp": 1,
             "team": 1,
-            "value": 1,
+            "value": 0,
             "fixed": false
           },
           {
-            "id": "enemy",
+            "id": "obstacle_a",
+            "kind": "solid",
+            "x": 4000,
+            "y": 5500,
+            "vx": 0,
+            "vy": -64,
+            "hx": 350,
+            "hy": 180,
+            "hp": 1,
+            "team": 2,
+            "value": 0,
+            "fixed": false,
+            "ttl": 90
+          },
+          {
+            "id": "gunner",
             "kind": "target",
-            "x": 1000,
+            "x": 2000,
             "y": 4500,
             "vx": 0,
-            "vy": 0,
-            "hx": 300,
-            "hy": 300,
+            "vy": -32,
+            "hx": 200,
+            "hy": 200,
             "hp": 1,
             "team": 2,
             "value": 1,
-            "fixed": true
+            "fixed": false,
+            "ttl": 110
           }
         ],
         "score": 0,
@@ -144,6 +253,14 @@
         "grounded": [],
         "won": false,
         "lost": false
+      }
+    },
+    "runner": {
+      "type": "object",
+      "initial": {
+        "checkpoints": 0,
+        "kills": 0,
+        "crashed": false
       }
     },
     "control": {
@@ -189,6 +306,54 @@
   "inputs": {
     "actions": [
       {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "left"
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "right"
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      },
+      {
         "id": "zones",
         "valueType": "pose",
         "bindings": [
@@ -201,6 +366,158 @@
     ]
   },
   "rules": [
+    {
+      "id": "crash-a",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_a"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "crash-b",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_b"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "crash-c",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/pair"
+          },
+          {
+            "const": "hero|obstacle_c"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/crashed",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-1",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "checkpoint_1"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/checkpoints",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "checkpoint-2",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "checkpoint_2"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/runner/checkpoints",
+          "value": 2
+        }
+      ]
+    },
     {
       "id": "left-zone",
       "on": {
@@ -229,7 +546,7 @@
                 "event": "/value/u"
               },
               {
-                "const": 0.3
+                "const": 0.25
               }
             ]
           }
@@ -240,6 +557,59 @@
           "op": "state.set",
           "path": "/control/laneSignal",
           "value": -1
+        }
+      ]
+    },
+    {
+      "id": "middle-zone",
+      "on": {
+        "type": "input.action",
+        "action": "zones",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/value/kind"
+              },
+              {
+                "const": "down"
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "event": "/value/u"
+              },
+              {
+                "const": 0.25
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "event": "/value/u"
+              },
+              {
+                "const": 0.6
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/control/laneSignal",
+          "value": 1
         }
       ]
     },
@@ -271,7 +641,7 @@
                 "event": "/value/u"
               },
               {
-                "const": 0.7
+                "const": 0.75
               }
             ]
           }
@@ -284,33 +654,100 @@
           "value": true
         }
       ]
+    },
+    {
+      "id": "defeat-gunner",
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "gunner"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/runner/kills",
+          "value": 1
+        }
+      ]
     }
   ],
   "outcomes": [
     {
-      "id": "won",
+      "id": "finish",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/runner/kills"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
       }
     },
     {
-      "id": "lost",
+      "id": "crash",
       "status": "lost",
-      "priority": -1,
+      "priority": -2,
       "when": {
-        "state": "/world/lost"
+        "op": "or",
+        "args": [
+          {
+            "state": "/runner/crashed"
+          },
+          {
+            "state": "/world/lost"
+          }
+        ]
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "runner",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+            "template": "检查点 {0}/2 · 击退 {1} · 弹丸 {2}",
+            "args": [
+              {
+                "state": "/runner/checkpoints"
+              },
+              {
+                "state": "/runner/kills"
+              },
+              {
+                "state": "/world/nextId"
+              }
+            ]
           }
         }
       }
@@ -321,6 +758,71 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "gameplay-road",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6.8,
+            5.6
+          ],
+          "fill": "#17273c"
+        },
+        {
+          "id": "gameplay-lane-0",
+          "kind": "rect",
+          "at": [
+            -3,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-1",
+          "kind": "rect",
+          "at": [
+            -1,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-2",
+          "kind": "rect",
+          "at": [
+            1,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
+        {
+          "id": "gameplay-lane-3",
+          "kind": "rect",
+          "at": [
+            3,
+            0
+          ],
+          "size": [
+            0.025,
+            5.6
+          ],
+          "fill": "#35465e"
+        },
         {
           "id": "title",
           "kind": "text",
@@ -344,7 +846,46 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "左侧触摸换道，右侧触摸射击；两指可在同一 Tick 分别操作。"
+            "literal": "左区左移、中区右移、右区开火；双指左移并射击，再右移两次过检查点；←/→ 和 Space 可操作。"
+          }
+        },
+        {
+          "id": "gameplay-left-zone-label",
+          "kind": "text",
+          "at": [
+            -3.5,
+            -2.8
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "左移"
+          }
+        },
+        {
+          "id": "gameplay-middle-zone-label",
+          "kind": "text",
+          "at": [
+            -0.75,
+            -2.8
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "右移"
+          }
+        },
+        {
+          "id": "gameplay-right-zone-label",
+          "kind": "text",
+          "at": [
+            3.5,
+            -2.8
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "开火"
           }
         }
       ],
@@ -364,17 +905,9 @@
         },
         "circleKinds": [
           "actor",
-          "target",
-          "projectile",
-          "pickup"
+          "projectile"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

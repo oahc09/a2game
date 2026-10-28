@@ -1,0 +1,20 @@
+/** Engineering smoke only: local synthetic model API, five-step solution, no independent generation. */
+import {createServer} from 'node:http';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+import {resolve,relative} from 'node:path';
+import {root} from './registry.mjs';
+import {runAgentWorkflow} from './agent-workflow.mjs';
+import {verifyGeneratedBrowser} from './g3-browser.mjs';
+const name='g3-fixture-'+new Date().toISOString().replace(/[:.]/g,'-')+'-'+process.pid,directory=resolve(root,'reports',name),local=resolve(root,'.tools',name);
+mkdirSync(directory);mkdirSync(local,{recursive:true});const save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
+const game=JSON.parse(readFileSync(resolve(root,'specs/v0.1/samples/games/tap-target.game.json'),'utf8'));game.id='org.a2game.fixture.four-presses';game.state.goal.initial=4;game.meta.title='工程夹具：四次点击';
+const clicks=n=>Array.from({length:n},()=>[{op:'injectAction',action:'collect',phase:'press'},{op:'injectAction',action:'collect',phase:'release'},{op:'step',ticks:1}]).flat();
+const output={format:'a2game-generation-output',version:1,game,provenance:{kind:'fixture',model:'synthetic-local-http-fixture'},solution:[{ticks:2},...Array.from({length:4},()=>({action:'collect',ticks:1}))],conformance:{format:'a2game-conformance',specVersion:'0.1.0',suiteId:'four-presses-fixture',subject:{type:'game',id:game.id,file:'unused.game.json'},cases:[{id:'positive',seed:42,steps:[{op:'start'},...clicks(4),{op:'assert',path:'/flow/status',equals:'won'}]},{id:'negative',seed:42,steps:[{op:'start'},...clicks(3),{op:'assert',path:'/flow/status',equals:'playing'}]}]}};
+let calls=0;const server=createServer(async(req,res)=>{try{let text='';for await(const chunk of req)text+=chunk;const body=JSON.parse(text);if(body.model!=='synthetic-local-http-fixture'||body.stream!==false||JSON.parse(body.messages[1].content).attempt!==1)throw Error('Invalid adapter request');calls++;res.setHeader('content-type','application/json');res.end(JSON.stringify({id:'synthetic-call-'+calls,model:'synthetic-local-http-fixture',choices:[{finish_reason:'stop',message:{content:JSON.stringify(output)}}]}));}catch{res.writeHead(400);res.end('{}');}});
+let result,failure;const previous=process.env.A2GAME_G3_CALL_DIR;
+try{
+ await new Promise(done=>server.listen(0,'127.0.0.1',done));const config=resolve(local,'model.json');save(config,{endpoint:'http://127.0.0.1:'+server.address().port+'/v1/chat/completions',model:'synthetic-local-http-fixture',maxCompletionTokens:4096});process.env.A2GAME_G3_CALL_DIR=directory;
+ const generation=await runAgentWorkflow({prompt:'工程夹具：静止等待两 Tick 后点击四次，三次点击仍未完成；不得计为独立 G3。',command:[process.execPath,'scripts/model-generator.mjs',config],maxAttempts:1,timeoutMs:8000,directory:resolve(directory,'generation')});if(!generation.success)throw Error('模型传输夹具生成失败。');
+ result=await verifyGeneratedBrowser(resolve(directory,'generation'),resolve(directory,'browser'));if(result.status!=='PASS')throw Error('真实双 SDK 夹具回放未通过。');
+}catch(e){failure=String(e);}finally{if(previous===undefined)delete process.env.A2GAME_G3_CALL_DIR;else process.env.A2GAME_G3_CALL_DIR=previous;await new Promise(done=>{server.close(done);server.closeAllConnections();});}
+const summary={format:'a2game-g3-fixture',version:1,status:!failure&&calls===1&&result?.status==='PASS'?'PASS_REFERENCE':'FAIL',scope:'Synthetic local HTTP + strict workflow + five-step/two-case real SDK engineering smoke. Not an independent model.',G3:'NOT_RUN',independentG3Passed:0,providerCalls:calls,solutionSteps:5,conformanceCases:2,provenance:output.provenance,workflow:relative(root,resolve(directory,'generation/summary.json')).replaceAll('\\','/'),browser:relative(root,resolve(directory,'browser/summary.json')).replaceAll('\\','/'),telemetry:relative(root,resolve(directory,'model-call-1.json')).replaceAll('\\','/'),failure};save(resolve(directory,'summary.json'),summary);console.log(JSON.stringify({status:summary.status,summary:relative(root,resolve(directory,'summary.json')).replaceAll('\\','/')},null,2));if(summary.status!=='PASS_REFERENCE')process.exitCode=1;

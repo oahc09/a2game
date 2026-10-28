@@ -1,0 +1,7 @@
+{
+  "endpoint": "http://127.0.0.1:8000/v1/chat/completions",
+  "model": "replace-with-your-model-id",
+  "maxCompletionTokens": 16384,
+  "timeoutMs": 50000,
+  "maxResponseBytes": 786432
+}

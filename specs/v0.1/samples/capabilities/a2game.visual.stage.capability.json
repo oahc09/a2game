@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "kind": "presentation",
   "portability": "host-defined",
-  "description": "Versioned camera, textured sprites, mesh/material presets, tick-projected animation, bounded particles and event audio; read-only logical state.",
+  "description": "Versioned camera, textured sprites, mesh/material presets, tick-projected animation, bounded particles and event audio; read-only logical state. Explicit orthographic camera.fitSize preserves the complete world rectangle and 2D overlay alignment at narrow aspect ratios.",
   "phase": "present",
   "dependencies": [
     {

@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g06",
-  "revision": 1,
+  "revision": 2,
   "meta": {
     "title": "G06 箭头迷宫消除",
     "genres": [
       "puzzle"
     ],
-    "description": "点选棋盘或右侧 cell 按钮；按行从 0 编号，undo 撤销。"
+    "description": "箭头沿四方向出界才能移除；先清上方 0，再清 3；1 下方仍有 4/7 阻挡。Z 撤销。"
   },
   "requires": {
     "all": [
@@ -87,17 +87,29 @@
               "config": {
                 "statePath": "/puzzle",
                 "width": 3,
-                "height": 1,
+                "height": 3,
                 "selectActions": [
                   "cell0",
                   "cell1",
-                  "cell2"
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8"
                 ],
                 "undoAction": "undo",
                 "directions": [
+                  "up",
+                  "down",
                   "right",
+                  "up",
+                  "left",
+                  "down",
+                  "left",
                   "right",
-                  "right"
+                  "down"
                 ]
               }
             }
@@ -114,9 +126,21 @@
         "board": [
           1,
           1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
           1
         ],
         "display": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
           1,
           1,
           1
@@ -141,14 +165,98 @@
   "inputs": {
     "actions": [
       {
-        "id": "cell0",
+        "id": "undo",
         "valueType": "button",
         "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
+              "code": "KeyZ"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
               "code": "Digit1"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.85,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.85,
+              "y": 0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
             }
           },
           {
@@ -166,14 +274,13 @@
         ]
       },
       {
-        "id": "cell1",
+        "id": "cell4",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit2"
+              "code": "Digit5"
             }
           },
           {
@@ -191,14 +298,13 @@
         ]
       },
       {
-        "id": "cell2",
+        "id": "cell5",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit3"
+              "code": "Digit6"
             }
           },
           {
@@ -216,14 +322,73 @@
         ]
       },
       {
-        "id": "undo",
+        "id": "cell6",
         "valueType": "button",
-        "policy": "first-ready",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit4"
+              "code": "Digit7"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": -0.85,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 6,
+              "x": 0.85,
+              "y": -0.85,
+              "hx": 0.3825,
+              "hy": 0.3825,
+              "mode": "tap"
             }
           }
         ]
@@ -298,7 +463,403 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "点选棋盘或右侧 cell 按钮；按行从 0 编号，undo 撤销。"
+            "literal": "箭头沿四方向出界才能移除；先清上方 0，再清 3；1 下方仍有 4/7 阻挡。Z 撤销。"
+          }
+        },
+        {
+          "id": "gameplay-tile-0",
+          "kind": "rect",
+          "at": [
+            -0.85,
+            0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/0"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-0",
+          "kind": "text",
+          "at": [
+            -0.85,
+            0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/0"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "↑"
+          }
+        },
+        {
+          "id": "gameplay-tile-1",
+          "kind": "rect",
+          "at": [
+            0,
+            0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/1"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-1",
+          "kind": "text",
+          "at": [
+            0,
+            0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/1"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "↓"
+          }
+        },
+        {
+          "id": "gameplay-tile-2",
+          "kind": "rect",
+          "at": [
+            0.85,
+            0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/2"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-2",
+          "kind": "text",
+          "at": [
+            0.85,
+            0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/2"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "→"
+          }
+        },
+        {
+          "id": "gameplay-tile-3",
+          "kind": "rect",
+          "at": [
+            -0.85,
+            0
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/3"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-3",
+          "kind": "text",
+          "at": [
+            -0.85,
+            0
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/3"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "↑"
+          }
+        },
+        {
+          "id": "gameplay-tile-4",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/4"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-4",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/4"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "←"
+          }
+        },
+        {
+          "id": "gameplay-tile-5",
+          "kind": "rect",
+          "at": [
+            0.85,
+            0
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/5"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-5",
+          "kind": "text",
+          "at": [
+            0.85,
+            0
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/5"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "↓"
+          }
+        },
+        {
+          "id": "gameplay-tile-6",
+          "kind": "rect",
+          "at": [
+            -0.85,
+            -0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/6"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-6",
+          "kind": "text",
+          "at": [
+            -0.85,
+            -0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/6"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "←"
+          }
+        },
+        {
+          "id": "gameplay-tile-7",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/7"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-7",
+          "kind": "text",
+          "at": [
+            0,
+            -0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/7"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "→"
+          }
+        },
+        {
+          "id": "gameplay-tile-8",
+          "kind": "rect",
+          "at": [
+            0.85,
+            -0.85
+          ],
+          "size": [
+            0.782,
+            0.782
+          ],
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/8"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#57d7c8"
+            },
+            "fallback": "#243851"
+          }
+        },
+        {
+          "id": "gameplay-arrow-8",
+          "kind": "text",
+          "at": [
+            0.85,
+            -0.85
+          ],
+          "fontSize": 0.42,
+          "fill": {
+            "from": {
+              "state": "/puzzle/board/8"
+            },
+            "map": {
+              "0": "#243851",
+              "1": "#ffffff"
+            },
+            "fallback": "#ffffff"
+          },
+          "text": {
+            "literal": "↓"
           }
         }
       ],
@@ -306,12 +867,12 @@
         {
           "id": "board",
           "source": {
-            "state": "/puzzle/display"
+            "literal": []
           },
           "columns": 3,
           "origin": [
             -0.85,
-            0
+            0.85
           ],
           "step": [
             0.85,
@@ -347,23 +908,6 @@
                 },
                 "fallback": "#a8c5d9"
               }
-            },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.2975,
-              "fill": "#ffffff",
-              "text": {
-                "literal": "→"
-              },
-              "omitWhen": [
-                -1,
-                0
-              ]
             }
           ]
         },
@@ -375,7 +919,7 @@
           "columns": 3,
           "origin": [
             -0.85,
-            0
+            0.85
           ],
           "step": [
             0.85,

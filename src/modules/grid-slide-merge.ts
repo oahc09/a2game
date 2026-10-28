@@ -61,8 +61,11 @@ export function simulateGridSlideMerge(ctx: ModuleContext): ModuleResult {
         changed=true;
         events.push({type:'grid.moved',payload:{direction,spawned:newTiles}});
     }
+    const stalled=board.every(v=>v>0)&&!board.some((v,i)=>(i%width+1<width&&v===board[i+1])||(i+width<board.length&&v===board[i+width]));
+    const extra:NonNullable<ModuleResult['proposals']>=[];
+    if(cfg.stalledPath!==undefined){if(typeof cfg.stalledPath!=='string'||typeof readPointer(ctx.world.state,cfg.stalledPath)!=='boolean')fail('A2G_E_CAP_CONFIG','stalledPath must reference a boolean');if(readPointer(ctx.world.state,cfg.stalledPath)!==stalled)extra.push({kind:'state.set',path:cfg.stalledPath,value:stalled});}
     return changed ? {
-        proposals:[{kind:'state.set',path:boardPath,value:board},{kind:'state.set',path:bestPath,value:best}],events,
-    } : {events:[]};
+        proposals:[{kind:'state.set',path:boardPath,value:board},{kind:'state.set',path:bestPath,value:best},...extra],events,
+    } : {proposals:extra,events:[]};
 }
 export const gridSlideMergeImplementation: TrustedCapabilityImplementation = {role:'module',simulate:simulateGridSlideMerge};

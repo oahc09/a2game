@@ -185,3 +185,7 @@ return result
 - error：未知字段/引用/Manifest/超预算/非法状态/资源拒绝都有稳定 code + JSON Pointer。
 
 **所有 PASS 需要真实运行日志和可复现测试，不是仅靠本设计文本。**
+
+## 2026-10-27 显式兼容增量
+
+Outcome 可以提交已有的 stopped 状态并观察 game.stopped；其后的 Tick、普通输入与 resume/start 均不能继续游戏。业务上的和棋保留在游戏状态中，不映射成获胜/失败，也不增加 GameStatus 枚举。与原 T9 的优先级和唯一裁决顺序一致。

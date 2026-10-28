@@ -27,7 +27,21 @@
         },
         {
           "op": "step",
-          "ticks": 31
+          "ticks": 20
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 11
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1
         },
         {
           "op": "injectAction",
@@ -42,6 +56,11 @@
         {
           "op": "step",
           "ticks": 31
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 2
         },
         {
           "op": "assert",
@@ -68,6 +87,11 @@
         {
           "op": "step",
           "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
         },
         {
           "op": "assert",

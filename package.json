@@ -31,7 +31,16 @@
     "compat:matrix": "node scripts/compat-matrix.mjs",
     "performance:profile": "node scripts/benchmark-profile.mjs",
     "save:replay": "node scripts/replay-save.mjs",
-    "variants:e2e": "node scripts/candidates-browser.mjs --variants"
+    "variants:e2e": "node scripts/candidates-browser.mjs --variants",
+    "gameplay:check": "npm run build && node scripts/gameplay-acceptance.mjs",
+    "acceptance:build": "node scripts/final-acceptance.mjs build",
+    "acceptance:check": "node scripts/final-acceptance.mjs check",
+    "acceptance:ready": "node scripts/final-acceptance.mjs check --require-ready",
+    "g3:plan": "node scripts/g3-batch.mjs plan",
+    "g3:run": "node scripts/g3-batch.mjs run",
+    "g3:e2e": "node scripts/g3-browser.mjs",
+    "g3:fixture": "node scripts/run-g3-fixture.mjs",
+    "g3:codex": "node scripts/g3-codex.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {
@@ -39,5 +48,8 @@
     "pngjs": "7.0.0",
     "three": "0.186.1",
     "typescript": "5.8.3"
+  },
+  "dependencies": {
+    "cannon-es": "0.20.0"
   }
 }

@@ -30,3 +30,18 @@ test('sorting conserves tile mass and invalid colors/occlusion cycles fail witho
   const invalid=game('tray');invalid.scenes[0].entities[0].components[0].config.blockers=[[1],[0],[],[],[],[]];assert.throws(()=>new HeadlessRuntime(invalid,makeRegistry()),{code:'A2G_E_CAP_CONFIG'});
   const composite=game('match');composite.scenes[0].entities[0].components.push(structuredClone(composite.scenes[0].entities[0].components[0]));assert.throws(()=>new HeadlessRuntime(composite,makeRegistry()),{code:'A2G_E_CAP_CONFIG'});
 });
+
+test('a blocked falling-piece spawn tops out during lock before later movement can rescue it',()=>{
+ for(const mode of ['drop','gravity','initial']){
+  const def=game('falling'),c=def.scenes[0].entities[0].components[0].config,p=def.state.puzzle.initial;
+  c.pieces=[[[0,0]],[[0,0]]];c.targetScore=99;c.fallTicks=1;
+  p.board=Array(16).fill(0);p.board[mode==='initial'?2:6]=1;p.anchor=2;
+  const r=runtime(def);
+  try{
+   if(mode==='drop'){r.injectAction({action:'drop',phase:'press'});r.injectAction({action:'drop',phase:'release'});}
+   if(mode!=='gravity')r.injectAction({action:'left',phase:'press'});
+   r.step();const result=r.observe();assert.equal(result.flow.status,'lost',mode);assert.equal(result.state.puzzle.anchor,2,mode);
+   assert.equal(result.state.puzzle.moves,mode==='initial'?0:1);assert.equal(result.state.puzzle.score,0);
+  }finally{r.dispose();}
+ }
+});

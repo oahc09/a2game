@@ -1,0 +1,158 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g11-longer-jump",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g11-longer-jump",
+    "file": "../games/g11-longer-jump.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G11-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/charge",
+          "equals": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/combo",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/combo",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/score",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G11-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 150
+        },
+        {
+          "op": "assert",
+          "path": "/state/jump/landings",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

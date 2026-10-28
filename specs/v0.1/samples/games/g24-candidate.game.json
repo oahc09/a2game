@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g24",
-  "revision": 2,
+  "revision": 3,
   "meta": {
     "title": "G24 五子棋",
     "genres": [
@@ -785,16 +785,37 @@
           }
         ]
       }
+    },
+    {
+      "id": "draw",
+      "status": "stopped",
+      "when": {
+        "state": "/turn/draw"
+      }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "title",
+        "id": "turn",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "合法落子与轮换"
+            "template": "玩家 {0} · 步数 {1}\n胜方 {2} · 和棋 {3}",
+            "args": [
+              {
+                "state": "/turn/player"
+              },
+              {
+                "state": "/turn/moves"
+              },
+              {
+                "state": "/turn/winner"
+              },
+              {
+                "state": "/turn/draw"
+              }
+            ]
           }
         }
       }

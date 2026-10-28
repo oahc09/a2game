@@ -102,3 +102,7 @@ Hxx 必须有独立 GameSpec/Conformance；样例数和通过率分别统计，�
 6. 记录 Schema/协议版本兼容与迁移，不因新增项目改变旧内容含义。
 
 **当前状态**：覆盖模型和 32 候选完成设计；尚未对 32 玩法生成完整 GameSpec、完成算法实现或运行验收。
+
+## 2026-10-27 实施记录：P2 验收归档
+
+当前候选/能力和真实 SDK 参考实现状态以 `project/status.json` 为准，上述初始设计状态保留为历史。宿主工具 `scripts/final-acceptance.mjs` 将 37 款的参考证据归集为独立档案，并生成 74 份按 Adapter/Profile 区分的正式待验 CoverageResult。此宿主档案 v1 不改变协议 0.1.0、冻结 32+5 分母或既有 GameSpec；缺少人工质量/独立 G3/适用真机时保持 NOT_RUN，登记检查不得自动升级 verified。详见根目录 `docs/final-acceptance.md`。

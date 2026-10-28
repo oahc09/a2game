@@ -17,40 +17,12 @@
         },
         {
           "op": "injectAction",
-          "action": "rotate",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "rotate",
-          "phase": "release"
-        },
-        {
-          "op": "step",
-          "ticks": 1
-        },
-        {
-          "op": "injectAction",
           "action": "cell0",
           "phase": "press"
         },
         {
           "op": "injectAction",
           "action": "cell0",
-          "phase": "release"
-        },
-        {
-          "op": "step",
-          "ticks": 1
-        },
-        {
-          "op": "injectAction",
-          "action": "rotate",
-          "phase": "press"
-        },
-        {
-          "op": "injectAction",
-          "action": "rotate",
           "phase": "release"
         },
         {

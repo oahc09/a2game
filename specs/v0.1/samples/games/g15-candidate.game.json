@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g15",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G15 弹球",
     "genres": [
       "casual"
     ],
-    "description": "点击弹射小球，触发上方奖励区；本关使用轴对齐边界。"
+    "description": "Space 或点击发射真实三维弹球，沿边界反弹，先通过远端触发区，再回到近端触发区。"
   },
   "requires": {
     "all": [
@@ -41,11 +41,19 @@
         "version": "0.1.0"
       },
       {
-        "id": "a2game.realtime.world",
+        "id": "a2game.visual.stage",
         "version": "0.1.0"
       },
       {
-        "id": "a2game.visual.body-style",
+        "id": "a2game.visual.bound-stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.physics.rigid3d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
         "version": "0.1.0"
       },
       {
@@ -67,7 +75,7 @@
     ]
   },
   "world": {
-    "dimension": "2d",
+    "dimension": "3d",
     "coordinateSystem": "rh-y-up",
     "units": "meter",
     "clock": {
@@ -87,32 +95,168 @@
           "components": [
             {
               "capability": {
-                "id": "a2game.realtime.world",
+                "id": "a2game.physics.rigid3d",
                 "version": "0.1.0"
               },
               "config": {
-                "statePath": "/world",
-                "width": 8000,
-                "height": 6000,
-                "gravity": -4,
-                "allowAirJump": true,
-                "jumpSpeed": 128,
-                "goalScore": 1,
-                "killBelowY": 600,
-                "maxTicks": 160,
-                "restitution": 800,
-                "constraints": [
+                "statePath": "/rigid",
+                "bodies": [
                   {
-                    "body": "ball",
-                    "minX": 1000,
-                    "maxX": 7000,
-                    "minY": 0,
-                    "maxY": 6000
+                    "id": "table",
+                    "shape": "box",
+                    "size": [
+                      4,
+                      0.4,
+                      6
+                    ],
+                    "position": [
+                      0,
+                      -0.2,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "ball",
+                    "shape": "sphere",
+                    "size": [
+                      0.36,
+                      0.36,
+                      0.36
+                    ],
+                    "position": [
+                      0,
+                      0.2,
+                      -2
+                    ],
+                    "mass": 1,
+                    "active": true
+                  },
+                  {
+                    "id": "left",
+                    "shape": "box",
+                    "size": [
+                      0.2,
+                      0.7,
+                      6.4
+                    ],
+                    "position": [
+                      -2.1,
+                      0.35,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "right",
+                    "shape": "box",
+                    "size": [
+                      0.2,
+                      0.7,
+                      6.4
+                    ],
+                    "position": [
+                      2.1,
+                      0.35,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "back",
+                    "shape": "box",
+                    "size": [
+                      4.4,
+                      0.7,
+                      0.2
+                    ],
+                    "position": [
+                      0,
+                      0.35,
+                      3.1
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "drain-left",
+                    "shape": "box",
+                    "size": [
+                      1.2,
+                      0.7,
+                      0.2
+                    ],
+                    "position": [
+                      -1.4,
+                      0.35,
+                      -3.1
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "drain-right",
+                    "shape": "box",
+                    "size": [
+                      1.2,
+                      0.7,
+                      0.2
+                    ],
+                    "position": [
+                      1.4,
+                      0.35,
+                      -3.1
+                    ],
+                    "mass": 0,
+                    "active": true
                   }
                 ],
-                "actions": {
-                  "jump": "kick"
-                }
+                "gravity": [
+                  0,
+                  -9.82,
+                  0
+                ],
+                "maxTicks": 480,
+                "failBelow": -3,
+                "restitution": 0.95,
+                "launchAction": "kick",
+                "actorIndex": 1,
+                "launchVelocity": [
+                  2.2,
+                  0,
+                  8
+                ],
+                "triggers": [
+                  {
+                    "id": "out",
+                    "min": [
+                      -2,
+                      0,
+                      1.5
+                    ],
+                    "max": [
+                      2,
+                      1,
+                      2.2
+                    ]
+                  },
+                  {
+                    "id": "return",
+                    "min": [
+                      -2,
+                      0,
+                      -0.95
+                    ],
+                    "max": [
+                      2,
+                      1,
+                      -0.55
+                    ]
+                  }
+                ]
               }
             }
           ]
@@ -122,46 +266,234 @@
   ],
   "entryScene": "main",
   "state": {
-    "world": {
+    "rigid": {
       "type": "object",
       "initial": {
         "bodies": [
           {
-            "id": "ball",
-            "kind": "actor",
-            "x": 4000,
-            "y": 1000,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 100,
-            "hp": 1,
-            "team": 1,
-            "value": 1,
-            "fixed": false
+            "active": true,
+            "p": [
+              0,
+              -200000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -200000
           },
           {
-            "id": "trigger",
-            "kind": "pickup",
-            "x": 4000,
-            "y": 2200,
-            "vx": 0,
-            "vy": 0,
-            "hx": 100,
-            "hy": 180,
-            "hp": 1,
-            "team": 2,
-            "value": 1,
-            "fixed": true
+            "active": true,
+            "p": [
+              0,
+              200000,
+              -2000000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 200000
+          },
+          {
+            "active": true,
+            "p": [
+              -2100000,
+              350000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              2100000,
+              350000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              0,
+              350000,
+              3100000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              -1400000,
+              350000,
+              -3100000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              1400000,
+              350000,
+              -3100000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
           }
         ],
-        "score": 0,
-        "charge": 0,
-        "nextId": 0,
-        "cooldowns": {},
         "contacts": [],
-        "spawned": [],
-        "grounded": [],
+        "hitIds": [],
+        "axis": [
+          0,
+          0
+        ],
+        "axisSource": "",
+        "score": 0,
+        "stableTicks": 0,
+        "placed": 0,
+        "spawnX": 0,
+        "spawnZ": 0,
+        "launched": false,
         "won": false,
         "lost": false
       }
@@ -193,7 +525,7 @@
       "id": "won",
       "status": "won",
       "when": {
-        "state": "/world/won"
+        "state": "/rigid/won"
       }
     },
     {
@@ -201,18 +533,26 @@
       "status": "lost",
       "priority": -1,
       "when": {
-        "state": "/world/lost"
+        "state": "/rigid/lost"
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "rigid",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "点击弹射小球，触发上方奖励区；本关使用轴对齐边界。"
+            "template": "触发 {0}/2 · 已发射 {1}",
+            "args": [
+              {
+                "state": "/rigid/score"
+              },
+              {
+                "state": "/rigid/launched"
+              }
+            ]
           }
         }
       }
@@ -246,38 +586,344 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "点击弹射小球，触发上方奖励区；本关使用轴对齐边界。"
+            "literal": "Space 或点击发射真实三维弹球，沿边界反弹，先通过远端触发区，再回到近端触发区。"
           }
         }
-      ],
-      "bodyLayer": {
-        "statePath": "/world/bodies",
-        "unitsPerMeter": 1000,
-        "origin": [
-          -4,
-          -3
+      ]
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          6,
+          8,
+          9
         ],
-        "palette": {
-          "actor": "#57d7c8",
-          "solid": "#a8c5d9",
-          "target": "#dc6d78",
-          "projectile": "#f5d26f",
-          "pickup": "#bd86d9"
-        },
-        "circleKinds": [
-          "actor",
-          "target",
-          "projectile",
-          "pickup"
+        "target": [
+          0,
+          0,
+          0
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
+        "near": 0.1,
+        "far": 50,
+        "fov": 45,
+        "orthoHeight": 10
+      },
+      "nodes": [
+        {
+          "id": "table",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/0/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            4,
+            0.4,
+            6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/0/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
         },
-        "showValues": true
-      }
+        {
+          "id": "ball",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            {
+              "state": "/rigid/bodies/1/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.36,
+            0.36,
+            0.36
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/1/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#57d7c8",
+          "material": "standard"
+        },
+        {
+          "id": "left",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/2/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.2,
+            0.7,
+            6.4
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/2/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "right",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/3/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.2,
+            0.7,
+            6.4
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/3/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "back",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/4/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            4.4,
+            0.7,
+            0.2
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/4/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "drain-left",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/5/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/5/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/5/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            1.2,
+            0.7,
+            0.2
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/5/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/5/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/5/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "drain-right",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/6/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/6/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/6/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            1.2,
+            0.7,
+            0.2
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/6/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/6/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/6/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "gate-out",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.015,
+            1.85
+          ],
+          "size": [
+            3.8,
+            0.03,
+            0.16
+          ],
+          "color": "#bd86d9"
+        },
+        {
+          "id": "gate-return",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.015,
+            -0.75
+          ],
+          "size": [
+            3.8,
+            0.03,
+            0.16
+          ],
+          "color": "#bd86d9"
+        }
+      ]
     }
   },
   "tests": [

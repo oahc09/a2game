@@ -11,6 +11,7 @@ test('economy cost/production/collection are atomic, use Tick time and reject re
  const shop=start(game('strategy-shop'));for(const a of ['buy','unlock','buy','place','buy'])press(shop,a);assert.equal(shop.observe().state.economy.wallet,1);assert.deepEqual(shop.observe().state.economy.grid,[1,0,0,0]);shop.dispose();
 });
 test('turn legality preserves player on occupied cells and win/draw use board geometry',()=>{
+ const unsupported=game('g24-candidate');unsupported.outcomes[0].status='draw';assert.throws(()=>start(unsupported));
  const r=start(game('strategy-turn'));press(r,'cell0');press(r,'cell0');assert.equal(r.observe().state.turn.player,2);assert.equal(r.observe().state.turn.moves,1);for(const a of ['cell3','cell1','cell4','cell2'])press(r,a);assert.equal(r.observe().state.turn.winner,1);assert.equal(r.observe().flow.status,'won');r.dispose();
  const d=game('strategy-turn');d.outcomes=[];const draw=start(d);for(const i of [0,1,2,4,3,5,7,6,8])press(draw,'cell'+i);assert.equal(draw.observe().state.turn.draw,true);assert.equal(draw.observe().state.turn.winner,0);draw.dispose();
 });

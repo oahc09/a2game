@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.g02-4096",
-  "revision": 1,
+  "revision": 3,
   "meta": {
-    "title": "G02 4096 目标：同一滑动内的新块不能再次合并",
+    "title": "G02 双小块开局完整合成到 4096，无合法步失败",
     "genres": [
       "puzzle"
     ],
-    "description": "4096 目标：同一滑动内的新块不能再次合并"
+    "description": "双小块开局完整合成到 4096，无合法步失败"
   },
   "requires": {
     "all": [
@@ -91,7 +91,8 @@
                   "down": "moveDown"
                 },
                 "historyPath": "/history",
-                "undoAction": "undo"
+                "undoAction": "undo",
+                "stalledPath": "/stalled"
               }
             }
           ]
@@ -104,9 +105,7 @@
     "board": {
       "type": "array",
       "initial": [
-        1024,
-        1024,
-        2048,
+        2,
         0,
         0,
         0,
@@ -115,6 +114,8 @@
         0,
         0,
         0,
+        0,
+        2,
         0,
         0,
         0,
@@ -124,7 +125,7 @@
     },
     "best": {
       "type": "int",
-      "initial": 2048
+      "initial": 2
     },
     "goal": {
       "type": "int",
@@ -133,6 +134,10 @@
     "history": {
       "type": "array",
       "initial": []
+    },
+    "stalled": {
+      "type": "bool",
+      "initial": false
     }
   },
   "inputs": {
@@ -252,6 +257,14 @@
           }
         ]
       }
+    },
+    {
+      "id": "no-moves",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "state": "/stalled"
+      }
     }
   ],
   "presentation": {
@@ -292,30 +305,17 @@
           ]
         },
         {
-          "id": "caption",
-          "kind": "text",
-          "at": [
-            -1.7,
-            2.55
-          ],
-          "fill": "#b5cee8",
-          "text": {
-            "literal": "A2Game / 2048"
-          },
-          "fontSize": 0.31
-        },
-        {
           "id": "best",
           "kind": "text",
           "at": [
-            2.3,
+            2.6,
             2.55
           ],
           "fill": "#f3ce8b",
           "text": {
             "state": "/best"
           },
-          "fontSize": 0.5
+          "fontSize": 0.3
         },
         {
           "id": "title",
@@ -327,7 +327,7 @@
           "fontSize": 0.26,
           "fill": "#b5cee8",
           "text": {
-            "literal": "G02 4096 目标：同一滑动内的新块不能再次合并"
+            "literal": "G02 2048 · 变体"
           }
         },
         {
@@ -340,7 +340,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "4096 目标：同一滑动内的新块不能再次合并"
+            "literal": "双小块开局完整合成到 4096，无合法步失败"
           }
         }
       ],
@@ -400,7 +400,7 @@
               "text": {
                 "item": true
               },
-              "fontSize": 0.52,
+              "fontSize": 0.3,
               "omitWhen": [
                 0
               ]

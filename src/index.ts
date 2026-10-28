@@ -18,6 +18,7 @@ export * from './content-release.js';
 export * from './visual-stage.js';
 export * from './modules/puzzle.js';
 export * from './modules/realtime.js';
+export * from './modules/rigid3d.js';
 export * from './modules/strategy.js';
 export * from './mobile-input.js';
 export * from './modules/input-control.js';

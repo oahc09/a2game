@@ -1,0 +1,111 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g13-second-obstacle",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g13-second-obstacle",
+    "file": "../games/g13-second-obstacle.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G13-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 110
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/spawned",
+          "equals": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 2000
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G13-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/crashed",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

@@ -28,6 +28,8 @@ Trace 须关联 `gameId`、`gameRevision`、`tickHz`、`seed`、`coordinateProfi
 
 ## 3. 参考样例
 
+2026-10-26 键盘兼容增量：`keyboard.button.config.hold:true` 显式启用持续按键。Host 对 DOM keydown/keyup 注入 `keyboard down/up`，共享 Runtime 从已有 `pressedSources` 在后续 Tick 派生 hold；同 Tick up/cancel 抑制 hold，重复 down 不产生第二次 press。默认 `hold:false` 保留既有点击式按键行为。暂停/重开清理来源，Trace/Snapshot 复用既有账本，不增加另一套时钟或宿主玩法。G11 蓄力与 G18 移动启用该配置。对应屏幕按钮用独立 `ui-hold:<action>:<pointerId>` 来源保留按下/松开/取消，沿共享账本每 action 每 Tick 至多派生一次 hold，多个输入来源保持 OR 语义。DOM 键盘在 capture 阶段监听，防止真实 SDK 画布焦点吞掉事件；按钮/按键回调不推进 Tick。
+
 `specs/v0.1/samples/tests/grid-push-swipe.input-trace.json` 包含两段 Swipe：第 10 个 Tick 向右移动、第 27 个 Tick 向上推动箱子到目标格。输入事件顺序、超时、cancel、短距离和指针身份均有自动化测试。
 
 `replayNormalizedInputTrace()` 会生成 `InputTraceReceipt{advanced, finalHash, finalStatus, consumed}`。实测该样例 `advanced=28`、`consumed=4`、`finalStatus=won`，其 `exactHash` 在 Node 与 Chromium 一致。

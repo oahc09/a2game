@@ -1,0 +1,716 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.g28-four-stack",
+  "revision": 2,
+  "meta": {
+    "title": "G28 四块真实三维刚体堆叠：稳定六十 Tick，偏置放置倾覆失败",
+    "genres": [
+      "casual"
+    ],
+    "description": "四块真实三维刚体堆叠：稳定六十 Tick，偏置放置倾覆失败"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.bound-stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.physics.rigid3d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.imu.tilt",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.physics.rigid3d",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/rigid",
+                "bodies": [
+                  {
+                    "id": "platform",
+                    "shape": "box",
+                    "size": [
+                      1.6,
+                      0.4,
+                      1.6
+                    ],
+                    "position": [
+                      0,
+                      -0.2,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "block0",
+                    "shape": "box",
+                    "size": [
+                      0.6,
+                      0.6,
+                      0.6
+                    ],
+                    "position": [
+                      0,
+                      4,
+                      0
+                    ],
+                    "mass": 1,
+                    "active": false
+                  },
+                  {
+                    "id": "block1",
+                    "shape": "box",
+                    "size": [
+                      0.6,
+                      0.6,
+                      0.6
+                    ],
+                    "position": [
+                      0,
+                      4,
+                      0
+                    ],
+                    "mass": 1,
+                    "active": false
+                  },
+                  {
+                    "id": "block2",
+                    "shape": "box",
+                    "size": [
+                      0.6,
+                      0.6,
+                      0.6
+                    ],
+                    "position": [
+                      0,
+                      4,
+                      0
+                    ],
+                    "mass": 1,
+                    "active": false
+                  },
+                  {
+                    "id": "block3",
+                    "shape": "box",
+                    "size": [
+                      0.6,
+                      0.6,
+                      0.6
+                    ],
+                    "position": [
+                      0,
+                      4,
+                      0
+                    ],
+                    "mass": 1,
+                    "active": false
+                  }
+                ],
+                "gravity": [
+                  0,
+                  -9.82,
+                  0
+                ],
+                "maxTicks": 900,
+                "failBelow": -3,
+                "restitution": 0,
+                "spawnAction": "drop",
+                "dragAction": "drag",
+                "tiltAction": "tilt",
+                "spawnY": 4,
+                "requiredBodies": 4,
+                "stableTicks": 60
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "rigid": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "active": true,
+            "p": [
+              0,
+              -200000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -200000
+          },
+          {
+            "active": false,
+            "p": [
+              0,
+              4000000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -1000000000
+          },
+          {
+            "active": false,
+            "p": [
+              0,
+              4000000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -1000000000
+          },
+          {
+            "active": false,
+            "p": [
+              0,
+              4000000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -1000000000
+          },
+          {
+            "active": false,
+            "p": [
+              0,
+              4000000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -1000000000
+          }
+        ],
+        "contacts": [],
+        "hitIds": [],
+        "axis": [
+          0,
+          0
+        ],
+        "axisSource": "",
+        "score": 0,
+        "stableTicks": 0,
+        "placed": 0,
+        "spawnX": 0,
+        "spawnZ": 0,
+        "launched": false,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "drop",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          },
+          {
+            "source": "touch.tap",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "drag",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "touch.drag",
+            "config": {}
+          }
+        ]
+      },
+      {
+        "id": "tilt",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "imu.tilt",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/rigid/won"
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/rigid/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "rigid",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "放置 {0}/4 · 稳定 {1}/60",
+            "args": [
+              {
+                "state": "/rigid/placed"
+              },
+              {
+                "state": "/rigid/stableTicks"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G28 平衡堆叠 · 变体"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "四块真实三维刚体堆叠：稳定六十 Tick，偏置放置倾覆失败"
+          }
+        }
+      ]
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          6,
+          5,
+          8
+        ],
+        "target": [
+          0,
+          1.2,
+          0
+        ],
+        "near": 0.1,
+        "far": 50,
+        "fov": 45,
+        "orthoHeight": 10
+      },
+      "nodes": [
+        {
+          "id": "platform",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/0/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            1.6,
+            0.4,
+            1.6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/0/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#35465e",
+          "material": "standard"
+        },
+        {
+          "id": "block0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/1/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/1/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#57d7c8",
+          "material": "standard"
+        },
+        {
+          "id": "block1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/2/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/2/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#eac36c",
+          "material": "standard"
+        },
+        {
+          "id": "block2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/3/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/3/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#b591db",
+          "material": "standard"
+        },
+        {
+          "id": "block3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/4/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.6,
+            0.6,
+            0.6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/4/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#83b8eb",
+          "material": "standard"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g28-four-stack.conformance.json"
+  ],
+  "extensions": {}
+}

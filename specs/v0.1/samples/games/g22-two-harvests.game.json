@@ -1,0 +1,340 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.variants.g22-two-harvests",
+  "revision": 2,
+  "meta": {
+    "title": "G22 三轮农场：三秒成熟，提前/重复收集不得奖励",
+    "genres": [
+      "simulation"
+    ],
+    "description": "三轮农场：三秒成熟，提前/重复收集不得奖励"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.production",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.timer",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.collect",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.economy-loop",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/economy",
+                "products": [
+                  {
+                    "id": "seed",
+                    "cost": 2,
+                    "yield": 1,
+                    "reward": 3,
+                    "durationTicks": 180,
+                    "upgradeCost": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "plant",
+                    "kind": "plant",
+                    "item": "seed",
+                    "index": 0
+                  },
+                  {
+                    "action": "collect",
+                    "kind": "collect",
+                    "index": 0
+                  },
+                  {
+                    "action": "upgrade",
+                    "kind": "upgrade",
+                    "item": "seed",
+                    "index": 0
+                  }
+                ],
+                "goalScore": 3
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "economy": {
+      "type": "object",
+      "initial": {
+        "wallet": 2,
+        "inventory": {},
+        "plots": [
+          {
+            "item": "",
+            "readyAt": -1,
+            "level": 0
+          }
+        ],
+        "grid": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "selected": -1,
+        "unlocked": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "plant",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "collect",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "user-opt-in"
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "state": "/economy/won"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "farm",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "金币 {0} · 收获 {1}\n成熟 Tick {2}",
+            "args": [
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/score"
+              },
+              {
+                "state": "/economy/plots/0/readyAt"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "wallet",
+          "kind": "text",
+          "at": [
+            -1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/wallet"
+          }
+        },
+        {
+          "id": "plot",
+          "kind": "text",
+          "at": [
+            1.3,
+            1.3
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/plots/0/item"
+          }
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -1.5
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/economy/score"
+          }
+        },
+        {
+          "id": "field",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            2.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/economy/plots/0/item"
+            },
+            "map": {
+              "": "#35465e",
+              "seed": "#57d7c8"
+            },
+            "fallback": "#35465e"
+          }
+        },
+        {
+          "id": "crop",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fontSize": 0.3,
+          "fill": "#ffffff",
+          "text": {
+            "state": "/economy/plots/0/item"
+          }
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G22 农场 · 变体"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "三轮农场：三秒成熟，提前/重复收集不得奖励"
+          }
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g22-two-harvests.conformance.json"
+  ],
+  "extensions": {}
+}

@@ -13,6 +13,7 @@ function check(s:JsonRecord,c:Readonly<JsonRecord>):void{
 }
 export function simulateBubbleGrid(ctx:ModuleContext):ModuleResult{
  const c=ctx.config,raw=readPointer(ctx.world.state,String(c.statePath));if(!isRecord(raw))error('Missing bubble state');const s=clone(raw) as JsonRecord;check(s,c);
+ if(c.trajectoryPreview===true&&s.bounces===undefined)s.bounces=0;
  const board=s.board as number[],shot=s.shot as JsonRecord,width=Number(c.columns),height=Number(c.rows),cell=Number(c.cellSize),radius=Number(c.radius??160),events:NonNullable<ModuleResult['events']>=[];
  const position=(index:number)=>[Number(c.originX)+(index%width)*cell,Number(c.topY)-Math.floor(index/width)*cell];
  for(const event of ctx.inputs){if(event.type!=='input.action'||event.edge!=='press')continue;
@@ -28,7 +29,7 @@ export function simulateBubbleGrid(ctx:ModuleContext):ModuleResult{
   const steps=Math.max(1,Math.ceil(Math.max(Math.abs(Number(shot.vx)),Math.abs(Number(shot.vy)))/16));
   for(let step=0;step<steps&&shot.active;step++){
    shot.x=Number(shot.x)+Math.trunc(Number(shot.vx)*(step+1)/steps)-Math.trunc(Number(shot.vx)*step/steps);shot.y=Number(shot.y)+Math.trunc(Number(shot.vy)*(step+1)/steps)-Math.trunc(Number(shot.vy)*step/steps);
-   if(Number(shot.x)<radius||Number(shot.x)>Number(c.worldWidth)-radius){shot.x=Math.max(radius,Math.min(Number(c.worldWidth)-radius,Number(shot.x)));shot.vx=-Number(shot.vx);}
+   if(Number(shot.x)<radius||Number(shot.x)>Number(c.worldWidth)-radius){shot.x=Math.max(radius,Math.min(Number(c.worldWidth)-radius,Number(shot.x)));shot.vx=-Number(shot.vx);if(c.trajectoryPreview===true){s.bounces=Number(s.bounces)+1;events.push({type:'bubble.bounced',payload:{x:shot.x!,y:shot.y!}});}}
    const hit=board.findIndex((value,index)=>{if(!value)return false;const [x,y]=position(index);return Math.abs(x!-Number(shot.x))<=cell/2+radius&&Math.abs(y!-Number(shot.y))<=cell/2+radius;});
    if(hit>=0||Number(shot.y)>=Number(c.topY)){
     const choices=(hit>=0?gridNeighbors(hit,width,height):Array.from({length:width},(_,i)=>i)).filter(index=>board[index]===0).sort((a,b)=>{const [ax,ay]=position(a),[bx,by]=position(b);return (ax!-Number(shot.x))**2+(ay!-Number(shot.y))**2-((bx!-Number(shot.x))**2+(by!-Number(shot.y))**2)||a-b;});
@@ -44,7 +45,7 @@ export function simulateBubbleGrid(ctx:ModuleContext):ModuleResult{
   }
  }
  const visuals:Json[]=[];for(const [index,value] of board.entries())if(value){const [x,y]=position(index);visuals.push({id:'bubble_'+index,kind:'target',x:x!,y:y!,hx:cell*0.44,hy:cell*0.44,value});}
- if(shot.active)visuals.push({id:'projectile',kind:'projectile',x:shot.x!,y:shot.y!,hx:radius,hy:radius,value:s.color!});visuals.push({id:'launcher',kind:'actor',x:c.launchX!,y:c.launchY!,hx:radius,hy:radius,value:s.color!});s.visuals=visuals;check(s,c);
+ if(shot.active)visuals.push({id:'projectile',kind:'projectile',x:shot.x!,y:shot.y!,hx:radius,hy:radius,value:s.color!});visuals.push({id:'launcher',kind:'actor',x:c.launchX!,y:c.launchY!,hx:radius,hy:radius,value:s.color!});if(c.trajectoryPreview===true&&!shot.active&&!s.won&&!s.lost){const aim=s.aim as number[],vx=Math.trunc(aim[0]!*Number(c.shotSpeed??128)),vy=Math.max(1,Math.trunc(aim[1]!*Number(c.shotSpeed??128)));let x=Number(c.launchX),y=Number(c.launchY),dx=vx;for(let i=0;i<120;i++){x+=dx;y+=vy;if(x<radius||x>Number(c.worldWidth)-radius){x=Math.max(radius,Math.min(Number(c.worldWidth)-radius,x));dx=-dx;}if(y>Number(c.topY))break;if(i%8===0)visuals.push({id:'guide_'+i,kind:'pickup',x,y,hx:22,hy:22,value:0});}}s.visuals=visuals;check(s,c);
  return {proposals:[{kind:'state.set',path:String(c.statePath),value:s}],events};
 }
 export const bubbleGridImplementation:TrustedCapabilityImplementation={role:'module',simulate:simulateBubbleGrid};

@@ -7,6 +7,21 @@ const game=name=>JSON.parse(readFileSync(`specs/v0.1/samples/games/${name}.game.
 const start=d=>{const r=new HeadlessRuntime(d,makeRegistry());r.start();return r;};
 const press=(r,action)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step();};
 
+test('platform landing reports its actual support, stops drift and resets combo off center',()=>{
+ const r=start(game('g11-candidate'));
+ try{
+  r.step();r.injectRaw({source:'keyboard',kind:'down',payload:{code:'Space'}});r.step(4);
+  r.injectRaw({source:'keyboard',kind:'up',payload:{code:'Space'}});
+  let landed;
+  for(let i=0;i<60;i++){r.step();landed??=r.observe().events.find(e=>e.type==='realtime.landed'&&e.payload.surface==='platform_b');}
+  assert.ok(landed);assert.ok(Math.abs(landed.payload.centerOffset)<=100);assert.equal(r.observe().state.jump.combo,1);
+  const snap=r.snapshot(),at=r.observe().state.world.bodies.find(b=>b.id==='hero').x;r.step(10);assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').x,at);r.restore(snap);
+  press(r,'charge');r.step(60);assert.equal(r.observe().flow.status,'won');assert.equal(r.observe().state.jump.combo,0);assert.equal(r.observe().state.jump.bestCombo,1);assert.equal(r.observe().state.jump.score,3);
+  assert.throws(()=>r.injectAction({action:'charge',phase:'press'}),e=>e.code==='A2G_E_FLOW');
+ }finally{r.dispose();}
+ const bad=game('g11-candidate');bad.scenes[0].entities[0].components[0].config.platformLanding=1;assert.throws(()=>start(bad));
+});
+
 test('fixed-tick integer motion, pause/snapshot replay, constraints and pure body projection',()=>{
  const d=game('realtime-jump'),r=start(d);r.step();press(r,'jump');assert.equal(r.observe().state.world.bodies[0].vy,76);
  const snap=r.snapshot();r.step(12);const expected=r.observe();r.restore(snap);r.step(12);assert.equal(r.observe().exactHash,expected.exactHash);
@@ -22,4 +37,61 @@ test('contacts and damage deduplicate across substeps; pool saturation never ove
  const transactional=start(bad),before=structuredClone(transactional.observe().state.world);
  assert.throws(()=>transactional.step(),error=>error.code==='A2G_E_TICK_COMMIT');assert.deepEqual(transactional.observe().state.world,before);assert.equal(transactional.observe().tickIndex,0);transactional.dispose();
  const invalid=game('realtime-jump');invalid.state.world.initial.bodies[0].vx=129;assert.throws(()=>start(invalid));
+});
+
+test('top-down movement is independent from aim/fire; release and cancel stop their own axis',()=>{
+ const d=game('g18-candidate'),r=start(d);
+ try{
+  r.injectRaw({source:'keyboard',kind:'down',payload:{code:'KeyA'}});r.injectRaw({source:'keyboard',kind:'down',payload:{code:'KeyW'}});r.step(5);
+  let hero=r.observe().state.world.bodies.find(b=>b.id==='hero');assert.equal(hero.x,3680);assert.equal(hero.y,2320);
+  r.injectRaw({source:'keyboard',kind:'up',payload:{code:'KeyA'}});r.injectRaw({source:'keyboard',kind:'cancel',payload:{code:'KeyW'}});r.step(2);
+  hero=r.observe().state.world.bodies.find(b=>b.id==='hero');assert.equal(hero.x,3680);assert.equal(hero.y,2320);assert.equal(hero.vx,0);assert.equal(hero.vy,0);
+  r.injectAction({action:'aim',phase:'press',value:[0.5,0.3125]});r.injectAction({action:'aim',phase:'release'});r.step();
+  press(r,'fire');assert.equal(r.observe().flow.status,'playing');assert.equal(r.observe().state.world.score,0);
+  r.injectRaw({source:'keyboard',kind:'down',payload:{code:'KeyA'}});r.step(8);r.injectRaw({source:'keyboard',kind:'up',payload:{code:'KeyA'}});r.step();
+  r.injectRaw({source:'keyboard',kind:'down',payload:{code:'KeyW'}});r.step(25);r.injectRaw({source:'keyboard',kind:'up',payload:{code:'KeyW'}});r.step();
+  r.injectAction({action:'aim',phase:'press',value:[0.5,0.3125]});r.injectAction({action:'aim',phase:'release'});r.step();press(r,'fire');assert.equal(r.observe().flow.status,'won');assert.equal(r.observe().state.world.score,1);
+  r.restart();r.injectRaw({source:'keyboard',kind:'down',payload:{code:'KeyS'}});r.step(100);hero=r.observe().state.world.bodies.find(b=>b.id==='hero');assert.equal(hero.y,hero.hy);
+  r.pause();r.resume();r.step();assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').vy,0);
+  r.restart();r.injectAction({action:'moveRight',phase:'press',sourceId:'ui-hold:moveRight:1'});r.step(5);assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').x,4320);
+  r.injectAction({action:'moveRight',phase:'cancel',sourceId:'ui-hold:moveRight:1'});r.step(2);assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').x,4320);
+ }finally{r.dispose();}
+});
+
+test('cancelling charge clears accumulated power without launching a jump',()=>{
+ const r=start(game('g11-candidate'));
+ try{r.step();r.injectRaw({source:'keyboard',kind:'down',payload:{code:'Space'}});r.step(5);assert.equal(r.observe().state.world.charge,5);
+  r.injectRaw({source:'keyboard',kind:'cancel',payload:{code:'Space'}});r.step();const w=r.observe().state.world;
+  assert.equal(w.charge,0);assert.equal(w.bodies.find(b=>b.id==='hero').vx,0);assert.ok(w.bodies.find(b=>b.id==='hero').y<=1100);
+  r.restart();r.step();r.injectAction({action:'charge',phase:'press',sourceId:'ui-hold:charge:1'});r.injectRaw({source:'keyboard',kind:'down',payload:{code:'Space'}});r.step(3);assert.equal(r.observe().state.world.charge,3);
+  r.injectAction({action:'charge',phase:'cancel',sourceId:'ui-hold:charge:1'});r.step();assert.equal(r.observe().state.world.charge,4);
+  r.injectRaw({source:'keyboard',kind:'cancel',payload:{code:'Space'}});r.step();assert.equal(r.observe().state.world.charge,0);
+ }finally{r.dispose();}
+});
+
+test('fixed lanes clamp indices and reject invalid layouts; runner projectiles hit/block and all temporary bodies recycle',()=>{
+ const d=game('g13-candidate'),r=start(d);
+ try{
+  for(let i=0;i<3;i++)press(r,'left');assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').x,2000);
+  for(let i=0;i<4;i++)press(r,'right');assert.equal(r.observe().state.world.bodies.find(b=>b.id==='hero').x,6000);
+ }finally{r.dispose();}
+ for(const centers of [[2000,2000,6000],[6000,4000,2000],[16,4000,6000],[2000,6000]]){
+  const bad=structuredClone(d);bad.scenes[0].entities[0].components[0].config.laneCenters=centers;assert.throws(()=>start(bad));
+ }
+ const mixed=structuredClone(d);mixed.scenes[0].entities[0].components[0].config.heldMovement=true;assert.throws(()=>start(mixed));
+ const oversized=game('h03-candidate');oversized.scenes[0].entities[0].components[0].config.projectileHalfSize=129;assert.throws(()=>start(oversized));
+ const shooter=start(game('h03-candidate'));
+ try{
+  shooter.injectRaw({source:'pointer',kind:'down',payload:{pointerId:1,u:0.15,v:0.5,viewportAspect:1.25}});
+  shooter.injectRaw({source:'pointer',kind:'down',payload:{pointerId:2,u:0.85,v:0.5,viewportAspect:1.25}});shooter.step();
+  assert.equal(shooter.observe().state.world.nextId,0);assert.equal(shooter.observe().state.control.fireRequest,true);
+  shooter.step();assert.equal(shooter.observe().state.world.bodies.find(b=>b.kind==='projectile').hx,64);
+  shooter.step(108);assert.equal(shooter.observe().state.runner.kills,1);assert.equal(shooter.observe().state.runner.checkpoints,1);
+  const atCheckpoint=shooter.observe();shooter.pause();shooter.step(5000);
+  assert.equal(shooter.observe().tickIndex,atCheckpoint.tickIndex);assert.deepEqual(shooter.observe().state,atCheckpoint.state);shooter.resume();
+  for(const action of ['right','fire']){shooter.injectAction({action,phase:'press'});shooter.injectAction({action,phase:'release'});}
+  shooter.step(40);let w=shooter.observe().state.world;assert.equal(w.nextId,2);assert.ok(w.bodies.some(b=>b.id==='obstacle_c'));assert.equal(w.bodies.some(b=>b.kind==='projectile'),false);
+  shooter.step(40);press(shooter,'right');shooter.step(69);w=shooter.observe().state.world;
+  assert.equal(shooter.observe().flow.status,'won');assert.equal(shooter.observe().state.runner.checkpoints,2);assert.deepEqual(w.spawned,[0,1,2,3]);assert.deepEqual(w.bodies.map(b=>b.id),['hero']);
+ }finally{shooter.dispose();}
 });

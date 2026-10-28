@@ -1,0 +1,175 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g29-four-shakes",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g29-four-shakes",
+    "file": "../games/g29-four-shakes.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G29-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G29-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shakeFallback",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "unlock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 121
+        },
+        {
+          "op": "assert",
+          "path": "/state/economy/unlocked",
+          "equals": []
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

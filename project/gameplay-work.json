@@ -1,0 +1,40 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_batch_delivered",
+  "deviceScope": "Physical tasks deferred by user",
+  "steps": [
+    {
+      "id": "contracts",
+      "status": "completed",
+      "deliverable": "为全部 32+5 玩法列明完成标准、现有证据和实际缺口"
+    },
+    {
+      "id": "gameplay",
+      "status": "completed",
+      "deliverable": "补齐逐款规则变体、关键边界和连贯玩法操作"
+    },
+    {
+      "id": "browser",
+      "status": "completed",
+      "deliverable": "在真实双 SDK 检查状态、交互、画面、暂停重开与释放"
+    },
+    {
+      "id": "delivery",
+      "status": "completed",
+      "deliverable": "更新逐款验收记录和项目状态，验证后提交"
+    }
+  ],
+  "evidence": {
+    "headless": "reports/gameplay-2026-10-26T14-18-29-942Z-54696/summary.json",
+    "browser": "reports/candidates-2026-10-26T14-19-32-356Z-41092/summary.json",
+    "variants": "reports/variants-2026-10-26T14-20-12-514Z-43608/summary.json",
+    "index": "reports/nonphysical-current-refresh-2026-10-26T14-29-58-328Z.json"
+  },
+  "pending": [
+    "Per-game remainingGameplay items in project/gameplay-acceptance.json",
+    "Independent generator G3 and complete manual quality acceptance",
+    "Physical tasks deferred by user"
+  ],
+  "verification": "reports/verify-2026-10-26T14-36-02-941Z-63544/verify.log",
+  "fullAcceptance": "PARTIAL"
+}

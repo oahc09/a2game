@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g25",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G25 水果切割",
     "genres": [
@@ -63,6 +63,10 @@
       {
         "id": "a2game.core.score",
         "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
       }
     ]
   },
@@ -94,7 +98,9 @@
                 "statePath": "/world",
                 "width": 8000,
                 "height": 6000,
-                "goalScore": 3
+                "goalScore": 3,
+                "gravity": -1,
+                "maxTicks": 240
               }
             },
             {
@@ -137,13 +143,13 @@
             "x": 2500,
             "y": 3000,
             "vx": 0,
-            "vy": 0,
+            "vy": 32,
             "hx": 450,
             "hy": 450,
             "hp": 1,
             "team": 2,
             "value": 1,
-            "fixed": true
+            "fixed": false
           },
           {
             "id": "fruit_b",
@@ -151,13 +157,13 @@
             "x": 4000,
             "y": 3000,
             "vx": 0,
-            "vy": 0,
+            "vy": 32,
             "hx": 450,
             "hy": 450,
             "hp": 1,
             "team": 2,
             "value": 1,
-            "fixed": true
+            "fixed": false
           },
           {
             "id": "fruit_c",
@@ -165,13 +171,13 @@
             "x": 5500,
             "y": 3000,
             "vx": 0,
-            "vy": 0,
+            "vy": 32,
             "hx": 450,
             "hy": 450,
             "hp": 1,
             "team": 2,
             "value": 1,
-            "fixed": true
+            "fixed": false
           },
           {
             "id": "bomb",
@@ -253,7 +259,21 @@
       }
     ]
   },
-  "rules": [],
+  "rules": [
+    {
+      "id": "missed-fruit",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/control/lost",
+          "value": true
+        }
+      ]
+    }
+  ],
   "outcomes": [
     {
       "id": "complete",
@@ -267,18 +287,31 @@
       "status": "lost",
       "priority": -1,
       "when": {
-        "state": "/control/lost"
+        "op": "or",
+        "args": [
+          {
+            "state": "/control/lost"
+          },
+          {
+            "state": "/world/lost"
+          }
+        ]
       }
     }
   ],
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "划过三枚水果，避开下方方形炸弹；重复命中只计一次。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -336,13 +369,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

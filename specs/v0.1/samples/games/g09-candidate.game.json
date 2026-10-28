@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g09",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G09 俄罗斯方块",
     "genres": [
       "puzzle"
     ],
-    "description": "left/right 移动，rotate 旋转，drop 下落并填满底行。"
+    "description": "左右移动、↑旋转、Space 硬降；先将 O 放左侧等待重力锁定，再消四行；出生被挡立即顶出。"
   },
   "requires": {
     "all": [
@@ -95,9 +95,8 @@
               "config": {
                 "statePath": "/puzzle",
                 "width": 4,
-                "height": 4,
+                "height": 8,
                 "selectActions": [],
-                "undoAction": "undo",
                 "pieces": [
                   [
                     [
@@ -107,6 +106,68 @@
                     [
                       1,
                       0
+                    ],
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      1,
+                      0
+                    ],
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      1,
+                      1
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      0,
+                      2
+                    ],
+                    [
+                      0,
+                      3
+                    ]
+                  ],
+                  [
+                    [
+                      0,
+                      0
+                    ],
+                    [
+                      0,
+                      1
+                    ],
+                    [
+                      0,
+                      2
+                    ],
+                    [
+                      0,
+                      3
                     ]
                   ]
                 ],
@@ -114,8 +175,8 @@
                 "leftAction": "left",
                 "rightAction": "right",
                 "dropAction": "drop",
-                "fallTicks": 30,
-                "targetScore": 1
+                "fallTicks": 12,
+                "targetScore": 4
               }
             }
           ]
@@ -143,8 +204,24 @@
           0,
           0,
           0,
-          1,
-          1
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
         ],
         "display": [
           -1,
@@ -153,6 +230,8 @@
           7,
           -1,
           -1,
+          7,
+          7,
           -1,
           -1,
           -1,
@@ -161,12 +240,28 @@
           -1,
           -1,
           -1,
-          1,
-          1
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -1
         ],
         "preview": [
           0,
-          1
+          1,
+          4,
+          5
         ],
         "selected": [],
         "removed": [],
@@ -187,19 +282,6 @@
   "inputs": {
     "actions": [
       {
-        "id": "undo",
-        "valueType": "button",
-        "policy": "first-ready",
-        "bindings": [
-          {
-            "source": "keyboard.button",
-            "config": {
-              "code": "Digit1"
-            }
-          }
-        ]
-      },
-      {
         "id": "rotate",
         "valueType": "button",
         "policy": "first-ready",
@@ -207,7 +289,7 @@
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit2"
+              "code": "ArrowUp"
             }
           }
         ]
@@ -220,7 +302,7 @@
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit3"
+              "code": "ArrowLeft"
             }
           }
         ]
@@ -233,7 +315,7 @@
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit4"
+              "code": "ArrowRight"
             }
           }
         ]
@@ -246,7 +328,7 @@
           {
             "source": "keyboard.button",
             "config": {
-              "code": "Digit5"
+              "code": "Space"
             }
           }
         ]
@@ -275,11 +357,11 @@
   "presentation": {
     "hud": [
       {
-        "id": "score",
+        "id": "falling",
         "kind": "text",
         "bind": {
           "text": {
-            "template": "分数 {0} · 操作 {1}",
+            "template": "消行 {0}/4 · 锁定 {1}/4",
             "args": [
               {
                 "state": "/puzzle/score"
@@ -321,7 +403,20 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "left/right 移动，rotate 旋转，drop 下落并填满底行。"
+            "literal": "左右移动、↑旋转、Space 硬降；先将 O 放左侧等待重力锁定，再消四行；出生被挡立即顶出。"
+          }
+        },
+        {
+          "id": "gameplay-piece-label",
+          "kind": "text",
+          "at": [
+            1.7,
+            1.5
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "当前拼块"
           }
         }
       ],
@@ -333,12 +428,12 @@
           },
           "columns": 4,
           "origin": [
-            -1.275,
-            1.275
+            -1.65,
+            1.9
           ],
           "step": [
-            0.85,
-            0.85
+            0.55,
+            0.55
           ],
           "indexMode": "array",
           "template": [
@@ -350,8 +445,8 @@
                 0
               ],
               "size": [
-                0.782,
-                0.782
+                0.5,
+                0.5
               ],
               "fill": {
                 "from": {
@@ -366,27 +461,10 @@
                   "5": "#dc6d78",
                   "6": "#a8c5d9",
                   "7": "#f5d26f",
-                  "-1": "#0d1729"
+                  "-1": "#243851"
                 },
                 "fallback": "#a8c5d9"
               }
-            },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.2975,
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "omitWhen": [
-                -1,
-                0
-              ]
             }
           ]
         },
@@ -397,12 +475,12 @@
           },
           "columns": 4,
           "origin": [
-            -1.275,
-            1.275
+            -1.65,
+            1.9
           ],
           "step": [
-            0.85,
-            0.85
+            0.55,
+            0.55
           ],
           "indexMode": "cell",
           "template": [
@@ -472,12 +550,12 @@
           },
           "columns": 4,
           "origin": [
-            2.3,
-            1.6
+            1.15,
+            0.8
           ],
           "step": [
-            0.32,
-            0.32
+            0.35,
+            0.35
           ],
           "indexMode": "cell",
           "template": [

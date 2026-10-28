@@ -17,6 +17,30 @@
         },
         {
           "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/lastDamage",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/targetHP",
+          "equals": 3
+        },
+        {
+          "op": "injectAction",
           "action": "cell1",
           "phase": "press"
         },
@@ -54,8 +78,62 @@
           "phase": "release"
         },
         {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
           "op": "step",
           "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/lastDamage",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/targetHP",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/nextDamage",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/lastDamage",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/targetHP",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/bonus",
+          "equals": 1
         },
         {
           "op": "assert",
@@ -126,6 +204,16 @@
           "op": "assert",
           "path": "/state/economy/wallet",
           "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/bonus",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/combat/targetHP",
+          "equals": 4
         },
         {
           "op": "assert",

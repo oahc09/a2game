@@ -1,0 +1,105 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g12-third-gate",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.variants.g12-third-gate",
+    "file": "../games/g12-third-gate.game.json"
+  },
+  "cases": [
+    {
+      "id": "VARIANT-G12-POSITIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "VARIANT-G12-NEGATIVE",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flap",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "step",
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

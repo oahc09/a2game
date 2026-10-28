@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g20",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G20 泡泡龙弹射",
     "genres": [
       "puzzle"
     ],
-    "description": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+    "description": "拖动瞄准，瞄准点显示预计轨迹；向左墙反弹后吸附同色簇，悬空泡泡会脱落。"
   },
   "requires": {
     "all": [
@@ -110,7 +110,8 @@
                 "fireAction": "fire",
                 "aimAction": "aim",
                 "sceneWidth": 10,
-                "sceneHeight": 8
+                "sceneHeight": 8,
+                "trajectoryPreview": true
               }
             }
           ]
@@ -159,7 +160,71 @@
         },
         "won": false,
         "lost": false,
-        "visuals": []
+        "visuals": [
+          {
+            "id": "bubble_0",
+            "kind": "target",
+            "x": 1900,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 1
+          },
+          {
+            "id": "bubble_1",
+            "kind": "target",
+            "x": 2600,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 1
+          },
+          {
+            "id": "bubble_2",
+            "kind": "target",
+            "x": 3300,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 1
+          },
+          {
+            "id": "bubble_3",
+            "kind": "target",
+            "x": 4000,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 2
+          },
+          {
+            "id": "bubble_4",
+            "kind": "target",
+            "x": 4700,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 2
+          },
+          {
+            "id": "bubble_5",
+            "kind": "target",
+            "x": 5400,
+            "y": 4500,
+            "hx": 308,
+            "hy": 308,
+            "value": 2
+          },
+          {
+            "id": "launcher",
+            "kind": "actor",
+            "x": 4000,
+            "y": 500,
+            "hx": 160,
+            "hy": 160,
+            "value": 1
+          }
+        ]
       }
     }
   },
@@ -214,11 +279,19 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "bubble",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+            "template": "得分 {0} · 弹药 {1}",
+            "args": [
+              {
+                "state": "/bubble/score"
+              },
+              {
+                "state": "/bubble/ammo"
+              }
+            ]
           }
         }
       }
@@ -252,7 +325,7 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "拖动瞄准同色泡泡，点击 fire；本关一发，四邻接方格吸附。"
+            "literal": "拖动瞄准，瞄准点显示预计轨迹；向左墙反弹后吸附同色簇，悬空泡泡会脱落。"
           }
         }
       ],

@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g22",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G22 农场",
     "genres": [
       "simulation"
     ],
-    "description": "plant 播种，等待两 Tick 后 collect 收获；暂停冻结生产。"
+    "description": "两秒成熟后收获，共完成两轮。提前/重复收获无奖励；暂停与回放存档恢复保持成熟时刻。"
   },
   "requires": {
     "all": [
@@ -90,7 +90,7 @@
                     "cost": 2,
                     "yield": 1,
                     "reward": 3,
-                    "durationTicks": 2,
+                    "durationTicks": 120,
                     "upgradeCost": 2
                   }
                 ],
@@ -113,7 +113,7 @@
                     "index": 0
                   }
                 ],
-                "goalScore": 1
+                "goalScore": 2
               }
             }
           ]
@@ -188,7 +188,8 @@
           }
         ]
       }
-    ]
+    ],
+    "traceRecording": "user-opt-in"
   },
   "rules": [],
   "outcomes": [
@@ -203,11 +204,22 @@
   "presentation": {
     "hud": [
       {
-        "id": "title",
+        "id": "farm",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "播种与逻辑计时收获"
+            "template": "金币 {0} · 收获 {1}\n成熟 Tick {2}",
+            "args": [
+              {
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/score"
+              },
+              {
+                "state": "/economy/plots/0/readyAt"
+              }
+            ]
           }
         }
       }
@@ -258,6 +270,41 @@
           }
         },
         {
+          "id": "field",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            2.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/economy/plots/0/item"
+            },
+            "map": {
+              "": "#35465e",
+              "seed": "#57d7c8"
+            },
+            "fallback": "#35465e"
+          }
+        },
+        {
+          "id": "crop",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fontSize": 0.3,
+          "fill": "#ffffff",
+          "text": {
+            "state": "/economy/plots/0/item"
+          }
+        },
+        {
           "id": "title",
           "kind": "text",
           "at": [
@@ -280,70 +327,8 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "plant 播种，等待两 Tick 后 collect 收获；暂停冻结生产。"
+            "literal": "两秒成熟后收获，共完成两轮。提前/重复收获无奖励；暂停与回放存档恢复保持成熟时刻。"
           }
-        }
-      ],
-      "repeat": [
-        {
-          "id": "grid",
-          "source": {
-            "state": "/economy/grid"
-          },
-          "columns": 2,
-          "origin": [
-            -0.45,
-            0.4
-          ],
-          "step": [
-            0.9,
-            0.9
-          ],
-          "indexMode": "array",
-          "template": [
-            {
-              "id": "tile",
-              "kind": "rect",
-              "at": [
-                0,
-                0
-              ],
-              "size": [
-                0.82,
-                0.82
-              ],
-              "fill": {
-                "from": {
-                  "item": true
-                },
-                "map": {
-                  "0": "#35465e",
-                  "1": "#57d7c8",
-                  "2": "#ecb963",
-                  "3": "#4b9bd5",
-                  "4": "#bd86d9",
-                  "5": "#dc6d78"
-                },
-                "fallback": "#a8c5d9"
-              }
-            },
-            {
-              "id": "value",
-              "kind": "text",
-              "at": [
-                0,
-                0
-              ],
-              "fontSize": 0.3,
-              "fill": "#ffffff",
-              "text": {
-                "item": true
-              },
-              "omitWhen": [
-                0
-              ]
-            }
-          ]
         }
       ]
     }

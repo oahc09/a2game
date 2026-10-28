@@ -16,6 +16,62 @@
           "op": "start"
         },
         {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 13
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
           "op": "injectAction",
           "action": "aim",
           "phase": "press",
@@ -68,6 +124,24 @@
       "steps": [
         {
           "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "press",
+          "value": [
+            0.5,
+            0.3125
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "aim",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
         },
         {
           "op": "injectAction",

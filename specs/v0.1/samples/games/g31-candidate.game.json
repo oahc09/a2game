@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g31",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G31 姿态打靶",
     "genres": [
@@ -130,7 +130,8 @@
                 "bodyId": "hero",
                 "orientationAction": "orientation",
                 "dragAction": "aim",
-                "aimFromDrag": true
+                "aimFromDrag": true,
+                "clearLostImu": true
               }
             }
           ]
@@ -232,7 +233,9 @@
         "bindings": [
           {
             "source": "imu.orientation",
-            "config": {}
+            "config": {
+              "trackSample": true
+            }
           }
         ]
       },
@@ -285,11 +288,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "启用、校准后调整姿态瞄准再点击射击；可拖动瞄准回退。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -347,13 +355,7 @@
           "projectile",
           "pickup"
         ],
-        "valuePalette": {
-          "1": "#57d7c8",
-          "2": "#ecb963",
-          "4": "#bd86d9",
-          "8": "#dc6d78"
-        },
-        "showValues": true
+        "showValues": false
       }
     }
   },

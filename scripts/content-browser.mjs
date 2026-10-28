@@ -78,7 +78,7 @@ try{
       await upload(page,game);
       result.release=await (await context.request.get(`${origin}/api/releases/${sha256Canonical(game)}`)).json();
       assert.equal(result.release.receipt.status,'PASS');assert.deepEqual(result.release.definition,game);
-      result.resources=await page.evaluate(()=>window.__a2game.diagnostics().resources);assert.equal(result.resources.ownedResources,2);assert.equal(result.resources.decodedImages,1);
+      result.resources=await page.evaluate(()=>window.__a2game.diagnostics().resources);assert.equal(result.resources.ownedResources,Object.keys(game.assets).length);assert.equal(result.resources.decodedImages,Object.values(game.assets).filter(asset=>asset.type==='image').length);
       assert.equal(await page.locator('#game').inputValue(),'imported');
       assert.match(await page.locator('#importStatus').textContent(),/已校验并加载/);
       result.initial=await page.evaluate(()=>window.__a2game.getState());
@@ -88,7 +88,8 @@ try{
         const after=PNG.sync.read(await canvas.screenshot());let changed=0;for(let i=0;i<before.data.length;i+=4)if(Math.abs(before.data[i]-after.data[i])+Math.abs(before.data[i+1]-after.data[i+1])+Math.abs(before.data[i+2]-after.data[i+2])>30)changed++;
         assert.ok(changed>100,'Tick-projected 3D animation must change real pixels');
         const depth=Math.hypot(1.5,8),scale=orthographic?after.height/game.presentation.stage.camera.orthoHeight:after.height/(2*depth*Math.tan(45*Math.PI/360));
-        const probes=[-1.2,1.2].map(x=>{const px=Math.round(after.width/2+x*scale),py=Math.round(after.height/2),index=(py*after.width+px)*4;const rgb=Array.from(after.data.subarray(index,index+3));return {x:px,y:py,rgb,visible:Math.abs(rgb[0]-13)+Math.abs(rgb[1]-23)+Math.abs(rgb[2]-41)>40};});
+        const probes=[-1.2,1.2].map(x=>{const px=Math.round(after.width/2+x*scale),py=Math.round(after.height/2),index=(py*after.width+px)*4;const rgb=Array.from(after.data.subarray(index,index+3)),radius=Math.max(4,Math.round(scale*.3));let visiblePixels=0;for(let y=Math.max(0,py-radius);y<=Math.min(after.height-1,py+radius);y++)for(let x=Math.max(0,px-radius);x<=Math.min(after.width-1,px+radius);x++){const j=(y*after.width+x)*4;if(Math.abs(after.data[j]-13)+Math.abs(after.data[j+1]-23)+Math.abs(after.data[j+2]-41)>40)visiblePixels++;}return {x:px,y:py,rgb,radius,visiblePixels,visible:visiblePixels>=100};});
+        const probeScreenshot='reports/'+runId+'/'+backend+'-stage-probes.png';await canvas.screenshot({path:resolve(root,probeScreenshot)});result.visualStageAttempt={changedPixels:changed,probes,screenshot:probeScreenshot};
         assert.ok(probes.every(probe=>probe.visible),'Mesh and textured sprite must both be visible');
         result.visualStage={status:'PASS',changedPixels:changed,probes};
       }

@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g32",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G32 多指机关",
     "genres": [
@@ -206,6 +206,41 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "door",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            2,
+            2.5
+          ],
+          "fill": {
+            "from": {
+              "state": "/opened"
+            },
+            "map": {
+              "false": "#ecb963",
+              "true": "#57d7c8"
+            },
+            "fallback": "#35465e"
+          }
+        },
+        {
+          "id": "door-label",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fontSize": 0.35,
+          "fill": "#0d1729",
+          "text": {
+            "literal": "机关"
+          }
+        },
         {
           "id": "title",
           "kind": "text",

@@ -1,0 +1,151 @@
+{
+  "format": "a2game-independent-g3-review",
+  "version": 1,
+  "scope": "AI screenshot observations, separate from human quality and formal G3 approval.",
+  "reviews": [
+    {
+      "id": "G01",
+      "workflow": "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "已查看双 SDK 初始及获胜截图。棋盘向右/下越出画布，标题未进入可视范围，格编号偏小。真实回放/Hash 通过不代表视觉完整度合格。需由生成器修复坐标/排版后重新验证；禁止直接修改已生成输出冒充独立修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/G01/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G03",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "双 SDK 初始/获胜布局可读，棋盘和目标数一致；画面直接给出完整交换顺序，难度、可玩时间和提示节奏需要审查，不能仅据截图计完整 G3。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G03/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G04",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "双 SDK 布局未越界；消除后仍有深色编号，底部直接显示 true/false，层级/结束反馈需改进，完整质量不通过。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G04/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G22",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看两套 SDK 初始/获胜画面，标题、播种/收获指引、金币/轮次与完成文字可见。仅为 AI 截图参考；实际输入、难度、持续游玩和人工质量仍待审查。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G03",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看双 SDK 初始/获胜截图：棋盘和目标计数可读，画面不再直接给出完整交换解法。难度、持续游玩与人工质量仍待验。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G04",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看双 SDK 初始/获胜截图：层级、4 格收集槽和中文完成反馈可见，原始布尔值及清除后残留编号问题已改善。仅为截图参考，不替代人工持续游玩。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G05",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "双 SDK 布局可读，但获胜仍直接显示 true；需要由生成器修复反馈文案，原始生成保留。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G05/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G01",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看双 SDK 初始/获胜截图：完整棋盘、标题、人物、箱子/目标及步数均在画布内，字体明显放大，获胜反馈可读。非活动状态行颜色很暗，仍需人工评估；不代表完整质量批准。画面修复的玩法/输入/状态/测试/解法与旧版相同。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G05",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看双 SDK 初始/获胜截图：层级和目标说明可读，结束反馈由原始布尔值改为中文 8/8 进度，所有牌移除后的画面保持稳定。玩法、命中位置、状态、测试及解法未变；人工质量和难度另验。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    }
+  ]
+}

@@ -9,13 +9,13 @@ export class ThreeStageHost {
   draw(frame,width,height,background){
     const T=this.T,c=frame.camera,camera=c.projection==='perspective'?this.perspective:this.orthographic;
     camera.position.set(...c.at);camera.lookAt(...c.target);camera.near=c.near;camera.far=c.far;
-    if(c.projection==='perspective'){camera.fov=c.fov;camera.aspect=width/height;}else{camera.top=c.orthoHeight/2;camera.bottom=-c.orthoHeight/2;camera.left=-c.orthoHeight*width/height/2;camera.right=-camera.left;}camera.updateProjectionMatrix();
+    if(c.projection==='perspective'){camera.fov=c.fov;camera.aspect=width/height;}else{const extent=c.fitSize?Math.max(c.orthoHeight,c.fitSize[1],c.fitSize[0]*height/width):c.orthoHeight;camera.top=extent/2;camera.bottom=-extent/2;camera.left=-extent*width/height/2;camera.right=-camera.left;}camera.updateProjectionMatrix();
     const signature=JSON.stringify(frame.nodes.map(({at,rotation,...node})=>node));
     if(signature!==this.last){this.clear();this.last=signature;
       for(const node of frame.nodes){
         const geometry=node.geometry==='box'?new T.BoxGeometry(1,1,1):node.geometry==='sphere'?new T.SphereGeometry(0.5,16,12):new T.PlaneGeometry(1,1);
-        let map;if(node.asset){map=new T.Texture(this.resources.get(node.asset).bitmap);map.needsUpdate=true;map.colorSpace=T.SRGBColorSpace;this.ownedTextures++;}
-        const options={color:node.color,...(map?{map}:{}),side:T.DoubleSide};
+        let map;if(node.asset){const bitmap=this.resources.get(node.asset).bitmap,sheet=document.createElement('canvas');sheet.width=bitmap.width;sheet.height=bitmap.height;sheet.getContext('2d').drawImage(bitmap,0,0);map=new T.CanvasTexture(sheet);map.colorSpace=T.SRGBColorSpace;this.ownedTextures++;}
+        const options={color:node.color,...(map?{map,transparent:true,alphaTest:0.01}:{}),side:T.DoubleSide};
         const material=node.material==='standard'?new T.MeshStandardMaterial({...options,roughness:0.65,metalness:0}):new T.MeshBasicMaterial(options);
         const mesh=new T.Mesh(geometry,material);mesh.name=node.id;this.scene.add(mesh);this.objects.set(node.id,mesh);
       }

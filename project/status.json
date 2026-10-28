@@ -1,7 +1,7 @@
 {
   "format": "a2game-project-status",
   "formatVersion": 1,
-  "asOf": "2026-10-25",
+  "asOf": "2026-10-28",
   "release": {
     "version": "1.0.0",
     "maturity": "alpha-reference",
@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "Nonphysical gameplay depth and HTTP integration delivered with current dual-SDK evidence; independent provider/G3, full per-game DoD and remote CI remain separate.",
+  "currentObjective": "Review the real Codex CLI outputs for all 37 independent G3 tasks; 33 engineering references and 25 native desktop references passed, with formal quality/provenance/device gates separate.",
   "nextStage": null,
   "stages": [
     {
@@ -28,8 +28,8 @@
       "status": "PASS",
       "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded",
       "evidence": {
-        "g2": "reports/g2-2026-10-25T04-25-48-353Z-52216/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "g2": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -38,8 +38,8 @@
       "status": "PASS",
       "scope": "Current scene2d-trusted-assets-v1 host profile: full Schema/semantics/capabilities, approved-source assets with byte integrity, persistent receipts, receiving-host revalidation and portable bundle delivery. New gameplay/Host capabilities are independently gated.",
       "evidence": {
-        "content": "reports/content-2026-10-25T04-23-10-982Z-52032/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "content": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -48,9 +48,9 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-25T04-21-51-053Z-59132/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-25T04-21-51-183Z-39764/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "perspective": "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -59,9 +59,9 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-25T04-27-57-261Z-36272/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log",
-        "variants": "reports/variants-2026-10-25T04-26-44-000Z-63900/summary.json"
+        "puzzles": "reports/puzzles-2026-10-27T11-52-31-196Z-47448/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+        "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json"
       }
     },
     {
@@ -70,8 +70,8 @@
       "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-25T04-19-21-830Z-47668/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "mechanisms": "reports/realtime-2026-10-27T11-54-24-861Z-37540/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -80,8 +80,8 @@
       "status": "PASS",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
-        "mechanisms": "reports/strategy-2026-10-25T04-19-30-992Z-16228/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "mechanisms": "reports/strategy-2026-10-27T11-56-26-816Z-11952/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -90,9 +90,9 @@
       "status": "PARTIAL",
       "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
       "evidence": {
-        "reference": "reports/mobile-2026-10-25T04-23-11-044Z-35492/summary.json",
+        "reference": "reports/mobile-2026-10-27T11-58-21-353Z-11196/summary.json",
         "deviceAvailability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -100,9 +100,9 @@
       "name": "32 game + 5 hybrid conformance",
       "status": "PARTIAL",
       "evidence": {
-        "candidates": "reports/candidates-2026-10-25T04-25-48-300Z-31432/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log",
-        "variants": "reports/variants-2026-10-25T04-26-44-000Z-63900/summary.json"
+        "candidates": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+        "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json"
       },
       "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
     },
@@ -112,9 +112,9 @@
       "status": "PARTIAL",
       "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
       "evidence": {
-        "workflow": "reports/agent-2026-10-25T04-23-29-628Z-57304/summary.json",
-        "browser": "reports/agent-browser-2026-10-25T04-23-38-954Z-38944/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "workflow": "reports/agent-2026-10-27T11-58-38-274Z-44696/summary.json",
+        "browser": "reports/agent-browser-2026-10-27T11-58-48-978Z-45840/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       }
     },
     {
@@ -122,10 +122,10 @@
       "name": "Further platform and compatibility expansion",
       "status": "PASS",
       "evidence": {
-        "compatibility": "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json",
-        "matrix": "reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json",
-        "performance": "reports/performance-2026-10-25T04-25-18-310Z-58168/summary.json",
-        "verification": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log"
+        "compatibility": "reports/compat-2026-10-27T11-59-00-558Z-32124/summary.json",
+        "matrix": "reports/node-matrix-2026-10-27T06-59-52-165Z-10856/summary.json",
+        "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
+        "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
       },
       "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
@@ -174,15 +174,15 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 84,
-    "referenceCapabilityManifests": 126
+    "referenceDemoGames": 112,
+    "referenceCapabilityManifests": 127
   },
   "blockingItems": [
     "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
     "Independent generator/model/variant G3 acceptance NOT_RUN; engineering provider fixture is not independent",
     "Full per-game quality and variant DoD are not proven by bounded introductory/endgame candidates",
     "Physical Gamepad acceptance NOT_RUN",
-    "Remote CI configured but NOT_RUN; no push/deployment authorization was used"
+    "Remote main pushed and confirmed at b910c16; GitHub Actions result not verified"
   ],
   "workspaceBaseline": {
     "date": "2026-10-24",
@@ -203,9 +203,9 @@
     }
   },
   "g2Run": {
-    "date": "2026-10-25",
-    "runId": "g2-2026-10-25T04-25-48-353Z-52216",
-    "summary": "reports/g2-2026-10-25T04-25-48-353Z-52216/summary.json",
+    "date": "2026-10-27",
+    "runId": "g2-2026-10-27T11-45-55-521Z-36492",
+    "summary": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
     "browser": "Chromium 156.0.8078.4",
@@ -232,26 +232,26 @@
     ]
   },
   "currentRun": {
-    "date": "2026-10-25",
+    "date": "2026-10-27",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-25T04-31-12-769Z-56140/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-25T04-31-12-769Z-56140/conformance.json",
-    "g2Summary": "reports/g2-2026-10-25T04-25-48-353Z-52216/summary.json",
-    "contentSummary": "reports/content-2026-10-25T04-23-10-982Z-52032/summary.json",
+    "log": "reports/verify-2026-10-27T16-41-24-803Z-32064/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-27T16-41-24-803Z-32064/conformance.json",
+    "g2Summary": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
+    "contentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 93,
-      "total": 93
+      "pass": 106,
+      "total": 106
     },
     "conformance": {
-      "pass": 139,
-      "total": 139,
-      "suites": 86
+      "pass": 203,
+      "total": 203,
+      "suites": 114
     },
     "schema": {
       "kinds": 7,
-      "documents": 303
+      "documents": 360
     }
   },
   "historicalReleaseRun": {
@@ -279,7 +279,7 @@
   "layoutMigration": {
     "from": "A2Game-V0.1-Spec/",
     "to": "specs/v0.1/",
-    "status": "PASS",
+    "status": "NOT_RUN",
     "previousG2Run": {
       "date": "2026-10-24",
       "runId": "g2-2026-10-24T11-56-54-131Z-9708",
@@ -318,7 +318,7 @@
     "date": "2026-10-25",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-25T04-23-10-982Z-52032/summary.json",
+    "summary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -340,8 +340,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-25T04-21-51-053Z-59132/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-25T04-21-51-183Z-39764/summary.json",
+    "perspective": "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
     "limitations": [
       "Not a general GLTF/skeletal animation editor or arbitrary shader interpreter",
@@ -350,9 +350,9 @@
     ]
   },
   "capabilityReceipts": {
-    "a2game.visual.stage@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.visual.stage@0.1.0": "reports/full-gameplay-capabilities-2026-10-27T06-22-05-152Z.json",
     "a2game.puzzle.grid-push@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.puzzle.grid-slide-merge@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.puzzle.grid-slide-merge@0.1.0": "reports/full-gameplay-capabilities-2026-10-27T06-22-05-152Z.json",
     "a2game.puzzle.grid@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.puzzle.occupancy@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.puzzle.match-n@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
@@ -376,12 +376,12 @@
     "a2game.puzzle.sort@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.puzzle.connected-match@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.puzzle.push@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.puzzle.slide@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.puzzle.slide@0.1.0": "reports/full-gameplay-capabilities-2026-10-27T06-22-05-152Z.json",
     "a2game.core.goal@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.rng@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.score@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.timer@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.realtime.world@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.realtime.world@0.1.0": "reports/full-gameplay-capabilities-2026-10-27T06-22-05-152Z.json",
     "a2game.realtime.velocity@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.realtime.acceleration@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.realtime.charge@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
@@ -438,20 +438,20 @@
     "a2game.input.touch.pinch@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.touch.rotate@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.touch.multi-hold@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.input.imu.tilt@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.input.imu.tilt@0.1.0": "reports/input-gameplay-capabilities-2026-10-27T06-59-10-497Z.json",
     "a2game.input.imu.shake@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.input.imu.orientation@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.input.imu.orientation@0.1.0": "reports/input-gameplay-capabilities-2026-10-27T06-59-10-497Z.json",
     "a2game.input.imu.acceleration@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.imu.gyroscope@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.imu.calibration@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.rules.state-set@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.combat.bubble-grid@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.combat.bubble-grid@0.1.0": "reports/full-gameplay-capabilities-2026-10-27T06-22-05-152Z.json",
     "a2game.core.bootstrap@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.clock@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.touch.select@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.realtime.balance@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.realtime.collision@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.realtime.input-control@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.realtime.input-control@0.1.0": "reports/input-gameplay-capabilities-2026-10-27T06-59-10-497Z.json",
     "a2game.realtime.intersection@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.realtime.rotate@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.rules.entity-despawn@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
@@ -466,7 +466,7 @@
     "a2game.visual.bound-stage@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.flow@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.core.rules@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.core.state@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.core.state@0.1.0": "reports/input-gameplay-capabilities-2026-10-27T06-59-10-497Z.json",
     "a2game.input.keyboard.button@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.touch.swipe@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.touch.tap@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
@@ -475,11 +475,12 @@
     "a2game.visual.text@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.gamepad.button@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
     "a2game.input.gamepad.axis2@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
-    "a2game.strategy.tower-defense@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json"
+    "a2game.strategy.tower-defense@0.1.0": "reports/nonphysical-capabilities-final-2026-10-25T04-33-34-562Z.json",
+    "a2game.physics.rigid3d@0.1.0": "reports/input-gameplay-capabilities-2026-10-27T06-59-10-497Z.json"
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-25T04-27-57-261Z-36272/summary.json",
+    "summary": "reports/puzzles-2026-10-27T11-52-31-196Z-47448/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
       "RNG-restoring undo is single-behavior only; compositions use Session snapshots",
@@ -489,19 +490,19 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-25T04-19-21-830Z-47668/summary.json",
+      "summary": "reports/realtime-2026-10-27T11-54-24-861Z-37540/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
-      "performance": "reports/performance-2026-10-25T04-25-18-310Z-58168/summary.json"
+      "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json"
     },
     "strategy": {
       "status": "PASS",
-      "summary": "reports/strategy-2026-10-25T04-19-30-992Z-16228/summary.json",
+      "summary": "reports/strategy-2026-10-27T11-56-26-816Z-11952/summary.json",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate."
     }
   },
   "mobileInputRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/mobile-2026-10-25T04-23-11-044Z-35492/summary.json",
+    "summary": "reports/mobile-2026-10-27T11-58-21-353Z-11196/summary.json",
     "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN."
   },
   "mobileDeviceRun": {
@@ -511,22 +512,22 @@
   },
   "candidateRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/candidates-2026-10-25T04-25-48-300Z-31432/summary.json",
+    "summary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
   },
   "agentWorkflowRun": {
     "status": "PASS_REFERENCE",
-    "workflow": "reports/agent-2026-10-25T04-23-29-628Z-57304/summary.json",
-    "browser": "reports/agent-browser-2026-10-25T04-23-38-954Z-38944/summary.json",
+    "workflow": "reports/agent-2026-10-27T11-58-38-274Z-44696/summary.json",
+    "browser": "reports/agent-browser-2026-10-27T11-58-48-978Z-45840/summary.json",
     "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN."
   },
   "compatibilityRun": {
     "status": "PASS_REFERENCE",
-    "browser": "reports/compat-2026-10-25T04-23-50-904Z-37316/summary.json",
-    "matrix": "reports/node-matrix-2026-10-25T04-24-36-847Z-47352/summary.json",
-    "performance": "reports/performance-2026-10-25T04-25-18-310Z-58168/summary.json",
-    "remoteCI": "NOT_RUN",
+    "browser": "reports/compat-2026-10-27T11-59-00-558Z-32124/summary.json",
+    "matrix": "reports/node-matrix-2026-10-27T06-59-52-165Z-10856/summary.json",
+    "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
+    "remoteCI": "UNVERIFIED_AFTER_PUSH",
     "physicalGamepad": "NOT_RUN",
     "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
   },
@@ -534,7 +535,7 @@
     "throughStage": "S11",
     "status": "PASS_REFERENCE",
     "fullAcceptance": "PARTIAL",
-    "browserEvidence": "reports/nonphysical-current-refresh-2026-10-25T04-30-32-408Z.json",
+    "browserEvidence": "reports/nonphysical-current-refresh-2026-10-27T11-59-18-030Z.json",
     "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
   },
   "nonPhysicalContinuation": {
@@ -543,18 +544,602 @@
     "deliverables": [
       "G05 two-layer occlusion",
       "G21/H01 tower placement, merge ownership, cooldown, waves and economy",
-      "Nine authored gameplay variants, separate from G3",
+      "37 authored variants and per-game focused boundaries, separate from G3",
       "Bounded host-configured HTTP generator transport"
     ],
-    "evidence": "reports/nonphysical-current-refresh-2026-10-25T04-30-32-408Z.json",
-    "variants": "reports/variants-2026-10-25T04-26-44-000Z-63900/summary.json",
+    "evidence": "reports/nonphysical-current-refresh-2026-10-27T11-59-18-030Z.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
     "physicalTasks": "EXCLUDED_BY_USER"
   },
   "variantsRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/variants-2026-10-25T04-26-44-000Z-63900/summary.json",
+    "summary": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
     "recipes": "project/rule-variants.json",
     "authorship": "Repository-authored; independent G3 remains NOT_RUN",
-    "scope": "Nine gameplay variants with 18 native SDK cases, positive/negative Node/Host and cross-engine hashes, pause/restart/disposal"
+    "scope": "37 authored rule/level variants; 74 native SDK cases, positive/negative Node/Host and cross-engine hashes, pause/restart/disposal. Not independent G3."
+  },
+  "perGameRun": {
+    "status": "PASS_REFERENCE",
+    "contract": "project/gameplay-acceptance.json",
+    "work": "project/zero-gap-work.json",
+    "scope": "37 current mandatory mechanic/base/boundary/authored variant profiles; AI usability/visual review is separate from full human/G3/device acceptance.",
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "logicalScenarios": 193,
+    "browserCases": 148,
+    "verifiedGames": 0,
+    "verifiedHybrids": 0,
+    "fullAcceptance": "PARTIAL",
+    "visualReview": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "governanceWithoutDist": "reports/gameplay-governance-without-dist-20261026.log"
+  },
+  "gameplayLinkageRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G23",
+      "H02"
+    ],
+    "baseRevision": 3,
+    "authoredVariantRevision": 2,
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "visualReview": "reports/gameplay-linkage-visual-review-2026-10-26T15-34-20-051Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "work": "project/gameplay-linkage-work.json",
+    "scope": "Existing trusted capabilities only: merge-to-production and match-to-character damage with Tick/HUD assertions. Full gameplay/manual quality, independent G3 and physical evidence remain separate.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
+  },
+  "fallingFlappyRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G09",
+      "G12"
+    ],
+    "baseRevision": {
+      "G09": 3,
+      "G12": 3
+    },
+    "authoredVariantRevision": {
+      "G09": 3,
+      "G12": 2
+    },
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "visualReview": "reports/falling-flappy-visual-review-2026-10-26T23-37-50-636Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "work": "project/falling-flappy-work.json",
+    "scope": "Bounded four-tetromino level and two/three-pipe Flappy levels with actual outcomes; full manual quality, independent G3 and physical acceptance remain separate.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
+  },
+  "runnerRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G13",
+      "H03",
+      "G06"
+    ],
+    "work": "project/runner-work.json",
+    "visualReview": "reports/runner-visual-review-2026-10-27T02-58-40-484Z.json",
+    "baseRevision": {
+      "G13": 3,
+      "H03": 3,
+      "G06": 2
+    },
+    "authoredVariantRevision": {
+      "G13": 2,
+      "H03": 2,
+      "G06": 2
+    },
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "scope": "Bounded three-lane scrolling/checkpoint levels, projectile hit/block/recycle, virtual DOM two-touch, and 3x3 four-direction ray boards. Complete manual quality, independent G3 and physical acceptance remain separate.",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log"
+  },
+  "jumpTurnRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G11",
+      "G24"
+    ],
+    "work": "project/jump-turn-work.json",
+    "visualReview": "reports/jump-turn-visual-review-2026-10-27T03-43-47-728Z.json",
+    "baseRevision": {
+      "G11": 3,
+      "G24": 3
+    },
+    "authoredVariantRevision": {
+      "G11": 2,
+      "G24": 3
+    },
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "scope": "Bounded two-hop center/combo/reset and fall levels; five-in-row geometry/draw/queued-terminal legality with existing neutral stopped state. Complete manual quality, independent G3 and physical acceptance remain separate.",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "conformanceRetention": "reports/jump-turn-conformance-retention-2026-10-27T03-50-45-703Z.json"
+  },
+  "zeroGapGoal": {
+    "target": 0,
+    "start": 17,
+    "status": "PASS_REFERENCE",
+    "work": "project/zero-gap-work.json",
+    "scope": "Complete existing mandatory gameplay gaps with evidence; physical/manual quality and independent G3 remain separate, never removed to meet the target.",
+    "remaining": 0,
+    "completedAt": "2026-10-27T06:59:10.316Z",
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "nativeCases": 32,
+    "fullAcceptance": "PARTIAL",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json"
+  },
+  "rigid3dRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G15",
+      "G28"
+    ],
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "matrix": "reports/node-matrix-2026-10-27T04-34-22-926Z-42096/summary.json",
+    "skill": "reports/rigid-skill-2026-10-27T04-42-57-329Z/summary.json",
+    "scope": "Locked cannon-es bounded rigid-body profile, complete quantized motion state and genuine collision/torque; independent quality/G3/physical gates remain separate.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "visualReview": "reports/rigid3d-visual-review-2026-10-27T04-44-00-171Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json"
+  },
+  "fullGameplayRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G02",
+      "G16",
+      "G18",
+      "G19",
+      "G20",
+      "G22",
+      "H05"
+    ],
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "skill": "reports/full-gameplay-skill-2026-10-27T05-45-23-569Z/summary.json",
+    "scope": "Standard seeded 2048/4096 full games and no-move loss, settled rooted merge overflow, wall/aim, timed horde skill, bank trajectory, farm persisted replay and asset drag countdown. Independent quality/G3/physical gates remain separate.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "visualReview": "reports/full-gameplay-visual-review-2026-10-27T06-23-50-347Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json"
+  },
+  "inputGameplayRun": {
+    "status": "PASS_REFERENCE",
+    "games": [
+      "G25",
+      "G26",
+      "G27",
+      "G29",
+      "G30",
+      "G31",
+      "G32",
+      "H04"
+    ],
+    "headless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
+    "browser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
+    "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
+    "nativeCases": 32,
+    "native": [
+      {
+        "id": "G25",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "candidates",
+        "backend": "three",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/three-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "candidates",
+        "backend": "air",
+        "receipt": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/candidates-2026-10-27T11-45-55-555Z-43504/air-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "variants",
+        "backend": "three",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/three-H04-physics-tilt-fallback.png"
+      },
+      {
+        "id": "G25",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G25.json",
+        "profile": "continuous-cut-dedup-bomb-miss",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G25-cut-native.png"
+      },
+      {
+        "id": "G26",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G26.json",
+        "profile": "two-touch-rotation-scale-regrab",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G26-pair-native.png"
+      },
+      {
+        "id": "G27",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G27.json",
+        "profile": "tilt-calibration-loss-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G27-tilt-fallback.png"
+      },
+      {
+        "id": "G29",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G29.json",
+        "profile": "shake-cooldown-stop-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G29-shake-fallback.png"
+      },
+      {
+        "id": "G30",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G30.json",
+        "profile": "slingshot-cancel-multi-power-release",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G30-slingshot-native.png"
+      },
+      {
+        "id": "G31",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G31.json",
+        "profile": "orientation-rezero-screen-fallback",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G31-orientation-fallback.png"
+      },
+      {
+        "id": "G32",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G32.json",
+        "profile": "multi-hold-cancel-blur-retry",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-G32-multi-hold-native.png"
+      },
+      {
+        "id": "H04",
+        "kind": "variants",
+        "backend": "air",
+        "receipt": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-H04.json",
+        "profile": "tilt-physics-stop-and-merge",
+        "screenshot": "reports/variants-2026-10-27T11-46-31-964Z-20624/air-H04-physics-tilt-fallback.png"
+      }
+    ],
+    "skill": "reports/input-gameplay-skill-2026-10-27T06-45-35-732Z/summary.json",
+    "scope": "All registered mandatory input/mechanics gaps in bounded author profiles. Desktop mouse/keyboard, CDP virtual touch and synthetic IMU/permission/screen fixtures; not physical devices or independent G3.",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "visualReview": "reports/input-gameplay-visual-review-2026-10-27T06-59-10-622Z.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "governance": "reports/input-gameplay-governance-20261027-final.log"
+  },
+  "qualityRun": {
+    "status": "PASS_REFERENCE",
+    "summary": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
+    "work": "project/quality-work.json",
+    "reviewedGames": 37,
+    "humanApproval": "NOT_RUN",
+    "fullAcceptance": "PARTIAL",
+    "production": "reports/runner-quality-2026-10-27T11-44-34-063Z/summary.json",
+    "skill": "reports/runner-skill-2026-10-27T11-44-58-656Z/summary.json",
+    "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
+    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "governance": "reports/quality-governance-20261027-final.log"
+  },
+  "finalAcceptanceRun": {
+    "status": "PARTIAL",
+    "archiveStatus": "PASS",
+    "summary": "reports/acceptance-2026-10-27T13-10-03-797Z-14948/summary.json",
+    "index": "project/final-acceptance.json",
+    "work": "project/final-acceptance-work.json",
+    "packets": 37,
+    "formalReceipts": 74,
+    "pending": {
+      "humanQuality": 37,
+      "independentG3": 37,
+      "physical": 10
+    },
+    "verifiedGames": 0,
+    "verifiedHybrids": 0,
+    "registrationMode": "evidence-only",
+    "verification": "reports/verify-2026-10-27T13-00-31-812Z-11208/verify.log",
+    "boundaryChecks": "reports/acceptance-boundaries-2026-10-27T13-11-26-556Z.json",
+    "scope": "Immutable per-game evidence archive and registration-readiness check; not formal gate approval.",
+    "governance": "reports/acceptance-portable-governance-20261027.log",
+    "node22": "reports/acceptance-node22-portable-20261027.log",
+    "portability": "reports/acceptance-portability-2026-10-27T13-11-20-700Z.json"
+  },
+  "independentG3Run": {
+    "status": "NOT_RUN",
+    "preparation": "CLI_ALL_TASKS_EXECUTED",
+    "plannedGames": 32,
+    "plannedHybrids": 5,
+    "plannedTasks": 37,
+    "variantRound": 1,
+    "engineeringPassed": 33,
+    "independentG3Passed": 0,
+    "plan": "reports/g3-plan-2026-10-27T13-58-29-912Z-35480/plan.json",
+    "tasks": "project/g3-tasks.json",
+    "documentation": "docs/independent-g3.md",
+    "toolingProof": "reports/g3-fixture-2026-10-27T14-04-09-132Z-32648/summary.json",
+    "provider": "CURRENT_CODEX_CLI",
+    "independenceReview": "NOT_RUN",
+    "qualityReview": "NOT_RUN",
+    "physical": "DEFERRED_BY_USER",
+    "scope": "Real CLI generation and bounded repairs, full admission and actual SDK replay; pilot/host-aborted calls and connectivity usage included. Host-context epochs remain distinct; no formal acceptance promotion.",
+    "verification": "reports/verify-2026-10-27T16-41-24-803Z-32064/verify.log",
+    "node22": "reports/g3-node22-final-20261028.log",
+    "fixtureRejection": "reports/g3-batch-2026-10-27T14-07-29-119Z-46000/summary.json",
+    "cliVersion": "0.159.2",
+    "cliPilot": "reports/g3-codex-2026-10-27T14-21-31-903Z-10952/summary.json",
+    "pilotCalls": 3,
+    "pilotEngineeringPassed": 0,
+    "cliFirstVerified": "reports/g3-codex-2026-10-27T14-28-31-578Z-20456/summary.json",
+    "activeCliBatches": [],
+    "review": "project/independent-g3-review.json",
+    "nativePassed": 25,
+    "hostProfileVersion": 2,
+    "completedContext1Batches": [
+      "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/summary.json",
+      "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/summary.json"
+    ],
+    "context1CallsIncludingPilot": 49,
+    "hostAbortedAttempts": [
+      "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G11/attempt-1",
+      "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G27/attempt-2"
+    ],
+    "nativeReferencePassed": 8,
+    "nativeReferenceSummary": "reports/g3-native-2026-10-27T15-07-29-752Z-50384/summary.json",
+    "nativeValidationStatus": "PASS_REFERENCE",
+    "recoveries": [
+      "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/summary.json",
+      "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/summary.json",
+      "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/summary.json"
+    ],
+    "attemptedGames": 37,
+    "reviewBatch": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/summary.json",
+    "nativeSummary": "reports/g3-native-2026-10-27T16-35-57-549Z-26772/summary.json",
+    "summary": "reports/g3-codex-review-2026-10-27T16-40-14-548Z-13752/summary.json",
+    "index": "project/independent-g3-run.json",
+    "calls": 108,
+    "probeCalls": 1,
+    "totalInvocations": 109,
+    "usage": {
+      "input_tokens": 9038299,
+      "cached_input_tokens": 1164672,
+      "output_tokens": 517428,
+      "reasoning_output_tokens": 55384
+    },
+    "missingUsage": [
+      "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G11/attempt-1/cli.json",
+      "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G27/attempt-2/cli.json"
+    ],
+    "cost": "NOT_REPORTED",
+    "failedGames": [
+      "G02",
+      "G11",
+      "G24",
+      "G26"
+    ],
+    "nativePendingGames": [
+      "G14",
+      "G16",
+      "G20",
+      "G25",
+      "G27",
+      "G28",
+      "G30",
+      "G31"
+    ],
+    "p2Audit": "reports/g3-p2-audit-20261028.log"
+  },
+  "repositoryMaintenanceRun": {
+    "date": "2026-10-28",
+    "status": "PASS_LOCAL",
+    "removedTemporaryTargets": 470,
+    "removedTemporaryFiles": 1483,
+    "removedTemporaryBytes": 11154529,
+    "retainedActiveOrUncertainTargets": 2,
+    "prunedDuplicateLooseObjects": 10394,
+    "approximateDuplicateGiB": 9.48,
+    "reportPolicy": "LOCAL_RETAINED_GIT_IGNORED",
+    "historyPolicy": "EXISTING_COMMITS_RETAINED",
+    "documentation": "docs/repository-maintenance.md",
+    "scope": "Ignored temporary products and already-packed duplicate loose objects only; runtime, SDK, private release/config, dependencies, local evidence and existing commits preserved.",
+    "staleGitTemporaryFilesRetained": 1,
+    "staleGitTemporaryBytesRetained": 86390,
+    "retentionReason": "Read-only Git temporary object; forced deletion rejected by automatic safety review (blocked by policy).",
+    "verification": {
+      "project": "reports/repository-maintenance-20261028/project-check.log",
+      "independentG3": "reports/repository-maintenance-20261028/g3-check.log",
+      "acceptance": "reports/repository-maintenance-20261028/acceptance-check.log"
+    },
+    "historyConstraint": "20 unpublished commits contain oversized report blobs; normal GitHub push is blocked. Existing local commits retained; a remote-based source snapshot can be reviewed separately.",
+    "summary": "reports/repository-maintenance-20261028/summary.json"
   }
 }

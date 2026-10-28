@@ -1,0 +1,8 @@
+{
+  "provider": {"id": "replace-with-provider-name", "model": "replace-with-your-model-id"},
+  "command": ["node", "scripts/model-generator.mjs", ".a2game/model-generator.json"],
+  "maxAttempts": 3,
+  "timeoutMs": 60000,
+  "maxTasks": 1,
+  "maxCalls": 3
+}

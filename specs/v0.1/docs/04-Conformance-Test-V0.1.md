@@ -203,6 +203,10 @@ G0 PASS 绝不等于 G1 PASS。任何未跑的 G2/G3 不能计作完成。报告
 
 建议记录首次生成与修复次数、Schema 错误、逻辑错误、玩法不可完成、资产缺失、输入问题、性能问题，并按机制覆盖维度聚合。
 
+### 6.1 当前执行器参数说明（2026-10-27，文档澄清）
+
+`assertEvent` 使用 `{op:"assertEvent",eventType:"...",count:整数,sinceTick?:整数}`，`count` 是精确次数，不能省略为“至少一次”。终局状态路径为 `/flow/status`，状态字段路径为 `/state/<field>`，不是 `/status`。说明与 `src/conformance.ts` 现有行为一致，不改变 GameSpec/Conformance 版本；正例、负例仍须实际执行并分别断言终局。
+
 ## 7. 测试运行、基线与门禁
 
 最小提交门禁应覆盖：Schema 自校验与样例 JSON、所有 Core/RNG golden vectors、Capability 的独立合同用例、若改动影响输入则包含 InputTrace、若影响引擎 Adapter 则两个宿主的同定义验收。每次提交产出：`report.json + manifest-digest + failed-cases + state/event-traces + screenshots(适用时)`。

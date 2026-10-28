@@ -1,0 +1,41 @@
+{
+  "format": "a2game-work-plan",
+  "status": "reference_batch_delivered",
+  "deviceScope": "Physical tasks deferred by user",
+  "steps": [
+    {
+      "id": "gameplay",
+      "status": "completed",
+      "deliverable": "G13/H03 固定三车道、滚动障碍与检查点、真实弹丸回收；穿插 G06 二维四向射线"
+    },
+    {
+      "id": "evidence",
+      "status": "completed",
+      "deliverable": "正反例、边界、镜像变体、浏览器真实输入与双 SDK 画面/Hash/释放"
+    },
+    {
+      "id": "delivery",
+      "status": "completed",
+      "deliverable": "同步逐款缺口和当前证据，验证后本地提交"
+    }
+  ],
+  "visualReview": "reports/runner-visual-review-2026-10-27T02-58-40-484Z.json",
+  "evidence": {
+    "headless": "reports/gameplay-2026-10-27T02-52-49-017Z-30076/summary.json",
+    "browser": "reports/candidates-2026-10-27T02-54-02-329Z-42080/summary.json",
+    "variants": "reports/variants-2026-10-27T02-54-44-466Z-12120/summary.json",
+    "index": "reports/nonphysical-current-refresh-2026-10-27T03-01-35-377Z.json",
+    "matrix": "reports/node-matrix-2026-10-27T02-54-11-102Z-14280/summary.json",
+    "performance": "reports/performance-2026-10-27T02-54-11-176Z-41340/summary.json",
+    "skill": "reports/runner-skill-2026-10-27T02-52-59-171Z/summary.json",
+    "coverageSchema": "reports/runner-coverage-schema-2026-10-27T03-02-06Z.json",
+    "visualReview": "reports/runner-visual-review-2026-10-27T02-58-40-484Z.json"
+  },
+  "fullAcceptance": "PARTIAL",
+  "pending": [
+    "19 per-game gameplay gaps in project/gameplay-acceptance.json",
+    "Complete manual quality and genuine independent G3",
+    "Physical tasks deferred by user"
+  ],
+  "verification": "reports/verify-2026-10-27T03-02-32-967Z-13524/verify.log"
+}

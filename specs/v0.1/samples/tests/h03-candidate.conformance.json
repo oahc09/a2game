@@ -22,7 +22,7 @@
             "kind": "down",
             "payload": {
               "pointerId": 1,
-              "u": 0.2,
+              "u": 0.15,
               "v": 0.5,
               "viewportAspect": 1.25
             }
@@ -35,7 +35,7 @@
             "kind": "down",
             "payload": {
               "pointerId": 2,
-              "u": 0.8,
+              "u": 0.85,
               "v": 0.5,
               "viewportAspect": 1.25
             }
@@ -43,7 +43,115 @@
         },
         {
           "op": "step",
-          "ticks": 2
+          "ticks": 110
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/checkpoints",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/spawned",
+          "equals": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies",
+          "equals": [
+            {
+              "id": "hero",
+              "kind": "actor",
+              "x": 6000,
+              "y": 1000,
+              "vx": 0,
+              "vy": 0,
+              "hx": 100,
+              "hy": 100,
+              "hp": 1,
+              "team": 1,
+              "value": 0,
+              "fixed": false
+            }
+          ]
         },
         {
           "op": "assert",
@@ -74,7 +182,7 @@
             "kind": "down",
             "payload": {
               "pointerId": 1,
-              "u": 0.8,
+              "u": 0.85,
               "v": 0.5,
               "viewportAspect": 1.25
             }
@@ -82,7 +190,17 @@
         },
         {
           "op": "step",
-          "ticks": 120
+          "ticks": 300
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/crashed",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/runner/kills",
+          "equals": 0
         },
         {
           "op": "assert",

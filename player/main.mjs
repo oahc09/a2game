@@ -18,14 +18,14 @@ const manualClock=params.get('clock')==='manual';
 const operations=[];
 const record=(op,payload)=>{if(manualClock)operations.push({op,...payload});};
 const listeners=new AbortController();
-const listen=(target,type,callback)=>target.addEventListener(type,callback,{signal:listeners.signal});
+const listen=(target,type,callback,options={})=>target.addEventListener(type,callback,{...options,signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,resources,raf,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
-function inputTimeUs(){const tick=runtime.observe().tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
-function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
-function pauseSession(){gamepadHost?.stop();traceRecorder?.control('pause',runtime.observe().tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
-function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.observe().tickIndex);}
+let runtime,adapter,definition,resources,raf,resizeRaf,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+function inputTimeUs(){const tick=runtime.tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
+function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
+function pauseSession(){gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
+function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
 const showError=e=>{errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  const canvas=dom.GameCanvas;
@@ -41,13 +41,17 @@ async function createAdapter(mode){
 }
 function observation(){return runtime?.observe();}
 function updateInfo(obs){
- dom.status.textContent=obs.flow.status.toUpperCase();dom.status.className=['won','playing'].includes(obs.flow.status)?'':obs.flow.status==='paused'?'warn':'error';
+ const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
+ dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
+ if(dom.status.dataset.flowStatus!==obs.flow.status){dom.status.dataset.flowStatus=obs.flow.status;document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';}
  dom.hash.textContent=obs.exactHash;
  const boundText=definition.presentation.hud?.find(x=>x.kind==='text')?.bind?.text;
  if(boundText?.template&&Array.isArray(boundText.args)){
    const args=boundText.args.map(x=>x.state?readPointer(obs.state,x.state):'?');
    dom.score.textContent=boundText.template.replace(/\{(\d+)\}/g,(all,index)=>index<args.length?String(args[index]):all);
- }else dom.score.textContent=Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
+ }else if(boundText&&Object.hasOwn(boundText,'literal'))dom.score.textContent=String(boundText.literal);
+ else if(boundText?.state)dom.score.textContent=String(readPointer(obs.state,boundText.state));
+ else dom.score.textContent=Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
@@ -59,8 +63,8 @@ function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(tr
 function sendAction(action){
  adapter?.unlockAudio?.();
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
- const sourceId=`ui:${action}:${runtime.observe().tickIndex}`;
- for(const phase of ['press','release']){const input={action,phase,sourceId,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder?.action(input,input.tickIndex,input.timeUs);}
+ const sourceId=`ui:${action}:${runtime.tickIndex}`;
+ for(const phase of ['press','release']){const input={action,phase,sourceId,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder?.action(input,input.tickIndex,input.timeUs);}
  // The animation-frame accumulator is the single production Tick driver.
  // Never advance simulation from DOM input callbacks.
 }
@@ -75,14 +79,20 @@ function animate(now){
    if(steps>max){
      // Explicit stall; never silently drop unprocessed simulation ticks.
      pauseSession();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
-   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();runtime.step(1);}carry-=steps/hz;}
+   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}
  }
- if(contextState==='healthy')render();raf=requestAnimationFrame(animate);
+ // Manual-clock callers draw after each step/control; idle frames have no new presentation.
+ if(contextState==='healthy'&&!manualClock)render();raf=requestAnimationFrame(animate);
  }catch(error){showError(error);void dispose().catch(cleanup=>console.error(cleanup));}
 }
 function bindInputs(){
  const extra=document.getElementById('extraActions'),existing=new Set([...document.querySelectorAll('[data-action]')].map(button=>button.dataset.action));
- for(const action of definition.inputs.actions)if(action.valueType==='button'&&!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=action.id;extra.appendChild(button);}
+ const names={left:'向左',right:'向右',up:'向上',down:'向下',fire:'射击',charge:'蓄力',drop:'放下',rotate:'旋转',undo:'撤销',restart:'重新开始',jump:'跳跃',flap:'拍翼',kick:'弹射',skill:'使用技能',upgrade:'升级',harvest:'收获',plant:'播种',unlock:'解锁',shake:'摇动',shakeFallback:'按钮摇动',spawn:'放置',hold:'按住机关',confirm:'确认',attack:'攻击',collect:'收集'};
+ const label=id=>{const match=id.match(/^(cell|place|select|merge|upgrade)(\d+)$/);return names[id]??(match?({cell:'格位',place:'建造',select:'选择',merge:'合成',upgrade:'升级'})[match[1]]+' '+Number(match[2]):id);};
+ for(const action of definition.inputs.actions)if(action.valueType==='button'&&!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=label(action.id);extra.appendChild(button);}
+ for(const button of document.querySelectorAll('[data-action]')){const action=definition.inputs.actions.find(a=>a.id===button.dataset.action);if(!action)continue;const keys=action.bindings.filter(b=>b.source==='keyboard.button').map(b=>({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'空格',Enter:'回车'})[b.config?.code]??String(b.config?.code??'').replace(/^(Key|Digit)/,''));button.title=label(action.id)+(keys.length?' · 键盘 '+keys.join(' / '):'');}
+ document.querySelector('.play-controls').classList.toggle('compact',definition.inputs.actions.filter(a=>a.valueType==='button').length<=6);
+ document.querySelector('.play-controls').hidden=!definition.inputs.actions.some(a=>a.valueType==='button');
  document.querySelector('.pad').style.display=definition.inputs.actions.some(action=>existing.has(action.id))?'':'none';
  for(const button of document.querySelectorAll('.pad [data-action]'))button.style.visibility=definition.inputs.actions.some(action=>action.id===button.dataset.action)?'':'hidden';
  if(definition.inputs.actions.some(action=>action.id==='collect'))document.querySelector('[data-action="collect"]').textContent='收集';
@@ -94,6 +104,7 @@ function bindInputs(){
       payload:{pointerId:e.pointerId,pointerType:e.pointerType,u:(e.clientX-rect.left)/rect.width,v:(e.clientY-rect.top)/rect.height,viewportAspect:rect.width/rect.height}};
    injectRaw(input);
  };
+ listen(canvas,'pointerdown',()=>canvas.focus({preventScroll:true}),{capture:true});
  listen(canvas,'pointerdown',e=>{adapter?.unlockAudio?.();if(runtime.status==='playing'){canvas.setPointerCapture(e.pointerId);rawPointer(e,'down');}});
  listen(canvas,'pointermove',e=>{if(canvas.hasPointerCapture(e.pointerId))rawPointer(e,'move');});
  listen(canvas,'pointerup',e=>rawPointer(e,'up'));
@@ -102,9 +113,18 @@ function bindInputs(){
  listen(window,'keydown',e=>{
    if(e.repeat||e.target instanceof HTMLSelectElement||e.target instanceof HTMLInputElement)return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
-   if(bound){e.preventDefault();sendAction(bound.id);}
+   if(bound){e.preventDefault();if(bound.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))injectRaw({source:'keyboard',kind:'down',payload:{code:e.code}});else sendAction(bound.id);}
+  },{capture:true});
+ listen(window,'keyup',e=>{
+   if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))){e.preventDefault();injectRaw({source:'keyboard',kind:'up',payload:{code:e.code}});}
+ },{capture:true});
+ document.querySelectorAll('[data-action]').forEach(btn=>{
+   const action=definition.inputs.actions.find(a=>a.id===btn.dataset.action),held=action?.bindings.some(b=>b.source==='keyboard.button'&&b.config?.hold===true);
+   if(!held){listen(btn,'click',()=>sendAction(btn.dataset.action));return;}
+   const edge=(e,phase)=>{e.preventDefault();if(runtime.status!=='playing')return;const input={action:action.id,phase,sourceId:`ui-hold:${action.id}:${e.pointerId}`,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder?.action(input,input.tickIndex,input.timeUs);};
+   listen(btn,'pointerdown',e=>{if(runtime.status==='playing'){btn.setPointerCapture(e.pointerId);edge(e,'press');}});
+   listen(btn,'pointerup',e=>edge(e,'release'));listen(btn,'pointercancel',e=>edge(e,'cancel'));listen(btn,'lostpointercapture',e=>edge(e,'cancel'));
  });
- document.querySelectorAll('[data-action]').forEach(btn=>listen(btn,'click',()=>sendAction(btn.dataset.action)));
  listen(dom.pause,'click',()=>{
    if(contextState==='reload-required'){location.reload();return;}
    if(contextState!=='healthy')return;
@@ -128,6 +148,9 @@ function bindInputs(){
      dom.hint.textContent='图形上下文需要重新加载；点击「重新加载」开始新一局';dom.pause.textContent='重新加载';
    }else{render();dom.hint.textContent='图形上下文已恢复；点击「继续」恢复游戏';}
  });
+ // Let the native SDK's container/layout observers finish before changing its design size.
+ // Two coalesced frames avoid a transient zero screen scale during a viewport switch.
+ listen(window,'resize',()=>{if(!manualClock)return;cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(()=>{resizeRaf=requestAnimationFrame(()=>{resizeRaf=undefined;if(!disposal&&contextState==='healthy')render();});});});
  listen(window,'blur',()=>{if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
  listen(document,'visibilitychange',()=>{if(document.hidden&&runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
  for(const which of ['game','backend'])listen(dom[which],'change',()=>{
@@ -138,7 +161,7 @@ function bindInputs(){
 }
 function dispose(){
  if(disposal)return disposal;
- if(raf)cancelAnimationFrame(raf);gamepadHost?.dispose();listeners.abort();traceRecorder?.dispose();runtime?.dispose();
+ if(raf)cancelAnimationFrame(raf);if(resizeRaf)cancelAnimationFrame(resizeRaf);gamepadHost?.dispose();listeners.abort();traceRecorder?.dispose();runtime?.dispose();
  disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>resources?.dispose());return disposal;
 }
 async function main(){
@@ -161,12 +184,14 @@ async function main(){
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
    gamepadHost=createGamepadHost({inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
    if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source.startsWith('gamepad.')))){const control=document.createElement('button'),status=document.createElement('span');control.id='gamepadEnable';control.textContent='启用手柄';status.id='gamepadStatus';status.setAttribute('role','status');listen(control,'click',()=>gamepadHost.enable());document.getElementById('extraActions').append(control,status);}
-   const mobileDeclared=definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.')||ref.id.startsWith('a2game.input.touch.')&&!['a2game.input.touch.tap','a2game.input.touch.swipe'].includes(ref.id));
-   document.getElementById('mobilePanel').hidden=!mobileDeclared&&definition.inputs.traceRecording!=='user-opt-in';
-   document.getElementById('sensorEnable').disabled=!definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.'));
+   const imuDeclared=definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.'));
+   document.getElementById('mobilePanel').hidden=!imuDeclared&&definition.inputs.traceRecording!=='user-opt-in';
+   document.getElementById('recordingControls').hidden=definition.inputs.traceRecording!=='user-opt-in';
+   document.getElementById('sensorControls').hidden=!imuDeclared;
+   document.getElementById('sensorEnable').disabled=!imuDeclared;
    listen(document.getElementById('sensorEnable'),'click',()=>{void mobileHost.enable();});
    listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
-   listen(document.getElementById('sensorStop'),'click',()=>{if(runtime.status==='playing')injectRaw({source:'imu',kind:'reset',payload:{}});mobileHost.stop();});
+   listen(document.getElementById('sensorStop'),'click',()=>{mobileHost.stop();});
    document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
    listen(document.getElementById('traceStart'),'click',()=>{runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
    listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
@@ -183,8 +208,8 @@ async function main(){
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.injectRaw=injectRaw;
-     window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.observe().tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
-     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();advanced+=runtime.step(1).advanced;}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
+     window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
+     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{
        if(!Number.isFinite(ms)||ms<0)throw Error('Invalid advanceTime');

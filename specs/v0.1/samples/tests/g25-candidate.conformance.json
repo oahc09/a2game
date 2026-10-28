@@ -111,6 +111,34 @@
           "equals": "lost"
         }
       ]
+    },
+    {
+      "id": "PER-GAME-G25-MISSED-MOVING-FRUIT",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/lost",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
     }
   ]
 }

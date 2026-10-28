@@ -122,6 +122,9 @@
           "type": "number",
           "minimum": 1,
           "maximum": 100
+        },
+        "trajectoryPreview": {
+          "type": "boolean"
         }
       },
       "required": [
@@ -164,6 +167,12 @@
       },
       {
         "name": "bubble.invalid",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "bubble.bounced",
         "payloadSchema": {
           "type": "object"
         }

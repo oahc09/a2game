@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.h04",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "H04 物理合成与倾斜",
     "genres": [
@@ -114,7 +114,8 @@
                 ],
                 "dragAction": "drag",
                 "tiltAction": "tilt",
-                "axisFromDrag": true
+                "axisFromDrag": true,
+                "clearLostImu": true
               }
             }
           ]
@@ -226,7 +227,9 @@
         "bindings": [
           {
             "source": "imu.tilt",
-            "config": {}
+            "config": {
+              "trackSample": true
+            }
           }
         ]
       }
@@ -261,11 +264,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "倾斜或拖动施加水平重力，碰壁后两枚同色球合成。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -276,6 +284,32 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "gameplay-drop-area",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.25
+          ],
+          "size": [
+            8,
+            5.5
+          ],
+          "fill": "#17273c"
+        },
+        {
+          "id": "gameplay-floor",
+          "kind": "rect",
+          "at": [
+            0,
+            -3
+          ],
+          "size": [
+            8,
+            0.05
+          ],
+          "fill": "#a8c5d9"
+        },
         {
           "id": "title",
           "kind": "text",

@@ -27,7 +27,12 @@
         },
         {
           "op": "step",
-          "ticks": 20
+          "ticks": 180
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/score",
+          "equals": 2
         },
         {
           "op": "assert",
@@ -53,7 +58,12 @@
         },
         {
           "op": "step",
-          "ticks": 160
+          "ticks": 480
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/score",
+          "equals": 0
         },
         {
           "op": "assert",

@@ -1,0 +1,260 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.physics.rigid3d",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Locked cannon-es 0.20.0 bounded 3D rigid-body profile: fixed substeps, quantized complete motion state, actual contact torque, placement and ordered triggers. Exact receipts apply only to tested Node/Chromium platform profiles.",
+  "phase": "physics",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "statePath",
+        "bodies",
+        "gravity",
+        "maxTicks"
+      ],
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "bodies": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "shape",
+              "size",
+              "position",
+              "mass",
+              "active"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,47}$"
+              },
+              "shape": {
+                "enum": [
+                  "box",
+                  "sphere"
+                ]
+              },
+              "size": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "number",
+                  "minimum": 0.05,
+                  "maximum": 20
+                }
+              },
+              "position": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "number",
+                  "minimum": -1000,
+                  "maximum": 1000
+                }
+              },
+              "mass": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "active": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "gravity": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number",
+            "minimum": -32,
+            "maximum": 32
+          }
+        },
+        "maxTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 36000
+        },
+        "failBelow": {
+          "type": "number",
+          "minimum": -32,
+          "maximum": 0
+        },
+        "spawnAction": {
+          "type": "string"
+        },
+        "dragAction": {
+          "type": "string"
+        },
+        "tiltAction": {
+          "type": "string"
+        },
+        "launchAction": {
+          "type": "string"
+        },
+        "spawnY": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 16
+        },
+        "requiredBodies": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 15
+        },
+        "stableTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 36000
+        },
+        "actorIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 15
+        },
+        "launchVelocity": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "number",
+            "minimum": -20,
+            "maximum": 20
+          }
+        },
+        "restitution": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "triggers": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "min",
+              "max"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "min": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "number",
+                  "minimum": -1000,
+                  "maximum": 1000
+                }
+              },
+              "max": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "number",
+                  "minimum": -1000,
+                  "maximum": 1000
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "stateSchema": {
+      "type": "object",
+      "required": [
+        "bodies",
+        "axis",
+        "score",
+        "placed",
+        "stableTicks",
+        "contacts",
+        "won",
+        "lost"
+      ]
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "rigid3d.spawned",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "rigid3d.launched",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "rigid3d.contact",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "rigid3d.trigger",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "profile": "cannon-es-q1e6-v1",
+    "maxBodies": 16,
+    "substeps": 4,
+    "solverIterations": 16,
+    "quantization": 1000000,
+    "solverSource": "project/sdk-lock.json#/sharedPhysics",
+    "scope": "Actual 3D rigid-body state; measured exact interoperability only for recorded Node/Chromium versions"
+  },
+  "testSuites": [
+    "COVERAGE-G15-POSITIVE",
+    "COVERAGE-G28-POSITIVE"
+  ]
+}

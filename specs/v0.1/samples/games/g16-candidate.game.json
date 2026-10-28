@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.g16",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "G16 物理合成",
     "genres": [
       "puzzle"
     ],
-    "description": "拖动选择横向位置，点击 drop 放球；相同数字接触合成。"
+    "description": "快速连续放四颗 2，合成 4 再合成 8；错序堆叠超过红线失败。重开回收所有旧实体。"
   },
   "requires": {
     "all": [
@@ -104,8 +104,9 @@
                 "height": 6000,
                 "gravity": -16,
                 "merge": true,
-                "goalScore": 4,
-                "maxTicks": 300
+                "goalScore": 16,
+                "maxTicks": 300,
+                "overflowY": 600
               }
             },
             {
@@ -244,11 +245,16 @@
   "presentation": {
     "hud": [
       {
-        "id": "goal",
+        "id": "world-score",
         "kind": "text",
         "bind": {
           "text": {
-            "literal": "拖动选择横向位置，点击 drop 放球；相同数字接触合成。"
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
           }
         }
       }
@@ -259,6 +265,45 @@
       "height": 8,
       "background": "#0d1729",
       "nodes": [
+        {
+          "id": "gameplay-drop-area",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.25
+          ],
+          "size": [
+            8,
+            5.5
+          ],
+          "fill": "#17273c"
+        },
+        {
+          "id": "gameplay-floor",
+          "kind": "rect",
+          "at": [
+            0,
+            -3
+          ],
+          "size": [
+            8,
+            0.05
+          ],
+          "fill": "#a8c5d9"
+        },
+        {
+          "id": "overflow-line",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.4
+          ],
+          "size": [
+            8,
+            0.025
+          ],
+          "fill": "#dc6d78"
+        },
         {
           "id": "title",
           "kind": "text",
@@ -282,7 +327,20 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "拖动选择横向位置，点击 drop 放球；相同数字接触合成。"
+            "literal": "快速连续放四颗 2，合成 4 再合成 8；错序堆叠超过红线失败。重开回收所有旧实体。"
+          }
+        },
+        {
+          "id": "gameplay-drop-label",
+          "kind": "text",
+          "at": [
+            0,
+            2.6
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "拖动选位置，点击放下球体"
           }
         }
       ],

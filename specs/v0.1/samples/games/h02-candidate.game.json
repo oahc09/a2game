@@ -2,13 +2,13 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.h02",
-  "revision": 1,
+  "revision": 3,
   "meta": {
     "title": "H02 三消与升级",
     "genres": [
       "casual"
     ],
-    "description": "三消成功的奖励在规则阶段到账，下一 Tick 才能 upgrade。"
+    "description": "Space 攻击，三消得金币后 U 升级；升级从下一 Tick 增伤，击败敌人才过关。"
   },
   "requires": {
     "all": [
@@ -46,6 +46,14 @@
       },
       {
         "id": "a2game.strategy.economy-loop",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
         "version": "0.1.0"
       },
       {
@@ -126,17 +134,6 @@
                 ],
                 "actions": [
                   {
-                    "action": "plant",
-                    "kind": "plant",
-                    "item": "seed",
-                    "index": 0
-                  },
-                  {
-                    "action": "collect",
-                    "kind": "collect",
-                    "index": 0
-                  },
-                  {
                     "action": "upgrade",
                     "kind": "upgrade",
                     "item": "seed",
@@ -144,6 +141,25 @@
                   }
                 ],
                 "goalScore": 2
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "weapon": "hitscan",
+                "fireDirection": "up",
+                "damageBonusPath": "/combat/bonus",
+                "cooldownTicks": 1,
+                "goalScore": 1,
+                "actions": {
+                  "fire": "fire"
+                }
               }
             }
           ]
@@ -218,6 +234,59 @@
         "moves": 0,
         "won": false,
         "lost": false
+      }
+    },
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 6500,
+            "y": 1700,
+            "vx": 0,
+            "vy": 0,
+            "hx": 180,
+            "hy": 180,
+            "hp": 1,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "target",
+            "kind": "target",
+            "x": 6500,
+            "y": 4000,
+            "vx": 0,
+            "vy": 0,
+            "hx": 250,
+            "hy": 250,
+            "hp": 4,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "combat": {
+      "type": "object",
+      "initial": {
+        "bonus": 0,
+        "nextDamage": 1,
+        "lastDamage": 0,
+        "targetHP": 4
       }
     },
     "rewarded": {
@@ -465,25 +534,13 @@
         ]
       },
       {
-        "id": "plant",
+        "id": "fire",
         "valueType": "button",
         "bindings": [
           {
             "source": "keyboard.button",
             "config": {
-              "code": "KeyP"
-            }
-          }
-        ]
-      },
-      {
-        "id": "collect",
-        "valueType": "button",
-        "bindings": [
-          {
-            "source": "keyboard.button",
-            "config": {
-              "code": "KeyC"
+              "code": "Space"
             }
           }
         ]
@@ -524,11 +581,63 @@
           "value": true
         }
       ]
+    },
+    {
+      "id": "upgrade-character",
+      "on": {
+        "type": "strategy.upgraded"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/combat/bonus",
+          "value": {
+            "state": "/economy/plots/0/level"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combat/nextDamage",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/economy/plots/0/level"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "combat-feedback",
+      "on": {
+        "type": "combat.hit"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/combat/lastDamage",
+          "value": {
+            "event": "/amount"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combat/targetHP",
+          "value": {
+            "event": "/hp"
+          }
+        }
+      ]
     }
   ],
   "outcomes": [
     {
-      "id": "upgraded",
+      "id": "upgraded-victory",
       "status": "won",
       "when": {
         "op": "and",
@@ -546,6 +655,9 @@
                 "const": 1
               }
             ]
+          },
+          {
+            "state": "/world/won"
           }
         ]
       }
@@ -554,17 +666,29 @@
   "presentation": {
     "hud": [
       {
-        "id": "score",
+        "id": "upgrade",
         "kind": "text",
         "bind": {
           "text": {
-            "template": "分数 {0} · 操作 {1}",
+            "template": "消除 {0} · 金币 {1} · 等级 {2}\n下次伤害 {3} · 上次命中 {4} · 敌人生命 {5}",
             "args": [
               {
                 "state": "/puzzle/score"
               },
               {
-                "state": "/puzzle/moves"
+                "state": "/economy/wallet"
+              },
+              {
+                "state": "/economy/plots/0/level"
+              },
+              {
+                "state": "/combat/nextDamage"
+              },
+              {
+                "state": "/combat/lastDamage"
+              },
+              {
+                "state": "/combat/targetHP"
               }
             ]
           }
@@ -600,7 +724,46 @@
           "fontSize": 0.14,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "三消成功的奖励在规则阶段到账，下一 Tick 才能 upgrade。"
+            "literal": "Space 攻击，三消得金币后 U 升级；升级从下一 Tick 增伤，击败敌人才过关。"
+          }
+        },
+        {
+          "id": "gameplay-battle-label",
+          "kind": "text",
+          "at": [
+            2.5,
+            1.8
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "敌人"
+          }
+        },
+        {
+          "id": "gameplay-target-hp",
+          "kind": "text",
+          "at": [
+            2.5,
+            0.5
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "state": "/combat/targetHP"
+          }
+        },
+        {
+          "id": "gameplay-hero-label",
+          "kind": "text",
+          "at": [
+            2.5,
+            -1.9
+          ],
+          "fontSize": 0.2,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "角色 · Space 攻击"
           }
         }
       ],
@@ -775,7 +938,29 @@
             }
           ]
         }
-      ]
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#57d7c8",
+          "solid": "#a8c5d9",
+          "target": "#dc6d78",
+          "projectile": "#f5d26f",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile",
+          "pickup"
+        ],
+        "showValues": false
+      }
     }
   },
   "tests": [

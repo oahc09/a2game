@@ -8,6 +8,7 @@ import {validateInputControlDefinition} from './modules/input-control.js';
 import {validateBubbleDefinition} from './modules/bubble-grid.js';
 import {validateBootstrapDefinition} from './modules/bootstrap.js';
 import {validateDefenseDefinition} from './modules/tower-defense.js';
+import {validateRigid3dDefinition} from './modules/rigid3d.js';
 import { fail, requireCondition } from './errors.js';
 import { validateExpression, looksLikeExpression } from './expression.js';
 import { CapabilityRegistry, type EffectiveCapabilities } from './registry.js';
@@ -181,7 +182,7 @@ export function compileGame(raw: unknown, registry: CapabilityRegistry): Compile
     });
     noDuplicates(raw.outcomes.map((r:unknown)=>String(isRecord(r)?r.id:'')),'/outcomes');
     for (const [i,outcome] of raw.outcomes.entries()) {
-        if (!isRecord(outcome) || !['won','lost'].includes(String(outcome.status))) fail('A2G_E_RULE_EXPR','Invalid outcome',{jsonPointer:`/outcomes/${i}`});
+        if (!isRecord(outcome) || !['won','lost','stopped'].includes(String(outcome.status))) fail('A2G_E_RULE_EXPR','Invalid outcome',{jsonPointer:`/outcomes/${i}`});
         validateExpression(outcome.when,`/outcomes/${i}/when`,fields);
     }
     if (!isRecord(raw.presentation)) fail('A2G_E_UNKNOWN_FIELD','Invalid presentation',{jsonPointer:'/presentation'});
@@ -196,6 +197,7 @@ export function compileGame(raw: unknown, registry: CapabilityRegistry): Compile
     validateBubbleDefinition(d);
     validateBootstrapDefinition(d);
     validateDefenseDefinition(d);
+    validateRigid3dDefinition(d);
     const scene = d.scenes.find(s => s.id === d.entryScene)!;
     return { definition:d, effective, entrySceneEntities:scene.entities, rules:[...d.rules].sort((a,b)=>(a.priority??0)-(b.priority??0)||stableCompare(a.id,b.id)) };
 }

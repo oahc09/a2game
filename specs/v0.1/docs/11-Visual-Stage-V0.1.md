@@ -24,3 +24,7 @@ Canvas2D 预览明确拒绝 Stage，提示选择真实 Three.js/CocosAirJS。当
 ## 验收
 
 `npm run stage:e2e` 验证透视投影；`node scripts/content-browser.mjs --stage --orthographic` 验证正交/2.5D。每个场景在两个真实 SDK 检查输入、Node Hash、动画实际像素变化、网格/纹理可见性、缩放、原生 AudioBufferSourceNode 与音频时钟、内容包、服务重启、context loss 和释放。Node 正反例与 `visual-stage.conformance.json` 分别核对纯投影与 Tick/暂停/重开。回执与能力覆盖见项目状态，真机与完整 Gameplay Gate 独立统计。
+
+## 2026-10-27 正交范围适配
+
+显式 `camera.fitSize:[width,height]` 仅用于 orthographic，两个正数不超过 1000。宿主使用实际 viewport aspect，完整高度取 max(orthoHeight, fitSize[1], fitSize[0]/aspect)，Three.js 使用全高，CocosAirJS 使用一半为 orthoHeight。未声明时保留原固定高语义。H05 设为 scene2d 宽高，使图片和同一 HitTest 框在桌面、390px 及缩放下对齐；图片以各 SDK 的纹理方向上传并启用 alpha。输入宿主在 pointerdown 捕获阶段以 preventScroll 聚焦画布，避免窄屏首次按压使页面滚动、拖动终点偏离。此项为纯投影，不改变逻辑 Hash。

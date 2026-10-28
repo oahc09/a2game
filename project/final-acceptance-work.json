@@ -1,0 +1,38 @@
+{
+  "format": "a2game-final-acceptance-work",
+  "status": "archive_delivered_acceptance_pending",
+  "steps": [
+    {
+      "id": "archive",
+      "status": "completed",
+      "deliverable": "归集 37 份逐款档案与 74 份分 SDK 的正式待验回执"
+    },
+    {
+      "id": "audit",
+      "status": "completed",
+      "deliverable": "核对版本/摘要/源码/路径，拒绝参考或自报 PASS 提升正式计数"
+    },
+    {
+      "id": "handoff",
+      "status": "completed",
+      "deliverable": "归档缺口、运行工程检查并本地提交"
+    }
+  ],
+  "pending": [
+    "37 human quality approvals",
+    "37 independent G3 acceptances",
+    "10 applicable physical input acceptances, deferred by user",
+    "外部证据到位后，完成可信接入与正式登记升级"
+  ],
+  "summary": "reports/acceptance-2026-10-27T13-10-03-797Z-14948/summary.json",
+  "archiveStatus": "PASS",
+  "acceptanceStatus": "PARTIAL",
+  "packets": 37,
+  "formalReceipts": 74,
+  "verification": "reports/verify-2026-10-27T13-00-31-812Z-11208/verify.log",
+  "boundaryChecks": "reports/acceptance-boundaries-2026-10-27T13-11-26-556Z.json",
+  "readiness": "A2G_E_ACCEPTANCE_NOT_READY (expected: external evidence missing)",
+  "governance": "reports/acceptance-portable-governance-20261027.log",
+  "node22": "reports/acceptance-node22-portable-20261027.log",
+  "portability": "reports/acceptance-portability-2026-10-27T13-11-20-700Z.json"
+}

@@ -29,3 +29,11 @@ InputTrace Schema 原本已声明 `source: action|system`，本轮补齐其执�
 ## 验收边界
 
 实验 JSON、Conformance 和三条必要 Node 回归涵盖指针身份/互斥、校准/不可用通道、Snapshot 与混合 Trace。`node scripts/mobile-browser.mjs` 使用真实 HTTP、真实 SDK 和浏览器 Pointer/Sensor 路径，但 Touch/Orientation 来自 CDP 虚拟设备，Motion 为合成 DOM 事件；必须明确标注，不能计真机 Gate。真机回执须另外记录设备/系统/浏览器、真实权限结果、方向/焦点行为、真实 Touch/IMU Trace 与相同 JSON 回放。
+
+## 2026-10-27 逐款输入与样本失联
+
+显式 imu.tilt / imu.orientation 的 `trackSample:true` 保留有效样本标记；orientation 不可用时使校准/本标记失效，重新校准清除旧滤波/标记。input-control 的 `clearLostImu:true` 仅清除来自 IMU 且失去校准/标记的 axis/aim，不清除有效桌面回退来源；该选项与跟踪标记须配套，语义编译拒绝不完整组合。未启用的旧绑定与控制器保留既有字节。刚体 Tilt 同样在重新校准后停止旧施力。
+
+Browser MobileHost 在唯一生产 Tick / 手动 Tick 前采样可用性；60 个逻辑 Tick 无有效样本即停止监听，并将 raw imu.reset 记录到输入流。暂停/方向变化/显式停止要求重校准，暂停不推进失联时钟。回放只消费记录的 reset，不访问实际硬件。Runtime 销毁释放原始输入、手势/IMU/按键缓存与事件历史。
+
+G25/G26/G27/G29/G30/G31/G32/H04 逐款流程见 project/input-gameplay-profiles.json，覆盖实际桌面鼠标/键盘、CDP 虚拟多触点及合成 DOM 姿态/运动/权限/屏幕方向。32 份基础/作者变体双 SDK 输入流程须有原始操作、Node 哈希、截图和释放；所有此类输入均不计物理设备 Gate。
