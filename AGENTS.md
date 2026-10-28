@@ -107,3 +107,5 @@ G11/G24 第五批由 `project/jump-turn-work.json` 跟踪。`platformLanding:tru
 2026-10-28 非真机独立参考收口：37工程/37浏览器主输入/37逐款AI参考审查，31桌面来源＋6CDP/合成；正式G3仍0/37。累计168次生成＋1探测，本轮53次，旧失败/缺失用量保留。35份presentation-only不变量由g3-presentation-invariants.mjs核对；G32正常抬指保留已完成机关，取消仅清未完成保持，原始指针ABI正反例留证。G07只对所选牌显示身份，不能直接画原始board泄露牌面。g3-input-profiles.json中G29/H04/G31为宿主主输入验收映射，不计独立模型解法或真机；g3-source-input.mjs每32款轮换独立临时服务，不抬高内容容量，按住触点时截图不得改变视口。当前索引和审查以project/status.json及project/independent-g3-run.json为准。CI/便携证据恢复继续单独验证，不公开私有报告。
 
 2026-10-28 用户确认远端CI旧启动失败源于额度超出，要求减少执行次数。compatibility工作流仅手动触发，默认Ubuntu/Node22一个core；full_matrix才执行原四组合，real_sdk等待core且不重复verify；同分支取消旧运行、产物3天。日常本地全量验证；不要为取远端回执自动触发消耗额度。npm test限定两个文件并发以避免完整Schema校验8秒上限的环境争用，不得因此提高超时或跳过测试。证据恢复见docs/evidence-restoration.md；未配置可信远端包地址不能声称远端CI已通过。
+
+2026-10-28 便携证据恢复已在仓库外纯源码目录验证：8,138文件，整包及逐文件SHA锁定，Node22独立npm ci后115/203/360、G3/P2通过，重复及验证后恢复均保留原字节。元数据见project/evidence-restoration-run.json，包锁见project/evidence-lock.json；包位于忽略的output/，未公开托管。status新增进度不得改变其report-pointers-v1绑定；改变任何reports指针须重新打包。本轮三步非真机工程已完成，正式人工/G3/物理与远端CI不能由本地恢复推升。

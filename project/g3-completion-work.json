@@ -33,14 +33,16 @@
     },
     {
       "id": "ci-evidence",
-      "status": "in_progress",
+      "status": "completed",
       "deliverable": "查明远端任务启动失败，并让纯源码检出能恢复受校验的证据；不绕过门禁。",
       "diagnosis": "reports/ci-diagnosis-20261028/summary.json",
       "startupCause": {
         "kind": "QUOTA_EXCEEDED",
         "source": "User confirmation on 2026-10-28; original no-step failure retained.",
         "resolution": "Manual workflow only; one default core job; opt-in four-combination matrix and SDK; cancel superseded runs; 3-day artifacts."
-      }
+      },
+      "receipt": "project/evidence-restoration-run.json",
+      "remote": "NOT_RUN_QUOTA_AND_EVIDENCE_HOSTING"
     }
   ],
   "formalG3": "NOT_RUN",

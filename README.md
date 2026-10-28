@@ -12,7 +12,7 @@ P0 逐款 AI 实测与待人工确认项见 [质量清单](docs/quality-review.m
 
 P2 正式验收档案与登记前检查见 [验收流程](docs/final-acceptance.md)。`npm run acceptance:build` 归档现有证据，`acceptance:check` 核对档案；参考通过与正式通过分别计数。
 
-当前优先 [37 款独立 G3](docs/independent-g3.md)：当前 Codex CLI 的 37 款均已通过完整准入、正反例和真实双 SDK 工程参考验证；G02 明确使用宿主 Runtime 求解反馈，不算模型自解。正式 G3 仍 0/37；[独立生成索引](project/independent-g3-run.json) 保留调用、原始输出、截图及逐项待验。37款浏览器主输入及逐款AI参考审查已复核，当前推进CI/证据恢复；CDP/合成传感器与人工作品质量分别记账。`g3:plan` 不调用模型，也保留通用模型 API 入口。
+当前优先 [37 款独立 G3](docs/independent-g3.md)：当前 Codex CLI 的 37 款均已通过完整准入、正反例和真实双 SDK 工程参考验证；G02 明确使用宿主 Runtime 求解反馈，不算模型自解。正式 G3 仍 0/37；[独立生成索引](project/independent-g3-run.json) 保留调用、原始输出、截图及逐项待验。37款浏览器主输入及逐款AI参考审查已复核；[纯源码证据恢复](docs/evidence-restoration.md)已通过Node22全量验证。Actions仅手动默认一个任务以控制额度；远端证据托管未配置，CDP/合成传感器与人工作品质量分别记账。`g3:plan` 不调用模型，也保留通用模型 API 入口。
 
 仓库源码与本地产物的边界见 [维护说明](docs/repository-maintenance.md)。`reports/` 已移出 Git，本地历史证据继续保留；新检出需恢复相应证据后才能完整核对现有验收状态。
 

@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "37 independent CLI engineering, primary browser-source input and bounded AI reference reviews completed; verify source-checkout evidence restoration and diagnose remote CI startup without changing formal/physical gates.",
+  "currentObjective": "本轮非真机独立参考与源码证据恢复已完成；正式人工/G3/适用设备另验，远端CI待额度与可信证据URL。",
   "nextStage": null,
   "stages": [
     {
@@ -1166,9 +1166,9 @@
     "summary": "reports/repository-maintenance-20261028/summary.json"
   },
   "g3CompletionRun": {
-    "status": "IN_PROGRESS",
+    "status": "PASS_REFERENCE",
     "work": "project/g3-completion-work.json",
-    "phase": "ci-evidence",
+    "phase": "completed-nonphysical-engineering",
     "newEngineeringPasses": [
       "G24",
       "G26",
@@ -1193,6 +1193,14 @@
     "skill": "reports/g3-quality-skill-2026-10-28T10-48-44-983Z/summary.json",
     "verification": "reports/verify-2026-10-28T11-28-16-892Z-28720/verify.log",
     "remoteStartupCause": "QUOTA_EXCEEDED_USER_CONFIRMED",
-    "ciPolicy": "MANUAL_ONLY_DEFAULT_ONE_CORE_OPT_IN_MATRIX_AND_SDK"
+    "ciPolicy": "MANUAL_ONLY_DEFAULT_ONE_CORE_OPT_IN_MATRIX_AND_SDK",
+    "evidenceRestoration": "project/evidence-restoration-run.json"
+  },
+  "ciEvidenceRun": {
+    "status": "PASS_LOCAL",
+    "receipt": "project/evidence-restoration-run.json",
+    "archiveLock": "project/evidence-lock.json",
+    "remote": "NOT_RUN_QUOTA_AND_EVIDENCE_HOSTING",
+    "automaticActions": false
   }
 }

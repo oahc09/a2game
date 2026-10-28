@@ -16,6 +16,9 @@ npm run evidence:pack -- output/a2game-evidence-20261028.jsonl.gz
 
 ```powershell
 npm ci
+# 按 README 安装 requirements-dev.txt；声明已装依赖的解释器。
+# 若使用 .venv，可改为该解释器的绝对路径。
+$env:A2GAME_PYTHON = 'python'
 npm run evidence:restore -- D:/A2GameEvidence/a2game-evidence-20261028.jsonl.gz
 npm run verify
 node scripts/g3-codex-report.mjs --check
@@ -33,3 +36,7 @@ CI 在原有完整验证之前执行恢复，可使用 `workflow_dispatch.eviden
 这只减少触发次数和默认组合，不缩减被选任务的检查内容；未运行的系统组合和浏览器任务不能记为本次 PASS。额度恢复、可信证据 URL 配好后再手动运行，不自动重试旧失败。配置使用 GitHub 官方的 [手动输入](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onworkflow_dispatchinputs) 与 [并发控制](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency)。
 
 证据恢复通过仅表示存档完整。正式 G3、人工作品质量与物理设备 Gate 仍分别待验。
+
+## 本次实测
+
+`project/evidence-restoration-run.json` 记录源码提交、Node22、独立安装、原始日志SHA及恢复前拒绝/首次/重复/验证后恢复。8,138文件、压缩393,230,709字节，整包SHA为 `2f00dacb2444b43bc26b33251c85601879f76730af83f95c9f5d995569a22c06`。纯源码完整115 Node、203 Conformance、360 Schema以及G3/P2审计通过；全程没有复制现有dist、SDK、依赖或私有目录。新检出仍需维护者提供该包；远端托管未配置，GitHub额度耗尽的原运行不被此本地结果替代。

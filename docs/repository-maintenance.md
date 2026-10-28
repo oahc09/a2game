@@ -20,3 +20,5 @@ Git 重复松散对象可先用 `git prune-packed -n` 核对，再用 `git prune
 在最新提交删除大文件不会消除父提交中的对象。推送前须检查未推送历史；GitHub 普通 Git 拒收超过 100 MiB 的文件。采用其他交付分支或提交整理方式前，应保留本地历史并明确交付范围。[GitHub 文件限制](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)
 
 2026-10-28 用户选择更新 `main`：原本地历史保留在 `archive/local-history-20261028`（tip `97d56daf`），不推送该归档分支。源码交付提交 `b42ccf27` 与归档 tip 的文件树完全一致，父提交为原远端基线 `b910c164`；后续仅补充交付元数据。`main` 正常快进推送，既有远端历史保留，不使用 force push。
+
+2026-10-28 补齐[便携证据恢复](evidence-restoration.md)：project/evidence-lock.json锁定8,138份文件，仓库外纯源码Node22完整验证与G3/P2审计通过，首次/重复/验证后恢复保留原字节。证据包仍在本地output/且不入Git；未配置可信远端地址，Actions改为手动以控制额度，不将本地通过写成远端通过。

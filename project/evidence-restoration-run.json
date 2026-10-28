@@ -1,0 +1,139 @@
+{
+  "format": "a2game-source-evidence-restoration",
+  "version": 1,
+  "date": "2026-10-28",
+  "status": "PASS_LOCAL",
+  "sourceCommit": "12c2b026423891a86bc679c4300b7448dd83faf1",
+  "sourcePreparation": "Fresh git archive outside workdir; no .git, reports, dist, node_modules, private config, virtual environment or downloaded SDKs. Independent npm ci; evidence-lock.json overlay only.",
+  "node": "22.23.4",
+  "missingEvidenceRefused": true,
+  "archive": {
+    "file": "output/a2game-evidence-20261028-input-quality.jsonl.gz",
+    "sha256": "2f00dacb2444b43bc26b33251c85601879f76730af83f95c9f5d995569a22c06",
+    "compressedBytes": 393230709,
+    "bytes": 679838647,
+    "files": 8138,
+    "lockSha256": "b60c72d50384d66b6a875bc2677cefa72dde8516e3188c691b949c6a70301f03",
+    "missingFailedAttemptReferences": 22
+  },
+  "restoration": {
+    "initial": {
+      "status": "PASS",
+      "files": 8138,
+      "restored": 8138,
+      "retained": 0,
+      "bytes": 679838647,
+      "scope": "Immutable reference evidence; does not approve G3, human quality or physical devices."
+    },
+    "repeat": {
+      "status": "PASS",
+      "files": 8138,
+      "restored": 0,
+      "retained": 8138,
+      "bytes": 679838647,
+      "scope": "Immutable reference evidence; does not approve G3, human quality or physical devices."
+    },
+    "afterVerification": {
+      "status": "PASS",
+      "files": 8138,
+      "restored": 0,
+      "retained": 8138,
+      "bytes": 679838647,
+      "scope": "Immutable reference evidence; does not approve G3, human quality or physical devices."
+    }
+  },
+  "verification": {
+    "command": "npm run verify",
+    "nodeTests": 115,
+    "conformance": 203,
+    "schemaDocuments": 360,
+    "canonicalReports": "Original bytes preserved; generated canonical reports restored after verification."
+  },
+  "g3": {
+    "status": "PASS",
+    "summary": "reports/g3-codex-review-2026-10-28T11-15-44-413Z-6272/summary.json",
+    "files": 3332,
+    "engineeringPassed": 37,
+    "nativePassed": 31,
+    "formalG3Passed": 0
+  },
+  "p2": {
+    "status": "PASS",
+    "formalAcceptance": "PARTIAL",
+    "verifiedGames": 0,
+    "verifiedHybrids": 0
+  },
+  "remote": {
+    "status": "NOT_RUN",
+    "reason": "User confirmed quota exceeded; no automatic retry. Trusted remote evidence URL not configured.",
+    "trigger": "workflow_dispatch only",
+    "defaultCoreJobs": 1,
+    "optInMatrixJobs": 4,
+    "realSdk": "OPT_IN_AFTER_CORE",
+    "maxParallelCore": 2,
+    "artifactRetentionDays": 3
+  },
+  "logs": [
+    {
+      "path": "reports/source-restore-configured-integration-command-20261028.log",
+      "sha256": "f1d1e26de51114e14c59b7c1c7911bd593764b74fa4f36b035c789d5e434e760",
+      "bytes": 186
+    },
+    {
+      "path": "reports/source-restored-verify-node22-python-20261028.log",
+      "sha256": "72c85eb178c2a64188fd1c97902bef5a6320d8e3aacc81b98e51ee13acfdf4b6",
+      "bytes": 45757
+    },
+    {
+      "path": "reports/source-restored-g3-node22-20261028.log",
+      "sha256": "5c662aee9fbf9b67fd1e6dda816410f21f776345fc3a5e62623f58ef6af6ccb9",
+      "bytes": 203
+    },
+    {
+      "path": "reports/source-restored-p2-node22-20261028.log",
+      "sha256": "9cfa3e05135d370ae901e4934ab79596c39166db87f6aace19c5266ffe41404b",
+      "bytes": 417
+    },
+    {
+      "path": "reports/source-before-restore-20261028.log",
+      "sha256": "9fe47f74599906142b388f5405541dad30522e4d7561296b4cf8632abed839c9",
+      "bytes": 698
+    },
+    {
+      "path": "reports/source-restore-npm-ci-20261028.log",
+      "sha256": "94248e93d1f5231b729a77caa40f7d5e914a415a633855da0af0e14d2c8f5631",
+      "bytes": 77
+    },
+    {
+      "path": "reports/source-restored-verify-node22-20261028.log",
+      "sha256": "51f69d11834b7321ccc6ffe08b5ecd9153daadde78ab23ed4d56e7a084f877e6",
+      "bytes": 31526
+    },
+    {
+      "path": "reports/source-agent-missing-python-20261028.log",
+      "sha256": "0998b66632ab7869d4ca4c6f2fdfbc568c3d138eccd70952877d2298adb39aad",
+      "bytes": 1303
+    },
+    {
+      "path": "reports/source-restore-integration-command-20261028.log",
+      "sha256": "31d84dc2908d3a965a81239624d11353c9fa77f007a2b4f2c20022f250ea3751",
+      "bytes": 10
+    },
+    {
+      "path": "reports/source-restore-initial-20261028.log",
+      "sha256": "84a5d9127083c9479b41fe31218e8bbada8cc668343fad8a72c9565e890544a1",
+      "bytes": 358
+    },
+    {
+      "path": "reports/source-restore-repeat-20261028.log",
+      "sha256": "e62e1a7d32a84532f91a1157a3a14ba7f275e7a7c1288b79f5e4822aa20ac80f",
+      "bytes": 358
+    },
+    {
+      "path": "reports/source-restore-after-verify-20261028.log",
+      "sha256": "e62e1a7d32a84532f91a1157a3a14ba7f275e7a7c1288b79f5e4822aa20ac80f",
+      "bytes": 358
+    }
+  ],
+  "python": "Explicit A2GAME_PYTHON points at the installed host virtualenv interpreter; no environment copied to clean source. First run omitted this setting and retained two A2G_E_PROVIDER_START fixture failures; original logs and diagnosis included."
+}
