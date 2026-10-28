@@ -1,5 +1,7 @@
 # A2Game 项目变更记录
 
+- 2026-10-28：同步 `specs/v0.1` 描述与现状：README 从「设计稿，尚未实现」更新为现行协议 0.1.0 状态（20 份规范文档、112 份游戏 JSON、127 份 Manifest，Conformance 与真实 SDK 验证已通过），机器可读资产清单、初始交付范围（保留为历史记录）与有界例外（turn-room、调试回放、锁定物理）一并修正；更正 01 号文档「尚未有符合实现」的过时状态声明。正式验收、G3、人工质量与真机边界不变。
+
 - 2026-10-28：应用户确认执行彻底仓库瘦身：`git filter-repo --invert-paths --path reports/` 重写本地全部历史，`.git` 由 13 GiB 降至 8 MB，main tip 由 `a158e55c` 改写为 `178f30fe`。原完整历史（含 `archive/local-history-20261028` tip `97d56daf` 与全部报告 blob）经 `git bundle verify` 后保留于 `output/a2game-full-history-20261028.bundle`；未提交改动备份于 `output/pre-rewrite-dirty-20261028/` 并按 SHA256 校验还原，工作区 `reports/` 证据未动。旧 `sourceCommit`（如 `12c2b026`）指向重写前提交，可经 bundle 找回。origin/main 已经用户明确批准强推，远端 tip `178f30fe` 与本地一致。
 
 - 2026-10-28：只读复查四款修复、剩余8款主输入及37款当前语义/画面记录，3,332文件SHA审计通过；纠正已完成AI参考审查仍显示进行中的状态。未新增生成调用，G02宿主辅助、虚拟输入、人工作品质量及正式G3边界不变。

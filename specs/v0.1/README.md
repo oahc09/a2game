@@ -1,9 +1,9 @@
-# A2Game V0.1 — 正式协议设计包（设计稿，尚未实现）
+# A2Game V0.1 — 正式协议设计包（协议 0.1.0，现行实现依据）
 
-- 版本：`0.1.0-draft.1`
-- 日期：2026-10-24
+- 版本：`0.1.0`（初始包标记 `0.1.0-draft.1`，2026-10-24）
+- 日期：2026-10-24 初版；本页状态更新于 2026-10-28
 - 目标：AI 直接生成引擎无关 JSON，由共享 Game Runtime 解释，CocosAirJS / Three.js 作为可替换适配器；覆盖益智、休闲、轻量射击、塔防、合成、经营，Touch / IMU 是正式输入通道。
-- 状态：**规范设计和结构校验样例**，不代表引擎实现、运行端到端验证或官方标准发布。
+- 状态（2026-10-28）：本目录是**现行协议 0.1.0 的规范与机器可读资产**。共享 Runtime、双 SDK Adapter、输入规范化与 Conformance 均已实现，持续通过 `npm test`、`spec:validate`、`schema:full`、`conformance` 验证。项目整体仍为 **Alpha 参考实现**：正式 verified（0/32＋0/5）、正式独立 G3（0/37）、人工质量与真机 Gate 独立验收，不代表官方标准发布。
 
 ## 阅读顺序及规范层级
 
@@ -15,18 +15,17 @@
 | 4 | [`docs/04-Conformance-Test-V0.1.md`](docs/04-Conformance-Test-V0.1.md) | 基线测试、黄金样例、跨引擎适配验收 |
 | 附录 | [`docs/05-Coverage-Registry-V0.1.md`](docs/05-Coverage-Registry-V0.1.md) | 32 个候选游戏 + 未来扩展覆盖数据模型 |
 
-## 机器可读草案
+## 机器可读资产
 
-- `schemas/`：采用 JSON Schema Draft 2020-12 的 7 份**结构 Schema 草案**；不包含所有跨字段语义约束。
-- `samples/games/tap-target.game.json`：最小可执行意图样例（需要未实现的 Runtime）。
-- `samples/capabilities/*.capability.json`：标准能力声明样例（**并非能力实现**）。
-- `samples/tests/*.conformance.json`：一致性测试格式和期望结果（**尚未实际通过**）。
-- `samples/tests/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例）。
-- `samples/tests/negative-fixtures.json`：应当报错的 7 条结构/语义负例。
-- `samples/coverage/games.json`：32 个候选玩法的可扩展登记数据。
-- `samples/coverage/not-run.receipt.json`：明确 NOT_RUN 的验收回执样例。
-- `samples/adapters/*.adapter.json`：CocosAirJS / Three.js 的**计划声明**，未冒充 verified。
-- `tools/validate_specs.py`：仅进行 JSON / Schema / 静态交叉引用校验和部分负例检查，不启动游戏，不提供逻辑或渲染实现。
+- `schemas/`：采用 JSON Schema Draft 2020-12 的 7 份结构 Schema；跨字段语义约束由 `src/validator.ts`、`src/registry.ts` 与 `scripts/preflight.py`（`npm run schema:full`）执行。
+- `samples/games/`：112 份现行游戏 GameSpec JSON（`specVersion` 均为 `0.1.0`），由共享 Runtime 解释执行。
+- `samples/capabilities/`：127 份能力 Manifest；能力协商与可信绑定见 `src/registry.ts`、`src/trusted-modules.ts`。
+- `samples/tests/`：Conformance 套件、RNG 黄金向量、InputTrace 与负例（含 `negative-fixtures.json`）；实际执行由 `scripts/run-conformance.mjs`（`npm run conformance`）完成并通过。
+- `samples/tests/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例；真机采集 Gate 独立验收）。
+- `samples/coverage/games.json`：32 个候选玩法的登记数据；真实验收回执指针在 `project/` 与 `reports/`。
+- `samples/coverage/not-run.receipt.json`：NOT_RUN 回执的**格式样例**（历史格式演示，非当前状态描述）。
+- `samples/adapters/*.adapter.json`：CocosAirJS / Three.js / 公开回合房间的适配器声明；原生 Adapter 实现见 `player/adapters/`，真实 SDK 证据见 `reports/`。
+- `tools/validate_specs.py`：JSON / Schema / 静态交叉引用校验（`npm run spec:validate`），不启动游戏。
 - `tools/build_artifacts.py`：重建 Schema / 示例数据，便于规范修订后重验。
 
 ### 离线验证
@@ -36,13 +35,19 @@ python -m pip install jsonschema
 python tools/validate_specs.py
 ```
 
-注意：校验 PASS 仅证明示例数据满足当前静态格式与少量引用规则，**不证明玩法实现和跨引擎兼容**。
+注意：`spec:validate` PASS 仅证明静态格式与引用规则；玩法与跨引擎兼容由 `npm test`、`npm run conformance`、真实 SDK G2（`npm run g2:real`）及逐款验收链路证明。
 
-## 本轮可执行交付范围
+## 当前状态（2026-10-28）
+
+- 规范文档已扩展至 20 份（`docs/01` ~ `docs/20`，含 Puzzle/Realtime/Strategy 库、Mobile Input、Game Candidates、Agent Workflow、Compatibility Extensions、Tower Defense、Rigid3D 等）。
+- `samples/games/` 112 份、`samples/capabilities/` 127 份、32 款候选登记；Conformance、完整 Schema、Node/Host Hash 与真实双 SDK 浏览器证据持续通过（回执见 `project/status.json` 与 `reports/`）。
+- 正式验收维度独立：正式 verified 0/32＋0/5、正式独立 G3 0/37、人工质量与真机 NOT_RUN；项目整体为 Alpha 参考实现。
+
+## 初始交付范围（2026-10-24 draft.1，历史记录）
 
 1. 统一 `specVersion = 0.1.0`、能力精确版本引用与可扩展的 CoverageRegistry。
 2. 提供 7 份结构 Schema、1 份最小 GameSpec、7 份能力 Manifest、2 份 Conformance Suite、RNG 黄金向量、Touch/IMU InputTrace、32 条候选玩法以及未运行回执。
-3. 提供静态交叉校验（已测试）；**不提供游戏运行时、CocosAirJS/Three.js Adapter 或真实性能测试**。
+3. 提供静态交叉校验（已测试）；初始包**未包含**游戏运行时与 Adapter，后续阶段已补齐。
 
 ## 四层边界
 
@@ -72,7 +77,7 @@ flowchart TB
 
 ## 明确不在 V0.1 已实现范围内
 
-多人网络同步、任意用户脚本执行、独立视觉编辑器、跨物理后端 bit-exact、任意已有 TS 游戏的无损反向导出。可以通过扩展能力进行未来设计，但不默示这些能力已提供。
+多人网络同步、任意用户脚本执行、独立视觉编辑器、跨物理后端 bit-exact、任意已有 TS 游戏的无损反向导出。有界例外：S11 提供显式启用的同源 loopback 双人公开回合（`scripts/turn-room-service.mjs`，非互联网/隐藏信息服务）；`/player/inspect.html` 是调试回放入口而非视觉编辑器；参考物理锁定 cannon-es 0.20.0，未声明平台的浮点精确一致性不自动推定。可以通过扩展能力进行未来设计，但不默示这些能力已提供。
 
 ## 来源与原创边界
 

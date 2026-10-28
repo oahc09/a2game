@@ -1,6 +1,6 @@
 # A2Game GameSpec V0.1
 
-**版本**：`0.1.0-draft.1` · **状态**：拟议规范 · **约束性**：本文件带 MUST/SHOULD/MAY 的条款属于未来实现的验收要求；尚未有符合实现。 
+**版本**：`0.1.0`（初始包标记 `0.1.0-draft.1`） · **状态**：现行协议；共享 Headless Runtime 与双 SDK Adapter 已实现，MUST/SHOULD/MAY 条款由 Schema、语义检查与 Conformance 强制（状态更新 2026-10-28，见 [README](../README.md)）。
 
 ## 1. 目标、非目标与术语
 
