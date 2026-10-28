@@ -1,0 +1,30 @@
+{
+  "format": "a2game-work-plan",
+  "date": "2026-10-28",
+  "scope": "User-authorized ordered completion of nonphysical independent G3 work, source-input/AI quality review and CI/evidence restoration. Formal human and physical approval remain separate.",
+  "baselineCalls": 108,
+  "additionalRepairCallLimit": 12,
+  "steps": [
+    {
+      "id": "repair",
+      "status": "completed",
+      "deliverable": "修复 G02/G11/G24/G26，保留独立生成、正反例、通关与双 SDK 证据。",
+      "summary": "reports/g3-codex-review-2026-10-28T09-13-42-309Z-50808/summary.json",
+      "verification": "reports/verify-2026-10-28T09-14-51-691Z-38868/verify.log",
+      "skill": "reports/g3-completion-skill-2026-10-28T09-20-53-553Z/summary.json"
+    },
+    {
+      "id": "input-quality",
+      "status": "in_progress",
+      "deliverable": "补齐 8 款 DOM/虚拟输入，逐款检查独立版本的语义与画面；真机/人工批准另验。"
+    },
+    {
+      "id": "ci-evidence",
+      "status": "pending",
+      "deliverable": "查明远端任务启动失败，并让纯源码检出能恢复受校验的证据；不绕过门禁。"
+    }
+  ],
+  "formalG3": "NOT_RUN",
+  "physical": "DEFERRED_BY_USER",
+  "additionalCallsUsed": 7
+}

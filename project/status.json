@@ -232,17 +232,17 @@
     ]
   },
   "currentRun": {
-    "date": "2026-10-27",
+    "date": "2026-10-28",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-27T16-41-24-803Z-32064/verify.log",
-    "conformanceReceipt": "reports/verify-2026-10-27T16-41-24-803Z-32064/conformance.json",
+    "log": "reports/verify-2026-10-28T09-14-51-691Z-38868/verify.log",
+    "conformanceReceipt": "reports/verify-2026-10-28T09-14-51-691Z-38868/conformance.json",
     "g2Summary": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
     "contentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "httpNavigation": "PASS",
     "nodeTests": {
-      "pass": 106,
-      "total": 106
+      "pass": 111,
+      "total": 111
     },
     "conformance": {
       "pass": 203,
@@ -1036,12 +1036,12 @@
   },
   "independentG3Run": {
     "status": "NOT_RUN",
-    "preparation": "CLI_ALL_TASKS_EXECUTED",
+    "preparation": "ENGINEERING_REFERENCE_COMPLETE",
     "plannedGames": 32,
     "plannedHybrids": 5,
     "plannedTasks": 37,
     "variantRound": 1,
-    "engineeringPassed": 33,
+    "engineeringPassed": 37,
     "independentG3Passed": 0,
     "plan": "reports/g3-plan-2026-10-27T13-58-29-912Z-35480/plan.json",
     "tasks": "project/g3-tasks.json",
@@ -1051,9 +1051,9 @@
     "independenceReview": "NOT_RUN",
     "qualityReview": "NOT_RUN",
     "physical": "DEFERRED_BY_USER",
-    "scope": "Real CLI generation and bounded repairs, full admission and actual SDK replay; pilot/host-aborted calls and connectivity usage included. Host-context epochs remain distinct; no formal acceptance promotion.",
-    "verification": "reports/verify-2026-10-27T16-41-24-803Z-32064/verify.log",
-    "node22": "reports/g3-node22-final-20261028.log",
+    "scope": "Real CLI generation and bounded repairs, full admission and actual SDK replay; explicit host Runtime-search feedback is recorded per attempt and is not model self-solve. Pilot/host-aborted calls and connectivity usage included. Host-context epochs remain distinct; no formal acceptance promotion.",
+    "verification": "reports/verify-2026-10-28T09-14-51-691Z-38868/verify.log",
+    "node22": "reports/g3-completion-phase1-node22.log",
     "fixtureRejection": "reports/g3-batch-2026-10-27T14-07-29-119Z-46000/summary.json",
     "cliVersion": "0.159.2",
     "cliPilot": "reports/g3-codex-2026-10-27T14-21-31-903Z-10952/summary.json",
@@ -1084,39 +1084,44 @@
     "attemptedGames": 37,
     "reviewBatch": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/summary.json",
     "nativeSummary": "reports/g3-native-2026-10-27T16-35-57-549Z-26772/summary.json",
-    "summary": "reports/g3-codex-review-2026-10-27T16-40-14-548Z-13752/summary.json",
+    "summary": "reports/g3-codex-review-2026-10-28T09-13-42-309Z-50808/summary.json",
     "index": "project/independent-g3-run.json",
-    "calls": 108,
+    "calls": 115,
     "probeCalls": 1,
-    "totalInvocations": 109,
+    "totalInvocations": 116,
     "usage": {
-      "input_tokens": 9038299,
-      "cached_input_tokens": 1164672,
-      "output_tokens": 517428,
-      "reasoning_output_tokens": 55384
+      "input_tokens": 9790920,
+      "cached_input_tokens": 1214336,
+      "output_tokens": 546411,
+      "reasoning_output_tokens": 57523
     },
     "missingUsage": [
       "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G11/attempt-1/cli.json",
       "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G27/attempt-2/cli.json"
     ],
     "cost": "NOT_REPORTED",
-    "failedGames": [
+    "failedGames": [],
+    "nativePendingGames": [
       "G02",
       "G11",
-      "G24",
-      "G26"
-    ],
-    "nativePendingGames": [
       "G14",
       "G16",
       "G20",
+      "G24",
       "G25",
+      "G26",
       "G27",
       "G28",
       "G30",
       "G31"
     ],
-    "p2Audit": "reports/g3-p2-audit-20261028.log"
+    "p2Audit": "reports/g3-p2-audit-20261028.log",
+    "archiveAuditStatus": "PASS_REFERENCE",
+    "hostAssistedGames": [
+      "G02"
+    ],
+    "completionWork": "project/g3-completion-work.json",
+    "archiveAudit": "reports/g3-completion-phase1-archive-check.log"
   },
   "repositoryMaintenanceRun": {
     "date": "2026-10-28",
@@ -1150,5 +1155,20 @@
       "forcePush": false
     },
     "summary": "reports/repository-maintenance-20261028/summary.json"
+  },
+  "g3CompletionRun": {
+    "status": "IN_PROGRESS",
+    "work": "project/g3-completion-work.json",
+    "phase": "input-quality",
+    "newEngineeringPasses": [
+      "G24",
+      "G26",
+      "G11"
+    ],
+    "formalG3Passed": 0,
+    "physical": "DEFERRED_BY_USER",
+    "engineeringPassed": 37,
+    "summary": "reports/g3-codex-review-2026-10-28T09-13-42-309Z-50808/summary.json",
+    "additionalCallsUsed": 7
   }
 }

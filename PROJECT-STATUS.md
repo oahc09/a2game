@@ -1,8 +1,12 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-28 顺序收口：`project/g3-completion-work.json` 跟踪独立生成修复 → 输入/逐款 AI 质量 → CI/证据恢复。四款修复后 **37/37 工程参考通过**，[新汇总](reports/g3-codex-review-2026-10-28T09-13-42-309Z-50808/summary.json)。累计 115 次生成调用、1 次探测；G02 的独立模型原 JSON 不变，显式使用宿主公共 Runtime 搜索反馈与 SHA 字面量引用，不能计模型自解。1,021 次滑动封装为 32 行解法，正例 2,048 项，原上限未提高。原始失败、来源与物化标准 JSON 分别留证。桌面输入暂为 25 款，另需补原 8 款及本轮新通过版本的输入；正式 G3/verified 不变。
+
 2026-10-28 仓库维护：保留 `713e9d9f` 将 `reports/` 移出 Git 的决定；本地验收证据、私有发布数据、SDK 和依赖保留。已清理完成验收的临时目录与日志，Git 已打包的重复松散对象使用原生命令处理；详见 `project/status.json` 的 `repositoryMaintenanceRun` 与 [维护说明](docs/repository-maintenance.md)。源码、玩法与正式验收计数未变。按用户选择，超限旧历史保留于本地 `archive/local-history-20261028`，`main` 使用以远端原基线为父提交的源码快照 `b42ccf27`，正常快进交付，不使用 force push。
 
-## 当前优先：37 款独立 G3（2026-10-28，真实 CLI 全目录已执行）
+本次修复阶段 **111/111 Node、203/203 Conformance、360 份 Schema 文档通过**，[工程日志](reports/verify-2026-10-28T09-14-51-691Z-38868/verify.log)；[Node 22 相关 6/6](reports/g3-completion-phase1-node22.log)、[1,734 文件归档核对](reports/g3-completion-phase1-archive-check.log)与[两 SDK 共 8 次技能客户端控件探测](reports/g3-completion-skill-2026-10-28T09-20-53-553Z/summary.json)通过。控件探测只覆盖短操作；截图发现的 G02 裁切、G11 小字和 G24 结束反馈纳入下一阶段，不计完整质量通过。
+
+## 独立 G3 首轮阶段记录（33/37 工程参考，已由上方本轮状态接续）
 
 按用户指定直接使用现有 `codex-cli 0.159.2`，沿用当前认证和默认模型。37 款均已实际生成，**33/37 工程参考通过**完整准入、有界正反例、通关解法和真实 Three.js/CocosAirJS 回放。G02 输出合同不完整；G11、G24、G26 正反例失败，保留原始输出及诊断。原始生成调用共 108 次（含 3 次失败试跑与 2 次宿主主动中止），另有 1 次连通探测；费用未知，缺失的用量不按零统计。
 
