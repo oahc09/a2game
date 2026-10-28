@@ -146,6 +146,1420 @@
       ],
       "humanApproval": "NOT_RUN",
       "G3": "NOT_RUN"
+    },
+    {
+      "id": "G01",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "棋盘完整、目标与26步通关一致，已检查双 SDK 初始/终局。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G02",
+      "workflow": "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/validation/summary.json",
+      "browser": "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "4×4 棋盘下半裁切，缺少可读指引与胜利反馈；保留宿主求解标识。",
+      "screenshots": [
+        "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/browser/three-initial.png",
+        "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/browser/three-won.png",
+        "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/browser/air-initial.png",
+        "reports/g3-referenced-2026-10-28T09-06-37-281Z-45144/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G03",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "真实三消连锁，终局13分超过目标6；下方说明偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G03/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G04",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "遮挡层和槽容量清楚，清除9张；层/槽提示及编号偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G04/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G05",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "双 SDK 层叠遮挡与8/8完成可读，已移除原始布尔结束提示。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G06",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "四向箭头移除10/10，说明及终局提示偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G06/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G07",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三对移除正常；终局空牌缺少明确成功，底部说明偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G07/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G08",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "十字行列消除2条、旋转块有效；托盘与规则说明过小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G08/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G09",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "拼块锁定后目标消除，终局显示原始 true，规则说明偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-466Z-34448/G09/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G10",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三物归位顺序与目标匹配；槽标签及说明偏小，需真实拖放检查。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G10/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G11",
+      "workflow": "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "蓄力连跳两平台的规则已过，画面平台/角色太小，说明偏小。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T08-42-05-545Z-17596/G11/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G12",
+      "workflow": "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三道不同高度门和接球碰撞存在；终局原始 true 需改中文。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-27T15-21-33-808Z-29912/try-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G13",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三车道与三站完成可见；小字和低对比、直接列出完整路线需修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G13/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G14",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "不同生命砖层完成3层；终局只有3且残留生命标签，需要明确完成反馈。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G14/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G15",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三维弹球完成有序3触发器；终局只有3，底部小字。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G15/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G16",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "两次合成计分8符合目标；地板/物体贴底裁切，缺少明确结束反馈。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G16/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G17",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "两波击落目标2达成；角色/地图投影太小，成功文字初态可见。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G17/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G18",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "绕墙/独立瞄准/冷却投射可见，击杀1；完整答案直接上屏应移除。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G18/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G19",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "四敌清除且实际升级/技能状态可见；实体与多行文字太小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G19/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G20",
+      "workflow": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "逻辑绕盾清除10颗已过，初态没有画出泡泡/盾牌，需修复投影。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-55-25-829Z-46732/G20/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G21",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G21/validation/summary.json",
+      "browser": "reports/g3-browser-retry-2026-10-27T16-34-28-744Z-45940/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "折线路径、塔火力升级与通关可见；金币/波次/说明对比和字号需修复。",
+      "screenshots": [
+        "reports/g3-browser-retry-2026-10-27T16-34-28-744Z-45940/browser/three-initial.png",
+        "reports/g3-browser-retry-2026-10-27T16-34-28-744Z-45940/browser/three-won.png",
+        "reports/g3-browser-retry-2026-10-27T16-34-28-744Z-45940/browser/air-initial.png",
+        "reports/g3-browser-retry-2026-10-27T16-34-28-744Z-45940/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G22",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三轮播种/成熟/收获且最终11金币；底部说明偏小。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G22/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G23",
+      "workflow": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "双工坊生产及精品订单完成；缺少标题/数字标签/明确完成提示。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T14-31-43-438Z-49024/G23/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G24",
+      "workflow": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "五连终局与真实选点通过；胜者裸数字1需要中文解释。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G24/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G25",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "稀疏长轨迹切五果、炸弹障碍明确；已切物体/初态成功文案区分不足，字号偏小。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-157Z-9124/G25/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G26",
+      "workflow": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "observation": "双 SDK 旋转缩放与归位消息清晰，目标角度和比例保持真实；CDP 属虚拟。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G27",
+      "workflow": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "转角迷宫和目标可见，倾斜验证通过；小字及完整路线提示需修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-27-40-993Z-45028/G27/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G28",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "真实三维堆叠稳定120 Tick；终局 true 和小字需修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G28/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G29",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "两级能量与不同消耗/去抖合同可见；小字及阶段裸数字需修复，需合成 Motion 主输入。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G29/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G30",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "两种方向与拉力命中两目标；结束提示 true 需改中文。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G30/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G31",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "姿态目标/转屏/校准合同已实现；状态 false/true、说明过小需修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G31/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G32",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "顺序3指/2指保持界面清楚；实际 Runtime 正常松手会重置第一关，直接动作获胜不能覆盖主输入。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/G32/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H01",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H01/attempt-1/validation/summary.json",
+      "browser": "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "折线路径与炮台合成目标可见；false/true 与过小说明需修复。",
+      "screenshots": [
+        "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/browser/three-initial.png",
+        "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/browser/three-won.png",
+        "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/browser/air-initial.png",
+        "reports/g3-browser-retry-2026-10-27T15-39-12-740Z-47128/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H02",
+      "workflow": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三消奖励转升级伤害4后击败守卫；小字及直接给出交换答案需修复。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-09-24-301Z-50916/H02/attempt-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H03",
+      "workflow": "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "换道与射击三检查点通过；状态层遮挡道路、底部字小且低对比。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-27T15-34-36-624Z-10612/try-1/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H04",
+      "workflow": "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "左右施力合成4及16且总能量20；实体数值太小，需合成倾斜主输入。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H04/attempt-3/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H05",
+      "workflow": "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/validation/summary.json",
+      "browser": "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/browser/summary.json",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "CHANGES_REQUIRED",
+      "observation": "三物找齐与截止/暂停已有独立测试；物品与槽标签小，选择/完成状态需要清楚。",
+      "screenshots": [
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/browser/three-initial.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/browser/three-won.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/browser/air-initial.png",
+        "reports/g3-codex-2026-10-27T15-40-44-874Z-35956/H05/attempt-2/browser/air-won.png"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G01",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/summary.json",
+      "definitionSha256": "52124e01bc979677dfde6b2302afb04273915108b9286b413e3aeacce682447f",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "双箱借道、26步归位和边界可见，图例与结束反馈可读。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G01/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G02",
+      "workflow": "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/validation/summary.json",
+      "browser": "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/browser/summary.json",
+      "definitionSha256": "5ac2b4c44283ed22ee8434be2123c7d7853d08cc6800b1a7c182975b677bd86d",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "完整16格及2048终局已进入画布，撤销/RNG说明可读；明确保持宿主 Runtime 求解辅助标识。",
+      "screenshots": [
+        "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/browser/three-initial.png",
+        "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/browser/three-won.png",
+        "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/browser/air-initial.png",
+        "reports/g3-bound-revalidate-2026-10-28T10-29-18-173Z-48836/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G03",
+      "workflow": "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/browser/summary.json",
+      "definitionSha256": "b15ad2aeaed8023d988f490d04025c6464137bd96535525a567869ab0c6c5d0f",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三消下落连锁从0到13分超过目标6，状态单独成行，初态不再显示已完成。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-33-02-003Z-20600/try-0/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G04",
+      "workflow": "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/browser/summary.json",
+      "definitionSha256": "abbf8bdefe35872236e87a7ebae611f7df60129d0e07697593c58055270004cc",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两层遮挡/四槽与9张清空可辨，初态禁选及最终消息可读。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-49-34-034Z-43084/G04/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G05",
+      "workflow": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/summary.json",
+      "definitionSha256": "3bd60a3c0dce1ef2ee712a997806ba2557c511f31f3b962e6dbd758027d37234",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "侧封、上层遮挡与撤销说明清楚，8/8清空，移除目标不再残留面值。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/three-won.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-initial.png",
+        "reports/g3-followup-2026-10-27T16-30-06-061Z-3016/G05/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G06",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/browser/summary.json",
+      "definitionSha256": "8d937ff66edb1f2654d6d0ac5f090c16f280d03b7bc90f931bf93201b3a71ecb",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "四向箭头与10/10清空一致，说明及完成反馈放大。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G06/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G07",
+      "workflow": "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/browser/summary.json",
+      "definitionSha256": "8aea8ca8de0dd7abb8b788dafc6f051bdc3bb7d8deebeda35adc3f990b359bbb",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看全部SDK初始/终局及实际点选中间图；背面不再泄露全部牌面，仅所选牌呈现配对颜色，错配等待及移除计数与共享状态一致。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G07/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G08",
+      "workflow": "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/browser/summary.json",
+      "definitionSha256": "0771560ea73128125e2ac3fd58bc15f44ccac14f0e18cdb803cc0feb922176ad",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "旋转积木/棋盘/一次行列双消与2/2进度一致，重叠的结束文字已删除。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-52-07-158Z-49796/G08/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G09",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/browser/summary.json",
+      "definitionSha256": "32229e2497759638e06ee05e01b77651a6edf4fefcdaa5068df75ffa1043396e",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "拼块、硬降/重力提示与1行目标清楚，结束不再使用true。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G09/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G10",
+      "workflow": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/browser/summary.json",
+      "definitionSha256": "6228bcebc03e305606562301b103457ae2d4e93646a8ed5d472d9835c19f0758",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三色物品和异序槽一致，实际拖放完成3/3；整理目标和状态保持可读。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G10/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G11",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/browser/summary.json",
+      "definitionSha256": "ea2766beb2755123074fe6d077dbc302680c0216c12421aac3ff66454f63cadd",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两平台间距、实际落点和2连击/中心奖励可辨，按住/释放流程通过；不宣称难度已人工标定。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G11/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G12",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/browser/summary.json",
+      "definitionSha256": "d54e13f90e68814589fb100e153e19dcaaa42d34381caed780a895130d4af2b1",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三种高度门柱与3/3计分可见，明确拍翼、碰撞和通过反馈。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G12/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G13",
+      "workflow": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/browser/summary.json",
+      "definitionSha256": "cb2127339b6845459c0e3b839b9d99e04a90131013cea682d0414c00480f62d0",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三车道/三检查点与暂停说明可读，删去完整路线答案和互相遮盖的结果文字。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G13/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G14",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/browser/summary.json",
+      "definitionSha256": "cc82a4f36719b3de3695ba7e501b187d2294cd489a0ccf55625b62b71661ddb1",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三种砖块初始生命和挡板/球可见，3层清空有明确消息；实际拖动接球完成。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-41-131Z-40996/G14/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G15",
+      "workflow": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/browser/summary.json",
+      "definitionSha256": "8f6d03f5cdd0fae9c6a8f6761c43288d267541cbbb5be462106f1dc2034fbefe",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三维球/触发区及3区完成消息可辨，顺序与反弹由共享刚体状态驱动。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T09-55-51-301Z-17560/G15/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G16",
+      "workflow": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/browser/summary.json",
+      "definitionSha256": "19edaabd90d97ea87fbb01630619cdef63e6ac407c3813aa4dfa71d2d60353f7",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "底板和两次2+2合成完全入画，8分、越线限制及放置次数可读。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G16/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G17",
+      "workflow": "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/browser/summary.json",
+      "definitionSha256": "3b19cc98d16ab892f78a5a6e4036437c7c6a42cc5e178a7c893ab132148deb56",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看实际射击中段的敌机/弹丸，左右移动与冷却目标清楚；终局两波击落计数2。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-42-32-843Z-8096/try-0/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G18",
+      "workflow": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/browser/summary.json",
+      "definitionSha256": "dab5d5f92df6d83fb06f4465114a0dbbb2dcfcd60e3c5caf613d2c81d05a644e",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "墙体、独立瞄准和生命/击杀可见，删去完整按键答案；绕墙后完成击杀。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G18/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G19",
+      "workflow": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/browser/summary.json",
+      "definitionSha256": "c8d63b50d888e683ef0ebdf40a1b31ecfd341de6b5be79a52587e7b2ddeb40a2",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "四向敌群、移动/升级/一次技能、四敌清除与成本反馈清楚，标签不再互相覆盖。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-27-06-276Z-14064/G19/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G20",
+      "workflow": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/browser/summary.json",
+      "definitionSha256": "c021fd1d99e469b608c9bd284790e30818b24ffcb6872a14c8cd57c6b4bd799c",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "泡泡群、红色弹药及侧墙真实呈现，蓝色阻挡排需绕行，10颗消除/失撑坠落与实际共享状态一致。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G20/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G21",
+      "workflow": "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/browser/summary.json",
+      "definitionSha256": "d2d9d79ea27b27df948f2310bf29c1976484a938deb7e793e7f73d66aa364303",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "已查看最后修复的双SDK四张图：道路/塔位无遮挡，金币/出波/击破/防线及升级颜色清楚，完成三波。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-58-23-403Z-5108/G21/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G22",
+      "workflow": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/browser/summary.json",
+      "definitionSha256": "f5474c6958c133978181b4283164e1b4bcc7da8dd70226e2fa12ab1dd5766f8d",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三轮生产、成熟计时和收获后11金币清楚，开始/结束的目标和账本一致。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-03-36-853Z-7136/G22/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G23",
+      "workflow": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/browser/summary.json",
+      "definitionSha256": "ddb3e8e308ea1616b20495c8bfb02389f30d10418888a59d880529aef576b1b3",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "双工坊成本、成熟后主动收获、升级与精品订单1清楚，账本和结果无重叠字。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G23/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G24",
+      "workflow": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/browser/summary.json",
+      "definitionSha256": "d3a994983413ca9cf1ab9c12ab9f65173a98995ab2e1a81c7bd2bfe42fb974d2",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "反对角五连与胜方1明确，胜方0的未决说明和轮流落子提示清楚。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G24/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G25",
+      "workflow": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/browser/summary.json",
+      "definitionSha256": "758f2d2f0739e2489feff2be74bb73a0568a9c51b2774ef7d6d7182614190425",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "五果/炸弹位置、已切绿色标签与5/5进度清楚，长轨迹切割由真实鼠标路径完成。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-32-20-760Z-48428/G25/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G26",
+      "workflow": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/summary.json",
+      "definitionSha256": "274710991a3c24b2e8910f7153e526d606353f244200fc67375f80b25468ab2f",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "60度/75%及正常抬指后归位反馈清楚，CDP双指来源单独标识，非真机。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T08-37-46-482Z-6956/G26/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G27",
+      "workflow": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/browser/summary.json",
+      "definitionSha256": "819cccc4d45a14d1a324f7abd692462719b4507c3251c68c27aaafc5027f1ef1",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "墙体与目标可辨，倾斜/按钮、校准和1/1进度各有独立位置，无覆盖结果字。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G27/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G28",
+      "workflow": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/browser/summary.json",
+      "definitionSha256": "b514ee62b0ea69bfd6b6b61c38e96ddd250fd91ea852f8206c2debcf08936f70",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两块三维刚体、落点选择与稳定120帧清楚，稳定目标/计数单独显示。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G28/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G29",
+      "workflow": "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/browser/summary.json",
+      "definitionSha256": "054b13d3c5a8aa828a2bb418705f3af6f117aa27bb2d56cdbd86384f113b9b0d",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两级能量/不同消耗、冷却与解锁状态可辨；主输入使用合成Motion，经校准Tick后完成两级，非物理设备。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/G29/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G30",
+      "workflow": "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/browser/summary.json",
+      "definitionSha256": "4ad352a57ad4b08d14fd76fb6c22767d8001e93ca53f9eeea98bf12016cf206c",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "不同拉力和方向两靶目标清楚，实际鼠标拉动/释放命中2靶。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-26-18-261Z-19016/try-0/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G31",
+      "workflow": "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/validation/summary.json",
+      "browser": "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/browser/summary.json",
+      "definitionSha256": "22f5edcc01b4fd11bb45ce3e6093ebb18e3abd3d345a9b2715f59e9fa9c5b1ab",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "姿态/按钮模式、两方向目标和2/2结果清楚；已查看转屏重校准中段，合成转屏后旧瞄准清零，按钮回退另验。",
+      "screenshots": [
+        "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/browser/three-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/browser/three-won.png",
+        "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/browser/air-initial.png",
+        "reports/g3-revalidate-2026-10-28T10-26-43-079Z-42760/try-0/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "G32",
+      "workflow": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/browser/summary.json",
+      "definitionSha256": "f6ace7e91a55e0da334bf8f5ff63026fdfa7e6257794d6c77b8e2b5f260b6f40",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "双阶段42/24 Tick、正常松手保留已完成机关、取消清空未完成保持及超时重试清楚；已由真实浏览器CDP多指和原始负例验过。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-33-31-493Z-45252/G32/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H01",
+      "workflow": "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/browser/summary.json",
+      "definitionSha256": "31684622ed8475a69a0a44bf556ea3631d4b5dd3b0e6793eb80a9f28da32a672",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两波、合成塔级别、资源/防线与2/2击败可读，旧塔替换的逻辑/所有权测试仍保持。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-13-29-239Z-11808/H01/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H02",
+      "workflow": "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/browser/summary.json",
+      "definitionSha256": "c474c847fc8eac1bb679854cdec18b54ce35f1f62ada52236fb065b07a0d29f6",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三消领取/升级/实际伤害1到4及守卫击败可见，不直接展示交换答案。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H02/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H03",
+      "workflow": "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/browser/summary.json",
+      "definitionSha256": "b62181ff7558e9d64b7b00e0993e80e20773f780200301420105efc7d3a1d61f",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "固定标题、三车道、换道/射击区域与3/3检查点清楚，删去覆盖标题/道路的结果字。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-39-25-801Z-12764/H03/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H04",
+      "workflow": "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/browser/summary.json",
+      "definitionSha256": "1280f295a1f6c85d74726c93489dd68657c82890d2002bb1e5b3c4c49a5ad88d",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "两层合成4/16与能量20可辨，已使用合成倾斜完成反向施力，而非仅用键盘回退。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-14-46-742Z-22564/H04/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "部分不活动提示仍有低对比字影；主要操作、目标和有效结果可读，正式视觉/难度/持续游玩仍待人工验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
+    },
+    {
+      "id": "H05",
+      "workflow": "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/validation/summary.json",
+      "browser": "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/browser/summary.json",
+      "definitionSha256": "e97637828e86b478a5bb47a35dad3594f45a485243bc38a368ad4512021d67e9",
+      "engineering": "PASS_REFERENCE",
+      "visualReview": "AI_REFERENCE_REVIEWED",
+      "semanticReview": "AI_REFERENCE_REVIEWED",
+      "observation": "三物/对应槽和选择/已归位状态清楚，3/3进度、截止与暂停说明可读，控件探测已看到已选中状态。",
+      "screenshots": [
+        "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/browser/three-initial.png",
+        "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/browser/three-won.png",
+        "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/browser/air-initial.png",
+        "reports/g3-followup-2026-10-28T10-42-58-192Z-33532/H05/browser/air-won.png"
+      ],
+      "scope": "AI reference review of actual SDK initial/final images, selected intermediate input images, declared task and bounded positive/negative cases; not human playtesting or formal G3.",
+      "limitations": [
+        "难度、持续游玩与完整人工作品质量仍待验收。"
+      ],
+      "humanApproval": "NOT_RUN",
+      "G3": "NOT_RUN"
     }
-  ]
+  ],
+  "invariantAudit": "reports/g3-presentation-invariants-2026-10-28T11-03-14-434Z-14380/summary.json",
+  "currentReferenceReview": {
+    "selection": "reports/g3-quality-selection-2026-10-28T11-03-14-246Z-46108/selection.json",
+    "draft": "reports/g3-quality-draft-2026-10-28T11-07-19-372Z-19304/draft.json",
+    "reviewed": 37,
+    "formalG3Passed": 0,
+    "humanApproval": "NOT_RUN"
+  }
 }

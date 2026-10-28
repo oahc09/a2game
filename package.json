@@ -6,7 +6,7 @@
   "description": "Engine-neutral A2Game 1.0.0 reference workspace (GameSpec 0.1.0, pre-production)",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test test/*.test.mjs",
+    "test": "npm run build && node --test --test-concurrency=2 test/*.test.mjs",
     "conformance": "npm run build && node scripts/run-conformance.mjs",
     "spec:validate": "python specs/v0.1/tools/validate_specs.py",
     "schema:full": "python scripts/preflight.py",
@@ -40,6 +40,8 @@
     "g3:run": "node scripts/g3-batch.mjs run",
     "g3:e2e": "node scripts/g3-browser.mjs",
     "g3:fixture": "node scripts/run-g3-fixture.mjs",
+    "evidence:pack": "node scripts/evidence-archive.mjs pack",
+    "evidence:restore": "node scripts/evidence-archive.mjs restore",
     "g3:codex": "node scripts/g3-codex.mjs"
   },
   "license": "UNLICENSED",

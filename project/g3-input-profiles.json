@@ -1,0 +1,20 @@
+{
+  "format": "a2game-g3-source-input-profiles",
+  "version": 1,
+  "scope": "Host-authored verification of primary declared browser sources, separate from independent model solutions and physical-device approval.",
+  "profiles": {
+    "G29": { "actionMap": { "fallback": { "action": "shake" } } },
+    "H04": { "actionMap": { "right": { "action": "tilt", "value": [1, 0] }, "left": { "action": "tilt", "value": [-1, 0] } } },
+    "G31": {
+      "resetAimPath": ["control", "aim"],
+      "solution": [
+        { "action": "calibrate", "ticks": 1 },
+        { "action": "pose", "value": [0, 0, 3.141592653589793], "ticks": 1 },
+        { "action": "fire", "ticks": 3 },
+        { "screenAngle": 90, "action": "calibrate", "ticks": 1 },
+        { "action": "pose", "value": [0, 0, -1.5707963267948966], "ticks": 1 },
+        { "action": "fire", "ticks": 3 }
+      ]
+    }
+  }
+}

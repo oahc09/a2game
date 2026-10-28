@@ -15,16 +15,38 @@
     },
     {
       "id": "input-quality",
-      "status": "in_progress",
-      "deliverable": "补齐 8 款 DOM/虚拟输入，逐款检查独立版本的语义与画面；真机/人工批准另验。"
+      "status": "completed",
+      "deliverable": "补齐 8 款 DOM/虚拟输入，逐款检查独立版本的语义与画面；真机/人工批准另验。",
+      "inputBaseline": "reports/g3-source-input-2026-10-28T09-41-00-531Z-46356/summary.json",
+      "qualityDraft": "reports/g3-quality-draft-2026-10-28T09-41-10-750Z-9168/draft.json",
+      "primaryDiagnostic": "reports/g3-primary-input-diagnostic-20261028/G32.json",
+      "review": "project/independent-g3-review.json",
+      "summary": "reports/g3-codex-review-2026-10-28T11-15-44-413Z-6272/summary.json",
+      "sourceInput": [
+        "reports/g3-source-input-2026-10-28T10-55-59-328Z-43240/summary.json",
+        "reports/g3-source-input-2026-10-28T11-03-16-587Z-46024/summary.json",
+        "reports/g3-source-input-2026-10-28T11-03-33-506Z-37104/summary.json"
+      ],
+      "invariantAudit": "reports/g3-presentation-invariants-2026-10-28T11-03-14-434Z-14380/summary.json",
+      "archiveAudit": "reports/g3-quality-archive-check-20261028.log",
+      "verification": "reports/verify-2026-10-28T11-28-16-892Z-28720/verify.log"
     },
     {
       "id": "ci-evidence",
-      "status": "pending",
-      "deliverable": "查明远端任务启动失败，并让纯源码检出能恢复受校验的证据；不绕过门禁。"
+      "status": "in_progress",
+      "deliverable": "查明远端任务启动失败，并让纯源码检出能恢复受校验的证据；不绕过门禁。",
+      "diagnosis": "reports/ci-diagnosis-20261028/summary.json",
+      "startupCause": {
+        "kind": "QUOTA_EXCEEDED",
+        "source": "User confirmation on 2026-10-28; original no-step failure retained.",
+        "resolution": "Manual workflow only; one default core job; opt-in four-combination matrix and SDK; cancel superseded runs; 3-day artifacts."
+      }
     }
   ],
   "formalG3": "NOT_RUN",
   "physical": "DEFERRED_BY_USER",
-  "additionalCallsUsed": 7
+  "additionalCallsUsed": 7,
+  "qualityBaselineCalls": 115,
+  "additionalQualityCallLimit": 74,
+  "qualityAdditionalCallsUsed": 53
 }

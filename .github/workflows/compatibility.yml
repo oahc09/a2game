@@ -1,22 +1,30 @@
 name: A2Game compatibility
 on:
-  push:
-  pull_request:
   workflow_dispatch:
     inputs:
+      full_matrix:
+        description: Run all four OS/Node combinations (default is Ubuntu / Node 22 only)
+        type: boolean
+        default: false
+      evidence_url:
+        description: HTTPS evidence archive matching project/evidence-lock.json (or configure A2GAME_EVIDENCE_URL repository variable)
+        type: string
+        required: false
       real_sdk:
         description: Build locked public SDKs and run browser reference gates
         type: boolean
         default: false
 permissions:
   contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   core:
     strategy:
       fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node: [22, 24]
+      max-parallel: 2
+      matrix: ${{ fromJSON(inputs.full_matrix && '{"os":["ubuntu-latest","windows-latest"],"node":[22,24]}' || '{"os":["ubuntu-latest"],"node":[22]}') }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     env:
@@ -37,14 +45,19 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: python -m pip install -r requirements-dev.txt
+      - name: Restore SHA-pinned reference evidence
+        run: npm run evidence:restore
+        env:
+          A2GAME_EVIDENCE_URL: ${{ inputs.evidence_url || vars.A2GAME_EVIDENCE_URL }}
       - run: npm run verify:receipt
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: always()
         with:
           name: core-${{ matrix.os }}-node${{ matrix.node }}
           path: ${{ env.A2GAME_VERIFY_DIR }}
-          retention-days: 14
+          retention-days: 3
   real-sdk:
+    needs: core
     if: github.event_name == 'workflow_dispatch' && inputs.real_sdk
     runs-on: windows-latest
     timeout-minutes: 45
@@ -65,8 +78,11 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - run: python -m pip install -r requirements-dev.txt
+      - name: Restore SHA-pinned reference evidence
+        run: npm run evidence:restore
+        env:
+          A2GAME_EVIDENCE_URL: ${{ inputs.evidence_url || vars.A2GAME_EVIDENCE_URL }}
       - run: node scripts/ci-evidence.mjs start
-      - run: npm run verify:receipt
       - run: node scripts/ci-sdks.mjs
       - run: npx playwright install chromium
       - run: npm run g2:real
@@ -81,4 +97,4 @@ jobs:
         with:
           name: real-sdk-reference
           path: output/ci-artifacts/
-          retention-days: 14
+          retention-days: 3
