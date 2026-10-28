@@ -1,5 +1,11 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-28 仓库历史瘦身：应用户确认，`git filter-repo` 从本地全部历史剥离 `reports/`（`.git` 13 GiB → 8 MB），历史提交 SHA 全部改变（main tip `178f30fe`）；原完整历史（含 `97d56daf` 与全部报告 blob）保留于已校验的 `output/a2game-full-history-20261028.bundle`，未提交改动经 SHA256 校验还原，工作区 `reports/` 证据与验收计数不变。`archive/local-history-20261028` 分支已由 bundle 取代后删除；这变更了此前「保留归档分支、不使用 force push」的交付方式。远端 origin/main 已经用户明确批准强推，远端 tip `178f30fe` 与本地一致；旧 `sourceCommit` 引用经 bundle 可找回。
+
+2026-10-28 按四款修复与剩余8款输入任务复查：当前G3索引的3,332文件SHA和源码审计通过，G02/G11/G24/G26均为PASS_REFERENCE；G25/G26/G27/G29/G30/G31/G32/H04的浏览器主输入均通过，37份当前定义SHA逐一匹配语义/画面AI参考审查。纠正遗留的 `g3CompletionRun.qualityReviewStatus: IN_PROGRESS` 为 `AI_REFERENCE_REVIEWED`，不修改旧报告或重复生成。G02保留宿主求解辅助标记；低对比提示字影、难度、持续游玩和完整人工质量仍是已注明限制，正式G3仍0/37，真机继续暂缓。
+
+2026-10-28 新增 [G3 子 Agent 编排设计](docs/g3-agent-orchestration.md) 与 [多模型/技能反馈规范](docs/g3-model-evaluation.md)：其他AI调度指定模型的原生子Agent或模型服务，本会话逐款审查；调度/生成/审查模型分别留证，任务、上下文、技能版本、辅助条件和预算分别绑定。目标含Qwen、MiniMax、GLM、DeepSeek，尚无精确版本与服务兼容实测；统一上下文导出、原生导入、聚合及自动回传待实施。状态 `DESIGN_ONLY`、新增预算0，现有37款参考状态、168次历史Codex生成及正式计数不变。
+
 2026-10-28 输入与逐款 AI 参考审查已收口：**37/37 工程、37/37 浏览器主输入、37/37 AI 参考审查**；其中 31 款为真实桌面鼠标/键盘来源，6 款包含明确标记的 CDP/合成传感器，不能算真机。74 份当前定义/双 SDK 主输入回执核对 Hash、重开和零资源释放；G31 按钮回退另存回执。35 份 presentation-only 修复通过玩法/输入/状态/正反例/解法不变量审计，G32 的正常松手/取消计时规则由 CLI 单独修复；G07 的牌面泄露也已由生成器修复。累计 **168 次生成＋1 次探测**，本轮追加53次，旧失败与缺失用量保留。3,332文件归档 SHA 核对通过；[当前索引](project/independent-g3-run.json)、[逐款审查](project/independent-g3-review.json)。**正式 G3 仍0/37、verified仍0/32＋0/5**，难度、持续游玩和完整人工作品质量另验。
 
 证据恢复工具已实现 SHA 锁定、依赖收集、只恢复 reports/、冲突拒绝和重复恢复，相关测试通过；完整源码检出恢复已通过Node22全量验证与G3/P2审计，证据包尚未远端托管。远端 CI `40651288303` 的四个任务均在执行步骤前失败，日志返回 `BlobNotFound`；2026-10-28 用户确认原因为额度超出。Actions 已改为仅手动触发、默认一个 Ubuntu / Node 22 完整任务；原四组合和真实 SDK 按需选择，同分支取消旧运行，产物保留 3 天，不自动重试消耗额度。详见 [证据恢复及额度控制](docs/evidence-restoration.md)。

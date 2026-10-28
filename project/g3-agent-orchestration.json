@@ -1,0 +1,69 @@
+{
+  "format": "a2game-g3-agent-orchestration",
+  "version": 1,
+  "status": "EXECUTION_STARTED_PER_ROUND_AUTHORIZATION",
+  "rounds": [
+    {
+      "date": "2026-10-28",
+      "authorizedBy": "user-explicit",
+      "scope": ["G01"],
+      "mode": "native-subagent",
+      "model": "account:bigmodel-individual-coding-plan/GLM-5.3",
+      "approvedAdditionalCalls": 3,
+      "newGenerationCalls": 3,
+      "batch": "reports/g3-native-subagent-2026-10-28T13-46-38-616Z-21276/summary.json",
+      "handoff": "reports/g3-native-subagent-2026-10-28T13-46-38-616Z-21276/handoff.json",
+      "engineeringStatus": "PASS_REFERENCE",
+      "reviewStatus": "AWAITING_REVIEW",
+      "formalG3": "NOT_RUN"
+    }
+  ],
+  "document": "docs/g3-agent-orchestration.md",
+  "taskSource": "project/g3-tasks.json",
+  "taskOrder": "source-order",
+  "taskCount": 37,
+  "goal": "Cross-model real generation evidence and evidence-based skill improvement",
+  "generator": "explicit-per-experiment-model",
+  "modelRouting": "EXPLICIT_EXPERIMENT_SELECTION_PRESERVE_GLOBAL_DEFAULTS",
+  "evaluationDocument": "docs/g3-model-evaluation.md",
+  "targetModelFamilies": ["Qwen", "MiniMax", "GLM", "DeepSeek"],
+  "exactModelVersions": "UNCONFIGURED",
+  "executionModes": {
+    "native-subagent": "MINIMAL_INGESTION_IMPLEMENTED_FIRST_ROUND_G01_DONE",
+    "http-provider": "EXISTING_ADAPTER_PROVIDER_COMPATIBILITY_UNVERIFIED",
+    "codex-cli": "EXISTING_ROUTE_FOR_CODEX_ONLY"
+  },
+  "comparison": {
+    "unit": ["provider", "modelVersion", "taskId", "variantId", "skillVersion", "contextSha256", "assistanceProfile"],
+    "samePublicTaskPackRequired": true,
+    "recordRequestedAndObservedModel": true,
+    "separateOrchestrationGenerationReviewUsage": true,
+    "nativeAndApiResultsSeparate": true,
+    "formalPassAutomatic": false
+  },
+  "dispatch": {
+    "workerTasks": 1,
+    "concurrentWorkers": 1,
+    "awaitReviewBeforeNextTask": true,
+    "maxBrowserProcesses": 2,
+    "hostSubagentSupport": "REQUIRED_NOT_EMULATED"
+  },
+  "budget": {
+    "executionAuthorizedByThisProfile": false,
+    "maxAdditionalGenerationCalls": 0,
+    "maxGenerationCallsPerEvaluationUnitAcrossInvocations": 3,
+    "baselineIndex": "project/independent-g3-run.json",
+    "baselineMustBeReloadedAtExecution": true,
+    "includeFailuresAbortsAndRepairs": true,
+    "orchestrationModelUsage": "SEPARATE_WHEN_REPORTED"
+  },
+  "reviewer": {
+    "role": "CURRENT_CONVERSATION_REVIEW_AGENT",
+    "handoffRequired": true,
+    "automaticNotificationImplemented": false,
+    "outcomes": ["AI_REFERENCE_ACCEPTED", "NEEDS_REVISION", "BLOCKED_INFRA", "REJECTED_EVIDENCE"],
+    "canApproveFormalG3": false,
+    "physical": "DEFERRED_BY_USER"
+  },
+  "implementation": "Design plus first authorized round. Existing HTTP and Codex routes remain; native-subagent minimal ingestion exists (scripts/g3-native-subagent.mjs) with one G01/GLM-5.3 round recorded under rounds. Target-provider compatibility beyond this host, unified cross-route context export, automatic scheduling, skill editing and formal sign-off remain unimplemented; this profile itself authorizes no calls."
+}

@@ -1182,7 +1182,8 @@
     "inputBaseline": "reports/g3-source-input-2026-10-28T09-41-00-531Z-46356/summary.json",
     "inputBaselineGames": 12,
     "inputBaselineSdkCases": 24,
-    "qualityReviewStatus": "IN_PROGRESS",
+    "qualityReviewStatus": "AI_REFERENCE_REVIEWED",
+    "qualityReviewScope": "37 current definition SHA matched to AI semantic/visual reference reviews; human quality, difficulty, sustained play and formal G3 remain NOT_RUN.",
     "primaryInputGaps": [],
     "ciDiagnosis": "reports/ci-diagnosis-20261028/summary.json",
     "browserInputPassed": 37,
@@ -1202,5 +1203,18 @@
     "archiveLock": "project/evidence-lock.json",
     "remote": "NOT_RUN_QUOTA_AND_EVIDENCE_HOSTING",
     "automaticActions": false
+  },
+  "g3AgentOrchestration": {
+    "status": "DESIGN_ONLY",
+    "scope": "CROSS_MODEL_REAL_GENERATION_AND_SKILL_FEEDBACK",
+    "profile": "project/g3-agent-orchestration.json",
+    "document": "docs/g3-agent-orchestration.md",
+    "evaluationDocument": "docs/g3-model-evaluation.md",
+    "targetModelFamilies": ["Qwen", "MiniMax", "GLM", "DeepSeek"],
+    "targetModelExecution": "NOT_CONFIGURED_NOT_RUN",
+    "execution": "NOT_RUN",
+    "newGenerationCalls": 0,
+    "review": "AWAITING_ACTUAL_HANDOFF",
+    "formalG3": "NOT_RUN"
   }
 }
