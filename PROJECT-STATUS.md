@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-28 两轮原生子 Agent 反馈改进：统一 `native-delivery-v2` 和 canonical context，新增原始载荷/宿主导出捕获、不可覆盖检查、准备时源码快照、空回复记账及 INFRA 独立归因；任意已验证产物可经 `g3:subagent:input` 复用实际浏览器主输入验证。两批 G01 第三次原始输出已补实际键盘与双 SDK，共 4/4 PASS_REFERENCE，Node/Host Hash、重开和 ownedResources=0 通过；本轮新增生成调用 0。来源/隔离原始导出、手机画面和 Cocos 字形仍待补，正式 G3 与 verified 不变。新回执仅本地保存，未并入旧便携包；旧报告不覆盖，说明见 [运行改进](docs/g3-native-improvements.md)。
+
 2026-10-28 仓库历史瘦身：应用户确认，`git filter-repo` 从本地全部历史剥离 `reports/`（`.git` 13 GiB → 8 MB），历史提交 SHA 全部改变（main tip `178f30fe`）；原完整历史（含 `97d56daf` 与全部报告 blob）保留于已校验的 `output/a2game-full-history-20261028.bundle`，未提交改动经 SHA256 校验还原，工作区 `reports/` 证据与验收计数不变。`archive/local-history-20261028` 分支已由 bundle 取代后删除；这变更了此前「保留归档分支、不使用 force push」的交付方式。远端 origin/main 已经用户明确批准强推，远端 tip `178f30fe` 与本地一致；旧 `sourceCommit` 引用经 bundle 可找回。
 
 2026-10-28 按四款修复与剩余8款输入任务复查：当前G3索引的3,332文件SHA和源码审计通过，G02/G11/G24/G26均为PASS_REFERENCE；G25/G26/G27/G29/G30/G31/G32/H04的浏览器主输入均通过，37份当前定义SHA逐一匹配语义/画面AI参考审查。纠正遗留的 `g3CompletionRun.qualityReviewStatus: IN_PROGRESS` 为 `AI_REFERENCE_REVIEWED`，不修改旧报告或重复生成。G02保留宿主求解辅助标记；低对比提示字影、难度、持续游玩和完整人工质量仍是已注明限制，正式G3仍0/37，真机继续暂缓。

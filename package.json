@@ -42,7 +42,9 @@
     "g3:fixture": "node scripts/run-g3-fixture.mjs",
     "evidence:pack": "node scripts/evidence-archive.mjs pack",
     "evidence:restore": "node scripts/evidence-archive.mjs restore",
-    "g3:codex": "node scripts/g3-codex.mjs"
+    "g3:codex": "node scripts/g3-codex.mjs",
+    "g3:subagent:capture": "node scripts/g3-native-contract.mjs capture",
+    "g3:subagent:input": "node scripts/g3-subagent-review.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

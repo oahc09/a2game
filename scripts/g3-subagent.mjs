@@ -11,18 +11,20 @@ import {buildAgentRequest,runAgentWorkflow} from './agent-workflow.mjs';
 import {withCodexHostProfile} from './codex-generator.mjs';
 import {checkG3SuiteBudget} from './g3-playthrough.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
+import {withNativeDelivery,workerInstructions,archiveNativeSources,classifyNativeFailure,pendingNativeReviews,nativeProtectedSources} from './g3-native-contract.mjs';
 
 const read=(p)=>JSON.parse(readFileSync(resolve(p),'utf8'));
 const save=(p,v)=>{mkdirSync(resolve(p,'..'),{recursive:true});writeFileSync(p,JSON.stringify(v,null,2)+'\n');};
 const rel=(p)=>relative(root,p).replaceAll('\\','/');
-const hash=(p)=>createHash('sha256').update(readFileSync(resolve(p))).digest('hex');
-const PACK_VERSION='public-task-pack-v1';
-const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
+const hash=(p)=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex');
+const PACK_VERSION='public-task-pack-v2';
+const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-native-contract.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
 
 function loadConfig(configPath){
  const config=read(configPath);
  assert.ok(typeof config.runId==='string'&&/^\d{8}T\d{6}-[0-9a-f-]{36}$/.test(config.runId),'A2G_E_G3_RUN_ID: runId 必须是 UTC 时间加 UUID。');
  assert.ok(typeof config.runDir==='string'&&config.runDir.startsWith('reports/g3-evaluations/'),'A2G_E_G3_RUN_DIR: runDir 必须位于 reports/g3-evaluations/ 下。');
+ assert.ok(!relative(resolve(root,'reports/g3-evaluations'),resolve(root,config.runDir)).startsWith('..'),'A2G_E_G3_RUN_DIR: runDir 不得跳出评测目录。');
  assert.ok(typeof config.model==='string'&&config.model.trim()&&config.model.length<=200,'A2G_E_G3_MODEL: 请记录宿主可见的实际模型标识。');
  assert.ok(Number.isInteger(config.maxAttempts)&&config.maxAttempts>=1&&config.maxAttempts<=3,'A2G_E_G3_BUDGET: maxAttempts 必须为 1–3。');
  assert.ok(Number.isInteger(config.maxCalls)&&config.maxCalls>=1&&config.maxCalls<=3,'A2G_E_G3_BUDGET: 本轮 maxCalls 必须为 1–3。');
@@ -36,7 +38,7 @@ export function buildSubagentPack(gameId,attempt,previous){
  const plan=buildG3Plan(),task=plan.tasks.find(t=>t.id===gameId);
  assert.ok(task,'A2G_E_G3_IDS: 未知任务。');
  assert.ok(attempt>=1&&attempt<=3,'A2G_E_G3_BUDGET: 单次评测单元最多 3 次生成。');
- const request=withCodexHostProfile(buildAgentRequest(task.prompt,attempt,previous));
+ const request=withNativeDelivery(withCodexHostProfile(buildAgentRequest(task.prompt,attempt,previous)));
  return {plan,task,request,
   pack:{format:'a2game-g3-public-task-pack',version:PACK_VERSION,entry:'native-subagent',gameId,attempt,
    taskSha256:task.promptSha256,contextSha256:sha256Canonical(request),capabilityDigest:request.capabilityDigest,
@@ -46,39 +48,51 @@ export function buildSubagentPack(gameId,attempt,previous){
 
 export function prepareAttempt(configPath,gameId,attempt,previousDiagnostic){
  const config=loadConfig(configPath),runDir=resolve(root,config.runDir);
+ assert.ok(config.selected.includes(gameId),'A2G_E_G3_SCOPE: 任务不在本轮范围。');
+ assert.ok(attempt<=config.maxCalls&&attempt<=config.maxAttempts,'A2G_E_G3_BUDGET: 本轮无剩余生成预算。');
+ assert.ok(attempt===1||previousDiagnostic,'A2G_E_G3_REPAIR: 修复必须携带上一轮真实诊断。');
  mkdirSync(runDir,{recursive:true});
  const {task,request,pack}=buildSubagentPack(gameId,attempt,previousDiagnostic);
  const attemptDir=resolve(runDir,gameId,'attempt-'+attempt);
- assert.ok(!existsSync(resolve(attemptDir,'output.raw.json')),'A2G_E_G3_OUTPUT_EXISTS: 原始输出必须只写一次，修复请使用新的 attempt 目录。');
+ assert.ok(!existsSync(attemptDir),'A2G_E_G3_OUTPUT_EXISTS: 尝试目录必须新建，不能覆盖任务包或原始输出。');
  mkdirSync(attemptDir,{recursive:true});
  save(resolve(attemptDir,'context.json'),request);
- save(resolve(attemptDir,'pack.json'),{...pack,fingerprints:Object.fromEntries(SOURCE_FILES.map(p=>[p,hash(p)]))});
+ const protectedPaths=nativeProtectedSources(root,SOURCE_FILES),sourceSnapshot=archiveNativeSources(attemptDir,root,protectedPaths);
+ save(resolve(attemptDir,'pack.json'),{...pack,sourceSnapshot,fingerprints:Object.fromEntries(protectedPaths.map(p=>[p,hash(p)]))});
  writeFileSync(resolve(attemptDir,'prompt.txt'),task.prompt+'\n');
+ writeFileSync(resolve(attemptDir,'worker.txt'),workerInstructions('context.json','output.raw.json'),{flag:'wx'});
  return {config,gameId,attempt,attemptDir:rel(attemptDir),task,pack,request};
 }
 
 /** Validation consumes only the host-recorded reply bytes; the read-output transport never reaches a model. */
 export async function validateAttempt(configPath,gameId,attempt){
  const config=loadConfig(configPath),runDir=resolve(root,config.runDir);
+ assert.ok(config.selected.includes(gameId),'A2G_E_G3_SCOPE: 任务不在本轮范围。');
+ assert.ok(attempt>=1&&attempt<=config.maxCalls&&attempt<=config.maxAttempts,'A2G_E_G3_BUDGET: attempt 超出已配置预算。');
  const attemptDir=resolve(runDir,gameId,'attempt-'+attempt),rawPath=resolve(attemptDir,'output.raw.json');
- assert.ok(existsSync(rawPath),'A2G_E_G3_NO_RAW_OUTPUT: 宿主尚未记录子 Agent 原始回复。');
- const rawBytes=readFileSync(rawPath);
- assert.ok(rawBytes.length<=768*1024,'A2G_E_G3_SIZE: 原始输出超出字节预算。');
- const task=buildG3Plan().tasks.find(t=>t.id===gameId);
- assert.ok(task,'A2G_E_G3_IDS: 未知任务。');
- const pack=read(resolve(attemptDir,'pack.json'));
- assert.equal(pack.attempt,attempt,'A2G_E_G3_PACK_ATTEMPT: 任务包记录与 attempt 不一致。');
- assert.equal(sha256Canonical(read(resolve(attemptDir,'context.json'))),pack.contextSha256,'A2G_E_G3_CONTEXT: 任务包与本 attempt 记录的上下文不一致。');
- assert.equal(task.promptSha256,pack.taskSha256,'A2G_E_G3_TASK: 自然语言任务与本 attempt 记录的任务 SHA 不一致。');
- assert.equal(pack.capabilityDigest,buildAgentRequest(task.prompt,attempt).capabilityDigest,'A2G_E_G3_ABI: 能力摘要与当前 Manifest 不一致。');
- assert.ok(existsSync(resolve(attemptDir,'generation.json')),'A2G_E_G3_NO_GENERATION_RECORD: 缺少子 Agent 执行记录，来源不可核验。');
- const generation=read(resolve(attemptDir,'generation.json'));
-
- const row={gameId,attempt,pack,status:'FAIL',directory:rel(attemptDir),rawOutput:rel(rawPath),rawOutputSha256:hash(rawPath),
-  generation:{host:generation.host??null,workerSession:generation.workerSession??null,modelEvidence:generation.modelEvidence??'UNVERIFIED',toolRecord:generation.toolRecord??null,isolation:generation.isolation??'UNVERIFIED'},
-  attempts:[],G3:'NOT_RUN'};
+ assert.ok(existsSync(resolve(attemptDir,'pack.json')),'A2G_E_G3_PACK: 请先准备本次任务包，不得凭空创建调用。');
+ if(!existsSync(rawPath)||readFileSync(rawPath).length===0){
+  const recorded=existsSync(resolve(attemptDir,'generation.json'));
+  const generation=recorded?read(resolve(attemptDir,'generation.json')):null,confirmed=generation?.status==='NO_OUTPUT'||generation?.status==='NO_REPLY_RECORDED';
+  return {row:{gameId,attempt,status:'FAIL',directory:rel(attemptDir),code:'A2G_E_G3_NO_RAW_OUTPUT',message:'未收到原始 JSON；本次派发须计入调用，保留宿主结束原因。',attribution:confirmed?'MODEL_OUTPUT_PROTOCOL':'UNRESOLVED_HOST_OR_MODEL',generation,attempts:[],review:pendingNativeReviews(),G3:'NOT_RUN'},repairNeeded:confirmed};
+ }
+ const row={gameId,attempt,status:'FAIL',directory:rel(attemptDir),rawOutput:rel(rawPath),rawOutputSha256:hash(rawPath),attempts:[],review:pendingNativeReviews(),G3:'NOT_RUN'};
  let outcome;
  try{
+  const rawBytes=readFileSync(rawPath);
+  assert.ok(rawBytes.length<=768*1024,'A2G_E_G3_SIZE: 原始输出超出字节预算。');
+  const task=buildG3Plan().tasks.find(t=>t.id===gameId);
+  assert.ok(task,'A2G_E_G3_IDS: 未知任务。');
+  const pack=read(resolve(attemptDir,'pack.json'));row.pack=pack;
+  assert.equal(pack.attempt,attempt,'A2G_E_G3_PACK_ATTEMPT: 任务包记录与 attempt 不一致。');
+  assert.equal(sha256Canonical(read(resolve(attemptDir,'context.json'))),pack.contextSha256,'A2G_E_G3_CONTEXT: 任务包与本 attempt 记录的上下文不一致。');
+  assert.equal(task.promptSha256,pack.taskSha256,'A2G_E_G3_TASK: 自然语言任务与本 attempt 记录的任务 SHA 不一致。');
+  assert.equal(pack.capabilityDigest,buildAgentRequest(task.prompt,attempt).capabilityDigest,'A2G_E_G3_ABI: 能力摘要与当前 Manifest 不一致。');
+  assert.ok(existsSync(resolve(attemptDir,'generation.json')),'A2G_E_G3_NO_GENERATION_RECORD: 缺少子 Agent 执行记录，来源不可核验。');
+  const generation=read(resolve(attemptDir,'generation.json'));
+  row.generation={host:generation.host??null,workerSession:generation.workerSession??null,modelEvidence:generation.modelEvidence??'UNVERIFIED',toolRecord:generation.toolRecord??null,isolation:generation.isolation??'UNVERIFIED'};
+  assert.ok(Object.entries(pack.fingerprints).every(([p,h])=>hash(p)===h),'A2G_E_G3_STALE_SOURCE: 源码已变化；保留旧快照，不沿用旧 PASS。');
+  if(generation.rawOutput?.sha256)assert.equal(hash(rawPath),generation.rawOutput.sha256,'A2G_E_G3_REPLY_INTEGRITY: 原始输出与宿主记录不一致。');
   const workflow=resolve(attemptDir,'validation');
   assert.ok(!existsSync(workflow),'A2G_E_G3_WORKFLOW_EXISTS: 验证目录必须新建，保留旧回执。');
   const result=await runAgentWorkflow({prompt:task.prompt,command:[process.execPath,'scripts/codex-generator.mjs','--read-output',rawPath],
@@ -91,7 +105,7 @@ export async function validateAttempt(configPath,gameId,attempt){
    row.code=error.code??'A2G_E_G3_VALIDATION';row.message=String(error.message).slice(0,600);row.attribution=error.attribution??'AGENT_STRATEGY';
    row.diagnostics=(error.diagnostics??[]).slice(0,20);
    row.repairDiagnostic={code:row.code,message:row.message,diagnostics:row.diagnostics};
-   outcome={row,repairNeeded:true};
+   outcome={row,repairNeeded:row.attribution!=='INFRA'&&row.attribution!=='ENGINE_OR_HOST_UNRESOLVED'};
   }else{
    const output=read(resolve(workflow,`output-${validationSummary.attempts.at(-1).attempt}.json`));
    checkG3SuiteBudget(output.conformance);
@@ -108,7 +122,7 @@ export async function validateAttempt(configPath,gameId,attempt){
    else{row.status='PASS_REFERENCE';row.engineeringStatus='PASS_REFERENCE';outcome={row,repairNeeded:false};}
   }
  }catch(e){
-  row.code=e.code??'A2G_E_G3_SUBAGENT';row.message=String(e.message).slice(0,600);row.attribution=e.attribution??'INFRA';outcome={row,repairNeeded:false};
+  row.code=String(e.message).match(/A2G_E_[A-Z0-9_]+/)?.[0]??e.code??'A2G_E_G3_SUBAGENT';row.message=String(e.message).slice(0,600);row.attribution=classifyNativeFailure(e);outcome={row,repairNeeded:false};
  }
  return outcome;
 }
@@ -121,6 +135,7 @@ function checkpoint(config,rows){
   model:config.model,modelIdentityStatus:'HOST_RECORD_PENDING_REVIEW',executionMode:'native-subagent',
   selected:config.selected,sourceCommit:config.sourceCommit??null,limits:{maxTasks:1,maxCalls:config.maxCalls,maxAttempts:config.maxAttempts},
   generationCalls,engineeringPassed:rows.filter(r=>r.status==='PASS_REFERENCE').length,independentG3Passed:0,G3:'NOT_RUN',
+  generationOneShot:rows.length===1&&rows[0].attempt===1&&rows[0].status==='PASS_REFERENCE',review:pendingNativeReviews(),
   independenceReview:'AWAITING_REVIEW',qualityReview:'AWAITING_REVIEW',formalG3Signoff:'NOT_IMPLEMENTED',
   fingerprints:Object.fromEntries(SOURCE_FILES.map(p=>[p,hash(p)])),cases:rows,
   note:'Engineering PASS_REFERENCE and model self-report do not establish formal G3 acceptance.'};
@@ -139,6 +154,7 @@ if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
    const gameId=rest[0],attempt=Number(rest[1]);
    const config=loadConfig(configPath),runDir=resolve(root,config.runDir);
    const rows=existsSync(resolve(runDir,'batch-summary.json'))?read(resolve(runDir,'batch-summary.json')).cases:[];
+   assert.ok(!rows.some(r=>r.gameId===gameId&&r.attempt===attempt),'A2G_E_G3_OUTPUT_EXISTS: 此次尝试已记账；复核请另存回执，不覆盖旧结果。');
    const {row,repairNeeded}=await validateAttempt(configPath,gameId,attempt);
    const index=rows.findIndex(r=>r.gameId===gameId&&r.attempt===attempt);
    if(index>=0)rows[index]=row;else rows.push(row);

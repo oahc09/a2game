@@ -1205,16 +1205,24 @@
     "automaticActions": false
   },
   "g3AgentOrchestration": {
-    "status": "DESIGN_ONLY",
+    "status": "NATIVE_FEEDBACK_REFERENCE_VALIDATED",
     "scope": "CROSS_MODEL_REAL_GENERATION_AND_SKILL_FEEDBACK",
     "profile": "project/g3-agent-orchestration.json",
     "document": "docs/g3-agent-orchestration.md",
     "evaluationDocument": "docs/g3-model-evaluation.md",
-    "targetModelFamilies": ["Qwen", "MiniMax", "GLM", "DeepSeek"],
-    "targetModelExecution": "NOT_CONFIGURED_NOT_RUN",
-    "execution": "NOT_RUN",
-    "newGenerationCalls": 0,
-    "review": "AWAITING_ACTUAL_HANDOFF",
-    "formalG3": "NOT_RUN"
+    "targetModelFamilies": [
+      "Qwen",
+      "MiniMax",
+      "GLM",
+      "DeepSeek"
+    ],
+    "targetModelExecution": "TWO_HOST_DECLARED_G01_ROUNDS",
+    "execution": "TWO_G01_ROUNDS_ENGINEERING_REFERENCE",
+    "newGenerationCalls": 6,
+    "review": "NEEDS_REVISION_HOST_EXPORT_AND_VISUAL_QUALITY",
+    "formalG3": "NOT_RUN",
+    "feedbackDocument": "docs/g3-native-improvements.md",
+    "feedbackGenerationCalls": 0,
+    "primaryInputFlowsPassed": 4
   }
 }
