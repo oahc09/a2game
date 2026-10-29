@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {HeadlessRuntime} from '../dist/index.js';import {makeRegistry} from '../scripts/registry.mjs';
-const game=id=>JSON.parse(readFileSync('specs/v0.1/samples/games/'+id+'-candidate.game.json','utf8'));
+const game=id=>JSON.parse(readFileSync('specs/v0.1/games/'+id+'-candidate.game.json','utf8'));
 const raw=(kind,orientationRad=[0,0,0],available=true)=>({source:'imu',kind,payload:{reference:'device-euler-rad-v1',screenAngle:0,orientationRad,angularVelocityRadps:[0,0,0],linearAccelerationMps2:[0,0,0],available:{orientation:available,linearAcceleration:true,angularVelocity:true}}});
 test('opted-in IMU controllers clear cached force/aim on recalibration, unavailable samples and reset; restored traces agree',()=>{
  const bad=game('g27');bad.inputs.actions.find(a=>a.id==='tilt').bindings[0].config.trackSample='yes';assert.throws(()=>new HeadlessRuntime(bad,makeRegistry()),e=>e.code==='A2G_E_CAP_CONFIG');

@@ -14,7 +14,7 @@ export async function loadBuiltinCatalog(){
   const catalog=await api(await fetch('./validated-games.json'));
  if(catalog.format!=='a2game-validated-game-catalog'||catalog.formatVersion!==1||!catalog.content||typeof catalog.content!=='object')throw Error('A2G_E_RELEASE_INTEGRITY: 游戏目录格式无效。');
  const entries=Object.entries(catalog.content);if(entries.length<1||entries.length>256)throw Error('A2G_E_RELEASE_INTEGRITY: 游戏目录超过预算。');
- builtinCatalog=entries.map(([path,record])=>{const match=path.match(/^\/specs\/v0\.1\/samples\/games\/([a-z0-9][a-z0-9-]{0,100})\.game\.json$/);if(!match||!record||typeof record.id!=='string'||!Number.isSafeInteger(record.revision)||!/^[a-f0-9]{64}$/.test(record.sha256Jcs))throw Error('A2G_E_RELEASE_INTEGRITY: 游戏目录条目无效。');return {name:match[1],path,...record,title:typeof record.title==='string'?record.title:match[1]};});return builtinCatalog;
+ builtinCatalog=entries.map(([path,record])=>{const match=path.match(/^\/specs\/v0\.1\/games\/([a-z0-9][a-z0-9-]{0,100})\.game\.json$/);if(!match||!record||typeof record.id!=='string'||!Number.isSafeInteger(record.revision)||!/^[a-f0-9]{64}$/.test(record.sha256Jcs))throw Error('A2G_E_RELEASE_INTEGRITY: 游戏目录条目无效。');return {name:match[1],path,...record,title:typeof record.title==='string'?record.title:match[1]};});return builtinCatalog;
 }
 export async function loadBuiltinGame(name){
   const entries=await loadBuiltinCatalog(),entry=entries.find(record=>record.name===name);

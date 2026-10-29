@@ -5,7 +5,7 @@ import { resolve } from 'node:path';
 import { HeadlessRuntime, GameRng, A2GameError, compileGame, CapabilityRegistry, addReferenceRuleOps, runConformanceSuite } from '../dist/index.js';
 import {makeRegistry, spec, readJson} from '../scripts/registry.mjs';
 const clone = value => structuredClone(value);
-const sample = () => readJson(resolve(spec,'samples/games/tap-target.game.json'));
+const sample = () => readJson(resolve(spec,'games/tap-target.game.json'));
 const CAP='a2game.rules.';
 const additional = {
   'state.set':'state-set','state.clamp':'state-clamp','entity.state.set':'entity-state-set','entity.spawn':'entity-spawn',
@@ -28,7 +28,7 @@ function errCode(fn, code) {
 }
 
 test('RNG golden vectors preserve both uint32 state and sequence',()=>{
-  const {vectors} = readJson(resolve(spec,'samples/tests/rng-vectors.json'));
+  const {vectors} = readJson(resolve(spec,'tests/rng-vectors.json'));
   for(const {seed,initialState,firstU32} of vectors) {
     const rng = new GameRng(seed);
     assert.deepEqual(rng.state(), initialState);
@@ -46,7 +46,7 @@ test('RNG state restore and bounded unbiased sampling API',()=>{
 
 test('original supplied conformance suites execute without modifying fixtures', async()=>{
   for(const name of ['tap-target.conformance.json','runtime-order.conformance.json']) {
-    const suite=readJson(resolve(spec,'samples/tests',name));
+    const suite=readJson(resolve(spec,'tests',name));
     const receipt=await runConformanceSuite(suite,sample(),makeRegistry);
     assert.equal(receipt.status,'PASS',JSON.stringify(receipt));
     assert.ok(receipt.cases.every(c=>c.status==='PASS'));
@@ -55,7 +55,7 @@ test('original supplied conformance suites execute without modifying fixtures', 
 });
 
 test('all seven original negative fixtures produce expected error codes',()=>{
-  const cases=readJson(resolve(spec,'samples/tests/negative-fixtures.json')).cases;
+  const cases=readJson(resolve(spec,'tests/negative-fixtures.json')).cases;
   const mutations={
     'unsupported-protocol':g=>{g.specVersion='2.0.0'},
     'unknown-root':g=>{g.nonExistingField=1},
@@ -258,7 +258,7 @@ test('raw InputTrace tick-boundary mapping uses half-open interval',()=>{
 
 test('normalized IMU sample is validated and does not falsely claim tilt recognition',()=>{
   const rt=new HeadlessRuntime(sample(),makeRegistry());rt.start();
-  const trace=readJson(resolve(spec,'samples/tests/touch-imu.input-trace.json'));
+  const trace=readJson(resolve(spec,'examples/input-traces/touch-imu.input-trace.json'));
   for(const sample of trace.events) rt.injectRaw({...sample,payload:clone(sample.payload)});
   rt.step(2);
   assert.equal(rt.observe().state.score,1);
@@ -284,14 +284,14 @@ test('snapshots, observations and compiled game do not leak mutable references',
 
 test('new grid-merge fixture suites run through public Conformance runner',async()=>{
   for(const [name,gameName] of [['grid-merge.conformance.json','grid-merge.game.json'],['grid-merge-spawn.conformance.json','grid-merge-spawn.game.json']]) {
-    const suite=readJson(resolve(spec,'samples/tests',name));
-    const receipt=await runConformanceSuite(suite,readJson(resolve(spec,'samples/games',gameName)),makeRegistry);
+    const suite=readJson(resolve(spec,'tests',name));
+    const receipt=await runConformanceSuite(suite,readJson(resolve(spec,'games',gameName)),makeRegistry);
     assert.equal(receipt.status,'PASS',JSON.stringify(receipt));
   }
 });
 
 test('grid-slide-merge handles single-step 2+2+2+2 without double merging',()=>{
-  const g=readJson(resolve(spec,'samples/games/grid-merge.game.json'));
+  const g=readJson(resolve(spec,'games/grid-merge.game.json'));
   const rt=new HeadlessRuntime(g,makeRegistry());rt.start();
   rt.injectAction({action:'moveLeft',phase:'press'});
   rt.injectAction({action:'moveLeft',phase:'release'});rt.step();
@@ -366,7 +366,7 @@ test('max recorded events also uses explicit controlled error path',()=>{
 });
 
 test('grid slide-merge property: tile mass conserved without spawning across 4 directions',()=>{
-  const game=readJson(resolve(spec,'samples/games/grid-merge.game.json'));
+  const game=readJson(resolve(spec,'games/grid-merge.game.json'));
   const generator=new GameRng(20261024);
   for(let caseNo=0;caseNo<48;caseNo++) {
     const initial=Array.from({length:16},()=>[0,2,4,8][generator.randomInt(0,3)]);

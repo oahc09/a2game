@@ -14,6 +14,6 @@ const contracts={
 for(const [short,properties] of Object.entries(contracts)){
  const id='a2game.input.'+short;
  const m={format:'a2game-capability',manifestVersion:'0.1.0',id,version:'0.1.0',kind:'recognizer',portability:'exact',description:`Bounded shared ${short} recognition over normalized samples, mobile-input-v1. Actual hardware availability/permission is a separate Host/device receipt.`,phase:'recognize',dependencies:short.startsWith('imu.')&&short!=='imu.calibration'?[{id:'a2game.input.imu.calibration',version:'0.1.0'}]:[],contract:{configSchema:object(properties),stateSchema:{type:'object'},commands:[],events:[{name:'input.action',payloadSchema:{type:'object'}}],stateWrites:[],lifecycle:['initialize','tick','pause','resume','reset','dispose']},limits:{profile:'mobile-input-v1',maxPointers:10,maxPathPoints:128,maxTraceSamples:4096,quantization:0.0001,calibration:'explicit normalized calibrate sample; reset on pause/orientation change',privacy:'opt-in recording; no automatic persistence or telemetry'},testSuites:['MOBILE-INPUT-001']};
- writeFileSync(`specs/v0.1/samples/capabilities/${id}.capability.json`,JSON.stringify(m,null,2)+'\n');
+ writeFileSync(`specs/v0.1/capabilities/${id}.capability.json`,JSON.stringify(m,null,2)+'\n');
 }
 console.log('Wrote fourteen bounded mobile input contracts.');

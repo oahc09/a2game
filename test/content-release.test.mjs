@@ -8,7 +8,7 @@ import {createPlayerServer} from '../scripts/serve.mjs';
 import {makeRegistry,readJson,spec,root} from '../scripts/registry.mjs';
 import {verifyReleasedGame,capabilityManifestDigest,sha256Canonical,CONTENT_MAX_BYTES} from '../dist/index.js';
 
-const game=()=>readJson(`${spec}/samples/games/tap-target.game.json`);
+const game=()=>readJson(`${spec}/games/tap-target.game.json`);
 let service,server,origin;
 before(async()=>{service=createContentService();server=createPlayerServer({contentService:service});await new Promise(done=>server.listen(0,'127.0.0.1',done));origin=`http://127.0.0.1:${server.address().port}`;});
 after(async()=>{server.closeAllConnections();await new Promise(done=>server.close(done));});
@@ -40,7 +40,7 @@ test('schema, semantic and resource policy failures return diagnostics without r
 test('binding and component configs use full manifest schemas; invalid initial module state is rejected',async()=>{
   const invalid=game();invalid.inputs.actions[0].bindings[0].config.maxDurationUs=-1;
   let response=await upload(invalid),error=(await response.json()).error;assert.equal(error.code,'A2G_E_SCHEMA');assert.match(error.diagnostics[0].pointer,/bindings/);
-  const push=readJson(`${spec}/samples/games/grid-push.game.json`);push.scenes[0].entities[0].components[0].config.width=2.5;
+  const push=readJson(`${spec}/games/grid-push.game.json`);push.scenes[0].entities[0].components[0].config.width=2.5;
   response=await upload(push);error=(await response.json()).error;assert.equal(error.code,'A2G_E_SCHEMA');assert.match(error.diagnostics[0].pointer,/components/);
   push.scenes[0].entities[0].components[0].config.width=5;push.state.player.initial=push.state.walls.initial[0];
   response=await upload(push);assert.equal(response.status,422);assert.equal((await response.json()).error.stage,'semantic');

@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {HeadlessRuntime,projectPresentation,compileGame,A2GameError} from '../dist/index.js';
 import {makeRegistry,spec} from '../scripts/registry.mjs';
-const def=name=>JSON.parse(readFileSync(resolve(spec,'samples/games',name+'.game.json'),'utf8'));
+const def=name=>JSON.parse(readFileSync(resolve(spec,'games',name+'.game.json'),'utf8'));
 const act=(rt,name)=>{rt.injectAction({action:name,phase:'press',sourceId:'test:'+name});rt.injectAction({action:name,phase:'release',sourceId:'test:'+name});rt.step(1);};
 test('all game definitions generate bounded generic presentation primitives, without mutating state',()=>{
  for(const name of ['tap-target','grid-merge','grid-merge-spawn','grid-push']){

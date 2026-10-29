@@ -26,7 +26,7 @@
 | 能力、版本和宿主协商 | `.../docs/02-Capability-Manifest-V0.1.md` + `schemas/capability.schema.json` | 计划 Capability ≠ 已注册实现 |
 | Tick/Rule 执行与随机数 | `.../docs/03-Runtime-Tick-Rule-Semantics-V0.1.md` | 不允许实现任意改变 Tick 顺序 |
 | 验收口径 / Gate | `.../docs/04-Conformance-Test-V0.1.md` | PASS 必须有可复现回执 |
-| 32 个玩法及未来登记规则 | `.../docs/05-Coverage-Registry-V0.1.md` + `samples/coverage/games.json` | G01..G32 全部仍为 planned |
+| 32 个玩法及未来登记规则 | `.../docs/05-Coverage-Registry-V0.1.md` + `coverage/games.json` | G01..G32 全部仍为 planned |
 | 表现和输入增量规范 | `.../docs/06-Presentation-Slice-V0.1.md`, `07-Touch-Swipe-InputTrace-V0.1.md` | 只覆盖目前声明子集 |
 | 已有参考实现 | `src/`, `player/`, `scripts/`, `test/` | 只能按实际执行测试记录确认功能 |
 | 当前阶段和证据 | `PROJECT-STATUS.md` + `project/status.json` | 对外报进展只引用这里的现行回执 |
@@ -148,9 +148,9 @@ Headless Shared Runtime ── Gameplay Library (Grid/Match/Combat/Economy/...)
 
 ```text
 src/modules/<capability>.ts
-specs/v0.1/samples/capabilities/<id>.capability.json
-specs/v0.1/samples/games/<reference>.game.json
-specs/v0.1/samples/tests/<reference>.conformance.json
+specs/v0.1/capabilities/<id>.capability.json
+specs/v0.1/games/<reference>.game.json
+specs/v0.1/tests/<reference>.conformance.json
 test/<capability>.test.mjs
 reports/<gate-receipt>.json
 PROJECT-STATUS.md + project/status.json (仅在真实验收后更新)

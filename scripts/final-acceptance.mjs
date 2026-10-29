@@ -15,7 +15,7 @@ function schemaCheck(directory){
 }
 export function collectAcceptance(root=workspace){
  const files={},attach=path=>{const file=archivePath(root,path);files[path]=hash(file);return path;},load=path=>read(archivePath(root,attach(path)));
- const status=read(resolve(root,'project/status.json')),contract=load('project/gameplay-acceptance.json'),registry=load('specs/v0.1/samples/coverage/games.json'),baseline=load('project/acceptance-baseline.json');
+ const status=read(resolve(root,'project/status.json')),contract=load('project/gameplay-acceptance.json'),registry=load('specs/v0.1/coverage/games.json'),baseline=load('project/acceptance-baseline.json');
  assert.equal(sha256Canonical(identities(registry)),baseline.registryBasisDigest,'A2G_E_ACCEPTANCE_BASELINE');
  const expected=[...Array.from({length:32},(_,i)=>'G'+String(i+1).padStart(2,'0')),...Array.from({length:5},(_,i)=>'H'+String(i+1).padStart(2,'0'))];
  assert.deepEqual(contract.cases.map(c=>c.id).sort(),expected,'A2G_E_ACCEPTANCE_IDENTITIES');assert.deepEqual(baseline.ids,expected);

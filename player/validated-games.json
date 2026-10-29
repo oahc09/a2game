@@ -4,673 +4,673 @@
   "gameSpecVersion": "0.1.0",
   "schemaDialect": "2020-12",
   "content": {
-    "/specs/v0.1/samples/games/g01-candidate.game.json": {
+    "/specs/v0.1/games/g01-candidate.game.json": {
       "id": "org.a2game.games.g01",
       "title": "G01 推箱子",
       "revision": 1,
       "sha256Jcs": "13877422a2c6400b92957e6dad29c6de91d3b1da8c5ddce2d0f502a313b0cb49"
     },
-    "/specs/v0.1/samples/games/g01-two-boxes.game.json": {
+    "/specs/v0.1/games/g01-two-boxes.game.json": {
       "id": "org.a2game.variants.g01-two-boxes",
       "title": "G01 双箱目标：分别入位，未完成第二箱不能胜利",
       "revision": 2,
       "sha256Jcs": "8dfbe2f8aebc2948b84375ffaa458a5dc7f562f76df6a965952155c57dc77683"
     },
-    "/specs/v0.1/samples/games/g02-4096.game.json": {
+    "/specs/v0.1/games/g02-4096.game.json": {
       "id": "org.a2game.variants.g02-4096",
       "title": "G02 双小块开局完整合成到 4096，无合法步失败",
       "revision": 3,
       "sha256Jcs": "2ddde15d19ada26cb74b0d7a8ce7fe77f0b1f659caf7cf52ffa2d4dda82b0022"
     },
-    "/specs/v0.1/samples/games/g02-candidate.game.json": {
+    "/specs/v0.1/games/g02-candidate.game.json": {
       "id": "org.a2game.games.g02",
       "title": "G02 2048",
       "revision": 3,
       "sha256Jcs": "5efeb4e2686353bb03dd82fc4f1b95c64320828f6142261c7ad70c67ceff56e7"
     },
-    "/specs/v0.1/samples/games/g03-candidate.game.json": {
+    "/specs/v0.1/games/g03-candidate.game.json": {
       "id": "org.a2game.games.g03",
       "title": "G03 三消",
       "revision": 1,
       "sha256Jcs": "5b5f3245e2477ee06c94666379a3c7851aa53345be9eca8be96e14eea060486d"
     },
-    "/specs/v0.1/samples/games/g03-recolored-cascade.game.json": {
+    "/specs/v0.1/games/g03-recolored-cascade.game.json": {
       "id": "org.a2game.variants.g03-recolored-cascade",
       "title": "G03 换色棋盘：相邻交换触发消除与补位，非相邻交换回滚",
       "revision": 1,
       "sha256Jcs": "c161ec979a108685845711e6db3fd2f77fe386d16f17e8bb40fdbf99fe3cbeed"
     },
-    "/specs/v0.1/samples/games/g04-candidate.game.json": {
+    "/specs/v0.1/games/g04-candidate.game.json": {
       "id": "org.a2game.games.g04",
       "title": "G04 堆叠三消",
       "revision": 1,
       "sha256Jcs": "a15a3022d953ae572ed2407372e6f6a032862bbd9eededf5e792ae4936e4151c"
     },
-    "/specs/v0.1/samples/games/g04-capacity-three.game.json": {
+    "/specs/v0.1/games/g04-capacity-three.game.json": {
       "id": "org.a2game.variants.g04-capacity-three",
       "title": "G04 三槽托盘：第三张先消除再判满，不同色填满失败",
       "revision": 1,
       "sha256Jcs": "76615dbde549b8f1fbe1981829464b3b458a3765010e179bcffe8b4ac68563e4"
     },
-    "/specs/v0.1/samples/games/g05-candidate.game.json": {
+    "/specs/v0.1/games/g05-candidate.game.json": {
       "id": "org.a2game.games.g05",
       "title": "G05 麻将叠牌配对",
       "revision": 2,
       "sha256Jcs": "91c0a1cf3a057443535c26457714382019d9d48ad3cb1137ced6ad6d537cc05a"
     },
-    "/specs/v0.1/samples/games/g05-three-layers.game.json": {
+    "/specs/v0.1/games/g05-three-layers.game.json": {
       "id": "org.a2game.variants.g05-three-layers",
       "title": "G05 三层麻将：先 8/11，再 4/7，最后消除底层",
       "revision": 2,
       "sha256Jcs": "f2a50a5feea45840c4cbeb707a5f2f1dfcc01e19fed664ad0701d52ccc6d92da"
     },
-    "/specs/v0.1/samples/games/g06-candidate.game.json": {
+    "/specs/v0.1/games/g06-candidate.game.json": {
       "id": "org.a2game.games.g06",
       "title": "G06 箭头迷宫消除",
       "revision": 2,
       "sha256Jcs": "bad0666f4fc00a3de820503a6b59032b7ed6d2d9ab61892f2594d32598705bd2"
     },
-    "/specs/v0.1/samples/games/g06-left-rays.game.json": {
+    "/specs/v0.1/games/g06-left-rays.game.json": {
       "id": "org.a2game.variants.g06-left-rays",
       "title": "G06 镜像四向射线：上方先出界，下方阻挡清除后才能移除",
       "revision": 2,
       "sha256Jcs": "a75afba91bfa338019fd0563c6ad54570a841edee550d60990695e8684ad7901"
     },
-    "/specs/v0.1/samples/games/g07-candidate.game.json": {
+    "/specs/v0.1/games/g07-candidate.game.json": {
       "id": "org.a2game.games.g07",
       "title": "G07 翻牌配对",
       "revision": 1,
       "sha256Jcs": "834e488275f897d479e7746c6fc3af7e7b878beacf5aa810795a5319434eded5"
     },
-    "/specs/v0.1/samples/games/g07-mismatch-lock.game.json": {
+    "/specs/v0.1/games/g07-mismatch-lock.game.json": {
       "id": "org.a2game.variants.g07-mismatch-lock",
       "title": "G07 错配锁定三 Tick：第三次快点无效，翻回后可以配对",
       "revision": 1,
       "sha256Jcs": "17644f94816a8bfd89436a157ea19a71aed2eccd9df59ca829b92cc4320a9537"
     },
-    "/specs/v0.1/samples/games/g08-candidate.game.json": {
+    "/specs/v0.1/games/g08-candidate.game.json": {
       "id": "org.a2game.games.g08",
       "title": "G08 Block Puzzle",
       "revision": 2,
       "sha256Jcs": "7139515da956cdb1cb8b467e04e29d71c980d22ac71e3bfe97e6471bb8558262"
     },
-    "/specs/v0.1/samples/games/g08-column-clear.game.json": {
+    "/specs/v0.1/games/g08-column-clear.game.json": {
       "id": "org.a2game.variants.g08-column-clear",
       "title": "G08 竖向拼块填满两列：右下角越界放置无效",
       "revision": 2,
       "sha256Jcs": "6df774c76bffd55c8713646eefbfa7882fb41a58feae7f28f05f47fa82bbe6e9"
     },
-    "/specs/v0.1/samples/games/g09-candidate.game.json": {
+    "/specs/v0.1/games/g09-candidate.game.json": {
       "id": "org.a2game.games.g09",
       "title": "G09 俄罗斯方块",
       "revision": 3,
       "sha256Jcs": "fb1c5a34a614ec6285a4dca6411fe8b604fe1b1ccc9ed34dc9834ec4495886f4"
     },
-    "/specs/v0.1/samples/games/g09-rotate-drop.game.json": {
+    "/specs/v0.1/games/g09-rotate-drop.game.json": {
       "id": "org.a2game.variants.g09-rotate-drop",
       "title": "G09 先旋转 I 再拼 O：六 Tick 重力，四块连续消四行",
       "revision": 3,
       "sha256Jcs": "be41fc392313e815ebda2caa916c86c0f9e2b45d97eecc5c5b058aee98e5f689"
     },
-    "/specs/v0.1/samples/games/g10-candidate.game.json": {
+    "/specs/v0.1/games/g10-candidate.game.json": {
       "id": "org.a2game.games.g10",
       "title": "G10 找物整理",
       "revision": 2,
       "sha256Jcs": "b46781d231dfa12afd5bd82882eca773ba2c6201b82b7ba7df0c16e200ffadcb"
     },
-    "/specs/v0.1/samples/games/g10-crossed-targets.game.json": {
+    "/specs/v0.1/games/g10-crossed-targets.game.json": {
       "id": "org.a2game.variants.g10-crossed-targets",
       "title": "G10 交叉归位：物品需送至对侧目标，错放不消耗步数",
       "revision": 1,
       "sha256Jcs": "c5e4fffb8b4f7daec43ed7cb5bd3af7c281cb3acfcaa745d9477c39b1453e93e"
     },
-    "/specs/v0.1/samples/games/g11-candidate.game.json": {
+    "/specs/v0.1/games/g11-candidate.game.json": {
       "id": "org.a2game.games.g11",
       "title": "G11 跳一跳",
       "revision": 3,
       "sha256Jcs": "eb1473447fc2727815cf70218ff3d3b6c95cd3823b2b6cb457c319a4d6fc07bd"
     },
-    "/specs/v0.1/samples/games/g11-longer-jump.game.json": {
+    "/specs/v0.1/games/g11-longer-jump.game.json": {
       "id": "org.a2game.variants.g11-longer-jump",
       "title": "G11 连续远平台：保持中心落点形成二连击，过度蓄力会掉落",
       "revision": 2,
       "sha256Jcs": "b7ab281949d496c4fd91fb5d92f95751148b1a68b23b08e2723a9ab046bbd20f"
     },
-    "/specs/v0.1/samples/games/g12-candidate.game.json": {
+    "/specs/v0.1/games/g12-candidate.game.json": {
       "id": "org.a2game.games.g12",
       "title": "G12 Flappy",
       "revision": 3,
       "sha256Jcs": "5923bb22ffbecdb99f3824d141036504423c2aec6d3f232251d0a7b221c18823"
     },
-    "/specs/v0.1/samples/games/g12-third-gate.game.json": {
+    "/specs/v0.1/games/g12-third-gate.game.json": {
       "id": "org.a2game.variants.g12-third-gate",
       "title": "G12 三道门柱：门后计分、持续拍翼，碰柱失败",
       "revision": 2,
       "sha256Jcs": "3ac223cffcf3ece1088c569c16e731afbeeaef000236f734c50d642add288978"
     },
-    "/specs/v0.1/samples/games/g13-candidate.game.json": {
+    "/specs/v0.1/games/g13-candidate.game.json": {
       "id": "org.a2game.games.g13",
       "title": "G13 换道跑酷",
       "revision": 3,
       "sha256Jcs": "faeacb2dac7db944d0d1b1a256fff71e5e189ec6268e4ab89a757ceb97d1b324"
     },
-    "/specs/v0.1/samples/games/g13-second-obstacle.game.json": {
+    "/specs/v0.1/games/g13-second-obstacle.game.json": {
       "id": "org.a2game.variants.g13-second-obstacle",
       "title": "G13 镜像三段跑酷：右、中、左换道通过两个检查点",
       "revision": 2,
       "sha256Jcs": "3221039de9da7794ecb6653d4eaaf68deb0cf8b765846d27a76e8034baad5f9a"
     },
-    "/specs/v0.1/samples/games/g14-candidate.game.json": {
+    "/specs/v0.1/games/g14-candidate.game.json": {
       "id": "org.a2game.games.g14",
       "title": "G14 打砖块",
       "revision": 2,
       "sha256Jcs": "d91ace1c8e2e06318dc05ab5c6b2e9c52e5de2accc4106df1376131dc822475b"
     },
-    "/specs/v0.1/samples/games/g14-right-paddle.game.json": {
+    "/specs/v0.1/games/g14-right-paddle.game.json": {
       "id": "org.a2game.variants.g14-right-paddle",
       "title": "G14 右侧窄挡板：拖动接球并反弹，停在中间漏球",
       "revision": 1,
       "sha256Jcs": "c8beab9f6e69fcdbe611fac8075ed2bdd02d6941ae77c0f6a518290fbd39b644"
     },
-    "/specs/v0.1/samples/games/g15-candidate.game.json": {
+    "/specs/v0.1/games/g15-candidate.game.json": {
       "id": "org.a2game.games.g15",
       "title": "G15 弹球",
       "revision": 3,
       "sha256Jcs": "d5338ac0f310f2d096d3558ce42ed85e068f734ebfa9b4669a6def43590feda5"
     },
-    "/specs/v0.1/samples/games/g15-high-trigger.game.json": {
+    "/specs/v0.1/games/g15-high-trigger.game.json": {
       "id": "org.a2game.variants.g15-high-trigger",
       "title": "G15 高速三维弹球：通过远端后回到更近发射端的触发区",
       "revision": 2,
       "sha256Jcs": "479a05b9f6b798e88d21185fdc8a92131231a59e8670210e1c6cc3778af7093e"
     },
-    "/specs/v0.1/samples/games/g16-candidate.game.json": {
+    "/specs/v0.1/games/g16-candidate.game.json": {
       "id": "org.a2game.games.g16",
       "title": "G16 物理合成",
       "revision": 3,
       "sha256Jcs": "9baada2cfee8f19c3136da00a74587c936b25bb45d8fb7cf22a3447bf4c66d05"
     },
-    "/specs/v0.1/samples/games/g16-four-drops.game.json": {
+    "/specs/v0.1/games/g16-four-drops.game.json": {
       "id": "org.a2game.variants.g16-four-drops",
       "title": "G16 低溢出线四球合成：快放完成，错序堆叠越线失败",
       "revision": 2,
       "sha256Jcs": "3d7f10f699875b925e67d83883b848d8c1f09e3d9ea2b2f86f5b2b77414fdfd5"
     },
-    "/specs/v0.1/samples/games/g17-armored-waves.game.json": {
+    "/specs/v0.1/games/g17-armored-waves.game.json": {
       "id": "org.a2game.variants.g17-armored-waves",
       "title": "G17 装甲双波飞机：移动对准后多次发射，单发不足",
       "revision": 1,
       "sha256Jcs": "5d9a141d0bef1c0c89b0606a62d24d9be37166ec036ef445246778b24a706bad"
     },
-    "/specs/v0.1/samples/games/g17-candidate.game.json": {
+    "/specs/v0.1/games/g17-candidate.game.json": {
       "id": "org.a2game.games.g17",
       "title": "G17 纵版飞机",
       "revision": 2,
       "sha256Jcs": "eaa787494618d65b4754c53fff27a26a11798fd299c0d937911475a57f887db8"
     },
-    "/specs/v0.1/samples/games/g18-armored-target.game.json": {
+    "/specs/v0.1/games/g18-armored-target.game.json": {
       "id": "org.a2game.variants.g18-armored-target",
       "title": "G18 装甲墙后目标：绕墙、独立瞄准与两次冷却射击",
       "revision": 2,
       "sha256Jcs": "4a04165eb960014404ee1dee8c54f6e679c6750125991c6af9eff7829fd6e905"
     },
-    "/specs/v0.1/samples/games/g18-candidate.game.json": {
+    "/specs/v0.1/games/g18-candidate.game.json": {
       "id": "org.a2game.games.g18",
       "title": "G18 俯视射击",
       "revision": 3,
       "sha256Jcs": "fb511f48a03d4eaaa40235909cec2e97badb7308766ddfe96d64ca0179835f24"
     },
-    "/specs/v0.1/samples/games/g19-candidate.game.json": {
+    "/specs/v0.1/games/g19-candidate.game.json": {
       "id": "org.a2game.games.g19",
       "title": "G19 僵尸生存",
       "revision": 3,
       "sha256Jcs": "f0834f4f1cbc37853709cf80d5dfe57a2ab6085561226041f89b21115fd10b35"
     },
-    "/specs/v0.1/samples/games/g19-horde-upgrade.game.json": {
+    "/specs/v0.1/games/g19-horde-upgrade.game.json": {
       "id": "org.a2game.variants.g19-horde-upgrade",
       "title": "G19 装甲三波与技能：临时增伤结束后继续升级伤害",
       "revision": 2,
       "sha256Jcs": "4f558626feac1a78fe5c63b534843577bb0289b523f33354d418790403161fcf"
     },
-    "/specs/v0.1/samples/games/g20-candidate.game.json": {
+    "/specs/v0.1/games/g20-candidate.game.json": {
       "id": "org.a2game.games.g20",
       "title": "G20 泡泡龙弹射",
       "revision": 3,
       "sha256Jcs": "db0fd9e6eb5c168cb0e1b887027ed7dc9d76ff8ec1526df559bf5e6b6d5752fa"
     },
-    "/specs/v0.1/samples/games/g20-hanging-bubbles.game.json": {
+    "/specs/v0.1/games/g20-hanging-bubbles.game.json": {
       "id": "org.a2game.variants.g20-hanging-bubbles",
       "title": "G20 连接消除：击中带悬挂球的同色簇，错误颜色耗尽弹药",
       "revision": 2,
       "sha256Jcs": "7d489bbbb521bf748770febdfff328e66f6a3bdda11cb0e60a4f83ef832315e4"
     },
-    "/specs/v0.1/samples/games/g21-candidate.game.json": {
+    "/specs/v0.1/games/g21-candidate.game.json": {
       "id": "org.a2game.games.g21",
       "title": "G21 塔防",
       "revision": 3,
       "sha256Jcs": "12c0d25c08c02549aceacd1a9bc919cbbafdbc02abba8e67562e60c94cc3a109"
     },
-    "/specs/v0.1/samples/games/g21-reverse-waves.game.json": {
+    "/specs/v0.1/games/g21-reverse-waves.game.json": {
       "id": "org.a2game.variants.g21-reverse-waves",
       "title": "G21 反向路径四波防御：建造成本 3，防守四波",
       "revision": 2,
       "sha256Jcs": "7b0b815e67212c19360f5139c4e60573485c42fcd6ebd7fa86349f6c44180d90"
     },
-    "/specs/v0.1/samples/games/g22-candidate.game.json": {
+    "/specs/v0.1/games/g22-candidate.game.json": {
       "id": "org.a2game.games.g22",
       "title": "G22 农场",
       "revision": 3,
       "sha256Jcs": "5279b67a2c7f9ab4c97a64697c797b0220c46816f49de63b11a05c52504aef38"
     },
-    "/specs/v0.1/samples/games/g22-two-harvests.game.json": {
+    "/specs/v0.1/games/g22-two-harvests.game.json": {
       "id": "org.a2game.variants.g22-two-harvests",
       "title": "G22 三轮农场：三秒成熟，提前/重复收集不得奖励",
       "revision": 2,
       "sha256Jcs": "346b0882971d9d6e07ccbb54bed0079c78aa5dfbcb1e4027b819a39384307f93"
     },
-    "/specs/v0.1/samples/games/g23-candidate.game.json": {
+    "/specs/v0.1/games/g23-candidate.game.json": {
       "id": "org.a2game.games.g23",
       "title": "G23 合成经营",
       "revision": 3,
       "sha256Jcs": "263c7550e5d350ab5c7d16d9b782414af7ae8218dd33136ea7811b0758052d6d"
     },
-    "/specs/v0.1/samples/games/g23-production-chain.game.json": {
+    "/specs/v0.1/games/g23-production-chain.game.json": {
       "id": "org.a2game.variants.g23-production-chain",
       "title": "G23 合成工厂两轮生产：提高成本与成熟时间，提前/重复收获无收益",
       "revision": 2,
       "sha256Jcs": "4af8082b5871fee076042d2d99b85ef7ebbade2dfc4220fc2a66f4e1349e4b37"
     },
-    "/specs/v0.1/samples/games/g24-candidate.game.json": {
+    "/specs/v0.1/games/g24-candidate.game.json": {
       "id": "org.a2game.games.g24",
       "title": "G24 五子棋",
       "revision": 3,
       "sha256Jcs": "3b286b7dab6bba715aa020396f5246b12e6c94a4561740d2cd43a4c72310c690"
     },
-    "/specs/v0.1/samples/games/g24-connect-four.game.json": {
+    "/specs/v0.1/games/g24-connect-four.game.json": {
       "id": "org.a2game.variants.g24-connect-four",
       "title": "G24 6×6 四连：验证第二位玩家与非法占位",
       "revision": 3,
       "sha256Jcs": "bff92949eaa72eb4362819b44a35a399746236ec7534667acffef2f3a2af9d76"
     },
-    "/specs/v0.1/samples/games/g25-candidate.game.json": {
+    "/specs/v0.1/games/g25-candidate.game.json": {
       "id": "org.a2game.games.g25",
       "title": "G25 水果切割",
       "revision": 3,
       "sha256Jcs": "15c87b1b6fdf7157e1a6427d6a9522612d6aa3ddbc816e3145494b47bf57668d"
     },
-    "/specs/v0.1/samples/games/g25-four-fruits.game.json": {
+    "/specs/v0.1/games/g25-four-fruits.game.json": {
       "id": "org.a2game.variants.g25-four-fruits",
       "title": "G25 四果低采样切割：一段长轨迹命中全部，炸弹仍失败",
       "revision": 2,
       "sha256Jcs": "ccbe41bf507d660a3c2bb7bf0aae08b6507708b92336964350d18bf8fc68a99d"
     },
-    "/specs/v0.1/samples/games/g26-candidate.game.json": {
+    "/specs/v0.1/games/g26-candidate.game.json": {
       "id": "org.a2game.games.g26",
       "title": "G26 双指旋转拼图",
       "revision": 3,
       "sha256Jcs": "c8df51b475067861c3401f2f611cb98d9ed005eaac36a09289dfce26df442bb5"
     },
-    "/specs/v0.1/samples/games/g26-half-turn.game.json": {
+    "/specs/v0.1/games/g26-half-turn.game.json": {
       "id": "org.a2game.variants.g26-half-turn",
       "title": "G26 半圈双倍缩放：姿态与归位必须同时满足",
       "revision": 2,
       "sha256Jcs": "627d93cd17f4eeb9049f8472b6fa9c9d65812b0394905d8f59a618d350bf6e16"
     },
-    "/specs/v0.1/samples/games/g27-candidate.game.json": {
+    "/specs/v0.1/games/g27-candidate.game.json": {
       "id": "org.a2game.games.g27",
       "title": "G27 重力迷宫",
       "revision": 3,
       "sha256Jcs": "d47c62e31f50c634e08689fb08b062878159e70a94126660b9a503a7653d92ee"
     },
-    "/specs/v0.1/samples/games/g27-lower-detour.game.json": {
+    "/specs/v0.1/games/g27-lower-detour.game.json": {
       "id": "org.a2game.variants.g27-lower-detour",
       "title": "G27 下方绕墙迷宫：目标与墙镜像，直穿墙仍被阻挡",
       "revision": 2,
       "sha256Jcs": "cab1e49f301469012cee3f35c55fff73f7c80a468948568b0a4746d858b82fe0"
     },
-    "/specs/v0.1/samples/games/g28-candidate.game.json": {
+    "/specs/v0.1/games/g28-candidate.game.json": {
       "id": "org.a2game.games.g28",
       "title": "G28 平衡堆叠",
       "revision": 3,
       "sha256Jcs": "d55b4d0c6a941875a2d8a40f9e5dd47c7a6c0cb9cdd0ff67828186d93f303052"
     },
-    "/specs/v0.1/samples/games/g28-four-stack.game.json": {
+    "/specs/v0.1/games/g28-four-stack.game.json": {
       "id": "org.a2game.variants.g28-four-stack",
       "title": "G28 四块真实三维刚体堆叠：稳定六十 Tick，偏置放置倾覆失败",
       "revision": 2,
       "sha256Jcs": "7288baef3351672f4be164c0fd6489f4b5f69085a6f9a8ea06b43e2598beed0f"
     },
-    "/specs/v0.1/samples/games/g29-candidate.game.json": {
+    "/specs/v0.1/games/g29-candidate.game.json": {
       "id": "org.a2game.games.g29",
       "title": "G29 摇一摇机关",
       "revision": 3,
       "sha256Jcs": "0e5eb845e0e9d4373610bec07eb08d9a354b4f23c56528a6a6d5d1d0783d2de4"
     },
-    "/specs/v0.1/samples/games/g29-four-shakes.game.json": {
+    "/specs/v0.1/games/g29-four-shakes.game.json": {
       "id": "org.a2game.variants.g29-four-shakes",
       "title": "G29 四次能量解锁：三次不足，超时失败",
       "revision": 2,
       "sha256Jcs": "4ca50133e00fc22c2fabee68171cdcd95b5cb4b08d964977f28de566179cec8b"
     },
-    "/specs/v0.1/samples/games/g30-candidate.game.json": {
+    "/specs/v0.1/games/g30-candidate.game.json": {
       "id": "org.a2game.games.g30",
       "title": "G30 弹弓打靶",
       "revision": 3,
       "sha256Jcs": "0c80081e80729ba4d4ba3cf2f8ddd1420b7994d6487584f7cc2151c687e1708c"
     },
-    "/specs/v0.1/samples/games/g30-far-target.game.json": {
+    "/specs/v0.1/games/g30-far-target.game.json": {
       "id": "org.a2game.variants.g30-far-target",
       "title": "G30 远靶弹弓：拉开后释放才能发射，取消不生成弹丸",
       "revision": 2,
       "sha256Jcs": "1ef1c441fe68799ab2aadb0ca584b7e2b32d8f0b31d7ca039a9d1ae1c7550fa5"
     },
-    "/specs/v0.1/samples/games/g31-candidate.game.json": {
+    "/specs/v0.1/games/g31-candidate.game.json": {
       "id": "org.a2game.games.g31",
       "title": "G31 姿态打靶",
       "revision": 3,
       "sha256Jcs": "8f9a9bf2241a94e03642ce57a69d8114c886399de6195a9b24803a9fb28f6c7e"
     },
-    "/specs/v0.1/samples/games/g31-orientation-armor.game.json": {
+    "/specs/v0.1/games/g31-orientation-armor.game.json": {
       "id": "org.a2game.variants.g31-orientation-armor",
       "title": "G31 姿态装甲靶：转向右侧后两次射击，错误姿态无命中",
       "revision": 2,
       "sha256Jcs": "8e092d287999a1e17649cec52f85421b65c705e3276cc9b803bdd7f4c1f6a829"
     },
-    "/specs/v0.1/samples/games/g32-candidate.game.json": {
+    "/specs/v0.1/games/g32-candidate.game.json": {
       "id": "org.a2game.games.g32",
       "title": "G32 多指机关",
       "revision": 3,
       "sha256Jcs": "1f99c380f8bae33857ccd3b8e8d7c066672b9a6ddb9243d3d0b8b98096ac195a"
     },
-    "/specs/v0.1/samples/games/g32-three-fingers.game.json": {
+    "/specs/v0.1/games/g32-three-fingers.game.json": {
       "id": "org.a2game.variants.g32-three-fingers",
       "title": "G32 三指机关：同时稳定四十五 Tick，双指不能解锁",
       "revision": 2,
       "sha256Jcs": "d300db8606c98b844889d771a40694ed72704c3675287db12f17f31299905feb"
     },
-    "/specs/v0.1/samples/games/gamepad-lab.game.json": {
+    "/specs/v0.1/games/gamepad-lab.game.json": {
       "id": "org.a2game.samples.gamepad-lab",
       "title": "手柄扩展与键盘回退",
       "revision": 2,
       "sha256Jcs": "7a28f9ac7fb04d36bcb811df8623b2606ee93bdb0fde783b9247826e763da1be"
     },
-    "/specs/v0.1/samples/games/grid-merge-spawn.game.json": {
+    "/specs/v0.1/games/grid-merge-spawn.game.json": {
       "id": "org.a2game.samples.grid-merge-spawn",
       "title": "种子随机补位测试",
       "revision": 2,
       "sha256Jcs": "4ee9abd8875211ce0a8b636bcb7fc84fa2c6bef30f066c5e96ce5bccdcf04855"
     },
-    "/specs/v0.1/samples/games/grid-merge.game.json": {
+    "/specs/v0.1/games/grid-merge.game.json": {
       "id": "org.a2game.samples.grid-merge",
       "title": "网格滑动合并（无图形版）",
       "revision": 2,
       "sha256Jcs": "481dc30f1ac37cee1cd6dd9f344b74bfe6e89e9a5f720bdb76ffd1f14bc7e2ee"
     },
-    "/specs/v0.1/samples/games/grid-push.game.json": {
+    "/specs/v0.1/games/grid-push.game.json": {
       "id": "org.a2game.samples.grid-push",
       "title": "推箱子 / 第一关",
       "revision": 1,
       "sha256Jcs": "ff0b6aa995aae67560d1031a15a35ac63f70eb78de662df2b2eff3e0b0e6d3e2"
     },
-    "/specs/v0.1/samples/games/h01-candidate.game.json": {
+    "/specs/v0.1/games/h01-candidate.game.json": {
       "id": "org.a2game.games.h01",
       "title": "H01 合成炮台保卫战",
       "revision": 3,
       "sha256Jcs": "436781164599ecf0f9cf02e032da500adef2eb22dd3de5ff4c450d36a50543ea"
     },
-    "/specs/v0.1/samples/games/h01-reward-upgrade.game.json": {
+    "/specs/v0.1/games/h01-reward-upgrade.game.json": {
       "id": "org.a2game.variants.h01-reward-upgrade",
       "title": "H01 合成后用首波奖励升级：未升级无法击退末波",
       "revision": 2,
       "sha256Jcs": "af09f1874473e34bf0a8ea35e9de2746dd94bd70186fe44eec5a08b3a41f6ed8"
     },
-    "/specs/v0.1/samples/games/h02-candidate.game.json": {
+    "/specs/v0.1/games/h02-candidate.game.json": {
       "id": "org.a2game.games.h02",
       "title": "H02 三消与升级",
       "revision": 3,
       "sha256Jcs": "64424d82eb91b34cb1784e88b45b26f29bdc1a6a8dcf193ad13035f18944fcdc"
     },
-    "/specs/v0.1/samples/games/h02-exact-cost.game.json": {
+    "/specs/v0.1/games/h02-exact-cost.game.json": {
       "id": "org.a2game.variants.h02-exact-cost",
       "title": "H02 消除奖励刚好支付升级：同 Tick 不能透支下一阶段奖励",
       "revision": 2,
       "sha256Jcs": "d3631933ee26dc2cd422480b532ff24ebdf5438e159c68164735b2c81e18da3f"
     },
-    "/specs/v0.1/samples/games/h03-candidate.game.json": {
+    "/specs/v0.1/games/h03-candidate.game.json": {
       "id": "org.a2game.games.h03",
       "title": "H03 换道与射击",
       "revision": 3,
       "sha256Jcs": "0e12dc63bf0ca77335d0650152c5f4fdd4400c82a2b26642c9d20dfc2f497818"
     },
-    "/specs/v0.1/samples/games/h03-swapped-zones.game.json": {
+    "/specs/v0.1/games/h03-swapped-zones.game.json": {
       "id": "org.a2game.variants.h03-swapped-zones",
       "title": "H03 换侧双区与镜像跑酷：左开火、右右移，弹丸击敌后收回",
       "revision": 2,
       "sha256Jcs": "3169868927a8e1d596308804281f7c5aa9f288434f5890745e3175cdc2e996dc"
     },
-    "/specs/v0.1/samples/games/h04-candidate.game.json": {
+    "/specs/v0.1/games/h04-candidate.game.json": {
       "id": "org.a2game.games.h04",
       "title": "H04 物理合成与倾斜",
       "revision": 3,
       "sha256Jcs": "73985bed316f61a40864d91a88aaefc6b8fe4a7a95052893150604fa69f14e87"
     },
-    "/specs/v0.1/samples/games/h04-larger-merge.game.json": {
+    "/specs/v0.1/games/h04-larger-merge.game.json": {
       "id": "org.a2game.variants.h04-larger-merge",
       "title": "H04 大值物理合成：倾斜使两个四合成八，去重不重复奖励",
       "revision": 2,
       "sha256Jcs": "56259ef8374026264d21802a40a52a83b30f58724fd839a9d3ca2a81f6382bfd"
     },
-    "/specs/v0.1/samples/games/h05-candidate.game.json": {
+    "/specs/v0.1/games/h05-candidate.game.json": {
       "id": "org.a2game.games.h05",
       "title": "H05 找物与限时关卡",
       "revision": 3,
       "sha256Jcs": "1783ce9f682192d125836aa0d43774d23fc86b95c2aaed0e2ce37022aca0d9ba"
     },
-    "/specs/v0.1/samples/games/h05-deadline-tie.game.json": {
+    "/specs/v0.1/games/h05-deadline-tie.game.json": {
       "id": "org.a2game.variants.h05-deadline-tie",
       "title": "H05 四 Tick 截止：同 Tick 完成与超时冲突时失败优先",
       "revision": 3,
       "sha256Jcs": "6160b8f9330a85c7b9bc71072203de2eb863bf488253fe0f1f0ba4d676f319ee"
     },
-    "/specs/v0.1/samples/games/mobile-input-lab.game.json": {
+    "/specs/v0.1/games/mobile-input-lab.game.json": {
       "id": "org.a2game.samples.mobile-input-lab",
       "title": "移动输入与回放实验",
       "revision": 1,
       "sha256Jcs": "7b645433443751f532a85046d7faf72e983993845384246113e0d001de6dbe91"
     },
-    "/specs/v0.1/samples/games/puzzle-arrows.game.json": {
+    "/specs/v0.1/games/puzzle-arrows.game.json": {
       "id": "org.a2game.samples.puzzle-arrows",
       "title": "箭头路径消除",
       "revision": 1,
       "sha256Jcs": "03a7a238a71bc9de8ac705b69bb1f88bad4763b3a44216b4620d046178fb39a3"
     },
-    "/specs/v0.1/samples/games/puzzle-connected.game.json": {
+    "/specs/v0.1/games/puzzle-connected.game.json": {
       "id": "org.a2game.samples.puzzle-connected",
       "title": "连通消除与悬空掉落",
       "revision": 1,
       "sha256Jcs": "af3ba886d8a11568e4500aeef42d2f7398d1f348c73f9b1ce3d6f0350cfda0a6"
     },
-    "/specs/v0.1/samples/games/puzzle-falling.game.json": {
+    "/specs/v0.1/games/puzzle-falling.game.json": {
       "id": "org.a2game.samples.puzzle-falling",
       "title": "旋转落块",
       "revision": 1,
       "sha256Jcs": "0503ed628967d9e78f11996efdf72dd66bd0cb99391f36f960b36f133339caf8"
     },
-    "/specs/v0.1/samples/games/puzzle-mahjong.game.json": {
+    "/specs/v0.1/games/puzzle-mahjong.game.json": {
       "id": "org.a2game.samples.puzzle-mahjong",
       "title": "开放边缘配对",
       "revision": 1,
       "sha256Jcs": "cfd4b89e5414945cfb5aee41cd4f7bc863becbefb3446998a9f9215bfda77148"
     },
-    "/specs/v0.1/samples/games/puzzle-match.game.json": {
+    "/specs/v0.1/games/puzzle-match.game.json": {
       "id": "org.a2game.samples.puzzle-match",
       "title": "交换与三消连锁",
       "revision": 1,
       "sha256Jcs": "93d0cd3bd4cd3e96c1ccebf31c90d2fa0c4c3687dfa75d8ea8d8bc9e09831ce1"
     },
-    "/specs/v0.1/samples/games/puzzle-memory.game.json": {
+    "/specs/v0.1/games/puzzle-memory.game.json": {
       "id": "org.a2game.samples.puzzle-memory",
       "title": "记忆翻牌",
       "revision": 1,
       "sha256Jcs": "2e31a69199fb8ec4dde38c13678cc7839b7d493a73f1b4f42daf82c1f51a7d0c"
     },
-    "/specs/v0.1/samples/games/puzzle-placement.game.json": {
+    "/specs/v0.1/games/puzzle-placement.game.json": {
       "id": "org.a2game.samples.puzzle-placement",
       "title": "物品归位",
       "revision": 1,
       "sha256Jcs": "01536b2251f0c7d81f6749285d53ce0d1cc97ca367beaf7248f5f485de76233e"
     },
-    "/specs/v0.1/samples/games/puzzle-polyomino.game.json": {
+    "/specs/v0.1/games/puzzle-polyomino.game.json": {
       "id": "org.a2game.samples.puzzle-polyomino",
       "title": "多格放置与消行",
       "revision": 1,
       "sha256Jcs": "727297e6a0a86b2cea1402dfb4f6c675644ce4d1e04c1112d7ce1055d6964252"
     },
-    "/specs/v0.1/samples/games/puzzle-push-undo.game.json": {
+    "/specs/v0.1/games/puzzle-push-undo.game.json": {
       "id": "org.a2game.samples.puzzle-push-undo",
       "title": "推箱子 / 第一关 · 撤销",
       "revision": 1,
       "sha256Jcs": "0d9c423a88ee45cf5932c407abcfe8717b14b2d15b99cf59b4ae22077f18087a"
     },
-    "/specs/v0.1/samples/games/puzzle-slide-undo.game.json": {
+    "/specs/v0.1/games/puzzle-slide-undo.game.json": {
       "id": "org.a2game.samples.puzzle-slide-undo",
       "title": "种子随机补位测试 · 撤销",
       "revision": 1,
       "sha256Jcs": "b553d07bc067cfa38e94b2b5b0724dacea053073b85c6f00d7589ce054c695f4"
     },
-    "/specs/v0.1/samples/games/puzzle-sort.game.json": {
+    "/specs/v0.1/games/puzzle-sort.game.json": {
       "id": "org.a2game.samples.puzzle-sort",
       "title": "颜色容器整理",
       "revision": 1,
       "sha256Jcs": "5d37e72bd3e27f2e159db97809bd48ea12c6c4a7e7cc6d7d256558f479651606"
     },
-    "/specs/v0.1/samples/games/puzzle-tray.game.json": {
+    "/specs/v0.1/games/puzzle-tray.game.json": {
       "id": "org.a2game.samples.puzzle-tray",
       "title": "遮挡与三连槽位",
       "revision": 1,
       "sha256Jcs": "df70ac8281623b4905201103e8fae1c3dfb754bd53953c8937af820d8cb89123"
     },
-    "/specs/v0.1/samples/games/realtime-bounce.game.json": {
+    "/specs/v0.1/games/realtime-bounce.game.json": {
       "id": "org.a2game.samples.realtime-bounce",
       "title": "碰撞反弹与接触",
       "revision": 1,
       "sha256Jcs": "fd9c5e8378c39dbf6a1828f5b552135180124d82d4f88bd50a38de0f663fd005"
     },
-    "/specs/v0.1/samples/games/realtime-constraint.game.json": {
+    "/specs/v0.1/games/realtime-constraint.game.json": {
       "id": "org.a2game.samples.realtime-constraint",
       "title": "约束边界",
       "revision": 1,
       "sha256Jcs": "4a8d093f7a5be74819927528270a74ad2eab0e1318df4b2827aedcbe09cadf46"
     },
-    "/specs/v0.1/samples/games/realtime-flappy.game.json": {
+    "/specs/v0.1/games/realtime-flappy.game.json": {
       "id": "org.a2game.samples.realtime-flappy",
       "title": "重力与触发奖励",
       "revision": 1,
       "sha256Jcs": "e9b26ebce094665ebacc5be6c5cc3a58da6649b7a59206c143d677c5c71cd62e"
     },
-    "/specs/v0.1/samples/games/realtime-hitscan.game.json": {
+    "/specs/v0.1/games/realtime-hitscan.game.json": {
       "id": "org.a2game.samples.realtime-hitscan",
       "title": "射线武器与冷却",
       "revision": 1,
       "sha256Jcs": "9674e8b194e444e3a42a8d69699ec7334495bcc3537087f77415af2ee362ec9a"
     },
-    "/specs/v0.1/samples/games/realtime-jump.game.json": {
+    "/specs/v0.1/games/realtime-jump.game.json": {
       "id": "org.a2game.samples.realtime-jump",
       "title": "固定 Tick 蓄力跳跃",
       "revision": 1,
       "sha256Jcs": "3954bcb534deffd598eb9b3703c1e082fb7cecc4090d108c300c5e0e6b7b7264"
     },
-    "/specs/v0.1/samples/games/realtime-lanes.game.json": {
+    "/specs/v0.1/games/realtime-lanes.game.json": {
       "id": "org.a2game.samples.realtime-lanes",
       "title": "换道与滚动",
       "revision": 1,
       "sha256Jcs": "028862c8c0f8651d26a7ef524eddb2eb8c004c734c630f3f9a15051e578fbf3a"
     },
-    "/specs/v0.1/samples/games/realtime-merge.game.json": {
+    "/specs/v0.1/games/realtime-merge.game.json": {
       "id": "org.a2game.samples.realtime-merge",
       "title": "物理接触合成",
       "revision": 1,
       "sha256Jcs": "1714600cb3479f539c510552e3ff8c25f4e34adee34de03ee4ba3c5c2694bf75"
     },
-    "/specs/v0.1/samples/games/realtime-projectile.game.json": {
+    "/specs/v0.1/games/realtime-projectile.game.json": {
       "id": "org.a2game.samples.realtime-projectile",
       "title": "弹丸与命中去重",
       "revision": 1,
       "sha256Jcs": "918b75636a05582cf6c3435b3f6e8668ba703e2a55cdc6f601b70983546e93ba"
     },
-    "/specs/v0.1/samples/games/realtime-seek.game.json": {
+    "/specs/v0.1/games/realtime-seek.game.json": {
       "id": "org.a2game.samples.realtime-seek",
       "title": "追踪与无敌时间",
       "revision": 1,
       "sha256Jcs": "10bb2742b6a5afe7098dfd2377aead252c806ab9272ba35ca4867bf2eed9d5fb"
     },
-    "/specs/v0.1/samples/games/realtime-waves.game.json": {
+    "/specs/v0.1/games/realtime-waves.game.json": {
       "id": "org.a2game.samples.realtime-waves",
       "title": "波次与有限对象池",
       "revision": 1,
       "sha256Jcs": "5d58a1ddc92783e45596bd744dceeaebcb38787bd2c11bd1f7541486fc4cf36f"
     },
-    "/specs/v0.1/samples/games/strategy-cards.game.json": {
+    "/specs/v0.1/games/strategy-cards.game.json": {
       "id": "org.a2game.samples.strategy-cards",
       "title": "牌库、手牌与弃牌",
       "revision": 1,
       "sha256Jcs": "0d1f78e4477a7ecab1fb8998e64dc6795d545b1f30c6bab6cb27bc7d638af3bd"
     },
-    "/specs/v0.1/samples/games/strategy-farm.game.json": {
+    "/specs/v0.1/games/strategy-farm.game.json": {
       "id": "org.a2game.samples.strategy-farm",
       "title": "播种与逻辑计时收获",
       "revision": 1,
       "sha256Jcs": "d1bfaa9335f6dc9bbaf66172f726467f7ca718df6d28b7f18a6afaa36ff2fff8"
     },
-    "/specs/v0.1/samples/games/strategy-merge.game.json": {
+    "/specs/v0.1/games/strategy-merge.game.json": {
       "id": "org.a2game.samples.strategy-merge",
       "title": "合成经营网格",
       "revision": 1,
       "sha256Jcs": "f3518555385335876d79aeeb52be9b7639eb4066976e2fe7e7578939464e5290"
     },
-    "/specs/v0.1/samples/games/strategy-path.game.json": {
+    "/specs/v0.1/games/strategy-path.game.json": {
       "id": "org.a2game.samples.strategy-path",
       "title": "路径跟随与共享运动",
       "revision": 1,
       "sha256Jcs": "ad2ce6ee7ef513f0b20110d9b7a53a250ad35c44aca18046a05eeb50eca96ac5"
     },
-    "/specs/v0.1/samples/games/strategy-shop.game.json": {
+    "/specs/v0.1/games/strategy-shop.game.json": {
       "id": "org.a2game.samples.strategy-shop",
       "title": "商店、解锁与放置",
       "revision": 1,
       "sha256Jcs": "5b71d4e0be6789e68b28aa4d1863abd0ede3476cbe7858f4786c8f1764ca5c70"
     },
-    "/specs/v0.1/samples/games/strategy-shuffle.game.json": {
+    "/specs/v0.1/games/strategy-shuffle.game.json": {
       "id": "org.a2game.samples.strategy-shuffle",
       "title": "确定性洗牌与抽牌",
       "revision": 1,
       "sha256Jcs": "b7d69747826423936507bd3486981479f7f52875d0cdb02affabb7673bf8321a"
     },
-    "/specs/v0.1/samples/games/strategy-tower.game.json": {
+    "/specs/v0.1/games/strategy-tower.game.json": {
       "id": "org.a2game.samples.strategy-tower",
       "title": "路径与自动防御组合",
       "revision": 1,
       "sha256Jcs": "2dbe4f5d04dbcd5aed72db980b91da69189249a37dd868da6cd9d9d981d60158"
     },
-    "/specs/v0.1/samples/games/strategy-turn.game.json": {
+    "/specs/v0.1/games/strategy-turn.game.json": {
       "id": "org.a2game.samples.strategy-turn",
       "title": "合法落子与轮换",
       "revision": 1,
       "sha256Jcs": "6bf19ee8965e7780d57f3200369f2d9a67531c12b6d27749818a3c8a8ee19358"
     },
-    "/specs/v0.1/samples/games/strategy-upgrade.game.json": {
+    "/specs/v0.1/games/strategy-upgrade.game.json": {
       "id": "org.a2game.samples.strategy-upgrade",
       "title": "升级后的产量",
       "revision": 1,
       "sha256Jcs": "1ba89b5de204f84556916d479087eed5e30453e7b5fc07190e235fa0a6126ed2"
     },
-    "/specs/v0.1/samples/games/tap-target.game.json": {
+    "/specs/v0.1/games/tap-target.game.json": {
       "id": "org.a2game.samples.tap-target",
       "title": "点击两次获胜",
       "revision": 2,
       "sha256Jcs": "21568201b444d3a7e1f4d0c446a0111369890f393888f897f576cb6c091f6969"
     },
-    "/specs/v0.1/samples/games/visual-stage.game.json": {
+    "/specs/v0.1/games/visual-stage.game.json": {
       "id": "org.a2game.samples.visual-stage",
       "title": "通用 3D 表现与资源",
       "revision": 1,

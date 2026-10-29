@@ -84,10 +84,10 @@ interface A2GameConformanceDriver {
 
 ### 2.3 证据回执与 InputTrace 的机器接口
 
-- `schemas/input-trace.schema.json`：定义采集/回放的标准封套，`samples/tests/touch-imu.input-trace.json` 给出含 pointer down/up 和 IMU 的**合成**样例；跨平台复现时必须声明转换/识别器版本。真实采样须经用户授权，不默认持久化。
+- `schemas/input-trace.schema.json`：定义采集/回放的标准封套，`examples/input-traces/touch-imu.input-trace.json` 给出含 pointer down/up 和 IMU 的**合成**样例；跨平台复现时必须声明转换/识别器版本。真实采样须经用户授权，不默认持久化。
 - `schemas/coverage-result.schema.json`：定义单个 `(gameId,testCaseId,adapterId,platformProfile,capabilitySetDigest,testRevision)` 的测试结果。`status=PASS` 必须带实际 `runId`、`eventTraceUri`；`BLOCKED/NOT_APPLICABLE` 必须带原因；不能只交一张截图。
-- `samples/coverage/not-run.receipt.json`：当前无实现、因此明确 `NOT_RUN` 的范例，不能用此示例作为 PASS 证据。
-- `samples/tests/negative-fixtures.json`：列出未知字段、无效版本、缺失场景、未知能力、禁止脚本操作、危险资源 URL、错误状态类型的静态负例；结构/引用检查脚本只验证示例子集，生产 Semantic Validator 应覆盖全量字段。
+- `examples/coverage/not-run.receipt.json`：当前无实现、因此明确 `NOT_RUN` 的范例，不能用此示例作为 PASS 证据。
+- `tests/negative-fixtures.json`：列出未知字段、无效版本、缺失场景、未知能力、禁止脚本操作、危险资源 URL、错误状态类型的静态负例；结构/引用检查脚本只验证示例子集，生产 Semantic Validator 应覆盖全量字段。
 
 ## 3. 四层验证 Gate
 
@@ -126,7 +126,7 @@ G0 PASS 绝不等于 G1 PASS。任何未跑的 G2/G3 不能计作完成。报告
 | 0 | `[2462723854,1020716019,454327756,1275600319]` | `[3809008728,1133695204,53579671,2891528803,139681546,2203266335]` |
 | 42 | `[939911724,3948730756,321366731,3317318717]` | `[2837322924,544945897,479756282,3500138142,339756180,113173290]` |
 
-**期望**：Node/浏览器与其他语言实现给出相同 uint32 序列；`randf()` 的高 24 位也必须一致。向量在 `samples/tests/rng-vectors.json` 单独固化；这是本次通过独立脚本计算的**设计参考向量**，尚未由两个生产 Runtime 交叉验证。
+**期望**：Node/浏览器与其他语言实现给出相同 uint32 序列；`randf()` 的高 24 位也必须一致。向量在 `tests/rng-vectors.json` 单独固化；这是本次通过独立脚本计算的**设计参考向量**，尚未由两个生产 Runtime 交叉验证。
 
 ### C-INPUT（包含 Touch / IMU）
 

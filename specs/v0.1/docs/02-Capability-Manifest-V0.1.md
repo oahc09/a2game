@@ -102,6 +102,8 @@
 
 ## 4. 目录总览（待实现候选，不是已验证清单）
 
+当前实现目录是 [`../capabilities/`](../capabilities/)，共 127 份精确版本 Manifest；可信绑定与依赖闭包索引见 [`project/capability-bindings.json`](../../../project/capability-bindings.json)。下表保留协议的未来扩展候选，不能用它代替当前目录，也不能按名称相似推定已实现。索引中的 `EXECUTABLE_CASE_REFERENCE`、`SPECIFICATION_REFERENCE`、`UNRESOLVED_DECLARATION` 区分测试来源；引用与绑定成功不等于平台正式验收。
+
 下面是 **Catalog Candidate Set**。每项需要补齐 Manifest、算法合同和独立测试后才能进入 `verified`。未来类目只增加 Registry 条目，不修改 GameSpec Core Schema。
 
 | 域 | 能力名称（候选 ID 尾缀） | 覆盖目的 |

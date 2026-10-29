@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {HeadlessRuntime,initialControlState,segmentAabb,moveClipped,viewportToWorld,projectPresentation} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
 const ref=id=>({id,version:'0.1.0'});
-function fixture(){const g=JSON.parse(readFileSync('specs/v0.1/samples/games/realtime-constraint.game.json'));g.state.control={type:'object',initial:initialControlState()};g.requires.all.push(ref('a2game.realtime.input-control'));g.scenes[0].entities[0].components.push({capability:ref('a2game.realtime.input-control'),config:{statePath:'/control',worldPath:'/world',width:8000,height:6000,sceneWidth:10,sceneHeight:8,origin:[-4,-3]}});return g;}
+function fixture(){const g=JSON.parse(readFileSync('specs/v0.1/games/realtime-constraint.game.json'));g.state.control={type:'object',initial:initialControlState()};g.requires.all.push(ref('a2game.realtime.input-control'));g.scenes[0].entities[0].components.push({capability:ref('a2game.realtime.input-control'),config:{statePath:'/control',worldPath:'/world',width:8000,height:6000,sceneWidth:10,sceneHeight:8,origin:[-4,-3]}});return g;}
 const press=(r,action,value,sourceId='test')=>{r.injectAction({action,phase:'press',value,sourceId,viewportAspect:1.25});r.injectAction({action,phase:'release',sourceId});r.step();};
 test('swept axis clipping prevents thin-wall tunnelling and viewport conversion follows contain projection',()=>{
  const body={id:'a',x:16,y:50,hx:16,hy:16},wall={id:'b',x:80,y:50,hx:16,hy:32};moveClipped(body,[200,50],128,[wall]);assert.equal(body.x,48);moveClipped(body,[16,50],128,[wall]);assert.equal(body.x,16);

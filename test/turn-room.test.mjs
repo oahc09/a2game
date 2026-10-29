@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {createTurnRoomService} from '../scripts/turn-room-service.mjs';
 import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
-const definition=JSON.parse(readFileSync('specs/v0.1/samples/games/g24-candidate.game.json')),releaseId=sha256Canonical(definition),contentService={read:async()=>({definition})};
+const definition=JSON.parse(readFileSync('specs/v0.1/games/g24-candidate.game.json')),releaseId=sha256Canonical(definition),contentService={read:async()=>({definition})};
 test('authoritative public turn rooms reject spoof/replay/stale/illegal actions without consuming Tick or sequence; journal independently replays',async()=>{
  const rooms=createTurnRoomService({contentService}),owner=await rooms.create({releaseId}),peer=rooms.join(owner.roomId,{}),move=(seat,action,version,sequence)=>rooms.move(owner.roomId,seat.token,{action,version,sequence});
  try{assert.throws(()=>rooms.read(owner.roomId,'wrong'),e=>e.code==='A2G_E_ROOM_SEAT');assert.throws(()=>rooms.join(owner.roomId,{}),e=>e.code==='A2G_E_ROOM_FULL');assert.throws(()=>move(peer,'cell5',0,1),e=>e.code==='A2G_E_ROOM_TURN');const a=move(owner,'cell0',0,1);assert.equal(a.version,1);assert.throws(()=>move(owner,'cell1',0,1),e=>e.code==='A2G_E_ROOM_STALE');assert.throws(()=>move(peer,'cell0',1,1),e=>e.code==='A2G_E_ROOM_ILLEGAL');assert.equal(rooms.read(owner.roomId,peer.token).observation.tickIndex,1);assert.throws(()=>rooms.move(owner.roomId,peer.token,{action:'cell5',version:1,sequence:1,seat:1}),e=>e.code==='A2G_E_ROOM_REQUEST');

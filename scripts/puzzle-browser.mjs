@@ -11,7 +11,7 @@ const runId=`puzzles-${new Date().toISOString().replace(/[:.]/g,'-')}-${process.
 const read=path=>JSON.parse(readFileSync(resolve(root,path),'utf8')),save=(name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(value,null,2)+'\n');
 const files=dir=>readdirSync(resolve(root,dir),{withFileTypes:true}).flatMap(item=>item.isDirectory()?files(dir+'/'+item.name):[dir+'/'+item.name]);
 const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex');
-const fingerprints=Object.fromEntries(['scripts/puzzle-browser.mjs','scripts/registry.mjs','scripts/content-service.mjs','scripts/asset-policy.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/validate-content.py','project/puzzle-reference-cases.json','project/asset-policy.json','project/sdk-lock.json','package-lock.json',...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('player').filter(path=>!path.startsWith('player/vendor/')),...files('specs/v0.1/schemas'),...files('specs/v0.1/samples/capabilities'),...files('specs/v0.1/samples/games')].map(path=>[path,hash(path)]));save('fingerprints.json',fingerprints);
+const fingerprints=Object.fromEntries(['scripts/puzzle-browser.mjs','scripts/registry.mjs','scripts/content-service.mjs','scripts/asset-policy.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/validate-content.py','project/puzzle-reference-cases.json','project/asset-policy.json','project/sdk-lock.json','package-lock.json',...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('player').filter(path=>!path.startsWith('player/vendor/')),...files('specs/v0.1/schemas'),...files('specs/v0.1/capabilities'),...files('specs/v0.1/games')].map(path=>[path,hash(path)]));save('fingerprints.json',fingerprints);
 const recipes=read('project/puzzle-reference-cases.json').cases,results=[];let browser,server,origin,version,failure,physicalClose;
 async function startServer(){
   server=spawn(process.execPath,['scripts/serve.mjs'],{cwd:root,env:{...process.env,A2GAME_PORT:'0',A2GAME_CONTENT_DIR:resolve(root,'.tools',runId,'releases')},stdio:['ignore','pipe','pipe'],windowsHide:true});
@@ -28,7 +28,7 @@ try{
       const result={backend,name:recipe.name,status:'FAIL',errors:[],messages:[]},page=await context.newPage();
       page.on('pageerror',error=>result.errors.push(String(error)));page.on('console',message=>{if(message.type()==='error')result.messages.push(message.text());});
       try{
-        const game=read(`specs/v0.1/samples/games/${recipe.name}.game.json`);result.sha256Jcs=sha256Canonical(game);
+        const game=read(`specs/v0.1/games/${recipe.name}.game.json`);result.sha256Jcs=sha256Canonical(game);
         await page.goto(`${origin}/player/index.html?backend=${backend}&clock=manual`);await ready(page);
         const response=await context.request.post(`${origin}/api/releases`,{data:game});assert.equal(response.status(),201,await response.text());result.release=await response.json();
         await page.goto(`${origin}/player/index.html?backend=${backend}&clock=manual&release=${result.sha256Jcs}`);await ready(page);

@@ -32,7 +32,7 @@ python A2Game-V0.1-Spec/tools/validate_specs.py
 | `src/conformance.ts` | Executes declared JSON Conformance Suite steps and emits structured PASS/FAIL receipt |
 | `scripts/run-conformance.mjs` | Isolated Node CLI driver for the bundled sample suites |
 | `test/core.test.mjs` | Independent Node assertions, original 7 negative fixtures, RNG vectors, rules/input/session/algorithm regression tests |
-| `A2Game-V0.1-Spec/samples/games/grid-merge*.json` | Two new engine-neutral JSON-only headless puzzle examples |
+| `A2Game-V0.1-Spec/games/grid-merge*.json` | Two new engine-neutral JSON-only headless puzzle examples |
 
 ## What has actually passed
 
@@ -59,7 +59,7 @@ import { HeadlessRuntime } from './dist/index.js';
 import { makeRegistry, readJson, spec } from './scripts/registry.mjs';
 import { resolve } from 'node:path';
 
-const game = readJson(resolve(spec, 'samples/games/tap-target.game.json'));
+const game = readJson(resolve(spec, 'games/tap-target.game.json'));
 const runtime = new HeadlessRuntime(game, makeRegistry());
 runtime.start();
 runtime.injectAction({ action: 'collect', phase: 'press' });

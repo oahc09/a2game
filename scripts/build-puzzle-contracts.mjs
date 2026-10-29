@@ -1,7 +1,7 @@
 /** Versioned contracts first; implementations and reference games bind these exact IDs. */
 import {readFileSync,writeFileSync} from 'node:fs';
 import {resolve} from 'node:path';
-const root=resolve(import.meta.dirname,'..'),directory=resolve(root,'specs/v0.1/samples/capabilities');
+const root=resolve(import.meta.dirname,'..'),directory=resolve(root,'specs/v0.1/capabilities');
 const int=(minimum,maximum)=>({type:'integer',minimum,maximum}),str={type:'string',minLength:1};
 const list=(items,maxItems=256)=>({type:'array',items,maxItems});
 const object=(properties,required=Object.keys(properties))=>({type:'object',properties,required,additionalProperties:false});

@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-29 协议资产目录分层：`samples/` 中 362 份 JSON 按能力、适配器、游戏、执行测试、登记和格式示例分离，原始字节、ID 与版本不变；运行时/浏览器加载、校验、生成器和文档使用新路径。新增 127 项可信绑定/依赖/测试来源索引，明确规范编号与实际可执行用例的区别。旧报告按严格可逆路径映射核验，不将算法变化当迁移，不升级完整 verified/G3/人工/真机；见 [迁移说明](docs/spec-layout.md)。
+
 2026-10-28 两轮原生子 Agent 反馈改进：统一 `native-delivery-v2` 和 canonical context，新增原始载荷/宿主导出捕获、不可覆盖检查、准备时源码快照、空回复记账及 INFRA 独立归因；任意已验证产物可经 `g3:subagent:input` 复用实际浏览器主输入验证。两批 G01 第三次原始输出已补实际键盘与双 SDK，共 4/4 PASS_REFERENCE，Node/Host Hash、重开和 ownedResources=0 通过；本轮新增生成调用 0。来源/隔离原始导出、手机画面和 Cocos 字形仍待补，正式 G3 与 verified 不变。新回执仅本地保存，未并入旧便携包；旧报告不覆盖，说明见 [运行改进](docs/g3-native-improvements.md)。
 
 2026-10-28 仓库历史瘦身：应用户确认，`git filter-repo` 从本地全部历史剥离 `reports/`（`.git` 13 GiB → 8 MB），历史提交 SHA 全部改变（main tip `178f30fe`）；原完整历史（含 `97d56daf` 与全部报告 blob）保留于已校验的 `output/a2game-full-history-20261028.bundle`，未提交改动经 SHA256 校验还原，工作区 `reports/` 证据与验收计数不变。`archive/local-history-20261028` 分支已由 bundle 取代后删除；这变更了此前「保留归档分支、不使用 force push」的交付方式。远端 origin/main 已经用户明确批准强推，远端 tip `178f30fe` 与本地一致；旧 `sourceCommit` 引用经 bundle 可找回。

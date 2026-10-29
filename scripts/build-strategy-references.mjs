@@ -1,6 +1,6 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 const ref=id=>({id,version:'0.1.0'}),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
-const base=JSON.parse(readFileSync('specs/v0.1/samples/games/tap-target.game.json','utf8'));
+const base=JSON.parse(readFileSync('specs/v0.1/games/tap-target.game.json','utf8'));
 const product={id:'seed',cost:2,yield:1,reward:3,durationTicks:2,upgradeCost:2};
 const eco=extra=>({wallet:10,inventory:{},plots:[{item:'',readyAt:-1,level:0}],grid:[0,0,0,0],selected:-1,unlocked:[],score:0,moves:0,won:false,lost:false,...extra});
 const command=(action,kind,extra={})=>({action,kind,...extra});
@@ -35,8 +35,8 @@ for(const level of levels){
   g.scenes[0].entities[0].components.push({capability:ref('a2game.realtime.world'),config:{statePath:'/world',width:8000,height:6000,...(level.tower?{autoFire:true,autoTarget:true,weapon:'hitscan',weaponRange:4000,cooldownTicks:1,goalScore:1}:{})}});
   g.presentation.scene2d.bodyLayer={statePath:'/world/bodies',unitsPerMeter:1000,origin:[-4,-3],palette:{actor:'#57d7c8',solid:'#a8c5d9',target:'#dc6d78',projectile:'#f5d26f',pickup:'#bd86d9'}};
  }
- g.tests=[`../tests/${level.name}.conformance.json`];save(`specs/v0.1/samples/games/${level.name}.game.json`,g);
+ g.tests=[`../tests/${level.name}.conformance.json`];save(`specs/v0.1/games/${level.name}.game.json`,g);
  const steps=[{op:'start'},...level.steps.flatMap(row=>[...(row.action?[{op:'injectAction',action:row.action,phase:'press'},{op:'injectAction',action:row.action,phase:'release'}]:[]),{op:'step',ticks:row.ticks}]),...level.checks.map(check=>({op:'assert',path:'/state'+check.path,equals:check.equals})),{op:'assert',path:'/flow/status',equals:level.expected??'playing'},{op:'restart'}];
- save(`specs/v0.1/samples/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:g.id,file:`../games/${level.name}.game.json`},cases:[{id:'STRATEGY-LIBRARY-001',seed:42,steps}]});cases.push({name:level.name,steps:level.steps,checks:level.checks,expected:level.expected??'playing'});
+ save(`specs/v0.1/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:g.id,file:`../games/${level.name}.game.json`},cases:[{id:'STRATEGY-LIBRARY-001',seed:42,steps}]});cases.push({name:level.name,steps:level.steps,checks:level.checks,expected:level.expected??'playing'});
 }
 save('project/strategy-reference-cases.json',{format:'a2game-mechanism-cases',cases});console.log(`Wrote ${cases.length} strategy references.`);

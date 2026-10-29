@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {HeadlessRuntime,findGridPath} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
-const game=name=>JSON.parse(readFileSync(`specs/v0.1/samples/games/${name}.game.json`));
+const game=name=>JSON.parse(readFileSync(`specs/v0.1/games/${name}.game.json`));
 const start=d=>{const r=new HeadlessRuntime(d,makeRegistry());r.start();return r;};
 const press=(r,action,ticks=1)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step(ticks);};
 test('economy cost/production/collection are atomic, use Tick time and reject repeated or unaffordable actions',()=>{

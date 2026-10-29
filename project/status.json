@@ -1,7 +1,7 @@
 {
   "format": "a2game-project-status",
   "formatVersion": 1,
-  "asOf": "2026-10-28",
+  "asOf": "2026-10-29",
   "release": {
     "version": "1.0.0",
     "maturity": "alpha-reference",
@@ -169,7 +169,7 @@
     }
   },
   "coverage": {
-    "registry": "specs/v0.1/samples/coverage/games.json",
+    "registry": "specs/v0.1/coverage/games.json",
     "plannedGames": 32,
     "verifiedGames": 0,
     "hybridCases": 5,
@@ -1224,5 +1224,14 @@
     "feedbackDocument": "docs/g3-native-improvements.md",
     "feedbackGenerationCalls": 0,
     "primaryInputFlowsPassed": 4
+  },
+  "specAssetLayout": {
+    "status": "IMPLEMENTED_REFERENCE_VALIDATED",
+    "manifest": "project/spec-layout-migration.json",
+    "document": "docs/spec-layout.md",
+    "capabilityBindings": "project/capability-bindings.json",
+    "movedAssets": 362,
+    "assetBytesUnchanged": true,
+    "formalG3": "NOT_RUN"
   }
 }

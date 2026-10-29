@@ -10,7 +10,7 @@ const events=['contact.begin','contact.stay','contact.end','realtime.landed','re
 for(const short of ['realtime.world',...services]){
  const isWorld=short==='realtime.world',id='a2game.'+short;
  const manifest={format:'a2game-capability',manifestVersion:'0.1.0',id,version:'0.1.0',kind:isWorld?'behavior':'service',portability:'exact',description:isWorld?'Trusted bounded 2D integer AABB world with movement, contacts, pooled combat and wave services. Profile aabb-int-v1; not arbitrary 3D rigid-body physics.':`Internal ${short} service in aabb-int-v1; consumed by realtime.world, not an executable JSON command.`,phase:'physics',dependencies:isWorld?services.map(name=>ref('a2game.'+name)):[ref('a2game.core.state')],contract:{configSchema:isWorld?config:object({}),stateSchema:isWorld?state:{type:'object'},commands:[],events:isWorld?events.map(name=>({name,payloadSchema:{type:'object'}})):[],stateWrites:isWorld?['global']:[],lifecycle:['initialize','tick','pause','resume','reset','dispose']},limits:{profile:'aabb-int-v1',unitsPerMeter:1000,maxObjects:128,maxVelocityPerTick:128,maxSubsteps:16,poolPolicy:'reject spawn without overwriting live objects',broadphase:'bounded stable all-pairs',collision:'axis-aligned rectangles; no rotational dynamics',testScope:'reference mechanisms; full gameplay and physical device gates separate'},testSuites:['REALTIME-WORLD-001']};
- writeFileSync(`specs/v0.1/samples/capabilities/${id}.capability.json`,JSON.stringify(manifest,null,2)+'\n');
+ writeFileSync(`specs/v0.1/capabilities/${id}.capability.json`,JSON.stringify(manifest,null,2)+'\n');
 }
 const schema=JSON.parse(readFileSync('specs/v0.1/schemas/game.schema.json','utf8'));
 // scene2d owns a declarative body projection; actual simulation remains outside presentation.

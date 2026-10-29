@@ -18,10 +18,10 @@ const save=(name,data)=>writeFileSync(resolve(directory,name),JSON.stringify(dat
 const files=directory=>readdirSync(resolve(root,directory),{withFileTypes:true}).flatMap(item=>item.isDirectory()?files(`${directory}/${item.name}`):[`${directory}/${item.name}`]);
 const code=['scripts/content-browser.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/serve.mjs','scripts/turn-room-service.mjs',
   'scripts/registry.mjs','scripts/asset-policy.mjs','project/asset-policy.json','player/resources.mjs','player/content-loader.mjs','player/main.mjs','player/mobile-host.mjs','player/gamepad-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',...files('assets'),
-  ...files('player/adapters'),...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('specs/v0.1/schemas'),...files('specs/v0.1/samples/capabilities')];
+  ...files('player/adapters'),...files('src'),...files('dist').filter(path=>path.endsWith('.js')),...files('specs/v0.1/schemas'),...files('specs/v0.1/capabilities')];
 const hash=path=>createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex');
 const fingerprints=Object.fromEntries(code.map(path=>[path,hash(path)]));save('fingerprints.json',fingerprints);
-const game=readJson(resolve(spec,`samples/games/${visualStage?'visual-stage':'tap-target'}.game.json`));
+const game=readJson(resolve(spec,`games/${visualStage?'visual-stage':'tap-target'}.game.json`));
 game.id=visualStage?'org.a2game.imported.visual-stage':'org.a2game.imported.three-taps';game.revision=1;game.meta.title=visualStage?'通用 3D Stage · 三次点击获胜':'动态导入 · 三次点击获胜';
 game.state.goal.initial=3;game.presentation.scene2d.nodes.find(node=>node.id==='title').text.literal=visualStage?'A2Game / Shared 3D Stage':'Imported / Three taps';
 if(visualStage&&orthographic){game.presentation.stage.camera.projection='orthographic';game.presentation.stage.camera.at=[0,0,8];game.presentation.stage.camera.orthoHeight=8;game.world.dimension='2d';}

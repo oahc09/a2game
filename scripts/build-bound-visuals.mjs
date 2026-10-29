@@ -15,5 +15,5 @@ schema.$defs.scene2d.properties.bodyLayer.properties.showValues={type:'boolean'}
 writeFileSync('specs/v0.1/schemas/game.schema.json',JSON.stringify(schema,null,2)+'\n');
 for(const [name,description] of [['bound-stage','Capability-gated numeric-pointer-v1 bindings for nested numeric positions, rotations and size; affine scale/offset only, pure projection.'],['body-style','Read-only circle/rectangle styling of bounded world bodies; visual style does not change the AABB physics profile.']]){
  const m={format:'a2game-capability',manifestVersion:'0.1.0',id:'a2game.visual.'+name,version:'0.1.0',kind:'presentation',portability:'host-defined',description,phase:'present',dependencies:[{id:name==='bound-stage'?'a2game.visual.stage':'a2game.visual.scene2d',version:'0.1.0'}],contract:{configSchema:{type:'object',additionalProperties:false},stateSchema:{type:'object',additionalProperties:false},commands:[],events:[],stateWrites:[],lifecycle:['initialize','tick','pause','resume','reset','dispose']},limits:{maxNodes:128,maxResolvedMagnitude:10000,expressions:'numeric JSON pointer plus scale/offset only; no scripts'},testSuites:['BOUND-VISUAL-001']};
- writeFileSync(`specs/v0.1/samples/capabilities/${m.id}.capability.json`,JSON.stringify(m,null,2)+'\n');
+ writeFileSync(`specs/v0.1/capabilities/${m.id}.capability.json`,JSON.stringify(m,null,2)+'\n');
 }

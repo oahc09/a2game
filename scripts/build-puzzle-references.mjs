@@ -39,16 +39,16 @@ for(const level of levels){
  ]}},tests:[`../tests/${level.name}.conformance.json`]};
  const action=index=>typeof index==='number'?selects[index]:index;
  const steps=[{op:'start'},...(level.invalid??[]).flatMap(index=>press(action(index))),...(level.invalid?.length?[{op:'assertEvent',eventType:'puzzle.invalid',count:1}]:[]),...level.solve.flatMap(index=>press(action(index))),{op:'assert',path:'/flow/status',equals:'won'},{op:'restart'},{op:'assert',path:'/state/puzzle/score',equals:0}];
- save(`specs/v0.1/samples/games/${level.name}.game.json`,game);save(`specs/v0.1/samples/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:game.id,file:`../games/${level.name}.game.json`},cases:[{id:'PUZZLE-LIBRARY-001',seed:42,steps}]});
+ save(`specs/v0.1/games/${level.name}.game.json`,game);save(`specs/v0.1/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:game.id,file:`../games/${level.name}.game.json`},cases:[{id:'PUZZLE-LIBRARY-001',seed:42,steps}]});
  cases.push({name:level.name,invalid:(level.invalid??[]).map(action),solve:level.solve.map(action),expected:'won'});
 }
 for(const [name,source,original,alias,first] of [['puzzle-push-undo','grid-push','grid-push','push','moveRight'],['puzzle-slide-undo','grid-merge-spawn','grid-slide-merge','slide','moveLeft']]){
- const game=read(`specs/v0.1/samples/games/${source}.game.json`);game.id='org.a2game.samples.'+name;game.revision=1;game.meta.title+=' · 撤销';
+ const game=read(`specs/v0.1/games/${source}.game.json`);game.id='org.a2game.samples.'+name;game.revision=1;game.meta.title+=' · 撤销';
  game.requires.all=game.requires.all.map(cap=>cap.id==='a2game.puzzle.'+original?ref('a2game.puzzle.'+alias):cap);
  game.state.history={type:'array',initial:[]};game.inputs.actions.push({id:'undo',valueType:'button',bindings:[{source:'keyboard.button',config:{code:'KeyZ'}}]});
  const comp=game.scenes[0].entities[0].components[0];comp.capability=ref('a2game.puzzle.'+alias);comp.config.historyPath='/history';comp.config.undoAction='undo';game.tests=[`../tests/${name}.conformance.json`];
  const path=alias==='slide'?'/board':'/moves',value=game.state[path.slice(1)].initial;
- save(`specs/v0.1/samples/games/${name}.game.json`,game);save(`specs/v0.1/samples/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:game.id,file:`../games/${name}.game.json`},cases:[{id:'PUZZLE-UNDO-001',seed:42,steps:[{op:'start'},...press(first),...press('undo'),{op:'assert',path:'/state'+path,equals:value},{op:'assert',path:'/state/history',equals:[]}]}]});
+ save(`specs/v0.1/games/${name}.game.json`,game);save(`specs/v0.1/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:game.id,file:`../games/${name}.game.json`},cases:[{id:'PUZZLE-UNDO-001',seed:42,steps:[{op:'start'},...press(first),...press('undo'),{op:'assert',path:'/state'+path,equals:value},{op:'assert',path:'/state/history',equals:[]}]}]});
  cases.push({name,invalid:[],solve:[first,'undo'],expected:'playing'});
 }
 save('project/puzzle-reference-cases.json',{format:'a2game-puzzle-reference-cases',cases});

@@ -5,10 +5,10 @@ import {makeRegistry,readJson,root,spec} from './registry.mjs';
 const report=readJson(resolve(root,'reports/browser-core-smoke.json'));
 const results=[];
 for(const cas of report.cases){
- const game=readJson(resolve(spec,`samples/games/${cas.game}.game.json`));
+ const game=readJson(resolve(spec,`games/${cas.game}.game.json`));
  const runtime=new HeadlessRuntime(game,makeRegistry());
  if(cas.inputMode==='trace-replay'){
-  const trace=readJson(resolve(spec,'samples/tests/grid-push-swipe.input-trace.json'));
+  const trace=readJson(resolve(spec,'tests/grid-push-swipe.input-trace.json'));
   replayNormalizedInputTrace(runtime,trace);
  }else{
   runtime.start();

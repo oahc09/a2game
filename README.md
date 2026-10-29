@@ -1,5 +1,7 @@
 # A2Game 1.0.0 — 独立游戏 JSON 播放器与共享 Runtime
 
+协议资产已按用途分层：`specs/v0.1/capabilities/` 是当前能力目录，`games/` 是参考游戏与候选，`tests/` 是执行合同，`examples/` 仅放格式示例。详见 [协议目录](specs/v0.1/README.md) 与 [迁移说明](docs/spec-layout.md)；当前可信能力和测试来源见 [绑定索引](project/capability-bindings.json)。
+
 **定位**：AI 直接生成 JSON → 全格式/语义校验 → 共享 TypeScript 玩法 Runtime → Canvas2D/CocosAirJS/Three.js 等可替换渲染宿主。
 
 > **版本区别（重要）**：本源码包/`package.json` 的 **项目发行版本为 `1.0.0`**；它是 **Alpha 参考实现，未达到生产发布 Gate**。GameSpec、Capability Manifest、Tick/Rule 和 Conformance 的**协议版本仍为 `0.1.0`**，协议目录为 `specs/v0.1/`，JSON 内 `specVersion` 保持 `0.1.0`。保留旧 V0.3 文档与测试日志作为可审计历史。
@@ -178,7 +180,7 @@ npm run g2:real
 
 ## 四、开发 / 验证新 AI 游戏 JSON
 
-1. 读取 `specs/v0.1/docs/01-GameSpec-V0.1.md`、`02-Capability-Manifest-V0.1.md`，从 `samples/games/*.game.json` 复制合法最小例子；确保 `specVersion` 仍符合当前协议 `0.1.0`。
+1. 读取 `specs/v0.1/docs/01-GameSpec-V0.1.md`、`02-Capability-Manifest-V0.1.md`，从 `games/*.game.json` 复制合法最小例子；确保 `specVersion` 仍符合当前协议 `0.1.0`。
 2. 基于已**实现**的 Capability 而不是候选目录生成游戏、资源和测试；禁止 `eval`、脚本 URL 或任意 TS 函数注入。
 3. 先在本地进行**完整 Schema** 验证（命令中把路径换成真实文件路径）：
 
@@ -187,7 +189,7 @@ python scripts/validate-one.py game 'D:\dev\a2game-custom\my-game.game.json'
 ```
 
 4. 再进行 `compileGame` 的引用、版本、依赖和语义检查；为新玩法提交单元测试与 Conformance（只通过 Schema 并不等于可运行）。
-5. 新 JSON 可直接通过“导入游戏 JSON”或 `POST /api/releases` 完成服务端全量校验及回执加载，无需改动内置样例。若要纳入仓库内置白名单，再将评审后的 JSON 加入 `specs/v0.1/samples/games/`、更新选择器与加载路由并运行 `npm run verify`。完整准入流程见 [content-release.md](docs/content-release.md)，浏览器复验命令为 `npm run content:e2e`。
+5. 新 JSON 可直接通过“导入游戏 JSON”或 `POST /api/releases` 完成服务端全量校验及回执加载，无需改动内置样例。若要纳入仓库内置白名单，再将评审后的 JSON 加入 `specs/v0.1/games/`、更新选择器与加载路由并运行 `npm run verify`。完整准入流程见 [content-release.md](docs/content-release.md)，浏览器复验命令为 `npm run content:e2e`。
 6. 如果能力缺失，按 `PROJECT-PLAN.md` 的 Capability DoD 新增模块与 Manifest/测试/Adapter，而不是把实现藏在 JSON 里或直接调用某一个引擎接口。
 
 ## 五、可选：Chromium 截图与 Node↔Browser 哈希对照

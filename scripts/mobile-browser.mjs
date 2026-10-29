@@ -11,7 +11,7 @@ const runId=`mobile-${new Date().toISOString().replace(/[:.]/g,'-')}-${process.p
 const read=p=>JSON.parse(readFileSync(resolve(root,p),'utf8')),save=(name,data)=>writeFileSync(resolve(directory,name),JSON.stringify(data,null,2)+'\n');
 const files=dir=>readdirSync(resolve(root,dir),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?files(dir+'/'+entry.name):[dir+'/'+entry.name]);
 const hash=p=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex');
-const fingerprints=Object.fromEntries(['scripts/mobile-browser.mjs','scripts/registry.mjs','scripts/content-service.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/asset-policy.mjs','scripts/validate-content.py','project/sdk-lock.json','project/asset-policy.json','package-lock.json',...files('src'),...files('dist').filter(p=>p.endsWith('.js')),...files('player').filter(p=>!p.startsWith('player/vendor/')),...files('specs/v0.1/schemas'),...files('specs/v0.1/samples/capabilities'),...files('specs/v0.1/samples/games')].map(p=>[p,hash(p)]));save('fingerprints.json',fingerprints);
+const fingerprints=Object.fromEntries(['scripts/mobile-browser.mjs','scripts/registry.mjs','scripts/content-service.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/asset-policy.mjs','scripts/validate-content.py','project/sdk-lock.json','project/asset-policy.json','package-lock.json',...files('src'),...files('dist').filter(p=>p.endsWith('.js')),...files('player').filter(p=>!p.startsWith('player/vendor/')),...files('specs/v0.1/schemas'),...files('specs/v0.1/capabilities'),...files('specs/v0.1/games')].map(p=>[p,hash(p)]));save('fingerprints.json',fingerprints);
 let server,browser,origin,failure,version,physicalClose;const results=[];
 async function ready(page){await page.waitForFunction(()=>window.__a2game||document.getElementById('error').textContent,{timeout:60000});assert.equal(await page.locator('#error').textContent(),'');}
 try{
@@ -19,7 +19,7 @@ try{
  server=spawn(process.execPath,['scripts/serve.mjs'],{cwd:root,env:{...process.env,A2GAME_PORT:'0',A2GAME_CONTENT_DIR:resolve(root,'.tools',runId,'releases')},stdio:['ignore','pipe','pipe'],windowsHide:true});
  origin=await new Promise((accept,reject)=>{let text='';const timer=setTimeout(()=>reject(Error('Server timeout')),10000);server.once('error',reject);server.stdout.on('data',data=>{text+=String(data);const match=text.match(/http:\/\/127\.0\.0\.1:\d+/);if(match){clearTimeout(timer);accept(match[0]);}});server.stderr.on('data',data=>appendFileSync(resolve(directory,'server.log'),data));});
  browser=await chromium.launch({headless:true});version=browser.version();
- const definition=read('specs/v0.1/samples/games/mobile-input-lab.game.json'),digest=sha256Canonical(definition);
+ const definition=read('specs/v0.1/games/mobile-input-lab.game.json'),digest=sha256Canonical(definition);
  for(const backend of ['three','air']){
   const context=await browser.newContext({viewport:backend==='air'?{width:390,height:844}:{width:1280,height:1000},deviceScaleFactor:backend==='air'?2:1,hasTouch:true,acceptDownloads:true});
   await context.tracing.start({screenshots:true,snapshots:true});const page=await context.newPage(),result={backend,status:'FAIL',errors:[],consoleErrors:[],inputProvenance:{pointer:'CDP virtual touchscreen',orientation:'CDP virtual device orientation',motion:'synthetic DOM DeviceMotionEvent',physicalDevice:'NOT_RUN'}};

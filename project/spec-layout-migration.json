@@ -1,0 +1,3522 @@
+{
+  "format": "a2game-spec-layout-migration",
+  "version": 1,
+  "date": "2026-10-29",
+  "baseCommit": "060b2d6b54e2d9f25449c0e1b48c707deac4c871",
+  "replacements": [
+    [
+      "samples/coverage/not-run.receipt.json",
+      "examples/coverage/not-run.receipt.json"
+    ],
+    [
+      "samples/tests/touch-imu.input-trace.json",
+      "examples/input-traces/touch-imu.input-trace.json"
+    ],
+    [
+      "samples/capabilities",
+      "capabilities"
+    ],
+    [
+      "samples/adapters",
+      "adapters"
+    ],
+    [
+      "samples/games",
+      "games"
+    ],
+    [
+      "samples/tests",
+      "tests"
+    ],
+    [
+      "samples/coverage",
+      "coverage"
+    ],
+    [
+      "'/specs/v0.1/samples/'",
+      "'/specs/v0.1/capabilities/','/specs/v0.1/adapters/','/specs/v0.1/games/','/specs/v0.1/tests/','/specs/v0.1/coverage/','/specs/v0.1/examples/'"
+    ],
+    [
+      "'specs/v0.1/samples'",
+      "'specs/v0.1/capabilities','specs/v0.1/adapters','specs/v0.1/games','specs/v0.1/tests','specs/v0.1/coverage','specs/v0.1/examples'"
+    ],
+    [
+      "ROOT/'specs/v0.1'/'samples'",
+      "ROOT/'specs/v0.1'"
+    ],
+    [
+      "samples\\/games",
+      "games"
+    ]
+  ],
+  "files": {
+    "PROJECT-PLAN.md": {
+      "to": "PROJECT-PLAN.md",
+      "before": "0ba0b44a01e361f1b31defd593b1ec606ee46d26727867aa26e796230e60a7d4",
+      "after": "8ccc69d98c684dfed9189729ab1698da4f01f08526582d02178278612cb6198e",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            9730
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            9775
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            9814
+          ]
+        },
+        {
+          "rule": 6,
+          "offsets": [
+            1704
+          ]
+        }
+      ]
+    },
+    "player/browser-registry.mjs": {
+      "to": "player/browser-registry.mjs",
+      "before": "61dd4ba0c60bfb5ddd322f6bd090ac6e18ad06bf4087b1e552cf266d71c5dfe5",
+      "after": "4a60eda982dd52655bc534fe9432d69a3a9f5c40966424d954181ea5a7dde964",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            567
+          ]
+        }
+      ]
+    },
+    "player/room.mjs": {
+      "to": "player/room.mjs",
+      "before": "b80d68227459fb6c27b11eecc50050166f538fcb6d4751fafb3aeb5fc8bd62c3",
+      "after": "a95db5f02fe0a31a9156d2de26efa7d7cff320eda0103516516150ab187d5fdd",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            4345
+          ]
+        }
+      ]
+    },
+    "player/validated-games.json": {
+      "to": "player/validated-games.json",
+      "before": "132601be1aa64cfdbb1f6a8c37f4d3d9a21135ec14e05a36461d9031fabc4429",
+      "after": "f905a56dbd82020ee9d6b02932e81322d6b6473a1550edc5dd00ba56d3d5eb09",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            161,
+            388,
+            645,
+            894,
+            1122,
+            1348,
+            1625,
+            1853,
+            2122,
+            2352,
+            2619,
+            2849,
+            3110,
+            3338,
+            3609,
+            3845,
+            4106,
+            4335,
+            4604,
+            4832,
+            5103,
+            5330,
+            5596,
+            5826,
+            6084,
+            6312,
+            6582,
+            6809,
+            7072,
+            7298,
+            7564,
+            7792,
+            8053,
+            8319,
+            8547,
+            8815,
+            9043,
+            9271,
+            9537,
+            9766,
+            10039,
+            10265,
+            10530,
+            10756,
+            11020,
+            11248,
+            11528,
+            11755,
+            12017,
+            12245,
+            12509,
+            12739,
+            12994,
+            13222,
+            13486,
+            13714,
+            13982,
+            14211,
+            14468,
+            14696,
+            14957,
+            15185,
+            15461,
+            15689,
+            15958,
+            16195,
+            16441,
+            16679,
+            16912,
+            17143,
+            17410,
+            17639,
+            17906,
+            18135,
+            18405,
+            18636,
+            18903,
+            19134,
+            19406,
+            19653,
+            19891,
+            20138,
+            20376,
+            20616,
+            20853,
+            21089,
+            21331,
+            21576,
+            21828,
+            22081,
+            22315,
+            22550,
+            22793,
+            23041,
+            23284,
+            23529,
+            23773,
+            24012,
+            24252,
+            24503,
+            24742,
+            24984,
+            25226,
+            25467,
+            25707,
+            25948,
+            26188,
+            26434,
+            26677,
+            26916,
+            27160,
+            27392
+          ]
+        }
+      ]
+    },
+    "project/gameplay-acceptance.json": {
+      "to": "project/gameplay-acceptance.json",
+      "before": "111b82e84cf9ff9cce110a4e6f1b74d46fb822e0b1fe1622ade5f3a98f88223c",
+      "after": "f14d4706195da91a65df8e36a2b3deabd4ce4ffc46335b3d4ca191e3d84b3245",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            353,
+            414,
+            1514,
+            1575,
+            2686,
+            2747,
+            3754,
+            3815,
+            4962,
+            5023,
+            6179,
+            6240,
+            7853,
+            7914,
+            9054,
+            9115,
+            10109,
+            10170,
+            11214,
+            11275,
+            12516,
+            12577,
+            15398,
+            15459,
+            16603,
+            16664,
+            17712,
+            17773,
+            18569,
+            18630,
+            19663,
+            19724,
+            20752,
+            20813,
+            21733,
+            21794,
+            23483,
+            23544,
+            24505,
+            24566,
+            25505,
+            25566,
+            26579,
+            26640,
+            27595,
+            27656,
+            29466,
+            29527,
+            37884,
+            37945,
+            40342,
+            40403,
+            41880,
+            41941,
+            47560,
+            47621,
+            48578,
+            48639,
+            49760,
+            49821,
+            51904,
+            51965,
+            56180,
+            56241,
+            58118,
+            58179,
+            59348,
+            59409,
+            61482,
+            61543,
+            63123,
+            63184,
+            64191,
+            64252
+          ]
+        }
+      ]
+    },
+    "scripts/agent-browser.mjs": {
+      "to": "scripts/agent-browser.mjs",
+      "before": "6140f3341e8476384d6a8b02abb49cf7783887f8cc82add9effe057e99d08268",
+      "after": "4aa822b8da05d5923820dcded4fa0c944724e8cec33dfe233365d94aa5fd7249",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1595
+          ]
+        }
+      ]
+    },
+    "scripts/benchmark-profile.mjs": {
+      "to": "scripts/benchmark-profile.mjs",
+      "before": "fab4e4e93cafccfb11343acf5fb08f84332d527a746fe63776b23e5a5702a7d4",
+      "after": "6a66541fd1500291ba76233f68eb5dd926bb80a6420448f2c50749c8596f3413",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            511,
+            2010
+          ]
+        }
+      ]
+    },
+    "scripts/browser-smoke.py": {
+      "to": "scripts/browser-smoke.py",
+      "before": "3f3a6c6d7fea7be6b495f8bf52b25aa1987b9f509e6fb5a8518353b47aef2875",
+      "after": "820888c557b94abfb457de95fe27d4cdbf981cb1d72604c4c99b5d04f490843b",
+      "reverseSteps": [
+        {
+          "rule": 9,
+          "offsets": [
+            1252
+          ]
+        }
+      ]
+    },
+    "scripts/build-bound-visuals.mjs": {
+      "to": "scripts/build-bound-visuals.mjs",
+      "before": "ed85f2b008d8d7ba1928c6c16b9a3aaf9509ec24c60c0ac91fd3d25ea54a7d9f",
+      "after": "be4317508f2e4e7b4b1ad02fe6b98b0dc3db843059f1117bd21246f811f57ac1",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2495
+          ]
+        }
+      ]
+    },
+    "scripts/build-bubble-contract.mjs": {
+      "to": "scripts/build-bubble-contract.mjs",
+      "before": "469e91a27c9f305145760847c60645008eb9b244e8906ae641d140979dd45cbe",
+      "after": "860f382f2973dcdac9dc74c27e36bbf7fa099919c0f7264cbb000abe71cd3d08",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1822
+          ]
+        }
+      ]
+    },
+    "scripts/build-control-contracts.mjs": {
+      "to": "scripts/build-control-contracts.mjs",
+      "before": "36cfc954bb727d1ade2fc8e4d4ffb922dcc8a3e0bab22053b5a1b0a8aa6e422e",
+      "after": "e77c132f1738a59fcfa0a543b1b0d4d3bd4bf277376064365b337ec7dfd07958",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2695
+          ]
+        }
+      ]
+    },
+    "scripts/build-defense-contract.mjs": {
+      "to": "scripts/build-defense-contract.mjs",
+      "before": "52414a88434bcd00d4e60ff6611282ca57833126b9d41568f2e3e3a7df267d91",
+      "after": "cc15aef3ca3d04c4b6729f4d58331b1afe0ca37875786b2ace61f60bba3e394c",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2169
+          ]
+        }
+      ]
+    },
+    "scripts/build-extension-profiles.mjs": {
+      "to": "scripts/build-extension-profiles.mjs",
+      "before": "d17fccfdced6f07fd5407c78e6b673cc66bd934300c752801ed447f6c75a1a19",
+      "after": "bd4c16deffc3207ffd9c59d259cb442e57cc83c6044f868478a49ad8f6e50bd9",
+      "reverseSteps": [
+        {
+          "rule": 3,
+          "offsets": [
+            213,
+            1014
+          ]
+        }
+      ]
+    },
+    "scripts/build-flow-contracts.mjs": {
+      "to": "scripts/build-flow-contracts.mjs",
+      "before": "c2e89a646bf496d49a0aec531da6e1e237d0ed118a16becc27b56f5e58fc0202",
+      "after": "bab3052604a2436e4d0e97980d933679fc9d063f41104b819ab62580e6cf47b0",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            255,
+            1593
+          ]
+        }
+      ]
+    },
+    "scripts/build-game-candidates.mjs": {
+      "to": "scripts/build-game-candidates.mjs",
+      "before": "8921cb428d378fc129c7c56c67c25d290c9bc84cc83246e922f02dc6a63477e1",
+      "after": "3c5635276d0c1a8eb947447bc1c3c6813bd1ea3f2d77f209f9d9c3755016f180",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            796,
+            10199,
+            12974
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            14081
+          ]
+        },
+        {
+          "rule": 6,
+          "offsets": [
+            744
+          ]
+        }
+      ]
+    },
+    "scripts/build-gamepad-reference.mjs": {
+      "to": "scripts/build-gamepad-reference.mjs",
+      "before": "c8952ca5251ebd1f31ef97e562601a362abc1a9c87840baf99278728dbe10558",
+      "after": "a0f203fee84ccacf027944f9b026cb03d4eaa7ca38ff057a00a2cb8ef341f798",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1244
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1332,
+            2763
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            2963
+          ]
+        }
+      ]
+    },
+    "scripts/build-gameplay-acceptance.mjs": {
+      "to": "scripts/build-gameplay-acceptance.mjs",
+      "before": "60c9a5db6c734f140898da9ed0e4e467717399256d65c01b66052ddc7002bd52",
+      "after": "cc4918d5e843d155d23b5229f35936f0c6e708ed1d1c98e02293afad7432cb25",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            7503,
+            7553
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            12097
+          ]
+        }
+      ]
+    },
+    "scripts/build-mobile-contracts.mjs": {
+      "to": "scripts/build-mobile-contracts.mjs",
+      "before": "86c4e4cd26856dca3d97439c1b034d747e1707a12fc7fc49a52ea77ffd1edc8c",
+      "after": "85c4758a8409c19c8edcb6f7a6f6446e718c9d4c37f2920ccd0fb8df11f99f89",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1950
+          ]
+        }
+      ]
+    },
+    "scripts/build-mobile-references.mjs": {
+      "to": "scripts/build-mobile-references.mjs",
+      "before": "28f52a5afdeb7fc1d2ad987470f01fba5ad9e74e2138731d4492037ffa2dba4e",
+      "after": "7d4624dc1620266eed045f1331433a6612a5b5881fb9e46241cd325104e3e8be",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            96,
+            2762
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            3791
+          ]
+        }
+      ]
+    },
+    "scripts/build-puzzle-contracts.mjs": {
+      "to": "scripts/build-puzzle-contracts.mjs",
+      "before": "3e6b7943e221782f5f16c0ddafd61ac91bf00561f861f5aba2950a13cf543358",
+      "after": "ef21057d54968cb5199b0710a0fe3c464a728ee3eb8d534afddcf62cf0d68752",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            259
+          ]
+        }
+      ]
+    },
+    "scripts/build-puzzle-references.mjs": {
+      "to": "scripts/build-puzzle-references.mjs",
+      "before": "e347cd0bc875f3ba29f48e46212b924b5c745f5217a6ccecc5686a23b3b8c7df",
+      "after": "93500b11c7f02b7a5feb2728fd9f05123231951f8935ce3b5c81a10f0ad3688d",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            6859,
+            7494,
+            8194
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            6913,
+            8234
+          ]
+        }
+      ]
+    },
+    "scripts/build-realtime-contracts.mjs": {
+      "to": "scripts/build-realtime-contracts.mjs",
+      "before": "208d34708a7a02274ddbb43a81d6c0b4757617122158091f26546755a0b601bd",
+      "after": "62726e391659566f805cd62e840337cd34c75ecd8783ecb2b1010c6c707d9f82",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            5029
+          ]
+        }
+      ]
+    },
+    "scripts/build-realtime-references.mjs": {
+      "to": "scripts/build-realtime-references.mjs",
+      "before": "6742690c181631e170e1be4652b57eeba2435b76ae0c4179c2416f4d0207e5c3",
+      "after": "e75d1a02c073be70014563e9bfe3ed57e7e35383011eece22d1ecd20f060c112",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            196,
+            4792
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            5277
+          ]
+        }
+      ]
+    },
+    "scripts/build-rule-variants.mjs": {
+      "to": "scripts/build-rule-variants.mjs",
+      "before": "8d444d56a6a79228747286c5bba4a64f649219be588875ffe4a0a258af62e710",
+      "after": "db01484281649226e48063fbbd21d122cb79e303eb4f61b6963068902ebab31e",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            1052,
+            1848
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            2791
+          ]
+        }
+      ]
+    },
+    "scripts/build-select-contract.mjs": {
+      "to": "scripts/build-select-contract.mjs",
+      "before": "0e70df6ab349266f7c5b9409dc4dc17fb1e8dba8e12e0a9a032c26bc26a0854a",
+      "after": "b7b4bdd4ff9704a2ecfb63346186716fdbcc01359c8d2fe1352282557befb678",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1175
+          ]
+        }
+      ]
+    },
+    "scripts/build-stage-reference.mjs": {
+      "to": "scripts/build-stage-reference.mjs",
+      "before": "d95c8cc42210e0164092ceb3e67be3ca7ae375daccf90f5bd80884fafff66d11",
+      "after": "8d759658f2da6e06ced36948e5fd688665225311cfab8530cef05aede03366de",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2392
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            3037,
+            4507
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            4561
+          ]
+        }
+      ]
+    },
+    "scripts/build-strategy-contracts.mjs": {
+      "to": "scripts/build-strategy-contracts.mjs",
+      "before": "654412212e0a26d57023bed02d8bc8e5556e8bac6dac3f11781f2fdcb87654ba",
+      "after": "9e5857e81d1809de58675ef2bb67a7384cf953f32e262d1a0d8aeb99c3638184",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            3226
+          ]
+        }
+      ]
+    },
+    "scripts/build-strategy-references.mjs": {
+      "to": "scripts/build-strategy-references.mjs",
+      "before": "94825992bd4806eee01c71030aa815797f343e432b843e3552e6592aae7739b5",
+      "after": "a9b50fce62ecf0a2cc11effd94f13a21a490dec8e136549572a06ae76043d2a6",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            196,
+            8079
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            8518
+          ]
+        }
+      ]
+    },
+    "scripts/build-v03-samples.py": {
+      "to": "scripts/build-v03-samples.py",
+      "before": "b3ba8a273e0e2746e1546abb4b7fdd6e3fc75551aad99ac8a32bd05330d6143b",
+      "after": "58fe31986019551cb8a14fc84df219e765c30f7656bd359e3a48c77231dc5446",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            259
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            232
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            277
+          ]
+        }
+      ]
+    },
+    "scripts/candidates-browser.mjs": {
+      "to": "scripts/candidates-browser.mjs",
+      "before": "918f6504276b4e7e1fa045f5965a7a235d9c420d2540f910234f278f56f60462",
+      "after": "2a265ca9438f3f58cc8aa4fc496aceccc02e3697961edc64d7d1f28683cab9bd",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2123
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            2159,
+            7673,
+            8201,
+            8554
+          ]
+        }
+      ]
+    },
+    "scripts/compat-browser.mjs": {
+      "to": "scripts/compat-browser.mjs",
+      "before": "4f2cf0bef0f28049fabdd9704d0e3df9839b5b4fdb0562abae1442b28b6b099c",
+      "after": "f77aaa06c376a1799b67235d29c29f630c616a67b69f56099e9c1e7f20fb77d5",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1346
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1382,
+            5502,
+            7984
+          ]
+        }
+      ]
+    },
+    "scripts/compat-matrix.mjs": {
+      "to": "scripts/compat-matrix.mjs",
+      "before": "3deaf5f59f40042eaac8b71d5a07308c7c3b19691cc2f91736074168871d3b8e",
+      "after": "837b082ae99d1b3e4f90c9c4311dcc368a59d10f7f8fcad52c95a6a956006b75",
+      "reverseSteps": [
+        {
+          "rule": 8,
+          "offsets": [
+            1058
+          ]
+        }
+      ]
+    },
+    "scripts/content-browser.mjs": {
+      "to": "scripts/content-browser.mjs",
+      "before": "78881b08e8a52b7ba86af54f1a1fc2068395d358baa7ab0d27e88e3e8d18e656",
+      "after": "88ab59a86139f02425b56e3a4544fc9a67646e31ed5b2b342bdd7bd1557d036e",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1805
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            2063
+          ]
+        }
+      ]
+    },
+    "scripts/content-service.mjs": {
+      "to": "scripts/content-service.mjs",
+      "before": "58d4dda05c6faca05cce4c6c98a1c526eb8eaecb081e77b23b8ca1773276de95",
+      "after": "4e4fab418f2802e9e9221c9f98db9c316025b59262bc153cd16ce13b1130f219",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            4602
+          ]
+        }
+      ]
+    },
+    "scripts/create-validated-catalog.mjs": {
+      "to": "scripts/create-validated-catalog.mjs",
+      "before": "6c14982855c3a522b33b05d456c7c60a212cd5bfd632066df70e14964b5915bd",
+      "after": "78c886d45e3d36e004cff3011eeb64ae6bffcd579ae85d69a265f6463ff4b4e5",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            516,
+            701
+          ]
+        }
+      ]
+    },
+    "scripts/final-acceptance.mjs": {
+      "to": "scripts/final-acceptance.mjs",
+      "before": "2c4bb4b770417ab8fa0f773754e0dbcd895c26d91645f4203f67391bf098bea4",
+      "after": "30c882a6f9e6a71423e9157f72c07e0c65934298e5355df4856f3ab526249d74",
+      "reverseSteps": [
+        {
+          "rule": 6,
+          "offsets": [
+            1494
+          ]
+        }
+      ]
+    },
+    "scripts/g2-real.mjs": {
+      "to": "scripts/g2-real.mjs",
+      "before": "46194dd2f48a502a0b71f2534f5097a90fdd3734bfffb45524d6dc0235fc8cde",
+      "after": "868fd8f82ab3a31703a516dd78ef03248ee8db33440d13937a6bd06f29c6bb4e",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1830
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1787,
+            7550,
+            15289
+          ]
+        }
+      ]
+    },
+    "scripts/g3-batch.mjs": {
+      "to": "scripts/g3-batch.mjs",
+      "before": "ad0394a2eeac7a7d385f6c566e46ab3310516342ad3de4508ee62fe7fba4a86f",
+      "after": "e39a6d41ecd172992ea38f412e268e41cf0ab091e83d8e66df34acbc6af318d3",
+      "reverseSteps": [
+        {
+          "rule": 6,
+          "offsets": [
+            1103
+          ]
+        }
+      ]
+    },
+    "scripts/g3-browser.mjs": {
+      "to": "scripts/g3-browser.mjs",
+      "before": "c8f6245bf1772a658faeedfd36d5b784189db19cacd88de3b44b8d43ff387fe0",
+      "after": "123ad8d2491f3ee27a3f02bb78d60527aa5f481661fb3636b6fc2cc3eeea1470",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            2210
+          ]
+        }
+      ]
+    },
+    "scripts/g3-native-contract.mjs": {
+      "to": "scripts/g3-native-contract.mjs",
+      "before": "2ce8627564a2537e4020e53e2c68693241cabea58a7b1b048111dd8974e11a64",
+      "after": "e4e62c91ea4cb2c9ac15cb7a6a013c6a19c5575b2b231abb29ff5b5439b0226e",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1298
+          ]
+        }
+      ]
+    },
+    "scripts/gameplay-acceptance.mjs": {
+      "to": "scripts/gameplay-acceptance.mjs",
+      "before": "cd58e9d466c6b4b715cb971c576b68a2bd586f4cbd2895917539789db89a98da",
+      "after": "52b234c72c2adf8ef613c2d816f9ef0ce8f6090ce7ff027598325825edbbf7d6",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1233
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1196
+          ]
+        }
+      ]
+    },
+    "scripts/mechanism-browser.mjs": {
+      "to": "scripts/mechanism-browser.mjs",
+      "before": "cfe5c7e9c94797d583ef0a430602e22374539e5665a36252a014ea811e7a2a48",
+      "after": "8c64ac18a80c65d4bcf19e60e109fb92daafbbbd9a913631dabc7f0e9d67ca48",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1752
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1788,
+            3804
+          ]
+        }
+      ]
+    },
+    "scripts/mobile-browser.mjs": {
+      "to": "scripts/mobile-browser.mjs",
+      "before": "38d0ec53c2300fe3705a62776943375cde220e8aa9dd8a276c730a1bcdea3b59",
+      "after": "50be0c0b2420e5287fe143ae06b578c9052c70db32bd2e1a52cf904c129ccccf",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1551
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1587,
+            2802
+          ]
+        }
+      ]
+    },
+    "scripts/puzzle-browser.mjs": {
+      "to": "scripts/puzzle-browser.mjs",
+      "before": "142488e0a719d65645a696292ccf220cbaa64ffa2d9b4563b437c611aaad52ef",
+      "after": "be224c4991447d626f75f6fc7b2f49aa80701e7ad1ab992ece4bc3c717cfc835",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            1597
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1633,
+            3647
+          ]
+        }
+      ]
+    },
+    "scripts/registry.mjs": {
+      "to": "scripts/registry.mjs",
+      "before": "c4ab1f024f4238bc0246923219cceb1e64b376c2ea741d3bf58aee2f479c4bee",
+      "after": "981c6e6ce3720cd5ea469817d9bdcd73452a3e93885c1ed536abf2101eef3045",
+      "reverseSteps": [
+        {
+          "rule": 2,
+          "offsets": [
+            898
+          ]
+        }
+      ]
+    },
+    "scripts/rigid3d-vectors.mjs": {
+      "to": "scripts/rigid3d-vectors.mjs",
+      "before": "a447cf430786c9dda577c0213b9288eaa1c7a7e0387c178c4c7220a9860cb241",
+      "after": "a0d2a20de83594d177dace95c8046f8128d6085bc1acc219102289bd42692d9d",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            435
+          ]
+        }
+      ]
+    },
+    "scripts/run-conformance.mjs": {
+      "to": "scripts/run-conformance.mjs",
+      "before": "9de5dbb1e8bccfaf32d76b171951dbf6cd1328285893e6921558324418a6c27d",
+      "after": "9d01f624d8f6d52e937e050b36897bfc3e4af169cf29a121be9bf76501292842",
+      "reverseSteps": [
+        {
+          "rule": 5,
+          "offsets": [
+            401,
+            474
+          ]
+        }
+      ]
+    },
+    "scripts/run-g3-fixture.mjs": {
+      "to": "scripts/run-g3-fixture.mjs",
+      "before": "c99fb70a0fa0f7ba22c9e8bfbab3f2bce7cda8dd32eb38b08ef5f7c613f2942b",
+      "after": "e3f0cc18e67b1e07513520df5db4537afcdf1a2ed1befadac7220146a203bbdd",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            742
+          ]
+        }
+      ]
+    },
+    "scripts/serve.mjs": {
+      "to": "scripts/serve.mjs",
+      "before": "398dbaf98bf4bf25d7405aefb4876f76385ad344ed468a180569447ecd36e8e1",
+      "after": "a3d17a286b7bc6fa3827394f26641e6a30fa29b485e70fd66b8aa0b1bcb16260",
+      "reverseSteps": [
+        {
+          "rule": 7,
+          "offsets": [
+            6138
+          ]
+        },
+        {
+          "rule": 8,
+          "offsets": [
+            6522
+          ]
+        }
+      ]
+    },
+    "scripts/verify-browser-parity.mjs": {
+      "to": "scripts/verify-browser-parity.mjs",
+      "before": "d62cd7548e48ae8a25523d5f2040158ee2675414eda90a5ad0ea2b0c9939b0b7",
+      "after": "93f05c48370a3a7c4bba757c4db9fb77ceb5458f6ecbe087e6dad640c665ccff",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            395
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            558
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/A2Game-V0.1-Full-Spec.md": {
+      "to": "specs/v0.1/A2Game-V0.1-Full-Spec.md",
+      "before": "179d7edd70d3146fd8e03e65ed09dc4979267df18fbde68c91e1552cb9abed35",
+      "after": "ad21f24b46f4f941356f26d2403f6ffdcd0baea4695677ea4ca44e8bcc8e288d",
+      "reverseSteps": [
+        {
+          "rule": 0,
+          "offsets": [
+            1433,
+            37258
+          ]
+        },
+        {
+          "rule": 1,
+          "offsets": [
+            1245,
+            36930
+          ]
+        },
+        {
+          "rule": 2,
+          "offsets": [
+            1117
+          ]
+        },
+        {
+          "rule": 3,
+          "offsets": [
+            1496
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            1051,
+            11160,
+            11189
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            1166,
+            1308,
+            11309,
+            37296,
+            39200,
+            48101
+          ]
+        },
+        {
+          "rule": 6,
+          "offsets": [
+            1359,
+            47765
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/01-GameSpec-V0.1.md": {
+      "to": "specs/v0.1/docs/01-GameSpec-V0.1.md",
+      "before": "523e7392344906ba58be6c645e3ecd79697bb626c7fa20b1d9c329d314fd7519",
+      "after": "d9631c3fa86ce529d37cef18af81b72ee630955a87a5ee39659587298420c25c",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            7879,
+            7911
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            8047
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/04-Conformance-Test-V0.1.md": {
+      "to": "specs/v0.1/docs/04-Conformance-Test-V0.1.md",
+      "before": "6bac949047b5f5cdc92832552d2831026f70afc4852172b988ec8665e18c091f",
+      "after": "d706d2958f8d48f203cae3f5301dc52a1dd35644e4428a4979d0de3d07cd8a14",
+      "reverseSteps": [
+        {
+          "rule": 0,
+          "offsets": [
+            3889
+          ]
+        },
+        {
+          "rule": 1,
+          "offsets": [
+            3553
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            3983,
+            5887
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/05-Coverage-Registry-V0.1.md": {
+      "to": "specs/v0.1/docs/05-Coverage-Registry-V0.1.md",
+      "before": "a7b67de123d85784c736bd46318c06b0827c6425f2110e6ab2dfe7a228eda2e6",
+      "after": "94afe2f6d0171aeba0eb560c8d37db54458917920eaa3d8feeec8d764092ff68",
+      "reverseSteps": [
+        {
+          "rule": 5,
+          "offsets": [
+            4284
+          ]
+        },
+        {
+          "rule": 6,
+          "offsets": [
+            3956
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/07-Touch-Swipe-InputTrace-V0.1.md": {
+      "to": "specs/v0.1/docs/07-Touch-Swipe-InputTrace-V0.1.md",
+      "before": "e003a31cdbe39d949fe09326154045c7a8304746380caadd8c83c2fef8eff13d",
+      "after": "6ce7f41e7b1b74dca860b727db7fecdd5cfd02c8de1383b35b71ba5490b5942a",
+      "reverseSteps": [
+        {
+          "rule": 5,
+          "offsets": [
+            2573
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/08-V01-Headless-Historical-Baseline.md": {
+      "to": "specs/v0.1/docs/08-V01-Headless-Historical-Baseline.md",
+      "before": "39c0e796324a3e331a0c5b2d06ef57e722154cbceb6283eca1391aad3d877c47",
+      "after": "a62f22353b7378941bd94442a5541cc64d571332c5bac1772107dbd6e6e03c6c",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            2535,
+            4867
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/docs/11-Visual-Stage-V0.1.md": {
+      "to": "specs/v0.1/docs/11-Visual-Stage-V0.1.md",
+      "before": "89bba1abee6968537e03af93c6759f8b18ff3a94fa2a06553ebb2490447d0f04",
+      "after": "ed12e65278cee584dfa8b283837faef83ebc03b2011a6839f0aa29f740bc6ba7",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            1566
+          ]
+        }
+      ]
+    },
+    "specs/v0.1/samples/adapters/cocosairjs.adapter.json": {
+      "to": "specs/v0.1/adapters/cocosairjs.adapter.json",
+      "before": "8fa97155a2a8c9abe44d074e9a2ce8969158554a6652d8e82f6acbbc0048d2d4",
+      "after": "8fa97155a2a8c9abe44d074e9a2ce8969158554a6652d8e82f6acbbc0048d2d4"
+    },
+    "specs/v0.1/samples/adapters/public-turn-room.adapter.json": {
+      "to": "specs/v0.1/adapters/public-turn-room.adapter.json",
+      "before": "5d5a52cd1ee71d4aba201fb8760395c899ab4185f7520ea97ee08a38dd9163f6",
+      "after": "5d5a52cd1ee71d4aba201fb8760395c899ab4185f7520ea97ee08a38dd9163f6"
+    },
+    "specs/v0.1/samples/adapters/threejs.adapter.json": {
+      "to": "specs/v0.1/adapters/threejs.adapter.json",
+      "before": "5c83d429332b6c8fb1fb444104e76e093d21134395916c43d129483e52f68f0e",
+      "after": "5c83d429332b6c8fb1fb444104e76e093d21134395916c43d129483e52f68f0e"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.aim.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.aim.capability.json",
+      "before": "43c5d2be2d3c9841b311aad6ebe7820e672e8fd382b4807957e1f601e8ef1c3c",
+      "after": "43c5d2be2d3c9841b311aad6ebe7820e672e8fd382b4807957e1f601e8ef1c3c"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.auto-target.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.auto-target.capability.json",
+      "before": "e5aae461fa7b5bb67bbc0e311c2934e4a8a9c6265e6bdc0020a46393bf947655",
+      "after": "e5aae461fa7b5bb67bbc0e311c2934e4a8a9c6265e6bdc0020a46393bf947655"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.bubble-grid.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.bubble-grid.capability.json",
+      "before": "fadfdca4ce1ca2b77b5223065a51c322d72e5103babeebb6feb51208d640adfa",
+      "after": "fadfdca4ce1ca2b77b5223065a51c322d72e5103babeebb6feb51208d640adfa"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.cooldown.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.cooldown.capability.json",
+      "before": "d390df166036cfb1524723067003bfb5a5747fd0da8b688861b1c12f01ca2dd3",
+      "after": "d390df166036cfb1524723067003bfb5a5747fd0da8b688861b1c12f01ca2dd3"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.damage.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.damage.capability.json",
+      "before": "35ad8fb45222366ef9acf8c0238e3272459231e3bdb97a2b5a5724805fb14c30",
+      "after": "35ad8fb45222366ef9acf8c0238e3272459231e3bdb97a2b5a5724805fb14c30"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.health.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.health.capability.json",
+      "before": "ef350cb4aff2a57ad8b72586819e8623e4b7107b79307d34902964ba0add5b94",
+      "after": "ef350cb4aff2a57ad8b72586819e8623e4b7107b79307d34902964ba0add5b94"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.hitscan.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.hitscan.capability.json",
+      "before": "38d4e69b096eb4b4af90de10051fb1e2e406d7230dee383a523b489db87a3ad2",
+      "after": "38d4e69b096eb4b4af90de10051fb1e2e406d7230dee383a523b489db87a3ad2"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.horde.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.horde.capability.json",
+      "before": "9c05503a9378a92f75f3ee95ae5ecac6ffe83002a3bb455f48a5ce29177be39e",
+      "after": "9c05503a9378a92f75f3ee95ae5ecac6ffe83002a3bb455f48a5ce29177be39e"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.projectile.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.projectile.capability.json",
+      "before": "8e3e92cc82c053b07bb82a07453bc52ae691ca9b93a77c83bc44e3f23d15592a",
+      "after": "8e3e92cc82c053b07bb82a07453bc52ae691ca9b93a77c83bc44e3f23d15592a"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.status.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.status.capability.json",
+      "before": "4c745d0e08b2db97d6a47b0a8d979644db5e210ea5ad239811f0578ac40938de",
+      "after": "4c745d0e08b2db97d6a47b0a8d979644db5e210ea5ad239811f0578ac40938de"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.wave.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.wave.capability.json",
+      "before": "c58b8c9cf3515ebd498e32f627d8aada3b5b10c32411b24b30405b5f2e59b138",
+      "after": "c58b8c9cf3515ebd498e32f627d8aada3b5b10c32411b24b30405b5f2e59b138"
+    },
+    "specs/v0.1/samples/capabilities/a2game.combat.weapon.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.combat.weapon.capability.json",
+      "before": "f90c6e604f47aad80c8b4e8746113ead62efd193560e076fd0a7b891bde3315d",
+      "after": "f90c6e604f47aad80c8b4e8746113ead62efd193560e076fd0a7b891bde3315d"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.bootstrap.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.bootstrap.capability.json",
+      "before": "133f27b3867a6ae02e7cabbe339dd5eba15152f8bbbcaffc4a412e77796139f4",
+      "after": "133f27b3867a6ae02e7cabbe339dd5eba15152f8bbbcaffc4a412e77796139f4"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.clock.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.clock.capability.json",
+      "before": "c5e59a1b69ddcd10cfa15367228c673e73dbdfe1ffeff1ae528426098f29dcda",
+      "after": "c5e59a1b69ddcd10cfa15367228c673e73dbdfe1ffeff1ae528426098f29dcda"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.flow.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.flow.capability.json",
+      "before": "b35711d991209a51f788d64bdb6b3d26cba43a959ab29075d5e44b5c98115c9c",
+      "after": "b35711d991209a51f788d64bdb6b3d26cba43a959ab29075d5e44b5c98115c9c"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.goal.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.goal.capability.json",
+      "before": "67bed8bdb33f1f14bac9a9414b011f781cf773c5d693ef0af648cb66f2e22007",
+      "after": "67bed8bdb33f1f14bac9a9414b011f781cf773c5d693ef0af648cb66f2e22007"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.rng.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.rng.capability.json",
+      "before": "414679c2f9b70b2a906fb76b80165be2be330ffd5e78485c342f9e583e25f998",
+      "after": "414679c2f9b70b2a906fb76b80165be2be330ffd5e78485c342f9e583e25f998"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.rules.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.rules.capability.json",
+      "before": "a5e8c3ebe43f56a0fd999768cd54846e4d82a8b7f3d7c31ec68f0896189718ed",
+      "after": "a5e8c3ebe43f56a0fd999768cd54846e4d82a8b7f3d7c31ec68f0896189718ed"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.score.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.score.capability.json",
+      "before": "2935319df955402dbdf227575e72314f2b3311f965c336eca2be5a8452428b00",
+      "after": "2935319df955402dbdf227575e72314f2b3311f965c336eca2be5a8452428b00"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.state.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.state.capability.json",
+      "before": "38d834e4f05f9dfb206aa70d903184ee72051a92c46473280283a2da7e3187cb",
+      "after": "38d834e4f05f9dfb206aa70d903184ee72051a92c46473280283a2da7e3187cb"
+    },
+    "specs/v0.1/samples/capabilities/a2game.core.timer.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.core.timer.capability.json",
+      "before": "4d82ca2eb592c857dae2dbf65d005fde295970c087697a2274fb7f8914c1ec30",
+      "after": "4d82ca2eb592c857dae2dbf65d005fde295970c087697a2274fb7f8914c1ec30"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.gamepad.axis2.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.gamepad.axis2.capability.json",
+      "before": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39",
+      "after": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.gamepad.button.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.gamepad.button.capability.json",
+      "before": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2",
+      "after": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.acceleration.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.acceleration.capability.json",
+      "before": "17de3f36c5e9a502f3df6b3eb24bd06d2b732b6a8f3b665d972c21dd6a4f60eb",
+      "after": "17de3f36c5e9a502f3df6b3eb24bd06d2b732b6a8f3b665d972c21dd6a4f60eb"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.calibration.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.calibration.capability.json",
+      "before": "c19755bc65beb37ec5db4cf61f142962c55ca71a960d6ede855c544215dfc759",
+      "after": "c19755bc65beb37ec5db4cf61f142962c55ca71a960d6ede855c544215dfc759"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.gyroscope.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.gyroscope.capability.json",
+      "before": "4ae5eb3136a360c4ba3f2c91876081f34b5053705af32f12f753e988b16b9384",
+      "after": "4ae5eb3136a360c4ba3f2c91876081f34b5053705af32f12f753e988b16b9384"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.orientation.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.orientation.capability.json",
+      "before": "3d2e92c3b41028d41f7de5e70650f0c2eac76f88ef23d16104104101eab738f8",
+      "after": "3d2e92c3b41028d41f7de5e70650f0c2eac76f88ef23d16104104101eab738f8"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.shake.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.shake.capability.json",
+      "before": "9054fad6f5ed0c9904507cf53966300ef7f4250a5c73770322b259438e47419e",
+      "after": "9054fad6f5ed0c9904507cf53966300ef7f4250a5c73770322b259438e47419e"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.imu.tilt.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.imu.tilt.capability.json",
+      "before": "d97ba8ed22ec07ba541916891ac7301e50152a7ff5e244202a1c3b50ada0a187",
+      "after": "d97ba8ed22ec07ba541916891ac7301e50152a7ff5e244202a1c3b50ada0a187"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.keyboard.button.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.keyboard.button.capability.json",
+      "before": "36f6ab386f9a4652328e2174cf85a876f81bf7b78616abc943a67c3935987a1f",
+      "after": "36f6ab386f9a4652328e2174cf85a876f81bf7b78616abc943a67c3935987a1f"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.double-tap.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.double-tap.capability.json",
+      "before": "fc9bb963ec5b058e3be2fe47552ef49dabb120d261361df1bd0c0a3cc55dde00",
+      "after": "fc9bb963ec5b058e3be2fe47552ef49dabb120d261361df1bd0c0a3cc55dde00"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.drag.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.drag.capability.json",
+      "before": "897604edec9605cfa6554ecc4abeac00e0da951f77899991ad2940f7c7000147",
+      "after": "897604edec9605cfa6554ecc4abeac00e0da951f77899991ad2940f7c7000147"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.long-press.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.long-press.capability.json",
+      "before": "7625be1b53ba91c1405e6aed278dd4c3cb8950de9d8229dc8089fd683c3aa410",
+      "after": "7625be1b53ba91c1405e6aed278dd4c3cb8950de9d8229dc8089fd683c3aa410"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.multi-hold.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.multi-hold.capability.json",
+      "before": "79f863382a5d5b6592cc7c13d5c313008ca148aaf07271470644000bd2c46bf5",
+      "after": "79f863382a5d5b6592cc7c13d5c313008ca148aaf07271470644000bd2c46bf5"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.path.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.path.capability.json",
+      "before": "e693dab3d468e05399b643652490692617393da100b0e001683cca4de9324a70",
+      "after": "e693dab3d468e05399b643652490692617393da100b0e001683cca4de9324a70"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.pinch.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.pinch.capability.json",
+      "before": "712e5c9ce69b099147499fa7dc94e8e20b2df0576e8269be8ceb8faf7e3d356b",
+      "after": "712e5c9ce69b099147499fa7dc94e8e20b2df0576e8269be8ceb8faf7e3d356b"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.raw.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.raw.capability.json",
+      "before": "c89645450e96e94f5afbbcb7dbff9c9d37fff746f7740d5dc1ecd9527645757c",
+      "after": "c89645450e96e94f5afbbcb7dbff9c9d37fff746f7740d5dc1ecd9527645757c"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.rotate.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.rotate.capability.json",
+      "before": "3b1296765bfac31ac5db3a91effcb96c2791bf9931fe4ca5f44e8ab8bb6212cb",
+      "after": "3b1296765bfac31ac5db3a91effcb96c2791bf9931fe4ca5f44e8ab8bb6212cb"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.select.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.select.capability.json",
+      "before": "f455ce06a808b6149181d02356913f423d77498db0ebcc23f21215b25d6843a7",
+      "after": "f455ce06a808b6149181d02356913f423d77498db0ebcc23f21215b25d6843a7"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.swipe.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.swipe.capability.json",
+      "before": "c5f2af5eb2b00001091f7f4cacb1006975f1a1e9ff0910ee8e12bebc56378666",
+      "after": "c5f2af5eb2b00001091f7f4cacb1006975f1a1e9ff0910ee8e12bebc56378666"
+    },
+    "specs/v0.1/samples/capabilities/a2game.input.touch.tap.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.input.touch.tap.capability.json",
+      "before": "173e55f09fa9559057c3199c1ae0ee13d913f5fe7152c5cd68efdb490f7de9e9",
+      "after": "173e55f09fa9559057c3199c1ae0ee13d913f5fe7152c5cd68efdb490f7de9e9"
+    },
+    "specs/v0.1/samples/capabilities/a2game.physics.rigid3d.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.physics.rigid3d.capability.json",
+      "before": "27993268426195158afb371f4d28b4742f230f3b6930e40cb5da8962627afb13",
+      "after": "27993268426195158afb371f4d28b4742f230f3b6930e40cb5da8962627afb13"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.cascade.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.cascade.capability.json",
+      "before": "2694e62b33c1e09bace1928b8bf288a3a196d5da64791275adb7e761be3732f9",
+      "after": "2694e62b33c1e09bace1928b8bf288a3a196d5da64791275adb7e761be3732f9"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.connected-match.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.connected-match.capability.json",
+      "before": "5f1e2c922442699ec9fa7a384f8d58bee5ab9019e672ab5584aef4cb3598c9ea",
+      "after": "5f1e2c922442699ec9fa7a384f8d58bee5ab9019e672ab5584aef4cb3598c9ea"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.direction.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.direction.capability.json",
+      "before": "aba7815ebc95cbba5aa97a8855979565e52e37f525c94725a1e712e4cf20b7e6",
+      "after": "aba7815ebc95cbba5aa97a8855979565e52e37f525c94725a1e712e4cf20b7e6"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.falling-piece.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.falling-piece.capability.json",
+      "before": "7a5b57c62da5a53e1e0186dfb2e8630bf8894711bffad723f660cb4f74fc8295",
+      "after": "7a5b57c62da5a53e1e0186dfb2e8630bf8894711bffad723f660cb4f74fc8295"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.gravity-fill.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.gravity-fill.capability.json",
+      "before": "4db88bc7e8af2e2bc9c21fc8b3d84407f3672da827b9d5df2ae4edb1c13ced9c",
+      "after": "4db88bc7e8af2e2bc9c21fc8b3d84407f3672da827b9d5df2ae4edb1c13ced9c"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.grid-push.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.grid-push.capability.json",
+      "before": "0851102e8a48769f8de71ba35df477625f6b8b8e7cb955705fc00998048fe01f",
+      "after": "0851102e8a48769f8de71ba35df477625f6b8b8e7cb955705fc00998048fe01f"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.grid-slide-merge.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.grid-slide-merge.capability.json",
+      "before": "86a61d8d387759d7d27ee15780f1f9bb4e43d1bbe8f302af3d800ca67b047f82",
+      "after": "86a61d8d387759d7d27ee15780f1f9bb4e43d1bbe8f302af3d800ca67b047f82"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.grid.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.grid.capability.json",
+      "before": "e6db24d66d1094f548cb4c104aaeeeae220fdebb03b8d1c34702caa651173c0e",
+      "after": "e6db24d66d1094f548cb4c104aaeeeae220fdebb03b8d1c34702caa651173c0e"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.layered-stack.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.layered-stack.capability.json",
+      "before": "71fd7e1c9b5cfdf75a40bb49ffb7f00a92c2bd638c040e30708b2a95142f8d65",
+      "after": "71fd7e1c9b5cfdf75a40bb49ffb7f00a92c2bd638c040e30708b2a95142f8d65"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.line-clear.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.line-clear.capability.json",
+      "before": "d039aab84735b2910508643c930a5ee3547fea141dfe0c00640ffeb3f8754485",
+      "after": "d039aab84735b2910508643c930a5ee3547fea141dfe0c00640ffeb3f8754485"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.match-n.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.match-n.capability.json",
+      "before": "dd9bd5445d40c7a3dbe6a9780126c01ae2bdfa6ea84eb25bda24701110041958",
+      "after": "dd9bd5445d40c7a3dbe6a9780126c01ae2bdfa6ea84eb25bda24701110041958"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.merge.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.merge.capability.json",
+      "before": "91650d2d12c064ef38faadb03ace9ed3a8205040c7e2904f38e3bb8212211492",
+      "after": "91650d2d12c064ef38faadb03ace9ed3a8205040c7e2904f38e3bb8212211492"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.occlusion.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.occlusion.capability.json",
+      "before": "d164ca4fa28bbcfd29d9f209928ab578d745e82e99e0004205edc1887c23f0fe",
+      "after": "d164ca4fa28bbcfd29d9f209928ab578d745e82e99e0004205edc1887c23f0fe"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.occupancy.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.occupancy.capability.json",
+      "before": "574ccaf71682a3640c4256a311b816e5985e035738b8ee2b140a2f089f13538e",
+      "after": "574ccaf71682a3640c4256a311b816e5985e035738b8ee2b140a2f089f13538e"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.pair-match.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.pair-match.capability.json",
+      "before": "32bdd97d8c4297f28cdd14440803323f29a5787134ff7fbf76b2a6bbbf965811",
+      "after": "32bdd97d8c4297f28cdd14440803323f29a5787134ff7fbf76b2a6bbbf965811"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.placement.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.placement.capability.json",
+      "before": "e00ac09ebe1ff7f5ae1d40be249a7c289a24959e05dabed48027704ba7828d22",
+      "after": "e00ac09ebe1ff7f5ae1d40be249a7c289a24959e05dabed48027704ba7828d22"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.polyomino.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.polyomino.capability.json",
+      "before": "bc1a0fe6d1f98f3f5df44e659a897720a57bc576da4e947b137f4dce6bc50726",
+      "after": "bc1a0fe6d1f98f3f5df44e659a897720a57bc576da4e947b137f4dce6bc50726"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.push.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.push.capability.json",
+      "before": "62aa2c117ab66887f2e6242871e09ce3feba2c8322c9aac04a693d04489a7e55",
+      "after": "62aa2c117ab66887f2e6242871e09ce3feba2c8322c9aac04a693d04489a7e55"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.reveal.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.reveal.capability.json",
+      "before": "6bcfe99bb70f8792b7f62b327b7bcfc925fe339f55e6ca9c27f99e6fc41340c4",
+      "after": "6bcfe99bb70f8792b7f62b327b7bcfc925fe339f55e6ca9c27f99e6fc41340c4"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.rotate-piece.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.rotate-piece.capability.json",
+      "before": "1f36cd19a847ed741aac146221c2ff81d993217349cbb17de169a7e15ac6e1c4",
+      "after": "1f36cd19a847ed741aac146221c2ff81d993217349cbb17de169a7e15ac6e1c4"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.select.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.select.capability.json",
+      "before": "2cb016840985ebdc2f6884dc36d2964d28931bb147ce77fa3bb76e10e6b34a1a",
+      "after": "2cb016840985ebdc2f6884dc36d2964d28931bb147ce77fa3bb76e10e6b34a1a"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.slide.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.slide.capability.json",
+      "before": "7bca57ea4139ff1b814750dd88b2cd7e076ff85407f0bb07579035a752cb69a9",
+      "after": "7bca57ea4139ff1b814750dd88b2cd7e076ff85407f0bb07579035a752cb69a9"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.sort.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.sort.capability.json",
+      "before": "3f270fb25ddec8fc56883e2b6524323714e216b9b075e577999c3bb095a79db7",
+      "after": "3f270fb25ddec8fc56883e2b6524323714e216b9b075e577999c3bb095a79db7"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.swap.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.swap.capability.json",
+      "before": "b8854b33b62aa0f4244fe1bad17b18520ac1f0e1c829e36e000b99c998cb8d40",
+      "after": "b8854b33b62aa0f4244fe1bad17b18520ac1f0e1c829e36e000b99c998cb8d40"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.tray.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.tray.capability.json",
+      "before": "3a1f42b0a5f39cef09a495e49e14d5c0f3044c021aece78c7d3e5defe688156f",
+      "after": "3a1f42b0a5f39cef09a495e49e14d5c0f3044c021aece78c7d3e5defe688156f"
+    },
+    "specs/v0.1/samples/capabilities/a2game.puzzle.undo.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.puzzle.undo.capability.json",
+      "before": "ab4de67ee26d203bb4d8c5515503495db6fb2657bd4c3ab0c1ba7a7e9a3c93f0",
+      "after": "ab4de67ee26d203bb4d8c5515503495db6fb2657bd4c3ab0c1ba7a7e9a3c93f0"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.acceleration.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.acceleration.capability.json",
+      "before": "b664fdb09fd662693adf0f5eb577a162499f92192df253c34506e617da729639",
+      "after": "b664fdb09fd662693adf0f5eb577a162499f92192df253c34506e617da729639"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.auto-scroll.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.auto-scroll.capability.json",
+      "before": "c5d38b86c6315e1f634e0f50927850234c93f7f50a227aef0ef03cfa7df762b2",
+      "after": "c5d38b86c6315e1f634e0f50927850234c93f7f50a227aef0ef03cfa7df762b2"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.balance.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.balance.capability.json",
+      "before": "1ac02f35297af8c3d195559bdf78585fb7c83600e57ca493065dc88502df596b",
+      "after": "1ac02f35297af8c3d195559bdf78585fb7c83600e57ca493065dc88502df596b"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.bounce.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.bounce.capability.json",
+      "before": "cbd85dc740760109a43d7b67805c1a1ddd02d760ee846c6d194a0898323a90a5",
+      "after": "cbd85dc740760109a43d7b67805c1a1ddd02d760ee846c6d194a0898323a90a5"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.charge.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.charge.capability.json",
+      "before": "20d56ebc1d3d679075ca30a29b900b6a2d4da2fcc0165e1aed9e76ed0af15209",
+      "after": "20d56ebc1d3d679075ca30a29b900b6a2d4da2fcc0165e1aed9e76ed0af15209"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.collider.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.collider.capability.json",
+      "before": "bdb1f45997c85b5278cc1950ffabf19e619f0fb167b03c67b343c2216806d1cd",
+      "after": "bdb1f45997c85b5278cc1950ffabf19e619f0fb167b03c67b343c2216806d1cd"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.collision.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.collision.capability.json",
+      "before": "ee615d74a196f3933d67d5937e7e49d9b422088db5a2b1695599fa7c8cdc218c",
+      "after": "ee615d74a196f3933d67d5937e7e49d9b422088db5a2b1695599fa7c8cdc218c"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.constraint.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.constraint.capability.json",
+      "before": "81a05f3b078c9bde9cf6bd3217814ff358973ec7129fb283762a6489ddbb29d3",
+      "after": "81a05f3b078c9bde9cf6bd3217814ff358973ec7129fb283762a6489ddbb29d3"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.contact.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.contact.capability.json",
+      "before": "80140f5d8b61fbd213ab56aa00d88919b8b240b0f0810ee97ff252e085dfb580",
+      "after": "80140f5d8b61fbd213ab56aa00d88919b8b240b0f0810ee97ff252e085dfb580"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.follow.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.follow.capability.json",
+      "before": "92a061c568a8f304f03d22ab66d9ccfb0fd9cafc1a6fd4b4c954153660f71734",
+      "after": "92a061c568a8f304f03d22ab66d9ccfb0fd9cafc1a6fd4b4c954153660f71734"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.input-control.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.input-control.capability.json",
+      "before": "829fad8bc8992ba893b2e7504a0a064695555d1ae60827922487d085382aa87f",
+      "after": "829fad8bc8992ba893b2e7504a0a064695555d1ae60827922487d085382aa87f"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.intersection.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.intersection.capability.json",
+      "before": "d9d9f4470b5c7ab83bf23c1f326a72aadd2b937cf71629d3d8c92fee7e3e6a54",
+      "after": "d9d9f4470b5c7ab83bf23c1f326a72aadd2b937cf71629d3d8c92fee7e3e6a54"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.jump.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.jump.capability.json",
+      "before": "a221f6a4ebc8afcb271354c2fdee1d52688a800361da6efc36cce09c70d43586",
+      "after": "a221f6a4ebc8afcb271354c2fdee1d52688a800361da6efc36cce09c70d43586"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.landing.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.landing.capability.json",
+      "before": "f4b940550692129abe372ee1e3251f894ddecd5310637736e3313e9f2c6827b7",
+      "after": "f4b940550692129abe372ee1e3251f894ddecd5310637736e3313e9f2c6827b7"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.lane-move.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.lane-move.capability.json",
+      "before": "1319b255500a72d2344dc97183b66eced630db71593118bfb36e1fa54ba222ef",
+      "after": "1319b255500a72d2344dc97183b66eced630db71593118bfb36e1fa54ba222ef"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.object-pool.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.object-pool.capability.json",
+      "before": "333b9f5bbb81424eb45d3d7be07433bde45c5a6cca29c81024929178a8460c59",
+      "after": "333b9f5bbb81424eb45d3d7be07433bde45c5a6cca29c81024929178a8460c59"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.rigid-body.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.rigid-body.capability.json",
+      "before": "df8ef5aa1dd26425f7665604658bc72b514ac24b0bdf234d5ab66d80ab239666",
+      "after": "df8ef5aa1dd26425f7665604658bc72b514ac24b0bdf234d5ab66d80ab239666"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.rotate.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.rotate.capability.json",
+      "before": "ff8041ad49383b8fcfbde8efd637ecdb481b4adec9087fd96fe69af1e00f90ba",
+      "after": "ff8041ad49383b8fcfbde8efd637ecdb481b4adec9087fd96fe69af1e00f90ba"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.spawner.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.spawner.capability.json",
+      "before": "84c81bb9a555cf05a8096dce38e9a260383fa948165ed838a6cf45058eff299a",
+      "after": "84c81bb9a555cf05a8096dce38e9a260383fa948165ed838a6cf45058eff299a"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.trigger-zone.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.trigger-zone.capability.json",
+      "before": "5ba250acd83c9db6c9558fd8f3235f7f2fa2d80d5afe526e7449284396f89877",
+      "after": "5ba250acd83c9db6c9558fd8f3235f7f2fa2d80d5afe526e7449284396f89877"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.velocity.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.velocity.capability.json",
+      "before": "fc6a0c9203160a35d23b4e02d70a9e1a850f0f21776d9f149ecdbc722eca3ed8",
+      "after": "fc6a0c9203160a35d23b4e02d70a9e1a850f0f21776d9f149ecdbc722eca3ed8"
+    },
+    "specs/v0.1/samples/capabilities/a2game.realtime.world.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.realtime.world.capability.json",
+      "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
+      "after": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.entity-despawn.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.entity-despawn.capability.json",
+      "before": "9944693c2dfb1ac9e8a68be1e6f50d8fcd3d44d6b3217bd6113414f9398259bc",
+      "after": "9944693c2dfb1ac9e8a68be1e6f50d8fcd3d44d6b3217bd6113414f9398259bc"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.entity-spawn.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.entity-spawn.capability.json",
+      "before": "0e53e1df8fa37505225f60f488e0a95b5b1abc017435f178e660346ba122d608",
+      "after": "0e53e1df8fa37505225f60f488e0a95b5b1abc017435f178e660346ba122d608"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.entity-state-set.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.entity-state-set.capability.json",
+      "before": "6c3ec0dbca626598bcbf315de7494cf636ac55274fa297fa2677e0ec363b88fe",
+      "after": "6c3ec0dbca626598bcbf315de7494cf636ac55274fa297fa2677e0ec363b88fe"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.event-emit.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.event-emit.capability.json",
+      "before": "59960a37ab9c9259ccdca76c11e33b3b1b1d70694e74b4e2b5227b3bfd6b3968",
+      "after": "59960a37ab9c9259ccdca76c11e33b3b1b1d70694e74b4e2b5227b3bfd6b3968"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.feedback-emit.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.feedback-emit.capability.json",
+      "before": "a5fef84de98ad71eba13fea1c974842f3a78fa668406bf005861f00c4d717333",
+      "after": "a5fef84de98ad71eba13fea1c974842f3a78fa668406bf005861f00c4d717333"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.flow-pause.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.flow-pause.capability.json",
+      "before": "15311f8594db20bf370ea9c5f175ff1cf3997bf84f07eafd5c9c358f222874c9",
+      "after": "15311f8594db20bf370ea9c5f175ff1cf3997bf84f07eafd5c9c358f222874c9"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.state-add.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.state-add.capability.json",
+      "before": "502b28c4a2215393a9135505e672eb0593ce7213caa75522926b101504fef65b",
+      "after": "502b28c4a2215393a9135505e672eb0593ce7213caa75522926b101504fef65b"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.state-clamp.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.state-clamp.capability.json",
+      "before": "36786ff5fb4cf67eb37d59318d37ded7b538884f08983b9c293ce07bf42721ca",
+      "after": "36786ff5fb4cf67eb37d59318d37ded7b538884f08983b9c293ce07bf42721ca"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.state-set.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.state-set.capability.json",
+      "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
+      "after": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067"
+    },
+    "specs/v0.1/samples/capabilities/a2game.rules.timer-schedule.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.rules.timer-schedule.capability.json",
+      "before": "0d6f66313ac2d37f2a7d1d9e2fff1267e8ac1008e141ecaebecca57da1577dda",
+      "after": "0d6f66313ac2d37f2a7d1d9e2fff1267e8ac1008e141ecaebecca57da1577dda"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.collect.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.collect.capability.json",
+      "before": "ba5db5765a4ddc8aff6ff2ad66604b8b5a667324b812140ab75e659ab057fb31",
+      "after": "ba5db5765a4ddc8aff6ff2ad66604b8b5a667324b812140ab75e659ab057fb31"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.cost.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.cost.capability.json",
+      "before": "b2e489feb222b06f9216decf2d4b01bddb7e991da4660919c36ad2816d91f201",
+      "after": "b2e489feb222b06f9216decf2d4b01bddb7e991da4660919c36ad2816d91f201"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.economy-loop.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.economy-loop.capability.json",
+      "before": "69f471e3c6713ede776366feadfecba17237e2fb6ff53f9c40e0eba6ef25f8cb",
+      "after": "69f471e3c6713ede776366feadfecba17237e2fb6ff53f9c40e0eba6ef25f8cb"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.economy.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.economy.capability.json",
+      "before": "e6eeddc473b00b50d0159f9faaf284fe454b05d0bcaf8cf5c2f9e19b4a23331a",
+      "after": "e6eeddc473b00b50d0159f9faaf284fe454b05d0bcaf8cf5c2f9e19b4a23331a"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.inventory.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.inventory.capability.json",
+      "before": "dba9e0ec6527dfbdfd01f56446ab35b8551488436c71aa712cfab5bdd2ddfef3",
+      "after": "dba9e0ec6527dfbdfd01f56446ab35b8551488436c71aa712cfab5bdd2ddfef3"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.path-follow.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.path-follow.capability.json",
+      "before": "f64f75f5a55e8cf3915a8d5911b677a78449a1190ad7e77cfb73ec1fe33d8dc9",
+      "after": "f64f75f5a55e8cf3915a8d5911b677a78449a1190ad7e77cfb73ec1fe33d8dc9"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.path.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.path.capability.json",
+      "before": "dc6274d8a70a850c036bef075df4521f3379e19628d0aa5eb797918972d2d4e5",
+      "after": "dc6274d8a70a850c036bef075df4521f3379e19628d0aa5eb797918972d2d4e5"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.placement-grid.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.placement-grid.capability.json",
+      "before": "8cb5c21474e0305f2965826a7e55b71a5f1d4017763a5a2b772cc88f1cc75abc",
+      "after": "8cb5c21474e0305f2965826a7e55b71a5f1d4017763a5a2b772cc88f1cc75abc"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.production.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.production.capability.json",
+      "before": "693d08d13faa2470cfcf02fe14223bb361785acb1c6fcff4fda82bc4aa3d8246",
+      "after": "693d08d13faa2470cfcf02fe14223bb361785acb1c6fcff4fda82bc4aa3d8246"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.range.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.range.capability.json",
+      "before": "1684a91b86a3016f6bb13562ebe56f73c239d0448ffa367333636461b640210d",
+      "after": "1684a91b86a3016f6bb13562ebe56f73c239d0448ffa367333636461b640210d"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.reward.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.reward.capability.json",
+      "before": "262b2c66cbb2c80efe92a3e56550ecc45752179371627c5c1e92cf7f47f21480",
+      "after": "262b2c66cbb2c80efe92a3e56550ecc45752179371627c5c1e92cf7f47f21480"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.shop.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.shop.capability.json",
+      "before": "e1804e21479b342914b45f7e2e2e6a7d369e41e745777068b76417d2834c3c77",
+      "after": "e1804e21479b342914b45f7e2e2e6a7d369e41e745777068b76417d2834c3c77"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.tower-defense.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json",
+      "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
+      "after": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.tower.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.tower.capability.json",
+      "before": "45ea6d821b196801a3e626e55251e30b6717db31c1aaca126530fd6e00132b24",
+      "after": "45ea6d821b196801a3e626e55251e30b6717db31c1aaca126530fd6e00132b24"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.unlock.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.unlock.capability.json",
+      "before": "b8f45e5c73dc8d2a644115f3cac02756dd61bd31673eb3d8d89f9c4453351058",
+      "after": "b8f45e5c73dc8d2a644115f3cac02756dd61bd31673eb3d8d89f9c4453351058"
+    },
+    "specs/v0.1/samples/capabilities/a2game.strategy.upgrade.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.strategy.upgrade.capability.json",
+      "before": "3a1a4f50ea5ea62c563582a331b1a3e5b406fdb07e1e70dbde4c584e6b16e3e8",
+      "after": "3a1a4f50ea5ea62c563582a331b1a3e5b406fdb07e1e70dbde4c584e6b16e3e8"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.cards.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.cards.capability.json",
+      "before": "ee78050a2b1d3fe72a91044033adb74c57cf00f34772cacb1678a0f91cb25c24",
+      "after": "ee78050a2b1d3fe72a91044033adb74c57cf00f34772cacb1678a0f91cb25c24"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.deck.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.deck.capability.json",
+      "before": "0eba0d056dbd796a9d5c8e263a9ca8179a3e9d9c2fee5ef9cf488a6209a3e52d",
+      "after": "0eba0d056dbd796a9d5c8e263a9ca8179a3e9d9c2fee5ef9cf488a6209a3e52d"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.hand.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.hand.capability.json",
+      "before": "e73b2144328efad50f28a7ae65d24b644c4490531571d8cb4af8dd209c226a12",
+      "after": "e73b2144328efad50f28a7ae65d24b644c4490531571d8cb4af8dd209c226a12"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.legal-move.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.legal-move.capability.json",
+      "before": "a5c30a9363baab8949795ca05aa831d64b6f448c6ba801c879ab6abcd6940b88",
+      "after": "a5c30a9363baab8949795ca05aa831d64b6f448c6ba801c879ab6abcd6940b88"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.player-order.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.player-order.capability.json",
+      "before": "00e36a09d61a8d1f309adfd3dd5e2d5790cdcd7ba15385eec88f3170790ead8b",
+      "after": "00e36a09d61a8d1f309adfd3dd5e2d5790cdcd7ba15385eec88f3170790ead8b"
+    },
+    "specs/v0.1/samples/capabilities/a2game.turnbased.turn.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.turnbased.turn.capability.json",
+      "before": "a9e3a34d59178bc43d2716e6379fae82d451165b22f90fa48ea0487f263e1a1f",
+      "after": "a9e3a34d59178bc43d2716e6379fae82d451165b22f90fa48ea0487f263e1a1f"
+    },
+    "specs/v0.1/samples/capabilities/a2game.visual.body-style.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.visual.body-style.capability.json",
+      "before": "2f1778fbce0933085281a7d7863173be8321dca08a117ea003dd2dd98e98aea8",
+      "after": "2f1778fbce0933085281a7d7863173be8321dca08a117ea003dd2dd98e98aea8"
+    },
+    "specs/v0.1/samples/capabilities/a2game.visual.bound-stage.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.visual.bound-stage.capability.json",
+      "before": "f19001bc3b0c6dc53e512a9efb62a716bdc0b58ab466b552dec7aa33caaffc8d",
+      "after": "f19001bc3b0c6dc53e512a9efb62a716bdc0b58ab466b552dec7aa33caaffc8d"
+    },
+    "specs/v0.1/samples/capabilities/a2game.visual.scene2d.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.visual.scene2d.capability.json",
+      "before": "5c4f4fc8cdd6b8e89c922058a1bf0ee94859917c9f9640a7a51e071898488b4a",
+      "after": "5c4f4fc8cdd6b8e89c922058a1bf0ee94859917c9f9640a7a51e071898488b4a"
+    },
+    "specs/v0.1/samples/capabilities/a2game.visual.stage.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.visual.stage.capability.json",
+      "before": "c01af8c9b6031294d7f77ac58b36fd896b590666f43a9d0dcd2cd9c8157a5281",
+      "after": "c01af8c9b6031294d7f77ac58b36fd896b590666f43a9d0dcd2cd9c8157a5281"
+    },
+    "specs/v0.1/samples/capabilities/a2game.visual.text.capability.json": {
+      "to": "specs/v0.1/capabilities/a2game.visual.text.capability.json",
+      "before": "ed0023cec4cf7b7b9d5763a9972e9812c97204bee20b9f9cf5ec714258d086ae",
+      "after": "ed0023cec4cf7b7b9d5763a9972e9812c97204bee20b9f9cf5ec714258d086ae"
+    },
+    "specs/v0.1/samples/coverage/games.json": {
+      "to": "specs/v0.1/coverage/games.json",
+      "before": "61e6f21f68332e26021e30018e924f54a7c298bc9c6f880d25f44f913d05ddb2",
+      "after": "61e6f21f68332e26021e30018e924f54a7c298bc9c6f880d25f44f913d05ddb2"
+    },
+    "specs/v0.1/samples/coverage/not-run.receipt.json": {
+      "to": "specs/v0.1/examples/coverage/not-run.receipt.json",
+      "before": "3eada9ccd6f2346a9329f39302b2f8d53b61044dd965d3e62b52a762e8c5541e",
+      "after": "3eada9ccd6f2346a9329f39302b2f8d53b61044dd965d3e62b52a762e8c5541e"
+    },
+    "specs/v0.1/samples/games/g01-candidate.game.json": {
+      "to": "specs/v0.1/games/g01-candidate.game.json",
+      "before": "9ffffe9698c2dd78fee83093228b59832936458a2a55244260e40c3598242559",
+      "after": "9ffffe9698c2dd78fee83093228b59832936458a2a55244260e40c3598242559"
+    },
+    "specs/v0.1/samples/games/g01-two-boxes.game.json": {
+      "to": "specs/v0.1/games/g01-two-boxes.game.json",
+      "before": "a6e4d18073424e1af81a270fb71de2db4074f60c80ff828b439f3ab2afc4d5ba",
+      "after": "a6e4d18073424e1af81a270fb71de2db4074f60c80ff828b439f3ab2afc4d5ba"
+    },
+    "specs/v0.1/samples/games/g02-4096.game.json": {
+      "to": "specs/v0.1/games/g02-4096.game.json",
+      "before": "03030f2288785ee71e80b2abf27376b3648ca0c95a02f8679dcbf9f6fbabd378",
+      "after": "03030f2288785ee71e80b2abf27376b3648ca0c95a02f8679dcbf9f6fbabd378"
+    },
+    "specs/v0.1/samples/games/g02-candidate.game.json": {
+      "to": "specs/v0.1/games/g02-candidate.game.json",
+      "before": "622bbf2564979530218736a3b9a506647aa406e268229a7b3ab25cb19e070866",
+      "after": "622bbf2564979530218736a3b9a506647aa406e268229a7b3ab25cb19e070866"
+    },
+    "specs/v0.1/samples/games/g03-candidate.game.json": {
+      "to": "specs/v0.1/games/g03-candidate.game.json",
+      "before": "9c5407498ce16b6cd853317dc042096ab67d0359beade75375c80bf814588d57",
+      "after": "9c5407498ce16b6cd853317dc042096ab67d0359beade75375c80bf814588d57"
+    },
+    "specs/v0.1/samples/games/g03-recolored-cascade.game.json": {
+      "to": "specs/v0.1/games/g03-recolored-cascade.game.json",
+      "before": "299ad8933605e4a5e7068d650035e9b6b9f4e996c9135cfa297f4bf8ee635fd8",
+      "after": "299ad8933605e4a5e7068d650035e9b6b9f4e996c9135cfa297f4bf8ee635fd8"
+    },
+    "specs/v0.1/samples/games/g04-candidate.game.json": {
+      "to": "specs/v0.1/games/g04-candidate.game.json",
+      "before": "b4908c5f77df1507b347693bc07312dabc55abd616ae9ec104172ea52191ca5f",
+      "after": "b4908c5f77df1507b347693bc07312dabc55abd616ae9ec104172ea52191ca5f"
+    },
+    "specs/v0.1/samples/games/g04-capacity-three.game.json": {
+      "to": "specs/v0.1/games/g04-capacity-three.game.json",
+      "before": "f83ff39399c028e97853a91836b3f215023fe1ecd2ebb99392bb39ac59539364",
+      "after": "f83ff39399c028e97853a91836b3f215023fe1ecd2ebb99392bb39ac59539364"
+    },
+    "specs/v0.1/samples/games/g05-candidate.game.json": {
+      "to": "specs/v0.1/games/g05-candidate.game.json",
+      "before": "ec252c17d946f347a5f9526f6aa7e3c020db4bc44f543ad0ffc0e13971f450f7",
+      "after": "ec252c17d946f347a5f9526f6aa7e3c020db4bc44f543ad0ffc0e13971f450f7"
+    },
+    "specs/v0.1/samples/games/g05-three-layers.game.json": {
+      "to": "specs/v0.1/games/g05-three-layers.game.json",
+      "before": "958de3fcc8af93db1876fd91782b421cc5a1de05d34111023faacd330cabf032",
+      "after": "958de3fcc8af93db1876fd91782b421cc5a1de05d34111023faacd330cabf032"
+    },
+    "specs/v0.1/samples/games/g06-candidate.game.json": {
+      "to": "specs/v0.1/games/g06-candidate.game.json",
+      "before": "80f2df3cee9cfd442f3fd18daea6164becbff39a6a13f3ab322a980db6be9fe4",
+      "after": "80f2df3cee9cfd442f3fd18daea6164becbff39a6a13f3ab322a980db6be9fe4"
+    },
+    "specs/v0.1/samples/games/g06-left-rays.game.json": {
+      "to": "specs/v0.1/games/g06-left-rays.game.json",
+      "before": "c628ee47cc76a807724afe242635f7d833de17f71b1df54948d39249fcf3ccfd",
+      "after": "c628ee47cc76a807724afe242635f7d833de17f71b1df54948d39249fcf3ccfd"
+    },
+    "specs/v0.1/samples/games/g07-candidate.game.json": {
+      "to": "specs/v0.1/games/g07-candidate.game.json",
+      "before": "8b02b007361d26d7a673cc45a577c8271602ac906201b96bf6d4d2659c8c17d6",
+      "after": "8b02b007361d26d7a673cc45a577c8271602ac906201b96bf6d4d2659c8c17d6"
+    },
+    "specs/v0.1/samples/games/g07-mismatch-lock.game.json": {
+      "to": "specs/v0.1/games/g07-mismatch-lock.game.json",
+      "before": "0b6495450ab7352121fb2f7317d8b7fae8c96e69817be3234f145a1f7cb224a4",
+      "after": "0b6495450ab7352121fb2f7317d8b7fae8c96e69817be3234f145a1f7cb224a4"
+    },
+    "specs/v0.1/samples/games/g08-candidate.game.json": {
+      "to": "specs/v0.1/games/g08-candidate.game.json",
+      "before": "fc09a42c993381ffecb3050f2895aae7776d5f02b47fa49aaa0a9954d5e6ac62",
+      "after": "fc09a42c993381ffecb3050f2895aae7776d5f02b47fa49aaa0a9954d5e6ac62"
+    },
+    "specs/v0.1/samples/games/g08-column-clear.game.json": {
+      "to": "specs/v0.1/games/g08-column-clear.game.json",
+      "before": "9bd44b955201ca2264f2007451bfc9877a1e8d214e41dd68536e6155caa8ede2",
+      "after": "9bd44b955201ca2264f2007451bfc9877a1e8d214e41dd68536e6155caa8ede2"
+    },
+    "specs/v0.1/samples/games/g09-candidate.game.json": {
+      "to": "specs/v0.1/games/g09-candidate.game.json",
+      "before": "fa6b76ae296d9328977361bb782dac2048fb778fedeebade0930936c0160048b",
+      "after": "fa6b76ae296d9328977361bb782dac2048fb778fedeebade0930936c0160048b"
+    },
+    "specs/v0.1/samples/games/g09-rotate-drop.game.json": {
+      "to": "specs/v0.1/games/g09-rotate-drop.game.json",
+      "before": "1f1a76ee1ab49e956e73b5e3300df905615bcaebcb54e7092c4f2b829af84a68",
+      "after": "1f1a76ee1ab49e956e73b5e3300df905615bcaebcb54e7092c4f2b829af84a68"
+    },
+    "specs/v0.1/samples/games/g10-candidate.game.json": {
+      "to": "specs/v0.1/games/g10-candidate.game.json",
+      "before": "8822a786c7bda7f223b7aea70e4d1556a46b57dafdf314d12f83d342a9a7bb43",
+      "after": "8822a786c7bda7f223b7aea70e4d1556a46b57dafdf314d12f83d342a9a7bb43"
+    },
+    "specs/v0.1/samples/games/g10-crossed-targets.game.json": {
+      "to": "specs/v0.1/games/g10-crossed-targets.game.json",
+      "before": "738ee6ea940f87df9efbc0b06971166c79e3004a0aa15009b8d177187a040e65",
+      "after": "738ee6ea940f87df9efbc0b06971166c79e3004a0aa15009b8d177187a040e65"
+    },
+    "specs/v0.1/samples/games/g11-candidate.game.json": {
+      "to": "specs/v0.1/games/g11-candidate.game.json",
+      "before": "413e29c5f52696eb21b171213209a9da294de859a5fb2da5eb5214770635d07b",
+      "after": "413e29c5f52696eb21b171213209a9da294de859a5fb2da5eb5214770635d07b"
+    },
+    "specs/v0.1/samples/games/g11-longer-jump.game.json": {
+      "to": "specs/v0.1/games/g11-longer-jump.game.json",
+      "before": "b31590698f6f213ba29c35e03fd08f86f37d12f871f6818088f84c02a7634388",
+      "after": "b31590698f6f213ba29c35e03fd08f86f37d12f871f6818088f84c02a7634388"
+    },
+    "specs/v0.1/samples/games/g12-candidate.game.json": {
+      "to": "specs/v0.1/games/g12-candidate.game.json",
+      "before": "a031567ea902ec418e359144d906ff4962ca7c32a395c00b8deae7fe2864d732",
+      "after": "a031567ea902ec418e359144d906ff4962ca7c32a395c00b8deae7fe2864d732"
+    },
+    "specs/v0.1/samples/games/g12-third-gate.game.json": {
+      "to": "specs/v0.1/games/g12-third-gate.game.json",
+      "before": "9b1460baf9a1261e1a979a8a7303cf731beb19f148305e86701a94e4c895c7d1",
+      "after": "9b1460baf9a1261e1a979a8a7303cf731beb19f148305e86701a94e4c895c7d1"
+    },
+    "specs/v0.1/samples/games/g13-candidate.game.json": {
+      "to": "specs/v0.1/games/g13-candidate.game.json",
+      "before": "bb57f23ded08df94d3a6fb7bebe568b89e78a7c0493d6cbfc8650ca095a56530",
+      "after": "bb57f23ded08df94d3a6fb7bebe568b89e78a7c0493d6cbfc8650ca095a56530"
+    },
+    "specs/v0.1/samples/games/g13-second-obstacle.game.json": {
+      "to": "specs/v0.1/games/g13-second-obstacle.game.json",
+      "before": "b60240fb258aa2b245e9b44ab336e1a116b46d9d369607f773602cbc2673800a",
+      "after": "b60240fb258aa2b245e9b44ab336e1a116b46d9d369607f773602cbc2673800a"
+    },
+    "specs/v0.1/samples/games/g14-candidate.game.json": {
+      "to": "specs/v0.1/games/g14-candidate.game.json",
+      "before": "6ca7a1655ad0f003e99f8891c26c6635a27f4cd8a3c24e156d08f583e6f19de7",
+      "after": "6ca7a1655ad0f003e99f8891c26c6635a27f4cd8a3c24e156d08f583e6f19de7"
+    },
+    "specs/v0.1/samples/games/g14-right-paddle.game.json": {
+      "to": "specs/v0.1/games/g14-right-paddle.game.json",
+      "before": "56de8b3e819b6fbd64b7ae141ae4e002b7fb5355e31cefb11d1480c7509e659c",
+      "after": "56de8b3e819b6fbd64b7ae141ae4e002b7fb5355e31cefb11d1480c7509e659c"
+    },
+    "specs/v0.1/samples/games/g15-candidate.game.json": {
+      "to": "specs/v0.1/games/g15-candidate.game.json",
+      "before": "d973395a37e8b22793444a5dbcaacf42c11afe05417660372a2b14f4124e99dc",
+      "after": "d973395a37e8b22793444a5dbcaacf42c11afe05417660372a2b14f4124e99dc"
+    },
+    "specs/v0.1/samples/games/g15-high-trigger.game.json": {
+      "to": "specs/v0.1/games/g15-high-trigger.game.json",
+      "before": "16c00c5665dc0d96df065c4cb0c7a93dc0197b2e175227f6f491271e95c79706",
+      "after": "16c00c5665dc0d96df065c4cb0c7a93dc0197b2e175227f6f491271e95c79706"
+    },
+    "specs/v0.1/samples/games/g16-candidate.game.json": {
+      "to": "specs/v0.1/games/g16-candidate.game.json",
+      "before": "a10632d3d7c0e7d5b095403b9d5d724cd39c1d2575fafcb19f1621beadefe46f",
+      "after": "a10632d3d7c0e7d5b095403b9d5d724cd39c1d2575fafcb19f1621beadefe46f"
+    },
+    "specs/v0.1/samples/games/g16-four-drops.game.json": {
+      "to": "specs/v0.1/games/g16-four-drops.game.json",
+      "before": "11968fbacdd685368a74078e206247727e20cde4f743d96348fc6dddc6ba116a",
+      "after": "11968fbacdd685368a74078e206247727e20cde4f743d96348fc6dddc6ba116a"
+    },
+    "specs/v0.1/samples/games/g17-armored-waves.game.json": {
+      "to": "specs/v0.1/games/g17-armored-waves.game.json",
+      "before": "c1252138c98fd4d8e9921c0c76fdd23eb3ebc176b23bb6b867a65e63f78ca425",
+      "after": "c1252138c98fd4d8e9921c0c76fdd23eb3ebc176b23bb6b867a65e63f78ca425"
+    },
+    "specs/v0.1/samples/games/g17-candidate.game.json": {
+      "to": "specs/v0.1/games/g17-candidate.game.json",
+      "before": "a7f0bd6944cabc8b4534953e1628d0d1dc0d933c6c3d027cf6daf42b60a3c78b",
+      "after": "a7f0bd6944cabc8b4534953e1628d0d1dc0d933c6c3d027cf6daf42b60a3c78b"
+    },
+    "specs/v0.1/samples/games/g18-armored-target.game.json": {
+      "to": "specs/v0.1/games/g18-armored-target.game.json",
+      "before": "450b97d501ee18f7f84b56ef79c3565170acd2a338e68b7ed04ab8727d614fc3",
+      "after": "450b97d501ee18f7f84b56ef79c3565170acd2a338e68b7ed04ab8727d614fc3"
+    },
+    "specs/v0.1/samples/games/g18-candidate.game.json": {
+      "to": "specs/v0.1/games/g18-candidate.game.json",
+      "before": "be4ccdeaeba676d7fc35ce8d1ea28d6c4f5729188af1cac5f8779128a1136a11",
+      "after": "be4ccdeaeba676d7fc35ce8d1ea28d6c4f5729188af1cac5f8779128a1136a11"
+    },
+    "specs/v0.1/samples/games/g19-candidate.game.json": {
+      "to": "specs/v0.1/games/g19-candidate.game.json",
+      "before": "1a91f1c558cc1a20fb402bd3a675fb4965e884557de6b5f00352f7ae48892754",
+      "after": "1a91f1c558cc1a20fb402bd3a675fb4965e884557de6b5f00352f7ae48892754"
+    },
+    "specs/v0.1/samples/games/g19-horde-upgrade.game.json": {
+      "to": "specs/v0.1/games/g19-horde-upgrade.game.json",
+      "before": "95bfed32309c3b71121d293847cdb3d95f370366891fbf756a7150488b070a91",
+      "after": "95bfed32309c3b71121d293847cdb3d95f370366891fbf756a7150488b070a91"
+    },
+    "specs/v0.1/samples/games/g20-candidate.game.json": {
+      "to": "specs/v0.1/games/g20-candidate.game.json",
+      "before": "0d5d4bcffdcfee5aa68049db0a4c3102b1c720e004c1e1da1db53f38ef85cce7",
+      "after": "0d5d4bcffdcfee5aa68049db0a4c3102b1c720e004c1e1da1db53f38ef85cce7"
+    },
+    "specs/v0.1/samples/games/g20-hanging-bubbles.game.json": {
+      "to": "specs/v0.1/games/g20-hanging-bubbles.game.json",
+      "before": "59c1fb3acc6961ea79d0ab251b66bc9279d097fddaa28149d228fb49486fe8ab",
+      "after": "59c1fb3acc6961ea79d0ab251b66bc9279d097fddaa28149d228fb49486fe8ab"
+    },
+    "specs/v0.1/samples/games/g21-candidate.game.json": {
+      "to": "specs/v0.1/games/g21-candidate.game.json",
+      "before": "0f50f5b9f62b650b3cea626baa1688cd1b9d12fce379834742b2be03c2f50963",
+      "after": "0f50f5b9f62b650b3cea626baa1688cd1b9d12fce379834742b2be03c2f50963"
+    },
+    "specs/v0.1/samples/games/g21-reverse-waves.game.json": {
+      "to": "specs/v0.1/games/g21-reverse-waves.game.json",
+      "before": "cf3995fe2325b563859e59c754427d711e0d21ac942df5c359cc660930b71e0d",
+      "after": "cf3995fe2325b563859e59c754427d711e0d21ac942df5c359cc660930b71e0d"
+    },
+    "specs/v0.1/samples/games/g22-candidate.game.json": {
+      "to": "specs/v0.1/games/g22-candidate.game.json",
+      "before": "36bb89540e5a5a8710522a840ffa2035643e31c15e20503f6de91e57620bf961",
+      "after": "36bb89540e5a5a8710522a840ffa2035643e31c15e20503f6de91e57620bf961"
+    },
+    "specs/v0.1/samples/games/g22-two-harvests.game.json": {
+      "to": "specs/v0.1/games/g22-two-harvests.game.json",
+      "before": "7ff8954a8e6b914e315c9bc51173966e0b69a76261fa3562a7a6a0c6758066be",
+      "after": "7ff8954a8e6b914e315c9bc51173966e0b69a76261fa3562a7a6a0c6758066be"
+    },
+    "specs/v0.1/samples/games/g23-candidate.game.json": {
+      "to": "specs/v0.1/games/g23-candidate.game.json",
+      "before": "1689f82b1f7f807fbb710845918c5f7c21464b242251417d448c8b0921e9c702",
+      "after": "1689f82b1f7f807fbb710845918c5f7c21464b242251417d448c8b0921e9c702"
+    },
+    "specs/v0.1/samples/games/g23-production-chain.game.json": {
+      "to": "specs/v0.1/games/g23-production-chain.game.json",
+      "before": "c7fa34e3058b5c76d68e2a2493e2df31ca1f4fd1a1671b3939d102426fcb98ce",
+      "after": "c7fa34e3058b5c76d68e2a2493e2df31ca1f4fd1a1671b3939d102426fcb98ce"
+    },
+    "specs/v0.1/samples/games/g24-candidate.game.json": {
+      "to": "specs/v0.1/games/g24-candidate.game.json",
+      "before": "cafa2f1eaee2e806296a20eb93b11d3798f43629ced2446eb7a80c17fff796fc",
+      "after": "cafa2f1eaee2e806296a20eb93b11d3798f43629ced2446eb7a80c17fff796fc"
+    },
+    "specs/v0.1/samples/games/g24-connect-four.game.json": {
+      "to": "specs/v0.1/games/g24-connect-four.game.json",
+      "before": "e462829d0569267455433853a138817f11b52105e1be97fdc13e61a2adcdc1a3",
+      "after": "e462829d0569267455433853a138817f11b52105e1be97fdc13e61a2adcdc1a3"
+    },
+    "specs/v0.1/samples/games/g25-candidate.game.json": {
+      "to": "specs/v0.1/games/g25-candidate.game.json",
+      "before": "a7fd8133aa5bfc2d34c157a6516f0af649a3fc3f7ba45c446ee4c9102d759e7e",
+      "after": "a7fd8133aa5bfc2d34c157a6516f0af649a3fc3f7ba45c446ee4c9102d759e7e"
+    },
+    "specs/v0.1/samples/games/g25-four-fruits.game.json": {
+      "to": "specs/v0.1/games/g25-four-fruits.game.json",
+      "before": "e504fb63a2c640748ac40b17f6ab187b4b2f7535a4b4210220a8c3992db443d4",
+      "after": "e504fb63a2c640748ac40b17f6ab187b4b2f7535a4b4210220a8c3992db443d4"
+    },
+    "specs/v0.1/samples/games/g26-candidate.game.json": {
+      "to": "specs/v0.1/games/g26-candidate.game.json",
+      "before": "448cba007dd16702eb236613a0eda748ab15893ff06fa9ac7f24fcb920ec7ee0",
+      "after": "448cba007dd16702eb236613a0eda748ab15893ff06fa9ac7f24fcb920ec7ee0"
+    },
+    "specs/v0.1/samples/games/g26-half-turn.game.json": {
+      "to": "specs/v0.1/games/g26-half-turn.game.json",
+      "before": "8f2e963f5cb99725d0bcf7c8f16566cf3d12a0fd826ada11a1277e52c657fecb",
+      "after": "8f2e963f5cb99725d0bcf7c8f16566cf3d12a0fd826ada11a1277e52c657fecb"
+    },
+    "specs/v0.1/samples/games/g27-candidate.game.json": {
+      "to": "specs/v0.1/games/g27-candidate.game.json",
+      "before": "606bc44b9b0e3460b1e50bb89181e58b81a198acb490dfc67f88f5ab0044af2a",
+      "after": "606bc44b9b0e3460b1e50bb89181e58b81a198acb490dfc67f88f5ab0044af2a"
+    },
+    "specs/v0.1/samples/games/g27-lower-detour.game.json": {
+      "to": "specs/v0.1/games/g27-lower-detour.game.json",
+      "before": "70ee6101ad720055898f093f6dadaeead5a80120dc7910d2f50df83ecccce97c",
+      "after": "70ee6101ad720055898f093f6dadaeead5a80120dc7910d2f50df83ecccce97c"
+    },
+    "specs/v0.1/samples/games/g28-candidate.game.json": {
+      "to": "specs/v0.1/games/g28-candidate.game.json",
+      "before": "035004beb80d34cf61022873d39754cd793eec89adf6da5fc35bf985d6d40e5c",
+      "after": "035004beb80d34cf61022873d39754cd793eec89adf6da5fc35bf985d6d40e5c"
+    },
+    "specs/v0.1/samples/games/g28-four-stack.game.json": {
+      "to": "specs/v0.1/games/g28-four-stack.game.json",
+      "before": "448dd10b79d6bdc34cd0a9ca92e57c3e5570ac5bcfd6e2cdade8733e81a72d11",
+      "after": "448dd10b79d6bdc34cd0a9ca92e57c3e5570ac5bcfd6e2cdade8733e81a72d11"
+    },
+    "specs/v0.1/samples/games/g29-candidate.game.json": {
+      "to": "specs/v0.1/games/g29-candidate.game.json",
+      "before": "44f7b5f726cbecf443381a91601c448dc3285b2ea38cbe5f18644cb1e8d0f590",
+      "after": "44f7b5f726cbecf443381a91601c448dc3285b2ea38cbe5f18644cb1e8d0f590"
+    },
+    "specs/v0.1/samples/games/g29-four-shakes.game.json": {
+      "to": "specs/v0.1/games/g29-four-shakes.game.json",
+      "before": "2fcce5d2456353359b07a3ec87b810f5b3f3dbb57b95c142bc4331789a6f6872",
+      "after": "2fcce5d2456353359b07a3ec87b810f5b3f3dbb57b95c142bc4331789a6f6872"
+    },
+    "specs/v0.1/samples/games/g30-candidate.game.json": {
+      "to": "specs/v0.1/games/g30-candidate.game.json",
+      "before": "73ebf1cf65ba60791a54fddec381b730fc4cc217d5b259c193fa3c411b98daad",
+      "after": "73ebf1cf65ba60791a54fddec381b730fc4cc217d5b259c193fa3c411b98daad"
+    },
+    "specs/v0.1/samples/games/g30-far-target.game.json": {
+      "to": "specs/v0.1/games/g30-far-target.game.json",
+      "before": "f4acf46cc56bbf1b1c8f036f1d1855ed62606de1b1426a7e9acd50e94d435366",
+      "after": "f4acf46cc56bbf1b1c8f036f1d1855ed62606de1b1426a7e9acd50e94d435366"
+    },
+    "specs/v0.1/samples/games/g31-candidate.game.json": {
+      "to": "specs/v0.1/games/g31-candidate.game.json",
+      "before": "1cb79042995d913d0f2312cdd38d103c9b93c404fb3f708b15e5aadc48e90e6b",
+      "after": "1cb79042995d913d0f2312cdd38d103c9b93c404fb3f708b15e5aadc48e90e6b"
+    },
+    "specs/v0.1/samples/games/g31-orientation-armor.game.json": {
+      "to": "specs/v0.1/games/g31-orientation-armor.game.json",
+      "before": "80de021c8af0d80bfbcb1aa58091bceb6ae08ae854552483e9a54a42ba11e0be",
+      "after": "80de021c8af0d80bfbcb1aa58091bceb6ae08ae854552483e9a54a42ba11e0be"
+    },
+    "specs/v0.1/samples/games/g32-candidate.game.json": {
+      "to": "specs/v0.1/games/g32-candidate.game.json",
+      "before": "0291a1be3199624a50af8af8a90c05879fa1a1808e5ef8580245b0fce9e9a728",
+      "after": "0291a1be3199624a50af8af8a90c05879fa1a1808e5ef8580245b0fce9e9a728"
+    },
+    "specs/v0.1/samples/games/g32-three-fingers.game.json": {
+      "to": "specs/v0.1/games/g32-three-fingers.game.json",
+      "before": "f831999a2e404e46830ae855747e7b7114e52ad2f007e1c492a3df85e67116e8",
+      "after": "f831999a2e404e46830ae855747e7b7114e52ad2f007e1c492a3df85e67116e8"
+    },
+    "specs/v0.1/samples/games/gamepad-lab.game.json": {
+      "to": "specs/v0.1/games/gamepad-lab.game.json",
+      "before": "6eed1ece373ccffbc8be3433356563871bc0c69dcb354ed149f1b112da2009f5",
+      "after": "6eed1ece373ccffbc8be3433356563871bc0c69dcb354ed149f1b112da2009f5"
+    },
+    "specs/v0.1/samples/games/grid-merge-spawn.game.json": {
+      "to": "specs/v0.1/games/grid-merge-spawn.game.json",
+      "before": "01bcc5adf7d5d00f57f772d5369a4aebec8d696168ff80e5c5c81017dc96b513",
+      "after": "01bcc5adf7d5d00f57f772d5369a4aebec8d696168ff80e5c5c81017dc96b513"
+    },
+    "specs/v0.1/samples/games/grid-merge.game.json": {
+      "to": "specs/v0.1/games/grid-merge.game.json",
+      "before": "98690d756e0dcb3e495c0171cf8220bae9524bc7a3028d825e73b17c82e91195",
+      "after": "98690d756e0dcb3e495c0171cf8220bae9524bc7a3028d825e73b17c82e91195"
+    },
+    "specs/v0.1/samples/games/grid-push.game.json": {
+      "to": "specs/v0.1/games/grid-push.game.json",
+      "before": "f9e5560262a6023c5ab38da127d16e2348e2f875ea599c9e4e7c77c9983d80a2",
+      "after": "f9e5560262a6023c5ab38da127d16e2348e2f875ea599c9e4e7c77c9983d80a2"
+    },
+    "specs/v0.1/samples/games/h01-candidate.game.json": {
+      "to": "specs/v0.1/games/h01-candidate.game.json",
+      "before": "5c373d27da44ec0f264693193eff40c8be64a593ff412c39744ee49380b6c09e",
+      "after": "5c373d27da44ec0f264693193eff40c8be64a593ff412c39744ee49380b6c09e"
+    },
+    "specs/v0.1/samples/games/h01-reward-upgrade.game.json": {
+      "to": "specs/v0.1/games/h01-reward-upgrade.game.json",
+      "before": "695f28676b86af4086b535bf55472290934eb06763cc0968845b488ccd2d4b34",
+      "after": "695f28676b86af4086b535bf55472290934eb06763cc0968845b488ccd2d4b34"
+    },
+    "specs/v0.1/samples/games/h02-candidate.game.json": {
+      "to": "specs/v0.1/games/h02-candidate.game.json",
+      "before": "e196de2d3ab8da3c80613e358e45485feb3e0fd162a38487b87872d478c7547e",
+      "after": "e196de2d3ab8da3c80613e358e45485feb3e0fd162a38487b87872d478c7547e"
+    },
+    "specs/v0.1/samples/games/h02-exact-cost.game.json": {
+      "to": "specs/v0.1/games/h02-exact-cost.game.json",
+      "before": "e5c904f5d677637594a40c2be9d4fc076877ff1ee592b9f3ab465c433c6584c4",
+      "after": "e5c904f5d677637594a40c2be9d4fc076877ff1ee592b9f3ab465c433c6584c4"
+    },
+    "specs/v0.1/samples/games/h03-candidate.game.json": {
+      "to": "specs/v0.1/games/h03-candidate.game.json",
+      "before": "ca83164b35b1bf4ea00725358005bdac584d36acc074a8b9692104009eac73ca",
+      "after": "ca83164b35b1bf4ea00725358005bdac584d36acc074a8b9692104009eac73ca"
+    },
+    "specs/v0.1/samples/games/h03-swapped-zones.game.json": {
+      "to": "specs/v0.1/games/h03-swapped-zones.game.json",
+      "before": "05469d7b27fe3d2852d5f18647c1b8ea429f848d50381641476064bb894727b0",
+      "after": "05469d7b27fe3d2852d5f18647c1b8ea429f848d50381641476064bb894727b0"
+    },
+    "specs/v0.1/samples/games/h04-candidate.game.json": {
+      "to": "specs/v0.1/games/h04-candidate.game.json",
+      "before": "7b93da406363c295ab9b9fcedabe420430b0466b75698191763e92ce60a10731",
+      "after": "7b93da406363c295ab9b9fcedabe420430b0466b75698191763e92ce60a10731"
+    },
+    "specs/v0.1/samples/games/h04-larger-merge.game.json": {
+      "to": "specs/v0.1/games/h04-larger-merge.game.json",
+      "before": "914e1a8d2f4871e6e828a693ca805f28df21e5ec30b602bbb139ff3bbd2e6945",
+      "after": "914e1a8d2f4871e6e828a693ca805f28df21e5ec30b602bbb139ff3bbd2e6945"
+    },
+    "specs/v0.1/samples/games/h05-candidate.game.json": {
+      "to": "specs/v0.1/games/h05-candidate.game.json",
+      "before": "f4c18d74f5fd90627a7c7e91c2799f9deea686c3331bae81e5e8616e1ff09d41",
+      "after": "f4c18d74f5fd90627a7c7e91c2799f9deea686c3331bae81e5e8616e1ff09d41"
+    },
+    "specs/v0.1/samples/games/h05-deadline-tie.game.json": {
+      "to": "specs/v0.1/games/h05-deadline-tie.game.json",
+      "before": "081e558c7ffd2e2fdf57c8021def9d63b0f9ba177b6bc7dc4683ced0d901de85",
+      "after": "081e558c7ffd2e2fdf57c8021def9d63b0f9ba177b6bc7dc4683ced0d901de85"
+    },
+    "specs/v0.1/samples/games/mobile-input-lab.game.json": {
+      "to": "specs/v0.1/games/mobile-input-lab.game.json",
+      "before": "234c439dddb039750c1b11da19094e1e4cbc59beb9d2f627f26cdda0ccab4604",
+      "after": "234c439dddb039750c1b11da19094e1e4cbc59beb9d2f627f26cdda0ccab4604"
+    },
+    "specs/v0.1/samples/games/puzzle-arrows.game.json": {
+      "to": "specs/v0.1/games/puzzle-arrows.game.json",
+      "before": "ef25be031c10260832c0c312304c28c2b34f1c4ea2b99ffe50d8a36642e663fe",
+      "after": "ef25be031c10260832c0c312304c28c2b34f1c4ea2b99ffe50d8a36642e663fe"
+    },
+    "specs/v0.1/samples/games/puzzle-connected.game.json": {
+      "to": "specs/v0.1/games/puzzle-connected.game.json",
+      "before": "852844cf89045859b577bc14c47948306a5b6a81b7ffafbd166c8fedea2f4027",
+      "after": "852844cf89045859b577bc14c47948306a5b6a81b7ffafbd166c8fedea2f4027"
+    },
+    "specs/v0.1/samples/games/puzzle-falling.game.json": {
+      "to": "specs/v0.1/games/puzzle-falling.game.json",
+      "before": "0f49e3da08d2f7d3db7426f0045a88f972735f9b75d4fa6f75deb4908a5a2a74",
+      "after": "0f49e3da08d2f7d3db7426f0045a88f972735f9b75d4fa6f75deb4908a5a2a74"
+    },
+    "specs/v0.1/samples/games/puzzle-mahjong.game.json": {
+      "to": "specs/v0.1/games/puzzle-mahjong.game.json",
+      "before": "356b6ec94aeb3698a9450b04cf8fa27d3a6c6fcf4066b26750fd2c0aa98686dc",
+      "after": "356b6ec94aeb3698a9450b04cf8fa27d3a6c6fcf4066b26750fd2c0aa98686dc"
+    },
+    "specs/v0.1/samples/games/puzzle-match.game.json": {
+      "to": "specs/v0.1/games/puzzle-match.game.json",
+      "before": "551975bcbaf2bed8aedb87f1d8de39d312308299c81988c5de8a85ea006449bf",
+      "after": "551975bcbaf2bed8aedb87f1d8de39d312308299c81988c5de8a85ea006449bf"
+    },
+    "specs/v0.1/samples/games/puzzle-memory.game.json": {
+      "to": "specs/v0.1/games/puzzle-memory.game.json",
+      "before": "00de68c4291516871e830884977a9eaa1bd73dbf53c4fb6509f2bd3f16371090",
+      "after": "00de68c4291516871e830884977a9eaa1bd73dbf53c4fb6509f2bd3f16371090"
+    },
+    "specs/v0.1/samples/games/puzzle-placement.game.json": {
+      "to": "specs/v0.1/games/puzzle-placement.game.json",
+      "before": "8918666111643f92d7a20b3b6191903d6303f1fb11e3a50b39e00b8bff841c33",
+      "after": "8918666111643f92d7a20b3b6191903d6303f1fb11e3a50b39e00b8bff841c33"
+    },
+    "specs/v0.1/samples/games/puzzle-polyomino.game.json": {
+      "to": "specs/v0.1/games/puzzle-polyomino.game.json",
+      "before": "a38bc2abf8c86185dccc6fea8753e160d3ffb3d9fe189ccea7f6c8046c2737b1",
+      "after": "a38bc2abf8c86185dccc6fea8753e160d3ffb3d9fe189ccea7f6c8046c2737b1"
+    },
+    "specs/v0.1/samples/games/puzzle-push-undo.game.json": {
+      "to": "specs/v0.1/games/puzzle-push-undo.game.json",
+      "before": "f8a07a2bd227687b125ccce2c09190219d7fbdacb800b8c17a7a3208b1d069bd",
+      "after": "f8a07a2bd227687b125ccce2c09190219d7fbdacb800b8c17a7a3208b1d069bd"
+    },
+    "specs/v0.1/samples/games/puzzle-slide-undo.game.json": {
+      "to": "specs/v0.1/games/puzzle-slide-undo.game.json",
+      "before": "075744c3b932208d6288f3c6c1baeaba07f6da7b6c9e175986fc1b5d01cdab0c",
+      "after": "075744c3b932208d6288f3c6c1baeaba07f6da7b6c9e175986fc1b5d01cdab0c"
+    },
+    "specs/v0.1/samples/games/puzzle-sort.game.json": {
+      "to": "specs/v0.1/games/puzzle-sort.game.json",
+      "before": "a0e59ada10546ff3fb13b8e102d6969269b438f8e038cfe24ada45f1a33f0679",
+      "after": "a0e59ada10546ff3fb13b8e102d6969269b438f8e038cfe24ada45f1a33f0679"
+    },
+    "specs/v0.1/samples/games/puzzle-tray.game.json": {
+      "to": "specs/v0.1/games/puzzle-tray.game.json",
+      "before": "38b8b7d80fc8c6d7b7586303fb19ff7ceefbef46e94940c5c569f4bae5cfb44a",
+      "after": "38b8b7d80fc8c6d7b7586303fb19ff7ceefbef46e94940c5c569f4bae5cfb44a"
+    },
+    "specs/v0.1/samples/games/realtime-bounce.game.json": {
+      "to": "specs/v0.1/games/realtime-bounce.game.json",
+      "before": "861dea8f0f21e8943549038a62a1736270b2bd19a55a8219327abbae543016b4",
+      "after": "861dea8f0f21e8943549038a62a1736270b2bd19a55a8219327abbae543016b4"
+    },
+    "specs/v0.1/samples/games/realtime-constraint.game.json": {
+      "to": "specs/v0.1/games/realtime-constraint.game.json",
+      "before": "8f587b4cbd08ccc2d34855d9fa7286bddf564f8c2f1dcc9da34b8d9b6407adfe",
+      "after": "8f587b4cbd08ccc2d34855d9fa7286bddf564f8c2f1dcc9da34b8d9b6407adfe"
+    },
+    "specs/v0.1/samples/games/realtime-flappy.game.json": {
+      "to": "specs/v0.1/games/realtime-flappy.game.json",
+      "before": "295d37c7c635723ff772595d1c50a8b1581a3f123a05c230497e5308e5bb109b",
+      "after": "295d37c7c635723ff772595d1c50a8b1581a3f123a05c230497e5308e5bb109b"
+    },
+    "specs/v0.1/samples/games/realtime-hitscan.game.json": {
+      "to": "specs/v0.1/games/realtime-hitscan.game.json",
+      "before": "d0419b39dacd73454f09e86a04a15fce41168eae0eb3383f9324886a74670af8",
+      "after": "d0419b39dacd73454f09e86a04a15fce41168eae0eb3383f9324886a74670af8"
+    },
+    "specs/v0.1/samples/games/realtime-jump.game.json": {
+      "to": "specs/v0.1/games/realtime-jump.game.json",
+      "before": "6927b2fd4006515f463c61bc483076918c8a32cbb0cb7801f8b34bca000c0769",
+      "after": "6927b2fd4006515f463c61bc483076918c8a32cbb0cb7801f8b34bca000c0769"
+    },
+    "specs/v0.1/samples/games/realtime-lanes.game.json": {
+      "to": "specs/v0.1/games/realtime-lanes.game.json",
+      "before": "0f42a5ca7fb9d316994e85bb75271e9695a6d7ac6186d0af4b65547cf0c283a0",
+      "after": "0f42a5ca7fb9d316994e85bb75271e9695a6d7ac6186d0af4b65547cf0c283a0"
+    },
+    "specs/v0.1/samples/games/realtime-merge.game.json": {
+      "to": "specs/v0.1/games/realtime-merge.game.json",
+      "before": "ad483add4d91e7255f7aff90fecbeb37781ad8652b1bc401ea83f882174cac60",
+      "after": "ad483add4d91e7255f7aff90fecbeb37781ad8652b1bc401ea83f882174cac60"
+    },
+    "specs/v0.1/samples/games/realtime-projectile.game.json": {
+      "to": "specs/v0.1/games/realtime-projectile.game.json",
+      "before": "5125a951d74798267beafb80132c46f6877851181d2519cacf58de04a6a1a103",
+      "after": "5125a951d74798267beafb80132c46f6877851181d2519cacf58de04a6a1a103"
+    },
+    "specs/v0.1/samples/games/realtime-seek.game.json": {
+      "to": "specs/v0.1/games/realtime-seek.game.json",
+      "before": "64b5149dca8d3a49046636319c6291a5652d07e7f329708b1e311441d15116de",
+      "after": "64b5149dca8d3a49046636319c6291a5652d07e7f329708b1e311441d15116de"
+    },
+    "specs/v0.1/samples/games/realtime-waves.game.json": {
+      "to": "specs/v0.1/games/realtime-waves.game.json",
+      "before": "6002b1489d3c7caea87c295b268a4441efeb3fc386305151191cd6ad9b917c5a",
+      "after": "6002b1489d3c7caea87c295b268a4441efeb3fc386305151191cd6ad9b917c5a"
+    },
+    "specs/v0.1/samples/games/strategy-cards.game.json": {
+      "to": "specs/v0.1/games/strategy-cards.game.json",
+      "before": "87c75802de4f82a9c728ea9b6e8d0105fef835ac95c5ab269b3074e6cc474c8d",
+      "after": "87c75802de4f82a9c728ea9b6e8d0105fef835ac95c5ab269b3074e6cc474c8d"
+    },
+    "specs/v0.1/samples/games/strategy-farm.game.json": {
+      "to": "specs/v0.1/games/strategy-farm.game.json",
+      "before": "de1f9e14d1f32266d7f74e820b27415cef1d3eb921df7433c9d177b1ccca61e2",
+      "after": "de1f9e14d1f32266d7f74e820b27415cef1d3eb921df7433c9d177b1ccca61e2"
+    },
+    "specs/v0.1/samples/games/strategy-merge.game.json": {
+      "to": "specs/v0.1/games/strategy-merge.game.json",
+      "before": "a445f8df675babe7a177ed3c14d64833c1a183400751561ffad53733a7a75b73",
+      "after": "a445f8df675babe7a177ed3c14d64833c1a183400751561ffad53733a7a75b73"
+    },
+    "specs/v0.1/samples/games/strategy-path.game.json": {
+      "to": "specs/v0.1/games/strategy-path.game.json",
+      "before": "11ef0c72c3899d1d9d624b54537e7e5f3d67254b7230cecf7410f4f911a92850",
+      "after": "11ef0c72c3899d1d9d624b54537e7e5f3d67254b7230cecf7410f4f911a92850"
+    },
+    "specs/v0.1/samples/games/strategy-shop.game.json": {
+      "to": "specs/v0.1/games/strategy-shop.game.json",
+      "before": "7bef275c92501a9eafb2bf038d64c86266ce2936576215923093a06b90ad2c49",
+      "after": "7bef275c92501a9eafb2bf038d64c86266ce2936576215923093a06b90ad2c49"
+    },
+    "specs/v0.1/samples/games/strategy-shuffle.game.json": {
+      "to": "specs/v0.1/games/strategy-shuffle.game.json",
+      "before": "2322485af5ef1880252939c275dce8806b361916f3cedb6da6d943e41a65a5ba",
+      "after": "2322485af5ef1880252939c275dce8806b361916f3cedb6da6d943e41a65a5ba"
+    },
+    "specs/v0.1/samples/games/strategy-tower.game.json": {
+      "to": "specs/v0.1/games/strategy-tower.game.json",
+      "before": "d4a240fd2bf1245d0a5a61d44ee7b928b7656b2fe0c2afbdbf389491269364fb",
+      "after": "d4a240fd2bf1245d0a5a61d44ee7b928b7656b2fe0c2afbdbf389491269364fb"
+    },
+    "specs/v0.1/samples/games/strategy-turn.game.json": {
+      "to": "specs/v0.1/games/strategy-turn.game.json",
+      "before": "e29822229b004100d008da507ddc0e2d97bc005ea3c4bb1200cc91a0650dc75f",
+      "after": "e29822229b004100d008da507ddc0e2d97bc005ea3c4bb1200cc91a0650dc75f"
+    },
+    "specs/v0.1/samples/games/strategy-upgrade.game.json": {
+      "to": "specs/v0.1/games/strategy-upgrade.game.json",
+      "before": "f630a9b4eca490765314c4e463f7faf394dd4128101cde9a3170216aad2f8478",
+      "after": "f630a9b4eca490765314c4e463f7faf394dd4128101cde9a3170216aad2f8478"
+    },
+    "specs/v0.1/samples/games/tap-target.game.json": {
+      "to": "specs/v0.1/games/tap-target.game.json",
+      "before": "cfac184658f5cf3681ac17621f14d53083c31476cdf5507c8d6b6d138bb2334c",
+      "after": "cfac184658f5cf3681ac17621f14d53083c31476cdf5507c8d6b6d138bb2334c"
+    },
+    "specs/v0.1/samples/games/visual-stage.game.json": {
+      "to": "specs/v0.1/games/visual-stage.game.json",
+      "before": "7576f7981335e2db643c260b67b0b13081c5b1d9c6adbb321e0f797bd54b95ed",
+      "after": "7576f7981335e2db643c260b67b0b13081c5b1d9c6adbb321e0f797bd54b95ed"
+    },
+    "specs/v0.1/samples/tests/exact-hash.conformance.json": {
+      "to": "specs/v0.1/tests/exact-hash.conformance.json",
+      "before": "89c42ee539dd01d931881c5dd7d2b11bda43f12b9ed6b0efcb72b2c0270c3271",
+      "after": "89c42ee539dd01d931881c5dd7d2b11bda43f12b9ed6b0efcb72b2c0270c3271"
+    },
+    "specs/v0.1/samples/tests/g01-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g01-candidate.conformance.json",
+      "before": "aaa901012996958a514aaf2a0e4e2faa8830503e4e5991e8862b4c1018d40662",
+      "after": "aaa901012996958a514aaf2a0e4e2faa8830503e4e5991e8862b4c1018d40662"
+    },
+    "specs/v0.1/samples/tests/g01-two-boxes.conformance.json": {
+      "to": "specs/v0.1/tests/g01-two-boxes.conformance.json",
+      "before": "bd9e0f75d62e57fe863784445b5bc357773e0f8afcd0aeb33a1f18913d6448a2",
+      "after": "bd9e0f75d62e57fe863784445b5bc357773e0f8afcd0aeb33a1f18913d6448a2"
+    },
+    "specs/v0.1/samples/tests/g02-4096.conformance.json": {
+      "to": "specs/v0.1/tests/g02-4096.conformance.json",
+      "before": "3658f62fba72a6668970199f62d54b332c45c8ed98d5d3960d903fa7be340060",
+      "after": "3658f62fba72a6668970199f62d54b332c45c8ed98d5d3960d903fa7be340060"
+    },
+    "specs/v0.1/samples/tests/g02-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g02-candidate.conformance.json",
+      "before": "e5a3abc3f253accae8603e32ee15a39c600174d25c037cffac767d224547ad8f",
+      "after": "e5a3abc3f253accae8603e32ee15a39c600174d25c037cffac767d224547ad8f"
+    },
+    "specs/v0.1/samples/tests/g03-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g03-candidate.conformance.json",
+      "before": "94145d088b63e83c8a618b481e309f370b6a212667404f3e2716316e6834aaf1",
+      "after": "94145d088b63e83c8a618b481e309f370b6a212667404f3e2716316e6834aaf1"
+    },
+    "specs/v0.1/samples/tests/g03-recolored-cascade.conformance.json": {
+      "to": "specs/v0.1/tests/g03-recolored-cascade.conformance.json",
+      "before": "d74970f56973ab3095f5aef4d8e19047047dc34cf904729eeeba326a9326c47d",
+      "after": "d74970f56973ab3095f5aef4d8e19047047dc34cf904729eeeba326a9326c47d"
+    },
+    "specs/v0.1/samples/tests/g04-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g04-candidate.conformance.json",
+      "before": "9f2c1906768da1679db96e37be8fbb67fae3925c4b7ca626362aeef338eef2d6",
+      "after": "9f2c1906768da1679db96e37be8fbb67fae3925c4b7ca626362aeef338eef2d6"
+    },
+    "specs/v0.1/samples/tests/g04-capacity-three.conformance.json": {
+      "to": "specs/v0.1/tests/g04-capacity-three.conformance.json",
+      "before": "d547a66c7243db7d9356468b1b74837717c1d4f65817db69ad619d584df52c5a",
+      "after": "d547a66c7243db7d9356468b1b74837717c1d4f65817db69ad619d584df52c5a"
+    },
+    "specs/v0.1/samples/tests/g05-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g05-candidate.conformance.json",
+      "before": "b99eb06e068e30c70934d40452bfb26d7e643b86b778ed5d6ae4a1def248e79d",
+      "after": "b99eb06e068e30c70934d40452bfb26d7e643b86b778ed5d6ae4a1def248e79d"
+    },
+    "specs/v0.1/samples/tests/g05-three-layers.conformance.json": {
+      "to": "specs/v0.1/tests/g05-three-layers.conformance.json",
+      "before": "03bcc1c51152851b81d4e5ae3856742194eb7bc297fed3ce3a157c0b2450a432",
+      "after": "03bcc1c51152851b81d4e5ae3856742194eb7bc297fed3ce3a157c0b2450a432"
+    },
+    "specs/v0.1/samples/tests/g06-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g06-candidate.conformance.json",
+      "before": "958903670815fa88cf8fe57562cd6f67834368718b67c8c2a5b36b2543825704",
+      "after": "958903670815fa88cf8fe57562cd6f67834368718b67c8c2a5b36b2543825704"
+    },
+    "specs/v0.1/samples/tests/g06-left-rays.conformance.json": {
+      "to": "specs/v0.1/tests/g06-left-rays.conformance.json",
+      "before": "ff715c3b62240eb62d81c2cbcfc0336d07eccd4fe2ef00ac284eb03f80409952",
+      "after": "ff715c3b62240eb62d81c2cbcfc0336d07eccd4fe2ef00ac284eb03f80409952"
+    },
+    "specs/v0.1/samples/tests/g07-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g07-candidate.conformance.json",
+      "before": "31019611e932912784242b53091f348cf3ad6d3c78b2d55b8b1a945e4a4046eb",
+      "after": "31019611e932912784242b53091f348cf3ad6d3c78b2d55b8b1a945e4a4046eb"
+    },
+    "specs/v0.1/samples/tests/g07-mismatch-lock.conformance.json": {
+      "to": "specs/v0.1/tests/g07-mismatch-lock.conformance.json",
+      "before": "50876ee8ad94c2cd20a298bdf262a105c731515bf1dd6479533804437a27a211",
+      "after": "50876ee8ad94c2cd20a298bdf262a105c731515bf1dd6479533804437a27a211"
+    },
+    "specs/v0.1/samples/tests/g08-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g08-candidate.conformance.json",
+      "before": "8051e48d31b9e882c1d9db99cc23fb5a659cfdde9072814ff570d76d9758fa4f",
+      "after": "8051e48d31b9e882c1d9db99cc23fb5a659cfdde9072814ff570d76d9758fa4f"
+    },
+    "specs/v0.1/samples/tests/g08-column-clear.conformance.json": {
+      "to": "specs/v0.1/tests/g08-column-clear.conformance.json",
+      "before": "7f699674c7634e0104dd0ef2e0c24cce33cd78123c610dad58026b7138e33a74",
+      "after": "7f699674c7634e0104dd0ef2e0c24cce33cd78123c610dad58026b7138e33a74"
+    },
+    "specs/v0.1/samples/tests/g09-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g09-candidate.conformance.json",
+      "before": "9846dd09cea31be07095b099b1f081ec9e2244f65937526f77ba45536e7f2f37",
+      "after": "9846dd09cea31be07095b099b1f081ec9e2244f65937526f77ba45536e7f2f37"
+    },
+    "specs/v0.1/samples/tests/g09-rotate-drop.conformance.json": {
+      "to": "specs/v0.1/tests/g09-rotate-drop.conformance.json",
+      "before": "0cec6a5d62790a997a6aca4bc3c00698c9f9535207586daf5b443ea817d83ae4",
+      "after": "0cec6a5d62790a997a6aca4bc3c00698c9f9535207586daf5b443ea817d83ae4"
+    },
+    "specs/v0.1/samples/tests/g10-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g10-candidate.conformance.json",
+      "before": "9b742525a6e21efd80d188ae7e7b21c7be9d0044d955f082fca14a24ebdb91f5",
+      "after": "9b742525a6e21efd80d188ae7e7b21c7be9d0044d955f082fca14a24ebdb91f5"
+    },
+    "specs/v0.1/samples/tests/g10-crossed-targets.conformance.json": {
+      "to": "specs/v0.1/tests/g10-crossed-targets.conformance.json",
+      "before": "50a6dc213cf34f351dc1fe41826c8f7805f5c262c97917d654152e448c1ee08c",
+      "after": "50a6dc213cf34f351dc1fe41826c8f7805f5c262c97917d654152e448c1ee08c"
+    },
+    "specs/v0.1/samples/tests/g11-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g11-candidate.conformance.json",
+      "before": "920585d0cee7637662810902eeb535bf479f893b78dcf7d3fc0dc4380d4b5828",
+      "after": "920585d0cee7637662810902eeb535bf479f893b78dcf7d3fc0dc4380d4b5828"
+    },
+    "specs/v0.1/samples/tests/g11-longer-jump.conformance.json": {
+      "to": "specs/v0.1/tests/g11-longer-jump.conformance.json",
+      "before": "318926bc031db8060dbc9106d17f31d8736889852f10d4c2d5c889a87ad19aa8",
+      "after": "318926bc031db8060dbc9106d17f31d8736889852f10d4c2d5c889a87ad19aa8"
+    },
+    "specs/v0.1/samples/tests/g12-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g12-candidate.conformance.json",
+      "before": "5961d8eda23b22ee80685a0697919ab96df6385f93823a0688bedcb73c09260f",
+      "after": "5961d8eda23b22ee80685a0697919ab96df6385f93823a0688bedcb73c09260f"
+    },
+    "specs/v0.1/samples/tests/g12-third-gate.conformance.json": {
+      "to": "specs/v0.1/tests/g12-third-gate.conformance.json",
+      "before": "3609b15246a7ba8e7a41d8657853b0310d2fd863e30f915ed59e36f624e84b57",
+      "after": "3609b15246a7ba8e7a41d8657853b0310d2fd863e30f915ed59e36f624e84b57"
+    },
+    "specs/v0.1/samples/tests/g13-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g13-candidate.conformance.json",
+      "before": "6c5b00d9f2468768c9ed9a351cdfded262fce390ff943838a7f17e12072a417c",
+      "after": "6c5b00d9f2468768c9ed9a351cdfded262fce390ff943838a7f17e12072a417c"
+    },
+    "specs/v0.1/samples/tests/g13-second-obstacle.conformance.json": {
+      "to": "specs/v0.1/tests/g13-second-obstacle.conformance.json",
+      "before": "6193b9a20eef9feae2223430228cdeae5e2706178f7dbfeb91048d59bdb9c823",
+      "after": "6193b9a20eef9feae2223430228cdeae5e2706178f7dbfeb91048d59bdb9c823"
+    },
+    "specs/v0.1/samples/tests/g14-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g14-candidate.conformance.json",
+      "before": "0e1505132eb4357e4f280b4b1c780b37e2bf2a60221c01a2585caa507d4de665",
+      "after": "0e1505132eb4357e4f280b4b1c780b37e2bf2a60221c01a2585caa507d4de665"
+    },
+    "specs/v0.1/samples/tests/g14-right-paddle.conformance.json": {
+      "to": "specs/v0.1/tests/g14-right-paddle.conformance.json",
+      "before": "82aff412da2fab8c8a434e795f7e99909030e97b28af60eb710623d7068e1312",
+      "after": "82aff412da2fab8c8a434e795f7e99909030e97b28af60eb710623d7068e1312"
+    },
+    "specs/v0.1/samples/tests/g15-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g15-candidate.conformance.json",
+      "before": "e245a8434ce5401d663c4940c8e22cdab48a2184b86e919c1c5fd62d0d003653",
+      "after": "e245a8434ce5401d663c4940c8e22cdab48a2184b86e919c1c5fd62d0d003653"
+    },
+    "specs/v0.1/samples/tests/g15-high-trigger.conformance.json": {
+      "to": "specs/v0.1/tests/g15-high-trigger.conformance.json",
+      "before": "5a6cce24d0d35ece3d4fa238a8184102dbb34ba3388a923202009df22421e389",
+      "after": "5a6cce24d0d35ece3d4fa238a8184102dbb34ba3388a923202009df22421e389"
+    },
+    "specs/v0.1/samples/tests/g16-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g16-candidate.conformance.json",
+      "before": "a45bcc68e8e896b47d064e7c96a3009d96326a8f5079807002851ca78677d3c1",
+      "after": "a45bcc68e8e896b47d064e7c96a3009d96326a8f5079807002851ca78677d3c1"
+    },
+    "specs/v0.1/samples/tests/g16-four-drops.conformance.json": {
+      "to": "specs/v0.1/tests/g16-four-drops.conformance.json",
+      "before": "ed17e75a3ba07a629d990b398bd302cc40c432ab6d7e0ede92e28c06e94bc352",
+      "after": "ed17e75a3ba07a629d990b398bd302cc40c432ab6d7e0ede92e28c06e94bc352"
+    },
+    "specs/v0.1/samples/tests/g17-armored-waves.conformance.json": {
+      "to": "specs/v0.1/tests/g17-armored-waves.conformance.json",
+      "before": "446b51f00ec5c357c92793bdea1231a0c71e46bdaa651efd182e5adc13d4c4c8",
+      "after": "446b51f00ec5c357c92793bdea1231a0c71e46bdaa651efd182e5adc13d4c4c8"
+    },
+    "specs/v0.1/samples/tests/g17-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g17-candidate.conformance.json",
+      "before": "b1c9ce94874a34aa6f98b99b7b2322459791ee9b6138c5526cb6f3bcb4570a6c",
+      "after": "b1c9ce94874a34aa6f98b99b7b2322459791ee9b6138c5526cb6f3bcb4570a6c"
+    },
+    "specs/v0.1/samples/tests/g18-armored-target.conformance.json": {
+      "to": "specs/v0.1/tests/g18-armored-target.conformance.json",
+      "before": "5e3085c8b7fb703c308054c86aa98c783f0c2f9111baad2f0070776667c5bfc5",
+      "after": "5e3085c8b7fb703c308054c86aa98c783f0c2f9111baad2f0070776667c5bfc5"
+    },
+    "specs/v0.1/samples/tests/g18-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g18-candidate.conformance.json",
+      "before": "d636f866d5932193950936d9052e07019ee49f96cb85a80a86f1b28342792085",
+      "after": "d636f866d5932193950936d9052e07019ee49f96cb85a80a86f1b28342792085"
+    },
+    "specs/v0.1/samples/tests/g19-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g19-candidate.conformance.json",
+      "before": "fef51a4581d684048a932c607ca109cb7dce15bd8f0a715a53a9dd0f8e597115",
+      "after": "fef51a4581d684048a932c607ca109cb7dce15bd8f0a715a53a9dd0f8e597115"
+    },
+    "specs/v0.1/samples/tests/g19-horde-upgrade.conformance.json": {
+      "to": "specs/v0.1/tests/g19-horde-upgrade.conformance.json",
+      "before": "df7a4e62d0a6b79cb2267ef64bbd93e0a760125bac11da9ec041a7ea9fefbfbd",
+      "after": "df7a4e62d0a6b79cb2267ef64bbd93e0a760125bac11da9ec041a7ea9fefbfbd"
+    },
+    "specs/v0.1/samples/tests/g20-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g20-candidate.conformance.json",
+      "before": "c9b4164b35e4cb679386d629a77fe0e0414a7953cb8b70d3125d20fe674b9193",
+      "after": "c9b4164b35e4cb679386d629a77fe0e0414a7953cb8b70d3125d20fe674b9193"
+    },
+    "specs/v0.1/samples/tests/g20-hanging-bubbles.conformance.json": {
+      "to": "specs/v0.1/tests/g20-hanging-bubbles.conformance.json",
+      "before": "d1f3b68863217a3fe345d7a4400145a45f6a80388b4b5c54f524f17f96625d28",
+      "after": "d1f3b68863217a3fe345d7a4400145a45f6a80388b4b5c54f524f17f96625d28"
+    },
+    "specs/v0.1/samples/tests/g21-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g21-candidate.conformance.json",
+      "before": "cf6ff3c0cf4c2ef8b9651ca9cafa946adcdb13c8b3174e6c5a6f60bf5f8cdcbc",
+      "after": "cf6ff3c0cf4c2ef8b9651ca9cafa946adcdb13c8b3174e6c5a6f60bf5f8cdcbc"
+    },
+    "specs/v0.1/samples/tests/g21-reverse-waves.conformance.json": {
+      "to": "specs/v0.1/tests/g21-reverse-waves.conformance.json",
+      "before": "ed752b3f008383869946a649f788e457f7120b6348e4578ba016da2e6359f3a4",
+      "after": "ed752b3f008383869946a649f788e457f7120b6348e4578ba016da2e6359f3a4"
+    },
+    "specs/v0.1/samples/tests/g22-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g22-candidate.conformance.json",
+      "before": "26e5f5f02b2a54c37f5d4c68085244f3bacd87af8b1009d705f94d77775bd699",
+      "after": "26e5f5f02b2a54c37f5d4c68085244f3bacd87af8b1009d705f94d77775bd699"
+    },
+    "specs/v0.1/samples/tests/g22-two-harvests.conformance.json": {
+      "to": "specs/v0.1/tests/g22-two-harvests.conformance.json",
+      "before": "f01499f6db447d6596ac4c79129050f68617a8528c49bb2372bb49cb941b9f3d",
+      "after": "f01499f6db447d6596ac4c79129050f68617a8528c49bb2372bb49cb941b9f3d"
+    },
+    "specs/v0.1/samples/tests/g23-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g23-candidate.conformance.json",
+      "before": "e17cf851392064eb51270a82e37a74d72e94c0826c905805100babb339b427e5",
+      "after": "e17cf851392064eb51270a82e37a74d72e94c0826c905805100babb339b427e5"
+    },
+    "specs/v0.1/samples/tests/g23-production-chain.conformance.json": {
+      "to": "specs/v0.1/tests/g23-production-chain.conformance.json",
+      "before": "a0c5b9a295941fcf0fbbac5c2a985825164e63ef47cf9a5277d20a9cd7ff2371",
+      "after": "a0c5b9a295941fcf0fbbac5c2a985825164e63ef47cf9a5277d20a9cd7ff2371"
+    },
+    "specs/v0.1/samples/tests/g24-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g24-candidate.conformance.json",
+      "before": "9b072ead23c28aa4faf4bc7ef4d2942f6f1780767f8855d5efac7a7a15f8b651",
+      "after": "9b072ead23c28aa4faf4bc7ef4d2942f6f1780767f8855d5efac7a7a15f8b651"
+    },
+    "specs/v0.1/samples/tests/g24-connect-four.conformance.json": {
+      "to": "specs/v0.1/tests/g24-connect-four.conformance.json",
+      "before": "b1f11b1c5755240010b17b8070804bd6835e2f61901866c8bbc3a509aaf8b95c",
+      "after": "b1f11b1c5755240010b17b8070804bd6835e2f61901866c8bbc3a509aaf8b95c"
+    },
+    "specs/v0.1/samples/tests/g25-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g25-candidate.conformance.json",
+      "before": "ee5681a9676c548da14a9001848e162de351d5e70650007be933efdfae92f66e",
+      "after": "ee5681a9676c548da14a9001848e162de351d5e70650007be933efdfae92f66e"
+    },
+    "specs/v0.1/samples/tests/g25-four-fruits.conformance.json": {
+      "to": "specs/v0.1/tests/g25-four-fruits.conformance.json",
+      "before": "0d958f7ff062d598388159fbd066b84c37dc5c821961c23ed464640b74fff70f",
+      "after": "0d958f7ff062d598388159fbd066b84c37dc5c821961c23ed464640b74fff70f"
+    },
+    "specs/v0.1/samples/tests/g26-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g26-candidate.conformance.json",
+      "before": "ccb6b8c191063d5a179083736981b79a32e6682fb7795eb45976ba8d8e017dd3",
+      "after": "ccb6b8c191063d5a179083736981b79a32e6682fb7795eb45976ba8d8e017dd3"
+    },
+    "specs/v0.1/samples/tests/g26-half-turn.conformance.json": {
+      "to": "specs/v0.1/tests/g26-half-turn.conformance.json",
+      "before": "6f55c9afe833d1988ad5c74cc7ef4fdd4d18ef388c8b3f80ecd040ce0dcbfdac",
+      "after": "6f55c9afe833d1988ad5c74cc7ef4fdd4d18ef388c8b3f80ecd040ce0dcbfdac"
+    },
+    "specs/v0.1/samples/tests/g27-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g27-candidate.conformance.json",
+      "before": "21f003eec84ea5a619a075cd735e51d5b01e6e1bf1860b661e8c5b3fc9ae06fc",
+      "after": "21f003eec84ea5a619a075cd735e51d5b01e6e1bf1860b661e8c5b3fc9ae06fc"
+    },
+    "specs/v0.1/samples/tests/g27-lower-detour.conformance.json": {
+      "to": "specs/v0.1/tests/g27-lower-detour.conformance.json",
+      "before": "d81282d8f3061101f96e7782185b4a09cf42491dc274aaf4397586e21dad0c53",
+      "after": "d81282d8f3061101f96e7782185b4a09cf42491dc274aaf4397586e21dad0c53"
+    },
+    "specs/v0.1/samples/tests/g28-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g28-candidate.conformance.json",
+      "before": "b233e5491cd740d309fe1c5876f77757a8c8727a74ebc7191cd908be75e0841a",
+      "after": "b233e5491cd740d309fe1c5876f77757a8c8727a74ebc7191cd908be75e0841a"
+    },
+    "specs/v0.1/samples/tests/g28-four-stack.conformance.json": {
+      "to": "specs/v0.1/tests/g28-four-stack.conformance.json",
+      "before": "b4bcb4240fabd2e5173ce767e8e4fe3be6febffced3c02a19e7f68309bd07193",
+      "after": "b4bcb4240fabd2e5173ce767e8e4fe3be6febffced3c02a19e7f68309bd07193"
+    },
+    "specs/v0.1/samples/tests/g29-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g29-candidate.conformance.json",
+      "before": "5e3fbf15c260dc434b3a22f5681dd893aabc15416dab09e866566c809977b260",
+      "after": "5e3fbf15c260dc434b3a22f5681dd893aabc15416dab09e866566c809977b260"
+    },
+    "specs/v0.1/samples/tests/g29-four-shakes.conformance.json": {
+      "to": "specs/v0.1/tests/g29-four-shakes.conformance.json",
+      "before": "a5487baccd0e2297e25f2011b486752929c7255a19c732084d3590ed21a259d6",
+      "after": "a5487baccd0e2297e25f2011b486752929c7255a19c732084d3590ed21a259d6"
+    },
+    "specs/v0.1/samples/tests/g30-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g30-candidate.conformance.json",
+      "before": "22d056e67038b942837a7468592ae6b90af4700a78efff4e4e21cb6418da4a3d",
+      "after": "22d056e67038b942837a7468592ae6b90af4700a78efff4e4e21cb6418da4a3d"
+    },
+    "specs/v0.1/samples/tests/g30-far-target.conformance.json": {
+      "to": "specs/v0.1/tests/g30-far-target.conformance.json",
+      "before": "8d76c9a700e810a3bd9e81cdc488794711d0ec3bb1bce538dab21a2989d3a2ba",
+      "after": "8d76c9a700e810a3bd9e81cdc488794711d0ec3bb1bce538dab21a2989d3a2ba"
+    },
+    "specs/v0.1/samples/tests/g31-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g31-candidate.conformance.json",
+      "before": "dcc3caf98f38e0d6bc4d531be89697f0ffacd1021e3316cdaf8fa3f089c403c2",
+      "after": "dcc3caf98f38e0d6bc4d531be89697f0ffacd1021e3316cdaf8fa3f089c403c2"
+    },
+    "specs/v0.1/samples/tests/g31-orientation-armor.conformance.json": {
+      "to": "specs/v0.1/tests/g31-orientation-armor.conformance.json",
+      "before": "302d65fc0e8d0d4e100084ba5615ddfead2868193e7d192f188707f35b943dfc",
+      "after": "302d65fc0e8d0d4e100084ba5615ddfead2868193e7d192f188707f35b943dfc"
+    },
+    "specs/v0.1/samples/tests/g32-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/g32-candidate.conformance.json",
+      "before": "fb072fe9f08cf4b61c064a01c51a85700a55f476edbfceea5698bb94b6302d0d",
+      "after": "fb072fe9f08cf4b61c064a01c51a85700a55f476edbfceea5698bb94b6302d0d"
+    },
+    "specs/v0.1/samples/tests/g32-three-fingers.conformance.json": {
+      "to": "specs/v0.1/tests/g32-three-fingers.conformance.json",
+      "before": "4b594ab96891fe250b479d63e86ff0671fd87025b6c001168d6a5247ed8022a3",
+      "after": "4b594ab96891fe250b479d63e86ff0671fd87025b6c001168d6a5247ed8022a3"
+    },
+    "specs/v0.1/samples/tests/gamepad-lab.conformance.json": {
+      "to": "specs/v0.1/tests/gamepad-lab.conformance.json",
+      "before": "7377686231ca3056fd86744b99bb004793f4afa3cf36708b40fd2d072d5d2f7f",
+      "after": "7377686231ca3056fd86744b99bb004793f4afa3cf36708b40fd2d072d5d2f7f"
+    },
+    "specs/v0.1/samples/tests/grid-merge-spawn.conformance.json": {
+      "to": "specs/v0.1/tests/grid-merge-spawn.conformance.json",
+      "before": "f3be835e1066fa0fbffdd64e28995f5f9a9483afdb76e00a80b482548460521c",
+      "after": "f3be835e1066fa0fbffdd64e28995f5f9a9483afdb76e00a80b482548460521c"
+    },
+    "specs/v0.1/samples/tests/grid-merge.conformance.json": {
+      "to": "specs/v0.1/tests/grid-merge.conformance.json",
+      "before": "9e2056bdc600b83605d0bb202de829d0e02e086882fea4181a2a0d2225664c96",
+      "after": "9e2056bdc600b83605d0bb202de829d0e02e086882fea4181a2a0d2225664c96"
+    },
+    "specs/v0.1/samples/tests/grid-push-swipe.input-trace.json": {
+      "to": "specs/v0.1/tests/grid-push-swipe.input-trace.json",
+      "before": "dc982d432d33faa3d1f6fd36a2ba346b493df31f407b08e532fbe883dc69c154",
+      "after": "dc982d432d33faa3d1f6fd36a2ba346b493df31f407b08e532fbe883dc69c154"
+    },
+    "specs/v0.1/samples/tests/grid-push.conformance.json": {
+      "to": "specs/v0.1/tests/grid-push.conformance.json",
+      "before": "02cb22a18b99989b49e15871f5e1a8c4fcadddd4ddc994d6025499d627236119",
+      "after": "02cb22a18b99989b49e15871f5e1a8c4fcadddd4ddc994d6025499d627236119"
+    },
+    "specs/v0.1/samples/tests/h01-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/h01-candidate.conformance.json",
+      "before": "7fc1aa68c6aeb7767d00b441e0b199d0a6c722e7f178c67c5789e47a75435920",
+      "after": "7fc1aa68c6aeb7767d00b441e0b199d0a6c722e7f178c67c5789e47a75435920"
+    },
+    "specs/v0.1/samples/tests/h01-reward-upgrade.conformance.json": {
+      "to": "specs/v0.1/tests/h01-reward-upgrade.conformance.json",
+      "before": "cdd6f6d056763640fa207ea12cc51c6fc2be1bbbd125b606b4f1ae37e762323a",
+      "after": "cdd6f6d056763640fa207ea12cc51c6fc2be1bbbd125b606b4f1ae37e762323a"
+    },
+    "specs/v0.1/samples/tests/h02-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/h02-candidate.conformance.json",
+      "before": "bfaed34172bcd05f2f473d8f653f2347bd65372f682a9a03a16d12f0c381337a",
+      "after": "bfaed34172bcd05f2f473d8f653f2347bd65372f682a9a03a16d12f0c381337a"
+    },
+    "specs/v0.1/samples/tests/h02-exact-cost.conformance.json": {
+      "to": "specs/v0.1/tests/h02-exact-cost.conformance.json",
+      "before": "493433f78853baaba7a47840ae104051d05dce419b8f8750a23ac7635fbe9ea7",
+      "after": "493433f78853baaba7a47840ae104051d05dce419b8f8750a23ac7635fbe9ea7"
+    },
+    "specs/v0.1/samples/tests/h03-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/h03-candidate.conformance.json",
+      "before": "61b6dfa2c760c8d84e94292e7ed48785aecf8e4ab46105a096e1412469a34b6a",
+      "after": "61b6dfa2c760c8d84e94292e7ed48785aecf8e4ab46105a096e1412469a34b6a"
+    },
+    "specs/v0.1/samples/tests/h03-swapped-zones.conformance.json": {
+      "to": "specs/v0.1/tests/h03-swapped-zones.conformance.json",
+      "before": "fc398ca1ec62f101ba66d9c9c88b40bbab5d79ea08652e8164f1dc057c78d124",
+      "after": "fc398ca1ec62f101ba66d9c9c88b40bbab5d79ea08652e8164f1dc057c78d124"
+    },
+    "specs/v0.1/samples/tests/h04-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/h04-candidate.conformance.json",
+      "before": "549b15de346439e60c3036a7cfa8a38915f581f45093f43261bad27c5e585a1a",
+      "after": "549b15de346439e60c3036a7cfa8a38915f581f45093f43261bad27c5e585a1a"
+    },
+    "specs/v0.1/samples/tests/h04-larger-merge.conformance.json": {
+      "to": "specs/v0.1/tests/h04-larger-merge.conformance.json",
+      "before": "537b9f489dcab07c908b39793794ecb4b6d104d2bd8a9d098ea847e2cf0a831b",
+      "after": "537b9f489dcab07c908b39793794ecb4b6d104d2bd8a9d098ea847e2cf0a831b"
+    },
+    "specs/v0.1/samples/tests/h05-candidate.conformance.json": {
+      "to": "specs/v0.1/tests/h05-candidate.conformance.json",
+      "before": "4896815910192a52a2fcde86e1f1d2972886562c15ad8f46ae1056e8e10ec5d3",
+      "after": "4896815910192a52a2fcde86e1f1d2972886562c15ad8f46ae1056e8e10ec5d3"
+    },
+    "specs/v0.1/samples/tests/h05-deadline-tie.conformance.json": {
+      "to": "specs/v0.1/tests/h05-deadline-tie.conformance.json",
+      "before": "ba763a990de914624613be75267d6806471caba0006d40dfd913bd783013acb6",
+      "after": "ba763a990de914624613be75267d6806471caba0006d40dfd913bd783013acb6"
+    },
+    "specs/v0.1/samples/tests/mobile-input-lab.conformance.json": {
+      "to": "specs/v0.1/tests/mobile-input-lab.conformance.json",
+      "before": "3c7c964cd1473f420b402fd6f78a07988d8220dac507f1d62c75e1fc945e98fe",
+      "after": "3c7c964cd1473f420b402fd6f78a07988d8220dac507f1d62c75e1fc945e98fe"
+    },
+    "specs/v0.1/samples/tests/negative-fixtures.json": {
+      "to": "specs/v0.1/tests/negative-fixtures.json",
+      "before": "40eec6e0808be2955560a17cb23dcadc1fba793b552afae44c7d84439bf34505",
+      "after": "40eec6e0808be2955560a17cb23dcadc1fba793b552afae44c7d84439bf34505"
+    },
+    "specs/v0.1/samples/tests/puzzle-arrows.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-arrows.conformance.json",
+      "before": "8759b48031b0285257fe36d529967c43e934ab63a804c6c2cb4a7c4f71c5352c",
+      "after": "8759b48031b0285257fe36d529967c43e934ab63a804c6c2cb4a7c4f71c5352c"
+    },
+    "specs/v0.1/samples/tests/puzzle-connected.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-connected.conformance.json",
+      "before": "ccc2ed71ad48b372b3fc9098f1fd0ccc30fca2970943d36090f898690dd11e50",
+      "after": "ccc2ed71ad48b372b3fc9098f1fd0ccc30fca2970943d36090f898690dd11e50"
+    },
+    "specs/v0.1/samples/tests/puzzle-falling.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-falling.conformance.json",
+      "before": "a99b8b0248dded63f448123577ce50df4ed16ec68372be3f345c94df5d534d73",
+      "after": "a99b8b0248dded63f448123577ce50df4ed16ec68372be3f345c94df5d534d73"
+    },
+    "specs/v0.1/samples/tests/puzzle-mahjong.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+      "before": "6dfa75748b2e04a9531ed65763e5152499609f0494f32245af0ada013b861b01",
+      "after": "6dfa75748b2e04a9531ed65763e5152499609f0494f32245af0ada013b861b01"
+    },
+    "specs/v0.1/samples/tests/puzzle-match.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-match.conformance.json",
+      "before": "aaac48f53ac55168c1f0791bc2b730f5d0fbadd88e3228d2dc0f60caa2974c42",
+      "after": "aaac48f53ac55168c1f0791bc2b730f5d0fbadd88e3228d2dc0f60caa2974c42"
+    },
+    "specs/v0.1/samples/tests/puzzle-memory.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-memory.conformance.json",
+      "before": "8c7f056b2087f171692330e175782714749d60e550ce1726b91f15c3274a9312",
+      "after": "8c7f056b2087f171692330e175782714749d60e550ce1726b91f15c3274a9312"
+    },
+    "specs/v0.1/samples/tests/puzzle-placement.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-placement.conformance.json",
+      "before": "4418bc6a8f6a2ce5ee37a59848bd542021f0a5a60cab74987eea73ee0a87434d",
+      "after": "4418bc6a8f6a2ce5ee37a59848bd542021f0a5a60cab74987eea73ee0a87434d"
+    },
+    "specs/v0.1/samples/tests/puzzle-polyomino.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+      "before": "3d17210e3a639c7da3f0390bdc1bd954224095ef9f1c7a12be1331958719b128",
+      "after": "3d17210e3a639c7da3f0390bdc1bd954224095ef9f1c7a12be1331958719b128"
+    },
+    "specs/v0.1/samples/tests/puzzle-push-undo.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-push-undo.conformance.json",
+      "before": "eae84576e740c2ebbeedae34fe47ee0b7538036844741c4aae1528fa2c22e89a",
+      "after": "eae84576e740c2ebbeedae34fe47ee0b7538036844741c4aae1528fa2c22e89a"
+    },
+    "specs/v0.1/samples/tests/puzzle-slide-undo.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-slide-undo.conformance.json",
+      "before": "7f5ac5d16295d486f1c3b430d2b31f8fae417fa545919b6e4d64c6bb8ddfa001",
+      "after": "7f5ac5d16295d486f1c3b430d2b31f8fae417fa545919b6e4d64c6bb8ddfa001"
+    },
+    "specs/v0.1/samples/tests/puzzle-sort.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-sort.conformance.json",
+      "before": "556a728a947b419da25fdcf3315ae1517a3526ef07b85c21d58267308009ce97",
+      "after": "556a728a947b419da25fdcf3315ae1517a3526ef07b85c21d58267308009ce97"
+    },
+    "specs/v0.1/samples/tests/puzzle-tray.conformance.json": {
+      "to": "specs/v0.1/tests/puzzle-tray.conformance.json",
+      "before": "ee97fc2b378e85d7a6819d3881dfd4621b2b3b8532518761952ef645fc5f5e49",
+      "after": "ee97fc2b378e85d7a6819d3881dfd4621b2b3b8532518761952ef645fc5f5e49"
+    },
+    "specs/v0.1/samples/tests/realtime-bounce.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-bounce.conformance.json",
+      "before": "2e4a3efb3184b2e33bc76c056ad76a50a86c5b1c828b674c7a0bc4d957322334",
+      "after": "2e4a3efb3184b2e33bc76c056ad76a50a86c5b1c828b674c7a0bc4d957322334"
+    },
+    "specs/v0.1/samples/tests/realtime-constraint.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-constraint.conformance.json",
+      "before": "93e3f8a7ad8d797fd2486f768169314de3f637da3bb39f823c9d0af0f0289db0",
+      "after": "93e3f8a7ad8d797fd2486f768169314de3f637da3bb39f823c9d0af0f0289db0"
+    },
+    "specs/v0.1/samples/tests/realtime-flappy.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-flappy.conformance.json",
+      "before": "f1598371fa35e9a91860e9ea15b574acd4321ba1c2cf471d5b7f639bdd1c9626",
+      "after": "f1598371fa35e9a91860e9ea15b574acd4321ba1c2cf471d5b7f639bdd1c9626"
+    },
+    "specs/v0.1/samples/tests/realtime-hitscan.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+      "before": "614ac5728406b75f59e5c2369bcf894076c67943ed315ae1a7a3f33160bb80a9",
+      "after": "614ac5728406b75f59e5c2369bcf894076c67943ed315ae1a7a3f33160bb80a9"
+    },
+    "specs/v0.1/samples/tests/realtime-jump.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-jump.conformance.json",
+      "before": "87784872a1b2a93064ceb9268a7df0186545caa9eea883dedf89ad4723aa9521",
+      "after": "87784872a1b2a93064ceb9268a7df0186545caa9eea883dedf89ad4723aa9521"
+    },
+    "specs/v0.1/samples/tests/realtime-lanes.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-lanes.conformance.json",
+      "before": "64d499ef559e2e8a28aa17940f1e2404ec2f19f60d56386c48ed634c2c2c92cb",
+      "after": "64d499ef559e2e8a28aa17940f1e2404ec2f19f60d56386c48ed634c2c2c92cb"
+    },
+    "specs/v0.1/samples/tests/realtime-merge.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-merge.conformance.json",
+      "before": "91c0a296642f1c2ead22e20a87c6aace58ed84f612eba0f43a10ceb62fce0eba",
+      "after": "91c0a296642f1c2ead22e20a87c6aace58ed84f612eba0f43a10ceb62fce0eba"
+    },
+    "specs/v0.1/samples/tests/realtime-projectile.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-projectile.conformance.json",
+      "before": "1c07dd83fef5577f9c88865c5f60b8fcd1f24e79c741621c925eeea66421e177",
+      "after": "1c07dd83fef5577f9c88865c5f60b8fcd1f24e79c741621c925eeea66421e177"
+    },
+    "specs/v0.1/samples/tests/realtime-seek.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-seek.conformance.json",
+      "before": "e81bc68b1d3b6755c6889a48fff3bf2a2f6bc0d94646334370cfc75f76fcf0cb",
+      "after": "e81bc68b1d3b6755c6889a48fff3bf2a2f6bc0d94646334370cfc75f76fcf0cb"
+    },
+    "specs/v0.1/samples/tests/realtime-waves.conformance.json": {
+      "to": "specs/v0.1/tests/realtime-waves.conformance.json",
+      "before": "d3607a98d035ae13c5ac3c2d2e060e3691300764e8f0a33f569d71cf452bb8e7",
+      "after": "d3607a98d035ae13c5ac3c2d2e060e3691300764e8f0a33f569d71cf452bb8e7"
+    },
+    "specs/v0.1/samples/tests/rng-vectors.json": {
+      "to": "specs/v0.1/tests/rng-vectors.json",
+      "before": "3aab641a2f2b0b955606b2275655e7f4fca5b1c3d43601e14cbb1ab03e98182b",
+      "after": "3aab641a2f2b0b955606b2275655e7f4fca5b1c3d43601e14cbb1ab03e98182b"
+    },
+    "specs/v0.1/samples/tests/runtime-order.conformance.json": {
+      "to": "specs/v0.1/tests/runtime-order.conformance.json",
+      "before": "57194b9f519a9a143826eb1d707e51e8016f53fe524e734d507dea51f58a7d7c",
+      "after": "57194b9f519a9a143826eb1d707e51e8016f53fe524e734d507dea51f58a7d7c"
+    },
+    "specs/v0.1/samples/tests/strategy-cards.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-cards.conformance.json",
+      "before": "05defb02995c7cad2c5ac7ddcee1a18c5a84f797f4f6cf21eea28269b6a56584",
+      "after": "05defb02995c7cad2c5ac7ddcee1a18c5a84f797f4f6cf21eea28269b6a56584"
+    },
+    "specs/v0.1/samples/tests/strategy-farm.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-farm.conformance.json",
+      "before": "86b6fc86ffb277356aa6735787dbba17802c1ef81691ebd0c14164685ff247e2",
+      "after": "86b6fc86ffb277356aa6735787dbba17802c1ef81691ebd0c14164685ff247e2"
+    },
+    "specs/v0.1/samples/tests/strategy-merge.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-merge.conformance.json",
+      "before": "f8b10f99fffb7bd11d6523e5db6cd5afbda00aacb1423120dd6ea05a0f93d566",
+      "after": "f8b10f99fffb7bd11d6523e5db6cd5afbda00aacb1423120dd6ea05a0f93d566"
+    },
+    "specs/v0.1/samples/tests/strategy-path.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-path.conformance.json",
+      "before": "d8b28a500031fa7a813ed09ceb44884e89d92c90bfb940029f547c2ba8d40882",
+      "after": "d8b28a500031fa7a813ed09ceb44884e89d92c90bfb940029f547c2ba8d40882"
+    },
+    "specs/v0.1/samples/tests/strategy-shop.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-shop.conformance.json",
+      "before": "25ab86b33c275513e36e6b5c3d938ede2a5efacb6433d82e8978fab98ed305d4",
+      "after": "25ab86b33c275513e36e6b5c3d938ede2a5efacb6433d82e8978fab98ed305d4"
+    },
+    "specs/v0.1/samples/tests/strategy-shuffle.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-shuffle.conformance.json",
+      "before": "58ad739b8a1b2fd3d5e4325185fa74e3dd4b28108e14f0c29bc27cfffbaa3ad8",
+      "after": "58ad739b8a1b2fd3d5e4325185fa74e3dd4b28108e14f0c29bc27cfffbaa3ad8"
+    },
+    "specs/v0.1/samples/tests/strategy-tower.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-tower.conformance.json",
+      "before": "843cbcbb9517f27608430898512f32338bebc94afa4e86fc54d7ca81e5c5e6ca",
+      "after": "843cbcbb9517f27608430898512f32338bebc94afa4e86fc54d7ca81e5c5e6ca"
+    },
+    "specs/v0.1/samples/tests/strategy-turn.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-turn.conformance.json",
+      "before": "b4e0c41b1c830e57b842dfde8e7d6ceca9d1df7afbf154ce0af58b00b3352194",
+      "after": "b4e0c41b1c830e57b842dfde8e7d6ceca9d1df7afbf154ce0af58b00b3352194"
+    },
+    "specs/v0.1/samples/tests/strategy-upgrade.conformance.json": {
+      "to": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+      "before": "df7d31ecdc5df133b87708064d237e3c279d3acb0e7f55ef2f5ed0ddaf6d77f2",
+      "after": "df7d31ecdc5df133b87708064d237e3c279d3acb0e7f55ef2f5ed0ddaf6d77f2"
+    },
+    "specs/v0.1/samples/tests/tap-target.conformance.json": {
+      "to": "specs/v0.1/tests/tap-target.conformance.json",
+      "before": "a2a60a5d28a9716b0af13fd1a684e3618dc34952d169e68e868539ae0e28406f",
+      "after": "a2a60a5d28a9716b0af13fd1a684e3618dc34952d169e68e868539ae0e28406f"
+    },
+    "specs/v0.1/samples/tests/touch-imu.input-trace.json": {
+      "to": "specs/v0.1/examples/input-traces/touch-imu.input-trace.json",
+      "before": "fe62f76ab2d903f2bcaacafd88ea27cbbfbc7009547b627231db5cdf4f2b5394",
+      "after": "fe62f76ab2d903f2bcaacafd88ea27cbbfbc7009547b627231db5cdf4f2b5394"
+    },
+    "specs/v0.1/samples/tests/visual-stage.conformance.json": {
+      "to": "specs/v0.1/tests/visual-stage.conformance.json",
+      "before": "c698ca8b754b3a38dffacbae9e5d07503e8c81ab9d4115d5d4c6858e93bcb5ba",
+      "after": "c698ca8b754b3a38dffacbae9e5d07503e8c81ab9d4115d5d4c6858e93bcb5ba"
+    },
+    "specs/v0.1/tools/build_artifacts.py": {
+      "to": "specs/v0.1/tools/build_artifacts.py",
+      "before": "711b0fec927c6718b42429d5663b8b611488c4227fbb9e1f6ce93f681472a309",
+      "after": "d7e7e31f30a1a38b0321c2ba44c90156b41fa657001ca13643981d7c733f04bb",
+      "reverseSteps": [
+        {
+          "rule": 0,
+          "offsets": [
+            31169
+          ]
+        },
+        {
+          "rule": 1,
+          "offsets": [
+            30168
+          ]
+        },
+        {
+          "rule": 2,
+          "offsets": [
+            17994
+          ]
+        },
+        {
+          "rule": 3,
+          "offsets": [
+            26888
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            15160
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            19894,
+            20655,
+            21178
+          ]
+        },
+        {
+          "rule": 6,
+          "offsets": [
+            26642
+          ]
+        }
+      ]
+    },
+    "test/adapters.test.mjs": {
+      "to": "test/adapters.test.mjs",
+      "before": "7783bcc18e15ae065f81bcdddff67288e0772484ddb4ade219519e05edf1fc66",
+      "after": "8b6124de131253142920bc5084e43899f887ccfe70d05a97ef2beb6edd514ef9",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            430
+          ]
+        }
+      ]
+    },
+    "test/agent-evidence-binding.test.mjs": {
+      "to": "test/agent-evidence-binding.test.mjs",
+      "before": "5b619448432b2edf4de7941a7c1c5800e9fd192899997f8fd374a68a4aa6d1b2",
+      "after": "c85ec5f19dd0baad4688f7f0726c4cbbe57ad2bb63c2e0b0be49f928cf4d00c6",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            549
+          ]
+        }
+      ]
+    },
+    "test/agent-workflow.test.mjs": {
+      "to": "test/agent-workflow.test.mjs",
+      "before": "f737b6c9f9cce61d827d18c2d637ce1b01579c7ecf47c5fee05d8fb462630f1a",
+      "after": "99698cbd810972caedcb3c6ca8b2c7c71cb9185912b3ed2217865a1558255668",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            2256
+          ]
+        }
+      ]
+    },
+    "test/content-release.test.mjs": {
+      "to": "test/content-release.test.mjs",
+      "before": "1638b8312a468cab112813e276514bab8b6bac087ef6611716e3696a8b2559a0",
+      "after": "11e203245a8cc436539b022f84a8a1154086688abedf6db9765ca9d1689a24a3",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            581,
+            3481
+          ]
+        }
+      ]
+    },
+    "test/core.test.mjs": {
+      "to": "test/core.test.mjs",
+      "before": "0738f715e45741ea3e9bb02c5d8f6c49e69435005b40f63f94de29943cbb2583",
+      "after": "993909d6638b6a4eda3830d1c69e3dda09a21f698872aab549c310460216c5f9",
+      "reverseSteps": [
+        {
+          "rule": 1,
+          "offsets": [
+            15842
+          ]
+        },
+        {
+          "rule": 4,
+          "offsets": [
+            471,
+            17417,
+            17638,
+            22003
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            1590,
+            2433,
+            2816,
+            17297
+          ]
+        }
+      ]
+    },
+    "test/defense-library.test.mjs": {
+      "to": "test/defense-library.test.mjs",
+      "before": "3b95c8cd72012e3c290dcab1474084286d89ae7c2f57395cf2323a83ca133806",
+      "after": "78315d3d02dd8fca411e920ec0f4db1676a38e4e9ff0c3e2c7558969d1089b00",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            270,
+            3841
+          ]
+        }
+      ]
+    },
+    "test/exact-hash.test.mjs": {
+      "to": "test/exact-hash.test.mjs",
+      "before": "83cce8f52ec9fab4660e2a64bb9a71e11a3b8f566741bf907d8107f802db0c89",
+      "after": "025de313759091f0492809526dd34d84d34a87efa15a2762746ea7de896ce6b7",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            375
+          ]
+        }
+      ]
+    },
+    "test/fixtures/agent-provider.mjs": {
+      "to": "test/fixtures/agent-provider.mjs",
+      "before": "4d8f17c006ec6dc59cd61f8dd88beb7d01f1421e397eac08f6ea38a9bf607bee",
+      "after": "a71ec7392c96aafa4f6736c65a0cc1cc506a8a037e1c5d09abc063f51ea130c5",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            460
+          ]
+        }
+      ]
+    },
+    "test/full-gameplay.test.mjs": {
+      "to": "test/full-gameplay.test.mjs",
+      "before": "d6c4417a9f01975bb7a2d3a193dbc9e9d6005b6d5683987f7ac7d6c1d403b70a",
+      "after": "59ec949cb166ee4756d07b9d57681d83e91e777aee2a196b229b68a6810839d7",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            260
+          ]
+        }
+      ]
+    },
+    "test/g3-batch.test.mjs": {
+      "to": "test/g3-batch.test.mjs",
+      "before": "3871432c3b5cb6b41977c067e04f9041e53b6704e0b6002dd6e345e7347d6a1d",
+      "after": "78379ab6e908c511f07fa18e460bea97dd6b407d399b88b15cb51610dce6fb2c",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            3071
+          ]
+        }
+      ]
+    },
+    "test/gamepad-input.test.mjs": {
+      "to": "test/gamepad-input.test.mjs",
+      "before": "05290bc319ca2384d3202ac5c3c49d61dead0f209531f4b95d5d32a8ff054dfb",
+      "after": "18c40ff9662e47ce26cd23571b4f0e25bcd5d00cc32e483bc819cea226cdd9c4",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            374
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            576
+          ]
+        }
+      ]
+    },
+    "test/grid-search.test.mjs": {
+      "to": "test/grid-search.test.mjs",
+      "before": "e3f76ecba92e359b92631e734dbfca4e93239df26bdc4d7fa6ffca6969573b41",
+      "after": "208836b3a90f582812099845091f96a325d9bfd1e5150e883c25e8811dd61e07",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            303
+          ]
+        }
+      ]
+    },
+    "test/imu-loss.test.mjs": {
+      "to": "test/imu-loss.test.mjs",
+      "before": "dbfa0c8cf35ade1659d95b4c3d739017e61c0dd5c889cf4a23ee4d5e1ebe920b",
+      "after": "12fbcd0fe765038be8e0f92e98b8701701782f262fda475d85dcbf792a27f298",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            260
+          ]
+        }
+      ]
+    },
+    "test/input-control.test.mjs": {
+      "to": "test/input-control.test.mjs",
+      "before": "6e370f91965b8708ca40df7bcdc753130608022a9faf26551e8ee9e15679cbd5",
+      "after": "16bc95ea370e020408a006d23ffe9c67d51de5291e3288bfc9a3879a7687e48f",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            394
+          ]
+        }
+      ]
+    },
+    "test/input-trace-v03.test.mjs": {
+      "to": "test/input-trace-v03.test.mjs",
+      "before": "64377fe1dee7db08e6ba34c2fa60581e544685f9f77bfc995277974dc3b5e223",
+      "after": "c06708b24eb332bd53d6ba57c98ea0c87c3c3eb300d936f84b3fa8471ad0622e",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            301
+          ]
+        },
+        {
+          "rule": 5,
+          "offsets": [
+            370
+          ]
+        }
+      ]
+    },
+    "test/mobile-input.test.mjs": {
+      "to": "test/mobile-input.test.mjs",
+      "before": "ec5817e0d28f5bd2a7de7dfad6e0f623565100d077d7d17f46a51c79c794d529",
+      "after": "1b2a968c7758830fbf5c08f559927428f620b1ecad4855967d9e29c0b152ae96",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            354
+          ]
+        }
+      ]
+    },
+    "test/presentation-and-push.test.mjs": {
+      "to": "test/presentation-and-push.test.mjs",
+      "before": "614e2c1c8b732d6b6708a399f9d03679a482d83fdb1b69f3f79be6086652224d",
+      "after": "14451e7cf4863cc0dd90541d010c86bcea9c7a7676709c210f716b5443b842c5",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            351
+          ]
+        }
+      ]
+    },
+    "test/puzzle-library.test.mjs": {
+      "to": "test/puzzle-library.test.mjs",
+      "before": "fdd40c19ac289c7e0bf0dec9e27ae64428c7b7fc273d4d8353fdafeb34cce0ba",
+      "after": "33a22dccb5faf1216e4f32ee6570c0da9d2d35127b6798730bf994dc2090f315",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            266
+          ]
+        }
+      ]
+    },
+    "test/realtime-world.test.mjs": {
+      "to": "test/realtime-world.test.mjs",
+      "before": "01566ff80b54b44b720620eb2a5101ed2ebb2a7b224fc3abf4849f8e1592a469",
+      "after": "ea4c380c2f0eac18afd1af3ec4af72ac9d1e3faf0f0ba21268fb402c375e2738",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            286
+          ]
+        }
+      ]
+    },
+    "test/replay-save.test.mjs": {
+      "to": "test/replay-save.test.mjs",
+      "before": "435325ee12ea5bef653d99deb44da4805c7efd382926d71b5eef39348a852b70",
+      "after": "63906f51a69a7563340b47204f8d430e7f5cebc96b060928f261c4df80f70270",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            324
+          ]
+        }
+      ]
+    },
+    "test/rigid3d.test.mjs": {
+      "to": "test/rigid3d.test.mjs",
+      "before": "23a0e1bf7300098a5dac7aabf543b3f74f52204ddb5540d10243ff2da0d4f5ce",
+      "after": "241c44af6be8ce0add99f059f28fdde16851ad556bcca62a36f229d3bff78130",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            271
+          ]
+        }
+      ]
+    },
+    "test/schema-and-catalog.test.mjs": {
+      "to": "test/schema-and-catalog.test.mjs",
+      "before": "51b075eed37953475b2d04d8c44e0214d2eafa7c5144b6b087a05ca34b4ee9eb",
+      "after": "36d29bd55ca1370b7033d3230d053408e08ae44c96721b67014a437ea1b40c78",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            490,
+            1655
+          ]
+        }
+      ]
+    },
+    "test/strategy-library.test.mjs": {
+      "to": "test/strategy-library.test.mjs",
+      "before": "2c3b5edecf0a72ec43be8d154e863f3df5c1d64b556751e8b1c2df49f6b8e061",
+      "after": "34dca2676820b0c11a29d8adbc4cf2fea437046e820ec1d3737ff0ce5b2a5965",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            279
+          ]
+        }
+      ]
+    },
+    "test/turn-room.test.mjs": {
+      "to": "test/turn-room.test.mjs",
+      "before": "e745c20291bdb6f487c28a7c4182246dec9a54afa57033a9c30581544e07a638",
+      "after": "c0a6d7efb8ad1002ffc4071452ec6f95649692642390a274d9cc1bb48f21c4d2",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            354
+          ]
+        }
+      ]
+    },
+    "test/visual-stage.test.mjs": {
+      "to": "test/visual-stage.test.mjs",
+      "before": "97ed116efb9b03691364e42e3cd04e1b1fd1dda1443cc897303d86c4fd4390de",
+      "after": "a143f27446b6dac4177d03a3b0dd8b2b459d09e8a3c58684fa49d0a64661ad66",
+      "reverseSteps": [
+        {
+          "rule": 4,
+          "offsets": [
+            242
+          ]
+        }
+      ]
+    },
+    "player/content-loader.mjs": {
+      "to": "player/content-loader.mjs",
+      "before": "1c5f66135c578d81ce197c04b8f2309ccbb76e2eb58bda984a9509c24bbfb75c",
+      "after": "f89402e889d6600b667ddd5dcd0f27b1584b60ddd02910882c7a07dc985ea4c5",
+      "reverseSteps": [
+        {
+          "rule": 10,
+          "offsets": [
+            928
+          ]
+        }
+      ]
+    }
+  },
+  "additionalChanges": [
+    {
+      "path": "README.md",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "project/status.json",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "scripts/check-project.mjs",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "scripts/final-acceptance-audit.mjs",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "scripts/preflight.py",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "scripts/update-capability-index.mjs",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "specs/v0.1/README.md",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    },
+    {
+      "path": "specs/v0.1/tools/validate_specs.py",
+      "reason": "ADDITIONAL_DOCUMENTATION_OR_AUDIT_CHANGE_NOT_COVERED_BY_PATH_ONLY_EQUIVALENCE"
+    }
+  ],
+  "historicalAuditors": [
+    "project/spec-layout-history/final-acceptance-audit.mjs",
+    "project/spec-layout-history/g3-codex-report.mjs"
+  ],
+  "validation": {
+    "status": "PASS",
+    "fullVerification": "reports/spec-layout-validation-2026-10-29T08-53-59-918Z-23272/summary.json",
+    "browser": "reports/spec-layout-browser-2026-10-29T08-55-42-979Z-21276/summary.json",
+    "historicalG3Files": 3332,
+    "nodeTests": 122,
+    "conformanceCases": 203,
+    "fullSchemaDocuments": 360,
+    "generationCalls": 0,
+    "formalG3": "NOT_RUN"
+  }
+}

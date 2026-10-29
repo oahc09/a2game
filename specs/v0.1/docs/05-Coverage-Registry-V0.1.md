@@ -81,9 +81,9 @@ Hxx 必须有独立 GameSpec/Conformance；样例数和通过率分别统计，�
 
 唯一 ID / version / taxonomy / requiredCapabilities / testSuites 是主要扩展钩子。`sourceLinks` 可记录榜单、开源参考、视频/截图；**来源不能替代验收条件**。`extensions` 必须有 Schema 注册，未知必需扩展拒绝，未知非必需记录但不执行。
 
-**实现注意**：`samples/coverage/games.json` 的 `requiredCapabilities.all` 已显式包括每个候选玩法的机制能力 ID，而不只是 Core + Input。`taxonomy.mechanics` 仅供分类和检索；不能代替能力依赖或被用于自动声称可运行。对需要双指或 IMU+Tap 并行的内容，相关输入列入 `all`；允许 IMU→Touch 降级的内容通过 `anyOf` 明确列出替代。当前绝大多数依赖能力只有候选 ID、尚没有实现，因此 32 条依旧全部 planned。
+**实现注意**：`coverage/games.json` 的 `requiredCapabilities.all` 已显式包括每个候选玩法的机制能力 ID，而不只是 Core + Input。`taxonomy.mechanics` 仅供分类和检索；不能代替能力依赖或被用于自动声称可运行。对需要双指或 IMU+Tap 并行的内容，相关输入列入 `all`；允许 IMU→Touch 降级的内容通过 `anyOf` 明确列出替代。当前绝大多数依赖能力只有候选 ID、尚没有实现，因此 32 条依旧全部 planned。
 
-`testSuites` 中 `COVERAGE-Gxx` 是**待实现的测试套件标识**，不是已交付的实际 test 文件；只有 `samples/tests/*.conformance.json` 中存在的套件具有机器可读的结构样例。未来补齐时必须提供用例、数据与运行回执。
+`testSuites` 中 `COVERAGE-Gxx` 是**待实现的测试套件标识**，不是已交付的实际 test 文件；只有 `tests/*.conformance.json` 中存在的套件具有机器可读的结构样例。未来补齐时必须提供用例、数据与运行回执。
 
 ## 4. 覆盖计算与基线冻结
 

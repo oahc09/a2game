@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
 import {readJson,spec,makeRegistry} from '../scripts/registry.mjs';
-const game=()=>readJson(`${spec}/samples/games/visual-stage.game.json`);
+const game=()=>readJson(`${spec}/games/visual-stage.game.json`);
 test('visual-stage projects bindings, animation, bounded particles and event audio without changing exact state',()=>{
   const definition=game();definition.presentation.stage.camera.projection='orthographic';definition.presentation.stage.camera.fitSize=[10,8];const runtime=new HeadlessRuntime(definition,makeRegistry());runtime.start();
   const initial=runtime.observe(),first=projectPresentation(definition,initial);assert.equal(first.stage.nodes.length,15);assert.deepEqual(first.stage.camera.fitSize,[10,8]);

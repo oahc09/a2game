@@ -9,7 +9,7 @@ export function makeRegistry({disabledIds=[]} = {}) {
     const physics=readJson(resolve(root,'project/sdk-lock.json')).sharedPhysics;
     for(const [file,sha] of [[physics.entry,physics.sha256],[physics.nodeEntry,physics.nodeSha256]])if(createHash('sha256').update(readFileSync(resolve(root,file))).digest('hex')!==sha)throw Error('A2G_E_INTEGRITY: Shared physics source changed');
     const registry = new CapabilityRegistry();
-    const directory = resolve(spec, 'samples/capabilities');
+    const directory = resolve(spec, 'capabilities');
     for (const filename of readdirSync(directory).filter(f => f.endsWith('.capability.json')).sort()) {
         const manifest = readJson(resolve(directory,filename));
         // Trust binding occurs here in the application, NEVER in the loaded Manifest JSON.

@@ -19,7 +19,7 @@ const sourceFiles=directory=>readdirSync(resolve(root,directory),{withFileTypes:
 const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/mobile-host.mjs','player/gamepad-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',
   ...sourceFiles('player/adapters'),'scripts/g2-real.mjs',
   'scripts/prepare-sdks.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
-  'scripts/registry.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/samples/games'),...sourceFiles('specs/v0.1/samples/capabilities'),...sourceFiles('specs/v0.1/schemas'),
+  'scripts/registry.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/games'),...sourceFiles('specs/v0.1/capabilities'),...sourceFiles('specs/v0.1/schemas'),
   ...readdirSync(resolve(root,'dist')).filter(name=>name.endsWith('.js')).map(name=>`dist/${name}`),
   ...readdirSync(resolve(root,'dist/modules')).filter(name=>name.endsWith('.js')).map(name=>`dist/modules/${name}`)];
 const fingerprints=Object.fromEntries(codeFiles.map(path=>[path,hash(path)]));
@@ -101,7 +101,7 @@ async function scenario(backend,profile,game){
   page.on('response',response=>{if(response.url().includes('/vendor/'))responses.push({url:response.url(),status:response.status()});});
   const id=`${backend}-${profile.id}-${game}`,result={id,game,profile:profile.id,status:'FAIL',messages,errors,responses};
   try{
-    const definition=readJson(resolve(spec,`samples/games/${game}.game.json`));
+    const definition=readJson(resolve(spec,`games/${game}.game.json`));
     result.gameSha256Jcs=sha256Canonical(definition);result.gameRevision=definition.revision;
     result.url=`${url}/player/index.html?backend=${backend}&game=${game}&clock=manual`;
     await page.goto(result.url,{waitUntil:'load'});await ready(page);
@@ -204,7 +204,7 @@ async function nativeAndContext(backend){
     }else{
       assert.equal(result.context.contextState,'healthy');await page.locator('#pause').click();result.recovery='restored; explicit resume';
     }
-    const definition=readJson(resolve(spec,'samples/games/grid-push.game.json'));
+    const definition=readJson(resolve(spec,'games/grid-push.game.json'));
     result.visual=await capture(page,`${backend}-context-recovered`,definition);
     await page.evaluate(()=>window.__a2game.dispose());assert.deepEqual(result.errors,[]);
     assert.ok(!result.messages.some(message=>/INVALID_OPERATION/.test(message.text)),'WebGL cleanup emitted INVALID_OPERATION');

@@ -3,7 +3,7 @@ import { resolve, dirname, relative, sep } from 'node:path';
 import { makeRegistry, readJson, root, spec } from './registry.mjs';
 import { runConformanceSuite } from '../dist/index.js';
 const suites = process.argv.slice(2);
-const files = suites.length ? suites.map(s=>resolve(process.cwd(),s)) : readdirSync(resolve(spec,'samples/tests')).filter(s=>s.endsWith('.conformance.json')).map(s=>resolve(spec,'samples/tests',s));
+const files = suites.length ? suites.map(s=>resolve(process.cwd(),s)) : readdirSync(resolve(spec,'tests')).filter(s=>s.endsWith('.conformance.json')).map(s=>resolve(spec,'tests',s));
 let success=true;
 const results=[];
 for (const file of files) {

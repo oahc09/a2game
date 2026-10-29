@@ -10,7 +10,7 @@ const runId='gameplay-'+new Date().toISOString().replace(/[:.]/g,'-')+'-'+proces
 mkdirSync(directory);const results=[];
 const files=dir=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(dir+'/'+e.name):[dir+'/'+e.name]);
 const hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
-const fingerprints=Object.fromEntries(['scripts/gameplay-acceptance.mjs','scripts/registry.mjs','project/gameplay-acceptance.json','project/game-candidates.json','project/rule-variants.json',...files('src'),...files('dist').filter(p=>p.endsWith('.js')),...files('specs/v0.1/samples/games'),...files('specs/v0.1/samples/capabilities'),...files('specs/v0.1/schemas')].map(p=>[p,hash(p)]));
+const fingerprints=Object.fromEntries(['scripts/gameplay-acceptance.mjs','scripts/registry.mjs','project/gameplay-acceptance.json','project/game-candidates.json','project/rule-variants.json',...files('src'),...files('dist').filter(p=>p.endsWith('.js')),...files('specs/v0.1/games'),...files('specs/v0.1/capabilities'),...files('specs/v0.1/schemas')].map(p=>[p,hash(p)]));
 writeFileSync(directory+'/fingerprints.json',JSON.stringify(fingerprints,null,2)+'\n');
 function checkState(observation,expected,checks=[]){
  assert.equal(observation.flow.status,expected);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {HeadlessRuntime,rotatePolyomino,clearLines,connectedCells} from '../dist/index.js';
 import {makeRegistry,readJson,spec} from '../scripts/registry.mjs';
-const game=name=>readJson(`${spec}/samples/games/puzzle-${name}.game.json`);
+const game=name=>readJson(`${spec}/games/puzzle-${name}.game.json`);
 const runtime=definition=>{const r=new HeadlessRuntime(definition,makeRegistry());r.start();return r;};
 const act=(r,action)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step(1);};
 test('match rejects illegal swaps without RNG use and undo restores board, counters and RNG before identical refill',()=>{

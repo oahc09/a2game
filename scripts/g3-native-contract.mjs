@@ -11,7 +11,7 @@ const fail=(code,message)=>{throw Object.assign(Error(message),{code,attribution
 export const NATIVE_CONTRACT_VERSION='native-delivery-v2';
 export function nativeProtectedSources(root,entryPaths){
  const walk=p=>readdirSync(resolve(root,p),{withFileTypes:true}).flatMap(e=>e.isDirectory()?(p+'/'+e.name==='player/vendor'?[]:walk(p+'/'+e.name)):[p+'/'+e.name]);
- return [...new Set([...entryPaths,'scripts/registry.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','project/sdk-lock.json',...walk('src'),...walk('dist').filter(p=>p.endsWith('.js')),...walk('player'),...walk('specs/v0.1/schemas'),...walk('specs/v0.1/samples/capabilities')])].sort();
+ return [...new Set([...entryPaths,'scripts/registry.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','project/sdk-lock.json',...walk('src'),...walk('dist').filter(p=>p.endsWith('.js')),...walk('player'),...walk('specs/v0.1/schemas'),...walk('specs/v0.1/capabilities')])].sort();
 }
 export function withNativeDelivery(request){
  return {...request,outputContract:{...request.outputContract,required:[...new Set([...request.outputContract.required,'solution'])],solution:'Required model-proposed winning playthrough; no implicit host solver assistance.'},nativeDelivery:{

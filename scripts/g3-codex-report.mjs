@@ -5,6 +5,7 @@ import {resolve} from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
 import {archivePath,verifySources} from './final-acceptance-audit.mjs';
+import {evidenceMatches} from './spec-layout.mjs';
 const root=resolve(import.meta.dirname,'..'),read=p=>JSON.parse(readFileSync(archivePath(root,p),'utf8')),hash=p=>createHash('sha256').update(readFileSync(archivePath(root,p))).digest('hex');
 const verifiedSources=new Map();
 function verifyCurrentSources(fingerprints){const pending=Object.fromEntries(Object.entries(fingerprints).filter(([path,digest])=>verifiedSources.get(path)!==digest));verifySources(root,pending);for(const [path,digest]of Object.entries(pending))verifiedSources.set(path,digest);}
@@ -16,7 +17,7 @@ function callLimit(budget){
 }
 if(process.argv[2]==='--check'){
  const index=read('project/independent-g3-run.json');assert.equal(hash(index.summary),index.sha256);const report=read(index.summary);
- for(const [path,digest] of Object.entries(report.files))assert.equal(hash(path),digest,'归档摘要变化：'+path);
+ for(const [path,digest] of Object.entries(report.files)){archivePath(root,path);assert.ok(evidenceMatches(root,path,digest),'归档摘要变化：'+path);}
  assert.equal(report.formalG3Passed,0);assert.equal(report.verifiedGames,0);assert.equal(report.verifiedHybrids,0);assert.equal(report.calls+report.probeCalls,report.totalInvocations);assert.ok(report.calls<=callLimit(report.callBudget));
  assert.deepEqual(report.cases.map(c=>c.id).sort(),read('project/acceptance-baseline.json').ids);assert.equal(report.engineeringPassed,report.cases.filter(c=>c.status==='PASS_REFERENCE').length);assert.equal(report.nativePassed,report.cases.filter(c=>c.nativeInput==='PASS_REFERENCE').length);
  for(const row of report.cases)for(const attempt of row.attempts)if(attempt.browser)verifyCurrentSources(read(read(attempt.browser).fingerprints));

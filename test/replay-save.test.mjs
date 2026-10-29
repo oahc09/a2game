@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {createReplaySave,openReplaySave,upgradeReplaySaveEnvelope,sha256Canonical} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
-const game=name=>JSON.parse(readFileSync(`specs/v0.1/samples/games/${name}.game.json`));
+const game=name=>JSON.parse(readFileSync(`specs/v0.1/games/${name}.game.json`));
 const trace=(g,events)=>({format:'a2game-input-trace',traceVersion:'0.1.0',session:{gameId:g.id,gameRevision:g.revision,tickHz:g.world.clock.tickHz,seed:g.world.clock.seed,inputNormalizerVersion:'0.1.0',coordinateProfile:'viewport-top-left-v1'},events:events.map((e,seq)=>({...e,seq,timeUs:Math.ceil(e.tickIndex*1000000/g.world.clock.tickHz)}))});
 const input=(tickIndex,action,phase,extra={})=>({source:'action',kind:'input',tickIndex,payload:{action,phase,...extra}}),control=(tickIndex,kind)=>({source:'system',kind,tickIndex,payload:{}});
 const checksum=envelope=>{const {checksum,...rest}=envelope;return {...rest,checksum:sha256Canonical(rest)};};

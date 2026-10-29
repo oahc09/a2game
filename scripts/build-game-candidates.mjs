@@ -7,7 +7,7 @@ import {configureRigidLevel} from './rigid-levels.mjs';
 import {initialControlState} from '../dist/index.js';
 import {initialDefenseState} from '../dist/modules/tower-defense.js';
 const read=p=>JSON.parse(readFileSync(p,'utf8')),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n'),ref=id=>({id,version:'0.1.0'});
-const registry=read('specs/v0.1/samples/coverage/games.json'),base=read('specs/v0.1/samples/games/tap-target.game.json'),puzzles=read('project/puzzle-reference-cases.json').cases;
+const registry=read('specs/v0.1/coverage/games.json'),base=read('specs/v0.1/games/tap-target.game.json'),puzzles=read('project/puzzle-reference-cases.json').cases;
 const records=[],s=state=>({state}),k=value=>({const:value}),op=(op,...args)=>({op,args}),eq=(path,v)=>op('eq',s(path),k(v)),gte=(path,v)=>op('gte',s(path),k(v));
 const button=(id,code='Space',source,config={})=>({id,valueType:'button',bindings:[{source:'keyboard.button',config:{code}},...(source?[{source,config}]:[])]});
 const sensor=(id,source,valueType,config={})=>({id,valueType,bindings:[{source,config}]});
@@ -66,7 +66,7 @@ function defenseLevel(){
  g.presentation.scene2d.nodes.push({id:'path',kind:'rect',at:[0,0],size:[6.2,0.1],fill:'#a8c5d9'});
  g.presentation.hud=[{id:'status',kind:'text',bind:{text:{template:'金币 {0} · 击退 {1}\n生命 {2} · 波次 {3}',args:['wallet','score','lives','waveCursor'].map(id=>({state:'/defense/'+id}))}}}];g.outcomes=[{id:'won',status:'won',when:s('/defense/won')},{id:'lost',status:'lost',priority:-1,when:s('/defense/lost')}];return g;
 }
-function cloneGame(name){const g=read(`specs/v0.1/samples/games/${name}.game.json`);delete g.inputs.traceRecording;return g;}
+function cloneGame(name){const g=read(`specs/v0.1/games/${name}.game.json`);delete g.inputs.traceRecording;return g;}
 function noUndo(g){for(const e of g.scenes[0].entities)for(const c of e.components){delete c.config.undoAction;delete c.config.historyPath;}g.inputs.actions=g.inputs.actions.filter(a=>a.id!=='undo');}
 // Published definition revisions changed by the 2026-10-26 gameplay/input/visual increment.
 const revisions={G24:3,G06:2,G02:3,G20:3,G23:3,H02:3,G08:2,G09:3,G10:2,G16:3,G26:3,G29:3,H04:3,H05:3,G11:3,G12:3,G13:3,G14:2,G15:3,G17:2,G18:3,G19:3,G21:3,G22:3,G25:3,G27:3,G28:3,G30:3,G31:3,G32:3,H01:3,H03:3};
@@ -81,10 +81,10 @@ function write(id,g,positive,negative,options={}){
  const stage=g.presentation.scene2d;stage.nodes=stage.nodes.filter(n=>!['title','hint'].includes(n.id));stage.nodes.push({id:'title',kind:'text',at:[0,stage.height/2-0.4],fontSize:0.26,fill:'#b5cee8',text:{literal:g.meta.title}},{id:'hint',kind:'text',at:[0,-stage.height/2+0.35],fontSize:0.14,fill:'#9fb8d2',text:{literal:g.meta.description}});
  if(!g.presentation.hud.length)g.presentation.hud.push({id:'goal',kind:'text',bind:{text:{literal:options.hint??g.meta.title}}});
  polishGameplayPresentation(g,id,title);if(id==='H05')decorateHiddenObjects(g);
- save(`specs/v0.1/samples/games/${name}.game.json`,g);
+ save(`specs/v0.1/games/${name}.game.json`,g);
  const convert=rows=>rows.flatMap(row=>[...(row.action?[{op:'injectAction',action:row.action,phase:'press',...(row.value!==undefined?{value:row.value}:{})},{op:'injectAction',action:row.action,phase:'release'}]:[]),...(row.actions??[]).map(a=>({op:'injectAction',...a})),...(row.raw??[]).map(raw=>({op:'injectRaw',raw})),...(row.pause?[{op:'pause'}]:[]),{op:'step',ticks:row.ticks??1},...(row.resume?[{op:'resume'}]:[]),...(row.checks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals}))]);
  const cases=[{id:'COVERAGE-'+id+'-POSITIVE',seed:42,steps:[{op:'start'},...convert(positive),...(options.checks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:options.expected??'won'},{op:'restart'},{op:'assert',path:'/tickIndex',equals:0}]},{id:'COVERAGE-'+id+'-NEGATIVE',seed:42,steps:[{op:'start'},...convert(negative),...(options.negativeChecks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:options.negativeExpected??'playing'}]}];
- save(`specs/v0.1/samples/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:g.id,file:`../games/${name}.game.json`},cases});
+ save(`specs/v0.1/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:g.id,file:`../games/${name}.game.json`},cases});
  records.push({id,name,title,steps:positive,negative,expected:options.expected??'won',negativeExpected:options.negativeExpected??'playing',checks:options.checks??[],negativeChecks:options.negativeChecks??[],...(options.nativePointerActions?{nativePointerActions:options.nativePointerActions,nativePointerWait:options.nativePointerWait??0}:{}),scope:options.scope??'Bounded introductory/endgame reference level; commercial-game quality and general variants are independent.',gates:{G0:'NOT_RUN',G1:'NOT_RUN',G2:'NOT_RUN',G3:'NOT_RUN',physical:entry?.inputs.some(i=>i.startsWith('imu.')||i==='touch.multi-hold')?'NOT_RUN':'NOT_APPLICABLE'},verified:false});
 }
 // G01-G10: individual boards, hidden layers, target slots and touch selection.

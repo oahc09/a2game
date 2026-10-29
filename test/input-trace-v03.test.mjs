@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {resolve} from 'node:path';
 import {HeadlessRuntime,replayNormalizedInputTrace,A2GameError} from '../dist/index.js';
 import {makeRegistry,readJson,spec} from '../scripts/registry.mjs';
-const game=()=>readJson(resolve(spec,'samples/games/grid-push.game.json'));
-const trace=()=>readJson(resolve(spec,'samples/tests/grid-push-swipe.input-trace.json'));
+const game=()=>readJson(resolve(spec,'games/grid-push.game.json'));
+const trace=()=>readJson(resolve(spec,'tests/grid-push-swipe.input-trace.json'));
 const input=(rt,id,kind,u,v,timeUs,seq)=>rt.injectRaw({source:'pointer',kind,tickIndex:rt.observe().tickIndex,timeUs,seq,payload:{pointerId:id,pointerType:'touch',u,v}});
 test('single-pointer swipe follows declared direction and moves box to goal',()=>{
  const rt=new HeadlessRuntime(game(),makeRegistry());rt.start();

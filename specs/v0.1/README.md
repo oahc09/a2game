@@ -1,7 +1,7 @@
-# A2Game V0.1 — 正式协议设计包（协议 0.1.0，现行实现依据）
+# A2Game V0.1 — 现行协议与实现资产（协议 0.1.0）
 
 - 版本：`0.1.0`（初始包标记 `0.1.0-draft.1`，2026-10-24）
-- 日期：2026-10-24 初版；本页状态更新于 2026-10-28
+- 日期：2026-10-24 初版；目录说明更新于 2026-10-29
 - 目标：AI 直接生成引擎无关 JSON，由共享 Game Runtime 解释，CocosAirJS / Three.js 作为可替换适配器；覆盖益智、休闲、轻量射击、塔防、合成、经营，Touch / IMU 是正式输入通道。
 - 状态（2026-10-28）：本目录是**现行协议 0.1.0 的规范与机器可读资产**。共享 Runtime、双 SDK Adapter、输入规范化与 Conformance 均已实现，持续通过 `npm test`、`spec:validate`、`schema:full`、`conformance` 验证。项目整体仍为 **Alpha 参考实现**：正式 verified（0/32＋0/5）、正式独立 G3（0/37）、人工质量与真机 Gate 独立验收，不代表官方标准发布。
 
@@ -17,16 +17,34 @@
 
 ## 机器可读资产
 
+2026-10-29 起按用途直接分层，原 `samples/` 不再是运行时资产入口。目录名称描述资产用途；项目成熟度仍为 Alpha 参考实现，不能由重命名升级验收状态。
+
+```text
+specs/v0.1/
+├── docs/           # 规范与扩展合同
+├── schemas/        # 结构 Schema
+├── capabilities/   # 运行时实际使用的能力 Manifest
+├── adapters/       # 宿主支持范围声明
+├── games/          # 参考游戏、逐款候选和作者变体
+├── tests/          # 可执行 Conformance、黄金向量和负例
+├── coverage/       # 32 款冻结登记数据
+├── examples/       # 回执格式演示、合成输入录制示例
+└── tools/          # 静态检查和生成工具
+```
+
 - `schemas/`：采用 JSON Schema Draft 2020-12 的 7 份结构 Schema；跨字段语义约束由 `src/validator.ts`、`src/registry.ts` 与 `scripts/preflight.py`（`npm run schema:full`）执行。
-- `samples/games/`：112 份现行游戏 GameSpec JSON（`specVersion` 均为 `0.1.0`），由共享 Runtime 解释执行。
-- `samples/capabilities/`：127 份能力 Manifest；能力协商与可信绑定见 `src/registry.ts`、`src/trusted-modules.ts`。
-- `samples/tests/`：Conformance 套件、RNG 黄金向量、InputTrace 与负例（含 `negative-fixtures.json`）；实际执行由 `scripts/run-conformance.mjs`（`npm run conformance`）完成并通过。
-- `samples/tests/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例；真机采集 Gate 独立验收）。
-- `samples/coverage/games.json`：32 个候选玩法的登记数据；真实验收回执指针在 `project/` 与 `reports/`。
-- `samples/coverage/not-run.receipt.json`：NOT_RUN 回执的**格式样例**（历史格式演示，非当前状态描述）。
-- `samples/adapters/*.adapter.json`：CocosAirJS / Three.js / 公开回合房间的适配器声明；原生 Adapter 实现见 `player/adapters/`，真实 SDK 证据见 `reports/`。
+- `games/`：112 份现行游戏 GameSpec JSON（`specVersion` 均为 `0.1.0`），由共享 Runtime 解释执行。
+- `capabilities/`：127 份能力 Manifest；能力协商与可信绑定见 `src/registry.ts`、`src/trusted-modules.ts`。
+- [`project/capability-bindings.json`](../../project/capability-bindings.json)：127 项当前可信绑定、依赖闭包与测试声明索引。可执行用例引用、规范编号和未解析声明分别标识，均不自动成为逐能力正式验收回执；由 `npm run catalog:build` 同步生成。
+- `tests/`：Conformance 套件、RNG 黄金向量、InputTrace 与负例（含 `negative-fixtures.json`）；实际执行由 `scripts/run-conformance.mjs`（`npm run conformance`）完成并通过。
+- `examples/input-traces/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例；真机采集 Gate 独立验收）。
+- `coverage/games.json`：32 个候选玩法的登记数据；真实验收回执指针在 `project/` 与 `reports/`。
+- `examples/coverage/not-run.receipt.json`：NOT_RUN 回执的**格式样例**（历史格式演示，非当前状态描述）。
+- `adapters/*.adapter.json`：CocosAirJS / Three.js / 公开回合房间的适配器声明；原生 Adapter 实现见 `player/adapters/`，真实 SDK 证据见 `reports/`。
 - `tools/validate_specs.py`：JSON / Schema / 静态交叉引用校验（`npm run spec:validate`），不启动游戏。
-- `tools/build_artifacts.py`：重建 Schema / 示例数据，便于规范修订后重验。
+- `tools/build_artifacts.py`：初始 Schema / 基础数据生成器；会重建初始资产，不能作为保留当前扩展合同的日常构建入口。日常校验沿用根目录 `npm run verify`。
+
+迁移保持全部 362 个资产的原始字节、游戏 ID、能力版本和 GameSpec 逻辑不变。旧回执路径由严格迁移映射读取；当前 HTTP 与工具使用新路径。兼容规则和验证见 [目录迁移说明](../../docs/spec-layout.md)。
 
 ### 离线验证
 
@@ -40,7 +58,7 @@ python tools/validate_specs.py
 ## 当前状态（2026-10-28）
 
 - 规范文档已扩展至 20 份（`docs/01` ~ `docs/20`，含 Puzzle/Realtime/Strategy 库、Mobile Input、Game Candidates、Agent Workflow、Compatibility Extensions、Tower Defense、Rigid3D 等）。
-- `samples/games/` 112 份、`samples/capabilities/` 127 份、32 款候选登记；Conformance、完整 Schema、Node/Host Hash 与真实双 SDK 浏览器证据持续通过（回执见 `project/status.json` 与 `reports/`）。
+- `games/` 112 份、`capabilities/` 127 份、32 款候选登记；Conformance、完整 Schema、Node/Host Hash 与真实双 SDK 浏览器证据持续通过（回执见 `project/status.json` 与 `reports/`）。
 - 正式验收维度独立：正式 verified 0/32＋0/5、正式独立 G3 0/37、人工质量与真机 NOT_RUN；项目整体为 Alpha 参考实现。
 
 ## 初始交付范围（2026-10-24 draft.1，历史记录）

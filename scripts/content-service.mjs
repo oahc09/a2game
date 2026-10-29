@@ -56,7 +56,7 @@ function validateFull(python,payload){
 }
 function contextFiles(){
   const flat=dir=>readdirSync(resolve(root,dir),{withFileTypes:true}).flatMap(item=>item.isDirectory()?flat(`${dir}/${item.name}`):[`${dir}/${item.name}`]);
-  return [...flat('dist').filter(path=>path.endsWith('.js')),...flat('specs/v0.1/schemas'),...flat('specs/v0.1/samples/capabilities'),
+  return [...flat('dist').filter(path=>path.endsWith('.js')),...flat('specs/v0.1/schemas'),...flat('specs/v0.1/capabilities'),
     'scripts/registry.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json'];
 }
 // Private local data, never served as static files. A final record appears only after a complete write.

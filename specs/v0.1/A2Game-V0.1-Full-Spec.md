@@ -27,14 +27,14 @@
 ## 机器可读草案
 
 - `schemas/`：采用 JSON Schema Draft 2020-12 的 7 份**结构 Schema 草案**；不包含所有跨字段语义约束。
-- `samples/games/tap-target.game.json`：最小可执行意图样例（需要未实现的 Runtime）。
-- `samples/capabilities/*.capability.json`：标准能力声明样例（**并非能力实现**）。
-- `samples/tests/*.conformance.json`：一致性测试格式和期望结果（**尚未实际通过**）。
-- `samples/tests/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例）。
-- `samples/tests/negative-fixtures.json`：应当报错的 7 条结构/语义负例。
-- `samples/coverage/games.json`：32 个候选玩法的可扩展登记数据。
-- `samples/coverage/not-run.receipt.json`：明确 NOT_RUN 的验收回执样例。
-- `samples/adapters/*.adapter.json`：CocosAirJS / Three.js 的**计划声明**，未冒充 verified。
+- `games/tap-target.game.json`：最小可执行意图样例（需要未实现的 Runtime）。
+- `capabilities/*.capability.json`：标准能力声明样例（**并非能力实现**）。
+- `tests/*.conformance.json`：一致性测试格式和期望结果（**尚未实际通过**）。
+- `examples/input-traces/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例）。
+- `tests/negative-fixtures.json`：应当报错的 7 条结构/语义负例。
+- `coverage/games.json`：32 个候选玩法的可扩展登记数据。
+- `examples/coverage/not-run.receipt.json`：明确 NOT_RUN 的验收回执样例。
+- `adapters/*.adapter.json`：CocosAirJS / Three.js 的**计划声明**，未冒充 verified。
 - `tools/validate_specs.py`：仅进行 JSON / Schema / 静态交叉引用校验和部分负例检查，不启动游戏，不提供逻辑或渲染实现。
 - `tools/build_artifacts.py`：重建 Schema / 示例数据，便于规范修订后重验。
 
@@ -242,7 +242,7 @@ Session 状态含：`definitionId/revision`、活动场景、`tickIndex`、业�
 
 ## 9. 最小完整 GameSpec
 
-见 [`samples/games/tap-target.game.json`](samples/games/tap-target.game.json)：一个点击计分至 2 分结束的无资源小游戏，展示 `Input → Rule → State → Outcome → HUD` 闭环。格式需由 `schemas/game.schema.json` 静态校验，行为由 `samples/tests/tap-target.conformance.json` 给出预期；不宣称播放器已实现。
+见 [`games/tap-target.game.json`](games/tap-target.game.json)：一个点击计分至 2 分结束的无资源小游戏，展示 `Input → Rule → State → Outcome → HUD` 闭环。格式需由 `schemas/game.schema.json` 静态校验，行为由 `tests/tap-target.conformance.json` 给出预期；不宣称播放器已实现。
 
 ## 10. 未来扩展兼容规则
 
@@ -758,10 +758,10 @@ interface A2GameConformanceDriver {
 
 ### 2.3 证据回执与 InputTrace 的机器接口
 
-- `schemas/input-trace.schema.json`：定义采集/回放的标准封套，`samples/tests/touch-imu.input-trace.json` 给出含 pointer down/up 和 IMU 的**合成**样例；跨平台复现时必须声明转换/识别器版本。真实采样须经用户授权，不默认持久化。
+- `schemas/input-trace.schema.json`：定义采集/回放的标准封套，`examples/input-traces/touch-imu.input-trace.json` 给出含 pointer down/up 和 IMU 的**合成**样例；跨平台复现时必须声明转换/识别器版本。真实采样须经用户授权，不默认持久化。
 - `schemas/coverage-result.schema.json`：定义单个 `(gameId,testCaseId,adapterId,platformProfile,capabilitySetDigest,testRevision)` 的测试结果。`status=PASS` 必须带实际 `runId`、`eventTraceUri`；`BLOCKED/NOT_APPLICABLE` 必须带原因；不能只交一张截图。
-- `samples/coverage/not-run.receipt.json`：当前无实现、因此明确 `NOT_RUN` 的范例，不能用此示例作为 PASS 证据。
-- `samples/tests/negative-fixtures.json`：列出未知字段、无效版本、缺失场景、未知能力、禁止脚本操作、危险资源 URL、错误状态类型的静态负例；结构/引用检查脚本只验证示例子集，生产 Semantic Validator 应覆盖全量字段。
+- `examples/coverage/not-run.receipt.json`：当前无实现、因此明确 `NOT_RUN` 的范例，不能用此示例作为 PASS 证据。
+- `tests/negative-fixtures.json`：列出未知字段、无效版本、缺失场景、未知能力、禁止脚本操作、危险资源 URL、错误状态类型的静态负例；结构/引用检查脚本只验证示例子集，生产 Semantic Validator 应覆盖全量字段。
 
 ## 3. 四层验证 Gate
 
@@ -800,7 +800,7 @@ G0 PASS 绝不等于 G1 PASS。任何未跑的 G2/G3 不能计作完成。报告
 | 0 | `[2462723854,1020716019,454327756,1275600319]` | `[3809008728,1133695204,53579671,2891528803,139681546,2203266335]` |
 | 42 | `[939911724,3948730756,321366731,3317318717]` | `[2837322924,544945897,479756282,3500138142,339756180,113173290]` |
 
-**期望**：Node/浏览器与其他语言实现给出相同 uint32 序列；`randf()` 的高 24 位也必须一致。向量在 `samples/tests/rng-vectors.json` 单独固化；这是本次通过独立脚本计算的**设计参考向量**，尚未由两个生产 Runtime 交叉验证。
+**期望**：Node/浏览器与其他语言实现给出相同 uint32 序列；`randf()` 的高 24 位也必须一致。向量在 `tests/rng-vectors.json` 单独固化；这是本次通过独立脚本计算的**设计参考向量**，尚未由两个生产 Runtime 交叉验证。
 
 ### C-INPUT（包含 Touch / IMU）
 
@@ -982,9 +982,9 @@ Hxx 必须有独立 GameSpec/Conformance；样例数和通过率分别统计，�
 
 唯一 ID / version / taxonomy / requiredCapabilities / testSuites 是主要扩展钩子。`sourceLinks` 可记录榜单、开源参考、视频/截图；**来源不能替代验收条件**。`extensions` 必须有 Schema 注册，未知必需扩展拒绝，未知非必需记录但不执行。
 
-**实现注意**：`samples/coverage/games.json` 的 `requiredCapabilities.all` 已显式包括每个候选玩法的机制能力 ID，而不只是 Core + Input。`taxonomy.mechanics` 仅供分类和检索；不能代替能力依赖或被用于自动声称可运行。对需要双指或 IMU+Tap 并行的内容，相关输入列入 `all`；允许 IMU→Touch 降级的内容通过 `anyOf` 明确列出替代。当前绝大多数依赖能力只有候选 ID、尚没有实现，因此 32 条依旧全部 planned。
+**实现注意**：`coverage/games.json` 的 `requiredCapabilities.all` 已显式包括每个候选玩法的机制能力 ID，而不只是 Core + Input。`taxonomy.mechanics` 仅供分类和检索；不能代替能力依赖或被用于自动声称可运行。对需要双指或 IMU+Tap 并行的内容，相关输入列入 `all`；允许 IMU→Touch 降级的内容通过 `anyOf` 明确列出替代。当前绝大多数依赖能力只有候选 ID、尚没有实现，因此 32 条依旧全部 planned。
 
-`testSuites` 中 `COVERAGE-Gxx` 是**待实现的测试套件标识**，不是已交付的实际 test 文件；只有 `samples/tests/*.conformance.json` 中存在的套件具有机器可读的结构样例。未来补齐时必须提供用例、数据与运行回执。
+`testSuites` 中 `COVERAGE-Gxx` 是**待实现的测试套件标识**，不是已交付的实际 test 文件；只有 `tests/*.conformance.json` 中存在的套件具有机器可读的结构样例。未来补齐时必须提供用例、数据与运行回执。
 
 ## 4. 覆盖计算与基线冻结
 

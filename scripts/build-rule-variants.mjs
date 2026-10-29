@@ -11,14 +11,14 @@ const raw=(kind,id,u,v)=>({source:'pointer',kind,payload:{pointerId:id,u,v,viewp
 const pointer=(kind,x,y,ticks=1)=>({raw:[raw(kind,1,...point(x,y))],ticks});
 const base=id=>structuredClone(baseCases.find(r=>r.id===id));
 function variant(id,suffix,description,change,steps,negative,options={}){
- const recipe=baseCases.find(r=>r.id===id),g=read(`specs/v0.1/samples/games/${recipe.name}.game.json`),name=id.toLowerCase()+'-'+suffix;
+ const recipe=baseCases.find(r=>r.id===id),g=read(`specs/v0.1/games/${recipe.name}.game.json`),name=id.toLowerCase()+'-'+suffix;
  g.id='org.a2game.variants.'+name;g.revision=['G25','G26','G27','G29','G30','G31','G32','H04'].includes(id)?2:['G02','G09','G24','H05'].includes(id)?3:['G16','G18','G19','G20','G22'].includes(id)?2:id==='G12'?2:['G23','H02','G06','G13','H03','G11','G15','G28'].includes(id)?2:['G01','G02','G05','G08','G09','G21','G24','H01','H05'].includes(id)?2:1;g.meta.title=id+' '+description;g.meta.description=description;change(g);g.tests=[`../tests/${name}.conformance.json`];
  const stage=g.presentation.scene2d;for(const node of stage.nodes){if(node.id==='title')node.text={literal:g.meta.title};if(node.id==='hint')node.text={literal:description};}
  if(id!=='H05')polishGameplayPresentation(g,id,recipe.title,true);
- save(`specs/v0.1/samples/games/${name}.game.json`,g);
+ save(`specs/v0.1/games/${name}.game.json`,g);
  const convert=rows=>rows.flatMap(row=>[...(row.action?[{op:'injectAction',action:row.action,phase:'press',...(row.value===undefined?{}:{value:row.value})},{op:'injectAction',action:row.action,phase:'release'}]:[]),...(row.actions??[]).map(a=>({op:'injectAction',...a})),...(row.raw??[]).map(raw=>({op:'injectRaw',raw})),...(row.pause?[{op:'pause'}]:[]),{op:'step',ticks:row.ticks??1},...(row.resume?[{op:'resume'}]:[]),...(row.checks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals}))]);
  const positive=[{op:'start'},...convert(steps),...(options.checks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:'won'}],neg=[{op:'start'},...convert(negative),...(options.negativeChecks??[]).map(c=>({op:'assert',path:'/state'+c.path,equals:c.equals})),{op:'assert',path:'/flow/status',equals:options.negativeExpected??'playing'}];
- save(`specs/v0.1/samples/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:g.id,file:`../games/${name}.game.json`},cases:[{id:'VARIANT-'+id+'-POSITIVE',seed:42,steps:positive},{id:'VARIANT-'+id+'-NEGATIVE',seed:42,steps:neg}]});
+ save(`specs/v0.1/tests/${name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:name,subject:{type:'game',id:g.id,file:`../games/${name}.game.json`},cases:[{id:'VARIANT-'+id+'-POSITIVE',seed:42,steps:positive},{id:'VARIANT-'+id+'-NEGATIVE',seed:42,steps:neg}]});
  cases.push({id,name,title:g.meta.title,steps,negative,expected:'won',negativeExpected:options.negativeExpected??'playing',checks:options.checks??[],negativeChecks:options.negativeChecks??[],change:description,authorship:'repository-authored; not independent G3',verified:false});
 }
 const component=g=>g.scenes[0].entities[0].components[0].config;

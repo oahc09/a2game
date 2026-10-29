@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {HeadlessRuntime,replayNormalizedInputTrace} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
 import {createTraceRecorder} from '../player/mobile-host.mjs';
-const game=()=>JSON.parse(readFileSync('specs/v0.1/samples/games/mobile-input-lab.game.json'));
+const game=()=>JSON.parse(readFileSync('specs/v0.1/games/mobile-input-lab.game.json'));
 const start=()=>{const r=new HeadlessRuntime(game(),makeRegistry());r.start();return r;};
 const pointer=(r,kind,id,u,v)=>r.injectRaw({source:'pointer',kind,payload:{pointerId:id,u,v},timeUs:Math.ceil(r.observe().tickIndex*1000000/60)});
 const imu=(r,kind,orientationRad,extra={})=>r.injectRaw({source:'imu',kind,payload:{reference:'device-euler-rad-v1',screenAngle:0,orientationRad,angularVelocityRadps:[0,0,0],linearAccelerationMps2:[0,0,0],...extra}});

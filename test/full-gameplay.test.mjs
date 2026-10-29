@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {HeadlessRuntime} from '../dist/index.js';import {makeRegistry} from '../scripts/registry.mjs';
-const game=id=>JSON.parse(readFileSync('specs/v0.1/samples/games/'+id+'-candidate.game.json','utf8'));
+const game=id=>JSON.parse(readFileSync('specs/v0.1/games/'+id+'-candidate.game.json','utf8'));
 test('complete merge levels distinguish a stalled board and a grounded overflow from transient airborne contact',()=>{
  const g=game('g02');g.state.board.initial=[2,4,2,4,4,2,4,2,2,4,2,4,4,2,4,2];g.state.best.initial=4;const stalled=new HeadlessRuntime(g,makeRegistry());try{stalled.start();stalled.step();assert.equal(stalled.status,'lost');assert.equal(stalled.observe().state.stalled,true);}finally{stalled.dispose();}
  const bad=game('g02');bad.scenes[0].entities[0].components[0].config.stalledPath='/board';assert.throws(()=>new HeadlessRuntime(bad,makeRegistry()),e=>e.code==='A2G_E_CAP_CONFIG');

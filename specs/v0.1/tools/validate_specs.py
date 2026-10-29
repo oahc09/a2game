@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static structure + reference checks for the A2Game *design samples*.
+"""Static structure + reference checks for canonical A2Game protocol assets and examples.
 
 PASS != gameplay PASS: this script is static only; see implementation reports for headless runtime tests.
 """
@@ -89,7 +89,7 @@ def main():
             issue(f'schema {name} invalid: {exc}')
 
     caps={}
-    for path in sorted((ROOT/'samples/capabilities').glob('*.capability.json')):
+    for path in sorted((ROOT/'capabilities').glob('*.capability.json')):
         c=json.loads(path.read_text(encoding='utf-8'))
         validate_json(path.name, c, schemas['capability'])
         for kind in ['configSchema','stateSchema']:
@@ -128,7 +128,7 @@ def main():
     games={}
     cap_aliases={cap_id[len('a2game.input.'):]: cap_id for cap_id in caps if cap_id.startswith('a2game.input.')}
     all_ops={op['name'] for c in caps.values() for op in c['contract']['commands']}
-    for game_path in sorted((ROOT/'samples/games').glob('*.game.json')):
+    for game_path in sorted((ROOT/'games').glob('*.game.json')):
         game=json.loads(game_path.read_text(encoding='utf-8'))
         validate_json(game_path.name, game, schemas['game'])
         if game['id'] in (x['id'] for x in games.values()):
@@ -184,7 +184,7 @@ def main():
                 issue(f'{game_path.name}: test missing: {ref}')
 
     suite_ids=set()
-    for path in sorted((ROOT/'samples/tests').glob('*.conformance.json')):
+    for path in sorted((ROOT/'tests').glob('*.conformance.json')):
         suite=json.loads(path.read_text(encoding='utf-8'))
         validate_json(path.name,suite,schemas['test-suite'])
         if suite['suiteId'] in suite_ids: issue(f'duplicate suiteId {suite["suiteId"]}')
@@ -209,14 +209,14 @@ def main():
                 if st['op']=='assert' and ('path' not in st or 'equals' not in st and 'approximately' not in st):
                     issue(f'{path.name}/{case["id"]}/{i}: incomplete assert')
 
-    game=load('samples/games/tap-target.game.json')  # original seven negative fixture definitions
-    vecs=load('samples/tests/rng-vectors.json')
+    game=load('games/tap-target.game.json')  # original seven negative fixture definitions
+    vecs=load('tests/rng-vectors.json')
     for v in vecs['vectors']:
         state, nums=xoshiro_vectors(v['seed'],len(v['firstU32']))
         if v['initialState']!=state or v['firstU32']!=nums:
             issue(f'RNG golden vector mismatch seed={v["seed"]}')
 
-    trace=load('samples/tests/touch-imu.input-trace.json')
+    trace=load('examples/input-traces/touch-imu.input-trace.json')
     validate_json('touch-imu.input-trace.json',trace,schemas['input-trace'])
     previous=(-1,-1)
     duration_us=1000000/trace['session']['tickHz']
@@ -227,19 +227,19 @@ def main():
         if not (ev['tickIndex']*duration_us <= ev['timeUs'] < (ev['tickIndex']+1)*duration_us):
             issue(f'InputTrace timeUs outside tick interval: {ev}')
         previous=key
-    receipt=load('samples/coverage/not-run.receipt.json')
+    receipt=load('examples/coverage/not-run.receipt.json')
     validate_json('not-run.receipt.json',receipt,schemas['coverage-result'])
     if receipt['status']!='NOT_RUN':
         issue('example receipt must be NOT_RUN')
 
-    cov=load('samples/coverage/games.json')
+    cov=load('coverage/games.json')
     validate_json('games.json',cov,schemas['coverage'])
     duplicates([entry['id'] for entry in cov['games']],'coverage')
     if len(cov['games'])!=32:
         issue(f'expected 32 candidates, found {len(cov["games"])}')
     if any(entry['status']!='planned' for entry in cov['games']):
         issue('coverage fixture must not claim verified')
-    for path in sorted((ROOT/'samples/adapters').glob('*.adapter.json')):
+    for path in sorted((ROOT/'adapters').glob('*.adapter.json')):
         a=json.loads(path.read_text(encoding='utf-8'))
         validate_json(path.name,a,schemas['adapter'])
         if a['status']=='planned' and a['supportedCapabilities']:
@@ -261,7 +261,7 @@ def main():
                     if not receipt.is_relative_to(ROOT.parent.parent.resolve()) or not receipt.is_file() or json.loads(receipt.read_text(encoding='utf-8')).get('status')!='PASS':
                         issue(f'{path.name}: invalid reference evidence {relative}')
 
-    negatives=load('samples/tests/negative-fixtures.json')
+    negatives=load('tests/negative-fixtures.json')
     for neg in negatives['cases']:
         test=deepcopy(game)
         case=neg['case']

@@ -19,7 +19,7 @@ Three.js 使用原生 Scene、Camera、Mesh/Texture/Material、Light 和 Audio�
 
 稳定节点复用资源，仅更新姿态；适配器拥有并释放自己的网格、材质、纹理和音频节点。资源作用域保留验证后的字节和位图，适配器释放后关闭位图、撤销 URL。Three.js context loss 后重建 GPU 资源并显式继续；AIR 依上游契约受控重载。原生共享缓存/AudioContext 不作为单实例所有资源销毁，不声明引擎总内存零泄漏。
 
-Canvas2D 预览明确拒绝 Stage，提示选择真实 Three.js/CocosAirJS。当前示例可通过“导入游戏 JSON”加载 `samples/games/visual-stage.game.json`；完整准入 Profile 为 `trusted-reference-host-v1`。旧 Profile 记录保留，重新导入后完整校验升级。
+Canvas2D 预览明确拒绝 Stage，提示选择真实 Three.js/CocosAirJS。当前示例可通过“导入游戏 JSON”加载 `games/visual-stage.game.json`；完整准入 Profile 为 `trusted-reference-host-v1`。旧 Profile 记录保留，重新导入后完整校验升级。
 
 ## 验收
 

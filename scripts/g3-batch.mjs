@@ -13,7 +13,7 @@ const read=p=>JSON.parse(readFileSync(resolve(root,p),'utf8')),save=(p,v)=>write
 const hash=p=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex');
 const rel=p=>relative(root,p).replaceAll('\\','/');
 export function buildG3Plan(){
- const tasks=read('project/g3-tasks.json'),contract=read('project/gameplay-acceptance.json'),baseline=read('project/acceptance-baseline.json'),registry=read('specs/v0.1/samples/coverage/games.json');
+ const tasks=read('project/g3-tasks.json'),contract=read('project/gameplay-acceptance.json'),baseline=read('project/acceptance-baseline.json'),registry=read('specs/v0.1/coverage/games.json');
  assert.equal(tasks.format,'a2game-g3-tasks');assert.equal(tasks.version,1);assert.deepEqual(tasks.tasks.map(t=>t.id).sort(),baseline.ids);assert.equal(new Set(tasks.tasks.map(t=>t.id)).size,37);
  return {format:'a2game-g3-plan',version:1,plannedGames:32,plannedHybrids:5,variantRound:1,G3:'NOT_RUN',tasks:tasks.tasks.map(t=>{
   const entry=contract.cases.find(c=>c.id===t.id),game=read(entry.game),requirements=registry.games.find(c=>c.id===t.id)?.requiredCapabilities??game.requires;

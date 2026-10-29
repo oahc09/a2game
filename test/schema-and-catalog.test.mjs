@@ -7,7 +7,7 @@ import {join} from 'node:path';
 import {sha256Canonical,compileGame,HeadlessRuntime} from '../dist/index.js';
 import {makeRegistry,spec} from '../scripts/registry.mjs';
 const root=new URL('../',import.meta.url);
-function game(){return JSON.parse(readFileSync(join(spec,'samples/games/tap-target.game.json'),'utf8'));}
+function game(){return JSON.parse(readFileSync(join(spec,'games/tap-target.game.json'),'utf8'));}
 function validate(obj){
  const dir=mkdtempSync(join(tmpdir(),'a2game-schema-'));
  try {
@@ -24,7 +24,7 @@ test('Draft 2020-12 Python validator admits sample and rejects structural modifi
 });
 test('Release catalog only whitelists full-schema-validated exact JCS digest',()=>{
  const catalog=JSON.parse(readFileSync(new URL('../player/validated-games.json',import.meta.url)));
- const path='/specs/v0.1/samples/games/tap-target.game.json';
+ const path='/specs/v0.1/games/tap-target.game.json';
  const entry=catalog.content[path];const def=game();
  assert.equal(entry.sha256Jcs,sha256Canonical(def));
  const injected=structuredClone(def);injected.state.score.initial=99;

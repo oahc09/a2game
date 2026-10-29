@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """A2Game release preflight: full JSON Schema draft 2020-12, no custom subset evaluator.
-The bundled samples are the only approved dynamic JSON source for the standalone demo.
-Production AI-generated content must traverse this full gate before release/allowlisting.
+Canonical protocol assets and explicitly separated format examples are checked here.
+AI-generated content must traverse the full admission gate before release/allowlisting.
 """
 from __future__ import annotations
 import json
@@ -13,13 +13,13 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 SPEC=ROOT/'specs/v0.1'
 SCHEMAS=SPEC/'schemas'
 MAPPING={
-    'game':'samples/games/*.game.json',
-    'capability':'samples/capabilities/*.capability.json',
-    'adapter':'samples/adapters/*.adapter.json',
-    'test-suite':'samples/tests/*.conformance.json',
-    'input-trace':'samples/tests/*.input-trace.json',
-    'coverage':'samples/coverage/games.json',
-    'coverage-result':'samples/coverage/*.receipt.json',
+    'game':'games/*.game.json',
+    'capability':'capabilities/*.capability.json',
+    'adapter':'adapters/*.adapter.json',
+    'test-suite':'tests/*.conformance.json',
+    'input-trace':('tests/*.input-trace.json', 'examples/input-traces/*.input-trace.json'),
+    'coverage':'coverage/games.json',
+    'coverage-result':'examples/coverage/*.receipt.json',
 }
 
 def errline(error):
@@ -33,7 +33,8 @@ def main():
         schema=json.loads((SCHEMAS/f'{kind}.schema.json').read_text(encoding='utf-8'))
         Draft202012Validator.check_schema(schema)
         validator=Draft202012Validator(schema,format_checker=FormatChecker())
-        sources=sorted(SPEC.glob(pattern))
+        patterns = pattern if isinstance(pattern, tuple) else (pattern,)
+        sources=sorted({p for item in patterns for p in SPEC.glob(item)})
         if not sources: failures.append(f'{kind}: no documents matched {pattern}')
         for source in sources:
             count+=1

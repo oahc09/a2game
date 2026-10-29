@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {HeadlessRuntime} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
-const definition=()=>JSON.parse(readFileSync('specs/v0.1/samples/games/h01-candidate.game.json','utf8'));
+const definition=()=>JSON.parse(readFileSync('specs/v0.1/games/h01-candidate.game.json','utf8'));
 const start=d=>{const r=new HeadlessRuntime(d??definition(),makeRegistry());r.start();return r;};
 const press=(r,action,ticks=1)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step(ticks);};
 test('defense merge retires both identities and weapons, inherits cooldown, snapshots replay and rewards cannot fund earlier commands',()=>{
@@ -24,5 +24,5 @@ test('defense rejects dangling owners and invalid wave/action bindings; range, d
  const timeout=definition();timeout.scenes[0].entities[0].components[0].config.maxTicks=70;const t=start(timeout);try{t.step(71);assert.equal(t.observe().flow.status,'lost');}finally{t.dispose();}
 });
 test('layered mahjong blocks covered and side-locked tiles, undo restores the occlusion graph state',()=>{
- const d=JSON.parse(readFileSync('specs/v0.1/samples/games/g05-candidate.game.json','utf8')),r=start(d);try{press(r,'cell0');assert.deepEqual(r.observe().state.puzzle.selected,[]);press(r,'cell4');press(r,'cell7');press(r,'cell1');assert.deepEqual(r.observe().state.puzzle.selected,[]);press(r,'undo');assert.equal(r.observe().state.puzzle.board[4],3);assert.equal(r.observe().state.puzzle.display[0],0);for(const i of [4,7,0,3,1,2])press(r,'cell'+i);assert.equal(r.observe().flow.status,'won');}finally{r.dispose();}
+ const d=JSON.parse(readFileSync('specs/v0.1/games/g05-candidate.game.json','utf8')),r=start(d);try{press(r,'cell0');assert.deepEqual(r.observe().state.puzzle.selected,[]);press(r,'cell4');press(r,'cell7');press(r,'cell1');assert.deepEqual(r.observe().state.puzzle.selected,[]);press(r,'undo');assert.equal(r.observe().state.puzzle.board[4],3);assert.equal(r.observe().state.puzzle.display[0],0);for(const i of [4,7,0,3,1,2])press(r,'cell'+i);assert.equal(r.observe().flow.status,'won');}finally{r.dispose();}
 });

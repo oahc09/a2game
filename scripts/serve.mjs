@@ -67,10 +67,10 @@ export function createPlayerServer({contentService=createContentService({storage
         if(lock?.entry!=='node_modules/cannon-es/dist/cannon-es.js'||createHash('sha256').update(bytes).digest('hex')!==lock.sha256)throw new ContentError('A2G_E_INTEGRITY','共享物理模块与锁定来源不符。',503,'policy');
         res.writeHead(200,{'Content-Type':'text/javascript; charset=utf-8'});res.end(req.method==='HEAD'?undefined:bytes);return;
       }
-      const allowed=['/player/','/dist/','/specs/v0.1/samples/'].some(prefix=>publicPath.startsWith(prefix));
+      const allowed=['/player/','/dist/','/specs/v0.1/capabilities/','/specs/v0.1/adapters/','/specs/v0.1/games/','/specs/v0.1/tests/','/specs/v0.1/coverage/','/specs/v0.1/examples/'].some(prefix=>publicPath.startsWith(prefix));
       if(!allowed)throw new ContentError('A2G_E_NOT_FOUND','文件或发布回执不存在。',404,'policy');
       const filename=await realpath(resolve(root,'.'+publicPath));
-      const publicRoots=['player','dist','specs/v0.1/samples'].map(path=>resolve(root,path)+sep);
+      const publicRoots=['player','dist','specs/v0.1/capabilities','specs/v0.1/adapters','specs/v0.1/games','specs/v0.1/tests','specs/v0.1/coverage','specs/v0.1/examples'].map(path=>resolve(root,path)+sep);
       if(!publicRoots.some(prefix=>filename.startsWith(prefix)))throw new ContentError('A2G_E_ORIGIN','文件超出播放器公开目录。',403,'policy');
       if(!(await stat(filename)).isFile())throw new ContentError('A2G_E_NOT_FOUND','文件不存在。',404,'policy');
       const bytes=await readFile(filename);res.writeHead(200,{'Content-Type':types[extname(filename)]??'application/octet-stream'});

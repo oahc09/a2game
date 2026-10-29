@@ -5,7 +5,7 @@ import {ThreeAdapter} from '../player/adapters/three-adapter.mjs';
 import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
 import {makeRegistry,readJson,spec} from '../scripts/registry.mjs';
 import {resolve} from 'node:path';
-const sampleGame=()=>readJson(resolve(spec,'samples/games/grid-push.game.json'));
+const sampleGame=()=>readJson(resolve(spec,'games/grid-push.game.json'));
 const sampleFrame=()=>{
   const definition=sampleGame(),rt=new HeadlessRuntime(definition,makeRegistry());rt.start();
   const frame=projectPresentation(definition,rt.observe());rt.dispose();return frame;

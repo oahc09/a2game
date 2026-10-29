@@ -181,7 +181,7 @@ game={
     'presentation':{'hud':[{'id':'scoreLabel','kind':'text','text':'点击屏幕得分','bind':{'text':{'template':'Score: {0} / {1}', 'args':[{'state':'/score'},{'state':'/goal'}]}}}],'cues':[]},
     'tests':['../tests/tap-target.conformance.json'], 'extensions':{}
 }
-emit('samples/games/tap-target.game.json',game)
+emit('games/tap-target.game.json',game)
 
 # Capability contract examples, not executable implementations.
 def capability(id,kind,phase,portability,description, tests, events=None,commands=None,config=None,state=None,deps=None, writes=None, permissions=None):
@@ -210,7 +210,7 @@ items=[
                events=[{'name':'input.action','payloadSchema':{'type':'object'}}]),
 ]
 for cap in items:
-    emit('samples/capabilities/'+cap['id']+'.capability.json',cap)
+    emit('capabilities/'+cap['id']+'.capability.json',cap)
 
 suite={
   'format':'a2game-conformance','specVersion':V,'suiteId':'tap-target-core',
@@ -254,7 +254,7 @@ suite={
     ]}
   ]
 }
-emit('samples/tests/tap-target.conformance.json',suite)
+emit('tests/tap-target.conformance.json',suite)
 
 runtime_order={
     'format':'a2game-conformance','specVersion':V,'suiteId':'runtime-core-order',
@@ -272,14 +272,14 @@ runtime_order={
         ]}
     ]
 }
-emit('samples/tests/runtime-order.conformance.json',runtime_order)
+emit('tests/runtime-order.conformance.json',runtime_order)
 
 # Reference vectors calculated per the documented xoshiro128** seed/step contract.
 rng={'algorithm':'xoshiro128**-fmix32-seed-v1','specVersion':V,'vectors':[
     {'seed':0,'initialState':[2462723854,1020716019,454327756,1275600319],'firstU32':[3809008728,1133695204,53579671,2891528803,139681546,2203266335]},
     {'seed':42,'initialState':[939911724,3948730756,321366731,3317318717],'firstU32':[2837322924,544945897,479756282,3500138142,339756180,113173290]}
 ]}
-emit('samples/tests/rng-vectors.json',rng)
+emit('tests/rng-vectors.json',rng)
 
 GAMES=[
 ('G01','推箱子','puzzle','discrete','touch.swipe,keyboard.button','grid,push,goal'),
@@ -368,10 +368,10 @@ for id,name,genre,model,inputs,mechs in GAMES:
                      'testSuites':['COVERAGE-'+id],
                      'profiles':['headless','desktop-web','mobile-web'],
                      'status':'planned'})
-emit('samples/coverage/games.json',{'format':'a2game-coverage','registryVersion':V,'games':coverage})
+emit('coverage/games.json',{'format':'a2game-coverage','registryVersion':V,'games':coverage})
 
 for aid,targets in [('cocosairjs',['desktop-web','mobile-web']),('threejs',['desktop-web','mobile-web'])]:
-    emit('samples/adapters/'+aid+'.adapter.json',{
+    emit('adapters/'+aid+'.adapter.json',{
         'format':'a2game-adapter-capabilities','manifestVersion':V,'adapterId':aid+'-a2game',
         'adapterVersion':V,'runtimeVersion':V,'status':'planned',
         'supportedCapabilities':[], 'physicsProfiles':[], 'targetPlatforms':targets,
@@ -429,7 +429,7 @@ receipt_schema={
 }
 emit('schemas/coverage-result.schema.json',receipt_schema)
 
-emit('samples/tests/touch-imu.input-trace.json',{
+emit('examples/input-traces/touch-imu.input-trace.json',{
     'format':'a2game-input-trace','traceVersion':V,
     'session':{'gameId':'org.a2game.samples.tap-target','gameRevision':1,'tickHz':60,
                'seed':42,'inputNormalizerVersion':V,'coordinateProfile':'viewport-top-left-v1',
@@ -445,7 +445,7 @@ emit('samples/tests/touch-imu.input-trace.json',{
     ]
 })
 
-emit('samples/coverage/not-run.receipt.json',{
+emit('examples/coverage/not-run.receipt.json',{
     'format':'a2game-coverage-result','receiptVersion':V,'gameId':'G01',
     'testCaseId':'COVERAGE-G01','adapterId':'cocosairjs-a2game',
     'platformProfile':'desktop-web','capabilitySetDigest':'unavailable',

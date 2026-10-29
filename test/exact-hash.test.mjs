@@ -4,7 +4,7 @@ import {createHash} from 'node:crypto';
 import {readFileSync} from 'node:fs';
 import {canonicalJson,sha256Hex,sha256Canonical,exactStateHash,HeadlessRuntime,A2GameError} from '../dist/index.js';
 import {makeRegistry,spec} from '../scripts/registry.mjs';
-const game = ()=>JSON.parse(readFileSync(`${spec}/samples/games/tap-target.game.json`,'utf8'));
+const game = ()=>JSON.parse(readFileSync(`${spec}/games/tap-target.game.json`,'utf8'));
 
 test('SHA256 FIPS 180-4 known vectors and Node crypto parity',()=>{
   const enc = new TextEncoder();

@@ -1,6 +1,6 @@
 import {readFileSync,writeFileSync} from 'node:fs';
 const ref=id=>({id,version:'0.1.0'}),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
-const base=JSON.parse(readFileSync('specs/v0.1/samples/games/tap-target.game.json','utf8'));
+const base=JSON.parse(readFileSync('specs/v0.1/games/tap-target.game.json','utf8'));
 export const body=(id,kind,x,y,extra={})=>({id,kind,x,y,vx:0,vy:0,hx:100,hy:100,hp:1,team:kind==='actor'?1:2,value:1,fixed:false,...extra});
 export const world=bodies=>({bodies,score:0,charge:0,nextId:0,cooldowns:{},contacts:[],spawned:[],grounded:[],won:false,lost:false});
 const actor=()=>body('hero','actor',1000,100,{team:1});
@@ -24,9 +24,9 @@ for(const level of levels){
  const actions=Object.values(level.options.actions??{});game.inputs={actions:[...new Set(actions)].map((id,index)=>({id,valueType:'button',bindings:[{source:'keyboard.button',config:{code:'Key'+String.fromCharCode(65+index)}}]}))};
  game.rules=[];game.outcomes=[{id:'won',status:'won',when:{state:'/world/won'}},{id:'lost',status:'lost',when:{state:'/world/lost'}}];
  game.presentation={hud:[{id:'score',kind:'text',bind:{text:{template:'得分 {0}',args:[{state:'/world/score'}]}}}],cues:[],scene2d:{width:10,height:8,background:'#0d1729',nodes:[{id:'title',kind:'text',at:[0,3.4],fontSize:0.27,fill:'#b5cee8',text:{literal:level.title}}],bodyLayer:{statePath:'/world/bodies',unitsPerMeter:1000,origin:[-4,-3],palette:{actor:'#57d7c8',solid:'#a8c5d9',target:'#dc6d78',projectile:'#f5d26f',pickup:'#bd86d9'}}}};
- game.tests=[`../tests/${level.name}.conformance.json`];save(`specs/v0.1/samples/games/${level.name}.game.json`,game);
+ game.tests=[`../tests/${level.name}.conformance.json`];save(`specs/v0.1/games/${level.name}.game.json`,game);
  const steps=[{op:'start'},...level.steps.flatMap(row=>[...(row.action?[{op:'injectAction',action:row.action,phase:'press'},{op:'injectAction',action:row.action,phase:'release'}]:[]),{op:'step',ticks:row.ticks}]),...level.checks.map(row=>({op:'assert',path:'/state'+row.path,equals:row.equals})),{op:'assert',path:'/flow/status',equals:level.expected??'playing'},{op:'restart'},{op:'assert',path:'/state/world/score',equals:0}];
- save(`specs/v0.1/samples/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:game.id,file:`../games/${level.name}.game.json`},cases:[{id:'REALTIME-WORLD-001',seed:42,steps}]});
+ save(`specs/v0.1/tests/${level.name}.conformance.json`,{format:'a2game-conformance',specVersion:'0.1.0',suiteId:level.name,subject:{type:'game',id:game.id,file:`../games/${level.name}.game.json`},cases:[{id:'REALTIME-WORLD-001',seed:42,steps}]});
  cases.push({name:level.name,steps:level.steps,checks:level.checks,expected:level.expected??'playing'});
 }
 save('project/realtime-reference-cases.json',{format:'a2game-mechanism-cases',cases});console.log(`Wrote ${cases.length} realtime references.`);

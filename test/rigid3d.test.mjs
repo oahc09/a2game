@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
 import {HeadlessRuntime,rigid3dDiagnostics} from '../dist/index.js';import {makeRegistry} from '../scripts/registry.mjs';
-const load=id=>JSON.parse(fs.readFileSync('specs/v0.1/samples/games/'+id+'-candidate.game.json'));
+const load=id=>JSON.parse(fs.readFileSync('specs/v0.1/games/'+id+'-candidate.game.json'));
 test('locked rigid3d integration gives real contact torque, exact snapshot replay and no retained native worlds',()=>{
  const d=load('g28'),r=new HeadlessRuntime(d,makeRegistry());r.start();
  try{for(const [action,value]of [['drag',[0.75,0.5]],['drop',undefined]]){r.injectAction({action,phase:'press',...(value?{value}: {})});r.injectAction({action,phase:'release'});r.step();}
