@@ -1233,5 +1233,6 @@
     "movedAssets": 362,
     "assetBytesUnchanged": true,
     "formalG3": "NOT_RUN"
-  }
+  },
+  "generatorWorkstream": "project/generator-status.json"
 }

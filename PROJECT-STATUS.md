@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-29 Generator Batch A 已实现统一 API/CLI、Provider 本地探测与有界 worker；最终源码独立安装、构建、fixture 生成→完整准入→测试 `PASS_LOCAL`，无旧报告和 Renderer SDK，指纹一致。本轮完整回归通过：125 Node、203 Conformance、360 Schema，旧回执恢复。GEN-1 工程 `PARTIAL`、实际浏览器渲染 `NOT_RUN`；GEN-2 适配已实现、真实 E2E 因预算 0 为 `BLOCKED`。Batch A 保持 `PARTIAL`，未进入下一批，见 [上手说明](generator/README.md)、[独立状态](project/generator-status.json) 与 [基线](project/generator-baseline.json)。正式 G3、人工质量、真机和远端 CI 不升级。
+
 2026-10-29 协议资产目录分层：`samples/` 中 362 份 JSON 按能力、适配器、游戏、执行测试、登记和格式示例分离，原始字节、ID 与版本不变；运行时/浏览器加载、校验、生成器和文档使用新路径。新增 127 项可信绑定/依赖/测试来源索引，明确规范编号与实际可执行用例的区别。旧报告按严格可逆路径映射核验，不将算法变化当迁移，不升级完整 verified/G3/人工/真机；见 [迁移说明](docs/spec-layout.md)。
 
 2026-10-28 两轮原生子 Agent 反馈改进：统一 `native-delivery-v2` 和 canonical context，新增原始载荷/宿主导出捕获、不可覆盖检查、准备时源码快照、空回复记账及 INFRA 独立归因；任意已验证产物可经 `g3:subagent:input` 复用实际浏览器主输入验证。两批 G01 第三次原始输出已补实际键盘与双 SDK，共 4/4 PASS_REFERENCE，Node/Host Hash、重开和 ownedResources=0 通过；本轮新增生成调用 0。来源/隔离原始导出、手机画面和 Cocos 字形仍待补，正式 G3 与 verified 不变。新回执仅本地保存，未并入旧便携包；旧报告不覆盖，说明见 [运行改进](docs/g3-native-improvements.md)。
@@ -293,3 +295,5 @@ G25/G26/G27/G29/G30/G31/G32/H04 基础/变体的 32 个真实 SDK 原始输入�
 本轮输入/AI参考阶段最终工程验证：**115/115 Node、203/203 Conformance、360份Schema文档 PASS**，日志 `reports/verify-2026-10-28T11-28-16-892Z-28720/verify.log`。首次全并发内容发布503记录保留；只将测试文件并发限制为2，原8秒完整校验与全部测试不变。
 
 2026-10-28 源码恢复实测完成：全新源码目录独立npm ci，Node22.23.4，恢复前门禁拒绝；8,138份原始证据（679,838,647字节，压缩393,230,709字节）SHA恢复、重复恢复与验证后再恢复通过。完整115 Node/203 Conformance/360 Schema、G3 3,332文件及P2只读审计通过。详见 `project/evidence-restoration-run.json` 与 `project/evidence-lock.json`。正式G3仍0/37，verified仍0/32＋0/5；远端未重跑，额度与可信证据托管仍为外部前提。
+
+2026-10-29 Generator Batch A 回归：最终源码独立 smoke 通过；完整 `npm run verify` 通过（125 Node、360 Schema、203 Conformance），旧回执恢复。双 SDK 预览 HTTP 与关闭监听通过，实际渲染仍 NOT_RUN；真实模型调用 0，Batch A 保持 PARTIAL。详见 [Generator 台账](project/generator-status.json)。

@@ -1,5 +1,17 @@
 # A2Game 1.0.0 — 独立游戏 JSON 播放器与共享 Runtime
 
+当前开发主线是 **A2Game Generator 本地产品化 Batch A**，计划与状态见 [GEN-0–GEN-8](PROJECT-PLAN.md#9-优先级切换a2game-generator-本地产品化本轮主线) 和 [独立台账](project/generator-status.json)。按 [Generator 上手说明](generator/README.md) 使用统一 CLI/API；当前 Batch A 为 `PARTIAL`，尚未进入下一批。`fixture` 明确标为 `DEMO_FIXTURE`，只证明生成→完整准入→回放工程链，不能代表自然语言或真实模型生成成功。真实 Provider 需操作者显式配置及另行授权预算；当前预算 0，不自动调用、切换或回退模型。GamePlan、Studio 与正式评测仍按后续批次验收。
+
+本轮 CLI 入口（准备 UTF-8 的 `prompt.txt`，输出目录必须不存在）：
+
+```powershell
+npm run generator -- --help
+npm run generator -- probe --provider fixture --json
+npm run generator -- generate --prompt-file .\prompt.txt --provider fixture --output .\output\generator-demo
+```
+
+fixture 不解释提示内容，固定从零构造明确标记的工程计数夹具；它不满足具体游戏生成任务。真实接入的配置预检使用 `probe --provider codex|model-http|http --config <本机配置文件>`，不调用模型；后续使用真实 Provider 执行 `generate` 会调用模型，需先授权调用预算。调试已验证结果时可在 `/player/inspect.html` 手动导入该结果的 `debug-bundle.json`。
+
 协议资产已按用途分层：`specs/v0.1/capabilities/` 是当前能力目录，`games/` 是参考游戏与候选，`tests/` 是执行合同，`examples/` 仅放格式示例。详见 [协议目录](specs/v0.1/README.md) 与 [迁移说明](docs/spec-layout.md)；当前可信能力和测试来源见 [绑定索引](project/capability-bindings.json)。
 
 **定位**：AI 直接生成 JSON → 全格式/语义校验 → 共享 TypeScript 玩法 Runtime → Canvas2D/CocosAirJS/Three.js 等可替换渲染宿主。

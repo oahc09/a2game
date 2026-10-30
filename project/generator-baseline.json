@@ -1,0 +1,97 @@
+{
+  "format": "a2game-generator-baseline",
+  "version": 1,
+  "capturedAt": "2026-10-29T15:22:43.372Z",
+  "head": "7493ff78bd3bdc8f567edd2beb7114a5383e936a",
+  "branch": "main",
+  "workspace": {
+    "clean": false,
+    "changes": [
+      "M CHANGELOG.md",
+      " M PROJECT-PLAN.md",
+      " M PROJECT-STATUS.md",
+      " M README.md",
+      " M package.json",
+      " M project/status.json",
+      "?? generator/",
+      "?? project/generator-status.json",
+      "?? scripts/generator-source-smoke.mjs",
+      "?? test/generator.test.mjs"
+    ],
+    "note": "This authorized Generator Batch A implementation is not committed. Existing Runtime, protocols, model routing and historical Gate counts remain unchanged."
+  },
+  "environment": {
+    "node": "v24.14.0",
+    "platform": "win32",
+    "arch": "x64",
+    "osRelease": "10.0.26300",
+    "python": "Python 3.14.4",
+    "pythonSource": "Original workspace venv; explicitly passed through A2GAME_PYTHON",
+    "verificationNode": "v22.23.4",
+    "nodeCaptureNote": "environment.node is the metadata capture process; verificationNode is the actual smoke/full-regression runtime."
+  },
+  "sourceSmoke": {
+    "status": "PASS_LOCAL",
+    "receipt": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json",
+    "sha256": "aac0702d59ec1de03f1c140ebca689edcf7b8689108e6392f4367741f2a74355",
+    "sourceSha256": "a7d9d077802e46a586f3173bf8ef98e891d9bf4bcf9b947d261acca2a4d7e6ec",
+    "sourceFileCount": 558,
+    "steps": [
+      {
+        "name": "install",
+        "status": "PASS",
+        "elapsedMs": 9244
+      },
+      {
+        "name": "build",
+        "status": "PASS",
+        "elapsedMs": 4260
+      },
+      {
+        "name": "generate",
+        "status": "PASS",
+        "elapsedMs": 14387
+      },
+      {
+        "name": "validate",
+        "status": "PASS",
+        "elapsedMs": 5363
+      },
+      {
+        "name": "test",
+        "status": "PASS",
+        "elapsedMs": 10564
+      }
+    ],
+    "assertions": {
+      "notCopied:reports": true,
+      "notCopied:player/vendor": true,
+      "notCopied:node_modules": true,
+      "notCopied:dist": true,
+      "noHistoricalReports": true,
+      "noRendererSdk": true
+    },
+    "changedSinceSmoke": [],
+    "finalSourceVerification": "MATCH",
+    "note": "Final copied Generator source matches delivery source; no historical reports or Renderer SDK reused."
+  },
+  "historicalBaseline": {
+    "nodeTests": 122,
+    "conformanceCases": 203,
+    "schemaDocuments": 360,
+    "source": "7493ff7 protocol-layout migration results; not this run"
+  },
+  "fullVerify": {
+    "status": "PASS",
+    "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
+    "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+    "node": "v22.23.4",
+    "nodeTests": 125,
+    "conformanceCases": 203,
+    "schemaDocuments": 360,
+    "baselineReceiptsRestored": true
+  },
+  "realModelCalls": 0,
+  "authorizedRealModelBudget": 0,
+  "formalG3": "NOT_RUN"
+}

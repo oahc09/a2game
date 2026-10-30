@@ -1,0 +1,241 @@
+{
+  "format": "a2game-generator-status",
+  "version": 1,
+  "asOf": "2026-10-29",
+  "baseline": {
+    "commit": "7493ff78bd3bdc8f567edd2beb7114a5383e936a",
+    "release": "1.0.0",
+    "protocol": "0.1.0",
+    "recordedNodeTests": 122,
+    "recordedConformanceCases": 203,
+    "recordedSchemaDocuments": 360,
+    "countsSource": "Protocol-directory migration historical results; not current-run results",
+    "document": "project/generator-baseline.json"
+  },
+  "status": "PARTIAL",
+  "currentBatch": "A",
+  "workPackages": [
+    {
+      "id": "GEN-0",
+      "status": "PASS_LOCAL",
+      "verification": "SOURCE_ONLY_SMOKE",
+      "sourceSmoke": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json",
+        "sha256": "aac0702d59ec1de03f1c140ebca689edcf7b8689108e6392f4367741f2a74355",
+        "sourceSha256": "a7d9d077802e46a586f3173bf8ef98e891d9bf4bcf9b947d261acca2a4d7e6ec",
+        "sourceFileCount": 558,
+        "steps": [
+          {
+            "name": "install",
+            "status": "PASS",
+            "elapsedMs": 9244
+          },
+          {
+            "name": "build",
+            "status": "PASS",
+            "elapsedMs": 4260
+          },
+          {
+            "name": "generate",
+            "status": "PASS",
+            "elapsedMs": 14387
+          },
+          {
+            "name": "validate",
+            "status": "PASS",
+            "elapsedMs": 5363
+          },
+          {
+            "name": "test",
+            "status": "PASS",
+            "elapsedMs": 10564
+          }
+        ],
+        "assertions": {
+          "notCopied:reports": true,
+          "notCopied:player/vendor": true,
+          "notCopied:node_modules": true,
+          "notCopied:dist": true,
+          "noHistoricalReports": true,
+          "noRendererSdk": true
+        },
+        "changedSinceSmoke": [],
+        "finalSourceVerification": "MATCH",
+        "note": "Final copied Generator source matches delivery source; no historical reports or Renderer SDK reused."
+      },
+      "fullVerify": {
+        "status": "PASS",
+        "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
+        "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+        "node": "v22.23.4",
+        "nodeTests": 125,
+        "conformanceCases": 203,
+        "schemaDocuments": 360,
+        "baselineReceiptsRestored": true
+      },
+      "scope": "Final copied source matches delivery source; full existing verify also passed."
+    },
+    {
+      "id": "GEN-1",
+      "status": "PARTIAL",
+      "verification": "CLI_ENGINEERING_REFERENCE",
+      "implemented": [
+        "API/CLI",
+        "fixture generation-validation-test",
+        "bounded failure and cancellation handling"
+      ],
+      "browserRendering": "NOT_RUN",
+      "reason": "No real generated gameplay/browser product acceptance yet."
+    },
+    {
+      "id": "GEN-2",
+      "status": "PARTIAL",
+      "implementation": "IMPLEMENTED_REFERENCE",
+      "probe": "LOCAL_ONLY",
+      "realProviderE2E": "BLOCKED",
+      "budget": 0,
+      "reason": "Adapter implementation does not establish a verified real-model end-to-end result."
+    },
+    {
+      "id": "GEN-3",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-4",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-5",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-6",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-7",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-8",
+      "status": "NOT_RUN"
+    }
+  ],
+  "gates": [
+    {
+      "id": "GEN-G0",
+      "status": "PASS_LOCAL",
+      "scope": "Independent source-only install/build/fixture generate/validate/test; no renderer SDK or historical reports.",
+      "sourceSmoke": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json",
+        "sha256": "aac0702d59ec1de03f1c140ebca689edcf7b8689108e6392f4367741f2a74355",
+        "sourceSha256": "a7d9d077802e46a586f3173bf8ef98e891d9bf4bcf9b947d261acca2a4d7e6ec",
+        "sourceFileCount": 558,
+        "steps": [
+          {
+            "name": "install",
+            "status": "PASS",
+            "elapsedMs": 9244
+          },
+          {
+            "name": "build",
+            "status": "PASS",
+            "elapsedMs": 4260
+          },
+          {
+            "name": "generate",
+            "status": "PASS",
+            "elapsedMs": 14387
+          },
+          {
+            "name": "validate",
+            "status": "PASS",
+            "elapsedMs": 5363
+          },
+          {
+            "name": "test",
+            "status": "PASS",
+            "elapsedMs": 10564
+          }
+        ],
+        "assertions": {
+          "notCopied:reports": true,
+          "notCopied:player/vendor": true,
+          "notCopied:node_modules": true,
+          "notCopied:dist": true,
+          "noHistoricalReports": true,
+          "noRendererSdk": true
+        },
+        "changedSinceSmoke": [],
+        "finalSourceVerification": "MATCH",
+        "note": "Final copied Generator source matches delivery source; no historical reports or Renderer SDK reused."
+      },
+      "fullVerify": {
+        "status": "PASS",
+        "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
+        "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+        "node": "v22.23.4",
+        "nodeTests": 125,
+        "conformanceCases": 203,
+        "schemaDocuments": 360,
+        "baselineReceiptsRestored": true
+      }
+    },
+    {
+      "id": "GEN-G1",
+      "status": "BLOCKED",
+      "reason": "No new real-model execution budget has been authorized."
+    },
+    {
+      "id": "GEN-G2",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-G3",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "GEN-G4",
+      "status": "NOT_RUN"
+    }
+  ],
+  "modelExecution": {
+    "status": "BLOCKED",
+    "budget": 0,
+    "actualCalls": 0,
+    "reason": "本轮未授权真实模型调用；配置就绪不授予调用预算。"
+  },
+  "fixture": {
+    "identity": "DEMO_FIXTURE",
+    "independentModel": false,
+    "formalG3": false,
+    "status": "PASS_REFERENCE",
+    "sourceSmoke": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json"
+  },
+  "remoteCI": "NOT_RUN",
+  "humanReview": "NOT_RUN",
+  "physicalDevices": "NOT_RUN",
+  "formalG3": "NOT_RUN",
+  "originalVerifiedCountsUnchanged": true,
+  "nextBatch": "NOT_STARTED",
+  "batchBoundary": "Batch A remains partial; do not begin Batch B before its required acceptance.",
+  "currentVerification": {
+    "status": "PASS",
+    "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
+    "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+    "node": "v22.23.4",
+    "nodeTests": 125,
+    "conformanceCases": 203,
+    "schemaDocuments": 360,
+    "baselineReceiptsRestored": true
+  },
+  "preview": {
+    "status": "PASS_HTTP_ONLY",
+    "receipt": "output/generator-preview-http.json",
+    "listenersClosed": true,
+    "browserRendering": "NOT_RUN",
+    "missingSdk": "BLOCKED_NO_FALLBACK"
+  }
+}

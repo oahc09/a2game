@@ -3,7 +3,7 @@
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 > **项目发行基线**：`1.0.0`（参考实现 / Alpha，不代表生产稳定）。  
 > **独立协议**：GameSpec / Capability Manifest / Tick/Rule / Conformance `0.1.0`（部分源规范文档标记 draft）。  
-> **当前执行阶段**：S11 初始兼容扩展工程已交付；完整 Gxx/Hxx DoD、独立 G3、物理设备和远端 CI 分别待验。当前回执与范围以 PROJECT-STATUS.md / project/status.json 为准。
+> **当前执行阶段**：优先实施第 9–15 节 Generator 本地产品化 Batch A（GEN-0–GEN-2），当前部分完成。S11 初始兼容扩展工程已交付；完整 Gxx/Hxx DoD、独立 G3、物理设备和远端 CI 分别待验。原回执与范围以 PROJECT-STATUS.md / project/status.json 为准，Generator 独立记录于 project/generator-status.json。
 
 ## 0. 项目目标与不可变边界
 
@@ -182,6 +182,269 @@ PROJECT-STATUS.md + project/status.json (仅在真实验收后更新)
 6. 每次交付运行 `npm run verify`（缺环境须记录 BLOCKED），以及 `npm run project:check`，同步版本、README、状态和变更日志。
 7. 禁止未经用户授权提交、推送、部署；所有改动在可检查的工作区或独立补丁包内交付。
 
-## 9. 下一次 Agent 启动提示（可直接使用）
+## 9. 优先级切换：A2Game Generator 本地产品化（本轮主线）
 
-> 先阅读 `AGENTS.md`、`README.md`、`PROJECT-PLAN.md`、`PROJECT-STATUS.md` 与 `project/status.json`，依据其中的单一版本约定和 Gate 合同开展本轮工作。不要将项目发行 `1.0.0` 错写为 GameSpec 协议版本；不要将 Mock/Canvas2D 算作真实双引擎 G2。检查差异后，以 S5 的益智与休闲标准库为当前主线，并保留真实 CocosAirJS/Three.js E2E 验收，但保持所有 32 Gxx、5 Hxx、Touch/IMU、Headless/Conformance/Agent Gate 在计划内。更新实现时提供测试、证据、项目状态和回归，不擅自提交或部署。
+### 9.1 商业/技术目标与明确不做
+
+**唯一主要用户路径**：一个不了解 GameSpec 的人输入自然语言要求 → 选择模型/本地生成方式 → 获得可加载的 GameSpec 及测试 → 自动校验和修复 → Headless + 真实 Host 验证 → 在本地播放器中玩到游戏 → 可导出可重放产物。
+
+- **最高优先级**：独立、可本地运行的 A2Game Generator（CLI + 本地 Studio），依赖现有共享 Runtime 和真实 Host；模型可以是本地模型或通过本机 CLI/HTTP 访问远端模型，但 *Generator 运行在本地*。
+- **第二优先级**：将经过上述验证的 Player/Protocol 拆成公开稳定 SDK，保留共享 Runtime；后续可以附 Agent Skill。
+- **第三优先级**：Cloud Generation API、MCP Server、在线资源托管、远端队列、多租户/计费；当前**仅预留可替换接口，不实施线上服务**。
+- **本轮不做**：新游戏引擎、更换 CocosAirJS/Three.js 路由、重写 Tick 语义、整体迁移为 monorepo、任意 JS/TS 代码生成执行、凭据托管、联网部署、用人工样例当独立生成结果。
+- **离线含义**：不联网也能使用 `fixture`/预先安装的本地模型；如调用 Codex CLI 或远程模型，需用户已有的宿主配置和网络。**不得声称所有模式纯离线**。
+
+### 9.2 现状与实施起点（来源：2026-10-29 main 基线 `7493ff7` 与状态台账）
+
+| 已有可复用能力 | 权威入口 | 判定与本轮处理 |
+|---|---|---|
+| Capability Registry / Manifest | `src/registry.ts`, `scripts/registry.mjs` | **已有**；新增能力检索与 context 截断/版本身份，不另造规则目录 |
+| 生成、修复、Schema/Conformance、解法与重放 | `scripts/agent-workflow.mjs`, `scripts/agent-solver.mjs`, `scripts/content-service.mjs` | **已有工程链**；包装为统一 Generator API/CLI，不更改现有安全门禁 |
+| 真实模型/宿主接入 | `scripts/codex-generator.mjs`, `scripts/model-generator.mjs`, `scripts/http-generator.mjs`, `scripts/g3-native-*.mjs` | **已有独立入口**；抽象公共 Provider 合同，保留原有模型选择与隔离约束 |
+| 游戏预览与调试 | `player/index.html`, `player/inspect.html`, `scripts/agent-browser.mjs` | **已有**；接本地 Studio 和产物，一份 JSON 两个 Host |
+| Content Release / 可信资源 | `src/content-release.ts`, `scripts/content-service.mjs`, `docs/content-release.md` | **已有本地可信发布**；复用，不通过写临时白名单绕过准入 |
+| 版本与分发 | `package.json` 1.0.0 (`private: true`)、协议 `specs/v0.1` | **当前仅 Alpha 参考工作区**；不要现在改为生产发布或升级 GameSpec 版本 |
+| 参考评测 | 37/37 有界 Gxx/Hxx 工程生成参考；最近本地报告 122 Node、203 Conformance、360 Schema | 仅作为已记录**本地参考证据**，本轮未重跑；正式 G3 为 0/37 |
+| 远端 CI 与外部证据 | `.github/workflows/compatibility.yml`, `docs/evidence-restoration.md` | Actions 已改手动；证据恢复源未远端托管。新增 Generator CI 不能依赖遗失报告而默默跳过 Gate |
+
+**状态来源约束**：`project/status.json` 和 `PROJECT-STATUS.md` 优先于过时 README 文末数字。Generator 工程通过不自动修改 `coverage.verifiedGames`、`verifiedHybridCases` 或 `gates.G3GameplayAgent`。已有 `reports/` 不在 Git，正式证据恢复/远端 CI 属独立交付门禁；纯源码新检出的 Generator smoke 需有可复现独立测试，不得删除既有依赖证据的严格门禁。
+
+## 10. Generator 产品接口与运行边界
+
+### 10.1 完整本地链路
+
+```text
+prompt / prompt-file
+    ↓
+Generator CLI / Studio
+    ↓ ProviderResolver（由宿主显式配置；不让 JSON 任意执行命令）
+    ↓ CatalogSearch → SelectCapabilities → FreezeContext
+    ↓ Direct JSON 生成 或 GamePlan → GameSpec 编译
+    ↓ Strict Parser + Schema 2020-12 + Capability/语义/资源 Policy
+    ↓ Conformance 正反例 → Headless Replay → 解法/可玩性基础检查
+    ↓ Diagnostic Feedback（至多配置的重试预算）
+    ↓ 可信本地 Release Receipt / Immutable Artifact
+    ↓ Browser Inspector → Three.js + CocosAirJS 对照 → 本地游玩
+    ↓ Generation Evidence + Quality Review（与正式 G3 分开）
+```
+
+**唯一事实来源**：`specs/v0.1/` 的 GameSpec/Capability/Tick/Conformance 规范；最终客户端内容仍为 `GameSpec 0.1.0`。`GamePlan` 仅是云/本地生成工具内部的结构化规划产物，不能在 Player 中运行，也不得作为第二套独立的 GameSpec 方言。
+
+### 10.2 建议的 API（提议，不冒充当前已存在）
+
+新增导出优先放在 `src/generator/` 或 `generator/`；已有 `scripts/*` 保持兼容代理。第一阶段建议的可编程接口：
+
+```ts
+interface GeneratorProvider {
+  readonly id: string;
+  probe(): Promise<ProviderProbe>;
+  generate(request: ModelGenerationRequest, context: FrozenContext): Promise<ProviderOutput>;
+}
+interface GeneratorOptions {
+  provider: GeneratorProvider; mode: 'direct-json' | 'game-plan';
+  hostProfile: string; maxAttempts: number; deadlineMs: number;
+  outputDirectory: string; seed?: number;
+}
+interface GeneratorResult {
+  status: 'PASS_REFERENCE' | 'FAIL' | 'BLOCKED';
+  gameFile?: string; conformanceFile?: string; receiptFile?: string;
+  generationReport: string; previewUrl?: string;
+}
+```
+
+接口形状为实施目标，不是对现有 `runAgentWorkflow` 的破坏性修改。应优先引入 adapter/wrapper，保持现存 JSON `a2game-generation-request/output` v1 和其它脚本可运行。`ProviderProbe` 仅识别模型接入能力、身份来源和兼容性，不访问/展示密钥；真正模型 ID 与宿主回传身份分开记录。Provider 失败与生成内容失败要区别处理，不能静默换模型。
+
+### 10.3 最终 CLI UX（待开发，命令名作为产品验收要求）
+
+```powershell
+# 只示例目标命令，现有仓库尚未提供统一 a2game 命令
+npx --no-install a2game generate --prompt-file .\prompts\plane-shooter.md --provider codex --mode direct-json --output .\output\plane-shooter
+npx --no-install a2game generate --prompt-file .\prompts\plane-shooter.md --provider codex --mode game-plan --output .\output\plane-shooter-plan
+npx --no-install a2game validate .\output\plane-shooter\game.json
+npx --no-install a2game test .\output\plane-shooter
+npx --no-install a2game preview .\output\plane-shooter --backend air
+npx --no-install a2game inspect .\output\plane-shooter
+```
+
+要求同时支持安装后 `a2game ...` 和仓库本地 `npm run generator -- ...` 的等价入口；**不能为了 UX 直接将 `package.json` 私有工作区改成对外发布**。`preview` 在 `127.0.0.1` 随机可用端口启动本地服务，返回实际 URL；资源和 JSON 由现有内容服务验证。`validate`/`test` 在无模型、无 SDK 时也能执行 Headless；`preview --backend air/three` 缺 SDK 必须报告明确的阻塞与准备命令，不静默退化为 Canvas2D。
+
+CLI 最低约束：非交互可脚本化、稳定退出码和错误码、`--json` 机器可读日志、`--help`、`--version`、`--provider`、`--mode`、`--output`、`--max-attempts`、`--timeout-ms`；中断后进程与 HTTP 监听关闭，输出目录不可覆盖旧证据。安全路径校验、输出尺寸预算与默认本机端口绑定。
+
+### 10.4 生成产物格式（一个游戏独立目录）
+
+```text
+output/<game-id>/<generation-id>/
+  game.json                  # 最终 GameSpec 0.1.0（准入通过后才有效）
+  conformance.json           # 由生成器提出的正反例；要实际执行
+  game-plan.json             # 仅 game-plan 模式；不发送给 Player
+  solution.json              # 可选；模型自解与宿主求解必须可区别
+  assets/manifest.json       # 有素材才生成；记录来源/哈希/政策
+  release-receipt.json       # 经可信本地 Validator 签发的摘要与兼容 Profile
+  generation-report.json     # provider/model/request/context/调用/修复/归因
+  tests/                     # 自身测试回执与重复回放
+  preview/                   # 截图、浏览器运行回执和人工/AI 观察
+```
+
+`game.json` 不能包含 API key、任意 JS、shell/DOM 代码；`generation-report` 不能回显任何认证信息。产物采用不覆盖/不变更既有 SHA 的新 run ID，并保留原始生成回复与失败诊断在受控本地私有目录（不公开上传）。报告引用的文件可以在结果目录内用相对路径解析，防止依赖个人绝对路径。敏感/大型原始输出默认不随公开游戏包分发。
+
+## 11. Generator 实施工作包（GEN-0–GEN-8；完成后才进入下一波）
+
+下面工作包按依赖顺序执行；不要求一步把所有步骤打包成一个大型 PR。每次采用**契约与负例 → 最小代码 → 实际回归 → 独立回执**，避免代码完成但入口无法给用户使用。
+
+| 工作包 | 必须实现 | 依赖 | 最低验收（DoD） |
+|---|---|---|---|
+| **GEN-0** 基线与可复现性 | 冻结 `main` SHA/已有版本、检查工作区差异、分类当前失败；制定新检出不依赖历史巨型报告的 Generator smoke | 无 | 本地原环境 `project:check`/既有测试；全新检出精简 smoke 真实可跑；不通过跳过旧完整门禁达成 |
+| **GEN-1** Generator 核心 API/CLI | 新增统一 CLI、稳定错误码/退出码、Provider 接口、输出布局与无模型 smoke | GEN-0 | 本地 fixture 生成→校验→测试→保存可运行；CLI 帮助/取消/超时/覆盖拒绝/失败报告通过 |
+| **GEN-2** Provider 插件与预检 | 兼容 Codex CLI、原生模型 API、可选本地 HTTP/本地模型、宿主适配；保留身份/上下文/凭据隔离 | GEN-1 | probe 与 mock/fixture 回归；至少一种已授权真实 Provider 端到端成功；真实模型不存在时 `BLOCKED`, 不记 PASS |
+| **GEN-3** Capability 检索与 GamePlan | 自然语言→玩法机制匹配→依赖闭包→精简目录；direct 与 plan 两条编译路径 | GEN-1/2 | 两种模式在同一游戏生成合法 GameSpec；Planner 所需字段/引用、缺失能力/冲突负例通过；无具体关卡答案泄漏 |
+| **GEN-4** 自动校验修复和可玩性 | 复用完整 Schema、Content Release、Conformance、Solver、重复回放；有界诊断修复 | GEN-3 | 正反例/终局/重开/释放/随机种子稳定；拒绝未知能力、错误 JSON、循环规则、恶意/超限资源和伪造 PASS；有分类失败回执 |
+| **GEN-5** 本地 Generator Studio | 自然语言输入、模式/模型配置、逐阶段进度、错误展示、真实双 SDK 预览、资源/状态/Hash Inspect、导出 | GEN-4、实际 SDK | 浏览器真实点击/键盘验证；两 Host 各启动/结束/重开/销毁，截图证据；无外网服务亦能访问本地 Studio（模型可选） |
+| **GEN-6** 可移植游戏交付 | 标准不可变内容目录、素材 Manifest、SHA/来源与审核、导入/导出、兼容声明 | GEN-4/5 | 解压至另一独立工作区不修改 JSON 即可完整校验并运行；禁任意 URL/脚本；缺资源 fail-closed |
+| **GEN-7** Generator Benchmark | 5 款跨类任务、两种模式、至少 1 个真实模型、固定上下文/预算、视觉与人工质量维度 | GEN-5/6 | 5 个任务分别保存首次生成、修复链、JSON/测试、双 SDK、输入、截图、哈希、成本/用量；正式 G3 单独判断 |
+| **GEN-8** 文档/稳定入口/交接 | README 一键上手、实例项目、CLI/API 契约、故障排查、版本和工作包状态自动摘要 | GEN-7 | 新用户从干净源码按 README 不修改源码完成一个游戏生成→预览→导出；状态/文档/回执一致 |
+
+### 11.1 GEN-0 基线约束：优先解决不可信的“红绿灯”
+
+- `reports/` 已移出仓库；目前本地证据包约 393 MB、8,138 份报告，尚无可信远端存储 URL。全量验收继续使用 `npm run evidence:restore` + `npm run verify` 等原门禁；Generator 新 smoke 测试不能暗中修改这些历史门禁或把历史参考状态改成新的 PASS。
+- `GitHub Actions` 最近可见矩阵执行未通过（仓库将原因为额度/基础设施），当前只允许 `workflow_dispatch`，默认 Ubuntu/Node 22；无可用额度时本地测试标 `PASS_LOCAL`，远端 CI 标 `NOT_RUN/QUOTA_BLOCKED`，不能用后者阻塞本地研发，但不可正式发布。
+- `GEN-0` 输出 `project/generator-baseline.json`（建议新文件）、固定 SHA/环境/已有测试结果/待验、执行回执；后续生成器产品化状态独立记录 `project/generator-status.json`。旧 `project/status.json` 仍然是原 S0–S11 与 G0–G3 的唯一权威状态。
+
+### 11.2 GEN-1/2 Provider 的关键执行约束
+
+- 保留 `runAgentWorkflow()`、`codex-generator.mjs`、`model-generator.mjs`、`http-generator.mjs` 的现有入口、认证传递、模型选择和安全策略；新增 CLI Provider Adapter 对其进行适配，不删除旧功能。
+- 新增 Provider 时显式声明 `providerId`, `requestedModelId`, `reportedModelId`, `hostIdentityEvidence`, `supportsJsonMode`, `contextLimit`, `timeout`, `costReporting`；不能依赖模型返回的 `provenance` 自报判断身份。
+- Provider 兼容性检查是适配器能力，不是成绩；不可把旧 Codex/HTTP 不同系统提示、技能、ABI 直接汇总成多模型对比。若设备未安装 CLI 或端点未配置，应返回可操作的诊断和 BLOCKED，而不是自动选择其他模型。
+- 默认最多 3 次完整生成尝试（含失败尝试），失败重试只回传允许的错误/当前模型自己的旧结果，不能传入作者标准答案、其他模型生成内容或泄漏私有参考关卡。`--timeout-ms`/Token/输出大小均受配置上限约束。
+
+### 11.3 GEN-3 GamePlan 规范（生成中间层，不是新 Runtime）
+
+建议规划结构（实现前须补内部 Schema 与版本，示意字段）：
+
+```json
+{
+  "format": "a2game-game-plan",
+  "version": 1,
+  "concept": {"genre": "vertical-shooter", "dimension": "2d", "orientation": "portrait"},
+  "mechanisms": ["movement", "weapon", "projectile", "wave", "health"],
+  "controls": ["pointer-drag", "keyboard-fallback"],
+  "entities": ["player", "enemy", "bullet"],
+  "stateModel": ["hp", "score", "waveIndex"],
+  "gameFlow": {"win": "waveIndex reaches 3", "lose": "hp reaches 0"},
+  "presentation": {"style": "cartoon-tech", "resources": "trusted-presets"},
+  "testIntent": ["one-win", "one-negative", "restart", "input-cancel"]
+}
+```
+
+必须同时输出：必要 Capability `id@version` + 依赖闭包、每个机制的可用参数和命令、未满足的能力与降级原因、选定 HostProfile/输入来源。**规划不应该发明 Registry 未注册的能力**；找不到支持时优先明确 `UNSUPPORTED_CAPABILITY`，不得将复杂玩法静默降级成点击加分。
+
+上下文精简不能弱化验证。Catalog 选择可从全部 `127` 份参考 Manifest/注册实现检索，但生成时仅传实际选中的能力、依赖及必要 Schema 片段；完整 Validator 仍用权威全量 Schema，生成后验证不能使用模型简化 Schema。实现前基准测量 Prompt 字节、Token、成功率；不要仅因文件更小就宣称效率提升。
+
+### 11.4 GEN-4 安全与调试的失败分类
+
+| 分类 | 必须区分的失败 | 处理原则 |
+|---|---|---|
+| `INPUT_SPEC` | 无效提示、目标设备/游戏 Profile 不支持 | 提前返回说明，不调用模型 |
+| `PROVIDER_INFRA` | Provider 不可用、超时、429/网络中断、输出截断 | 有界重试/中止；不可算生成模型玩法失败 |
+| `GENERATION_FORMAT` | 无效 JSON、重复键、协议版本不符、遗漏必要字段 | 原始字节留存；返回 JSON Pointer / Schema 诊断 |
+| `CAPABILITY_SEMANTICS` | 引用缺失、版本冲突、运行规则不合法 | 根据 Manifest 做最小修复，不修改受信 Runtime 来迁就模型 |
+| `GAMEPLAY_CONFORMANCE` | 正反例、终局、解法、状态哈希失败 | 精确重现 Tick、Seed、输入；诊断中记录状态差异 |
+| `HOST_ENGINE` | CocosAirJS / Three.js 输入、坐标、资源或渲染失败 | 保留相同 JSON 并做两 Host 最小差异复现 |
+| `VISUAL_QUALITY` | 目标显示缺失、UI 越界、素材不足、可读性差 | 截图/页面元素检查，必要时由生成器做受控修复 |
+| `HUMAN_REVIEW` | 手感、长期游玩质量、难度、美观的人工判定 | 默认待验，不可根据截图或 solver 自动 PASS |
+| `SECURITY_POLICY` | 未授权资源、任意脚本、危险路径或鉴权泄露 | **拒绝**，不能以放宽安全规则生成通过 |
+
+提供可追踪的 `generation-id/attempt-id`、错误码、阶段、最小诊断、素材/输入 SHA、模型身份来源、真实调用次数与耗时。生成返回的游戏即使已通过工程参考，也只能 `PASS_REFERENCE`，除非另行完成正式 G3/人工验收。
+
+### 11.5 GEN-5 本地 Studio 最小可用功能
+
+页面至少包括：文本需求输入、模型 Provider/模式配置、生成开始/取消与进度、诊断面板、当前 `game.json`/GamePlan 差异、已验证结果列表、两 Host 选择/同屏对照（如实现成本高，可分别切换但每边独立截图）、浏览器实时操作与重开、初始/进行中/胜利/失败截图、Conformance/Hash、导出按钮。
+
+交互闭环必须是：**用户点击生成 → 本地 Generator 执行 → 回执进入可加载目录 → 游戏真实启动并可操作**，不能用静态预置游戏替代生成结果；如果模型未配置，提供明确的 fixture 演示但标注 `DEMO_FIXTURE`。本地 Studio 只能访问 Loopback；异步子进程超时/用户取消要释放资源，不能残留端口或无界日志。
+
+### 11.6 GEN-6 素材与独立交付的边界
+
+第一批支持内置 Primitive、可信纹理/音效/字体及资源包中的受审核文件；资源可以是人类预设或经过审核的本地生成资产，但 JSON 不能要求任意远程脚本执行。未审核的 URL、脚本、文件系统越界和内容大小超限在发布前拒绝。把 `GameDefinition` 与 `ReleaseManifest` 分开：前者表示玩法，后者记录资源版本/哈希/依赖与目标 Host；未发布新规范时先在 Generator 内部用受控 bundle/receipt，避免破坏性更改 GameSpec 0.1.0。
+
+## 12. 首批 Generator Benchmark / 验收矩阵
+
+### 12.1 冻结的五个任务（均不得提供现成答案或解法）
+
+| ID | 生成目标 | 必须体现的核心行为 | 典型反例 / 防作弊检查 |
+|---|---|---|---|
+| **G01** | 推箱子 | 网格合法移动、连带推箱、全目标、撤销 | 推不动不得修改状态；不会变成按一下就赢 |
+| **G03** | 三消 | 交换、匹配、连锁/补位、有限目标 | 非法交换、未完成匹配、下落结算的正确阶段 |
+| **G17** | 纵版飞机射击 | 连续移动/开火、弹丸命中、波次、胜负 | 命中去重、暂停冻结、对象销毁后不再命中 |
+| **G21** | 塔防 | 防御塔放置、经济、路径、波次、攻击/胜负 | 非法位置、余额不足、漏怪扣血、实体释放 |
+| **H01** | 合成炮台保卫战 | Merge + TowerDefense + Economy/Weapon 联动 | 合并后的旧炮台不能继续攻击，经济与冷却按 Tick 提交 |
+
+固定任务文本可纳入 `project/generator-benchmark-tasks.json`（新增文件），并关联旧 `project/g3-tasks.json`，不更改旧 37 任务冻结身份；可另设未见任务做泛化评测。每项都执行 **direct-json / game-plan 两种模式**，所有任务使用相同冻结公共上下文、游戏/HostProfile、随机种子、反馈规则、调用上限。模型或模式不同需独立登记，不合并成“整体成功率”。
+
+### 12.2 Generator Gate（独立于原有 G0–G3）
+
+| Gate | 标准 | 自动通过的边界 |
+|---|---|---|
+| `GEN-G0` | 干净检出安装、生成器 CLI/配置/文档可用；fixture smoke/负例 | 不需要外部模型/SDK，允许本地 PASS；不替代已有完整版 `npm run verify` |
+| `GEN-G1` | 至少一个经核实身份的真实 Provider 完成任务文本→非预置新 JSON→完整校验与正反例 | 真实模型未授权/不可用则 BLOCKED；fixture 不能算模型生成成功 |
+| `GEN-G2` | 5 个代表任务各生成能通过完整 G0/G1、双真实 SDK 实际输入/Hash/胜负/重开/释放的结果；两模式分别登记 | 允许失败回修但不得伪造；缺 SDK 时按 Host 标 NOT_RUN |
+| `GEN-G3` | 五项产品可玩性检查（布局、输入、胜负、资源反馈、运行稳定）分别存截图+游玩记录；独立评测指标、模型调用/成本可追溯 | AI 视觉审查属于参考，人工质量及正式原 G3 仍独立待验 |
+| `GEN-G4` | 完整输出目录可携带到另一个工作区，导入播放器不改核心代码；README 一键操作和 CI smoke | 新机复现或明确基础设施 BLOCKED，远端 CI 需要单独 PASS 才能宣称可发布 |
+
+最短产品演示 Gate 为 `GEN-G0 + GEN-G1 + 一款 G01 的 GEN-G2`，可称 **local preview ready**；`GEN-G0–GEN-G4` 全部达标才可称 **Generator Beta candidate**。正式 G3 0/37、人工作品质量和真机缺口在原台账内维持真实状态，不能由 Generator Beta 自动清零。
+
+### 12.3 视觉与玩法质量验收不可降级
+
+- Generator 应从需求中提取可执行的 **Visual Intent**：画面比例、主色调、层次、界面布局、可读字体、主要动画和反馈时序；不要求模型凭空生成全部素材，但不能默默用只有纯色矩形/文字的简陋占位演示满足“高品质”要求。
+- **初始、进行中、成功、失败**四种状态必须检查；至少桌面与 390px 竖屏规格，明确实际目标设备时附加对应比例。自动截图审查布局越界、遮挡、重要文本可读性、按钮目标区域、视觉资源缺失；AI 判断只写 `AI_REFERENCE_REVIEWED`。
+- 截图视觉质量与游戏逻辑是**并列验收**：即使 Hash/Conformance PASS，页面丑陋、元素看不清、技能没有反馈时仍为 `VISUAL_QUALITY_PARTIAL`。素材/风格参考来源与授权应可查；没有来源的素材不得自动公开发布。
+- 射击类检查连续运行与资源释放；益智类检查失败/重试与死局；混合玩法检查状态跨域联动，禁止只把几个按钮放在一起就算完成玩法组合。
+- 最终人工审查至少记录是否像预期玩法、能否无指导完成第一局、目标是否清楚、是否有明显卡顿/误触/意外终局。人类未评审即 `HUMAN_REVIEW: NOT_RUN`。
+
+### 12.4 必须统计的指标
+
+- `one_shot_pass`: 首次生成不修复通过的数量 / 有效真实生成尝试数量；另外报告所有计划数/未运行/受阻数。
+- `pass_within_budget`: 最多配置次数修复后工程通过数量 / 已执行任务数量，明确分母。
+- `independent_solution_pass` 与 `host_assisted_pass`：模型提供的解法与宿主求解器辅助**单独**登记。
+- `schema_pass`, `conformance_pass`, `headless_hash_pass`, `host_three_pass`, `host_air_pass`：按任务/模式/模型与版本分别给出。
+- `visual_gate`, `human_review`, `playtime`, `stuck_rate`, `resource_cleanup`, `token_usage`, `elapsed_ms`, `estimated_cost`：没有数据就 `UNKNOWN`/`NOT_RUN`，不按零。
+- 生成过程不得使用 repo 中的候选 GameSpec/标准答案作为评测输出；默认只公开标准 Capability、Schema、通用机制说明；同一测试集不能既用于 Prompt 调参又声称完全未见。
+
+### 12.5 回归与负例矩阵
+
+必须有自动化测试：空 Prompt、无 provider、错误模型路由、CLI 不存在、模型返回非 JSON/重复键/被截断、未知 Capability/版本、无胜利负例、假胜利步骤、随机结果不一致、生成器超时/退出、取消、输出路径穿越、覆盖旧运行目录、未授权素材、跨 Host Hash 不一致、未释放监听/资源、断网后本局仍正常、模型凭据不出现在日志。模型未配置时测试 fixture + mock failure adapters，并明确 fixture 来源。
+
+## 13. 按批次执行与项目交接规则
+
+### Batch A：CLI 闭环（GEN-0 / GEN-1 / GEN-2）
+
+交付：独立 `a2game generate`、配置与 provider probe、fixture 正反例、新检出 smoke 与回执。可在不改变 GameSpec 和 Runtime Tick 的情况下使用已存在的 `scripts/agent-workflow.mjs`。先完成 Batch A 验收，再进入下一批。
+
+### Batch B：生成质量（GEN-3 / GEN-4）
+
+交付：CapabilitySearch、GamePlan 内部 Schema、两生成模式、完整准入/诊断/修复、重复回放与负例。不得通过加入预制解法提高所谓模型独立成功率。
+
+### Batch C：本地体验（GEN-5 / GEN-6）
+
+交付：Studio/Inspector 真实动态 JSON、双 SDK 预览、资源包、安全导出和新工作区恢复。复用 `scripts/serve.mjs`/现有 `player`，保持现有客户端安全边界。
+
+### Batch D：正式测评与文档（GEN-7 / GEN-8）
+
+交付：5 任务 × 2 模式的可复核运行材料、模型身份/上下文指纹、失败分类、可玩性/视觉、README/AGENTS/status 同步和完整交付报告。受外部模型、设备、额度等限制时分别标记 BLOCKED；不要以未执行的测试阻塞所有可独立完成工作，也不要宣称未运行 Gate PASS。
+
+**并发原则**：每批最多三个互不冲突的子任务并行（如 CLI 命令、Provider 预检测试、文档），同一个核心文件例如 `src/runtime.ts`、`src/registry.ts`、`scripts/agent-workflow.mjs` 同时只能有一个修改者；合并统一由主 Agent 审查并运行回归。无外部运行时，不允许凭生成器 mock 对 G2/G3 结论进行升级。
+
+**每批交付物**：源文件清单与差异、回归结果、实际运行命令、成功/失败/未运行 Gate、产物摘要、原有能力兼容性结论、下一批入口。保留失败诊断和历史已验证档案，不能删除旧规范/状态来“收口”。
+
+## 14. 下一次 Agent 启动提示（直接使用）
+
+> 请在 `https://github.com/oahc09/a2game` 当前 `main` 工作区实施 **A2Game Generator 本地产品化 Batch A**，按 `PROJECT-PLAN.md` 的 GEN-0 → GEN-1 → GEN-2 工作包推进，完成一批验证后再进入后续 Batch B/C/D。先读取 `README.md`、`AGENTS.md`、`PROJECT-PLAN.md`、`PROJECT-STATUS.md`、`project/status.json`、`specs/v0.1/docs/01~04` 和 `17-Agent-Workflow-V0.1.md`，检查 `git status`/当前 HEAD，保留所有用户文件与既有工作区差异。现有 S0–S11、G0–G3、32 Gxx+5 Hxx、Touch/IMU、双 SDK、真机/质量/远端 CI 全部必须保留。发行 `1.0.0` 与协议 `0.1.0` 不得混淆。复用 `scripts/agent-workflow.mjs`、Provider adapters、Capability Registry、Content Service、Headless/Player/Inspector，不重写第二套 Runtime，不让模型输出任意可执行代码。先完成 Generator API/CLI 和真实本地可复现链，提供 `generate/validate/test/preview` 的可执行入口、失败/取消/预算/安全测试、稳定回执和 README 上手说明。后续按 GamePlan、Studio、5 任务 × 2 模式 Benchmark 的 Gate 逐批推进；每步留下运行证据并更新状态，失败与 NOT_RUN 不得标 PASS。未经授权不推送/部署、不操作密钥、不更改权限、不删除重要数据。正式 G3、人工作品质量、真机和远端 CI 保持独立验收。
+
+## 15. 本计划更新的边界与待决项
+
+- **已确认、已核对（仅源码/仓库状态）**：基线 `7493ff7` 的旧 Agent/Codex/Model/HTTP 接入、既有 Registry/Content/Player、旧阶段与正式 G3 未完成事实。统一 Generator 入口属于本轮新增实现，验收以独立 Generator 状态为准。
+- **本文件新增的实现要求**：Generator 产品统一 API/CLI、可选 GamePlan、Studio、可携带发行包、独立 GEN Gate/Benchmark、优先级变更。Batch A 已进入实施，其余仍是未来交付标准；不得将计划描述当已验收功能。
+- **不更改**：历史回执、原 32+5 Coverage、任何实际测试结果及旧 S0–S11 Gate；`specs/v0.1/` 现有协议不因产品入口改变。实施状态同步至 `PROJECT-STATUS.md` 和 `project/generator-status.json`，`project/status.json` 仅增加独立工作流指针。
+- **明确待验**：新检出 + 本地生成器 CLI、真实模型 Provider/身份、正式 AI 生成质量与 G3、两 Host 上新生成游戏的实际表现、物理 Touch/IMU、远端证据恢复与 CI。
+
+### 15.1 本轮落地记录（2026-10-29）
+
+基线为本地 `main` 提交 `7493ff7`（完整 SHA、环境见 [Generator 基线](project/generator-baseline.json)）。最终源码独立完成安装、构建、fixture 生成→完整准入→测试，无旧报告和 Renderer SDK，源码指纹一致，GEN-0 为 `PASS_LOCAL`。本轮完整 `npm run verify` 通过：125 Node、203 Conformance、360 Schema，旧回执恢复。GEN-1 的 API/CLI、fixture 和负例已验证，双 SDK 预览 HTTP 与监听关闭通过，实际浏览器渲染 `NOT_RUN`，状态 `PARTIAL`；GEN-2 适配已实现，真实 Provider E2E 受预算 0 阻塞。Batch A 维持 `PARTIAL`，未进入 Batch B，见 [Generator 台账](project/generator-status.json)。fixture 不属于独立模型生成，正式 G3 和旧 Gate 不升级。
