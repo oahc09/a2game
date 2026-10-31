@@ -844,6 +844,21 @@
     "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
     "h01DynamicReceipt": "reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/summary.json"
   },
+  "g17HostVisual": {
+    "status": "PASS_REFERENCE_LOCAL_VISUAL; FULL_HUMAN_QUALITY_NOT_RUN",
+    "document": "docs/generator-g17-visual.md",
+    "derivative": "output/g17-host-visual-5348a9c4-b5ae-4a3d-a51d-6e9bd95b04fc/",
+    "narrowReceipt": "reports/g17-visual-6e1f8d2e-8f45-454e-b496-16dde2650db4/summary.json",
+    "desktopMobileReceipt": "reports/generator-game-review-afde13f1-fc9b-4d47-9d30-ea6cdaf94201/summary.json",
+    "skillClient": "reports/g17-visual-6e1f8d2e-8f45-454e-b496-16dde2650db4/skill-client.json",
+    "minimumTextCssPx320": 16.56,
+    "modelCalls": 0,
+    "benchmarkOriginal": "UNCHANGED",
+    "terminalFeedback": "HOST_STATUS_BELOW_CANVAS; MAY_REQUIRE_SCROLL",
+    "formalG3": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "humanReview": "NOT_RUN"
+  },
   "providerEvidenceAccounting": {
     "glmHttpDispatchesInTwoCycleReceipts": 4,
     "hostIntegrationAggregateClaim": 6,

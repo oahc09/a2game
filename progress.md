@@ -1,5 +1,7 @@
 Original prompt: 1.了解当前项目情况，创建AGENTS.md方便AI快速理解 2.整理工程然后提交git 3.提交完毕开始推进下一阶段主线：使用真实 CocosAirJS 和 Three.js SDK，在浏览器执行相同 JSON，验证输入、状态哈希、画面及资源生命周期。
 
+- 2026-10-31：G17 模型原稿保持不变，宿主副本移除终局暗字和重复 HUD，320px 最小字由 12.74 提升至 16.56 CSS px。320px 双 SDK 2/2、桌面/390px 4/4、四项 Conformance 和模型解法原稿/副本 Hash 一致；技能客户端两端短动作通过，完整回归 159 Node、360 Schema、203 Conformance 通过。画布下方终局提示可能需滚动，完整质量和人工验收未通过；模型调用 0。见 docs/generator-g17-visual.md。
+
 - 2026-10-31：GEN-8 补齐 CLI `claude` 帮助及 CLI/MCP/Skill 交接说明；源码副本、隔离安装、MCP 双客户端/双 SDK 和 Skill 打包通过，完整回归 159 Node、360 Schema、203 Conformance 通过。新会话自动触发、独立宿主和额外真实模型调用仍待验。
 
 - 2026-10-31：参考 H01 动态实体最小字号和形状尺寸的兼容增量已实施；320px 双 SDK 4/4、193 个 Headless 场景、148 个双 SDK 实例和 148 份覆盖回执已复验，完整回归 159 Node、360 Schema、203 Conformance 通过。旧关卡默认行为不变，正式 G3、真机和人工质量仍单独验收。

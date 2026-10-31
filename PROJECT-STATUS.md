@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-31：G17 规划模式建立单独的宿主表现副本，清除画布暗字、精简重复 HUD 并改善 320px 字号；原始模型输出和评分不变。320px 双 SDK 2/2、桌面/390px 4/4、原始解法及 4 项 Conformance 的状态 Hash 对照通过；完整回归 159 Node、360 Schema、203 Conformance 通过，新增模型调用 0。胜负提示在画布下方，窄屏可能需滚动，人工质量和正式 G3 仍待验。见 [G17 记录](docs/generator-g17-visual.md)。
+
 2026-10-31：GEN-8 本机交接参考通过：CLI 帮助补列现有 `claude` Provider，新增 [CLI/MCP/Skill 交接说明](docs/generator-handoff.md)；隔离安装命令、独立源码副本、MCP 双客户端/双 SDK 和 Skill 打包均通过，新增模型调用 0。完整回归 159 Node、360 Schema、203 Conformance 通过；Skill 新会话自动触发、独立宿主和真实模型复测仍待验。
 
 2026-10-31：参考 H01 基础关卡和作者变体的动态数字在 320px 下经两个真实 SDK 复验，4/4 数字约 17.88 CSS px、槽位不遮挡，旧版/新版状态 Hash 一致且资源释放通过。[回执](reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/summary.json)不代表人工视觉验收。37 款共 193 个 Headless 场景、148 个双 SDK 实例及 148 份参考 CoverageResult 已刷新；完整回归 159 Node、360 Schema、203 Conformance 通过。完整视觉、模型重测、人工、真机和远端 CI 仍待独立确认。

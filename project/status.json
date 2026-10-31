@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "继续 Skill 新会话自动触发、模型身份与生成质量；正式人工/G3/适用设备另验。",
+  "currentObjective": "G17 宿主副本已局部复验；继续 Skill 新会话自动触发、模型身份与生成质量，正式人工/G3/适用设备另验。",
   "nextStage": null,
   "stages": [
     {
@@ -237,7 +237,7 @@
     "date": "2026-10-31",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+    "log": "reports/verify-2026-10-31T12-43-48-033Z-22068/verify.log",
     "g2Summary": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
     "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
@@ -248,7 +248,7 @@
       "pass": 159,
       "total": 159
     },
-    "conformanceReceipt": "reports/verify-2026-10-31T12-18-32-042Z-35380/conformance.json",
+    "conformanceReceipt": "reports/verify-2026-10-31T12-43-48-033Z-22068/conformance.json",
     "schema": {
       "kinds": 7,
       "documents": 360
