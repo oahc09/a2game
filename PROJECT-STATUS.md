@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-31：新增只读模型证据审计，保留私有 telemetry 边界。GLM 循环 1 的 3 次服务自报模型与请求一致，循环 2 的 1 次未返回；旧汇总的额外 2 次仍无证据，独立身份和费用未核实。必要回归 2/2 通过，新增模型调用 0；正式 G3 不变。详见 [多模型记录](docs/generator-multi-model.md)。
+
 2026-10-31：G17 规划模式建立单独的宿主表现副本，清除画布暗字、精简重复 HUD 并改善 320px 字号；原始模型输出和评分不变。320px 双 SDK 2/2、桌面/390px 4/4、原始解法及 4 项 Conformance 的状态 Hash 对照通过；完整回归 159 Node、360 Schema、203 Conformance 通过，新增模型调用 0。胜负提示在画布下方，窄屏可能需滚动，人工质量和正式 G3 仍待验。见 [G17 记录](docs/generator-g17-visual.md)。
 
 2026-10-31：GEN-8 本机交接参考通过：CLI 帮助补列现有 `claude` Provider，新增 [CLI/MCP/Skill 交接说明](docs/generator-handoff.md)；隔离安装命令、独立源码副本、MCP 双客户端/双 SDK 和 Skill 打包均通过，新增模型调用 0。完整回归 159 Node、360 Schema、203 Conformance 通过；Skill 新会话自动触发、独立宿主和真实模型复测仍待验。

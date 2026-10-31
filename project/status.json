@@ -243,7 +243,7 @@
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "contentSummaryStatus": "PASS",
     "httpNavigation": "PASS",
-    "scope": "CURRENT_SOURCE_FULL_VERIFY",
+    "scope": "FULL_VERIFY_BEFORE_MODEL_EVIDENCE_AUDIT_ADDITION",
     "nodeTests": {
       "pass": 159,
       "total": 159

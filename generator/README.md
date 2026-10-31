@@ -38,6 +38,8 @@ npm run generator:studio
 
 每次输出目录必须不存在。成功输出 `game.json`、`conformance.json`、`solution.json`、`release-receipt.json`、`debug-bundle.json`、`tests/` 和 `generation-report.json`。报告用相对路径与 SHA256 标识文件；私有 prompt、原始回复、失败尝试、服务 telemetry 单独保存在 `.a2game/generator/<runId>/`。失败仍保留本次公开报告，不覆盖旧运行。回放会重新检查完整 Schema、正负例、解法及双 Session Hash。
 
+对已有 `model-http` 运行，可用 `node scripts/audit-model-evidence.mjs <generation-report.json>` 只读核对私有逐次记录、返回模型名与请求是否一致、用量和原始响应摘要；不调用模型、不复制私有回复。输出仅为新的本地审计回执。缺失、未返回、模型不符与响应篡改分别记录；服务自报一致不等于独立身份认证。该工具不修改生成、模型路由或调用预算。
+
 `--max-attempts` 为 1–3，`--timeout-ms` 是整个生成任务的时间上限（100–600000）；取消或超时会清理本次 worker 子进程树。未知费用与用量保持 `null` / `NOT_REPORTED`；宿主求解辅助单独标记。退出码：0 成功，1 验证/生成失败，2 参数或本机操作失败，3 `BLOCKED`，130 取消。直接 `node generator/cli.mjs ... --json` 可获得单个 JSON 结果，避免 npm 自身输出横幅。
 
 支持 `direct-json` 与 `game-plan`，均检索公开 Registry 并复用完整准入；`game-plan` 先创建/校验内部规划，再把规划交给原 Provider 编译。默认规划是关键词匹配的宿主草案（不是模型规划或语义通过），可用 `--plan-file` 提供人工/外部 Agent 编辑的规划。fixture 始终对应计数夹具，不解释需求。[本地 Studio 与内容游戏包](../docs/generator-studio.md)已有入口；[五任务两模式 Benchmark](../docs/generator-benchmark.md)可准备公共上下文，真实执行需要新授权预算。这里的 `PASS_REFERENCE` 不升级既有正式 G3、人工质量或真机验收。

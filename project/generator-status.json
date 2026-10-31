@@ -864,6 +864,16 @@
     "hostIntegrationAggregateClaim": 6,
     "status": "DISCREPANCY_UNRESOLVED",
     "documentation": "docs/generator-multi-model.md",
+    "localAudit": {
+      "cycle1": "reports/model-identity-audit-4d7aee8b-eaa1-4b26-80ea-c14559f4dd7e/summary.json",
+      "cycle2": "reports/model-identity-audit-17bfbee2-26a0-4296-b85b-068b668fbd30/summary.json",
+      "reportedMatches": 3,
+      "noReturnRecorded": 1,
+      "duplicateCycle1AliasExcluded": true,
+      "unexplainedAggregateDifference": 2,
+      "independentIdentity": "NOT_VERIFIED",
+      "modelCalls": 0
+    },
     "claudeIdentity": "REQUESTED_MODEL_ONLY; REPORTED_MODEL_MISSING"
   },
   "gen8LocalHandoff": {
