@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.games.h01",
-  "revision": 4,
+  "revision": 5,
   "meta": {
     "title": "H01 合成炮台保卫战",
     "genres": [
@@ -479,7 +479,7 @@
           "kind": "text",
           "at": [
             -1,
-            -1.55
+            -1.8
           ],
           "fontSize": 0.5,
           "fill": "#b5cee8",
@@ -505,7 +505,7 @@
           "kind": "text",
           "at": [
             0.5,
-            -1.55
+            -1.8
           ],
           "fontSize": 0.5,
           "fill": "#b5cee8",
@@ -531,7 +531,7 @@
           "kind": "text",
           "at": [
             2,
-            -1.55
+            -1.8
           ],
           "fontSize": 0.5,
           "fill": "#b5cee8",
@@ -599,7 +599,9 @@
           "projectile",
           "pickup"
         ],
-        "showValues": true
+        "showValues": true,
+        "minValueFontSize": 0.6,
+        "minValueBodySize": 0.8
       }
     }
   },

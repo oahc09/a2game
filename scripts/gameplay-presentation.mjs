@@ -82,7 +82,8 @@ export function polishGameplayPresentation(game,id,title,variant=false){
  if(id==='H01'){
   header.at=[0,3.25];header.fontSize=0.6;header.text.literal=variant?'炮台保卫战 · 变体':'炮台保卫战';
   hint.at=[0,-3.35];hint.fontSize=0.5;hint.text.literal=variant?'合成后用奖励升级':'先建塔，再选择并合成';
-  for(const node of nodes)if(node.id.startsWith('slot-label'))node.fontSize=0.5;
+  for(const node of nodes)if(node.id.startsWith('slot-label')){node.fontSize=0.5;node.at[1]=-1.8;}
+  stage.bodyLayer.minValueFontSize=0.6;stage.bodyLayer.minValueBodySize=0.8;
  }
  if(id==='G14')stage.bodyLayer.circleKinds=['actor','projectile','pickup'];
  if(id==='G15'&&!game.state.rigid){const c=game.scenes[0].entities.flatMap(e=>e.components).find(c=>c.config.constraints).config.constraints[0],left=c.minX/1000-4,right=c.maxX/1000-4;behind(rect('playfield',[(left+right)/2,0],[right-left,5.6],'#17273c'),rect('rail-left',[left,0],[0.04,5.6],'#35465e'),rect('rail-right',[right,0],[0.04,5.6],'#35465e'));}

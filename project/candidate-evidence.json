@@ -1,10 +1,10 @@
 {
   "format": "a2game-candidate-evidence",
   "scope": "per-game-reference-boundaries-v1",
-  "summary": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-  "variants": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
-  "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json",
-  "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
+  "summary": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+  "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
+  "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
+  "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
   "G0": "PASS_REFERENCE",
   "G1": "PASS_REFERENCE",
   "G2": "PASS_REFERENCE",
@@ -17,895 +17,895 @@
       "id": "G01",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G01.receipt.json"
     },
     {
       "id": "G01",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G01.receipt.json"
     },
     {
       "id": "G01",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G01.receipt.json"
     },
     {
       "id": "G01",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G01.receipt.json"
     },
     {
       "id": "G02",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G02.receipt.json"
     },
     {
       "id": "G02",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G02.receipt.json"
     },
     {
       "id": "G02",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G02.receipt.json"
     },
     {
       "id": "G02",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G02.receipt.json"
     },
     {
       "id": "G03",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G03.receipt.json"
     },
     {
       "id": "G03",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G03.receipt.json"
     },
     {
       "id": "G03",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G03.receipt.json"
     },
     {
       "id": "G03",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G03.receipt.json"
     },
     {
       "id": "G04",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G04.receipt.json"
     },
     {
       "id": "G04",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G04.receipt.json"
     },
     {
       "id": "G04",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G04.receipt.json"
     },
     {
       "id": "G04",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G04.receipt.json"
     },
     {
       "id": "G05",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G05.receipt.json"
     },
     {
       "id": "G05",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G05.receipt.json"
     },
     {
       "id": "G05",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G05.receipt.json"
     },
     {
       "id": "G05",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G05.receipt.json"
     },
     {
       "id": "G06",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G06.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G06.receipt.json"
     },
     {
       "id": "G06",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G06.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G06.receipt.json"
     },
     {
       "id": "G06",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G06.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G06.receipt.json"
     },
     {
       "id": "G06",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G06.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G06.receipt.json"
     },
     {
       "id": "G07",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G07.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G07.receipt.json"
     },
     {
       "id": "G07",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G07.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G07.receipt.json"
     },
     {
       "id": "G07",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G07.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G07.receipt.json"
     },
     {
       "id": "G07",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G07.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G07.receipt.json"
     },
     {
       "id": "G08",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G08.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G08.receipt.json"
     },
     {
       "id": "G08",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G08.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G08.receipt.json"
     },
     {
       "id": "G08",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G08.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G08.receipt.json"
     },
     {
       "id": "G08",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G08.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G08.receipt.json"
     },
     {
       "id": "G09",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G09.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G09.receipt.json"
     },
     {
       "id": "G09",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G09.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G09.receipt.json"
     },
     {
       "id": "G09",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G09.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G09.receipt.json"
     },
     {
       "id": "G09",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G09.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G09.receipt.json"
     },
     {
       "id": "G10",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G10.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G10.receipt.json"
     },
     {
       "id": "G10",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G10.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G10.receipt.json"
     },
     {
       "id": "G10",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G10.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G10.receipt.json"
     },
     {
       "id": "G10",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G10.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G10.receipt.json"
     },
     {
       "id": "G11",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G11.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G11.receipt.json"
     },
     {
       "id": "G11",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G11.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G11.receipt.json"
     },
     {
       "id": "G11",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G11.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G11.receipt.json"
     },
     {
       "id": "G11",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G11.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G11.receipt.json"
     },
     {
       "id": "G12",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G12.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G12.receipt.json"
     },
     {
       "id": "G12",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G12.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G12.receipt.json"
     },
     {
       "id": "G12",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G12.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G12.receipt.json"
     },
     {
       "id": "G12",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G12.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G12.receipt.json"
     },
     {
       "id": "G13",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G13.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G13.receipt.json"
     },
     {
       "id": "G13",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G13.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G13.receipt.json"
     },
     {
       "id": "G13",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G13.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G13.receipt.json"
     },
     {
       "id": "G13",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G13.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G13.receipt.json"
     },
     {
       "id": "G14",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G14.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G14.receipt.json"
     },
     {
       "id": "G14",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G14.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G14.receipt.json"
     },
     {
       "id": "G14",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G14.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G14.receipt.json"
     },
     {
       "id": "G14",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G14.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G14.receipt.json"
     },
     {
       "id": "G15",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G15.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G15.receipt.json"
     },
     {
       "id": "G15",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G15.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G15.receipt.json"
     },
     {
       "id": "G15",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G15.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G15.receipt.json"
     },
     {
       "id": "G15",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G15.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G15.receipt.json"
     },
     {
       "id": "G16",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G16.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G16.receipt.json"
     },
     {
       "id": "G16",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G16.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G16.receipt.json"
     },
     {
       "id": "G16",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G16.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G16.receipt.json"
     },
     {
       "id": "G16",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G16.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G16.receipt.json"
     },
     {
       "id": "G17",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G17.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G17.receipt.json"
     },
     {
       "id": "G17",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G17.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G17.receipt.json"
     },
     {
       "id": "G17",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G17.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G17.receipt.json"
     },
     {
       "id": "G17",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G17.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G17.receipt.json"
     },
     {
       "id": "G18",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G18.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G18.receipt.json"
     },
     {
       "id": "G18",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G18.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G18.receipt.json"
     },
     {
       "id": "G18",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G18.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G18.receipt.json"
     },
     {
       "id": "G18",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G18.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G18.receipt.json"
     },
     {
       "id": "G19",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G19.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G19.receipt.json"
     },
     {
       "id": "G19",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G19.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G19.receipt.json"
     },
     {
       "id": "G19",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G19.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G19.receipt.json"
     },
     {
       "id": "G19",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G19.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G19.receipt.json"
     },
     {
       "id": "G20",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G20.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G20.receipt.json"
     },
     {
       "id": "G20",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G20.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G20.receipt.json"
     },
     {
       "id": "G20",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G20.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G20.receipt.json"
     },
     {
       "id": "G20",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G20.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G20.receipt.json"
     },
     {
       "id": "G21",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G21.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G21.receipt.json"
     },
     {
       "id": "G21",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G21.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G21.receipt.json"
     },
     {
       "id": "G21",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G21.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G21.receipt.json"
     },
     {
       "id": "G21",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G21.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G21.receipt.json"
     },
     {
       "id": "G22",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G22.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G22.receipt.json"
     },
     {
       "id": "G22",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G22.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G22.receipt.json"
     },
     {
       "id": "G22",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G22.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G22.receipt.json"
     },
     {
       "id": "G22",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G22.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G22.receipt.json"
     },
     {
       "id": "G23",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G23.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G23.receipt.json"
     },
     {
       "id": "G23",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G23.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G23.receipt.json"
     },
     {
       "id": "G23",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G23.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G23.receipt.json"
     },
     {
       "id": "G23",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G23.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G23.receipt.json"
     },
     {
       "id": "G24",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G24.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G24.receipt.json"
     },
     {
       "id": "G24",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G24.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G24.receipt.json"
     },
     {
       "id": "G24",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G24.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G24.receipt.json"
     },
     {
       "id": "G24",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G24.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G24.receipt.json"
     },
     {
       "id": "G25",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G25.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G25.receipt.json"
     },
     {
       "id": "G25",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G25.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G25.receipt.json"
     },
     {
       "id": "G25",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G25.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G25.receipt.json"
     },
     {
       "id": "G25",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G25.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G25.receipt.json"
     },
     {
       "id": "G26",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G26.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G26.receipt.json"
     },
     {
       "id": "G26",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G26.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G26.receipt.json"
     },
     {
       "id": "G26",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G26.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G26.receipt.json"
     },
     {
       "id": "G26",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G26.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G26.receipt.json"
     },
     {
       "id": "G27",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G27.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G27.receipt.json"
     },
     {
       "id": "G27",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G27.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G27.receipt.json"
     },
     {
       "id": "G27",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G27.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G27.receipt.json"
     },
     {
       "id": "G27",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G27.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G27.receipt.json"
     },
     {
       "id": "G28",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G28.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G28.receipt.json"
     },
     {
       "id": "G28",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G28.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G28.receipt.json"
     },
     {
       "id": "G28",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G28.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G28.receipt.json"
     },
     {
       "id": "G28",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G28.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G28.receipt.json"
     },
     {
       "id": "G29",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G29.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G29.receipt.json"
     },
     {
       "id": "G29",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G29.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G29.receipt.json"
     },
     {
       "id": "G29",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G29.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G29.receipt.json"
     },
     {
       "id": "G29",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G29.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G29.receipt.json"
     },
     {
       "id": "G30",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G30.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G30.receipt.json"
     },
     {
       "id": "G30",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G30.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G30.receipt.json"
     },
     {
       "id": "G30",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G30.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G30.receipt.json"
     },
     {
       "id": "G30",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G30.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G30.receipt.json"
     },
     {
       "id": "G31",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G31.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G31.receipt.json"
     },
     {
       "id": "G31",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G31.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G31.receipt.json"
     },
     {
       "id": "G31",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G31.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G31.receipt.json"
     },
     {
       "id": "G31",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G31.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G31.receipt.json"
     },
     {
       "id": "G32",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-G32.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-G32.receipt.json"
     },
     {
       "id": "G32",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-G32.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-G32.receipt.json"
     },
     {
       "id": "G32",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-G32.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-G32.receipt.json"
     },
     {
       "id": "G32",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-G32.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-G32.receipt.json"
     },
     {
       "id": "H01",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-H01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-H01.receipt.json"
     },
     {
       "id": "H01",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-H01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-H01.receipt.json"
     },
     {
       "id": "H01",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-H01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-H01.receipt.json"
     },
     {
       "id": "H01",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-H01.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-H01.receipt.json"
     },
     {
       "id": "H02",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-H02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-H02.receipt.json"
     },
     {
       "id": "H02",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-H02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-H02.receipt.json"
     },
     {
       "id": "H02",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-H02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-H02.receipt.json"
     },
     {
       "id": "H02",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-H02.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-H02.receipt.json"
     },
     {
       "id": "H03",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-H03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-H03.receipt.json"
     },
     {
       "id": "H03",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-H03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-H03.receipt.json"
     },
     {
       "id": "H03",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-H03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-H03.receipt.json"
     },
     {
       "id": "H03",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-H03.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-H03.receipt.json"
     },
     {
       "id": "H04",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-H04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-H04.receipt.json"
     },
     {
       "id": "H04",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-H04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-H04.receipt.json"
     },
     {
       "id": "H04",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-H04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-H04.receipt.json"
     },
     {
       "id": "H04",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-H04.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-H04.receipt.json"
     },
     {
       "id": "H05",
       "kind": "candidates",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-three-H05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-three-H05.receipt.json"
     },
     {
       "id": "H05",
       "kind": "candidates",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/candidates-air-H05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/candidates-air-H05.receipt.json"
     },
     {
       "id": "H05",
       "kind": "variants",
       "backend": "three",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-three-H05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-three-H05.receipt.json"
     },
     {
       "id": "H05",
       "kind": "variants",
       "backend": "air",
-      "receipt": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/variants-air-H05.receipt.json"
+      "receipt": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/variants-air-H05.receipt.json"
     }
   ],
   "mandatoryGameplayRemaining": 0,
   "nativeInputCases": 32,
   "quality": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
-  "coverageSchema": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/schema-check.json",
-  "historicalIndex": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/historical-index.json",
+  "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
+  "historicalIndex": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/historical-index.json",
   "qualityScope": "HISTORICAL_REVIEW_PENDING_CURRENT_SOURCE"
 }

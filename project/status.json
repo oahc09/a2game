@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "当前播放器源码的双 SDK 基础及变体参考回执已复验；继续视觉质量、Skill 新会话和 GEN-8 交接，正式人工/G3/适用设备另验。",
+  "currentObjective": "完成 H01 窄屏参考回归；继续 Skill 新会话自动触发、GEN-8 交接与模型质量，正式人工/G3/适用设备另验。",
   "nextStage": null,
   "stages": [
     {
@@ -28,9 +28,9 @@
       "status": "PASS",
       "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded",
       "evidence": {
-        "g2": "reports/g2-2026-10-31T10-55-23-702Z-53924/summary.json",
+        "g2": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
         "historicalG2": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -39,9 +39,9 @@
       "status": "PASS",
       "scope": "Current scene2d-trusted-assets-v1 host profile: full Schema/semantics/capabilities, approved-source assets with byte integrity, persistent receipts, receiving-host revalidation and portable bundle delivery. New gameplay/Host capabilities are independently gated.",
       "evidence": {
-        "content": "reports/content-2026-10-31T09-42-27-833Z-46112/summary.json",
+        "content": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
         "historicalContent": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -50,9 +50,9 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "perspective": "reports/visual-stage-2026-10-31T11-48-20-217Z-19764/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-31T11-49-19-667Z-45204/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -61,9 +61,9 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-31T10-56-21-687Z-41324/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
-        "variants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json"
+        "puzzles": "reports/puzzles-2026-10-31T11-50-01-342Z-29280/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+        "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
       }
     },
     {
@@ -72,8 +72,8 @@
       "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-31T10-58-52-988Z-10540/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "mechanisms": "reports/realtime-2026-10-31T11-51-13-098Z-13500/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -82,8 +82,8 @@
       "status": "PASS",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
-        "mechanisms": "reports/strategy-2026-10-31T11-01-10-771Z-5232/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "mechanisms": "reports/strategy-2026-10-31T11-52-43-236Z-53368/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -92,9 +92,9 @@
       "status": "PARTIAL",
       "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
       "evidence": {
-        "reference": "reports/mobile-2026-10-31T11-02-44-080Z-2420/summary.json",
+        "reference": "reports/mobile-2026-10-31T11-53-32-887Z-30656/summary.json",
         "deviceAvailability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -102,9 +102,9 @@
       "name": "32 game + 5 hybrid conformance",
       "status": "PARTIAL",
       "evidence": {
-        "candidates": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
-        "variants": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json"
+        "candidates": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+        "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
       },
       "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
     },
@@ -114,9 +114,9 @@
       "status": "PARTIAL",
       "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
       "evidence": {
-        "workflow": "reports/agent-2026-10-31T10-10-22-786Z-17528/summary.json",
-        "browser": "reports/agent-browser-2026-10-31T11-03-15-205Z-47204/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
+        "browser": "reports/agent-browser-2026-10-31T11-55-02-013Z-43892/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       }
     },
     {
@@ -124,10 +124,10 @@
       "name": "Further platform and compatibility expansion",
       "status": "PASS",
       "evidence": {
-        "compatibility": "reports/compat-2026-10-31T11-02-58-405Z-51636/summary.json",
-        "matrix": "reports/node-matrix-2026-10-31T10-11-35-271Z-26016/summary.json",
-        "performance": "reports/performance-2026-10-31T10-12-56-041Z-24672/summary.json",
-        "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log"
+        "compatibility": "reports/compat-2026-10-31T11-54-10-319Z-8668/summary.json",
+        "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
+        "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
+        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
       },
       "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
@@ -237,17 +237,18 @@
     "date": "2026-10-31",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
-    "g2Summary": "reports/g2-2026-10-31T10-55-23-702Z-53924/summary.json",
+    "log": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+    "g2Summary": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
     "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
-    "contentSummary": "reports/content-2026-10-31T09-42-27-833Z-46112/summary.json",
+    "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "contentSummaryStatus": "PASS",
     "httpNavigation": "PASS",
+    "scope": "CURRENT_SOURCE_FULL_VERIFY",
     "nodeTests": {
-      "pass": 157,
-      "total": 157
+      "pass": 159,
+      "total": 159
     },
-    "conformanceReceipt": "reports/verify-2026-10-31T11-20-30-017Z-29216/conformance.json",
+    "conformanceReceipt": "reports/verify-2026-10-31T12-04-30-005Z-11804/conformance.json",
     "schema": {
       "kinds": 7,
       "documents": 360
@@ -322,7 +323,7 @@
     "date": "2026-10-31",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-31T09-42-27-833Z-46112/summary.json",
+    "summary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "historicalSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
@@ -345,8 +346,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
+    "perspective": "reports/visual-stage-2026-10-31T11-48-20-217Z-19764/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-31T11-49-19-667Z-45204/summary.json",
     "historicalPerspective": "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
     "historicalOrthographic": "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
@@ -487,7 +488,7 @@
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-31T10-56-21-687Z-41324/summary.json",
+    "summary": "reports/puzzles-2026-10-31T11-50-01-342Z-29280/summary.json",
     "historicalSummary": "reports/puzzles-2026-10-27T11-52-31-196Z-47448/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
@@ -499,7 +500,7 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-31T10-58-52-988Z-10540/summary.json",
+      "summary": "reports/realtime-2026-10-31T11-51-13-098Z-13500/summary.json",
       "historicalSummary": "reports/realtime-2026-10-27T11-54-24-861Z-37540/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
@@ -507,7 +508,7 @@
     },
     "strategy": {
       "status": "PASS",
-      "summary": "reports/strategy-2026-10-31T11-01-10-771Z-5232/summary.json",
+      "summary": "reports/strategy-2026-10-31T11-52-43-236Z-53368/summary.json",
       "historicalSummary": "reports/strategy-2026-10-27T11-56-26-816Z-11952/summary.json",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "previousCurrentReceipt": "reports/strategy-2026-10-31T09-50-37-460Z-20304/summary.json"
@@ -515,7 +516,7 @@
   },
   "mobileInputRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/mobile-2026-10-31T11-02-44-080Z-2420/summary.json",
+    "summary": "reports/mobile-2026-10-31T11-53-32-887Z-30656/summary.json",
     "historicalSummary": "reports/mobile-2026-10-27T11-58-21-353Z-11196/summary.json",
     "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
     "previousCurrentReceipt": "reports/mobile-2026-10-31T09-52-17-391Z-45024/summary.json"
@@ -527,7 +528,7 @@
   },
   "candidateRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
+    "summary": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
     "historicalSummary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
     "evidenceScope": "CURRENT_BROWSER_REFERENCE; COVERAGE_INDEX_REFRESHED",
@@ -536,8 +537,8 @@
   },
   "agentWorkflowRun": {
     "status": "PASS_REFERENCE",
-    "workflow": "reports/agent-2026-10-31T10-10-22-786Z-17528/summary.json",
-    "browser": "reports/agent-browser-2026-10-31T11-03-15-205Z-47204/summary.json",
+    "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
+    "browser": "reports/agent-browser-2026-10-31T11-55-02-013Z-43892/summary.json",
     "historicalWorkflow": "reports/agent-2026-10-27T11-58-38-274Z-44696/summary.json",
     "historicalBrowser": "reports/agent-browser-2026-10-27T11-58-48-978Z-45840/summary.json",
     "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
@@ -545,9 +546,9 @@
   },
   "compatibilityRun": {
     "status": "PASS_REFERENCE",
-    "browser": "reports/compat-2026-10-31T11-02-58-405Z-51636/summary.json",
-    "matrix": "reports/node-matrix-2026-10-31T10-11-35-271Z-26016/summary.json",
-    "performance": "reports/performance-2026-10-31T10-12-56-041Z-24672/summary.json",
+    "browser": "reports/compat-2026-10-31T11-54-10-319Z-8668/summary.json",
+    "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
+    "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
     "historicalBrowser": "reports/compat-2026-10-27T11-59-00-558Z-32124/summary.json",
     "historicalMatrix": "reports/node-matrix-2026-10-27T06-59-52-165Z-10856/summary.json",
     "historicalPerformance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
@@ -578,7 +579,7 @@
   },
   "variantsRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
+    "summary": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
     "historicalSummary": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
     "recipes": "project/rule-variants.json",
     "authorship": "Repository-authored; independent G3 remains NOT_RUN",
@@ -590,18 +591,18 @@
     "contract": "project/gameplay-acceptance.json",
     "work": "project/zero-gap-work.json",
     "scope": "37 current mandatory mechanic/base/boundary/authored variant profiles; AI usability/visual review is separate from full human/G3/device acceptance.",
-    "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json",
+    "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
     "historicalHeadless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
-    "browser": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-    "variants": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
+    "browser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+    "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
     "logicalScenarios": 193,
     "browserCases": 148,
     "verifiedGames": 0,
     "verifiedHybrids": 0,
     "fullAcceptance": "PARTIAL",
     "visualReview": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
-    "coverageSchema": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/schema-check.json",
-    "verification": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
+    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
+    "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
     "governanceWithoutDist": "reports/gameplay-governance-without-dist-20261026.log"
   },
   "gameplayLinkageRun": {
@@ -702,12 +703,12 @@
     "scope": "Complete existing mandatory gameplay gaps with evidence; physical/manual quality and independent G3 remain separate, never removed to meet the target.",
     "remaining": 0,
     "completedAt": "2026-10-27T06:59:10.316Z",
-    "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json",
-    "browser": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-    "variants": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
+    "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
+    "browser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+    "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
     "nativeCases": 32,
     "fullAcceptance": "PARTIAL",
-    "coverageSchema": "reports/reference-coverage-c69198dd-8ee9-444b-8fa7-734485fd19b3/schema-check.json"
+    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json"
   },
   "rigid3dRun": {
     "status": "PASS_REFERENCE",
@@ -757,273 +758,273 @@
       "G32",
       "H04"
     ],
-    "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json",
-    "browser": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-    "variants": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
+    "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
+    "browser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+    "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
     "nativeCases": 32,
     "native": [
       {
         "id": "G25",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G25.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G25.json",
         "profile": "continuous-cut-dedup-bomb-miss",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G25-cut-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G25-cut-native.png"
       },
       {
         "id": "G26",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G26.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G26.json",
         "profile": "two-touch-rotation-scale-regrab",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G26-pair-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G26-pair-native.png"
       },
       {
         "id": "G27",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G27.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G27.json",
         "profile": "tilt-calibration-loss-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G27-tilt-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G27-tilt-fallback.png"
       },
       {
         "id": "G29",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G29.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G29.json",
         "profile": "shake-cooldown-stop-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G29-shake-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G29-shake-fallback.png"
       },
       {
         "id": "G30",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G30.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G30.json",
         "profile": "slingshot-cancel-multi-power-release",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G30-slingshot-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G30-slingshot-native.png"
       },
       {
         "id": "G31",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G31.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G31.json",
         "profile": "orientation-rezero-screen-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G31-orientation-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G31-orientation-fallback.png"
       },
       {
         "id": "G32",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G32.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G32.json",
         "profile": "multi-hold-cancel-blur-retry",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-G32-multi-hold-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-G32-multi-hold-native.png"
       },
       {
         "id": "H04",
         "kind": "candidates",
         "backend": "three",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-H04.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-H04.json",
         "profile": "tilt-physics-stop-and-merge",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-H04-physics-tilt-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/three-H04-physics-tilt-fallback.png"
       },
       {
         "id": "G25",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G25.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G25.json",
         "profile": "continuous-cut-dedup-bomb-miss",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G25-cut-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G25-cut-native.png"
       },
       {
         "id": "G26",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G26.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G26.json",
         "profile": "two-touch-rotation-scale-regrab",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G26-pair-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G26-pair-native.png"
       },
       {
         "id": "G27",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G27.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G27.json",
         "profile": "tilt-calibration-loss-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G27-tilt-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G27-tilt-fallback.png"
       },
       {
         "id": "G29",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G29.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G29.json",
         "profile": "shake-cooldown-stop-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G29-shake-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G29-shake-fallback.png"
       },
       {
         "id": "G30",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G30.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G30.json",
         "profile": "slingshot-cancel-multi-power-release",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G30-slingshot-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G30-slingshot-native.png"
       },
       {
         "id": "G31",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G31.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G31.json",
         "profile": "orientation-rezero-screen-fallback",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G31-orientation-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G31-orientation-fallback.png"
       },
       {
         "id": "G32",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G32.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G32.json",
         "profile": "multi-hold-cancel-blur-retry",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-G32-multi-hold-native.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-G32-multi-hold-native.png"
       },
       {
         "id": "H04",
         "kind": "candidates",
         "backend": "air",
-        "receipt": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-H04.json",
+        "receipt": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-H04.json",
         "profile": "tilt-physics-stop-and-merge",
-        "screenshot": "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-H04-physics-tilt-fallback.png"
+        "screenshot": "reports/candidates-2026-10-31T11-39-24-156Z-25524/air-H04-physics-tilt-fallback.png"
       },
       {
         "id": "G25",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G25.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G25.json",
         "profile": "continuous-cut-dedup-bomb-miss",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G25-cut-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G25-cut-native.png"
       },
       {
         "id": "G26",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G26.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G26.json",
         "profile": "two-touch-rotation-scale-regrab",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G26-pair-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G26-pair-native.png"
       },
       {
         "id": "G27",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G27.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G27.json",
         "profile": "tilt-calibration-loss-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G27-tilt-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G27-tilt-fallback.png"
       },
       {
         "id": "G29",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G29.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G29.json",
         "profile": "shake-cooldown-stop-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G29-shake-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G29-shake-fallback.png"
       },
       {
         "id": "G30",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G30.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G30.json",
         "profile": "slingshot-cancel-multi-power-release",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G30-slingshot-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G30-slingshot-native.png"
       },
       {
         "id": "G31",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G31.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G31.json",
         "profile": "orientation-rezero-screen-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G31-orientation-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G31-orientation-fallback.png"
       },
       {
         "id": "G32",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G32.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G32.json",
         "profile": "multi-hold-cancel-blur-retry",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-G32-multi-hold-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-G32-multi-hold-native.png"
       },
       {
         "id": "H04",
         "kind": "variants",
         "backend": "three",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-H04.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-H04.json",
         "profile": "tilt-physics-stop-and-merge",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/three-H04-physics-tilt-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/three-H04-physics-tilt-fallback.png"
       },
       {
         "id": "G25",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G25.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G25.json",
         "profile": "continuous-cut-dedup-bomb-miss",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G25-cut-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G25-cut-native.png"
       },
       {
         "id": "G26",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G26.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G26.json",
         "profile": "two-touch-rotation-scale-regrab",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G26-pair-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G26-pair-native.png"
       },
       {
         "id": "G27",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G27.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G27.json",
         "profile": "tilt-calibration-loss-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G27-tilt-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G27-tilt-fallback.png"
       },
       {
         "id": "G29",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G29.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G29.json",
         "profile": "shake-cooldown-stop-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G29-shake-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G29-shake-fallback.png"
       },
       {
         "id": "G30",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G30.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G30.json",
         "profile": "slingshot-cancel-multi-power-release",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G30-slingshot-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G30-slingshot-native.png"
       },
       {
         "id": "G31",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G31.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G31.json",
         "profile": "orientation-rezero-screen-fallback",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G31-orientation-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G31-orientation-fallback.png"
       },
       {
         "id": "G32",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G32.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G32.json",
         "profile": "multi-hold-cancel-blur-retry",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-G32-multi-hold-native.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-G32-multi-hold-native.png"
       },
       {
         "id": "H04",
         "kind": "variants",
         "backend": "air",
-        "receipt": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-H04.json",
+        "receipt": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-H04.json",
         "profile": "tilt-physics-stop-and-merge",
-        "screenshot": "reports/variants-2026-10-31T10-48-45-541Z-3368/air-H04-physics-tilt-fallback.png"
+        "screenshot": "reports/variants-2026-10-31T11-39-24-092Z-8620/air-H04-physics-tilt-fallback.png"
       }
     ],
     "skill": "reports/input-gameplay-skill-2026-10-27T06-45-35-732Z/summary.json",
     "scope": "All registered mandatory input/mechanics gaps in bounded author profiles. Desktop mouse/keyboard, CDP virtual touch and synthetic IMU/permission/screen fixtures; not physical devices or independent G3.",
-    "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
+    "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
     "visualReview": "reports/input-gameplay-visual-review-2026-10-27T06-59-10-622Z.json",
-    "coverageSchema": "reports/reference-coverage-c69198dd-8ee9-444b-8fa7-734485fd19b3/schema-check.json",
+    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
     "governance": "reports/input-gameplay-governance-20261027-final.log",
     "historicalBrowser": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "historicalVariants": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json"
@@ -1035,22 +1036,21 @@
     "reviewedGames": 37,
     "humanApproval": "NOT_RUN",
     "fullAcceptance": "PARTIAL",
-    "production": "reports/runner-quality-2026-10-27T11-44-34-063Z/summary.json",
+    "production": "reports/runner-quality-2026-10-31T12-12-15-618Z/summary.json",
     "skill": "reports/runner-skill-2026-10-27T11-44-58-656Z/summary.json",
     "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json",
     "verification": "reports/verify-2026-10-27T11-44-44-443Z-11888/verify.log",
     "governance": "reports/quality-governance-20261027-final.log",
     "currentH01NarrowFinding": {
       "status": "PARTIAL",
-      "scope": "Static H01 text enlarged; dynamic entity values remain too small on 320px. Human approval NOT_RUN.",
-      "previousScreenshots": [
-        "reports/candidates-2026-10-31T09-54-43-316Z-23888/three-H01-quality-320.png",
-        "reports/candidates-2026-10-31T09-54-43-316Z-23888/air-H01-quality-320.png"
-      ],
+      "scope": "Current bounded base and authored variant: dynamic value font >=16 CSS px and no measured slot overlap at 320px on two SDKs. Broader visual and human review NOT_RUN.",
+      "receipt": "reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/summary.json",
       "screenshots": [
-        "reports/candidates-2026-10-31T10-48-45-588Z-12568/three-H01-quality-320.png",
-        "reports/candidates-2026-10-31T10-48-45-588Z-12568/air-H01-quality-320.png"
-      ]
+        "reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/three-h01-candidate-320.png",
+        "reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/air-h01-candidate-320.png"
+      ],
+      "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
+      "modelCalls": 0
     }
   },
   "finalAcceptanceRun": {
@@ -1078,7 +1078,7 @@
   },
   "independentG3Run": {
     "status": "NOT_RUN",
-    "preparation": "HISTORICAL_REFERENCE_CURRENT_SOURCE_RECHECK_REQUIRED",
+    "preparation": "HISTORICAL_INDEPENDENT_GENERATION; CURRENT_FIXTURE_REVALIDATED",
     "plannedGames": 32,
     "plannedHybrids": 5,
     "plannedTasks": 37,
@@ -1174,8 +1174,8 @@
       "H04"
     ],
     "formalHumanApproval": "NOT_RUN",
-    "previousToolingProof": "reports/g3-fixture-2026-10-31T09-52-54-782Z-46796/summary.json",
-    "toolingProof": "reports/g3-fixture-2026-10-31T11-03-24-895Z-9348/summary.json"
+    "previousToolingProof": "reports/g3-fixture-2026-10-31T11-03-24-895Z-9348/summary.json",
+    "toolingProof": "reports/g3-fixture-2026-10-31T11-55-15-266Z-53588/summary.json"
   },
   "repositoryMaintenanceRun": {
     "date": "2026-10-28",
@@ -1281,5 +1281,30 @@
   },
   "generatorWorkstream": "project/generator-status.json",
   "generatorWorkstreamRevision": "2026-10-31-generator-benchmark-and-isolated-mcp",
-  "generatorH01Repair": "docs/generator-h01-repair.md"
+  "generatorH01Repair": "docs/generator-h01-repair.md",
+  "previousCurrentRun": {
+    "date": "2026-10-31",
+    "command": "npm run verify",
+    "status": "PASS",
+    "log": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
+    "g2Summary": "reports/g2-2026-10-31T10-55-23-702Z-53924/summary.json",
+    "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
+    "contentSummary": "reports/content-2026-10-31T09-42-27-833Z-46112/summary.json",
+    "contentSummaryStatus": "PASS",
+    "httpNavigation": "PASS",
+    "nodeTests": {
+      "pass": 157,
+      "total": 157
+    },
+    "conformanceReceipt": "reports/verify-2026-10-31T11-20-30-017Z-29216/conformance.json",
+    "schema": {
+      "kinds": 7,
+      "documents": 360
+    },
+    "conformance": {
+      "pass": 203,
+      "total": 203,
+      "suites": 114
+    }
+  }
 }

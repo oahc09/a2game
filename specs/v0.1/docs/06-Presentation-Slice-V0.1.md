@@ -35,6 +35,8 @@
 
 后续版本已加入的 `scene2d.bodyLayer` 仍按 [13 号规范](13-Realtime-World-V0.1.md) 读取 `WorldBody[]`。`statePath` **相对于 `SessionObservation.state`，必须直接指向 Body 数组**，例如世界对象存于 `/world`、Bodies 存于其 `bodies` 字段时，应引用 `/world/bodies`；不能引用整个 `/world` 对象。每个 Body 必须具有合法的整数 `x/y/hx/hy` 与 `kind`，`palette` 为 actor/solid/target/projectile/pickup 提供颜色；`unitsPerMeter:1000`、`origin` 继续使用场景中心原点和 Y 向上坐标。此说明不增加 API、不放宽既有校验。
 
+2026-10-31 兼容增量：声明 `a2game.visual.body-style` 且 `showValues:true` 时，可选 `minValueFontSize` 与 `minValueBodySize`（逻辑单位，大于 0 且不超过 2）。前者是正值标签的最小字号，后者是正值实体绘制形状的最小直径或边长；不改变碰撞体、输入范围、状态或 Hash。未设置时沿用原有尺寸，无正值的实体不受最小形状尺寸影响。较大的标签仍应检查遮挡、视口缩放和文本宽度。
+
 表现布局应将完整棋盘、标题与目标置于 `[-width/2,width/2] × [-height/2,height/2]`，包括文字尺寸和图形半径；字体大小为逻辑单位，应考虑缩放后的实际可读性。只显示部分棋盘或原始 true/false 不代表质量通过。
 
 操作说明应解释目标、输入及规则；益智关卡不应在初始画面直接列出完整获胜操作顺序。消除后的编号、遮挡层与结束反馈应保持可读，不能仅以场景非空或逻辑获胜作为完整质量验收。

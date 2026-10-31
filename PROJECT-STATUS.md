@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-31：参考 H01 基础关卡和作者变体的动态数字在 320px 下经两个真实 SDK 复验，4/4 数字约 17.88 CSS px、槽位不遮挡，旧版/新版状态 Hash 一致且资源释放通过。[回执](reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/summary.json)不代表人工视觉验收。37 款共 193 个 Headless 场景、148 个双 SDK 实例及 148 份参考 CoverageResult 已刷新；完整回归 159 Node、360 Schema、203 Conformance 通过。完整视觉、模型重测、人工、真机和远端 CI 仍待独立确认。
+
 2026-10-31 H01 窄屏调整：基础及作者变体的 320/390px 文案字号已提升；双 SDK 胜负、边界、重开、释放和修改前状态 Hash 对照通过。37 款基础及作者变体的 148 个双 SDK 参考实例与 148 份 CoverageResult 已复验并刷新索引；动态炮台和敌人数值仍偏小，视觉质量继续 PARTIAL。完整回归 157 Node、360 Schema、203 Conformance 通过，详见 [H01 记录](docs/generator-h01-repair.md) 和 [日志](reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log)。
 
 2026-10-31 当前源码复验：37 款基础及作者变体共 148 个双 SDK 参考实例、148 份 CoverageResult Schema 和 G13/H03 正式时钟 4/4 已通过；完整回归为 157 Node、360 Schema 文档、203 Conformance。参考 H01 的 320px 画布文字仍过小，完整视觉质量继续 PARTIAL。MCP 真实 Provider 历史调用与项目级 Skill 宿主练习已有回执，但返回模型身份和 Skill 新会话自动触发待验；未追加模型调用。详见 [Generator 台账](project/generator-status.json) 和 [H01 记录](docs/generator-h01-repair.md)。

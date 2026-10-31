@@ -13,9 +13,10 @@ const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha25
 function reverseH01Presentation(path,text){
  const variant=path.endsWith('/h01-reward-upgrade.game.json'),game=JSON.parse(text);
  assert.equal(JSON.stringify(game,null,2)+'\n',text);
- assert.equal(game.revision,variant?3:4);game.revision--;
+ assert.equal(game.revision,variant?4:5);game.revision=variant?2:3;
+ const layer=game.presentation.scene2d.bodyLayer;assert.equal(layer.minValueFontSize,0.6);assert.equal(layer.minValueBodySize,0.8);delete layer.minValueFontSize;delete layer.minValueBodySize;
  const nodes=game.presentation.scene2d.nodes;
- for(let i=0;i<3;i++){const matches=nodes.filter(node=>node.id==='slot-label'+i);assert.equal(matches.length,1);assert.equal(matches[0].fontSize,0.5);matches[0].fontSize=0.18;}
+ for(let i=0;i<3;i++){const matches=nodes.filter(node=>node.id==='slot-label'+i);assert.equal(matches.length,1);assert.equal(matches[0].fontSize,0.5);assert.equal(matches[0].at[1],-1.8);matches[0].fontSize=0.18;matches[0].at[1]=-1.55;}
  const title=nodes.filter(node=>node.id==='title'),hint=nodes.filter(node=>node.id==='hint');assert.equal(title.length,1);assert.equal(hint.length,1);
  assert.deepEqual([title[0].at,title[0].fontSize,title[0].text.literal],[[0,3.25],0.6,variant?'炮台保卫战 · 变体':'炮台保卫战']);
  assert.deepEqual([hint[0].at,hint[0].fontSize,hint[0].text.literal],[[0,-3.35],0.5,variant?'合成后用奖励升级':'先建塔，再选择并合成']);

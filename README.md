@@ -1,6 +1,6 @@
 # A2Game 1.0.0 — 独立游戏 JSON 播放器与共享 Runtime
 
-2026-10-31 顺序推进结果：Batch A/B/C保留工程参考；Batch D的5任务×2模式已真实执行10/10，30次调用含1次宿主中止，9/10工程及来源输入通过。H01规划模式原稿仍失败；宿主修正版与HUD调整已通过双SDK桌面/窄屏4/4参考验证，真实模型重测未运行。G17仍有画面对比度不足。MCP已有无模型工程和真实Provider历史调用，模型身份尚未独立核实；Skill已有项目级安装和宿主练习，新会话自动触发仍待验。当前源码四样例G2已重新通过，其余受影响的历史浏览器证据正在复验。正式G3 0/37、Verified 0/32+0/5，真机、人工和远端CI独立。见[H01修复](docs/generator-h01-repair.md)、[实际结果](docs/generator-real-findings.md)、[MCP/Skill说明](docs/generator-mcp.md)与[台账](project/generator-status.json)。
+2026-10-31 顺序推进结果：Batch A/B/C保留工程参考；Batch D的5任务×2模式已真实执行10/10，30次调用含1次宿主中止，9/10工程及来源输入通过。H01规划模式原稿仍失败；宿主修正版与HUD调整已通过双SDK桌面/窄屏4/4参考验证，真实模型重测未运行。参考H01动态数字的320px双SDK局部检查已通过，完整视觉仍待复核；G17仍有画面对比度不足。MCP已有无模型工程和真实Provider历史调用，模型身份尚未独立核实；Skill已有项目级安装和宿主练习，新会话自动触发仍待验。受共享表现变更影响的当前源码参考浏览器证据和完整工程回归已重验。正式G3 0/37、Verified 0/32+0/5，真机、人工和远端CI独立。见[H01修复](docs/generator-h01-repair.md)、[实际结果](docs/generator-real-findings.md)、[MCP/Skill说明](docs/generator-mcp.md)与[台账](project/generator-status.json)。
 
 本机MCP：`npm run mcp:install`后`npm run mcp:serve`（默认无模型额度），验证用`npm run mcp:check`；完整`npm run verify`含MCP边界测试，需先安装其独立依赖。Skill只打包：`npm run skill:package`，不自动全局安装。Studio仍可用：`npm run generator:studio`。
 

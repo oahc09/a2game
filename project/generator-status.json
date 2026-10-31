@@ -375,13 +375,13 @@
     "status": "PASS",
     "scope": "CURRENT_SOURCE_ENGINEERING_VERIFY; 148 CURRENT_PLAYER_SOURCE REFERENCE CASES; VISUAL QUALITY AND FORMAL ACCEPTANCE REMAIN PARTIAL",
     "currentSourceFullVerify": "PASS",
-    "currentVerifyLog": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
+    "currentVerifyLog": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
     "historicalReceipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
-    "nodeTests": 157,
+    "nodeTests": 159,
     "schemaDocuments": 360,
     "conformanceCases": 203,
     "baselineReceiptsRestored": true,
-    "sourceSmoke": "output/generator-source-smoke-934b44f9-4e90-4606-aa65-73f6ebe15a22/receipt.json",
+    "sourceSmoke": "output/generator-source-smoke-f72b1eef-65cc-438a-99d8-7417fc907c5b/receipt.json",
     "sourceSmokeStatus": "PASS_LOCAL_CURRENT_SOURCE"
   },
   "preview": {
@@ -558,6 +558,10 @@
     {
       "path": "reports/verify-2026-10-31T10-24-57-083Z-48244/verify.log",
       "cause": "Default Python lacked jsonschema; Node 155/156. Schema and Conformance stages were not reached; rerun used the project venv and passed."
+    },
+    {
+      "path": "reports/verify-2026-10-31T11-57-19-484Z-34868/verify.log",
+      "cause": "Incorrect PATH setup selected Python without jsonschema; 157/159 Node tests, schema and conformance not reached. Corrected project venv and full verification passed."
     }
   ],
   "benchmarkExecution": {
@@ -653,10 +657,10 @@
     },
     "sourceSmoke": {
       "status": "PASS_LOCAL",
-      "receipt": "output/generator-source-smoke-934b44f9-4e90-4606-aa65-73f6ebe15a22/receipt.json",
-      "sha256": "eb5779054711a2f4e4624869682a3e6e2059993dcc6a95f0b247ec36abfc29e6",
-      "sourceSha256": "5677dc7b61526339065da3d6c98ef03cac477730b3725f6ddbdc138d53f9fe73",
-      "sourceFileCount": 595,
+      "receipt": "output/generator-source-smoke-f72b1eef-65cc-438a-99d8-7417fc907c5b/receipt.json",
+      "sha256": "0b45cdad4aaa797d17a5a6168a17cb1cdd334c1a28e0ce1215c3bcc0108675c0",
+      "sourceSha256": "37c30fef4dd4ac588e607f90f70ebcfddb59d53a3e64d31464e128227dde10fe",
+      "sourceFileCount": 596,
       "finalSourceVerification": "CURRENT_SOURCE",
       "assertions": {
         "notCopied:reports": true,
@@ -718,6 +722,29 @@
         "noRendererSdk": true
       },
       "sourceFilesMatch": false
+    },
+    "preBodySizeSourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-934b44f9-4e90-4606-aa65-73f6ebe15a22/receipt.json",
+      "sha256": "eb5779054711a2f4e4624869682a3e6e2059993dcc6a95f0b247ec36abfc29e6",
+      "sourceSha256": "5677dc7b61526339065da3d6c98ef03cac477730b3725f6ddbdc138d53f9fe73",
+      "sourceFileCount": 595,
+      "finalSourceVerification": "HISTORICAL_AFTER_BODY_PRESENTATION_CHANGE",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "mcpNoModelChain": true,
+        "missingSdkRejected": true,
+        "modesSameGame": true,
+        "planPresent": true,
+        "planLifecycle": true,
+        "importUnchanged": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      },
+      "sourceFilesMatch": false
     }
   },
   "batchE": {
@@ -731,16 +758,17 @@
   "referenceRevalidation": {
     "status": "PASS_REFERENCE",
     "scope": "37 base and 37 authored variants, two SDKs, current player source; full visual quality, human review, independent G3 and physical input remain separate",
-    "candidateBrowser": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
-    "variantBrowser": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
-    "coverageSchema": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/schema-check.json",
+    "candidateBrowser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+    "variantBrowser": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
+    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
     "browserCases": 148,
     "coverageReceipts": 148,
-    "runnerProduction": "reports/runner-quality-2026-10-31T10-24-21-130Z/summary.json",
+    "runnerProduction": "reports/runner-quality-2026-10-31T12-12-15-618Z/summary.json",
     "runnerCases": 4,
-    "h01NarrowQuality": "PARTIAL_TEXT_TOO_SMALL",
+    "h01NarrowQuality": "PASS_REFERENCE_DYNAMIC_320; FULL_VISUAL_AND_HUMAN_PARTIAL",
     "modelCalls": 0,
-    "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json"
+    "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
+    "h01DynamicReceipt": "reports/h01-narrow-6a2013e1-952e-4bcf-b6c1-42b95a53119e/summary.json"
   },
   "providerEvidenceAccounting": {
     "glmHttpDispatchesInTwoCycleReceipts": 4,

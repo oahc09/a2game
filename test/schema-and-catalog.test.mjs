@@ -22,6 +22,10 @@ test('Draft 2020-12 Python validator admits sample and rejects structural modifi
  const failure=validate(extra);assert.equal(failure.status,1);assert.equal(failure.result.status,'FAIL');assert.ok(failure.result.errors[0].pointer.startsWith('/presentation'));
  const missing=structuredClone(original);delete missing.meta.genres;assert.equal(validate(missing).status,1);
 });
+test('body value display minimums require bounded numbers and enabled labels',()=>{
+ const game=JSON.parse(readFileSync(join(spec,'games/h01-candidate.game.json'),'utf8'));assert.equal(validate(game).status,0);
+ for(const [key,value] of [['minValueFontSize',0],['minValueBodySize',2.1],['showValues',false]]){const bad=structuredClone(game);bad.presentation.scene2d.bodyLayer[key]=value;assert.equal(validate(bad).status,1);}
+});
 test('Release catalog only whitelists full-schema-validated exact JCS digest',()=>{
  const catalog=JSON.parse(readFileSync(new URL('../player/validated-games.json',import.meta.url)));
  const path='/specs/v0.1/games/tap-target.game.json';

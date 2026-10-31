@@ -29,6 +29,25 @@ test('fixed-tick integer motion, pause/snapshot replay, constraints and pure bod
  const hash=r.observe().exactHash,frame=projectPresentation(d,r.observe());assert.ok(frame.commands.some(c=>c.id==='body:hero'));assert.equal(r.observe().exactHash,hash);r.dispose();
  const constrained=start(game('realtime-constraint'));constrained.step(20);assert.ok(constrained.observe().state.world.bodies[0].x<=2000);constrained.dispose();
 });
+
+test('optional body value sizes are bounded, preserve old projection and never alter H01 state',()=>{
+ for(const name of ['h01-candidate','h01-reward-upgrade']){
+  const current=game(name),legacy=structuredClone(current),layer=legacy.presentation.scene2d.bodyLayer;delete layer.minValueFontSize;delete layer.minValueBodySize;legacy.revision--;
+  const r=start(current),old=start(legacy);
+  try{
+   press(r,'place0');press(old,'place0');const observed=r.observe();assert.equal(observed.exactHash,old.observe().exactHash);
+   const frame=projectPresentation(current,observed),oldFrame=projectPresentation(legacy,old.observe()),label=frame.commands.find(c=>c.id.startsWith('body-label:'));
+   assert.ok(label);assert.equal(label.fontSize,0.6);assert.ok(oldFrame.commands.find(c=>c.id===label.id).fontSize<0.6);
+   const body=frame.commands.find(c=>c.id===label.id.replace('body-label:','body:'));assert.equal(body.kind,'circle');assert.ok(body.radius>=0.4);
+   const zero=structuredClone(observed);zero.state.defense.bodies[0].value=0;const id='body:'+zero.state.defense.bodies[0].id;
+   assert.deepEqual(projectPresentation(current,zero).commands.find(c=>c.id===id),projectPresentation(legacy,zero).commands.find(c=>c.id===id));
+   assert.equal(r.observe().exactHash,observed.exactHash);
+  }finally{r.dispose();old.dispose();}
+ }
+ const definition=game('h01-candidate');
+ for(const [key,value] of [['minValueFontSize',0],['minValueBodySize',2.1],['showValues',false]]){const bad=structuredClone(definition);bad.presentation.scene2d.bodyLayer[key]=value;assert.throws(()=>start(bad),e=>e.code==='A2G_E_PRESENTATION');}
+ const noCapability=structuredClone(definition);noCapability.requires.all=noCapability.requires.all.filter(ref=>ref.id!=='a2game.visual.body-style');assert.throws(()=>start(noCapability),e=>e.code==='A2G_E_CAP_DEPENDENCY');
+});
 test('contacts and damage deduplicate across substeps; pool saturation never overwrites; T5 rollback is atomic',()=>{
  const d=game('realtime-projectile'),r=start(d);press(r,'fire');assert.equal(r.observe().state.world.score,1);assert.equal(r.observe().events.filter(e=>e.type==='combat.hit').length,1);assert.equal(r.observe().events.filter(e=>e.type==='combat.death').length,1);r.dispose();
  const saturated=game('realtime-projectile');saturated.scenes[0].entities[0].components[0].config.maxObjects=2;const full=start(saturated);press(full,'fire');assert.equal(full.observe().state.world.nextId,0);assert.equal(full.observe().state.world.score,0);assert.equal(full.observe().events.filter(e=>e.type==='realtime.pool-full').length,1);full.dispose();

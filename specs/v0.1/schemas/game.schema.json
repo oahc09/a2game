@@ -1103,8 +1103,24 @@
             },
             "showValues": {
               "type": "boolean"
+            },
+            "minValueFontSize": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 2
+            },
+            "minValueBodySize": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 2
             }
           },
+          "allOf": [
+            {
+              "if": {"anyOf": [{"required": ["minValueFontSize"]}, {"required": ["minValueBodySize"]}]},
+              "then": {"required": ["showValues"], "properties": {"showValues": {"const": true}}}
+            }
+          ],
           "required": [
             "statePath",
             "unitsPerMeter",
