@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "G17 宿主副本已局部复验；继续 Skill 新会话自动触发、模型身份与生成质量，正式人工/G3/适用设备另验。",
+  "currentObjective": "播放器终局反馈与双 SDK 参考复验已完成；完整回归、覆盖索引、模型身份及人工/G3/适用设备验收待办。",
   "nextStage": null,
   "stages": [
     {
@@ -28,9 +28,10 @@
       "status": "PASS",
       "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded",
       "evidence": {
-        "g2": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
+        "g2": "reports/g2-2026-10-31T13-47-46-227Z-45820/summary.json",
         "historicalG2": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -39,9 +40,10 @@
       "status": "PASS",
       "scope": "Current scene2d-trusted-assets-v1 host profile: full Schema/semantics/capabilities, approved-source assets with byte integrity, persistent receipts, receiving-host revalidation and portable bundle delivery. New gameplay/Host capabilities are independently gated.",
       "evidence": {
-        "content": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
+        "content": "reports/content-2026-10-31T13-48-36-868Z-13520/summary.json",
         "historicalContent": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -50,9 +52,10 @@
       "status": "PASS",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
-        "perspective": "reports/visual-stage-2026-10-31T11-48-20-217Z-19764/summary.json",
-        "orthographic": "reports/visual-stage-2026-10-31T11-49-19-667Z-45204/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "perspective": "reports/visual-stage-2026-10-31T13-49-38-362Z-27372/summary.json",
+        "orthographic": "reports/visual-stage-2026-10-31T13-50-48-352Z-14740/summary.json",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -61,9 +64,10 @@
       "status": "PASS",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
-        "puzzles": "reports/puzzles-2026-10-31T11-50-01-342Z-29280/summary.json",
+        "puzzles": "reports/puzzles-2026-10-31T13-52-01-197Z-10352/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
-        "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
+        "variants": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -72,8 +76,9 @@
       "status": "PASS",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
-        "mechanisms": "reports/realtime-2026-10-31T11-51-13-098Z-13500/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "mechanisms": "reports/realtime-2026-10-31T13-51-24-109Z-42092/summary.json",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -82,8 +87,9 @@
       "status": "PASS",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
-        "mechanisms": "reports/strategy-2026-10-31T11-52-43-236Z-53368/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "mechanisms": "reports/strategy-2026-10-31T13-54-08-439Z-30400/summary.json",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -92,9 +98,10 @@
       "status": "PARTIAL",
       "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
       "evidence": {
-        "reference": "reports/mobile-2026-10-31T11-53-32-887Z-30656/summary.json",
+        "reference": "reports/mobile-2026-10-31T13-56-18-878Z-21372/summary.json",
         "deviceAvailability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -102,9 +109,10 @@
       "name": "32 game + 5 hybrid conformance",
       "status": "PARTIAL",
       "evidence": {
-        "candidates": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+        "candidates": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
-        "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
+        "variants": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       },
       "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
     },
@@ -115,8 +123,9 @@
       "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
       "evidence": {
         "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
-        "browser": "reports/agent-browser-2026-10-31T11-55-02-013Z-43892/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "browser": "reports/agent-browser-2026-10-31T13-56-54-812Z-49532/summary.json",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       }
     },
     {
@@ -124,10 +133,11 @@
       "name": "Further platform and compatibility expansion",
       "status": "PASS",
       "evidence": {
-        "compatibility": "reports/compat-2026-10-31T11-54-10-319Z-8668/summary.json",
+        "compatibility": "reports/compat-2026-10-31T13-56-35-490Z-28188/summary.json",
         "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
         "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
-        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       },
       "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
@@ -236,14 +246,14 @@
   "currentRun": {
     "date": "2026-10-31",
     "command": "npm run verify",
-    "status": "PASS",
+    "status": "PARTIAL",
     "log": "reports/verify-2026-10-31T12-43-48-033Z-22068/verify.log",
     "g2Summary": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
     "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "contentSummaryStatus": "PASS",
     "httpNavigation": "PASS",
-    "scope": "FULL_VERIFY_BEFORE_MODEL_EVIDENCE_AUDIT_ADDITION",
+    "scope": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE; CURRENT_SOURCE_FULL_VERIFY_NOT_RUN",
     "nodeTests": {
       "pass": 159,
       "total": 159
@@ -323,7 +333,7 @@
     "date": "2026-10-31",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
+    "summary": "reports/content-2026-10-31T13-48-36-868Z-13520/summary.json",
     "historicalSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
@@ -346,8 +356,8 @@
     "status": "PASS",
     "capability": "a2game.visual.stage@0.1.0",
     "profile": "trusted-reference-host-v1",
-    "perspective": "reports/visual-stage-2026-10-31T11-48-20-217Z-19764/summary.json",
-    "orthographic": "reports/visual-stage-2026-10-31T11-49-19-667Z-45204/summary.json",
+    "perspective": "reports/visual-stage-2026-10-31T13-49-38-362Z-27372/summary.json",
+    "orthographic": "reports/visual-stage-2026-10-31T13-50-48-352Z-14740/summary.json",
     "historicalPerspective": "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
     "historicalOrthographic": "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
     "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
@@ -488,7 +498,7 @@
   },
   "puzzleRun": {
     "status": "PASS",
-    "summary": "reports/puzzles-2026-10-31T11-50-01-342Z-29280/summary.json",
+    "summary": "reports/puzzles-2026-10-31T13-52-01-197Z-10352/summary.json",
     "historicalSummary": "reports/puzzles-2026-10-27T11-52-31-196Z-47448/summary.json",
     "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
     "limitations": [
@@ -500,7 +510,7 @@
   "mechanismRuns": {
     "realtime": {
       "status": "PASS",
-      "summary": "reports/realtime-2026-10-31T11-51-13-098Z-13500/summary.json",
+      "summary": "reports/realtime-2026-10-31T13-51-24-109Z-42092/summary.json",
       "historicalSummary": "reports/realtime-2026-10-27T11-54-24-861Z-37540/summary.json",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "performance": "reports/performance-2026-10-27T06-47-55-667Z-12816/summary.json",
@@ -508,7 +518,7 @@
     },
     "strategy": {
       "status": "PASS",
-      "summary": "reports/strategy-2026-10-31T11-52-43-236Z-53368/summary.json",
+      "summary": "reports/strategy-2026-10-31T13-54-08-439Z-30400/summary.json",
       "historicalSummary": "reports/strategy-2026-10-27T11-56-26-816Z-11952/summary.json",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "previousCurrentReceipt": "reports/strategy-2026-10-31T09-50-37-460Z-20304/summary.json"
@@ -516,7 +526,7 @@
   },
   "mobileInputRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/mobile-2026-10-31T11-53-32-887Z-30656/summary.json",
+    "summary": "reports/mobile-2026-10-31T13-56-18-878Z-21372/summary.json",
     "historicalSummary": "reports/mobile-2026-10-27T11-58-21-353Z-11196/summary.json",
     "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
     "previousCurrentReceipt": "reports/mobile-2026-10-31T09-52-17-391Z-45024/summary.json"
@@ -528,17 +538,17 @@
   },
   "candidateRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
+    "summary": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
     "historicalSummary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
-    "evidenceScope": "CURRENT_BROWSER_REFERENCE; COVERAGE_INDEX_REFRESHED",
+    "evidenceScope": "CURRENT_BROWSER_REFERENCE; COVERAGE_INDEX_PENDING_REFRESH",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate.",
     "previousCurrentReceipt": "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
   },
   "agentWorkflowRun": {
     "status": "PASS_REFERENCE",
     "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
-    "browser": "reports/agent-browser-2026-10-31T11-55-02-013Z-43892/summary.json",
+    "browser": "reports/agent-browser-2026-10-31T13-56-54-812Z-49532/summary.json",
     "historicalWorkflow": "reports/agent-2026-10-27T11-58-38-274Z-44696/summary.json",
     "historicalBrowser": "reports/agent-browser-2026-10-27T11-58-48-978Z-45840/summary.json",
     "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
@@ -546,7 +556,7 @@
   },
   "compatibilityRun": {
     "status": "PASS_REFERENCE",
-    "browser": "reports/compat-2026-10-31T11-54-10-319Z-8668/summary.json",
+    "browser": "reports/compat-2026-10-31T13-56-35-490Z-28188/summary.json",
     "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
     "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
     "historicalBrowser": "reports/compat-2026-10-27T11-59-00-558Z-32124/summary.json",
@@ -579,7 +589,7 @@
   },
   "variantsRun": {
     "status": "PASS_REFERENCE",
-    "summary": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
+    "summary": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
     "historicalSummary": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
     "recipes": "project/rule-variants.json",
     "authorship": "Repository-authored; independent G3 remains NOT_RUN",
@@ -587,14 +597,14 @@
     "previousCurrentReceipt": "reports/variants-2026-10-31T10-01-06-428Z-49240/summary.json"
   },
   "perGameRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "contract": "project/gameplay-acceptance.json",
     "work": "project/zero-gap-work.json",
     "scope": "37 current mandatory mechanic/base/boundary/authored variant profiles; AI usability/visual review is separate from full human/G3/device acceptance.",
     "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
     "historicalHeadless": "reports/gameplay-2026-10-27T06-45-46-043Z-16860/summary.json",
-    "browser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
-    "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
+    "browser": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
+    "variants": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
     "logicalScenarios": 193,
     "browserCases": 148,
     "verifiedGames": 0,
@@ -603,7 +613,9 @@
     "visualReview": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
     "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
     "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
-    "governanceWithoutDist": "reports/gameplay-governance-without-dist-20261026.log"
+    "governanceWithoutDist": "reports/gameplay-governance-without-dist-20261026.log",
+    "coverageSchemaStatus": "HISTORICAL_PENDING_CURRENT_SOURCE_REFRESH",
+    "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
   },
   "gameplayLinkageRun": {
     "status": "PASS_REFERENCE",
@@ -698,17 +710,18 @@
   "zeroGapGoal": {
     "target": 0,
     "start": 17,
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "work": "project/zero-gap-work.json",
     "scope": "Complete existing mandatory gameplay gaps with evidence; physical/manual quality and independent G3 remain separate, never removed to meet the target.",
     "remaining": 0,
     "completedAt": "2026-10-27T06:59:10.316Z",
     "headless": "reports/gameplay-2026-10-31T11-39-07-687Z-52056/summary.json",
-    "browser": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
-    "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json",
+    "browser": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
+    "variants": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
     "nativeCases": 32,
     "fullAcceptance": "PARTIAL",
-    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json"
+    "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
+    "coverageSchemaStatus": "HISTORICAL_PENDING_CURRENT_SOURCE_REFRESH"
   },
   "rigid3dRun": {
     "status": "PASS_REFERENCE",
@@ -747,7 +760,7 @@
     "coverageSchema": "reports/quality-coverage-schema-2026-10-27T11-59-57Z.json"
   },
   "inputGameplayRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "games": [
       "G25",
       "G26",
@@ -1174,8 +1187,8 @@
       "H04"
     ],
     "formalHumanApproval": "NOT_RUN",
-    "previousToolingProof": "reports/g3-fixture-2026-10-31T11-03-24-895Z-9348/summary.json",
-    "toolingProof": "reports/g3-fixture-2026-10-31T11-55-15-266Z-53588/summary.json"
+    "previousToolingProof": "reports/g3-fixture-2026-10-31T11-55-15-266Z-53588/summary.json",
+    "toolingProof": "reports/g3-fixture-2026-10-31T13-57-06-217Z-46204/summary.json"
   },
   "repositoryMaintenanceRun": {
     "date": "2026-10-28",
@@ -1211,7 +1224,7 @@
     "summary": "reports/repository-maintenance-20261028/summary.json"
   },
   "g3CompletionRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL_HISTORICAL_REFERENCE_PENDING_CURRENT_SOURCE",
     "work": "project/g3-completion-work.json",
     "phase": "completed-nonphysical-engineering",
     "newEngineeringPasses": [

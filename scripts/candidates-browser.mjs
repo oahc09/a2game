@@ -51,6 +51,7 @@ async function visual(page,name){
  return {status:'PASS',canvas:'reports/'+runId+'/'+name,width:png.width,height:png.height,colorBuckets:colors.size,scope:'Nonblank canvas check; visual/manual quality reviewed separately'};
 }
 function checks(state,expected,rows){assert.equal(state.flow.status,expected);for(const check of rows){const value=check.path.split('/').slice(1).reduce((o,key)=>o[key],state.state);assert.deepEqual(value,check.equals,check.path);}}
+async function terminalFeedback(page,status){const title={won:'已通关',lost:'本局结束',stopped:'对局已结束'}[status];assert.equal(await page.locator('#stageResult').isVisible(),!!title);if(title)assert.equal(await page.locator('#stageResultTitle').textContent(),title);}
 try{
  const sdk=read('player/vendor/sdk-provenance.json');for(const file of sdk.files)assert.equal(hash(file.path),file.sha256);save('sdk-provenance.json',sdk);browser=await chromium.launch({headless:true});version=browser.version();
  for(let offset=0;offset<recipes.length;offset+=batchSize){const batch=recipes.slice(offset,offset+batchSize);origin=await startServer(offset/batchSize);
@@ -63,14 +64,19 @@ try{
     result.visual=await visual(page,backend+'-'+recipe.id+'-initial-canvas.png');result.initialHud=await page.locator('#score').textContent();assert.ok(result.initialHud.trim().length>0,'HUD must show the declared goal/state');
     await page.locator('#pause').click();await page.evaluate(()=>window.__a2game.step(3));assert.equal((await page.evaluate(()=>window.__a2game.getState())).tickIndex,0);await page.locator('#pause').click();
     result.checkpoints=await execute(page,recipe.steps,backend+'-'+recipe.id+'-positive');result.final=await page.evaluate(()=>window.__a2game.getState());checks(result.final,recipe.expected,recipe.checks);result.operations=await page.evaluate(()=>window.__a2game.getOperations());result.node=replay(game,result.operations);assert.equal(result.final.exactHash,result.node.exactHash);
+    await terminalFeedback(page,result.final.flow.status);
     result.quality.positiveFeedback=await page.locator('#resultMessage').textContent();if(['won','lost','stopped'].includes(result.final.flow.status))assert.ok(result.quality.positiveFeedback.includes('重新开始'));
     result.screenshot=`reports/${runId}/${backend}-${recipe.id}-positive.png`;await page.screenshot({path:resolve(root,result.screenshot),fullPage:true});
     {await page.setViewportSize({width:390,height:844});assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);assert.equal(await page.locator('[data-action]').evaluateAll(buttons=>buttons.every(button=>button.scrollWidth<=button.clientWidth)),true);result.mobileScreenshot=`reports/${runId}/${backend}-${recipe.id}-390px.png`;await page.screenshot({path:resolve(root,result.mobileScreenshot),fullPage:true});await page.setViewportSize({width:1100,height:1000});}
     await page.locator('#restart').click();assert.equal(await page.evaluate(()=>window.__a2game.getHash()),result.initial.exactHash);result.restart='PASS';
     result.negativeCheckpoints=await execute(page,recipe.negative,backend+'-'+recipe.id+'-negative');result.negative=await page.evaluate(()=>window.__a2game.getState());checks(result.negative,recipe.negativeExpected,recipe.negativeChecks);result.negativeOperations=await page.evaluate(()=>window.__a2game.getOperations());result.negativeNode=replay(game,result.negativeOperations);assert.equal(result.negative.exactHash,result.negativeNode.exactHash);
+    await terminalFeedback(page,result.negative.flow.status);
     result.quality.negativeFeedback=await page.locator('#resultMessage').textContent();if(['won','lost','stopped'].includes(result.negative.flow.status))assert.ok(result.quality.negativeFeedback.includes('重新开始'));
     result.negativeScreenshot=`reports/${runId}/${backend}-${recipe.id}-negative.png`;await page.screenshot({path:resolve(root,result.negativeScreenshot),fullPage:true});
-    await page.locator('#restart').click();assert.equal(await page.evaluate(()=>window.__a2game.getHash()),result.initial.exactHash);result.retryAfterNegative='PASS';
+    const heldSpace=game.inputs.actions.some(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code==='Space'&&b.config?.hold===true));
+    if(heldSpace&&['won','lost','stopped'].includes(result.negative.flow.status)){await page.locator('#stageRestart').focus();await page.keyboard.press('Space');assert.equal(await page.locator('#stageResult').isVisible(),false);result.terminalKeyboardRestart='PASS';}
+    else await page.locator('#restart').click();
+    assert.equal(await page.evaluate(()=>window.__a2game.getHash()),result.initial.exactHash);result.retryAfterNegative='PASS';
     if(!variants){
      const boundary=read('project/gameplay-acceptance.json').cases.find(r=>r.id===recipe.id).boundary;
      result.boundaryCheckpoints=await execute(page,boundary.steps,backend+'-'+recipe.id+'-boundary');result.boundary=await page.evaluate(()=>window.__a2game.getState());checks(result.boundary,boundary.expected,boundary.checks);
@@ -79,6 +85,7 @@ try{
      result.additionalScenarios=[];
      for(const scenario of read('project/gameplay-acceptance.json').cases.find(r=>r.id===recipe.id).additionalScenarios??[]){
       await page.locator('#restart').click();const checkpoints=await execute(page,scenario.steps,backend+'-'+recipe.id+'-'+scenario.name),state=await page.evaluate(()=>window.__a2game.getState());checks(state,scenario.expected,scenario.checks);
+      await terminalFeedback(page,state.flow.status);
       const hud=await page.locator('#score').textContent();for(const text of scenario.hudIncludes??[])assert.ok(hud.includes(text));
       const operations=await page.evaluate(()=>window.__a2game.getOperations()),node=replay(game,operations);assert.equal(state.exactHash,node.exactHash);
       const rejection=await page.evaluate(action=>{try{window.__a2game.injectAction({action,phase:'press'});return 'ACCEPTED';}catch(e){return e.code;}},game.inputs.actions[0].id);assert.equal(rejection,'A2G_E_FLOW');await page.evaluate(()=>window.__a2game.step(10));assert.equal(await page.evaluate(()=>window.__a2game.getHash()),state.exactHash);

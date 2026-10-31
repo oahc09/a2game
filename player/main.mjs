@@ -8,7 +8,7 @@ import {loadBuiltinCatalog,loadBuiltinGame,loadBuiltinResources,loadReleasedGame
 import {ResourceScope} from './resources.mjs';
 import {createMobileHost,createTraceRecorder} from './mobile-host.mjs';
 
-const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint','instructions'].map(x=>[x,document.getElementById(x)]));
+const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint','instructions','stageResult','stageResultTitle','stageResultDetail','stageRestart'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
 const gameName=params.get('game')??'tap-target';
 const backendName=['preview','air','three'].includes(params.get('backend'))?params.get('backend'):'preview';
@@ -43,7 +43,13 @@ function observation(){return runtime?.observe();}
 function updateInfo(obs){
  const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
- if(dom.status.dataset.flowStatus!==obs.flow.status){dom.status.dataset.flowStatus=obs.flow.status;document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';}
+ if(dom.status.dataset.flowStatus!==obs.flow.status){
+   dom.status.dataset.flowStatus=obs.flow.status;
+   document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';
+   const result=({won:['已通关','目标已完成'],lost:['本局结束','目标未完成'],stopped:['对局已结束','可以重新开始']})[obs.flow.status];
+   dom.stageResult.hidden=!result;
+   if(result){dom.stageResultTitle.textContent=result[0];dom.stageResultDetail.textContent=result[1];dom.hint.textContent='';}
+ }
  dom.hash.textContent=obs.exactHash;
  const hudLines=[];
  for(const item of definition.presentation.hud??[]){
@@ -120,11 +126,12 @@ function bindInputs(){
  listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
  listen(canvas,'lostpointercapture',e=>rawPointer(e,'cancel'));
  listen(window,'keydown',e=>{
-   if(e.repeat||e.target instanceof HTMLSelectElement||e.target instanceof HTMLInputElement)return;
+   if(e.repeat||e.target===dom.stageRestart||e.target instanceof HTMLSelectElement||e.target instanceof HTMLInputElement)return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
    if(bound){e.preventDefault();if(bound.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))injectRaw({source:'keyboard',kind:'down',payload:{code:e.code}});else sendAction(bound.id);}
   },{capture:true});
  listen(window,'keyup',e=>{
+   if(e.target===dom.stageRestart)return;
    if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))){e.preventDefault();injectRaw({source:'keyboard',kind:'up',payload:{code:e.code}});}
  },{capture:true});
  document.querySelectorAll('[data-action]').forEach(btn=>{
@@ -144,6 +151,7 @@ function bindInputs(){
    if(contextState!=='healthy')return;
    runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
+ listen(dom.stageRestart,'click',()=>{dom.restart.click();if(runtime.status==='playing')canvas.focus({preventScroll:true});});
  listen(canvas,'webglcontextlost',e=>{
    if(adapter.disposed)return;
    e.preventDefault();contextState='lost';pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;
@@ -170,6 +178,7 @@ function bindInputs(){
 }
 function dispose(){
  if(disposal)return disposal;
+ dom.stageResult.hidden=true;
  if(raf)cancelAnimationFrame(raf);if(resizeRaf)cancelAnimationFrame(resizeRaf);gamepadHost?.dispose();listeners.abort();traceRecorder?.dispose();runtime?.dispose();
  disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>resources?.dispose());return disposal;
 }

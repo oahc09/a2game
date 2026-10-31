@@ -20,7 +20,7 @@ assert.equal(derivation.provenance,'HOST_PRESENTATION_DERIVATIVE');
 assert.equal(hash(resolve(original,'game.json')),derivation.parent['game.json']);
 assert.equal(hash(resolve(refined,'game.json')),derivation.artifacts['game.json'].sha256);
 const play=playSolution(game,solution);assert.deepEqual(play,playSolution(parent,solution));
-const sources=['scripts/check-g17-presentation.mjs','scripts/refine-g17-presentation.mjs','player/vendor/sdk-provenance.json'];
+const sources=['scripts/check-g17-presentation.mjs','scripts/refine-g17-presentation.mjs','player/index.html','player/main.mjs','player/vendor/sdk-provenance.json'];
 const fingerprints=Object.fromEntries(sources.map(path=>[path,hash(resolve(root,path))]));save('fingerprints.json',fingerprints);save('sdk-provenance.json',read(resolve(root,'player/vendor/sdk-provenance.json')));
 function idle(def){const rt=new HeadlessRuntime(def,makeRegistry());try{rt.start();rt.step(241);return rt.observe();}finally{rt.dispose();}}
 const idleExpected=idle(game);assert.deepEqual(idleExpected,idle(parent));assert.equal(idleExpected.flow.status,'lost');
@@ -38,13 +38,25 @@ try{
    assert.equal(await page.evaluate(()=>window.__a2game.backend),backend);
    const shot=async phase=>{const name=`${backend}-${phase}.png`;await page.screenshot({path:resolve(directory,name),fullPage:true});row.screenshots[phase]={path:rel(resolve(directory,name)),sha256:hash(resolve(directory,name))};};
    const noOverlay=async()=>assert.equal(await page.evaluate(()=>JSON.parse(window.render_game_to_text()).presentation.commands.some(c=>['result','failure'].includes(c.id))),false);
+   const terminal=async(status,title,detail)=>{
+    assert.equal(await page.locator('#stageResult').isVisible(),true);
+    assert.equal(await page.locator('#stageResultTitle').textContent(),title);
+    assert.equal(await page.locator('#stageResultDetail').textContent(),detail);
+    assert.equal(await page.locator('#hint').textContent(),'');
+    const layout=await page.locator('#stageResult').evaluate(el=>{const r=el.getBoundingClientRect(),stage=el.closest('.stage').getBoundingClientRect(),button=el.querySelector('button').getBoundingClientRect();return {top:r.top,bottom:r.bottom,left:r.left,right:r.right,stageTop:stage.top,stageBottom:stage.bottom,width:innerWidth,height:innerHeight,buttonWidth:button.width,buttonHeight:button.height};});
+    assert.ok(layout.top>=0&&layout.bottom<=layout.height&&layout.left>=0&&layout.right<=layout.width,'Terminal feedback must be visible without scrolling: '+JSON.stringify(layout));
+    assert.ok(layout.buttonWidth>=44&&layout.buttonHeight>=44,'Terminal retry target must remain accessible');
+    const name=`${backend}-${status}-viewport.png`;await page.screenshot({path:resolve(directory,name)});row.screenshots[status+'Viewport']={path:rel(resolve(directory,name)),sha256:hash(resolve(directory,name))};
+    return layout;
+   };
+   assert.equal(await page.locator('#stageResult').isVisible(),false);
    row.initial=await page.evaluate(()=>window.__a2game.getState());await noOverlay();await shot('initial');
    row.typography=await page.evaluate(()=>{const frame=JSON.parse(window.render_game_to_text()).presentation,rect=document.getElementById('GameCanvas').getBoundingClientRect(),scale=Math.min(rect.width/frame.width,rect.height/frame.height),ctx=document.createElement('canvas').getContext('2d');ctx.font='700 64px system-ui';const text=frame.commands.filter(c=>c.kind==='text');return {minCssTextPx:Math.min(...text.map(c=>c.fontSize*scale)),bounds:text.map(c=>({id:c.id,inside:Math.abs(c.at[0])+(ctx.measureText(c.text).width+16)/64*c.fontSize/2<=frame.width/2&&Math.abs(c.at[1])+c.fontSize*.75<=frame.height/2}))};});
    assert.ok(row.typography.minCssTextPx>=16);assert.ok(row.typography.bounds.every(b=>b.inside));
    row.buttons=await page.locator('button[data-action]').evaluateAll(els=>els.filter(e=>e.getBoundingClientRect().width>0).map(e=>({id:e.dataset.action,width:e.getBoundingClientRect().width,height:e.getBoundingClientRect().height})));
    assert.ok(row.buttons.length>=5&&row.buttons.every(b=>b.width>=44&&b.height>=44));
    assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
-   await page.locator('#pause').click();const paused=await page.evaluate(()=>window.__a2game.getHash());await page.evaluate(()=>window.__a2game.step(3));assert.equal(await page.evaluate(()=>window.__a2game.getHash()),paused);await page.locator('#pause').click();
+   await page.locator('#pause').click();assert.equal(await page.locator('#stageResult').isVisible(),false);const paused=await page.evaluate(()=>window.__a2game.getHash());await page.evaluate(()=>window.__a2game.step(3));assert.equal(await page.evaluate(()=>window.__a2game.getHash()),paused);await page.locator('#pause').click();
    row.movement=[];
    for(const [action,axis,sign] of [['left','x',-1],['right','x',1],['up','y',1],['down','y',-1]]){
     await page.locator('#restart').click();const button=page.locator(`[data-action="${action}"]`);await button.scrollIntoViewIfNeeded();const box=await button.boundingBox();
@@ -60,10 +72,11 @@ try{
     assert.equal(await page.evaluate(()=>window.__a2game.getHash()),play.trace[index].hash);
     if(index===1){await noOverlay();await shot('progress');}
    }
-   row.won=await page.evaluate(()=>window.__a2game.getState());assert.equal(row.won.flow.status,'won');assert.match(await page.locator('#status').textContent(),/已通关/);assert.match(await page.locator('#resultMessage').textContent(),/目标已完成/);await noOverlay();await shot('won');
-   await page.locator('#restart').click();assert.equal(await page.evaluate(()=>window.__a2game.getHash()),row.initial.exactHash);await page.evaluate(()=>window.__a2game.step(241));
-   row.lost=await page.evaluate(()=>window.__a2game.getState());assert.equal(row.lost.exactHash,idleExpected.exactHash);assert.equal(row.lost.flow.status,'lost');assert.match(await page.locator('#status').textContent(),/本局结束/);assert.match(await page.locator('#resultMessage').textContent(),/未完成目标/);await noOverlay();await shot('lost');
-   await page.locator('#restart').click();assert.equal(await page.evaluate(()=>window.__a2game.getHash()),row.initial.exactHash);
+   row.won=await page.evaluate(()=>window.__a2game.getState());assert.equal(row.won.flow.status,'won');assert.match(await page.locator('#status').textContent(),/已通关/);assert.match(await page.locator('#resultMessage').textContent(),/目标已完成/);await noOverlay();row.wonFeedback=await terminal('won','已通关','目标已完成');await shot('won');
+   await page.locator('#stageRestart').tap();assert.equal(await page.evaluate(()=>window.__a2game.getHash()),row.initial.exactHash);assert.equal(await page.locator('#stageResult').isVisible(),false);assert.equal(await page.evaluate(()=>document.activeElement.id),'GameCanvas');
+   await page.locator('[data-action="fire"]').scrollIntoViewIfNeeded();await page.evaluate(()=>window.__a2game.step(241));
+   row.lost=await page.evaluate(()=>window.__a2game.getState());assert.equal(row.lost.exactHash,idleExpected.exactHash);assert.equal(row.lost.flow.status,'lost');assert.match(await page.locator('#status').textContent(),/本局结束/);assert.match(await page.locator('#resultMessage').textContent(),/未完成目标/);await noOverlay();row.lostFeedback=await terminal('lost','本局结束','目标未完成');await shot('lost');
+   await page.locator('#stageRestart').focus();await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>window.__a2game.getHash()),row.initial.exactHash);assert.equal(await page.locator('#stageResult').isVisible(),false);
    await page.evaluate(()=>window.__a2game.dispose());row.disposal=await page.evaluate(()=>window.__a2game.diagnostics());assert.equal(row.disposal.resources.ownedResources,0);assert.equal(row.disposal.listenersActive,false);assert.equal(row.disposal.adapter.disposed,true);
    assert.deepEqual(row.errors,[]);row.status='PASS_REFERENCE';
   }catch(error){row.failure=String(error);}
