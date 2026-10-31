@@ -6,12 +6,12 @@ import {generateGame,validateGameFile,testGeneratedDirectory,previewGeneratedDir
 const help=`A2Game Generator (local, reference only)
   capabilities [--query TEXT] [--offset 0] [--limit 10]
   capability --id CAPABILITY_ID --cap-version 0.1.0
-  generate --prompt-file FILE --provider fixture|codex|model-http|http --output DIR
+  generate --prompt-file FILE --provider fixture|codex|claude|model-http|http --output DIR
            [--config FILE] [--mode direct-json|game-plan] [--plan-file FILE]
            [--max-attempts 1..3] [--timeout-ms 60000]
   plan --prompt-file FILE --output FILE   (host keyword draft; no model call)
   check-plan PLAN.json
-  studio [--provider fixture|codex|model-http|http] [--config FILE] [--max-calls 0..30] [--port 0]
+  studio [--provider fixture|codex|claude|model-http|http] [--config FILE] [--max-calls 0..30] [--port 0]
   export-package GENERATED_DIR --output FILE
   import-package FILE --output NEW_DIR
   validate GAME.json

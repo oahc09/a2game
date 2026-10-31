@@ -17,15 +17,15 @@
   "workPackages": [
     {
       "id": "GEN-0",
-      "status": "PARTIAL",
+      "status": "PASS_LOCAL",
       "verification": "SOURCE_ONLY_SMOKE",
       "sourceSmoke": {
         "status": "PASS_LOCAL",
-        "receipt": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
-        "sha256": "acf6137b03f20743dffeb532d0b78fb6b97e2e33d44f01e9c8a36c637c906792",
-        "sourceSha256": "6947b06c9a560a0f8a87ed27160fb3506cc477e47dda433d12940e8a59d69d1e",
-        "sourceFileCount": 595,
-        "finalSourceVerification": "HISTORICAL_ONLY_AFTER_H01_CHANGE",
+        "receipt": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
+        "sha256": "a61b6cdf167c9c88e5992d3c387b775cb2a1204461b73081bdfcaa4fa18803cf",
+        "sourceSha256": "0c28b14c300fccfc83e35c766803f4add761102983526b697fe5f5754e5e3739",
+        "sourceFileCount": 596,
+        "finalSourceVerification": "CURRENT_SOURCE",
         "assertions": {
           "notCopied:reports": true,
           "notCopied:player/vendor": true,
@@ -39,18 +39,18 @@
           "importUnchanged": true,
           "noHistoricalReports": true,
           "noRendererSdk": true
-        }
+        },
+        "sourceFilesMatch": true
       },
       "fullVerify": {
         "status": "PASS",
-        "receipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
-        "nodeTests": 143,
+        "log": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+        "nodeTests": 159,
         "schemaDocuments": 360,
         "conformanceCases": 203,
-        "baselineReceiptsRestored": true,
-        "sourceSmoke": "output/generator-source-smoke-53a257fe-c029-4382-816f-9e73e6600e22/receipt.json"
+        "baselineReceiptsRestored": true
       },
-      "scope": "Prior source-only smoke is historical; current source recheck is pending.",
+      "scope": "Independent source copy, fresh npm installs, no SDK or old reports; Python reused. Full current workspace verify passed; physical machine and remote CI excluded.",
       "previousSourceSmoke": {
         "status": "PASS_LOCAL",
         "receipt": "output/generator-source-smoke-b6ba310a-c1f4-4c7a-8094-f232ab4d7d43/receipt.json",
@@ -72,6 +72,37 @@
           "noHistoricalReports": true,
           "noRendererSdk": true
         }
+      },
+      "previousGen8SourceSmoke": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
+        "sha256": "acf6137b03f20743dffeb532d0b78fb6b97e2e33d44f01e9c8a36c637c906792",
+        "sourceSha256": "6947b06c9a560a0f8a87ed27160fb3506cc477e47dda433d12940e8a59d69d1e",
+        "sourceFileCount": 595,
+        "finalSourceVerification": "HISTORICAL_ONLY_AFTER_H01_CHANGE",
+        "assertions": {
+          "notCopied:reports": true,
+          "notCopied:player/vendor": true,
+          "notCopied:node_modules": true,
+          "notCopied:dist": true,
+          "mcpNoModelChain": true,
+          "missingSdkRejected": true,
+          "modesSameGame": true,
+          "planPresent": true,
+          "planLifecycle": true,
+          "importUnchanged": true,
+          "noHistoricalReports": true,
+          "noRendererSdk": true
+        }
+      },
+      "previousGen8FullVerify": {
+        "status": "PASS",
+        "receipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
+        "nodeTests": 143,
+        "schemaDocuments": 360,
+        "conformanceCases": 203,
+        "baselineReceiptsRestored": true,
+        "sourceSmoke": "output/generator-source-smoke-53a257fe-c029-4382-816f-9e73e6600e22/receipt.json"
       }
     },
     {
@@ -87,6 +118,14 @@
       "reason": "CLI/API、源链接安装命令、fixture 完整准入、超时/取消与真实双 SDK 浏览器工程参考已通过；真实模型验收在 GEN-2 单独执行。",
       "browserReceipt": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/summary.json",
       "installedCommand": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-command-smoke-2698c359-1804-4e0d-82d1-42019d448e52/receipt.json",
+        "sha256": "ca1e087a83f017eb77db34f84a08080259744a4736a4fcbe8db00b98b6d5be25",
+        "installation": "Source-linked local prefix; source workspace must remain available, portable packaging is GEN-6.",
+        "dependencyLockUnchanged": true,
+        "modelCalls": 0
+      },
+      "previousInstalledCommand": {
         "status": "PASS_LOCAL",
         "receipt": "output/generator-command-smoke-0b01910f-7f9c-42b7-834b-e2ca26705c18/receipt.json",
         "sha256": "579d8ae706170d9655ff016ed14a645333c15f4a42807efa10f36b034c94c38d",
@@ -195,7 +234,14 @@
       "status": "PARTIAL",
       "implementation": "CLI_MCP_SKILL_DOCS_AND_PORTABLE_SOURCE_HANDOFF",
       "finalBenchmarkHandoff": "RECORDED_WITH_FAILURES",
-      "remaining": "Actual Agent Skill host, H01 repair and full product quality remain incomplete"
+      "remaining": "Skill fresh-session auto-trigger, independent host acceptance, model identity and H01 real-model retest remain unverified.",
+      "localHandoff": "PASS_REFERENCE",
+      "document": "docs/generator-handoff.md",
+      "sourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
+      "installedCommand": "output/generator-command-smoke-2698c359-1804-4e0d-82d1-42019d448e52/receipt.json",
+      "mcpNoModel": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json",
+      "skillPackageReceipt": "output/skill/e9b75125-1a38-4c75-9f74-b3cd0fab335a/receipt.json",
+      "fullVerify": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
     },
     {
       "id": "GEN-9",
@@ -207,7 +253,8 @@
       "modelCalls": 0,
       "realProviderViaMcp": "HISTORICAL_REFERENCE_PASS_MODEL_IDENTITY_UNVERIFIED",
       "actualAgentUiHosts": "NOT_RUN",
-      "realProviderReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/real-provider-claude.json"
+      "realProviderReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/real-provider-claude.json",
+      "currentNoModelReceipt": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json"
     },
     {
       "id": "GEN-10",
@@ -217,7 +264,8 @@
       "sha256": "548fdd6797592570ceaa87526c1eb752acd06477d84888ecc5aa25bd49321c0f",
       "installation": "PROJECT_SCOPED_ZCODE_REFERENCE",
       "actualAgentHostExecution": "HOST_AUTHORED_EXERCISE_REFERENCE; FRESH_SESSION_AUTO_TRIGGER_NOT_RUN",
-      "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json"
+      "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json",
+      "latestPackageReceipt": "output/skill/e9b75125-1a38-4c75-9f74-b3cd0fab335a/receipt.json"
     }
   ],
   "gates": [
@@ -369,19 +417,19 @@
   "physicalDevices": "NOT_RUN",
   "formalG3": "NOT_RUN",
   "originalVerifiedCountsUnchanged": true,
-  "nextBatch": "E3_FRESH_SESSION_SKILL_HOST_AND_GEN8_HANDOFF; CURRENT_VISUAL_REVIEW_PARTIAL; H01_MODEL_RETEST_REQUIRES_NEW_BUDGET",
+  "nextBatch": "E3_FRESH_SESSION_SKILL_HOST_AND_MODEL_IDENTITY; H01_MODEL_RETEST_REQUIRES_NEW_BUDGET",
   "batchBoundary": "A/B/C engineering scopes preserved. D executed10/10 using30 authorized dispatches; 9/10 engineering and source-input PASS. E0/E1/E2 no-model MCP engineering reference and Skill package delivered. E3 actual Agent host and human/full gameplay gates remain incomplete.",
   "currentVerification": {
     "status": "PASS",
     "scope": "CURRENT_SOURCE_ENGINEERING_VERIFY; 148 CURRENT_PLAYER_SOURCE REFERENCE CASES; VISUAL QUALITY AND FORMAL ACCEPTANCE REMAIN PARTIAL",
     "currentSourceFullVerify": "PASS",
-    "currentVerifyLog": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+    "currentVerifyLog": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
     "historicalReceipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
     "nodeTests": 159,
     "schemaDocuments": 360,
     "conformanceCases": 203,
     "baselineReceiptsRestored": true,
-    "sourceSmoke": "output/generator-source-smoke-f72b1eef-65cc-438a-99d8-7417fc907c5b/receipt.json",
+    "sourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
     "sourceSmokeStatus": "PASS_LOCAL_CURRENT_SOURCE"
   },
   "preview": {
@@ -626,7 +674,9 @@
     "modelCalls": 0,
     "providerViaMcp": "HISTORICAL_REFERENCE_PASS_MODEL_IDENTITY_UNVERIFIED",
     "actualAgentUiHosts": "NOT_RUN",
-    "sourceSmoke": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json"
+    "sourceSmoke": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
+    "currentNoModelReceipt": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json",
+    "currentSourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json"
   },
   "gen10Skill": {
     "status": "PARTIAL",
@@ -634,7 +684,8 @@
     "sha256": "548fdd6797592570ceaa87526c1eb752acd06477d84888ecc5aa25bd49321c0f",
     "installation": "PROJECT_SCOPED_ZCODE_REFERENCE",
     "actualAgentHostExecution": "HOST_AUTHORED_EXERCISE_REFERENCE; FRESH_SESSION_AUTO_TRIGGER_NOT_RUN",
-    "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json"
+    "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json",
+    "latestPackageReceipt": "output/skill/e9b75125-1a38-4c75-9f74-b3cd0fab335a/receipt.json"
   },
   "h01ConformanceRepair": {
     "status": "PASS_REFERENCE_HOST_DERIVATIVE",
@@ -657,9 +708,9 @@
     },
     "sourceSmoke": {
       "status": "PASS_LOCAL",
-      "receipt": "output/generator-source-smoke-f72b1eef-65cc-438a-99d8-7417fc907c5b/receipt.json",
-      "sha256": "0b45cdad4aaa797d17a5a6168a17cb1cdd334c1a28e0ce1215c3bcc0108675c0",
-      "sourceSha256": "37c30fef4dd4ac588e607f90f70ebcfddb59d53a3e64d31464e128227dde10fe",
+      "receipt": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
+      "sha256": "a61b6cdf167c9c88e5992d3c387b775cb2a1204461b73081bdfcaa4fa18803cf",
+      "sourceSha256": "0c28b14c300fccfc83e35c766803f4add761102983526b697fe5f5754e5e3739",
       "sourceFileCount": 596,
       "finalSourceVerification": "CURRENT_SOURCE",
       "assertions": {
@@ -745,6 +796,29 @@
         "noRendererSdk": true
       },
       "sourceFilesMatch": false
+    },
+    "preGen8SourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-f72b1eef-65cc-438a-99d8-7417fc907c5b/receipt.json",
+      "sha256": "0b45cdad4aaa797d17a5a6168a17cb1cdd334c1a28e0ce1215c3bcc0108675c0",
+      "sourceSha256": "37c30fef4dd4ac588e607f90f70ebcfddb59d53a3e64d31464e128227dde10fe",
+      "sourceFileCount": 596,
+      "finalSourceVerification": "HISTORICAL_AFTER_GEN8_CLI_HELP_CHANGE",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "mcpNoModelChain": true,
+        "missingSdkRejected": true,
+        "modesSameGame": true,
+        "planPresent": true,
+        "planLifecycle": true,
+        "importUnchanged": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      },
+      "sourceFilesMatch": false
     }
   },
   "batchE": {
@@ -753,7 +827,7 @@
     "E1": "PASS_REFERENCE",
     "E2": "PARTIAL_REAL_PROVIDER_MODEL_IDENTITY_UNVERIFIED",
     "E3": "PARTIAL_PROJECT_INSTALL_AND_HOST_EXERCISE; AUTO_TRIGGER_NOT_RUN",
-    "gen8": "PARTIAL"
+    "gen8": "PARTIAL_LOCAL_HANDOFF_PASS_REFERENCE; E3_NOT_RUN"
   },
   "referenceRevalidation": {
     "status": "PASS_REFERENCE",
@@ -776,5 +850,18 @@
     "status": "DISCREPANCY_UNRESOLVED",
     "documentation": "docs/generator-multi-model.md",
     "claudeIdentity": "REQUESTED_MODEL_ONLY; REPORTED_MODEL_MISSING"
+  },
+  "gen8LocalHandoff": {
+    "status": "PASS_REFERENCE",
+    "document": "docs/generator-handoff.md",
+    "sourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
+    "installedCommand": "output/generator-command-smoke-2698c359-1804-4e0d-82d1-42019d448e52/receipt.json",
+    "mcpNoModel": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json",
+    "skillPackageReceipt": "output/skill/e9b75125-1a38-4c75-9f74-b3cd0fab335a/receipt.json",
+    "fullVerify": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
+    "modelCalls": 0,
+    "independentHost": "NOT_RUN",
+    "freshSessionTrigger": "NOT_RUN",
+    "formalG3": "NOT_RUN"
   }
 }

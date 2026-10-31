@@ -1,5 +1,7 @@
 Original prompt: 1.了解当前项目情况，创建AGENTS.md方便AI快速理解 2.整理工程然后提交git 3.提交完毕开始推进下一阶段主线：使用真实 CocosAirJS 和 Three.js SDK，在浏览器执行相同 JSON，验证输入、状态哈希、画面及资源生命周期。
 
+- 2026-10-31：GEN-8 补齐 CLI `claude` 帮助及 CLI/MCP/Skill 交接说明；源码副本、隔离安装、MCP 双客户端/双 SDK 和 Skill 打包通过，完整回归 159 Node、360 Schema、203 Conformance 通过。新会话自动触发、独立宿主和额外真实模型调用仍待验。
+
 - 2026-10-31：参考 H01 动态实体最小字号和形状尺寸的兼容增量已实施；320px 双 SDK 4/4、193 个 Headless 场景、148 个双 SDK 实例和 148 份覆盖回执已复验，完整回归 159 Node、360 Schema、203 Conformance 通过。旧关卡默认行为不变，正式 G3、真机和人工质量仍单独验收。
 
 - 2026-10-31：协议迁移测试仅逆转两份 H01 已知表现变更，再核对原摘要；完整回归 157 Node、360 Schema、203 Conformance 通过，148 份双 SDK 参考 CoverageResult 已刷新。默认 Python 缺少 `jsonschema` 的失败回执保留，项目 `.venv` 复测通过。H01 动态实体字号仍待优化，模型重测无剩余额度；正式 G3、人工、真机及远端 CI 未升级。

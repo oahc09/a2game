@@ -47,7 +47,7 @@ POST <endpoint>  content-type: application/json  authorization: Bearer <来自 b
 1. 由调用方在环境中提供密钥（如 `DASHSCOPE_API_KEY`/`DEEPSEEK_API_KEY`/`ZHIPU_API_KEY`/`MINIMAX_API_KEY`），仓库只写 `bearerTokenEnv` 名称。
 2. 配置放 Git 忽略的 `.a2game/model-<vendor>.json`：`{"endpoint":"https://.../chat/completions","model":"<id>","bearerTokenEnv":"<NAME>","maxCompletionTokens":16384,"timeoutMs":50000}`。
 3. 先 `node generator/cli.mjs probe --provider model-http --config .a2game/model-<vendor>.json`，再按 GEN-2 同口径跑单次真实生成并完整准入；每厂商记录独立 receipt。
-4. 若 Qwen 需 `enable_thinking:false`：先做适配器兼容增量（有界 `extraBody` 白名单字段 + 正反例测试），不得为通过而放宽 JSON 模式校验。
+4. 若 Qwen 需 `enable_thinking:false`：使用现有有界 `extraBody` 配置该字段；真实端点仍需按授权预算实测，不得为通过而放宽 JSON 模式校验。
 
 ## 5. 本轮真实调用计数（2026-10-31 更新）
 

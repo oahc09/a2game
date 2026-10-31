@@ -9,7 +9,7 @@
     "capabilityManifestVersion": "0.1.0"
   },
   "currentStage": "S11",
-  "currentObjective": "完成 H01 窄屏参考回归；继续 Skill 新会话自动触发、GEN-8 交接与模型质量，正式人工/G3/适用设备另验。",
+  "currentObjective": "继续 Skill 新会话自动触发、模型身份与生成质量；正式人工/G3/适用设备另验。",
   "nextStage": null,
   "stages": [
     {
@@ -30,7 +30,7 @@
       "evidence": {
         "g2": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
         "historicalG2": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -41,7 +41,7 @@
       "evidence": {
         "content": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
         "historicalContent": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -52,7 +52,7 @@
       "evidence": {
         "perspective": "reports/visual-stage-2026-10-31T11-48-20-217Z-19764/summary.json",
         "orthographic": "reports/visual-stage-2026-10-31T11-49-19-667Z-45204/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -62,7 +62,7 @@
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
         "puzzles": "reports/puzzles-2026-10-31T11-50-01-342Z-29280/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
       }
     },
@@ -73,7 +73,7 @@
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
         "mechanisms": "reports/realtime-2026-10-31T11-51-13-098Z-13500/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -83,7 +83,7 @@
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
         "mechanisms": "reports/strategy-2026-10-31T11-52-43-236Z-53368/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -94,7 +94,7 @@
       "evidence": {
         "reference": "reports/mobile-2026-10-31T11-53-32-887Z-30656/summary.json",
         "deviceAvailability": "reports/mobile-device-probe-2026-10-24T17-18-55-694Z.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -103,7 +103,7 @@
       "status": "PARTIAL",
       "evidence": {
         "candidates": "reports/candidates-2026-10-31T11-39-24-156Z-25524/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "variants": "reports/variants-2026-10-31T11-39-24-092Z-8620/summary.json"
       },
       "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate."
@@ -116,7 +116,7 @@
       "evidence": {
         "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
         "browser": "reports/agent-browser-2026-10-31T11-55-02-013Z-43892/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       }
     },
     {
@@ -127,7 +127,7 @@
         "compatibility": "reports/compat-2026-10-31T11-54-10-319Z-8668/summary.json",
         "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
         "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
-        "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log"
+        "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log"
       },
       "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
     }
@@ -237,7 +237,7 @@
     "date": "2026-10-31",
     "command": "npm run verify",
     "status": "PASS",
-    "log": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+    "log": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
     "g2Summary": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
     "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
@@ -248,7 +248,7 @@
       "pass": 159,
       "total": 159
     },
-    "conformanceReceipt": "reports/verify-2026-10-31T12-04-30-005Z-11804/conformance.json",
+    "conformanceReceipt": "reports/verify-2026-10-31T12-18-32-042Z-35380/conformance.json",
     "schema": {
       "kinds": 7,
       "documents": 360
@@ -602,7 +602,7 @@
     "fullAcceptance": "PARTIAL",
     "visualReview": "reports/quality-review-2026-10-27T11-59-56-311Z.json",
     "coverageSchema": "reports/reference-coverage-f0ed8651-beba-46a1-bce5-be113060c1f9/schema-check.json",
-    "verification": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+    "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
     "governanceWithoutDist": "reports/gameplay-governance-without-dist-20261026.log"
   },
   "gameplayLinkageRun": {
@@ -1306,5 +1306,33 @@
       "total": 203,
       "suites": 114
     }
-  }
+  },
+  "previousGen8CurrentRun": {
+    "date": "2026-10-31",
+    "command": "npm run verify",
+    "status": "PASS",
+    "log": "reports/verify-2026-10-31T12-04-30-005Z-11804/verify.log",
+    "g2Summary": "reports/g2-2026-10-31T11-46-32-117Z-3388/summary.json",
+    "historicalContentSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
+    "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
+    "contentSummaryStatus": "PASS",
+    "httpNavigation": "PASS",
+    "scope": "CURRENT_SOURCE_FULL_VERIFY",
+    "nodeTests": {
+      "pass": 159,
+      "total": 159
+    },
+    "conformanceReceipt": "reports/verify-2026-10-31T12-04-30-005Z-11804/conformance.json",
+    "schema": {
+      "kinds": 7,
+      "documents": 360
+    },
+    "conformance": {
+      "pass": 203,
+      "total": 203,
+      "suites": 114
+    }
+  },
+  "generatorHandoff": "docs/generator-handoff.md",
+  "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL"
 }

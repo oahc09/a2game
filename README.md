@@ -4,6 +4,8 @@
 
 本机MCP：`npm run mcp:install`后`npm run mcp:serve`（默认无模型额度），验证用`npm run mcp:check`；完整`npm run verify`含MCP边界测试，需先安装其独立依赖。Skill只打包：`npm run skill:package`，不自动全局安装。Studio仍可用：`npm run generator:studio`。
 
+从新工作区选择 CLI、MCP 或 Skill 的步骤、验证范围和待验项见 [Generator 使用与交接](docs/generator-handoff.md)。
+
 本轮 CLI 入口（准备 UTF-8 的 `prompt.txt`，输出目录必须不存在）：
 
 ```powershell

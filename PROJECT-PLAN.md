@@ -7,7 +7,7 @@
 
 > **当前执行阶段（2026-10-31）**：Batch A/B/C保留工程参考；Batch D已执行10/10、30次额度用尽，9/10工程及来源输入通过。H01规划模式原稿仍失败，宿主修正版及HUD已完成局部双SDK参考复验，真实模型重测未运行。Batch E已有MCP无模型工程、真实Provider历史调用和项目级Skill宿主练习；Provider模型身份尚未独立核实，Skill新会话自动发现与触发仍待验。当前源码的37款基础及作者变体双SDK参考回执已重验，参考H01动态数字的320px局部检查通过；完整视觉质量仍待复核。正式G3 0/37和Verified 0/32+0/5不变，真机、人工与远端CI独立。见project/generator-status.json和最新实际回执。
 
-> **下一步**：继续 Skill 新会话自动触发和 GEN-8 交接；真实模型复测需要另行授权预算。
+> **下一步**：GEN-8 的本机交接已参考验证；继续 Skill 新会话自动触发和模型身份核验，真实模型复测需要另行授权预算。
 
 ## 0. 项目目标与不可变边界
 **目标**：AI 直接生成引擎无关的 JSON，经过可信能力目录、结构校验与语义检查后，由同一份游戏逻辑运行时执行；CocosAirJS、Three.js 或未来 Host 只负责表现、平台输入与受控服务。先覆盖益智、小游戏、休闲、射击，并包含塔防、合成经营、棋牌/回合能力与 Touch/IMU；未来可扩展游戏、设备、物理后端和 2D/3D。
@@ -389,7 +389,7 @@ Generator Service 的能力调用保持本机无网络、授权 Provider 外联�
 | GEN-5 | 本地 Generator Studio / Inspector | Batch C 工程参考通过；**非当前主线** | 继续保持双 SDK 本地 UI 可用，不重复实现 Generator 逻辑 |
 | GEN-6 | 安全内容包、独立宿主导入 | Batch C 工程参考通过 | 不覆盖发行回执、不携带未审资源和可执行脚本 |
 | GEN-7 | 5 任务×2 模式 Benchmark | 已执行10/10、工程9/10，30次用尽，PARTIAL | 单独记录真实模型、解法辅助、视觉/质量、双 Host；无预算先完成预备材料 |
-| GEN-8 | 稳定入口/README/验收交接 | 原计划未完成 | CLI + MCP + Skill 使用说明一致，新检出部署/验证和例子完整 |
+| GEN-8 | 稳定入口/README/验收交接 | 本机交接参考通过，独立宿主与 E3 仍 PARTIAL | CLI + MCP + Skill 使用说明一致，新检出部署/验证和例子完整 |
 | **GEN-9（新增）** | **MCP Server stdio / Tool API / 安全模型路由 / 会话与资源生命周期** | **无模型工程参考通过；已有真实Provider历史调用，模型身份待核实** | 可被独立 MCP Client 真实发现与调用；CLI↔MCP 同行为；权限/路径/取消/模型零额外调用负例通过 |
 | **GEN-10（新增）** | **可安装 A2Game Skill / MCP-CLI 双路使用工作流与范例** | **源码/ZIP和项目级宿主练习已记录；新会话自动触发待验** | 在至少一种支持 Skill 的宿主和 CLI 降级通道实际执行；使用非预置 JSON 完成生成/校验/预览，记录来源与运行证据 |
 
@@ -574,7 +574,7 @@ Skill 的文案必须明确：何时触发、如何发现真实 Capability、何
 | **Batch C** | GEN-5/6 | **PASS_REFERENCE** | Studio 与便携内容包保留，后续维护不作为首要开发 |
 | **Batch E（新，当前）** | **GEN-9/10** | **PARTIAL：MCP工程及宿主练习参考通过，Skill自动触发待验** | MCP Server stdio 与可安装 Skill；真实Provider历史调用的模型身份未独立核实 |
 | **Batch D（保留）** | GEN-7 | **10/10已执行、9/10工程通过，PARTIAL** | 5 类任务 × direct/game-plan，保留真实模型预算门禁 |
-| **交付收口** | GEN-8 | **未完成** | CLI/MCP/Skill 文档、安装、全新工作区、可移植产物与风险说明 |
+| **交付收口** | GEN-8 | **PARTIAL：本机交接参考通过，独立宿主待验** | CLI/MCP/Skill 文档、安装、全新工作区、可移植产物与风险说明 |
 
 **当前 Batch E 推进顺序**：E0 冻结 Tool 契约与 CLI 对照基线 → E1 MCP stdio read-only/validate/test → E2 generate/preview/export + 负例 → E3 Skill 与两个独立宿主验收 → GEN-8 文档及状态交接。已有E2真实Provider历史调用，但模型身份尚未独立核实；E3已有项目级安装及宿主练习，新会话自动触发和另一独立宿主仍待验。Batch D预算已耗尽，后续真实模型复测需明确新额度，不允许偷用模型或默认替换 Provider。
 
