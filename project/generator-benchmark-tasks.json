@@ -1,0 +1,17 @@
+{
+  "format": "a2game-generator-benchmark-tasks",
+  "version": 1,
+  "profile": "generator-benchmark-v2-negative-intent",
+  "seed": 20261030,
+  "modes": ["direct-json", "game-plan"],
+  "maxAttemptsPerCell": 3,
+  "defaultAuthorizedCalls": 0,
+  "tasks": [
+    {"id": "G01", "title": "推箱子", "mechanics": "网格合法移动、原子推箱、全部箱子归位、撤销。推不动不能改变状态，错误推向死角不能获胜。"},
+    {"id": "G03", "title": "三消", "mechanics": "合法交换、匹配、连锁、重力补位与有限目标。非法交换或只完成第一轮消除不能提前获胜。"},
+    {"id": "G17", "title": "纵版飞机射击", "mechanics": "连续移动、开火、弹丸命中、两波以上敌机、受伤及胜负。命中不能重复计分，暂停冻结，对象销毁后不能继续命中。"},
+    {"id": "G21", "title": "塔防", "mechanics": "防御塔放置、余额扣费、路径、多波敌人、攻击、升级与胜负。非法位置和余额不足必须拒绝；漏怪扣血，死亡对象释放。"},
+    {"id": "H01", "title": "合成炮台保卫战", "mechanics": "合成炮台、塔防、经济和武器冷却按 Tick 联动。必须合成后利用升级火力获胜，被替换的旧炮台不能继续攻击或重复领奖。"}
+  ],
+  "independence": "Only natural-language intent + public capability/schema context. No author GameSpec, board, winning solution, old model output or quality score. Previously published task families; not claimed unseen."
+}

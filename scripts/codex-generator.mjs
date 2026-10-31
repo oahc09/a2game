@@ -24,12 +24,16 @@ export function collectCodexEvents(text){
  const usage=events.findLast(e=>e.type==='turn.completed')?.usage??null;
  return {text:completed[0].item.text,events:events.map(e=>({type:e.type,...(e.item?{itemType:e.item.type}:{}),...(e.type==='thread.started'?{threadId:e.thread_id}:{}),...(e.type==='turn.completed'?{usage:e.usage}:{})})),usage};
 }
+/** Shared protocol prefix for CLI-based independent generation; task and repair text stay at the end. */
+export function buildGenerationPrompt(request){
+ const profiled=withCodexHostProfile(request);const {prompt:task,attempt,previous,...common}=profiled;
+ return {profiled,prompt:'You are an independent A2Game JSON generator. Do not use tools, read files, or inspect repository examples. Return exactly one JSON object, no Markdown. Follow the gameSchema, conformanceSchema, hostProfile and capability contracts below. Generate a new game and actual winning solution plus meaningful positive/negative cases. Do not substitute one-click score counters for the requested mechanics. provenance.kind must be independent-model; provenance.model must identify the model truthfully, or say inherited-cli-default if unknown. Never claim G3 acceptance.\nPROTOCOL\n'+JSON.stringify(common)+'\nTASK\n'+JSON.stringify({prompt:task,attempt,...(previous?{previous}:{})})};
+}
 export async function generateCodex(config,request,directory){
  if(typeof config.executable!=='string'||!existsSync(config.executable)||!Number.isInteger(config.generationTimeoutMs)||config.generationTimeoutMs<1000||config.generationTimeoutMs>600000)throw Object.assign(Error('无效的 Codex 路径或生成时限。'),{code:'A2G_E_CODEX_CONFIG'});
  const cwd=mkdtempSync(join(tmpdir(),'a2game-codex-generation-'));
- request=withCodexHostProfile(request);const {prompt:task,attempt,previous,...common}=request;
- // Stable protocol prefix is shared across games; task and repair text remain separate at the end.
- const prompt='You are an independent A2Game JSON generator. Do not use tools, read files, or inspect repository examples. Return exactly one JSON object, no Markdown. Follow the gameSchema, conformanceSchema, hostProfile and capability contracts below. Generate a new game and actual winning solution plus meaningful positive/negative cases. Do not substitute one-click score counters for the requested mechanics. provenance.kind must be independent-model; provenance.model must identify the model truthfully, or say inherited-cli-default if unknown. Never claim G3 acceptance.\nPROTOCOL\n'+JSON.stringify(common)+'\nTASK\n'+JSON.stringify({prompt:task,attempt,...(previous?{previous}:{})});
+ const built=buildGenerationPrompt(request);request=built.profiled;
+ const prompt=built.prompt;
  save(resolve(directory,'request.json'),request);
  const args=['exec','--ephemeral','--json','--sandbox','read-only','--skip-git-repo-check','-c','features.shell_tool=false','-C',cwd,'-'];
  const started=performance.now();let raw='',stderrBytes=0;const version=execFileSync(config.executable,['--version'],{encoding:'utf8',timeout:5000,windowsHide:true}).trim();

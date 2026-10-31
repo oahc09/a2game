@@ -1,5 +1,23 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-10-31 H01 窄屏调整：基础及作者变体的 320/390px 文案字号已提升；双 SDK 胜负、边界、重开、释放和修改前状态 Hash 对照通过。37 款基础及作者变体的 148 个双 SDK 参考实例与 148 份 CoverageResult 已复验并刷新索引；动态炮台和敌人数值仍偏小，视觉质量继续 PARTIAL。完整回归 157 Node、360 Schema、203 Conformance 通过，详见 [H01 记录](docs/generator-h01-repair.md) 和 [日志](reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log)。
+
+2026-10-31 当前源码复验：37 款基础及作者变体共 148 个双 SDK 参考实例、148 份 CoverageResult Schema 和 G13/H03 正式时钟 4/4 已通过；完整回归为 157 Node、360 Schema 文档、203 Conformance。参考 H01 的 320px 画布文字仍过小，完整视觉质量继续 PARTIAL。MCP 真实 Provider 历史调用与项目级 Skill 宿主练习已有回执，但返回模型身份和 Skill 新会话自动触发待验；未追加模型调用。详见 [Generator 台账](project/generator-status.json) 和 [H01 记录](docs/generator-h01-repair.md)。
+
+2026-10-31 H01 本地修复：模型第四次原稿仍 FAIL；保留游戏与解法，仅在独立副本补两条终局输入预期错误后，完整准入、4/4 Conformance 和双 SDK 桌面/390px 4/4 输入/Hash/重开/释放参考通过。生成请求及同类错误反馈已补终局合同，普通生成提示补可读性要求；Player 已读取 HUD 按钮文字和进度绑定，窄屏隐藏覆盖标题的角标。新增模型调用 0，真实模型改善效果未验；视觉质量仍为 PARTIAL，正式 G3、人工、真机和 CI 不升级。播放器变更后基础和变体双 SDK 参考回执已重验；完整视觉质量及正式验收仍待复核。见 [H01 修复说明](docs/generator-h01-repair.md)。
+
+2026-10-31 顺序推进结果：Batch A/B/C保留工程参考交付；Batch D的5任务×2模式已真实执行10/10，30/30调用含1次宿主中止，29份完整回复，最终9/10通过完整准入、双SDK回放与36路来源输入。H01规划模式仍失败；直接模式原始输出经宿主组合误判修正后原样复验通过，G17规划模式已修复方向键与窄屏字号，实际画面仍有对比度不足；严格产品/人工验收不计通过。MCP新增9个受限stdio工具，官方SDK与独立Python客户端、CLI同JSON/Hash、真实双SDK输入/重开/释放通过；Skill已打包，真实Agent宿主安装/执行及MCP真实Provider待验。完整回归143 Node、360 Schema、203 Conformance及新源码MCP/两模式/包复验通过。MCP依赖独立锁定，根Runtime锁原字节恢复；旧证据不改写。正式G3 0/37、Verified 0/32+0/5、真机/人工/远端CI不升级，未提交/推送。见[实际结果](docs/generator-real-findings.md)、[MCP/Skill说明](docs/generator-mcp.md)、[台账](project/generator-status.json)。
+
+2026-10-30 按顺序完成 Batch B/C 工程参考：能力检索、内部GamePlan、两模式有界修复；Loopback Studio的生成/取消/双SDK/状态/导出导入；单文件受控内容包在独立源码宿主原样复验。最终137 Node、360 Schema、203 Conformance通过；Studio桌面/390px双SDK4/4、独立宿主2/2、最终干净源码两模式/包/矩阵准备与新浏览器worker桥接通过。一次smoke汇总漏返回stdout导致的失败已保留并修复。内容包仍需兼容宿主/SDK/审核资源，不嵌入Runtime或资源二进制。Batch D已冻结5任务×2模式和入口，真实矩阵0/10，因新预算0为BLOCKED；GEN-8最终交接未完成。新增真实调用0，正式G3/人工/真机/远端CI不升级，未提交/推送。见 [Studio说明](docs/generator-studio.md)、[Benchmark说明](docs/generator-benchmark.md) 和 [Generator台账](project/generator-status.json)。
+
+2026-10-30 Batch B 工程参考完成：公开能力检索/精确依赖闭包、内部 GamePlan v1 完整 Schema、direct-json/game-plan 两路径、规划引用/组件一致性、有界分类修复及 Headless 生命周期回执。133 Node、360 Schema、203 Conformance、两模式双 SDK 桌面/390px 共8/8与两模式干净源码smoke通过，旧报告恢复。默认规划仅为宿主关键词草案，真实模型两模式/完整玩法语义仍 NOT_RUN；新增真实调用0，不升级正式G3/人工/真机。按用户顺序要求进入 Batch C，见 [Batch B](docs/generator-batch-b.md) 和 [Generator 台账](project/generator-status.json)。
+
+2026-10-30 窄屏视觉优化完成：为“双灯之锁”创建明确标记的宿主表现副本（revision 2），原始 Terra JSON/评分保持不变。360×420 紧凑画布、最小设计字号26、中文机会HUD和按钮对应说明；390px画布最小字约9.4→23.2 CSS px，320×568约16.9px。两真实 SDK、320/390/桌面6/6输入/胜负/重开/释放、原版/新版 Hash及3项正反例完全一致；普通CLI validate/test、原样Skill客户端两端通关、127 Node/360 Schema/203 Conformance与最终源码smoke均通过。新增模型调用0，真机/人工/正式G3不升级。当前窄屏条目为宿主副本AI参考通过，见 [优化说明](docs/gen2-narrow-visual.md) 与 [Generator 台账](project/generator-status.json)。
+
+2026-10-30 GEN-2 真实模型工程验收通过：按用户指定以原生子 Agent 运行 gpt-6.1-terra / medium，新生成“双灯之锁”，3 次生成、2 次格式修复，非 one-shot，无宿主补解。完整准入、3/3 Conformance、模型自拟 3 步双 Session 解法、双 SDK 回放与 4/4 桌面/窄屏源输入、胜负 Hash/重开/释放通过。新增原生上下文构建与 SHA 绑定导入入口，修复 root envelope/solution 类型说明歧义。完整回归 127 Node、360 Schema、203 Conformance 及最终源码 smoke 通过，旧报告恢复。身份限定为实际宿主请求路由，服务端构建/用量/费用未导出；窄屏小字和英文 HUD 使视觉质量为 PARTIAL，人工/真机/正式 G3 不升级。Batch A 工程为 PASS_REFERENCE，Batch B 尚未开始；本轮预算 3 次已用尽。见 [GEN-2 记录](docs/gen2-native-acceptance.md) 与 [Generator 台账](project/generator-status.json)。
+
+2026-10-30 Generator Batch A 继续收口：新增 `npm run generator:browser`，新建 fixture 通过公开预览入口在真实 Three.js/CocosAirJS、桌面/390px 窄屏完成 4/4 输入、Headless Hash、未达目标/通关、暂停/重开、零 ownedResources 和监听关闭；12 张截图及 SDK 版本/SHA、来源指纹分别留证。最终源码 smoke 与完整回归通过（125 Node、360 Schema、203 Conformance），旧报告恢复；正式 G3、人工/真机不升级。一次运行因验证期间脚本变更被指纹检查拒绝，失败材料保留，最终定稿运行通过。真实调用 0；安装后 `a2game` 命令已通过独立前缀安装、帮助/版本、生成与校验，依赖锁不变；最终源码重新通过干净安装 smoke。GEN-1 为 PASS_REFERENCE，GEN-2 的真实 Provider 验收受预算 0 阻塞，Batch A 保持 PARTIAL，未进入 Batch B。见 [Generator 台账](project/generator-status.json)。
+
 2026-10-29 Generator Batch A 已实现统一 API/CLI、Provider 本地探测与有界 worker；最终源码独立安装、构建、fixture 生成→完整准入→测试 `PASS_LOCAL`，无旧报告和 Renderer SDK，指纹一致。本轮完整回归通过：125 Node、203 Conformance、360 Schema，旧回执恢复。GEN-1 工程 `PARTIAL`、实际浏览器渲染 `NOT_RUN`；GEN-2 适配已实现、真实 E2E 因预算 0 为 `BLOCKED`。Batch A 保持 `PARTIAL`，未进入下一批，见 [上手说明](generator/README.md)、[独立状态](project/generator-status.json) 与 [基线](project/generator-baseline.json)。正式 G3、人工质量、真机和远端 CI 不升级。
 
 2026-10-29 协议资产目录分层：`samples/` 中 362 份 JSON 按能力、适配器、游戏、执行测试、登记和格式示例分离，原始字节、ID 与版本不变；运行时/浏览器加载、校验、生成器和文档使用新路径。新增 127 项可信绑定/依赖/测试来源索引，明确规范编号与实际可执行用例的区别。旧报告按严格可逆路径映射核验，不将算法变化当迁移，不升级完整 verified/G3/人工/真机；见 [迁移说明](docs/spec-layout.md)。

@@ -2,7 +2,7 @@
   "format": "a2game",
   "specVersion": "0.1.0",
   "id": "org.a2game.variants.h01-reward-upgrade",
-  "revision": 2,
+  "revision": 3,
   "meta": {
     "title": "H01 合成后用首波奖励升级：未升级无法击退末波",
     "genres": [
@@ -481,7 +481,7 @@
             -1,
             -1.55
           ],
-          "fontSize": 0.18,
+          "fontSize": 0.5,
           "fill": "#b5cee8",
           "text": {
             "literal": "0"
@@ -507,7 +507,7 @@
             0.5,
             -1.55
           ],
-          "fontSize": 0.18,
+          "fontSize": 0.5,
           "fill": "#b5cee8",
           "text": {
             "literal": "1"
@@ -533,7 +533,7 @@
             2,
             -1.55
           ],
-          "fontSize": 0.18,
+          "fontSize": 0.5,
           "fill": "#b5cee8",
           "text": {
             "literal": "2"
@@ -557,12 +557,12 @@
           "kind": "text",
           "at": [
             0,
-            3.6
+            3.25
           ],
-          "fontSize": 0.26,
+          "fontSize": 0.6,
           "fill": "#b5cee8",
           "text": {
-            "literal": "H01 合成炮台保卫战 · 变体"
+            "literal": "炮台保卫战 · 变体"
           }
         },
         {
@@ -570,12 +570,12 @@
           "kind": "text",
           "at": [
             0,
-            -3.65
+            -3.35
           ],
-          "fontSize": 0.14,
+          "fontSize": 0.5,
           "fill": "#9fb8d2",
           "text": {
-            "literal": "合成后用首波奖励升级：未升级无法击退末波"
+            "literal": "合成后用奖励升级"
           }
         }
       ],

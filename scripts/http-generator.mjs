@@ -6,7 +6,7 @@ export async function requestGeneration(config,request,{fetchImpl=fetch}={}){
  let endpoint;try{endpoint=new URL(config?.endpoint);}catch{throw failure('A2G_E_PROVIDER_CONFIG','生成器 endpoint 必须为有效 URL。');}
  if(endpoint.username||endpoint.password||endpoint.hash||!['http:','https:'].includes(endpoint.protocol)||endpoint.protocol==='http:'&&!['localhost','127.0.0.1','[::1]'].includes(endpoint.hostname))throw failure('A2G_E_PROVIDER_CONFIG','生成器只允许 HTTPS 或本机 HTTP；URL 不得包含凭据或片段。');
  const timeoutMs=config.timeoutMs??50000,maxBytes=config.maxResponseBytes??768*1024;
- if(!Number.isInteger(timeoutMs)||timeoutMs<50||timeoutMs>55000||!Number.isInteger(maxBytes)||maxBytes<256||maxBytes>768*1024)throw failure('A2G_E_PROVIDER_CONFIG','无效的生成器 HTTP 预算。');
+ if(!Number.isInteger(timeoutMs)||timeoutMs<50||timeoutMs>300000||!Number.isInteger(maxBytes)||maxBytes<256||maxBytes>768*1024)throw failure('A2G_E_PROVIDER_CONFIG','无效的生成器 HTTP 预算。');
  const body=JSON.stringify(request);if(Buffer.byteLength(body)>2*1024*1024)throw failure('A2G_E_PROVIDER_SIZE','生成请求超出 2 MiB。');
  const headers={'content-type':'application/json','accept':'application/json'};
  // The caller opts into a single named environment variable. Its value never enters receipts.

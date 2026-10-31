@@ -3,10 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "bin": {
+    "a2game": "generator/cli.mjs"
+  },
   "description": "Engine-neutral A2Game 1.0.0 reference workspace (GameSpec 0.1.0, pre-production)",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && node --test --test-concurrency=2 test/*.test.mjs",
+    "test": "npm run build && node --test --test-concurrency=1 test/*.test.mjs",
     "conformance": "npm run build && node scripts/run-conformance.mjs",
     "spec:validate": "python specs/v0.1/tools/validate_specs.py",
     "schema:full": "python scripts/preflight.py",
@@ -33,6 +36,7 @@
     "save:replay": "node scripts/replay-save.mjs",
     "variants:e2e": "node scripts/candidates-browser.mjs --variants",
     "gameplay:check": "npm run build && node scripts/gameplay-acceptance.mjs",
+    "coverage:refresh": "node scripts/refresh-reference-coverage.mjs",
     "acceptance:build": "node scripts/final-acceptance.mjs build",
     "acceptance:check": "node scripts/final-acceptance.mjs check",
     "acceptance:ready": "node scripts/final-acceptance.mjs check --require-ready",
@@ -46,7 +50,19 @@
     "g3:subagent:capture": "node scripts/g3-native-contract.mjs capture",
     "g3:subagent:input": "node scripts/g3-subagent-review.mjs",
     "generator": "node generator/cli.mjs",
-    "generator:smoke": "node scripts/generator-source-smoke.mjs"
+    "generator:smoke": "node scripts/generator-source-smoke.mjs",
+    "generator:browser": "node scripts/generator-browser.mjs",
+    "generator:command-smoke": "node scripts/generator-command-smoke.mjs",
+    "generator:narrow:build": "node scripts/refine-gen2-presentation.mjs",
+    "generator:narrow:check": "node scripts/check-gen2-narrow.mjs",
+    "generator:studio": "node generator/cli.mjs studio",
+    "generator:studio:check": "node scripts/generator-studio-browser.mjs",
+    "generator:package:check": "node scripts/generator-package-smoke.mjs",
+    "generator:benchmark": "node scripts/generator-benchmark.mjs",
+    "mcp:serve": "node scripts/mcp-server.mjs",
+    "mcp:check": "node scripts/mcp-smoke.mjs",
+    "skill:package": "python scripts/package-a2game-skill.py",
+    "mcp:install": "npm ci --prefix integrations/mcp --ignore-scripts"
   },
   "license": "UNLICENSED",
   "devDependencies": {

@@ -1,0 +1,29 @@
+{
+  "format": "a2game-presentation-refinement",
+  "version": 1,
+  "sourceGameSha256": "b427b01124fd1ab86a65983dba471be8d612a6a790d4141a0217fd05faee8ae6",
+  "description": "点「向左/向右」切换对应灯，匹配目标后点「确认」。错误确认扣一次机会，切换不扣。",
+  "presentation": {
+    "hud": [{"id":"chances","kind":"text","text":"剩余机会","bind":{"text":{"template":"剩余 {0} 次机会 · 切换不扣次数","args":[{"state":"/chances"}]}}}],
+    "cues": [],
+    "scene2d": {
+      "width": 360,
+      "height": 420,
+      "background": "#101B2D",
+      "nodes": [
+        {"id":"title","kind":"text","at":[0,148],"fill":"#F2F5FA","text":{"literal":"双灯之锁"},"fontSize":34},
+        {"id":"goal","kind":"text","at":[0,105],"fill":"#D8E2F0","text":{"literal":"目标：左亮 · 右灭"},"fontSize":26},
+        {"id":"left-lamp","kind":"circle","at":[-82,36],"radius":41,"fill":{"from":{"state":"/left"},"map":{"亮":"#F8CF68","灭":"#5E7088"},"fallback":"#5E7088"}},
+        {"id":"right-lamp","kind":"circle","at":[82,36],"radius":41,"fill":{"from":{"state":"/right"},"map":{"亮":"#F8CF68","灭":"#5E7088"},"fallback":"#5E7088"}},
+        {"id":"left-label","kind":"text","at":[-82,-30],"fill":"#F2F5FA","text":{"literal":"左灯"},"fontSize":26},
+        {"id":"right-label","kind":"text","at":[82,-30],"fill":"#F2F5FA","text":{"literal":"右灯"},"fontSize":26},
+        {"id":"left-status","kind":"text","at":[-82,-61],"fill":"#F2F5FA","text":{"state":"/left"},"fontSize":28},
+        {"id":"right-status","kind":"text","at":[82,-61],"fill":"#F2F5FA","text":{"state":"/right"},"fontSize":28},
+        {"id":"chance-label","kind":"text","at":[-38,-109],"fill":"#D8E2F0","text":{"literal":"剩余机会"},"fontSize":26},
+        {"id":"chance-value","kind":"text","at":[64,-109],"fill":"#F8CF68","text":{"state":"/chances"},"fontSize":32},
+        {"id":"instructions-1","kind":"text","at":[0,-153],"fill":"#D8E2F0","text":{"literal":"「向左/向右」切灯"},"fontSize":26},
+        {"id":"instructions-2","kind":"text","at":[0,-188],"fill":"#D8E2F0","text":{"literal":"匹配后点「确认」"},"fontSize":26}
+      ]
+    }
+  }
+}

@@ -69,7 +69,7 @@ function defenseLevel(){
 function cloneGame(name){const g=read(`specs/v0.1/games/${name}.game.json`);delete g.inputs.traceRecording;return g;}
 function noUndo(g){for(const e of g.scenes[0].entities)for(const c of e.components){delete c.config.undoAction;delete c.config.historyPath;}g.inputs.actions=g.inputs.actions.filter(a=>a.id!=='undo');}
 // Published definition revisions changed by the 2026-10-26 gameplay/input/visual increment.
-const revisions={G24:3,G06:2,G02:3,G20:3,G23:3,H02:3,G08:2,G09:3,G10:2,G16:3,G26:3,G29:3,H04:3,H05:3,G11:3,G12:3,G13:3,G14:2,G15:3,G17:2,G18:3,G19:3,G21:3,G22:3,G25:3,G27:3,G28:3,G30:3,G31:3,G32:3,H01:3,H03:3};
+const revisions={G24:3,G06:2,G02:3,G20:3,G23:3,H02:3,G08:2,G09:3,G10:2,G16:3,G26:3,G29:3,H04:3,H05:3,G11:3,G12:3,G13:3,G14:2,G15:3,G17:2,G18:3,G19:3,G21:3,G22:3,G25:3,G27:3,G28:3,G30:3,G31:3,G32:3,H01:4,H03:3};
 function write(id,g,positive,negative,options={}){
  ({positive,negative,options}=improveFullGameplay(g,id,positive,negative,options));improveInputGameplay(g,id);
  const entry=registry.games.find(row=>row.id===id),title=entry?.name??options.title;g.id='org.a2game.games.'+id.toLowerCase();g.revision=Math.max(options.revision??1,revisions[id]??1);g.meta={title:`${id} ${title}`,genres:entry?.taxonomy.genres??['casual'],description:options.hint??'独立单关候选；完成目标后重开。参考物理与关卡范围见候选回执。'};

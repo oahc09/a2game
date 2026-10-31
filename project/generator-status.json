@@ -1,7 +1,7 @@
 {
   "format": "a2game-generator-status",
   "version": 1,
-  "asOf": "2026-10-29",
+  "asOf": "2026-10-31",
   "baseline": {
     "commit": "7493ff78bd3bdc8f567edd2beb7114a5383e936a",
     "release": "1.0.0",
@@ -13,229 +13,740 @@
     "document": "project/generator-baseline.json"
   },
   "status": "PARTIAL",
-  "currentBatch": "A",
+  "currentBatch": "E",
   "workPackages": [
     {
       "id": "GEN-0",
-      "status": "PASS_LOCAL",
+      "status": "PARTIAL",
       "verification": "SOURCE_ONLY_SMOKE",
       "sourceSmoke": {
         "status": "PASS_LOCAL",
-        "receipt": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json",
-        "sha256": "aac0702d59ec1de03f1c140ebca689edcf7b8689108e6392f4367741f2a74355",
-        "sourceSha256": "a7d9d077802e46a586f3173bf8ef98e891d9bf4bcf9b947d261acca2a4d7e6ec",
-        "sourceFileCount": 558,
-        "steps": [
-          {
-            "name": "install",
-            "status": "PASS",
-            "elapsedMs": 9244
-          },
-          {
-            "name": "build",
-            "status": "PASS",
-            "elapsedMs": 4260
-          },
-          {
-            "name": "generate",
-            "status": "PASS",
-            "elapsedMs": 14387
-          },
-          {
-            "name": "validate",
-            "status": "PASS",
-            "elapsedMs": 5363
-          },
-          {
-            "name": "test",
-            "status": "PASS",
-            "elapsedMs": 10564
-          }
-        ],
+        "receipt": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
+        "sha256": "acf6137b03f20743dffeb532d0b78fb6b97e2e33d44f01e9c8a36c637c906792",
+        "sourceSha256": "6947b06c9a560a0f8a87ed27160fb3506cc477e47dda433d12940e8a59d69d1e",
+        "sourceFileCount": 595,
+        "finalSourceVerification": "HISTORICAL_ONLY_AFTER_H01_CHANGE",
         "assertions": {
           "notCopied:reports": true,
           "notCopied:player/vendor": true,
           "notCopied:node_modules": true,
           "notCopied:dist": true,
+          "mcpNoModelChain": true,
+          "missingSdkRejected": true,
+          "modesSameGame": true,
+          "planPresent": true,
+          "planLifecycle": true,
+          "importUnchanged": true,
           "noHistoricalReports": true,
           "noRendererSdk": true
-        },
-        "changedSinceSmoke": [],
-        "finalSourceVerification": "MATCH",
-        "note": "Final copied Generator source matches delivery source; no historical reports or Renderer SDK reused."
+        }
       },
       "fullVerify": {
         "status": "PASS",
-        "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
-        "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
-        "node": "v22.23.4",
-        "nodeTests": 125,
-        "conformanceCases": 203,
+        "receipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
+        "nodeTests": 143,
         "schemaDocuments": 360,
-        "baselineReceiptsRestored": true
+        "conformanceCases": 203,
+        "baselineReceiptsRestored": true,
+        "sourceSmoke": "output/generator-source-smoke-53a257fe-c029-4382-816f-9e73e6600e22/receipt.json"
       },
-      "scope": "Final copied source matches delivery source; full existing verify also passed."
+      "scope": "Prior source-only smoke is historical; current source recheck is pending.",
+      "previousSourceSmoke": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-source-smoke-b6ba310a-c1f4-4c7a-8094-f232ab4d7d43/receipt.json",
+        "sha256": "adab8d8aad8edb85ef81f15c4a6f4313394e4d8ea867e8d478429f8e1ee0d26d",
+        "sourceSha256": "8e3b37095ff2f8ded44689644ca9eba5e9e07f7f9dd190e1307b2aab2e9cd647",
+        "sourceFileCount": 594,
+        "finalSourceVerification": "MATCH",
+        "assertions": {
+          "notCopied:reports": true,
+          "notCopied:player/vendor": true,
+          "notCopied:node_modules": true,
+          "notCopied:dist": true,
+          "mcpNoModelChain": true,
+          "missingSdkRejected": true,
+          "modesSameGame": true,
+          "planPresent": true,
+          "planLifecycle": true,
+          "importUnchanged": true,
+          "noHistoricalReports": true,
+          "noRendererSdk": true
+        }
+      }
     },
     {
       "id": "GEN-1",
-      "status": "PARTIAL",
-      "verification": "CLI_ENGINEERING_REFERENCE",
+      "status": "PASS_REFERENCE",
+      "verification": "CLI_AND_REAL_SDK_FIXTURE_REFERENCE",
       "implemented": [
         "API/CLI",
         "fixture generation-validation-test",
         "bounded failure and cancellation handling"
       ],
-      "browserRendering": "NOT_RUN",
-      "reason": "No real generated gameplay/browser product acceptance yet."
+      "browserRendering": "PASS_REFERENCE",
+      "reason": "CLI/API、源链接安装命令、fixture 完整准入、超时/取消与真实双 SDK 浏览器工程参考已通过；真实模型验收在 GEN-2 单独执行。",
+      "browserReceipt": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/summary.json",
+      "installedCommand": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-command-smoke-0b01910f-7f9c-42b7-834b-e2ca26705c18/receipt.json",
+        "sha256": "579d8ae706170d9655ff016ed14a645333c15f4a42807efa10f36b034c94c38d",
+        "installation": "Source-linked local prefix; source workspace must remain available, portable packaging is GEN-6.",
+        "dependencyLockUnchanged": true,
+        "modelCalls": 0
+      }
     },
     {
       "id": "GEN-2",
-      "status": "PARTIAL",
+      "status": "PASS_REFERENCE",
       "implementation": "IMPLEMENTED_REFERENCE",
       "probe": "LOCAL_ONLY",
-      "realProviderE2E": "BLOCKED",
+      "realProviderE2E": "PASS_REFERENCE",
       "budget": 0,
-      "reason": "Adapter implementation does not establish a verified real-model end-to-end result."
+      "reason": "User-selected gpt-6.1-terra/medium via actual native host dispatch; identity scoped to host request, server build not exported.",
+      "verification": "NATIVE_HOST_REAL_MODEL_E2E",
+      "acceptance": "reports/gen2-terra-acceptance-addc99af/summary.json",
+      "generationCalls": 3,
+      "repairCount": 2,
+      "oneShot": false,
+      "providerProfile": {
+        "path": "reports/gen2-terra-acceptance-addc99af/provider-profile.json",
+        "sha256": "aeea94cf9b371978809d8f664686bb20be431379dbc2784a4203cf5d6d17c7e7"
+      },
+      "visualRefinement": {
+        "status": "PASS_REFERENCE",
+        "noticeStatus": "RESOLVED_FOR_HOST_DERIVATIVE",
+        "provenance": "HOST_PRESENTATION_DERIVATIVE",
+        "receipt": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/acceptance.json",
+        "sha256": "1236c614511c46f62c2a0e3ef7a0f794ca87890ce5ab686ef18ba6f621a39690",
+        "game": "output/gen2-terra-narrow-v1-20261030/game.json",
+        "screenshot": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/air-mobile-lost.png",
+        "additionalModelCalls": 0,
+        "originalModelVisualScoreUnchanged": true,
+        "humanReview": "NOT_RUN"
+      }
     },
     {
       "id": "GEN-3",
-      "status": "NOT_RUN"
+      "status": "PASS_LOCAL",
+      "implementation": "HOST_KEYWORD_DRAFT_AND_EXPLICIT_PLAN",
+      "realModelModes": "GEN7_BOTH_MODES_EXECUTED; HOST_KEYWORD_DRAFT_IS_NOT_MODEL_PLANNER",
+      "receipt": "reports/generator-batch-b-07540813-057d-4422-97ae-46eec6b163a5/summary.json",
+      "realModelComparison": "MIXED_MODEL_PROFILE; SEE BATCH_D"
     },
     {
       "id": "GEN-4",
-      "status": "NOT_RUN"
+      "status": "PASS_REFERENCE",
+      "scope": "Fixture/local mock, authoritative gates, headless lifecycle and 8 real SDK input cases",
+      "receipt": "reports/generator-batch-b-07540813-057d-4422-97ae-46eec6b163a5/summary.json"
     },
     {
       "id": "GEN-5",
-      "status": "NOT_RUN"
+      "status": "PASS_REFERENCE",
+      "implementation": "LOCAL_STUDIO",
+      "browser": {
+        "path": "reports/generator-studio-18f22f9f-c805-47dc-a494-4ee9f9a98a5e/summary.json",
+        "sha256": "818b406ad8b79c99fc8cb2e577f7f55723d20cdfc82238976fdf1d07602ce641"
+      },
+      "realModelUI": "NOT_RUN",
+      "humanReview": "NOT_RUN"
     },
     {
       "id": "GEN-6",
-      "status": "NOT_RUN"
+      "status": "PASS_REFERENCE",
+      "implementation": "CONTROLLED_CONTENT_PACKAGE_V1",
+      "independentHost": {
+        "path": "reports/generator-package-bf319ac8-6981-400c-9d6e-8ebfcf834dd9/summary.json",
+        "sha256": "fd9a7ccbf743ad302675c1ec3c29d95f484d0c835315c666c47a8245d99f77e3"
+      },
+      "requiresInstalledTrustedHost": true,
+      "embeddedRuntime": false,
+      "embeddedResourceBinaries": false,
+      "newPhysicalMachine": "NOT_RUN",
+      "realModelPackage": {
+        "path": "reports/generator-package-1b1e0bd5-2e69-4a56-b082-823d2f9ffc37/summary.json",
+        "sha256": "a4ecf3c062b9c8ffe557f1737adcaea5ba3c960a53b7ee06b876cc911a3d0d7c"
+      }
     },
     {
       "id": "GEN-7",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "implementation": "REAL_CLI_MATRIX_COMPLETED_WITH_FAILURES",
+      "plan": {
+        "path": "reports/generator-benchmark-4974aa4b-378e-467c-bef8-a2b62b678667/plan.json",
+        "sha256": "bbc81cd1ed15f67117408eb6266e112851bb3ab7c55a006c79a522b5bdd36e41"
+      },
+      "plannedCells": 10,
+      "executedRealModelCells": 10,
+      "newBudget": 0,
+      "browserWorkerBridge": {
+        "path": "reports/generator-benchmark-bridge-cb99e153-0ef8-4bcc-aab6-94662e5f7f3c/summary.json",
+        "sha256": "c6fe733cd3f4c047cf41d0cf83d8dfe79996c732aeec9e7a5069405bf992e43f"
+      },
+      "generationCalls": 30,
+      "remainingBudget": 0,
+      "engineeringPassed": 9,
+      "sourceInputPassed": 9,
+      "receipt": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/summary.json",
+      "sourceProfileMixed": true,
+      "humanReview": "NOT_RUN"
     },
     {
       "id": "GEN-8",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "implementation": "CLI_MCP_SKILL_DOCS_AND_PORTABLE_SOURCE_HANDOFF",
+      "finalBenchmarkHandoff": "RECORDED_WITH_FAILURES",
+      "remaining": "Actual Agent Skill host, H01 repair and full product quality remain incomplete"
+    },
+    {
+      "id": "GEN-9",
+      "status": "PASS_REFERENCE",
+      "implementation": "ISOLATED_STDIO_MCP_NINE_TOOLS",
+      "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json",
+      "clients": 2,
+      "realSDKs": 2,
+      "modelCalls": 0,
+      "realProviderViaMcp": "HISTORICAL_REFERENCE_PASS_MODEL_IDENTITY_UNVERIFIED",
+      "actualAgentUiHosts": "NOT_RUN",
+      "realProviderReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/real-provider-claude.json"
+    },
+    {
+      "id": "GEN-10",
+      "status": "PARTIAL",
+      "implementation": "REPOSITORY_SKILL_AND_VALIDATED_ZIP",
+      "package": "output/skill/521f36ae-22b1-46d2-8ea5-53a914bfc79b/a2game.zip",
+      "sha256": "548fdd6797592570ceaa87526c1eb752acd06477d84888ecc5aa25bd49321c0f",
+      "installation": "PROJECT_SCOPED_ZCODE_REFERENCE",
+      "actualAgentHostExecution": "HOST_AUTHORED_EXERCISE_REFERENCE; FRESH_SESSION_AUTO_TRIGGER_NOT_RUN",
+      "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json"
     }
   ],
   "gates": [
     {
       "id": "GEN-G0",
-      "status": "PASS_LOCAL",
+      "status": "PARTIAL",
       "scope": "Independent source-only install/build/fixture generate/validate/test; no renderer SDK or historical reports.",
       "sourceSmoke": {
         "status": "PASS_LOCAL",
-        "receipt": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json",
-        "sha256": "aac0702d59ec1de03f1c140ebca689edcf7b8689108e6392f4367741f2a74355",
-        "sourceSha256": "a7d9d077802e46a586f3173bf8ef98e891d9bf4bcf9b947d261acca2a4d7e6ec",
-        "sourceFileCount": 558,
-        "steps": [
-          {
-            "name": "install",
-            "status": "PASS",
-            "elapsedMs": 9244
-          },
-          {
-            "name": "build",
-            "status": "PASS",
-            "elapsedMs": 4260
-          },
-          {
-            "name": "generate",
-            "status": "PASS",
-            "elapsedMs": 14387
-          },
-          {
-            "name": "validate",
-            "status": "PASS",
-            "elapsedMs": 5363
-          },
-          {
-            "name": "test",
-            "status": "PASS",
-            "elapsedMs": 10564
-          }
-        ],
+        "receipt": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
+        "sha256": "acf6137b03f20743dffeb532d0b78fb6b97e2e33d44f01e9c8a36c637c906792",
+        "sourceSha256": "6947b06c9a560a0f8a87ed27160fb3506cc477e47dda433d12940e8a59d69d1e",
+        "sourceFileCount": 595,
+        "finalSourceVerification": "HISTORICAL_ONLY_AFTER_H01_CHANGE",
         "assertions": {
           "notCopied:reports": true,
           "notCopied:player/vendor": true,
           "notCopied:node_modules": true,
           "notCopied:dist": true,
+          "mcpNoModelChain": true,
+          "missingSdkRejected": true,
+          "modesSameGame": true,
+          "planPresent": true,
+          "planLifecycle": true,
+          "importUnchanged": true,
           "noHistoricalReports": true,
           "noRendererSdk": true
-        },
-        "changedSinceSmoke": [],
-        "finalSourceVerification": "MATCH",
-        "note": "Final copied Generator source matches delivery source; no historical reports or Renderer SDK reused."
+        }
       },
       "fullVerify": {
         "status": "PASS",
-        "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
-        "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
-        "node": "v22.23.4",
-        "nodeTests": 125,
-        "conformanceCases": 203,
+        "receipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
+        "nodeTests": 143,
         "schemaDocuments": 360,
-        "baselineReceiptsRestored": true
+        "conformanceCases": 203,
+        "baselineReceiptsRestored": true,
+        "sourceSmoke": "output/generator-source-smoke-53a257fe-c029-4382-816f-9e73e6600e22/receipt.json"
+      },
+      "previousSourceSmoke": {
+        "status": "PASS_LOCAL",
+        "receipt": "output/generator-source-smoke-b6ba310a-c1f4-4c7a-8094-f232ab4d7d43/receipt.json",
+        "sha256": "adab8d8aad8edb85ef81f15c4a6f4313394e4d8ea867e8d478429f8e1ee0d26d",
+        "sourceSha256": "8e3b37095ff2f8ded44689644ca9eba5e9e07f7f9dd190e1307b2aab2e9cd647",
+        "sourceFileCount": 594,
+        "finalSourceVerification": "MATCH",
+        "assertions": {
+          "notCopied:reports": true,
+          "notCopied:player/vendor": true,
+          "notCopied:node_modules": true,
+          "notCopied:dist": true,
+          "mcpNoModelChain": true,
+          "missingSdkRejected": true,
+          "modesSameGame": true,
+          "planPresent": true,
+          "planLifecycle": true,
+          "importUnchanged": true,
+          "noHistoricalReports": true,
+          "noRendererSdk": true
+        }
       }
     },
     {
       "id": "GEN-G1",
-      "status": "BLOCKED",
-      "reason": "No new real-model execution budget has been authorized."
+      "status": "PASS_REFERENCE",
+      "reason": "Host-selected native provider completed new prompt to non-preset JSON and full gates; service build/usage unknown.",
+      "receipt": "reports/gen2-terra-acceptance-addc99af/summary.json",
+      "identityScope": "HOST_CONTROL_PLANE_REQUEST"
     },
     {
       "id": "GEN-G2",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "engineeringCells": 9,
+      "plannedCells": 10,
+      "sourceInputFlows": 36,
+      "receipt": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/summary.json"
     },
     {
       "id": "GEN-G3",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "visualQuality": "PARTIAL",
+      "humanReview": "NOT_RUN",
+      "receipt": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/summary.json"
     },
     {
       "id": "GEN-G4",
-      "status": "NOT_RUN"
+      "status": "PARTIAL",
+      "contentPackageIndependentHost": "PASS_REFERENCE",
+      "remoteCI": "NOT_RUN",
+      "standaloneRuntimeAndBinaryAssets": "NOT_INCLUDED"
+    },
+    {
+      "id": "MCP-G0",
+      "status": "PASS_LOCAL",
+      "scope": "SDK stdio handshake, tools/list, strict contract and cold source install",
+      "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json"
+    },
+    {
+      "id": "MCP-G1",
+      "status": "PASS_REFERENCE",
+      "scope": "Original external G03 model JSON via MCP validate/test/export, CLI shared-input parity, no additional Provider calls",
+      "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json"
+    },
+    {
+      "id": "MCP-G2",
+      "status": "PARTIAL",
+      "scope": "Real Claude CLI route returned admitted content, but reported model identity is missing; other routes failed or timed out. Historical receipt, current-source rerun needs explicit budget.",
+      "receipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/real-provider-claude.json"
+    },
+    {
+      "id": "MCP-G3",
+      "status": "PASS_REFERENCE",
+      "scope": "Two independent client implementations, real SDK UI/release, strict bounds/unknown tool/path/secret echo negatives; actual Agent UI hosts separately NOT_RUN",
+      "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json"
+    },
+    {
+      "id": "SKILL-G0",
+      "status": "PASS_LOCAL",
+      "scope": "Skill references/frontmatter/ZIP validated; separate project-scoped installation reference recorded; no global installation",
+      "package": "output/skill/521f36ae-22b1-46d2-8ea5-53a914bfc79b/a2game.zip"
+    },
+    {
+      "id": "SKILL-G1",
+      "status": "NOT_RUN",
+      "scope": "Actual installed Agent Skill execution"
     }
   ],
   "modelExecution": {
-    "status": "BLOCKED",
-    "budget": 0,
-    "actualCalls": 0,
-    "reason": "本轮未授权真实模型调用；配置就绪不授予调用预算。"
+    "status": "COMPLETED_REFERENCE",
+    "budget": 3,
+    "actualCalls": 3,
+    "remainingBudget": 0,
+    "requestedModel": "gpt-6.1-terra",
+    "reasoningEffort": "medium",
+    "authorization": "User requested native GPT-6.1 Terra Middle GEN-2; plan default max 3 complete generations.",
+    "definition": "actualCalls counts generation dispatch attempts, not underlying model API requests.",
+    "oneShot": false,
+    "usage": null,
+    "cost": "UNKNOWN"
   },
   "fixture": {
     "identity": "DEMO_FIXTURE",
     "independentModel": false,
     "formalG3": false,
     "status": "PASS_REFERENCE",
-    "sourceSmoke": "output/generator-source-smoke-76e21eec-faa8-4d24-9b49-935cdfba56e4/receipt.json"
+    "sourceSmoke": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json"
   },
   "remoteCI": "NOT_RUN",
   "humanReview": "NOT_RUN",
   "physicalDevices": "NOT_RUN",
   "formalG3": "NOT_RUN",
   "originalVerifiedCountsUnchanged": true,
-  "nextBatch": "NOT_STARTED",
-  "batchBoundary": "Batch A remains partial; do not begin Batch B before its required acceptance.",
+  "nextBatch": "E3_FRESH_SESSION_SKILL_HOST_AND_GEN8_HANDOFF; CURRENT_VISUAL_REVIEW_PARTIAL; H01_MODEL_RETEST_REQUIRES_NEW_BUDGET",
+  "batchBoundary": "A/B/C engineering scopes preserved. D executed10/10 using30 authorized dispatches; 9/10 engineering and source-input PASS. E0/E1/E2 no-model MCP engineering reference and Skill package delivered. E3 actual Agent host and human/full gameplay gates remain incomplete.",
   "currentVerification": {
     "status": "PASS",
-    "receipt": "reports/spec-layout-validation-2026-10-29T15-18-39-161Z-8600/summary.json",
-    "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
-    "node": "v22.23.4",
-    "nodeTests": 125,
-    "conformanceCases": 203,
+    "scope": "CURRENT_SOURCE_ENGINEERING_VERIFY; 148 CURRENT_PLAYER_SOURCE REFERENCE CASES; VISUAL QUALITY AND FORMAL ACCEPTANCE REMAIN PARTIAL",
+    "currentSourceFullVerify": "PASS",
+    "currentVerifyLog": "reports/verify-2026-10-31T11-20-30-017Z-29216/verify.log",
+    "historicalReceipt": "reports/spec-layout-validation-2026-10-30T16-10-11-842Z-53496/summary.json",
+    "nodeTests": 157,
     "schemaDocuments": 360,
-    "baselineReceiptsRestored": true
+    "conformanceCases": 203,
+    "baselineReceiptsRestored": true,
+    "sourceSmoke": "output/generator-source-smoke-934b44f9-4e90-4606-aa65-73f6ebe15a22/receipt.json",
+    "sourceSmokeStatus": "PASS_LOCAL_CURRENT_SOURCE"
   },
   "preview": {
-    "status": "PASS_HTTP_ONLY",
-    "receipt": "output/generator-preview-http.json",
-    "listenersClosed": true,
-    "browserRendering": "NOT_RUN",
-    "missingSdk": "BLOCKED_NO_FALLBACK"
+    "status": "PASS_REFERENCE",
+    "receipt": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/summary.json",
+    "sha256": "573ec3c9975d7827a7ec403b88d4ffa84f24964fe6b134ae268fcaf22da89433",
+    "browserRendering": "PASS_REFERENCE",
+    "cases": [
+      {
+        "backend": "three",
+        "viewport": "desktop",
+        "status": "PASS_REFERENCE",
+        "listenerClosed": true
+      },
+      {
+        "backend": "three",
+        "viewport": "mobile",
+        "status": "PASS_REFERENCE",
+        "listenerClosed": true
+      },
+      {
+        "backend": "air",
+        "viewport": "desktop",
+        "status": "PASS_REFERENCE",
+        "listenerClosed": true
+      },
+      {
+        "backend": "air",
+        "viewport": "mobile",
+        "status": "PASS_REFERENCE",
+        "listenerClosed": true
+      }
+    ],
+    "parity": true,
+    "sourceFingerprintsUnchanged": true,
+    "aiScreenshotReview": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/ai-screenshot-review.json",
+    "humanReview": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "modelCalls": 0
+  },
+  "installedCommand": {
+    "status": "PASS_LOCAL",
+    "receipt": "output/generator-command-smoke-0b01910f-7f9c-42b7-834b-e2ca26705c18/receipt.json",
+    "sha256": "579d8ae706170d9655ff016ed14a645333c15f4a42807efa10f36b034c94c38d",
+    "installation": "Source-linked local prefix; source workspace must remain available, portable packaging is GEN-6.",
+    "dependencyLockUnchanged": true,
+    "modelCalls": 0
+  },
+  "gen2Acceptance": {
+    "status": "PASS_REFERENCE",
+    "receipt": "reports/gen2-terra-acceptance-addc99af/summary.json",
+    "sha256": "72a544fcf6632ce6d00f5399b8c04bc70ec609dea772b847ab3ff9d454246581"
+  },
+  "realModelPreview": {
+    "status": "PASS_REFERENCE",
+    "receipt": "reports/gen2-terra-input-e1b456a0-3de7-4fe2-9f0d-b748a7bc4142/summary.json",
+    "sha256": "ff149bdafc6f85c73b7e53ed01317b912c3b95a7695b8e5bf72a047bd50f0e33",
+    "cases": 4,
+    "visualQuality": "PARTIAL",
+    "humanReview": "NOT_RUN",
+    "formalG3": "NOT_RUN"
+  },
+  "visualRefinement": {
+    "status": "PASS_REFERENCE",
+    "noticeStatus": "RESOLVED_FOR_HOST_DERIVATIVE",
+    "provenance": "HOST_PRESENTATION_DERIVATIVE",
+    "receipt": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/acceptance.json",
+    "sha256": "1236c614511c46f62c2a0e3ef7a0f794ca87890ce5ab686ef18ba6f621a39690",
+    "game": "output/gen2-terra-narrow-v1-20261030/game.json",
+    "screenshot": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/air-mobile-lost.png",
+    "additionalModelCalls": 0,
+    "originalModelVisualScoreUnchanged": true,
+    "humanReview": "NOT_RUN"
+  },
+  "batchB": {
+    "format": "a2game-generator-batch-b",
+    "version": 1,
+    "status": "PASS_REFERENCE",
+    "recordedAt": "2026-10-30T12:28:27.123Z",
+    "scope": "Host keyword draft + explicit GamePlan schema/compilation transport + fixture/local HTTP mock + full validation + real SDK engineering. NOT model semantic acceptance.",
+    "verification": {
+      "path": "reports/spec-layout-validation-2026-10-30T12-18-52-029Z-15232/summary.json",
+      "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+      "nodeTests": 133,
+      "schemaDocuments": 360,
+      "conformanceCases": 203
+    },
+    "browsers": [
+      {
+        "path": "reports/generator-browser-85871518-8fff-4efc-9a10-f4cf2c358836/summary.json",
+        "sha256": "f5680910d8284db59baea2d68396402a00c7f04d1c358ac554ba2c1aa93b0f89",
+        "mode": "direct-json",
+        "cases": 4
+      },
+      {
+        "path": "reports/generator-browser-a079281b-e563-40a9-83bd-c3850927e828/summary.json",
+        "sha256": "0a75052f671edeb546fc36c67f75e09465c3bce460e32443d561a673ead3fb3b",
+        "mode": "game-plan",
+        "cases": 4
+      }
+    ],
+    "sourceSmoke": {
+      "path": "output/generator-source-smoke-0ff0a509-5648-46e3-b8a6-41e8fff40be6/receipt.json",
+      "sha256": "3bae5e4bdf05ca6b313ec249a463ba789b65c14fca351c4c9a1a6f565eca95bf"
+    },
+    "additionalRealModelCalls": 0,
+    "realModelModes": "NOT_RUN",
+    "modelPlanner": "NOT_IMPLEMENTED_HOST_KEYWORD_DRAFT_ONLY",
+    "humanReview": "NOT_RUN",
+    "physicalDevices": "NOT_RUN",
+    "formalG3": "NOT_RUN",
+    "receipt": "reports/generator-batch-b-07540813-057d-4422-97ae-46eec6b163a5/summary.json",
+    "sha256": "8a554cc0a5d05030bd52c44fafb3c6213dbec851c03c5f5278f916a17aa3fb7c"
+  },
+  "batchC": {
+    "status": "PASS_REFERENCE",
+    "scope": "Local Studio + controlled content package on compatible installed host; same-machine independent source install, Python reused, exact SDKs and approved resource prerequisites supplied. Runtime/resource binaries are not embedded in content package.",
+    "studio": {
+      "path": "reports/generator-studio-18f22f9f-c805-47dc-a494-4ee9f9a98a5e/summary.json",
+      "sha256": "818b406ad8b79c99fc8cb2e577f7f55723d20cdfc82238976fdf1d07602ce641"
+    },
+    "portable": {
+      "path": "reports/generator-package-bf319ac8-6981-400c-9d6e-8ebfcf834dd9/summary.json",
+      "sha256": "fd9a7ccbf743ad302675c1ec3c29d95f484d0c835315c666c47a8245d99f77e3"
+    }
+  },
+  "batchD": {
+    "status": "PARTIAL",
+    "preparation": "PASS_LOCAL",
+    "plan": {
+      "path": "reports/generator-benchmark-4974aa4b-378e-467c-bef8-a2b62b678667/plan.json",
+      "sha256": "bbc81cd1ed15f67117408eb6266e112851bb3ab7c55a006c79a522b5bdd36e41"
+    },
+    "browserWorkerBridge": {
+      "path": "reports/generator-benchmark-bridge-cb99e153-0ef8-4bcc-aab6-94662e5f7f3c/summary.json",
+      "sha256": "c6fe733cd3f4c047cf41d0cf83d8dfe79996c732aeec9e7a5069405bf992e43f"
+    },
+    "plannedCells": 10,
+    "executedRealModelCells": 10,
+    "authorizedNewCalls": 30,
+    "reason": "All10 executed; H01 plan mode failed after4 attempts; direct output passed unchanged after host native-composition correction, global30 exhausted. Mixed profiles, no homogeneous one-shot rate. Full product quality remains partial.",
+    "generationCalls": 30,
+    "remainingBudget": 0,
+    "engineeringPassed": 9,
+    "sourceInputPassed": 9,
+    "receipt": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/summary.json"
+  },
+  "currentDelivery": {
+    "receipt": "reports/generator-sequence-delivery-1fd8b042-25b0-4cf2-afde-7019f403717a/summary.json",
+    "sha256": "0019422db9caf5d21546d105f3547d591ce80ba97a8edc44295dc6d33f6b795b"
+  },
+  "retainedFailures": [
+    {
+      "path": "output/generator-source-smoke-88b7ab2e-b5f1-4495-8414-c62cdbbd1208/receipt.json",
+      "cause": "Harness step helper omitted stdout return; all child steps passed, aggregate failed; fixed and independently rerun."
+    },
+    {
+      "path": "reports/spec-layout-validation-2026-10-30T15-47-44-154Z-41504/summary.json",
+      "cause": "Root dependency experiment invalidated legacy fingerprints; isolated MCP dependencies and byte-identical Runtime lock restoration resolved it without weakening gates."
+    },
+    {
+      "path": "reports/spec-layout-validation-2026-10-30T15-51-30-825Z-22452/summary.json",
+      "cause": "Root dependency experiment invalidated legacy fingerprints; isolated MCP dependencies and byte-identical Runtime lock restoration resolved it without weakening gates."
+    },
+    {
+      "path": "reports/mcp-dependency-isolation-6e4fc1ff-b99a-48c2-9931-36045262aa4b/receipt.json",
+      "cause": "Root dependency experiment invalidated legacy fingerprints; isolated MCP dependencies and byte-identical Runtime lock restoration resolved it without weakening gates."
+    },
+    {
+      "path": "reports/spec-layout-validation-2026-10-30T15-55-58-654Z-37164/summary.json",
+      "cause": "Two validation subprocess timeouts in parallel test files; unchanged bounds/fixtures retested in serial full suite."
+    },
+    {
+      "path": "reports/verify-2026-10-31T10-24-57-083Z-48244/verify.log",
+      "cause": "Default Python lacked jsonschema; Node 155/156. Schema and Conformance stages were not reached; rerun used the project venv and passed."
+    }
+  ],
+  "benchmarkExecution": {
+    "status": "COMPLETED_WITH_FAILURES",
+    "providerId": "codex",
+    "requestedModelId": "inherited-cli-default",
+    "modelOverride": false,
+    "maxCalls": 30,
+    "maxAttemptsPerCell": 3,
+    "authorization": "User answered gen7_budget: 授权最多 30 次",
+    "generationCalls": 30,
+    "usage": {
+      "status": "PARTIAL_REPORTED_SUM_NOT_PRICE",
+      "callsWithUsage": 29,
+      "callsMissingUsage": 1,
+      "reportedSums": {
+        "input_tokens": 2149788,
+        "cached_input_tokens": 104448,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 146291,
+        "reasoning_output_tokens": 12731
+      }
+    },
+    "cost": "UNKNOWN",
+    "returnedCalls": 29,
+    "abortedCalls": 1,
+    "remainingBudget": 0,
+    "interruptedLedger": "reports/generator-benchmark-1f8b0755-ba4f-48ec-9ac1-0698e57e06ee/interrupted-ledger.json",
+    "resume": "reports/generator-benchmark-1f8b0755-ba4f-48ec-9ac1-0698e57e06ee/resume-host-fix.json",
+    "hostFixTests": {
+      "status": "PASS",
+      "tests": 15,
+      "log": "output/generator-host-fix-tests.log"
+    },
+    "baseline": "reports/generator-benchmark-e2319d43-9ec4-4982-a974-8d29917bbef3/summary.json",
+    "engineeringPassed": 9,
+    "plannedCells": 10,
+    "sourceProfileMixed": true,
+    "explicitSelectedCellException": {
+      "authorization": "gen7_reallocate: 同意，使用剩余5次",
+      "limit": 4,
+      "cells": [
+        "G01-game-plan",
+        "G21-game-plan",
+        "H01-direct-json",
+        "H01-game-plan",
+        "G17-game-plan"
+      ]
+    },
+    "sourceInputPassed": 9,
+    "delivery": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/summary.json",
+    "html": "reports/generator-benchmark-delivery-dc060518-6870-4cf9-9775-efa59aca01dd/index.html"
+  },
+  "gen9Mcp": {
+    "status": "PASS_REFERENCE",
+    "mcpToolContractVersion": 1,
+    "sdk": "@modelcontextprotocol/sdk@1.32.2",
+    "zod": "4.6.7",
+    "dependencyLock": "integrations/mcp/package-lock.json",
+    "rootLockChanged": false,
+    "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json",
+    "modelCalls": 0,
+    "providerViaMcp": "HISTORICAL_REFERENCE_PASS_MODEL_IDENTITY_UNVERIFIED",
+    "actualAgentUiHosts": "NOT_RUN",
+    "sourceSmoke": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json"
+  },
+  "gen10Skill": {
+    "status": "PARTIAL",
+    "package": "output/skill/521f36ae-22b1-46d2-8ea5-53a914bfc79b/a2game.zip",
+    "sha256": "548fdd6797592570ceaa87526c1eb752acd06477d84888ecc5aa25bd49321c0f",
+    "installation": "PROJECT_SCOPED_ZCODE_REFERENCE",
+    "actualAgentHostExecution": "HOST_AUTHORED_EXERCISE_REFERENCE; FRESH_SESSION_AUTO_TRIGGER_NOT_RUN",
+    "hostReceipt": "reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json"
+  },
+  "h01ConformanceRepair": {
+    "status": "PASS_REFERENCE_HOST_DERIVATIVE",
+    "originalModelBenchmarkCell": "FAIL_UNCHANGED",
+    "generationCalls": 0,
+    "conformanceCases": 4,
+    "sourceInputFlows": 4,
+    "visualQuality": "PARTIAL_HUMAN_REVIEW_NOT_RUN; HUD_AND_NARROW_TITLE_REPAIRED",
+    "realModelRetest": "NOT_RUN_NO_REMAINING_BUDGET",
+    "targetedNodeTests": {
+      "status": "PASS",
+      "count": 11
+    },
+    "historicalSourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-bd87118b-53ba-489b-8910-c8f5da374d55/receipt.json",
+      "sha256": "050cb2a05f46bed74a7930427811197c0980f81775d8a54914cc8d7167c88742",
+      "sourceSha256": "a5dc23145b5d3515d101ebcc1c6777a5c842de2d58789ad5d9d33b20f62506bb",
+      "sourceFilesMatch": false
+    },
+    "sourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-934b44f9-4e90-4606-aa65-73f6ebe15a22/receipt.json",
+      "sha256": "eb5779054711a2f4e4624869682a3e6e2059993dcc6a95f0b247ec36abfc29e6",
+      "sourceSha256": "5677dc7b61526339065da3d6c98ef03cac477730b3725f6ddbdc138d53f9fe73",
+      "sourceFileCount": 595,
+      "finalSourceVerification": "CURRENT_SOURCE",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "mcpNoModelChain": true,
+        "missingSdkRejected": true,
+        "modesSameGame": true,
+        "planPresent": true,
+        "planLifecycle": true,
+        "importUnchanged": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      },
+      "sourceFilesMatch": true
+    },
+    "receipt": {
+      "path": "reports/h01-conformance-repair-1d47fb41-b18c-417f-ab7a-28a1d9d4f99c/summary.json",
+      "sha256": "a774d96b2623e347e9ba0e36973e7b9c12008c228867c4be10525d141ba4490e"
+    },
+    "browserReceipt": {
+      "path": "reports/generator-game-review-eb51f126-dcae-496f-8712-7e5cc475f10a/summary.json",
+      "sha256": "b197d4def71e4d5e950462a8bbfb24e154b756d184730785fd76c7c781a1b32b"
+    },
+    "hudBrowserReceipt": {
+      "path": "reports/generator-game-review-4ca86c40-bfe4-4d41-bdc5-4b8476baf3c7/summary.json",
+      "sha256": "ead799ba877717da94e454c58e137186bd8d887620e2df7dbf2f44e749044c36",
+      "scope": "Host derivative; 4 actual SDK input, HUD, Hash, pause, restart and resource-release cases."
+    },
+    "formalG3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "previousSourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-b6ba310a-c1f4-4c7a-8094-f232ab4d7d43/receipt.json",
+      "sha256": "adab8d8aad8edb85ef81f15c4a6f4313394e4d8ea867e8d478429f8e1ee0d26d",
+      "sourceSha256": "8e3b37095ff2f8ded44689644ca9eba5e9e07f7f9dd190e1307b2aab2e9cd647",
+      "sourceFilesMatch": false
+    },
+    "preRefreshSourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
+      "sha256": "acf6137b03f20743dffeb532d0b78fb6b97e2e33d44f01e9c8a36c637c906792",
+      "sourceSha256": "6947b06c9a560a0f8a87ed27160fb3506cc477e47dda433d12940e8a59d69d1e",
+      "sourceFileCount": 595,
+      "finalSourceVerification": "HISTORICAL_ONLY_AFTER_H01_CHANGE",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "mcpNoModelChain": true,
+        "missingSdkRejected": true,
+        "modesSameGame": true,
+        "planPresent": true,
+        "planLifecycle": true,
+        "importUnchanged": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      },
+      "sourceFilesMatch": false
+    }
+  },
+  "batchE": {
+    "status": "PARTIAL",
+    "E0": "PASS_LOCAL",
+    "E1": "PASS_REFERENCE",
+    "E2": "PARTIAL_REAL_PROVIDER_MODEL_IDENTITY_UNVERIFIED",
+    "E3": "PARTIAL_PROJECT_INSTALL_AND_HOST_EXERCISE; AUTO_TRIGGER_NOT_RUN",
+    "gen8": "PARTIAL"
+  },
+  "referenceRevalidation": {
+    "status": "PASS_REFERENCE",
+    "scope": "37 base and 37 authored variants, two SDKs, current player source; full visual quality, human review, independent G3 and physical input remain separate",
+    "candidateBrowser": "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json",
+    "variantBrowser": "reports/variants-2026-10-31T10-48-45-541Z-3368/summary.json",
+    "coverageSchema": "reports/reference-coverage-8e41a5d6-2b13-4afc-bc99-5c5bc60294a2/schema-check.json",
+    "browserCases": 148,
+    "coverageReceipts": 148,
+    "runnerProduction": "reports/runner-quality-2026-10-31T10-24-21-130Z/summary.json",
+    "runnerCases": 4,
+    "h01NarrowQuality": "PARTIAL_TEXT_TOO_SMALL",
+    "modelCalls": 0,
+    "headless": "reports/gameplay-2026-10-31T10-46-16-020Z-10872/summary.json"
+  },
+  "providerEvidenceAccounting": {
+    "glmHttpDispatchesInTwoCycleReceipts": 4,
+    "hostIntegrationAggregateClaim": 6,
+    "status": "DISCREPANCY_UNRESOLVED",
+    "documentation": "docs/generator-multi-model.md",
+    "claudeIdentity": "REQUESTED_MODEL_ONLY; REPORTED_MODEL_MISSING"
   }
 }

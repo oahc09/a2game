@@ -10,9 +10,33 @@ import {createPlayerServer} from '../scripts/serve.mjs';
 import {createContentService} from '../scripts/content-service.mjs';
 import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
-test('all 362 relocated protocol assets retain bytes; capability bindings resolve without claiming formal verification',()=>{
+function reverseH01Presentation(path,text){
+ const variant=path.endsWith('/h01-reward-upgrade.game.json'),game=JSON.parse(text);
+ assert.equal(JSON.stringify(game,null,2)+'\n',text);
+ assert.equal(game.revision,variant?3:4);game.revision--;
+ const nodes=game.presentation.scene2d.nodes;
+ for(let i=0;i<3;i++){const matches=nodes.filter(node=>node.id==='slot-label'+i);assert.equal(matches.length,1);assert.equal(matches[0].fontSize,0.5);matches[0].fontSize=0.18;}
+ const title=nodes.filter(node=>node.id==='title'),hint=nodes.filter(node=>node.id==='hint');assert.equal(title.length,1);assert.equal(hint.length,1);
+ assert.deepEqual([title[0].at,title[0].fontSize,title[0].text.literal],[[0,3.25],0.6,variant?'炮台保卫战 · 变体':'炮台保卫战']);
+ assert.deepEqual([hint[0].at,hint[0].fontSize,hint[0].text.literal],[[0,-3.35],0.5,variant?'合成后用奖励升级':'先建塔，再选择并合成']);
+ title[0].at=[0,3.6];title[0].fontSize=0.26;title[0].text.literal=variant?'H01 合成炮台保卫战 · 变体':'H01 合成炮台保卫战';
+ hint[0].at=[0,-3.65];hint[0].fontSize=0.14;hint[0].text.literal=variant?'合成后用首波奖励升级：未升级无法击退末波':'place0、place1 建塔，select0 后 merge1 合成；旧炮与武器释放，抵御三波。';
+ return JSON.stringify(game,null,2)+'\n';
+}
+test('all 362 relocated protocol assets retain migration provenance; capability bindings resolve without claiming formal verification',()=>{
  const migration=read('project/spec-layout-migration.json'),moved=Object.entries(migration.files).filter(([p])=>p.startsWith('specs/v0.1/samples/'));
- assert.equal(moved.length,362);for(const [old,row]of moved){assert.equal(row.to,canonicalSpecPath(old));assert.equal(row.before,row.after);assert.equal(sha(readFileSync(resolve(root,row.to))),row.before);}
+ const downgradedAdapters=new Set(['cocosairjs.adapter.json','threejs.adapter.json','public-turn-room.adapter.json'].map(name=>'specs/v0.1/adapters/'+name));
+ const adjustedGames=new Set(['h01-candidate.game.json','h01-reward-upgrade.game.json'].map(name=>'specs/v0.1/games/'+name));
+ assert.equal(moved.length,362);for(const [old,row]of moved){
+  assert.equal(row.to,canonicalSpecPath(old));assert.equal(row.before,row.after);
+  const content=readFileSync(resolve(root,row.to));
+  if(sha(content)===row.before)continue;
+  if(adjustedGames.has(row.to)){assert.equal(sha(reverseH01Presentation(row.to,content.toString('utf8'))),row.before);continue;}
+  // A verification downgrade changes only the status; preserve the original migration digest.
+  assert.ok(downgradedAdapters.has(row.to),`Unexpected protocol asset change: ${row.to}`);
+  const text=content.toString('utf8');assert.equal(JSON.parse(text).status,'implemented-unverified');
+  assert.equal(sha(text.replace('"status": "implemented-unverified"','"status": "verified"')),row.before);
+ }
  const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,127);assert.equal(bindings.capabilities.length,127);
  for(const c of bindings.capabilities){assert.equal(c.implementation.role,registry.implementation(c).role);assert.deepEqual(c.dependencies,registry.negotiate({all:[{id:c.id,version:c.version}]}).capabilities);assert.equal(c.formalVerification,'NOT_SIGNED_OFF');}
 });

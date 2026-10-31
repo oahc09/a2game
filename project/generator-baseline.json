@@ -93,5 +93,156 @@
   },
   "realModelCalls": 0,
   "authorizedRealModelBudget": 0,
-  "formalG3": "NOT_RUN"
+  "formalG3": "NOT_RUN",
+  "continuation": {
+    "asOf": "2026-10-30",
+    "sourceCommit": "2699f37",
+    "sourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-e78ab28b-289f-45e4-818c-1907b2a82908/receipt.json",
+      "sha256": "9299d273eef25fa9a199dfeba9c400693b468cf126e2332ec4fd49da39d783c2",
+      "sourceSha256": "90aa6f92dc18d9c5c103bc4f8769a6c92f1af3bc40bc6fd3acaf10cbe4210a89",
+      "sourceFileCount": 560,
+      "finalSourceVerification": "MATCH",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      }
+    },
+    "fullVerify": {
+      "status": "PASS",
+      "receipt": "reports/spec-layout-validation-2026-10-30T02-32-19-920Z-49380/summary.json",
+      "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+      "node": "v22.23.4",
+      "nodeTests": 125,
+      "schemaDocuments": 360,
+      "conformanceCases": 203,
+      "baselineReceiptsRestored": true
+    },
+    "preview": {
+      "status": "PASS_REFERENCE",
+      "receipt": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/summary.json",
+      "sha256": "573ec3c9975d7827a7ec403b88d4ffa84f24964fe6b134ae268fcaf22da89433",
+      "browserRendering": "PASS_REFERENCE",
+      "cases": [
+        {
+          "backend": "three",
+          "viewport": "desktop",
+          "status": "PASS_REFERENCE",
+          "listenerClosed": true
+        },
+        {
+          "backend": "three",
+          "viewport": "mobile",
+          "status": "PASS_REFERENCE",
+          "listenerClosed": true
+        },
+        {
+          "backend": "air",
+          "viewport": "desktop",
+          "status": "PASS_REFERENCE",
+          "listenerClosed": true
+        },
+        {
+          "backend": "air",
+          "viewport": "mobile",
+          "status": "PASS_REFERENCE",
+          "listenerClosed": true
+        }
+      ],
+      "parity": true,
+      "sourceFingerprintsUnchanged": true,
+      "aiScreenshotReview": "reports/generator-browser-6c6c4c2a-8d76-4c72-9f26-303f48ac86a6/ai-screenshot-review.json",
+      "humanReview": "NOT_RUN",
+      "physicalDevice": "NOT_RUN",
+      "G3": "NOT_RUN",
+      "modelCalls": 0
+    },
+    "realModelCalls": 0,
+    "installedCommand": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-command-smoke-0b01910f-7f9c-42b7-834b-e2ca26705c18/receipt.json",
+      "sha256": "579d8ae706170d9655ff016ed14a645333c15f4a42807efa10f36b034c94c38d",
+      "installation": "Source-linked local prefix; source workspace must remain available, portable packaging is GEN-6.",
+      "dependencyLockUnchanged": true,
+      "modelCalls": 0
+    }
+  },
+  "gen2": {
+    "acceptance": "reports/gen2-terra-acceptance-addc99af/summary.json",
+    "sourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-28616e8c-d4f8-4e96-9536-b1b3a7c8d75d/receipt.json",
+      "sha256": "8a15c7553f1387904527bec24492136d022875e6793a0a5d5cfb5409d0d8f543",
+      "sourceSha256": "dca1e2bd1c94754a9dc0019eda037c33e27afe17bc80c15662cc768feb506209",
+      "sourceFileCount": 562,
+      "finalSourceVerification": "MATCH",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      }
+    },
+    "fullVerify": {
+      "status": "PASS",
+      "receipt": "reports/spec-layout-validation-2026-10-30T06-50-50-515Z-18916/summary.json",
+      "sha256": "17149e3bb5a9bcd48befe83d22b50966f32efaefb0b4531eb07692bf988a98ee",
+      "log": "reports/spec-layout-validation-2026-10-30T06-50-50-515Z-18916/verify.log",
+      "logSha256": "cd71b1b2b572843b38ffd234f0abd974f43683afe4ad5f9b639f2bf74dffeea9",
+      "node": "v22.23.4",
+      "nodeTests": 127,
+      "schemaDocuments": 360,
+      "conformanceCases": 203,
+      "baselineReceiptsRestored": true
+    },
+    "generationCalls": 3,
+    "requestedModel": "gpt-6.1-terra",
+    "reasoningEffort": "medium"
+  },
+  "narrowVisual": {
+    "status": "PASS_REFERENCE",
+    "noticeStatus": "RESOLVED_FOR_HOST_DERIVATIVE",
+    "provenance": "HOST_PRESENTATION_DERIVATIVE",
+    "receipt": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/acceptance.json",
+    "sha256": "1236c614511c46f62c2a0e3ef7a0f794ca87890ce5ab686ef18ba6f621a39690",
+    "game": "output/gen2-terra-narrow-v1-20261030/game.json",
+    "screenshot": "reports/gen2-narrow-785f7c89-6acb-4236-9c22-ef501630200d/air-mobile-lost.png",
+    "additionalModelCalls": 0,
+    "originalModelVisualScoreUnchanged": true,
+    "humanReview": "NOT_RUN",
+    "sourceSmoke": {
+      "status": "PASS_LOCAL",
+      "receipt": "output/generator-source-smoke-937df3ce-1539-469f-8fa1-9080f7628570/receipt.json",
+      "sha256": "696f585996cc8b0f6010c766db8af4e67e2be6e150073aa12c2d001c2c1c0468",
+      "sourceSha256": "1d999d96fd71b068931956f28d49cb56d425b2b473c20aa09742740f7e7047ea",
+      "sourceFileCount": 564,
+      "finalSourceVerification": "MATCH",
+      "assertions": {
+        "notCopied:reports": true,
+        "notCopied:player/vendor": true,
+        "notCopied:node_modules": true,
+        "notCopied:dist": true,
+        "noHistoricalReports": true,
+        "noRendererSdk": true
+      }
+    },
+    "fullVerify": {
+      "status": "PASS",
+      "receipt": "reports/spec-layout-validation-2026-10-30T07-40-49-723Z-22912/summary.json",
+      "log": "reports/spec-layout-validation-2026-10-30T07-40-49-723Z-22912/verify.log",
+      "logSha256": "788d058e31030bdd693992297aa9c98e9f63c40efa80d33768a6bbea0e1f4792",
+      "node": "v22.23.4",
+      "nodeTests": 127,
+      "schemaDocuments": 360,
+      "conformanceCases": 203,
+      "baselineReceiptsRestored": true
+    }
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "name": "@a2game/mcp-integration",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Isolated local MCP transport dependencies; shared A2Game core stays in the parent workspace",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "4.6.7"
+  }
+}

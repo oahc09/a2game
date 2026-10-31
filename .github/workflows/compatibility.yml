@@ -44,6 +44,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
+      - name: Install isolated MCP test dependencies
+        run: npm ci --prefix integrations/mcp --ignore-scripts --no-audit --no-fund
       - run: python -m pip install -r requirements-dev.txt
       - name: Restore SHA-pinned reference evidence
         run: npm run evidence:restore

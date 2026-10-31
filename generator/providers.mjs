@@ -1,6 +1,6 @@
 /** Local readiness checks only; no provider calls or credential reads. */
 import {readFileSync,statSync} from 'node:fs';
-const ids=new Set(['fixture','codex','model-http','http']);
+const ids=new Set(['fixture','codex','claude','model-http','http']);
 const fault=code=>Object.assign(Error('生成器本机配置不可用。'),{code});
 export function loadProviderConfig(id,configFile){
  if(!ids.has(id))throw fault('A2G_GEN_PROVIDER');
@@ -17,20 +17,28 @@ export async function probeProvider({id,configFile}={}){
  try{
   const config=loadProviderConfig(id,configFile);
   if(id==='fixture'){
-   if(config.fixtureMode!==undefined&&!['invalid-json','invalid-game','stall','valid'].includes(config.fixtureMode))throw fault('A2G_GEN_CONFIG');
+   if(config.fixtureMode!==undefined&&!['invalid-json','invalid-game','repair-json','stall','valid'].includes(config.fixtureMode))throw fault('A2G_GEN_CONFIG');
   }else if(id==='codex'){
    if(typeof config.executable!=='string'||!statSync(config.executable).isFile()||!Number.isInteger(config.generationTimeoutMs)||config.generationTimeoutMs<1000||config.generationTimeoutMs>600000)throw fault('A2G_GEN_CONFIG');
    result.timeoutMs=config.generationTimeoutMs;
+  }else if(id==='claude'){
+   if(typeof config.executable!=='string'||!statSync(config.executable).isFile()||typeof config.model!=='string'||!config.model.trim()||config.model.length>200||!Number.isInteger(config.generationTimeoutMs)||config.generationTimeoutMs<1000||config.generationTimeoutMs>600000)throw fault('A2G_GEN_CONFIG');
+   result.timeoutMs=config.generationTimeoutMs;result.requestedModelId=config.model;
   }else{
    let endpoint;try{endpoint=new URL(config.endpoint);}catch{throw fault('A2G_GEN_CONFIG');}
    if(endpoint.username||endpoint.password||endpoint.hash||endpoint.search||!['https:','http:'].includes(endpoint.protocol)||endpoint.protocol==='http:'&&!['localhost','127.0.0.1','[::1]'].includes(endpoint.hostname))throw fault('A2G_GEN_CONFIG');
    const timeout=config.timeoutMs??50000,limit=config.maxResponseBytes??768*1024;
-   if(!Number.isInteger(timeout)||timeout<50||timeout>55000||!Number.isInteger(limit)||limit<256||limit>768*1024)throw fault('A2G_GEN_CONFIG');
+   if(!Number.isInteger(timeout)||timeout<50||timeout>300000||!Number.isInteger(limit)||limit<256||limit>768*1024)throw fault('A2G_GEN_CONFIG');
    result.timeoutMs=timeout;
    if(id==='model-http'){
     if(typeof config.model!=='string'||!config.model.trim()||config.model.length>200)throw fault('A2G_GEN_CONFIG');
     const tokens=config.maxCompletionTokens??16384;if(!Number.isInteger(tokens)||tokens<256||tokens>65536)throw fault('A2G_GEN_CONFIG');
     result.requestedModelId=config.model;
+    if(config.extraBody!==undefined){
+     if(!config.extraBody||typeof config.extraBody!=='object'||Array.isArray(config.extraBody))throw fault('A2G_GEN_CONFIG');
+     if(Buffer.byteLength(JSON.stringify(config.extraBody))>4096)throw fault('A2G_GEN_CONFIG');
+     for(const key of Object.keys(config.extraBody))if(!/^[a-z_][a-z0-9_]{0,63}$/i.test(key))throw fault('A2G_GEN_CONFIG');
+    }
    }
   }
   result.status='READY';

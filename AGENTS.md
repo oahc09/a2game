@@ -1,5 +1,7 @@
 # A2Game 实施约束（本工作区）
 
+2026-10-30 Generator 主线：`generator/` 提供 API/CLI、公开能力检索、内部 `game-plan.schema.json`、有界修复、Loopback Studio 与受控内容包；`scripts/generator-benchmark.mjs` 准备5任务×2模式的公开上下文。以 `project/generator-status.json` 为独立台账，旧 `project/status.json` 和正式验收分母不变。默认规划是宿主关键词草案，fixture 固定计数，不证明自然语言语义；真实模型矩阵已执行10/10，30次预算用尽，9/10工程/来源输入通过；H01规划模式及质量未过，不能再追加调用或升级正式验收。MCP依赖独立位于integrations/mcp/，根Runtime锁不变；Skill只打包不自动安装，E3真实Agent宿主待验。Studio 的 Provider/配置/总调用上限由启动命令固定，网页不能传路径或命令；默认真实预算0。GEN-2 Terra预算3次已用尽，不能复用于新矩阵或自动切模型。内容包导入需完整重验，SHA不认证作者/模型，不安装未审核资源；接收方需兼容可信宿主、SDK和审核资源。未经授权不提交/推送。
+
 按以下顺序阅读并执行：`README.md` → `PROJECT-PLAN.md` → `PROJECT-STATUS.md` → `project/status.json` → 对应 `specs/v0.1/docs/*.md` → 源码与测试。若存在宿主或用户更高优先级指令，优先遵守；不得以此文件绕过权限要求。
 
 1. **版本**：工作区发行 `1.0.0`；实际 npm 版本 `1.0.0`；GameSpec/Capability Protocol `0.1.0`。协议现位于 `specs/v0.1/`；保留历史协议内容和旧 `v03-*` 证据，禁止混淆发行版本与协议版本。
@@ -32,6 +34,7 @@ Node.js 22+、Python 3.10+；PowerShell 下执行：
 
 ```powershell
 npm ci
+npm run mcp:install
 python -m pip install -r requirements-dev.txt
 npm run verify
 npm run player:serve

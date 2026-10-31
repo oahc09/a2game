@@ -8,7 +8,10 @@ export async function generateWithModel(config,request,{fetchImpl=fetch}={}){
  if(typeof config.model!=='string'||!config.model.trim()||config.model.length>200)throw fail('A2G_E_PROVIDER_CONFIG','请填写实际模型名称。');
  const limit=config.maxCompletionTokens??16384;
  if(!Number.isInteger(limit)||limit<256||limit>65536)throw fail('A2G_E_PROVIDER_CONFIG','无效的模型输出 Token 预算。');
- const body={model:config.model,stream:false,max_completion_tokens:limit,response_format:{type:'json_object'},messages:[
+ // Vendor dialects need bounded extra fields (GLM thinking, Qwen enable_thinking). Extra fields may not
+ // override the four contract keys; identity, non-streaming, JSON mode and messages stay authoritative.
+ const extraBody=config.extraBody&&typeof config.extraBody==='object'&&!Array.isArray(config.extraBody)?config.extraBody:{};
+ const body={...extraBody,model:config.model,stream:false,max_completion_tokens:limit,response_format:{type:'json_object'},messages:[
   {role:'system',content:'You generate engine-independent A2Game JSON. Return one JSON object matching outputContract, with game, conformance, provenance and a winning solution. No Markdown, scripts, tools or commands. Use only the supplied versioned capability contracts. provenance must truthfully identify this model; never claim acceptance. Include a meaningful positive and negative playthrough. All GameSpec fields and Conformance cases must satisfy the supplied schemas.'},
   {role:'user',content:JSON.stringify(request)}]};
  const raw=await requestGeneration(config,body,{fetchImpl});let response;
@@ -18,7 +21,7 @@ export async function generateWithModel(config,request,{fetchImpl=fetch}={}){
  if(choice?.finish_reason!=='stop'||choice.message?.tool_calls?.length||typeof choice.message?.content!=='string'||!choice.message.content.trim())throw fail('A2G_E_PROVIDER_INCOMPLETE','模型未完整返回 JSON；请检查输出预算或接口格式。');
  // Preserve original content, including duplicate keys, for parse-agent-output.py.
  const usage={};for(const key of ['prompt_tokens','completion_tokens','total_tokens']){const value=response.usage?.[key];if(Number.isSafeInteger(value)&&value>=0)usage[key]=value;}
- return {text:choice.message.content,telemetry:{format:'a2game-model-call',version:1,requestedModel:config.model,returnedModel:typeof response.model==='string'?response.model.slice(0,200):null,requestId:typeof response.id==='string'?response.id.slice(0,200):null,settings:{stream:false,maxCompletionTokens:limit,responseFormat:'json_object',timeoutMs:config.timeoutMs??50000},usage:Object.keys(usage).length?usage:null,cost:'NOT_REPORTED',finishReason:choice.finish_reason}};
+ return {text:choice.message.content,telemetry:{format:'a2game-model-call',version:1,requestedModel:config.model,returnedModel:typeof response.model==='string'?response.model.slice(0,200):null,requestId:typeof response.id==='string'?response.id.slice(0,200):null,settings:{stream:false,maxCompletionTokens:limit,responseFormat:'json_object',timeoutMs:config.timeoutMs??50000,extraBodyKeys:Object.keys(extraBody).sort()},usage:Object.keys(usage).length?usage:null,cost:'NOT_REPORTED',finishReason:choice.finish_reason}};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href){
  try{const config=JSON.parse(readFileSync(process.argv[2],'utf8')),chunks=[];let bytes=0;for await(const chunk of process.stdin){bytes+=chunk.length;if(bytes>2*1024*1024)throw fail('A2G_E_PROVIDER_SIZE','生成请求超过 2 MiB。');chunks.push(chunk);}

@@ -1,5 +1,15 @@
 Original prompt: 1.了解当前项目情况，创建AGENTS.md方便AI快速理解 2.整理工程然后提交git 3.提交完毕开始推进下一阶段主线：使用真实 CocosAirJS 和 Three.js SDK，在浏览器执行相同 JSON，验证输入、状态哈希、画面及资源生命周期。
 
+- 2026-10-31：协议迁移测试仅逆转两份 H01 已知表现变更，再核对原摘要；完整回归 157 Node、360 Schema、203 Conformance 通过，148 份双 SDK 参考 CoverageResult 已刷新。默认 Python 缺少 `jsonschema` 的失败回执保留，项目 `.venv` 复测通过。H01 动态实体字号仍待优化，模型重测无剩余额度；正式 G3、人工、真机及远端 CI 未升级。
+
+- 2026-10-31：H01 画布大字修正与基础/变体双 SDK 局部验证通过；新旧正反例状态 Hash 一致，193 个无界面场景通过。当前重新收集受整目录指纹影响的双 SDK 回执；动态实体数值仍过小，质量不得标记完整通过。
+
+- 2026-10-31 顺序推进结果：Batch A/B/C保留工程参考交付；Batch D的5任务×2模式已真实执行10/10，30/30调用含1次宿主中止，29份完整回复，最终9/10通过完整准入、双SDK回放与36路来源输入。H01规划模式仍失败；直接模式原始输出经宿主组合误判修正后原样复验通过，G17规划模式已修复方向键与窄屏字号，实际画面仍有对比度不足；严格产品/人工验收不计通过。MCP新增9个受限stdio工具，官方SDK与独立Python客户端、CLI同JSON/Hash、真实双SDK输入/重开/释放通过；Skill已打包，真实Agent宿主安装/执行及MCP真实Provider待验。完整回归143 Node、360 Schema、203 Conformance及新源码MCP/两模式/包复验通过。MCP依赖独立锁定，根Runtime锁原字节恢复；旧证据不改写。正式G3 0/37、Verified 0/32+0/5、真机/人工/远端CI不升级，未提交/推送。见[实际结果](docs/generator-real-findings.md)、[MCP/Skill说明](docs/generator-mcp.md)、[台账](project/generator-status.json)。
+
+- 2026-10-30 按顺序完成 Batch B/C 工程参考：能力检索、内部GamePlan、两模式有界修复；Loopback Studio的生成/取消/双SDK/状态/导出导入；单文件受控内容包在独立源码宿主原样复验。最终137 Node、360 Schema、203 Conformance通过；Studio桌面/390px双SDK4/4、独立宿主2/2、最终干净源码两模式/包/矩阵准备与新浏览器worker桥接通过。一次smoke汇总漏返回stdout导致的失败已保留并修复。内容包仍需兼容宿主/SDK/审核资源，不嵌入Runtime或资源二进制。Batch D已冻结5任务×2模式和入口，真实矩阵0/10，因新预算0为BLOCKED；GEN-8最终交接未完成。新增真实调用0，正式G3/人工/真机/远端CI不升级，未提交/推送。见 [Studio说明](docs/generator-studio.md)、[Benchmark说明](docs/generator-benchmark.md) 和 [Generator台账](project/generator-status.json)。
+
+- 2026-10-30 当前请求：“窄屏视觉仍待完善优化这条”。新增宿主表现副本与可复现 recipe，保留 Terra 原始输出；只改 presentation、说明文案与 revision，原版/新版 3 项 Conformance 和模型解法状态 Hash 完全一致。双 SDK 的 320×568 / 390×844 / 桌面 6/6 检查通过，画布主文字最小约 16.9 / 23.2 CSS px，中文 HUD 不再暴露 chances/confirmed，触屏按钮至少 44px。已查看窄屏与技能客户端截图；原样复用 develop-web-game 客户端，两 SDK 通关通过（其不支持 D 键，使用右灯按钮+A/Enter；初次不完整输入记录保留）。新增模型调用0，完整回归127 Node、360 Schema、203 Conformance与最终源码smoke已通过，旧回执恢复；当前窄屏条目已在宿主表现副本中收口。
+
 - 2026-10-28 用户要求按顺序完成：四款独立生成修复、8 款输入/逐款 AI 质量、CI 启动及证据恢复。G24/G26/G11 新回执通过，36/37 工程结果待汇总。G02 低值开局长轨迹由宿主对其自己的独立 JSON 做共享 Runtime 搜索反馈；不把作者解法交给模型，不执行模型输出脚本，不降低目标。真实设备仍暂缓，正式 G3/人工质量另验。
 
 - 2026-10-27 第三批：连续 G09 空棋盘四格拼块/重力锁定/即时顶出，G12 门柱碰撞/门后唯一计分。修复共享模块的延迟顶出，单条必要回归覆盖硬降/重力/初始重叠；首轮 G12 死亡误加分来自角色默认 value，现显式为 0，失败回执保留。当前取证中，完整质量/G3/物理任务分别待验。

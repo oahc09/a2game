@@ -10,10 +10,22 @@
         "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
       ],
       "receipts": [
+        "reports/g2-2026-10-31T10-55-23-702Z-53924/three-receipt.json",
+        "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
+        "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
+        "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json"
+      ],
+      "historicalReceipts": [
         "reports/g2-2026-10-27T11-45-55-521Z-36492/three-receipt.json",
         "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
         "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
         "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json"
+      ],
+      "previousCurrentReceipts": [
+        "reports/g2-2026-10-31T09-33-59-272Z-25720/three-receipt.json",
+        "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
+        "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
+        "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
       ]
     },
     {
@@ -25,10 +37,22 @@
         "Windows Chromium software WebGL reference evidence does not imply physical mobile GPU/Touch/IMU/Gamepad or full gameplay/G3 acceptance."
       ],
       "receipts": [
+        "reports/g2-2026-10-31T10-55-23-702Z-53924/air-receipt.json",
+        "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
+        "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
+        "reports/candidates-2026-10-31T10-48-45-588Z-12568/summary.json"
+      ],
+      "historicalReceipts": [
         "reports/g2-2026-10-27T11-45-55-521Z-36492/air-receipt.json",
         "reports/visual-stage-2026-10-27T11-56-27-563Z-32368/summary.json",
         "reports/visual-stage-2026-10-27T11-57-26-412Z-4048/summary.json",
         "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json"
+      ],
+      "previousCurrentReceipts": [
+        "reports/g2-2026-10-31T09-33-59-272Z-25720/air-receipt.json",
+        "reports/visual-stage-2026-10-31T09-44-15-192Z-53572/summary.json",
+        "reports/visual-stage-2026-10-31T09-45-22-296Z-44604/summary.json",
+        "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
       ]
     },
     {
@@ -41,7 +65,13 @@
         "Same-origin loopback only; no Internet authentication, realtime rollback, hidden-information filtering or durable room recovery claim."
       ],
       "receipts": [
+        "reports/compat-2026-10-31T11-02-58-405Z-51636/summary.json"
+      ],
+      "historicalReceipts": [
         "reports/compat-2026-10-27T11-59-00-558Z-32124/summary.json"
+      ],
+      "previousCurrentReceipts": [
+        "reports/compat-2026-10-31T10-11-11-568Z-40340/summary.json"
       ]
     }
   ]

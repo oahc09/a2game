@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 const worker=fileURLToPath(new URL('./worker.mjs',import.meta.url));
 const failure=code=>Object.assign(Error('生成器工作进程未完成；请查看本次安全回执。'),{code});
 export function runGeneratorWorker(kind,payload,{signal,timeoutMs=60000,maxBytes=768*1024}={}){
- if(!['generate','validate','admission'].includes(kind)||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>660000||!Number.isInteger(maxBytes)||maxBytes<1||maxBytes>2*1024*1024)return Promise.reject(failure('A2G_GEN_WORKER_CONFIG'));
+ if(!['generate','validate','admission','plan-check','parse-json','browser'].includes(kind)||!Number.isInteger(timeoutMs)||timeoutMs<1||timeoutMs>660000||!Number.isInteger(maxBytes)||maxBytes<1||maxBytes>2*1024*1024)return Promise.reject(failure('A2G_GEN_WORKER_CONFIG'));
  let request;try{request=JSON.stringify({kind,payload});if(Buffer.byteLength(request)>2*1024*1024)throw Error();}catch{return Promise.reject(failure('A2G_GEN_WORKER_REQUEST'));}
  if(signal?.aborted)return Promise.reject(failure('A2G_GEN_CANCELLED'));
  return new Promise((accept,reject)=>{

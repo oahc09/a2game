@@ -415,14 +415,14 @@
     "/specs/v0.1/games/h01-candidate.game.json": {
       "id": "org.a2game.games.h01",
       "title": "H01 合成炮台保卫战",
-      "revision": 3,
-      "sha256Jcs": "436781164599ecf0f9cf02e032da500adef2eb22dd3de5ff4c450d36a50543ea"
+      "revision": 4,
+      "sha256Jcs": "857db85eb241ce6a68cacdf58220076a9e7fb2bbe09aa542c12cbaf547b5c41c"
     },
     "/specs/v0.1/games/h01-reward-upgrade.game.json": {
       "id": "org.a2game.variants.h01-reward-upgrade",
       "title": "H01 合成后用首波奖励升级：未升级无法击退末波",
-      "revision": 2,
-      "sha256Jcs": "af09f1874473e34bf0a8ea35e9de2746dd94bd70186fe44eec5a08b3a41f6ed8"
+      "revision": 3,
+      "sha256Jcs": "7b2c198ba31e52e386621caeca3d0f693d5a520c1c452b4f161c78682648360f"
     },
     "/specs/v0.1/games/h02-candidate.game.json": {
       "id": "org.a2game.games.h02",

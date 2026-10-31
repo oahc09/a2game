@@ -45,13 +45,21 @@ function updateInfo(obs){
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
  if(dom.status.dataset.flowStatus!==obs.flow.status){dom.status.dataset.flowStatus=obs.flow.status;document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';}
  dom.hash.textContent=obs.exactHash;
- const boundText=definition.presentation.hud?.find(x=>x.kind==='text')?.bind?.text;
- if(boundText?.template&&Array.isArray(boundText.args)){
-   const args=boundText.args.map(x=>x.state?readPointer(obs.state,x.state):'?');
-   dom.score.textContent=boundText.template.replace(/\{(\d+)\}/g,(all,index)=>index<args.length?String(args[index]):all);
- }else if(boundText&&Object.hasOwn(boundText,'literal'))dom.score.textContent=String(boundText.literal);
- else if(boundText?.state)dom.score.textContent=String(readPointer(obs.state,boundText.state));
- else dom.score.textContent=Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
+ const hudLines=[];
+ for(const item of definition.presentation.hud??[]){
+   if(item.kind!=='text')continue;
+   const boundText=item.bind?.text;
+   if(boundText?.template&&Array.isArray(boundText.args)){
+     const args=boundText.args.map(x=>x.state?readPointer(obs.state,x.state):'?');
+     hudLines.push(boundText.template.replace(/\{(\d+)\}/g,(all,index)=>index<args.length?String(args[index]):all));
+   }else if(boundText&&Object.hasOwn(boundText,'literal'))hudLines.push(String(boundText.literal));
+   else if(boundText?.state)hudLines.push(String(readPointer(obs.state,boundText.state)));
+   else if(typeof item.bind?.state==='string'){
+     // HUD bindings are optional metadata; a bad pointer must not stop the game.
+     try{const value=readPointer(obs.state,item.bind.state);if(['string','number','boolean'].includes(typeof value)){const text=typeof value==='boolean'?(value?'是':'否'):String(value),ratio=typeof value==='number'&&typeof item.text==='string'?item.text.match(/^(.+?)\s*\/\s*(\d+)\s*$/):null;hudLines.push(ratio?`${ratio[1].trim()}：${text} / ${ratio[2]}`:item.text?`${item.text}：${text}`:text);}}catch{}
+   }else if(typeof item.text==='string'&&item.text)hudLines.push(item.text);
+ }
+ dom.score.textContent=hudLines.length?hudLines.join('\n'):Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
@@ -88,14 +96,15 @@ function animate(now){
 function bindInputs(){
  const extra=document.getElementById('extraActions'),existing=new Set([...document.querySelectorAll('[data-action]')].map(button=>button.dataset.action));
  const names={left:'向左',right:'向右',up:'向上',down:'向下',fire:'射击',charge:'蓄力',drop:'放下',rotate:'旋转',undo:'撤销',restart:'重新开始',jump:'跳跃',flap:'拍翼',kick:'弹射',skill:'使用技能',upgrade:'升级',harvest:'收获',plant:'播种',unlock:'解锁',shake:'摇动',shakeFallback:'按钮摇动',spawn:'放置',hold:'按住机关',confirm:'确认',attack:'攻击',collect:'收集'};
- const label=id=>{const match=id.match(/^(cell|place|select|merge|upgrade)(\d+)$/);return names[id]??(match?({cell:'格位',place:'建造',select:'选择',merge:'合成',upgrade:'升级'})[match[1]]+' '+Number(match[2]):id);};
+ const declaredLabel=id=>definition.presentation.hud?.find(item=>item.kind==='button'&&item.bind?.action===id&&typeof item.text==='string'&&item.text.trim())?.text;
+ const label=id=>{const match=id.match(/^(cell|place|select|merge|upgrade)(\d+)$/);return declaredLabel(id)??names[id]??(match?({cell:'格位',place:'建造',select:'选择',merge:'合成',upgrade:'升级'})[match[1]]+' '+Number(match[2]):id);};
  for(const action of definition.inputs.actions)if(action.valueType==='button'&&!existing.has(action.id)){const button=document.createElement('button');button.dataset.action=action.id;button.textContent=label(action.id);extra.appendChild(button);}
- for(const button of document.querySelectorAll('[data-action]')){const action=definition.inputs.actions.find(a=>a.id===button.dataset.action);if(!action)continue;const keys=action.bindings.filter(b=>b.source==='keyboard.button').map(b=>({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'空格',Enter:'回车'})[b.config?.code]??String(b.config?.code??'').replace(/^(Key|Digit)/,''));button.title=label(action.id)+(keys.length?' · 键盘 '+keys.join(' / '):'');}
+ for(const button of document.querySelectorAll('[data-action]')){const action=definition.inputs.actions.find(a=>a.id===button.dataset.action);if(!action)continue;const declared=declaredLabel(action.id);if(declared){if(!button.closest('.pad')||action.id==='collect')button.textContent=declared;button.setAttribute('aria-label',declared);}const keys=action.bindings.filter(b=>b.source==='keyboard.button').map(b=>({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'空格',Enter:'回车'})[b.config?.code]??String(b.config?.code??'').replace(/^(Key|Digit)/,''));button.title=label(action.id)+(keys.length?' · 键盘 '+keys.join(' / '):'');}
  document.querySelector('.play-controls').classList.toggle('compact',definition.inputs.actions.filter(a=>a.valueType==='button').length<=6);
  document.querySelector('.play-controls').hidden=!definition.inputs.actions.some(a=>a.valueType==='button');
  document.querySelector('.pad').style.display=definition.inputs.actions.some(action=>existing.has(action.id))?'':'none';
  for(const button of document.querySelectorAll('.pad [data-action]'))button.style.visibility=definition.inputs.actions.some(action=>action.id===button.dataset.action)?'':'hidden';
- if(definition.inputs.actions.some(action=>action.id==='collect'))document.querySelector('[data-action="collect"]').textContent='收集';
+ if(definition.inputs.actions.some(action=>action.id==='collect')&&!declaredLabel('collect'))document.querySelector('[data-action="collect"]').textContent='收集';
  const canvas=dom.GameCanvas;
  const rawPointer=(e,kind)=>{
    if(runtime?.status!=='playing')return;

@@ -12,7 +12,7 @@ const pointer=(kind,x,y,ticks=1)=>({raw:[raw(kind,1,...point(x,y))],ticks});
 const base=id=>structuredClone(baseCases.find(r=>r.id===id));
 function variant(id,suffix,description,change,steps,negative,options={}){
  const recipe=baseCases.find(r=>r.id===id),g=read(`specs/v0.1/games/${recipe.name}.game.json`),name=id.toLowerCase()+'-'+suffix;
- g.id='org.a2game.variants.'+name;g.revision=['G25','G26','G27','G29','G30','G31','G32','H04'].includes(id)?2:['G02','G09','G24','H05'].includes(id)?3:['G16','G18','G19','G20','G22'].includes(id)?2:id==='G12'?2:['G23','H02','G06','G13','H03','G11','G15','G28'].includes(id)?2:['G01','G02','G05','G08','G09','G21','G24','H01','H05'].includes(id)?2:1;g.meta.title=id+' '+description;g.meta.description=description;change(g);g.tests=[`../tests/${name}.conformance.json`];
+ g.id='org.a2game.variants.'+name;g.revision=id==='H01'?3:['G25','G26','G27','G29','G30','G31','G32','H04'].includes(id)?2:['G02','G09','G24','H05'].includes(id)?3:['G16','G18','G19','G20','G22'].includes(id)?2:id==='G12'?2:['G23','H02','G06','G13','H03','G11','G15','G28'].includes(id)?2:['G01','G02','G05','G08','G09','G21','G24','H01','H05'].includes(id)?2:1;g.meta.title=id+' '+description;g.meta.description=description;change(g);g.tests=[`../tests/${name}.conformance.json`];
  const stage=g.presentation.scene2d;for(const node of stage.nodes){if(node.id==='title')node.text={literal:g.meta.title};if(node.id==='hint')node.text={literal:description};}
  if(id!=='H05')polishGameplayPresentation(g,id,recipe.title,true);
  save(`specs/v0.1/games/${name}.game.json`,g);
