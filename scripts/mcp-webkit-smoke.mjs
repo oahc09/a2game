@@ -57,7 +57,7 @@ try{
  for(const backend of ['air','three']){
   const preview=(await call('a2game.preview_game',{action:'open',artifactId:artifact.artifactId,backend})).data,context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(String(e)));
   await page.goto(preview.url+'&clock=manual');report.browser.userAgent=await page.evaluate(()=>navigator.userAgent);await page.waitForFunction(()=>window.__a2game?.getState().flow.status==='playing');assert.equal(await page.evaluate(()=>window.__a2game.backend),backend);
-  const first=await page.evaluate(()=>window.__a2game.getState().exactHash);await page.screenshot({path:join(directory,backend+'-initial.png'),fullPage:true});
+  const first=await page.evaluate(()=>window.__a2game.getState().exactHash);const textReadability=await page.evaluate(()=>{const before=window.__a2game.getState().exactHash,diagnostics=window.__a2game.getTextReadability(),rect=document.querySelector('#GameCanvas').getBoundingClientRect();return{before,after:window.__a2game.getState().exactHash,diagnostics,actualCanvasRect:Object.fromEntries(['left','top','width','height'].map(k=>[k,rect[k]]))};});assert.equal(textReadability.diagnostics.status,'DIAGNOSTIC_ONLY');assert.equal(textReadability.diagnostics.referenceCssPx,16);assert.deepEqual(textReadability.diagnostics.measuredCanvasRect,textReadability.actualCanvasRect);assert.equal(textReadability.before,first);assert.equal(textReadability.after,first);await page.screenshot({path:join(directory,backend+'-initial.png'),fullPage:true});
   let keyboardActions=0,buttonActions=0;
   for(const [i,row]of output.solution.entries()){
    if(row.action&&row.value!==false){const action=output.game.inputs.actions.find(a=>a.id===row.action),key=action.bindings.find(b=>b.source==='keyboard.button')?.config?.code;
@@ -69,7 +69,7 @@ try{
   await page.screenshot({path:join(directory,backend+'-won.png'),fullPage:true});
   await page.locator('#restart').click();assert.equal(await page.evaluate(()=>window.__a2game.getState().exactHash),first);
   await page.evaluate(()=>window.__a2game.dispose());const stats=await page.evaluate(()=>window.__a2game.diagnostics());assert.equal(stats.resources.ownedResources,0);assert.equal(stats.listenersActive,false);assert.equal(stats.adapter.disposed,true);assert.equal(errors.length,0);await context.close();
-  await call('a2game.preview_game',{action:'close',previewId:preview.previewId});await assert.rejects(fetch(preview.url));report.cases.push({backend,status:'PASS_REFERENCE',sourceInput:{keyboardActions,buttonActions},finalHash:expected.final.exactHash,resourcesReleased:true,listenerClosed:true});
+  await call('a2game.preview_game',{action:'close',previewId:preview.previewId});await assert.rejects(fetch(preview.url));report.cases.push({backend,status:'PASS_REFERENCE',textReadability,sourceInput:{keyboardActions,buttonActions},finalHash:expected.final.exactHash,resourcesReleased:true,listenerClosed:true});
  }
  report.clients.push({name:'Official TypeScript SDK Client',version:JSON.parse(readFileSync(join(root,'integrations/mcp/node_modules/@modelcontextprotocol/sdk/package.json'),'utf8')).version,status:'PASS_REFERENCE'});
  const fixtureClient=new Client({name:'a2game-explicit-fixture-transport-smoke',version:'1.0.0'}),fixtureTransport=new StdioClientTransport({command:process.execPath,args:[join(root,'scripts/mcp-server.mjs'),'--provider','fixture','--max-calls','1'],cwd:root,env,stderr:'pipe'});

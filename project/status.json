@@ -1359,6 +1359,7 @@
     "currentEvidenceRule": "Current content fingerprint required; prior reports are historical and must not be used for changed source",
     "formalG3": "NOT_RUN",
     "hostModelCalls": 0,
-    "remoteCI": "NOT_RUN"
+    "remoteCI": "NOT_RUN",
+    "additionalHardening": "Explicit component-bound illegal-action/undo check and live viewport nominal-text diagnostics; unsupported/missing declarations are not passes; readability warnings are not visual acceptance"
   }
 }

@@ -31,3 +31,8 @@ node generator/cli.mjs export-package output/my-game --output output/my-game.pac
 `output/my-game/` 含 `game.json`、`conformance.json`、`solution.json`，可附 `game-plan.json`。命令没有授权模型调用，不能自行增加 generate。预览命令持续占用终端，结束时正常中断以关闭监听。只有校验不需要自行补充第三方模型。
 
 若要创建独立练习，可要求“设计一个有清晰目标和至少一个未完成反例的单屏小游戏”，自行查询能力并写新 JSON；不使用冻结 Benchmark/G3 的作者标准答案。明确标注练习的作者和实际生成来源。
+
+
+独立 mechanics gate（仅显式选择上述工程 Profile）：作者另写 `mechanics.json`，控制端使用 `check-illegal-undo.mjs`，不是第十个 MCP Tool。声明严格字段为 `format/version/profile/sceneId/entityId/componentIndex/coreStatePaths/legalPrefix/illegalAction/illegalKind/undoAction`；format=`a2game-illegal-undo-check`，version=1，profile=`grid-push-illegal-undo-v1`。`legalPrefix` 是 1–128 个真实方向 action ID，每项按 press→release→1 Tick；`illegalKind` 为 blocked-push 或 blocked-move，控制端要求 blocked-push 时前者才合格。coreStatePaths 必须完整等于所选组件配置的四条 playerPath/boxesPath/movesPath/solvedPath，history 与 undo 从真实组件绑定，不猜字段名字。
+
+报告中的 `trace` 为实际执行的 `{action,ticks:1,phase,expectedHash,flowStatus}`，包括 legal-prefix/illegal/undo；失败也保留已执行前缀，不丢弃。将它用作控制端衍生的双 SDK 验证轨迹，明确记录不是模型自报结果。`implementationSha256` 与 `implementationSha256After` 必须相等；旧源码结果或不同 JSON 不能沿用。
