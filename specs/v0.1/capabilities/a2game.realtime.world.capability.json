@@ -553,15 +553,25 @@
                   "pickup"
                 ]
               },
+              "hx": {
+                "type": "integer",
+                "minimum": 16,
+                "maximum": 2000
+              },
+              "hy": {
+                "type": "integer",
+                "minimum": 16,
+                "maximum": 2000
+              },
               "x": {
                 "type": "integer",
-                "minimum": 0,
-                "maximum": 32000
+                "minimum": 16,
+                "maximum": 31984
               },
               "y": {
                 "type": "integer",
-                "minimum": 0,
-                "maximum": 32000
+                "minimum": 16,
+                "maximum": 31984
               },
               "vx": {
                 "type": "integer",
@@ -572,16 +582,6 @@
                 "type": "integer",
                 "minimum": -128,
                 "maximum": 128
-              },
-              "hx": {
-                "type": "integer",
-                "minimum": 16,
-                "maximum": 2000
-              },
-              "hy": {
-                "type": "integer",
-                "minimum": 16,
-                "maximum": 2000
               },
               "hp": {
                 "type": "integer",
@@ -612,7 +612,7 @@
                 "maximum": 1000000
               },
               "owner": {
-                "type": "string"
+                "description": "Optional generated projectile owner ID; retained for source attribution."
               },
               "hits": {
                 "type": "array",
@@ -636,7 +636,7 @@
               "value",
               "fixed"
             ],
-            "additionalProperties": false
+            "additionalProperties": true
           },
           "maxItems": 128
         },
@@ -675,7 +675,7 @@
           "items": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 64
+            "maximum": 63
           },
           "maxItems": 64
         },
@@ -683,14 +683,18 @@
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "maxItems": 128
+          }
         },
         "won": {
           "type": "boolean"
         },
         "lost": {
           "type": "boolean"
+        },
+        "overflowTicks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000
         }
       },
       "required": [
@@ -705,7 +709,8 @@
         "won",
         "lost"
       ],
-      "additionalProperties": false
+      "additionalProperties": true,
+      "description": "Integer world at config.statePath. All bookkeeping except overflowTicks is required; no defaults are injected. Unique body IDs, config maxObjects and dynamic half-size/world bounds are enforced semantically."
     },
     "commands": [],
     "events": [
@@ -813,5 +818,28 @@
   },
   "testSuites": [
     "REALTIME-WORLD-001"
-  ]
+  ],
+  "extensions": {
+    "publicSemantics": {
+      "scope": "PUBLIC_MECHANISM_CONTRACT_NOT_LEVEL_OR_SOLUTION",
+      "initialization": {
+        "bodies": "<author-defined array of body records>",
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      },
+      "state": "No x/y player shortcuts: bodies holds body records; each requires id,kind,x,y,vx,vy,hx,hy,hp,team,value,fixed. Initialize all world bookkeeping explicitly. overflowTicks is optional. Body IDs unique; bounds x in [hx,width-hx], y in [hy,height-hy]. velocities are integer units per Tick; unitsPerMeter=1000.",
+      "constraints": "config.constraints refers to body IDs in the complete world, not to a wave singleton. min<=max and max bounds fit width/height. Constraints are not replaced by wave-local IDs; future wave body bounds are checked separately. Constraints do not name another state field or a capability.",
+      "waves": "Optional waves is at most64 {tick,body} entries, tick integer0..1000000. Due unspawned indices are processed in array order when tickIndex>=tick; successful spawn records the index in spawned. Pool-full rejects that spawn without overwriting live objects; duplicate live IDs reject. No automatic 3-wave guarantee or authored route is provided.",
+      "input": "heldMovement=true consumes press/hold for continuous directions; keyboard bindings must enable hold. A solution action row press+release is not a held movement duration. Release/cancel clears matching direction; field-bound fire/lane requests must use independent controller state paths.",
+      "presentation": "bodyLayer.statePath addresses the body array /<worldField>/bodies, read from global state (not Runtime /state prefix). Origin plus body coordinate/1000 projects centers; kind palettes include actor,solid,target,projectile,pickup. circleKinds/valuePalette/showValues additionally require a2game.visual.body-style; bodyLayer also requires a registered trusted producer.",
+      "acceptance": "Published state and mechanism contracts are not generated game answers, independent gameplay checks, a real-device claim or a model identity attestation."
+    }
+  }
 }

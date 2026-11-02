@@ -195,7 +195,8 @@
               "index": {
                 "type": "integer",
                 "minimum": 0,
-                "maximum": 15
+                "maximum": 15,
+                "description": "Every command kind requires index < config.cells.length, not merely <=15. Invalid values fail admission."
               }
             },
             "required": [
@@ -227,7 +228,250 @@
       "additionalProperties": false
     },
     "stateSchema": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "wallet": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "score": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "nextId": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000000000
+        },
+        "lives": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "selected": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 15
+        },
+        "waveCursor": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "towers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "cell": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 15,
+                "description": "Must be less than config.cells.length; one tower per cell."
+              },
+              "level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              },
+              "weaponId": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              }
+            },
+            "required": [
+              "id",
+              "cell",
+              "level",
+              "weaponId"
+            ]
+          },
+          "maxItems": 16
+        },
+        "weapons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "owner": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "nextFire": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000600
+              }
+            },
+            "required": [
+              "id",
+              "owner",
+              "nextFire"
+            ]
+          },
+          "maxItems": 16
+        },
+        "enemies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "x": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 31900
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 31900
+              },
+              "hp": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "cursor": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 64
+              },
+              "reward": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              }
+            },
+            "required": [
+              "id",
+              "x",
+              "y",
+              "hp",
+              "cursor",
+              "reward"
+            ]
+          },
+          "maxItems": 32
+        },
+        "bodies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "kind": {
+                "enum": [
+                  "actor",
+                  "target"
+                ]
+              },
+              "x": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 31900
+              },
+              "y": {
+                "type": "integer",
+                "minimum": 100,
+                "maximum": 31900
+              },
+              "hx": {
+                "const": 150
+              },
+              "hy": {
+                "const": 150
+              },
+              "value": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              }
+            },
+            "required": [
+              "id",
+              "kind",
+              "x",
+              "y",
+              "hx",
+              "hy",
+              "value"
+            ]
+          },
+          "maxItems": 48
+        },
+        "shots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "owner": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "weapon": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "target": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "tick": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              }
+            },
+            "required": [
+              "owner",
+              "weapon",
+              "target",
+              "tick"
+            ]
+          },
+          "maxItems": 16
+        },
+        "won": {
+          "type": "boolean"
+        },
+        "lost": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "wallet",
+        "score",
+        "nextId",
+        "lives",
+        "selected",
+        "waveCursor",
+        "towers",
+        "weapons",
+        "enemies",
+        "bodies",
+        "shots",
+        "won",
+        "lost"
+      ],
+      "additionalProperties": true,
+      "description": "All listed fields must be initialized explicitly; no automatic state initialization. Bounds depending on config and ownership relations are checked semantically. Additional state fields are preserved."
     },
     "commands": [],
     "events": [
@@ -306,5 +550,35 @@
     "DEFENSE-OWNERSHIP-001",
     "COVERAGE-G21-POSITIVE",
     "COVERAGE-H01-POSITIVE"
-  ]
+  ],
+  "extensions": {
+    "publicSemantics": {
+      "scope": "PUBLIC_MECHANISM_CONTRACT_NOT_LEVEL_OR_SOLUTION",
+      "initialization": {
+        "template": {
+          "wallet": "<author-chosen integer 0..1000000000>",
+          "score": 0,
+          "lives": "<author-chosen integer 0..1000>",
+          "nextId": 0,
+          "selected": -1,
+          "waveCursor": 0,
+          "towers": [],
+          "weapons": [],
+          "enemies": [],
+          "bodies": [],
+          "shots": [],
+          "won": false,
+          "lost": false
+        },
+        "note": "Template placeholders are explanatory, not executable GameSpec. Existing helper defaults wallet=4/lives=3 are not injected into JSON; provide values explicitly."
+      },
+      "crossFieldInvariants": "Tower cells/action.index must be < cells.length (all action kinds, including merge/select); unique tower cells and IDs; one unique weapon per tower, matching tower.weaponId and weapon.owner. Enemies use unique live IDs, hp>0, cursor 1..path.length; waveCursor<=waves.length. Points fit [100,width-100] and [100,height-100]. waves sorted by tick, each tick<=maxTicks. All configured actions reference declared button actions.",
+      "tickOrder": "Press commands in input order -> due waves spawn -> path movement/escapes -> weapons -> rewards/dead removal -> won/lost and body projection. shots is cleared each tick. Same-tick combat rewards cannot fund earlier commands.",
+      "placeUpgrade": "place requires empty indexed cell and wallet>=cost; creates level1 tower/owned weapon and deducts cost. upgrade requires existing tower, level<8, wallet>=cost*currentLevel; deducts that amount and increments level without replacing weapon or resetting cooldown. Invalid commands emit defense.invalid; the realtime tick may still advance enemies/combat, so whole-state equality is not an invalid-purchase invariant.",
+      "merge": "select sets the occupied source cell. merge at distinct target requires equal levels below8; removes both towers and owned weapons, creates a new tower/weapon at target with level+1 and new IDs, resets selected=-1. New nextFire=max(currentTick,both retired cooldowns). Merge has no wallet cost. Retired weapons cannot fire after replacement.",
+      "combat": "Enemies move x then y with speed Manhattan-unit budget toward next waypoint; reaching path end removes enemy and deducts one life (clamped at0). Towers process lexical ID order; targets are living in Manhattan range, nearest first then lexical enemy ID. Damage=damage*2^(level-1); successful fire sets nextFire=currentTick+cooldownTicks. Kill rewards wallet once and increments score once; hp0 enemies excluded from later targeting and removed.",
+      "outcome": "lost=(lives===0 || tickIndex>=maxTicks). won=(!lost && waveCursor===waves.length && enemies.length===0). These flags need explicit GameSpec outcomes to set Runtime flow. Winning with a merged tower is not proof that merging was necessary.",
+      "presentation": "bodies is runtime-owned read-only projection: towers kind actor/value 2^level; enemies kind target/value hp, hx=hy=150. bodyLayer.statePath is /<stateField>/bodies, not the object statePath or /state/<stateField>/bodies. Body styles are conditional presentation capabilities; see host-profile scene2d.bodyLayer."
+    }
+  }
 }

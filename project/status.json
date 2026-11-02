@@ -1363,6 +1363,7 @@
     "hostModelCalls": 0,
     "remoteCI": "NOT_RUN",
     "transportLifecycleHardening": "Supported tools/call envelopes use canonical strict admission even on rejected arguments/unknown tools; shutdown awaits active-call receipts. Invalid protocol envelopes and unsupported task augmentation are protocol errors, not generated candidates. No real-host gate promotion.",
-    "additionalHardening": "Explicit component-bound illegal-action/undo check and live viewport nominal-text diagnostics; unsupported/missing declarations are not passes; readability warnings are not visual acceptance"
+    "additionalHardening": "Explicit component-bound illegal-action/undo check and live viewport nominal-text diagnostics; unsupported/missing declarations are not passes; readability warnings are not visual acceptance",
+    "mechanismContractHardening": "Public swap/realtime/defense state and conditional-presentation contracts; bounded static semantic diagnostics; wave-body validation separated from complete-world constraint integrity. Current-source verification required; old simulated batches remain bound to their original fingerprint and outcomes."
   }
 }

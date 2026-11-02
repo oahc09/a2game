@@ -41,12 +41,21 @@ const coverageHints={
  'conformance.win-assertion':'Include an explicit assert at observation path /flow/status with equals won after a real winning playthrough. /status is not the Runtime observation path.',
  'conformance.negative-assertion':'Include an explicit assert at observation path /flow/status with equals playing or lost in a meaningful negative case. Game state observations use /state/<field>.'
 };
+// Mechanism guidance is selected by exact trusted rule ID, never exception text.
+const mechanismHints={
+ 'puzzle.selected-array':'Use a selected array of at most two nonnegative integer cell indices in the configured puzzle state; an empty selection is []. Preserve the puzzle rules.',
+ 'puzzle.board-dimensions':'Provide the configured puzzle state board as an array of nonnegative integer tiles. For grid puzzles its length must equal config.width * config.height; check the dimensions and statePath together.',
+ 'defense.required-state':'Provide the complete tower-defense initial state at config.statePath: wallet, score, lives, nextId, selected, waveCursor, towers, weapons, enemies, bodies, shots, won and lost. Match the required integer, array and boolean types; preserve ownership and bounds.',
+ 'defense.action-index':'Set each tower-defense action index to an integer from zero through cells.length - 1, referencing an existing placement cell. Do not weaken the cell bounds.',
+ 'presentation.scene2d-dependency':'Declare a2game.visual.scene2d at version 0.1.0 in requires.all when using presentation.scene2d. Keep the scene and its registered dependency consistent.',
+ 'presentation.body-style-dependency':'Declare a2game.visual.body-style at version 0.1.0 in requires.all when using bodyLayer circleKinds, valuePalette or showValues; retain the registered visual dependency.'
+};
 export function publicDiagnostics(error={},fallbackStage){
  const code=safeCode(error.code),stage=diagnosticStage(code,error.stage??fallbackStage);
  const source=Array.isArray(error.diagnostics)&&error.diagnostics.length?error.diagnostics.slice(0,20):[error.info??{}];
  return source.map(item=>{
   const row=item&&typeof item==='object'?item:{},rowCode=safeCode(row.code??code),rowStage=diagnosticStage(rowCode,row.stage??stage);
-  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:rowStage==='conformance'&&Object.hasOwn(coverageHints,row.ruleId)?coverageHints[row.ruleId]:hints[rowStage]};
+  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:Object.hasOwn(mechanismHints,row.ruleId)?mechanismHints[row.ruleId]:rowStage==='conformance'&&Object.hasOwn(coverageHints,row.ruleId)?coverageHints[row.ruleId]:hints[rowStage]};
   const pointer=row.jsonPointer??row.pointer;
   if(typeof pointer==='string'&&pointer.length<=256&&(pointer===''||pointer.startsWith('/'))&&!/[\u0000-\u001f]/.test(pointer))out.jsonPointer=pointer;
   for(const key of ['capabilityId','ruleId','caseId']){const value=identifier(row[key]);if(value!==undefined)out[key]=value;}

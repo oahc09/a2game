@@ -21,16 +21,22 @@ export const overlaps=(a:WorldBody,b:WorldBody):boolean=>Math.abs(a.x-b.x)<a.hx+
 const contactKey=(a:string,b:string)=>[a,b].sort(stableCompare).join('|');
 export const realtimeServiceIds=['velocity','acceleration','charge','jump','landing','lane-move','auto-scroll','spawner','collider','rigid-body','contact','bounce','constraint','trigger-zone','follow','object-pool'].map(x=>'a2game.realtime.'+x).concat(['health','damage','aim','weapon','cooldown','projectile','hitscan','auto-target','wave','horde','status'].map(x=>'a2game.combat.'+x));
 
+/** Validate a prospective body without applying whole-world constraints to a singleton. */
+function validateWorldBody(body:unknown,config:Readonly<JsonRecord>):WorldBody {
+    if(!isRecord(body)||typeof body.id!=='string'||!/^[a-zA-Z0-9_-]{1,48}$/.test(body.id)||!['actor','solid','target','projectile','pickup'].includes(String(body.kind)))err('Invalid or duplicate world body');
+    if(!integer(body.hx,16,2000)||!integer(body.hy,16,2000)||!integer(body.x,Number(body.hx),Number(config.width)-Number(body.hx))||!integer(body.y,Number(body.hy),Number(config.height)-Number(body.hy))||!integer(body.vx,-128,128)||!integer(body.vy,-128,128)||!integer(body.hp,0,1000000)||!integer(body.team,0,8)||!integer(body.value,0,1000000)||typeof body.fixed!=='boolean')err('Out-of-bounds integer body');
+    if(body.ttl!==undefined&&!integer(body.ttl,0,1000000)||body.invulnerableUntil!==undefined&&!integer(body.invulnerableUntil,0,1000000)||body.hits!==undefined&&(!Array.isArray(body.hits)||body.hits.length>128||body.hits.some(x=>typeof x!=='string')))err('Invalid body lifetime or hit ledger');
+    return body as unknown as WorldBody;
+}
+
 export function validateIntegerWorld(raw:unknown,config:Readonly<JsonRecord>):IntegerWorld {
     if(!isRecord(raw)||!Array.isArray(raw.bodies)||raw.bodies.length>Number(config.maxObjects??128)||!integer(raw.score,0,100000000)||!integer(raw.charge,0,120)||!integer(raw.nextId,0,1000000)||typeof raw.won!=='boolean'||typeof raw.lost!=='boolean')err('Invalid integer world state');
     if(!Array.isArray(raw.contacts)||raw.contacts.length>8128||raw.contacts.some(x=>typeof x!=='string')||!Array.isArray(raw.grounded)||raw.grounded.some(x=>typeof x!=='string')||!Array.isArray(raw.spawned)||raw.spawned.length>64||raw.spawned.some(x=>!integer(x,0,63))||!isRecord(raw.cooldowns)||Object.values(raw.cooldowns).some(x=>!integer(x,0,1000000)))err('Invalid world bookkeeping');
     const ids=new Set<string>();
     if(raw.overflowTicks!==undefined&&!integer(raw.overflowTicks,0,1000000))err('Invalid overflow duration');
     for(const body of raw.bodies){
-        if(!isRecord(body)||typeof body.id!=='string'||!/^[a-zA-Z0-9_-]{1,48}$/.test(body.id)||ids.has(body.id)||!['actor','solid','target','projectile','pickup'].includes(String(body.kind)))err('Invalid or duplicate world body');
-        ids.add(body.id as string);
-        if(!integer(body.hx,16,2000)||!integer(body.hy,16,2000)||!integer(body.x,Number(body.hx),Number(config.width)-Number(body.hx))||!integer(body.y,Number(body.hy),Number(config.height)-Number(body.hy))||!integer(body.vx,-128,128)||!integer(body.vy,-128,128)||!integer(body.hp,0,1000000)||!integer(body.team,0,8)||!integer(body.value,0,1000000)||typeof body.fixed!=='boolean')err('Out-of-bounds integer body');
-        if(body.ttl!==undefined&&!integer(body.ttl,0,1000000)||body.invulnerableUntil!==undefined&&!integer(body.invulnerableUntil,0,1000000)||body.hits!==undefined&&(!Array.isArray(body.hits)||body.hits.length>128||body.hits.some(x=>typeof x!=='string')))err('Invalid body lifetime or hit ledger');
+        if(isRecord(body)&&ids.has(String(body.id)))err('Invalid or duplicate world body');
+        const checked=validateWorldBody(body,config);ids.add(checked.id);
     }
     for(const constraint of (config.constraints??[]) as JsonRecord[]){if(!ids.has(String(constraint.body))||Number(constraint.minX)>Number(constraint.maxX)||Number(constraint.minY)>Number(constraint.maxY)||Number(constraint.maxX)>Number(config.width)||Number(constraint.maxY)>Number(config.height))err('Invalid body constraint');}
     return raw as unknown as IntegerWorld;
@@ -69,7 +75,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if(w.bodies.some(b=>b.id===body.id))err('Spawn ID already alive');w.bodies.push(body);emit('realtime.spawned',{id:body.id});return true;
     };
     for(const [index,entry] of ((c.waves??[]) as JsonRecord[]).entries())if(ctx.tickIndex>=Number(entry.tick)&&!w.spawned.includes(index)){
-        const b=clone(entry.body) as unknown as WorldBody;validateIntegerWorld({...w,bodies:[b]},c);
+        const b=clone(entry.body) as unknown as WorldBody;validateWorldBody(b,c);
         if(spawn(b))w.spawned.push(index);
     }
     let selectedLane:number|undefined;const centers=c.laneCenters as number[]|undefined;
@@ -192,6 +198,6 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
             if(!valid)err('Invalid initial bound weapon field '+key);
             if(['fireRequestPath','laneRequestPath'].includes(key)&&String(c[key]).startsWith(String(c.statePath)+'/'))err('Requests must use independent controller state');
         }
-        for(const entry of (c.waves??[]) as JsonRecord[]){if(!integer(entry.tick,0,1000000))err('Invalid wave tick');validateIntegerWorld({...w,bodies:[entry.body]},c);}
+        for(const entry of (c.waves??[]) as JsonRecord[]){if(!integer(entry.tick,0,1000000))err('Invalid wave tick');validateWorldBody(entry.body,c);}
     }
 }

@@ -1,4 +1,5 @@
 import {fail} from '../errors.js';
+import type {DiagnosticInfo} from '../errors.js';
 import {isRecord,readPointer,safeInteger,equals} from '../utils.js';
 import {gridPushImplementation} from './grid-push.js';
 import {gridSlideMergeImplementation} from './grid-slide-merge.js';
@@ -31,12 +32,15 @@ export function clearLines(board:number[],width:number,height:number,gravity=fal
   if(gravity){const kept=Array.from({length:height},(_,y)=>board.slice(y*width,(y+1)*width)).filter((_,y)=>!rows.includes(y));return {board:[...Array(rows.length*width).fill(0),...kept.flat()],lines:rows.length};}
   return {board:board.map((value,index)=>rows.includes(Math.floor(index/width))||columns.includes(index%width)?0:value),lines:rows.length+columns.length};
 }
-function normalize(raw:unknown,cfg:JsonRecord,mode:PuzzleMode):PuzzleState{
+function normalize(raw:unknown,cfg:JsonRecord,mode:PuzzleMode,diagnostic:DiagnosticInfo={}):PuzzleState{
   if(!isRecord(raw))error('Puzzle state must be an object');const p=clone(raw) as unknown as PuzzleState;
   p.board??=[];p.display??=[];p.preview??=[];p.selected??=[];p.removed??=[];p.tray??=[];p.tubes??=[];p.score??=0;p.moves??=0;p.won??=false;p.lost??=false;p.history??=[];p.closeAt??=-1;p.active??=0;p.anchor??=Math.floor(Number(cfg.width)/2);p.rotation??=0;
   const array=(v:unknown,max=256)=>Array.isArray(v)&&v.length<=max&&v.every(n=>safeInteger(n)&&n>=0&&n<=1000000);
   const cells=Number(cfg.width)*Number(cfg.height);
-  if(!array(p.board)||(mode!=='sort'&&p.board.length!==cells)||!array(p.selected,2)||!array(p.removed)||!array(p.tray,32)||!Array.isArray(p.tubes)||p.tubes.length>16||!p.tubes.every(tube=>array(tube,32))||
+  const stateError=(field:string,ruleId:string,expected:unknown):never=>fail('A2G_E_CAP_CONFIG','Invalid puzzle state',{...diagnostic,...(diagnostic.jsonPointer?{jsonPointer:diagnostic.jsonPointer+'/'+field}:{}),ruleId,expected});
+  if(!array(p.board)||(mode!=='sort'&&p.board.length!==cells))stateError('board','puzzle.board-dimensions',mode==='sort'?'array':cells);
+  if(!array(p.selected,2))stateError('selected','puzzle.selected-array','array');
+  if(!array(p.removed)||!array(p.tray,32)||!Array.isArray(p.tubes)||p.tubes.length>16||!p.tubes.every(tube=>array(tube,32))||
     !safeInteger(p.score)||p.score<0||!safeInteger(p.moves)||p.moves<0||typeof p.won!=='boolean'||typeof p.lost!=='boolean'||!Array.isArray(p.history)||p.history.length>16||!safeInteger(p.closeAt)||!safeInteger(p.active)||p.active<0||!safeInteger(p.anchor)||p.anchor<0||!safeInteger(p.rotation)||p.rotation<0||p.rotation>3)error('Invalid puzzle state');
   if(mode==='sort'&&(p.tubes.length!==Number(cfg.width)||p.tubes.some(tube=>tube.length>Number(cfg.capacity??cfg.height))))error('Invalid tube layout');
   if(p.selected.some(index=>index>=cells)||new Set(p.selected).size!==p.selected.length||p.removed.some(index=>index>=cells)||new Set(p.removed).size!==p.removed.length||p.tray.some(value=>value===0)||p.tubes.some(tube=>tube.some(value=>value===0)))error('Invalid puzzle selection or tile values');
@@ -173,7 +177,7 @@ export function validatePuzzleDefinition(def:GameDefinition,registry:CapabilityR
       const cfg=component.config;if(cfg.stalledPath!==undefined&&(typeof cfg.stalledPath!=='string'||typeof readPointer(state,String(cfg.stalledPath))!=='boolean'||[cfg.boardPath,cfg.bestPath,cfg.historyPath].includes(cfg.stalledPath)))error('Invalid independent boolean stalled path');if(Boolean(cfg.historyPath)!==Boolean(cfg.undoAction))error('Undo requires both historyPath and undoAction');
       if(cfg.historyPath){const history=readPointer(state,String(cfg.historyPath));if(!Array.isArray(history)||history.length)error('Authored initial undo history must be empty');if(!def.inputs.actions.some(action=>action.id===cfg.undoAction))error('Unknown undo input action');const paths=['boardPath','bestPath','playerPath','boxesPath','movesPath','solvedPath'].flatMap(key=>typeof cfg[key]==='string'?[String(cfg[key])]:[]);if(paths.includes(String(cfg.historyPath)))error('Undo history must have independent storage');}continue;
     }
-    const mode=modes[component.capability.id];if(!mode)continue;validateConfig(component.config,mode);const p=normalize(readPointer(state,String(component.config.statePath)),component.config,mode);if(p.history.length)error('Authored initial undo history must be empty');
+    const mode=modes[component.capability.id];if(!mode)continue;validateConfig(component.config,mode);const p=normalize(readPointer(state,String(component.config.statePath)),component.config,mode,{capabilityId:component.capability.id,jsonPointer:'/state/'+String(component.config.statePath).slice(1)+'/initial'});if(p.history.length)error('Authored initial undo history must be empty');
     const actions=[...(component.config.selectActions as string[]),...['undoAction','rotateAction','leftAction','rightAction','dropAction'].flatMap(key=>typeof component.config[key]==='string'?[String(component.config[key])]:[])];if(actions.some(name=>!def.inputs.actions.some(action=>action.id===name)))error('Puzzle config references an unknown input action');
   }
 }

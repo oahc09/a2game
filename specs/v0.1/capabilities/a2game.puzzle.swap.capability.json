@@ -57,7 +57,8 @@
             "type": "string",
             "minLength": 1
           },
-          "maxItems": 256
+          "maxItems": 256,
+          "description": "Exactly width*height distinct names referencing declared actions; row-major cell index mapping."
         },
         "undoAction": {
           "type": "string",
@@ -83,7 +84,230 @@
       "additionalProperties": false
     },
     "stateSchema": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "board": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000
+          },
+          "maxItems": 256,
+          "minItems": 1,
+          "description": "Required row-major board of exactly config.width * config.height integers; 0 means empty. No tiles/refill/rows alias exists."
+        },
+        "selected": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "maxItems": 2,
+              "uniqueItems": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation. selected is an array, never -1 or a scalar; indices must be less than width*height."
+        },
+        "removed": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000
+              },
+              "maxItems": 256,
+              "uniqueItems": true
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation. Indices must be less than width*height."
+        },
+        "tray": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000
+              },
+              "maxItems": 32
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation. Nonzero tile values only when populated."
+        },
+        "tubes": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000000
+                },
+                "maxItems": 32
+              },
+              "maxItems": 16
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "score": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "moves": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "active": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "won": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "lost": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": false,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "history": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {},
+              "maxItems": 16
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": [],
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation. Runtime-owned checkpoints are {data:<prior puzzle object with empty history>,rng:<four uint32 words>}; initialize empty, do not fabricate checkpoints."
+        },
+        "closeAt": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": -1,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "anchor": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Optional/null defaults to floor(config.width/2); common puzzle bookkeeping, not a swap command."
+        },
+        "rotation": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": 0,
+          "description": "Omitted or null uses the documented normalization default; default is descriptive, not JSON Schema mutation."
+        },
+        "display": {
+          "description": "Runtime-derived presentation array, replaced during tick; omit at initialization. display maps board zero to -1; preview is empty for swap. Not an author-supplied refill queue."
+        },
+        "preview": {
+          "description": "Runtime-derived presentation array, replaced during tick; omit at initialization. display maps board zero to -1; preview is empty for swap. Not an author-supplied refill queue."
+        }
+      },
+      "required": [
+        "board"
+      ],
+      "description": "Object at config.statePath. Only board is required initially; all other bookkeeping is normalized at simulation. Additional user fields are preserved. Dynamic dimensions/indices are checked by semantic validation.",
+      "additionalProperties": true
     },
     "commands": [],
     "events": [
@@ -128,5 +352,17 @@
   },
   "testSuites": [
     "PUZZLE-LIBRARY-001"
-  ]
+  ],
+  "extensions": {
+    "publicSemantics": {
+      "scope": "PUBLIC_MECHANISM_CONTRACT_NOT_LEVEL_OR_SOLUTION",
+      "initialization": "Declare one GameSpec object state field with initial {board:<own row-major board>}; optional defaults above are applied on tick, not written by schema validation. When any behavior uses RNG-restoring undoAction, its scene must contain only one behavior; compositions use whole-session snapshots.",
+      "selection": "selectActions has exactly width*height unique declared action names, in row-major index order. A first nonempty cell selects it; a second clears selection. Same cell cancels. Non-adjacent or no-match second selection emits puzzle.invalid without changing board/score/moves/history/RNG, but selection and observation events may change.",
+      "swap": "Adjacent second selection swaps a temporary board. At least one horizontal/vertical match (matchLength default 3) is required. One successful swap increments moves once.",
+      "cascade": "All matching cells are removed, score increases by count, columns compact downward and new tiles are prepended from deterministic RNG randomInt(1,max(3,...swappedBoard)). Repeated matches settle atomically within one simulation transaction, at most 16 cascade waves; exceeding budget fails. No separate refill state field or per-phase animation contract.",
+      "undo": "Successful action checkpoints board/bookkeeping and RNG, bounded to 16. undoAction restores the last checkpoint; an invalid swap does not create a checkpoint. Snapshot restore is needed for whole-session compositions.",
+      "outcome": "targetScore is optional; when supplied and score reaches it, state.won becomes true. No swap loss condition is synthesized; GameSpec outcomes must explicitly consume the state flags to change flow.",
+      "presentation": "repeat can read /<stateField>/display; state references do not include the Runtime observation /state prefix. These contracts contain no fixed board or winning action sequence."
+    }
+  }
 }
