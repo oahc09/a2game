@@ -22,6 +22,33 @@ const time=value=>typeof value==='string'?Date.parse(value):NaN;
 function inBatch(value,batch){const t=time(value);return Number.isFinite(t)&&t>=time(batch.startedAt)&&t<=time(batch.endedAt);}
 const requiredFor=task=>({...simulatedHostProfile.commonChecks,independentMechanics:simulatedHostProfile.mechanicsChecks[task]});
 
+/** STRUCTURAL ONLY: verifies coverage declarations and file bindings, never gameplay semantics. */
+export function checkControllerObservations(category,observations,directory,taskId){
+ const ids=requiredFor(taskId)[category];
+ requireValue(Array.isArray(ids),'CONTROLLER_CATEGORY_UNKNOWN');
+ requireValue(Array.isArray(observations),'CONTROLLER_OBSERVATIONS_REQUIRED');
+ const seen=new Set(),byId=new Map();
+ for(const observation of observations){
+  requireValue(observation&&ids.includes(observation.checkId)&&!seen.has(observation.checkId),'CONTROLLER_CHECK_UNKNOWN_OR_DUPLICATE');seen.add(observation.checkId);byId.set(observation.checkId,observation);
+  requireValue(['PASS_REFERENCE','FAIL','PARTIAL','NOT_APPLICABLE'].includes(observation.result)&&typeof observation.observation==='string'&&observation.observation.trim(),'CONTROLLER_OBSERVATION_REQUIRED');
+  if(observation.result==='NOT_APPLICABLE'){
+   requireValue(category==='inputCoverage'&&simulatedHostProfile.optionalInputChecks.includes(observation.checkId),'CONTROLLER_MANDATORY_CHECK_NOT_APPLICABLE');
+   requireValue(observation.applicability?.status==='NOT_DECLARED'&&typeof observation.applicability.reason==='string'&&observation.applicability.reason.trim(),'CONTROLLER_NOT_DECLARED_REASON_REQUIRED');
+  }else if(category==='inputCoverage'){
+   requireValue(observation.applicability?.status==='APPLICABLE','CONTROLLER_INPUT_APPLICABILITY_REQUIRED');
+  }
+  requireValue(Array.isArray(observation.evidence)&&observation.evidence.length,'CONTROLLER_FILES_REQUIRED');
+  for(const file of observation.evidence){const bytes=readFileSync(local(directory,file.path));requireValue(bytes.length>0&&hash(bytes)===file.sha256,'CONTROLLER_FILE_SHA_MISMATCH');}
+ }
+ if(category==='inputCoverage'){
+  const notDeclared=id=>byId.get(id)?.result==='NOT_APPLICABLE';
+  requireValue(!(taskId==='G17'&&notDeclared('keyboard-hold')&&notDeclared('pointer-drag')),'CONTROLLER_CONTINUOUS_INPUT_REQUIRED');
+  requireValue(!(byId.get('pointer-drag')?.applicability?.status==='APPLICABLE'&&notDeclared('pointer-cancel')),'CONTROLLER_POINTER_CANCEL_REQUIRED');
+ }
+ const missing=ids.filter(id=>!seen.has(id));
+ return {status:observations.some(x=>x.result==='FAIL')?'FAIL':missing.length||observations.some(x=>!['PASS_REFERENCE','NOT_APPLICABLE'].includes(x.result))?'PARTIAL':'CONTROLLER_REVIEW_RECORDED',missing,notApplicable:observations.filter(x=>x.result==='NOT_APPLICABLE').map(x=>x.checkId),trust:'LOCAL_CONTROLLER_NOT_ATTESTED'};
+}
+
 function controllerEvidence(directory,entry,batch,selected,binding){
  const required=requiredFor(entry.taskId),result={};
  for(const [category,ids] of Object.entries(required)){
@@ -35,15 +62,7 @@ function controllerEvidence(directory,entry,batch,selected,binding){
   requireValue(inBatch(report.createdAt,batch),'CONTROLLER_OUTSIDE_BATCH');
   requireValue(typeof report.scope==='string'&&report.scope.trim()&&Array.isArray(report.limitations)&&report.limitations.length&&report.limitations.every(x=>typeof x==='string'&&x.trim()),'CONTROLLER_SCOPE_LIMITATIONS_REQUIRED');
   requireValue(Array.isArray(report.observations),'CONTROLLER_OBSERVATIONS_REQUIRED');
-  const seen=new Set();
-  for(const observation of report.observations){
-   requireValue(ids.includes(observation.checkId)&&!seen.has(observation.checkId),'CONTROLLER_CHECK_UNKNOWN_OR_DUPLICATE');seen.add(observation.checkId);
-   requireValue(['PASS_REFERENCE','FAIL','PARTIAL'].includes(observation.result)&&typeof observation.observation==='string'&&observation.observation.trim(),'CONTROLLER_OBSERVATION_REQUIRED');
-   requireValue(Array.isArray(observation.evidence)&&observation.evidence.length,'CONTROLLER_FILES_REQUIRED');
-   for(const file of observation.evidence){const bytes=readFileSync(local(directory,file.path));requireValue(bytes.length>0&&hash(bytes)===file.sha256,'CONTROLLER_FILE_SHA_MISMATCH');}
-  }
-  const missing=ids.filter(id=>!seen.has(id));
-  result[category]={status:report.observations.some(x=>x.result==='FAIL')?'FAIL':missing.length||report.observations.some(x=>x.result!=='PASS_REFERENCE')?'PARTIAL':'CONTROLLER_REVIEW_RECORDED',missing,trust:'LOCAL_CONTROLLER_NOT_ATTESTED'};
+  result[category]=checkControllerObservations(category,report.observations,directory,entry.taskId);
  }
  return result;
 }

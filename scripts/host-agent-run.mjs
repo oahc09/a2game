@@ -7,7 +7,7 @@ import {pathToFileURL} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 import {contracts,resultSchema} from '../integrations/mcp/contract.mjs';
 import {readHostRunLedger} from './host-run-ledger.mjs';
-import {prepareHostWorkspace} from './host-public-workspace.mjs';
+import {prepareHostWorkspace,verifyPublicWorkspace} from './host-public-workspace.mjs';
 
 const root=resolve(import.meta.dirname,'..'),hosts=['qoder','trae','workbuddy','zcode','native-agent-simulated'];
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
@@ -33,7 +33,7 @@ function assertHostIdentity(meta,directory){
  if(simulated!==(meta.provenance==='NATIVE_AGENT_SIMULATED_HOST'))throw Error('Host/provenance mismatch: simulated evidence cannot be relabelled as a real host');
 }
 
-export function initHostRun(host,workspace=root){
+export function initHostRun(host,workspace=root,task){
  if(!hosts.includes(host))throw Error('Unknown host');
  const base=join(workspace,'reports/host-first-evaluations');mkdirSync(base,{recursive:true});
  const parent=join(base,host);mkdirSync(parent,{recursive:true});inside(base,parent);
@@ -42,7 +42,7 @@ export function initHostRun(host,workspace=root){
  const hostRunId=randomUUID();
  const directory=join(parent,new Date().toISOString().replaceAll(':','-').replaceAll('.','-')+'-'+randomUUID());
  mkdirSync(directory);mkdirSync(join(directory,'candidate'));mkdirSync(join(directory,'calls'));
- const isolation=prepareHostWorkspace(directory,workspace);
+ const isolation=prepareHostWorkspace(directory,workspace,task);
  write(join(directory,'run.json'),{format:'a2game-host-agent-run',version:1,host,hostRunId,isolation,implementationSha256:hostSourceFingerprint(workspace),runId:basename(directory),createdAt:new Date().toISOString(),maxValidationAttempts:3,mcpProviderBudget:0,hostNativeUsage:'UNKNOWN',provenance,formalG3:'NOT_RUN'});
  return {hostRunId,provenance,isolation,run:relative(workspace,directory).replaceAll('\\','/'),task:'TASK.md',candidate:'candidate/',schemaContext:'schemas/',modelCalls:0};
 }
@@ -126,7 +126,18 @@ export function checkHostRun(run,workspace=root){
  if(existsSync(join(directory,'receipt.json')))collect(json(join(directory,'receipt.json')));
  const captured=new Set(calls.map(e=>e.call.runId)),related=new Set(declared);
  const ledger=readHostRunLedger(workspace,runMeta.hostRunId);
- if(runMeta.implementationSha256!==hostSourceFingerprint(workspace))ledger.problems.push('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND');
+ const currentImplementation=hostSourceFingerprint(workspace);
+ // Current source only creates v2. Mutable marker removal cannot downgrade its requirements.
+ // Historical v1 remains readable but its old source binding cannot qualify as current.
+ try{
+  const manifestPath=join(directory,'public-context/manifest.json'),manifestVersion=existsSync(manifestPath)?json(manifestPath).version:undefined;
+  if(runMeta.implementationSha256===currentImplementation||runMeta.isolation?.capsuleVersion===2||manifestVersion===2){
+   if(runMeta.isolation?.capsuleVersion!==2)throw Error('Missing v2 run binding');
+   const verified=verifyPublicWorkspace(join(directory,'public-context'),runMeta.isolation.manifestSha256);
+   if(verified.capsuleVersion!==2||!isDeepStrictEqual(verified.task,runMeta.isolation.task)||sha(readFileSync(join(directory,'TASK.md')))!==verified.task.promptSha256)throw Error('Task binding differs');
+  }
+ }catch{ledger.problems.push('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND');}
+ if(runMeta.implementationSha256!==currentImplementation)ledger.problems.push('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND');
  for(const entry of ledger.calls)related.add(entry.call.runId);
  for(const entry of calls){
   const canonical=ledger.calls.find(e=>e.call.runId===entry.call.runId);

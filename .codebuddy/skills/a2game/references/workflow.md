@@ -39,6 +39,8 @@ node generator/cli.mjs export-package output/my-game --output output/my-game.pac
 
 ## 输入、判负与画面反馈（兼容增量）
 
+- `expectError` 必须带字符串 `code`，紧接下一条预期被拒绝的操作；暂停/终局玩法输入的合同码为 `A2G_E_FLOW`。不能嵌套、悬空，也不能删除负例以规避失败。公开 HostProfile 的 `conformance.operations` 列出运行操作必需字段；Schema 准入不等于执行成功。
+
 - `injectAction` 的 `hold` 不是起始按下：同一 action/sourceId 必须已有未释放的 `press`；`release/cancel` 结束持有，暂停清空持有来源。原始键盘用 `down/up` 且绑定 `config.hold:true`；solution 的普通 action 行是 press→release 的点击，不是持续按住。失败用例的 `input.hold-without-press` 是有界诊断，不改变游戏状态、Hash 或输入接受语义。
 - 失败路线若声称失败，必须真实执行并显式断言 `/flow/status` 等于 `lost`。`conformance.loss-status-mismatch` 给出实际状态；检查判负条件、优先级和输入时序，不为过测把原本要求失败的场景改成 `playing`。没有失败机制的游戏可保留合理 `playing` 负例，不强制发明 `lost`。
 - 执行逻辑 Tick `n` 后，观察值 `tickIndex` 是 `n+1`（初始为0）。塔防仅在有目标且 `nextFire <= n` 时开火，成功后设为 `n + cooldownTicks`；无目标不消耗冷却。合成先于武器阶段，新冷却取当前Tick与两旧值的最大值；已到期可同Tick开火，未到期不能提前。用实际事件/状态验证，不能把作者预计的Tick当事实。

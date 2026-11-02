@@ -15,7 +15,7 @@ export function classifyFailure(code='',attribution,message=''){
 export function repairFeedback(attempt,output){
  const diagnostics=(attempt.diagnostics??[]).slice(0,20).map(d=>({...d,pointer:String(d.jsonPointer??d.pointer??'').slice(0,200),message:String(d.message??'').slice(0,400)}));
  const inactiveInput=attempt.code==='A2G_E_AGENT_CONFORMANCE'&&diagnostics.some(d=>d.code==='A2G_E_FLOW'||/A2G_E_FLOW: (?:Raw )?gameplay input rejected while inactive/i.test(d.message));
- const selectedHints=[...(inactiveInput?[conformanceInputGuidance]:[]),...new Set(diagnostics.filter(d=>['input.hold-without-press','conformance.loss-status-mismatch'].includes(d.ruleId)).map(d=>mechanismHints[d.ruleId]))];
+ const selectedHints=[...(inactiveInput?[conformanceInputGuidance]:[]),...new Set(diagnostics.filter(d=>['input.hold-without-press','conformance.loss-status-mismatch','conformance.expect-error-code','conformance.expect-error-order'].includes(d.ruleId)).map(d=>mechanismHints[d.ruleId]))];
  return {code:attempt.code??'A2G_GEN_FAILURE',category:classifyFailure(attempt.code,attempt.attribution,attempt.message),message:String(attempt.message??'').slice(0,600),diagnostics,...(selectedHints.length?{hints:selectedHints}:{}),output};
 }
 
@@ -43,7 +43,10 @@ const coverageHints={
  'conformance.negative-assertion':'Include an explicit assert at observation path /flow/status with equals playing or lost in a meaningful negative case. Game state observations use /state/<field>.'
 };
 // Mechanism guidance is selected by exact trusted rule ID, never exception text.
+const codeHints={A2G_MCP_READABILITY_BINDING:'Use an active preview from this same service session and artifact, matching backend and exact raw game SHA. Reopen closed/expired previews; a revised candidate requires its own preview and fresh real viewport measurement. Do not relabel old observations or treat caller-reported values as visual acceptance.'};
 const mechanismHints={
+ 'conformance.expect-error-code':'The expectError step requires a string code for the error expected from the immediately following operation. Paused or terminal gameplay input is rejected with A2G_E_FLOW. Use the correct public error contract; never remove the negative check just to pass.',
+ 'conformance.expect-error-order':'Put one expectError with its code immediately before each intentionally rejected operation. Do not nest expectError steps or leave one at the end without an operation. An operation that succeeds when an error was expected must still fail the test.',
  'input.hold-without-press':'A hold was ignored because its action/sourceId had no active press when consumed. Send press first with the same sourceId, then hold on later ticks, then release/cancel. Raw held keyboard input should use down/up with config.hold:true. Do not replace a needed press with hold.',
  'conformance.loss-status-mismatch':'This case explicitly asserted /flow/status equals lost, but execution reached a different status. Check the loss trigger, outcome condition/priority and input timing; preserve the intended losing scenario. A playing negative case is valid for games without a loss condition; do not invent a loss requirement for every game.',
  'puzzle.selected-array':'Use a selected array of at most two nonnegative integer cell indices in the configured puzzle state; an empty selection is []. Preserve the puzzle rules.',
@@ -58,7 +61,7 @@ export function publicDiagnostics(error={},fallbackStage){
  const source=Array.isArray(error.diagnostics)&&error.diagnostics.length?error.diagnostics.slice(0,20):[error.info??{}];
  return source.map(item=>{
   const row=item&&typeof item==='object'?item:{},rowCode=safeCode(row.code??code),rowStage=diagnosticStage(rowCode,row.stage??stage);
-  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:Object.hasOwn(mechanismHints,row.ruleId)?mechanismHints[row.ruleId]:rowStage==='conformance'&&Object.hasOwn(coverageHints,row.ruleId)?coverageHints[row.ruleId]:hints[rowStage]};
+  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:Object.hasOwn(codeHints,rowCode)?codeHints[rowCode]:Object.hasOwn(mechanismHints,row.ruleId)?mechanismHints[row.ruleId]:rowStage==='conformance'&&Object.hasOwn(coverageHints,row.ruleId)?coverageHints[row.ruleId]:hints[rowStage]};
   const pointer=row.jsonPointer??row.pointer;
   if(typeof pointer==='string'&&pointer.length<=256&&(pointer===''||pointer.startsWith('/'))&&!/[\u0000-\u001f]/.test(pointer))out.jsonPointer=pointer;
   for(const key of ['capabilityId','ruleId','caseId']){const value=identifier(row[key]);if(value!==undefined)out[key]=value;}

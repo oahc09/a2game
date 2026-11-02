@@ -30,8 +30,8 @@ export async function runConformanceSuite(
                 const op=s.op;
                 if (typeof op!=='string') fail('A2G_E_CONFORMANCE','Step has no op');
                 if (op==='expectError') {
-                    if (expectedError) fail('A2G_E_CONFORMANCE','Nested expectError not allowed');
-                    if (typeof s.code!=='string') fail('A2G_E_CONFORMANCE','Missing expected code');
+                    if (expectedError) fail('A2G_E_CONFORMANCE','Nested expectError not allowed',{ruleId:'conformance.expect-error-order'});
+                    if (typeof s.code!=='string') fail('A2G_E_CONFORMANCE','Missing expected code',{ruleId:'conformance.expect-error-code',jsonPointer:`/cases/${caseIndex}/steps/${idx}/code`,expected:'string',actual:s.code===undefined?null:typeof s.code});
                     expectedError={code:s.code,path:typeof s.path==='string'?s.path:undefined};
                     continue;
                 }
@@ -90,7 +90,7 @@ export async function runConformanceSuite(
                 }
                 if (thrown) throw thrown;
             }
-            if (expectedError) fail('A2G_E_CONFORMANCE','expectError without following operation');
+            if (expectedError) fail('A2G_E_CONFORMANCE','expectError without following operation',{ruleId:'conformance.expect-error-order'});
         } catch (err) {
             result.status='FAIL';
             result.code=err instanceof A2GameError ? err.code : 'A2G_E_RUNTIME';

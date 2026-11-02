@@ -11,8 +11,9 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
 function fixture(t,host='workbuddy'){
  const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));t.after(()=>rmSync(workspace,{recursive:true,force:true}));
- for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor'])mkdirSync(join(workspace,p),{recursive:true});
+ for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor','integrations/skill/a2game/references'])mkdirSync(join(workspace,p),{recursive:true});
  write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});write(join(workspace,'docs/host-agent-pilot.md'),'Public task');write(join(workspace,'specs/v0.1/capabilities/public.capability.json'),{id:'a2game.test.public',version:'0.1.0'});
+ for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md'])write(join(workspace,'integrations/skill/a2game',name),'Public Skill '+name);
  write(join(workspace,'dist/index.js'),'export const stale = false;');
  for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs'])write(join(workspace,'player',name),'original browser source '+name);
  write(join(workspace,'player/vendor/sdk-provenance.json'),{receipt:'original'});write(join(workspace,'player/vendor/three.module.js'),'downloaded SDK bound separately');
@@ -163,4 +164,39 @@ test('dynamic SDK provenance and generated player catalogs do not masquerade as 
  write(join(f.workspace,'player/validated-games.json'),{generated:'new catalog'});
  assert.equal(hostSourceFingerprint(f.workspace),before);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
  // This source-only assertion does not claim SDK verification; the runtime's SDK checks remain mandatory.
+});
+
+test('optional frozen task binds v2 capsule, run metadata and outer task without claiming isolation',t=>{
+ const f=fixture(t),prompt='Design an unseen game.\n',created=initHostRun('native-agent-simulated',f.workspace,{taskId:'UNSEEN-1',prompt}),dir=join(f.workspace,created.run),meta=JSON.parse(readFileSync(join(dir,'run.json')));
+ assert.equal(meta.isolation.task.promptSha256,hash(prompt));assert.equal(meta.isolation.task.taskId,'UNSEEN-1');assert.equal(meta.isolation.runtimeIsolation,'NOT_RUN');
+ assert.equal(readFileSync(join(dir,'public-context/TASK.md'),'utf8'),prompt);assert.ok(!checkHostRun(created.run,f.workspace).missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+ write(join(dir,'TASK.md'),'changed outer prompt');assert.ok(checkHostRun(created.run,f.workspace).missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+});
+test('v2 run checking rejects modified public bytes and mismatched task metadata',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ const dir=join(f.workspace,f.run),path=join(dir,'run.json'),original=readFileSync(path),meta=JSON.parse(original);meta.isolation.task.taskId='OTHER';write(path,meta);assert.ok(f.check().missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+ writeFileSync(path,original);write(join(dir,'public-context/skill/SKILL.md'),'changed');const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.equal(checked.independentAuthoring,'NOT_VERIFIED');
+});
+
+test('v2 marker cannot be removed from run metadata to skip the frozen public capsule check',t=>{
+ const f=fixture(t);f.complete();const path=join(f.workspace,f.run,'run.json'),meta=JSON.parse(readFileSync(path));delete meta.isolation.capsuleVersion;write(path,meta);
+ assert.ok(f.check().missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+});
+
+test('current source run cannot bypass capsule validation by removing both v2 markers or the entire manifest',t=>{
+ for(const mutation of ['v1','deleted']){
+  const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+  const dir=join(f.workspace,f.run),path=join(dir,'run.json'),meta=JSON.parse(readFileSync(path));delete meta.isolation.capsuleVersion;write(path,meta);
+  const manifestPath=join(dir,'public-context/manifest.json');
+  if(mutation==='v1'){const manifest=JSON.parse(readFileSync(manifestPath));manifest.version=1;write(manifestPath,manifest);}else rmSync(manifestPath);
+  const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.ok(!checked.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));
+ }
+});
+test('historical v1 run remains readable but cannot be reclassified as a complete current-source run',t=>{
+ const f=fixture(t);f.complete();const dir=join(f.workspace,f.run),path=join(dir,'run.json'),meta=JSON.parse(readFileSync(path));meta.implementationSha256='0'.repeat(64);delete meta.isolation.capsuleVersion;delete meta.isolation.task;
+ const manifestPath=join(dir,'public-context/manifest.json'),manifest=JSON.parse(readFileSync(manifestPath));manifest.version=1;delete manifest.task;delete manifest.skill;delete manifest.resources;
+ for(const name of ['TASK.md','skill','resources'])rmSync(join(dir,'public-context',name),{recursive:true,force:true});
+ for(const name of Object.keys(manifest.files))if(name==='TASK.md'||name.startsWith('skill/')||name.startsWith('resources/'))delete manifest.files[name];
+ write(manifestPath,manifest);meta.isolation.manifestSha256=hash(readFileSync(manifestPath));write(path,meta);
+ const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));assert.ok(!checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.equal(checked.independentAuthoring,'NOT_VERIFIED');
 });

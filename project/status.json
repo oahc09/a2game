@@ -1376,5 +1376,18 @@
     "realClient": "NOT_RUN",
     "OSIsolation": "NOT_VERIFIED",
     "remoteCI": "NOT_RUN"
+  },
+  "hostAcceptancePreparation": {
+    "scope": "CORE_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_NOT_ACCEPTANCE",
+    "publicCapsule": "Version 2 binds exact public task, shared Skill, schemas/capabilities and fixed HostProfile/fragments; version 1 compatibility retained",
+    "isolation": "PREPARED_NOT_ISOLATED; native agent tool filesystem policy requires independent platform enforcement; never inferred from capsule hashes",
+    "diagnostics": "Static expectError missing-code/ordering guidance and explicit public operation contracts; no valid execution/input/hash change",
+    "coverage": "New simulated profile requires independent-session replay, applicable input cleanup and console/performance observations; structural readiness is not semantic or visual acceptance",
+    "evidence": "Old source/profile evidence remains historical; no experiment artifacts or reconstructed private evidence included",
+    "realClients": "NOT_RUN",
+    "formalG3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "remoteCI": "NOT_RUN"
   }
 }
