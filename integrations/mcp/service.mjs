@@ -18,7 +18,7 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
  if(hostRunId!==null&&(typeof hostRunId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(hostRunId)))throw fail('A2G_MCP_CONFIG');
  if(provider&&!['fixture','codex','claude','model-http','http'].includes(provider))throw fail('A2G_MCP_CONFIG');
  const sessionId=randomUUID(),directory=safePath(join(root,'output/mcp',sessionId));mkdirSync(directory,{recursive:true});
- const artifacts=new Map(),previews=new Map(),previewHistory=new Map(),controllers=new Set();let active=false,closed=false,calls=0,unknownCalls=0,requests=0,sequence=0;
+ const artifacts=new Map(),previews=new Map(),previewHistory=new Map(),controllers=new Set(),inFlight=new Set();let closing,active=false,closed=false,calls=0,unknownCalls=0,requests=0,sequence=0;
  const sessionRecord={format:'a2game-mcp-session',version:1,sessionId,hostRunId,implementationSha256:hostSourceFingerprint(root),createdAt:new Date().toISOString(),state:'OPEN',lastSequence:0};
  save(join(directory,'session.json'),sessionRecord);
  function replace(path,value){const temporary=path+'.'+randomUUID()+'.tmp';save(temporary,value);renameSync(temporary,path);}
@@ -109,28 +109,36 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
   throw fail('A2G_MCP_TOOL');
  }
  return {sessionId,hostRunId,directory,stats:()=>({budgetConsumed:calls,unknownCalls,maxCalls,artifacts:artifacts.size,previews:previews.size,active,closed}),
-  async call(name,input,{signal}={}){
-   const runId=randomUUID();let controller,timer,abort;
+  async call(name,input,{signal,requestErrorCode}={}){
+   const runId=randomUUID();let controller,timer,abort,settled,completion;
    const metadata={format:'a2game-mcp-call',version:1,sessionId,hostRunId,sequence:++sequence,state:'STARTED',runId,tool:Object.hasOwn(contracts,name)?name:null,
     createdAt:new Date().toISOString(),argumentsSha256:null,parameters:{}};
    try{
     save(join(directory,runId+'.call.json'),metadata);updateSession();
     if(closed)throw fail('A2G_MCP_CLOSED');if(!contracts[name])throw fail('A2G_MCP_TOOL');
+    if(requestErrorCode!==undefined)throw fail(['A2G_MCP_ARGUMENTS','A2G_MCP_SIZE'].includes(requestErrorCode)?requestErrorCode:'A2G_MCP_ARGUMENTS');
     if(Buffer.byteLength(JSON.stringify(input??{}))>768*1024)throw fail('A2G_MCP_SIZE');
     const args=contracts[name].schema.parse(input);
     metadata.argumentsSha256=hash(Buffer.from(JSON.stringify(args)));
     for(const key of ['artifactId','previewId','backend','action'])if(args[key]!==undefined)metadata.parameters[key]=args[key];
     replace(join(directory,runId+'.call.json'),metadata);
     if(active)throw fail('A2G_MCP_BUSY');if(++requests>256)throw fail('A2G_MCP_QUOTA');quota();
-    if(signal?.aborted)throw fail('A2G_MCP_CANCELLED');controller=new AbortController();controllers.add(controller);abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});timer=setTimeout(()=>controller.abort(),timeoutMs);active=true;
+    if(signal?.aborted)throw fail('A2G_MCP_CANCELLED');controller=new AbortController();controllers.add(controller);completion=new Promise(resolve=>{settled=resolve;});inFlight.add(completion);abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});timer=setTimeout(()=>controller.abort(),timeoutMs);active=true;
     const data=await execute(name,args,controller.signal);if(data.diagnostics)data.diagnostics=publicDiagnostics(data);if(controller.signal.aborted)throw fail(signal?.aborted?'A2G_MCP_CANCELLED':'A2G_MCP_TIMEOUT');
     const result={mcpToolContractVersion:1,runId,status:data.status??'PASS_REFERENCE',diagnostics:data.code?publicDiagnostics(data):[],data};
     resultSchema.parse(result);if(Buffer.byteLength(JSON.stringify(result))>256*1024)throw fail('A2G_MCP_RESPONSE_SIZE');return persistCall(result,metadata);
    }catch(e){const code=e.name==='ZodError'?'A2G_MCP_ARGUMENTS':/^(?:A2G_|ENOENT)/.test(e.code??'')?e.code:'A2G_MCP_FAILURE';
     const result={mcpToolContractVersion:1,runId,status:['A2G_MCP_BUDGET','A2G_MCP_BUSY','A2G_MCP_CLOSED'].includes(code)?'BLOCKED':'FAIL',diagnostics:publicDiagnostics({...e,code})};
     try{return persistCall(result,metadata);}catch{result.diagnostics.push({code:'A2G_MCP_EVIDENCE',stage:'receipt',message:'本地回执未能保存；不得声明已取得原始证据。'});return result;}
-   }finally{if(controller){clearTimeout(timer);controllers.delete(controller);signal?.removeEventListener('abort',abort);active=false;}}
+   }finally{if(controller){clearTimeout(timer);controllers.delete(controller);signal?.removeEventListener('abort',abort);active=false;inFlight.delete(completion);settled();}}
   },
-  async close(){closed=true;updateSession();for(const c of controllers)c.abort();await Promise.allSettled([...previews.keys()].map(id=>closePreview(id,'shutdown')));}
+  close(){return closing??=(async()=>{
+   closed=true;for(const c of controllers)c.abort();
+   await Promise.all([...inFlight]);
+   const results=await Promise.allSettled([...previews.keys()].map(id=>closePreview(id,'shutdown')));
+   updateSession();
+   const errors=results.filter(result=>result.status==='rejected').map(result=>result.reason);
+   if(errors.length)throw new AggregateError(errors,'MCP preview shutdown failed.');
+  })();}
  };
 }

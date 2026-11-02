@@ -54,3 +54,27 @@ test('preview expiration and repeated closes preserve the actual cause and audit
   assert.equal(service.stats().budgetConsumed,0);
  }finally{await service.close();}
 });
+
+test('shutdown waits for an opening preview call and its final receipt before declaring cleanup complete',{
+ skip:!existsSync(join(root,'player/vendor/sdk-provenance.json'))&&'Requires prepared locked SDK files; no browser rendering is claimed'
+},async()=>{
+ const service=createMcpService();
+ try{
+  const admitted=await service.call('a2game.validate_game',{gameJson:JSON.stringify(createFixture().game)});
+  assert.equal(admitted.status,'PASS_REFERENCE',JSON.stringify(admitted));
+  let settled=false;
+  const pending=service.call('a2game.preview_game',{action:'open',artifactId:admitted.data.artifactId,backend:'three'}).then(result=>{settled=true;return result;});
+  assert.equal(service.stats().active,true);
+  const closing=service.close();
+  assert.equal(service.close(),closing,'concurrent shutdown callers share the same completion');
+  await closing;
+  assert.equal(settled,true,'shutdown must wait for the active call to settle');
+  assert.equal(service.stats().active,false);assert.equal(service.stats().previews,0);
+  const result=await pending;
+  assert.equal(result.status,'FAIL');
+  const metadata=JSON.parse(readFileSync(join(service.directory,result.runId+'.call.json'),'utf8'));
+  assert.equal(metadata.state,'COMPLETED');
+  assert.deepEqual(JSON.parse(readFileSync(join(service.directory,result.runId+'.receipt.json'),'utf8')),result);
+  assert.equal(JSON.parse(readFileSync(join(service.directory,'session.json'),'utf8')).state,'CLOSED');
+ }finally{await service.close();}
+});

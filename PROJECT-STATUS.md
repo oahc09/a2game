@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-02 MCP 传输/关闭加固：支持的 tools/call 报文在服务端统一严格解析并登记 canonical 回执，含错误参数与未知工具；公开 Tool Schema/数量和默认 Provider 预算不变。shutdown 等待活动调用与最终回执，清理失败保留失败状态。JSON-RPC 格式错误和未协商任务增强仍由协议层拒绝，不声称为生成候选；当前源码须独立验证，旧实验不重标。
+
 2026-11-02 Host-first 合同加固（待当前版本验证）：增加显式组件/状态路径绑定的独立非法动作→撤销检查，以及基于实时 canvas/viewport 的名义文字 CSS 像素诊断；缺声明/不支持不记通过，小字 warning 不替代实际画面审查。旧实验仅对应其固定源码版本；真实宿主、OS 强隔离、人工及正式 Gate 不升级。
 
 2026-11-02 Host-first review修复：run级完整canonical账本与候选预算、内容指纹绑定、CLI/MCP结构化诊断、5个版本化只读Resources、导出格式一致性及跨平台测试已增量实现。公开创作capsule与Linux fail-closed隔离启动器不等于真实宿主隔离验收；不支持的namespace/平台必须BLOCKED。旧报告和SHA保持历史，不当当前源码证据；真实宿主、15单元、人工、正式G3/真机仍未验。见 docs/host-agent-pilot.md 和 project/host-first-status.json。
