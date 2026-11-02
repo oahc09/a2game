@@ -537,11 +537,11 @@
     "reason": "No Android device attached; physical Touch/IMU, permission and calibration tests have no receipt."
   },
   "candidateRun": {
-    "status": "PASS_REFERENCE",
+    "status": "IMPLEMENTED_UNVERIFIED",
     "summary": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
     "historicalSummary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
-    "evidenceScope": "CURRENT_BROWSER_REFERENCE; COVERAGE_INDEX_PENDING_REFRESH",
+    "evidenceScope": "HISTORICAL_SOURCE_RECEIPT_NOT_CURRENT",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate.",
     "previousCurrentReceipt": "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
   },
@@ -1386,6 +1386,20 @@
     "coverage": "New simulated profile requires independent-session replay, applicable input cleanup and console/performance observations; structural readiness is not semantic or visual acceptance",
     "evidence": "Old source/profile evidence remains historical; no experiment artifacts or reconstructed private evidence included",
     "realClients": "NOT_RUN",
+    "formalG3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "remoteCI": "NOT_RUN"
+  },
+  "hostConstraintLifecycleRepair": {
+    "scope": "CORE_PUBLIC_CONTRACTS_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_NOT_ACCEPTANCE",
+    "runtime": "Per-runtime private frozen admitted declaration binding permits dormant constraints only for previously valid target IDs; no provenance remains strict and changed config is rejected. Legal same-declaration prototype instances remain supported.",
+    "boundary": "Trusted in-process resolver, not an external JSON capability, entity-origin proof or cryptographic identity. Snapshot and GameSpec formats unchanged.",
+    "publicContracts": "aimPath bounded direction vector/L1 normalization/zero fallback and state.set existing-state path, literal/expression and post-physics commit timing; no new gameplay operation.",
+    "evidence": "Old source reports and sealed experiments remain historical; current source must be independently tested. No experiment artifacts or reconstructed historical evidence included.",
+    "candidateIndex": "Historical receipt pointers preserved; current candidate status is unverified after implementation change.",
+    "realClients": "NOT_RUN",
+    "osIsolation": "NOT_VERIFIED",
     "formalG3": "NOT_RUN",
     "humanReview": "NOT_RUN",
     "remoteCI": "NOT_RUN"

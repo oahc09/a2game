@@ -1,5 +1,5 @@
 import { A2GameError, fail, type DiagnosticInfo } from './errors.js';
-import { exactStateHash } from './exact-hash.js';
+import { canonicalJson, exactStateHash } from './exact-hash.js';
 import {mobileInputIds,recognizeMobileInput} from './mobile-input.js';
 import {recognizeGamepadInput,gamepadInputSources} from './gamepad-input.js';
 import { evaluate, looksLikeExpression } from './expression.js';
@@ -47,6 +47,8 @@ export class HeadlessRuntime {
     readonly rng: GameRng;
     private readonly registry: CapabilityRegistry;
     private readonly opts: Required<Pick<HeadlessOptions,'maxEventsPerTick'|'maxEffectsPerTick'|'maxDeferredPerSession'|'maxEntities'|'maxRecordedEvents'>>;
+    // Declaration identity, not instance/host identity. Immutable, per Runtime and outside snapshots/hash.
+    readonly #realtimeConstraintBindings: readonly Readonly<{capabilityId:string;capabilityVersion:string;statePath:string;configKey:string;targetIds:readonly string[]}>[];
     private session: Stage;
     private lastError: A2GameError | null = null;
     private disposed = false;
@@ -57,6 +59,15 @@ export class HeadlessRuntime {
     constructor(definition: unknown, registry: CapabilityRegistry, options: HeadlessOptions = {}) {
         this.registry = registry;
         this.plan = compileGame(definition, registry);
+        // compileGame has strictly checked every scene/prototype world against initial state.
+        // Capture now: the public plan is not a deeply immutable source of later authority.
+        const declaredEntities=[...this.plan.definition.scenes.flatMap(scene=>scene.entities),...Object.values(this.plan.definition.prototypes??{})];
+        this.#realtimeConstraintBindings=Object.freeze(declaredEntities.flatMap(entity=>entity.components??[])
+            .filter(component=>component.capability.id==='a2game.realtime.world')
+            .map(component=>Object.freeze({capabilityId:component.capability.id,capabilityVersion:component.capability.version,
+                statePath:String(component.config.statePath),configKey:canonicalJson(component.config),
+                targetIds:Object.freeze(((component.config.constraints??[]) as JsonRecord[]).map(constraint=>String(constraint.body)))})));
+
         registry.seal();
         this.opts = {
             maxEventsPerTick: options.maxEventsPerTick ?? 4096,
@@ -375,11 +386,23 @@ export class HeadlessRuntime {
             if (impl.role==='headless-presentation'||impl.role==='builtin') continue;
             if (impl.role!=='module'||!impl.simulate) fail('A2G_E_CAP_NOT_IMPLEMENTED','Component has no module simulation');
             const entity=stage.entities[entry.entityId]; if (!entity) continue;
+            let resolveRealtimeConstraintTargets:ModuleContext['resolveRealtimeConstraintTargets'];
+            if(entry.component.capability.id==='a2game.realtime.world'){
+                const configKey=canonicalJson(entry.component.config),ref=entry.component.capability;
+                const binding=this.#realtimeConstraintBindings.find(row=>row.capabilityId===ref.id&&row.capabilityVersion===ref.version&&row.statePath===entry.component.config.statePath&&row.configKey===configKey);
+                if(!binding)fail('A2G_E_CAP_CONFIG','Realtime component differs from its admitted declaration');
+                // JSON cannot supply this function. Trusted application JS is not a cryptographic identity boundary.
+                resolveRealtimeConstraintTargets=Object.freeze((config:Readonly<JsonRecord>):readonly string[]=>{
+                    if(config.statePath!==binding.statePath||canonicalJson(config)!==binding.configKey)fail('A2G_E_CAP_CONFIG','Realtime constraint provenance does not match its admitted configuration');
+                    return binding.targetIds;
+                });
+            }
             const ctx:ModuleContext = {
                 tickIndex:stage.tickIndex,tickHz:this.plan.definition.world.clock.tickHz,entity:clone(entity),
                 config:clone(entry.component.config),instanceIndex:entry.index,inputs:clone(inputs),normalizedInputs:clone(stage.activePointers),
                 rng:{nextU32:()=>tickRng.nextU32(),randf:()=>tickRng.randf(),randomInt:(min,max)=>tickRng.randomInt(min,max),state:()=>tickRng.state(),restore:state=>tickRng.restore([...state])},
                 world:clone({state:stage.state,entities:stage.entities}),
+                ...(resolveRealtimeConstraintTargets?{resolveRealtimeConstraintTargets}:{}),
             };
             const output=impl.simulate(ctx);
             moduleProposals += (output.proposals??[]).length;

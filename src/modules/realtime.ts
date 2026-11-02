@@ -29,7 +29,11 @@ function validateWorldBody(body:unknown,config:Readonly<JsonRecord>):WorldBody {
     return body as unknown as WorldBody;
 }
 
+/** Public/unbound admission stays strict: every configured target must exist. */
 export function validateIntegerWorld(raw:unknown,config:Readonly<JsonRecord>):IntegerWorld {
+    return validateWorldState(raw,config);
+}
+function validateWorldState(raw:unknown,config:Readonly<JsonRecord>,admittedTargets:readonly string[]=[]):IntegerWorld {
     if(!isRecord(raw)||!Array.isArray(raw.bodies)||raw.bodies.length>Number(config.maxObjects??128)||!integer(raw.score,0,100000000)||!integer(raw.charge,0,120)||!integer(raw.nextId,0,1000000)||typeof raw.won!=='boolean'||typeof raw.lost!=='boolean')err('Invalid integer world state');
     if(!Array.isArray(raw.contacts)||raw.contacts.length>8128||raw.contacts.some(x=>typeof x!=='string')||!Array.isArray(raw.grounded)||raw.grounded.some(x=>typeof x!=='string')||!Array.isArray(raw.spawned)||raw.spawned.length>64||raw.spawned.some(x=>!integer(x,0,63))||!isRecord(raw.cooldowns)||Object.values(raw.cooldowns).some(x=>!integer(x,0,1000000)))err('Invalid world bookkeeping');
     const ids=new Set<string>();
@@ -38,7 +42,7 @@ export function validateIntegerWorld(raw:unknown,config:Readonly<JsonRecord>):In
         if(isRecord(body)&&ids.has(String(body.id)))err('Invalid or duplicate world body');
         const checked=validateWorldBody(body,config);ids.add(checked.id);
     }
-    for(const constraint of (config.constraints??[]) as JsonRecord[]){if(!ids.has(String(constraint.body))||Number(constraint.minX)>Number(constraint.maxX)||Number(constraint.minY)>Number(constraint.maxY)||Number(constraint.maxX)>Number(config.width)||Number(constraint.maxY)>Number(config.height))err('Invalid body constraint');}
+    for(const constraint of (config.constraints??[]) as JsonRecord[]){if((!ids.has(String(constraint.body))&&!admittedTargets.includes(String(constraint.body)))||Number(constraint.minX)>Number(constraint.maxX)||Number(constraint.minY)>Number(constraint.maxY)||Number(constraint.maxX)>Number(config.width)||Number(constraint.maxY)>Number(config.height))err('Invalid body constraint');}
     return raw as unknown as IntegerWorld;
 }
 function validateConfig(c:Readonly<JsonRecord>):void {
@@ -58,7 +62,15 @@ function validateConfig(c:Readonly<JsonRecord>):void {
 /** A tick-bound checkpointable service; integers are world units, velocities units per tick. */
 export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const c=ctx.config;validateConfig(c);const raw=readPointer(ctx.world.state,String(c.statePath));
-    const w=clone(validateIntegerWorld(raw,c)),events:NonNullable<ModuleResult['events']>=[],emit=(type:string,payload:JsonRecord)=>events.push({type,payload});
+    let admittedTargets:readonly string[]|undefined;
+    if(ctx.resolveRealtimeConstraintTargets!==undefined){
+        if(typeof ctx.resolveRealtimeConstraintTargets!=='function')err('Invalid realtime constraint provenance');
+        admittedTargets=ctx.resolveRealtimeConstraintTargets(c);
+        if(!Array.isArray(admittedTargets)||!Object.isFrozen(admittedTargets)||admittedTargets.some(id=>typeof id!=='string'))err('Invalid realtime constraint provenance');
+    }
+    // A previously admitted target may leave via combat, TTL, merge, pickup or authorized rules.
+    // Its static constraint remains dormant while absent and applies if the same ID returns.
+    const w=clone(validateWorldState(raw,c,admittedTargets)),events:NonNullable<ModuleResult['events']>=[],emit=(type:string,payload:JsonRecord)=>events.push({type,payload});
     const maximum=Number(c.maxObjects??128),actions=(c.actions??{}) as JsonRecord,actor=w.bodies.find(b=>b.kind==='actor'&&b.hp>0),dead=new Set<string>(),damageLedger=new Set<string>();
     const bound=(key:string)=>readPointer(ctx.world.state,String(c[key]));
     const bonus=c.damageBonusPath?bound('damageBonusPath'):0;if(!integer(bonus,0,1000))err('Invalid bound damage bonus');const damageValue=Math.min(1000,Number(c.damage??1)+bonus);
@@ -182,7 +194,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     if(overflow)emit('realtime.failed',{reason:'overflow'});
     if(timedOut||below)emit('realtime.failed',{reason:timedOut?'timeout':'below-boundary'});
     w.lost=overflow||timedOut||below||Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
-    validateIntegerWorld(w,c);
+    validateWorldState(w,c,admittedTargets);
     return {proposals:[{kind:'state.set',path:String(c.statePath),value:w as unknown as Json},...(c.fireRequestPath?[{kind:'state.set' as const,path:String(c.fireRequestPath),value:false}]:[]),...(c.laneRequestPath?[{kind:'state.set' as const,path:String(c.laneRequestPath),value:0}]:[])],events};
 }
 export const realtimeWorldImplementation:TrustedCapabilityImplementation={role:'module',simulate:simulateIntegerWorld};

@@ -131,7 +131,8 @@
         },
         "aimPath": {
           "type": "string",
-          "pattern": "^/"
+          "pattern": "^/",
+          "description": "aimPath is a JSON pointer into global state (no /state prefix) whose value is a two-number direction vector [dx,dy], not an absolute target position. Both components must be finite with absolute value<=32000. The Runtime divides by abs(dx)+abs(dy) (L1 normalization); [0,0] falls back to fireDirection, default right. Positive x is right and positive y is up. An aimPath overrides autoTarget; without aimPath, autoTarget=true may aim at the selected live target, otherwise fireDirection is used. Projectile and hitscan fire consume this direction. A rule state.set effect commits after physics, so changing aim and firing in the same Tick uses the previously committed aim; the new aim is visible to the next Tick."
         },
         "fireRequestPath": {
           "type": "string",
@@ -835,11 +836,12 @@
         "lost": false
       },
       "state": "No x/y player shortcuts: bodies holds body records; each requires id,kind,x,y,vx,vy,hx,hy,hp,team,value,fixed. Initialize all world bookkeeping explicitly. overflowTicks is optional. Body IDs unique; bounds x in [hx,width-hx], y in [hy,height-hy]. velocities are integer units per Tick; unitsPerMeter=1000.",
-      "constraints": "config.constraints refers to body IDs in the complete world, not to a wave singleton. min<=max and max bounds fit width/height. Constraints are not replaced by wave-local IDs; future wave body bounds are checked separately. Constraints do not name another state field or a capability.",
+      "constraints": "config.constraints names body IDs present in the complete declared initial world, never a future-wave-only target. min<=max and max bounds fit width/height. A trusted Runtime binds the exact admitted component declaration (capability/version, full config and statePath) to those initial IDs. If such a body retires during execution, its constraint remains dormant while absent and applies again if that ID legitimately reappears; the config is not rewritten. Ordinary direct validation or simulation without this internal provenance remains strict. Bounds, body shape, duplicate live IDs and wave-body checks remain enforced; this is declaration provenance, not proof of a particular death cause or external identity.",
       "waves": "Optional waves is at most64 {tick,body} entries, tick integer0..1000000. Due unspawned indices are processed in array order when tickIndex>=tick; successful spawn records the index in spawned. Pool-full rejects that spawn without overwriting live objects; duplicate live IDs reject. No automatic 3-wave guarantee or authored route is provided.",
       "input": "heldMovement=true consumes press/hold for continuous directions; keyboard bindings must enable hold. A solution action row press+release is not a held movement duration. Release/cancel clears matching direction; field-bound fire/lane requests must use independent controller state paths.",
       "presentation": "bodyLayer.statePath addresses the body array /<worldField>/bodies, read from global state (not Runtime /state prefix). Origin plus body coordinate/1000 projects centers; kind palettes include actor,solid,target,projectile,pickup. circleKinds/valuePalette/showValues additionally require a2game.visual.body-style; bodyLayer also requires a registered trusted producer.",
-      "acceptance": "Published state and mechanism contracts are not generated game answers, independent gameplay checks, a real-device claim or a model identity attestation."
+      "acceptance": "Published state and mechanism contracts are not generated game answers, independent gameplay checks, a real-device claim or a model identity attestation.",
+      "aim": "aimPath is a JSON pointer into global state (no /state prefix) whose value is a two-number direction vector [dx,dy], not an absolute target position. Both components must be finite with absolute value<=32000. The Runtime divides by abs(dx)+abs(dy) (L1 normalization); [0,0] falls back to fireDirection, default right. Positive x is right and positive y is up. An aimPath overrides autoTarget; without aimPath, autoTarget=true may aim at the selected live target, otherwise fireDirection is used. Projectile and hitscan fire consume this direction. A rule state.set effect commits after physics, so changing aim and firing in the same Tick uses the previously committed aim; the new aim is visible to the next Tick."
     }
   }
 }

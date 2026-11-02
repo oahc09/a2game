@@ -26,7 +26,8 @@
       {
         "name": "state.set",
         "payloadSchema": {
-          "type": "object"
+          "type": "object",
+          "description": "Rule effect syntax and committed-state semantics are documented in extensions.publicSemantics; this open metadata object does not authorize arbitrary extra GameSpec effect fields."
         }
       }
     ],
@@ -43,5 +44,14 @@
   },
   "testSuites": [
     "reference-core-op-tests"
-  ]
+  ],
+  "extensions": {
+    "publicSemantics": {
+      "scope": "PUBLIC_MECHANISM_CONTRACT_NOT_LEVEL_OR_SOLUTION",
+      "effect": "In a GameSpec rule do array, use the effect object {op:\"state.set\",path:<JSON pointer>,value:<JSON literal or valid expression>}; path and value are top-level effect fields, not a nested payload. The rule must declare the state-set capability and its dependencies in requires. Only op/path/value are accepted for this effect.",
+      "path": "path addresses an existing value under a declared global state field, for example /<field>; it is not a Runtime observation /state prefix and cannot create an undeclared field or missing nested target. The resulting root value must still satisfy its declared type and constraints.",
+      "value": "value is required and may be null or any valid JSON literal, or an expression accepted by the GameSpec expression contract. Expression-looking objects use expression semantics; use {const:<JSON value>} when a literal object would otherwise be interpreted as an expression. No arbitrary code is executed.",
+      "timing": "Rule conditions and right-hand-side expressions read the same immutable post-simulation S_sim for a Tick. Effects commit sequentially afterward in T8; a state.set cannot retroactively change physics or a shot already simulated in that Tick. A failed commit rolls back the staged Tick; this effect does not move a body or update an aim binding unless the author explicitly targets the appropriate declared state path."
+    }
+  }
 }

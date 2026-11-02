@@ -12,13 +12,17 @@ import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 // Explicit post-migration public-contract revisions; never qualify old evidence for new bytes.
 const publicContractRevisions={
+  "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
+    "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
+    "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"
+  },
   "specs/v0.1/capabilities/a2game.puzzle.swap.capability.json": {
     "before": "b8854b33b62aa0f4244fe1bad17b18520ac1f0e1c829e36e000b99c998cb8d40",
     "current": "bb4ac43c0fa679b86240e63ba49e994f1a6b7568c36ce652d4920a44ddd647cd"
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "69a42faa92ca475c8abefd0795f19dffd8c660e0b71b5a77748ca21cbe645fda"
+    "current": "3fd357b91c31f1f507a6936640a42d3d6c1eb45e3ef79bf580b7f259df1fa120"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
