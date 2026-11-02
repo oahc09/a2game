@@ -16,7 +16,7 @@ function mockThree(){
   class Camera{constructor(){this.position={set(){}};}lookAt(){}updateProjectionMatrix(){}}
   class Renderer{setClearColor(){}setSize(){}setPixelRatio(){}render(){tally.renders++;}dispose(){tally.rendererDisposed=true;}}
   class Geometry{constructor(){tally.created++;}dispose(){tally.geometryDisposes++;}}
-  class Material{constructor(o){this.map=o.map;}dispose(){tally.materialDisposes++;}}
+  class Material{constructor(o){Object.assign(this,o);}dispose(){tally.materialDisposes++;}}
   class Texture{dispose(){tally.textureDisposes++;}}
   class Mesh{constructor(geometry,material){this.geometry=geometry;this.material=material;this.position={set(){}};}}
   return {THREE:{Scene,OrthographicCamera:Camera,WebGLRenderer:Renderer,PlaneGeometry:Geometry,CircleGeometry:Geometry,Mesh,MeshBasicMaterial:Material,CanvasTexture:Texture},tally};
@@ -66,4 +66,20 @@ test('CocosAirJS adapter consumes same PresentationFrame and releases scene (moc
   assert.ok(tally.labels>0);assert.deepEqual(initial,frozen);
   await adapter.dispose();await adapter.dispose();assert.equal(tally.released,1);assert.ok(tally.destroys>0);
   assert.throws(()=>adapter.draw(initial),/A2G_E_DISPOSED/);
+});
+
+// Structural regression only; scripts/painter-order-smoke.mjs checks real SDK pixels.
+test('Three scene2d primitives share one painter queue across text and solid shapes (mock only)',()=>{
+ const oldDoc=globalThis.document;globalThis.document={createElement:()=>({getContext:()=>({measureText:()=>({width:128}),fillText(){}})})};
+ try{
+  const {THREE}=mockThree(),adapter=new ThreeAdapter(THREE,{getBoundingClientRect:()=>({width:320,height:320})});
+  const text={id:'label',kind:'text',at:[0,0],text:'AB',fontSize:1,fill:'#ffffff'},rect={id:'tile',kind:'rect',at:[0,0],size:[3,3],fill:'#ff0000'},circle={id:'disc',kind:'circle',at:[0,0],radius:1,fill:'#00ff00'};
+  for(const commands of [[text,rect],[rect,text],[text,rect,circle],[circle,text,rect]]){
+   adapter.draw({width:4,height:4,background:'#000000',commands});
+   assert.deepEqual(adapter.meshes.map(m=>m.renderOrder),commands.map((_,i)=>i));
+   assert.ok(adapter.meshes.every(m=>m.material.transparent===true&&m.material.depthTest===false&&m.material.depthWrite===false));
+   assert.deepEqual(adapter.meshes.map(m=>!!m.material.map),commands.map(c=>c.kind==='text'));
+  }
+  adapter.dispose();assert.equal(adapter.meshes.length,0);
+ }finally{globalThis.document=oldDoc;}
 });

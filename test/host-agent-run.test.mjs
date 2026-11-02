@@ -11,9 +11,12 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
 function fixture(t,host='workbuddy'){
  const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));t.after(()=>rmSync(workspace,{recursive:true,force:true}));
- for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist'])mkdirSync(join(workspace,p),{recursive:true});
+ for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor'])mkdirSync(join(workspace,p),{recursive:true});
  write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});write(join(workspace,'docs/host-agent-pilot.md'),'Public task');write(join(workspace,'specs/v0.1/capabilities/public.capability.json'),{id:'a2game.test.public',version:'0.1.0'});
  write(join(workspace,'dist/index.js'),'export const stale = false;');
+ for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs'])write(join(workspace,'player',name),'original browser source '+name);
+ write(join(workspace,'player/vendor/sdk-provenance.json'),{receipt:'original'});write(join(workspace,'player/vendor/three.module.js'),'downloaded SDK bound separately');
+ write(join(workspace,'player/validated-games.json'),{generated:true});
  const {run,hostRunId}=initHostRun(host,workspace),sessionId=randomUUID(),artifactId=randomUUID();
  const output=join(workspace,'output/mcp',sessionId);mkdirSync(output);
  write(join(output,'session.json'),{format:'a2game-mcp-session',version:1,implementationSha256:hostSourceFingerprint(workspace),sessionId,hostRunId,lastSequence:0,createdAt:new Date().toISOString()});
@@ -139,4 +142,25 @@ test('simulated provenance cannot be relabelled into real host acceptance or the
  write(realPath,{...realMeta,provenance:'NATIVE_AGENT_SIMULATED_HOST'});assert.throws(()=>checkHostRun(real.run,f.workspace),/provenance mismatch/);
  const matrix=JSON.parse(readFileSync(new URL('../project/host-first-tasks.json',import.meta.url))).matrix;
  assert.deepEqual(matrix.hosts,['qoder','workbuddy','trae']);assert.equal(matrix.total,15);assert.equal(matrix.cases.length,15);assert.ok(matrix.cases.every(c=>matrix.hosts.includes(c.host)));
+});
+
+
+test('browser adapter, script, HTML and CSS bytes invalidate previous run and session evidence',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs']){
+  const path=join(f.workspace,'player',name),original=readFileSync(path);
+  writeFileSync(path,Buffer.concat([original,Buffer.from(' changed')]));
+  const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL',name);assert.ok(result.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'),name);assert.ok(result.missing.some(x=>x.startsWith('SESSION_IMPLEMENTATION_CHANGED_OR_UNBOUND:')),name);
+  writeFileSync(path,original);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE',name+' restored');
+ }
+ const main=join(f.workspace,'player/main.mjs'),original=readFileSync(main);rmSync(main);assert.equal(f.check().mcpLoopStatus,'PARTIAL','removed browser source');writeFileSync(main,original);
+ write(join(f.workspace,'player/adapters/new-adapter.mjs'),'new adapter');assert.equal(f.check().mcpLoopStatus,'PARTIAL','added browser source');
+});
+
+test('dynamic SDK provenance and generated player catalogs do not masquerade as browser source identity',t=>{
+ const f=fixture(t);f.complete();const before=hostSourceFingerprint(f.workspace);
+ write(join(f.workspace,'player/vendor/sdk-provenance.json'),{receipt:'new dynamic SDK receipt'});write(join(f.workspace,'player/vendor/three.module.js'),'SDK change must be checked by independent locked SDK evidence');
+ write(join(f.workspace,'player/validated-games.json'),{generated:'new catalog'});
+ assert.equal(hostSourceFingerprint(f.workspace),before);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ // This source-only assertion does not claim SDK verification; the runtime's SDK checks remain mandatory.
 });
