@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-02 Host-first review修复：run级完整canonical账本与候选预算、内容指纹绑定、CLI/MCP结构化诊断、5个版本化只读Resources、导出格式一致性及跨平台测试已增量实现。公开创作capsule与Linux fail-closed隔离启动器不等于真实宿主隔离验收；不支持的namespace/平台必须BLOCKED。旧报告和SHA保持历史，不当当前源码证据；真实宿主、15单元、人工、正式G3/真机仍未验。见 docs/host-agent-pilot.md 和 project/host-first-status.json。
+
 2026-11-01 宿主验收加固：检查器逐个核对所有导出artifact、成功open及声明/关联调用，漏存、归档未完成、响应错配和未显式关闭均报告PARTIAL（退出码1）。预览关闭保留explicit/expired/cancelled/shutdown原因、重复关闭幂等，生命周期事件可随capture归档；默认120秒TTL和8秒完整准入上限不变。仅运行相关工具回归，未重跑双SDK画面；宿主需重连加载新服务。正式G3/真机/人工计数不变。
 
 2026-11-01 WorkBuddy 项目Skill软链接受文件系统阻塞：E: 为 exFAT，实测不支持符号链接，现有3文件副本与唯一源码一致并原样保留。安装器已支持校验并保留指向 `integrations/skill/a2game/` 的指定入口链接，供支持链接的文件系统使用；本机尚未完成链接替换，验收计数不变。

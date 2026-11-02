@@ -41,7 +41,18 @@ def main():
     def validate(value, schema, prefix=''):
         Draft202012Validator.check_schema(schema)
         for error in islice(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(value), 20 - len(errors)):
-            errors.append({'pointer': prefix + pointer(error.absolute_path), 'message': error.message[:400]})
+            parts = list(error.absolute_path)
+            if error.validator == 'required' and isinstance(error.instance, dict):
+                missing = [key for key in error.validator_value if key not in error.instance]
+                if missing:
+                    parts.append(missing[0])
+            location = prefix + pointer(parts)
+            row = {'pointer': location if len(location) <= 256 else '', 'message': error.message[:400]}
+            if error.validator in ('const', 'type', 'minimum', 'maximum', 'minLength', 'maxLength'):
+                row['expected'] = error.validator_value
+                if error.instance is None or isinstance(error.instance, (int, float, bool)) or isinstance(error.instance, str) and len(error.instance) <= 80:
+                    row['actual'] = error.instance
+            errors.append(row)
 
     schemas = ROOT / 'specs' / 'v0.1' / 'schemas'
     validate(game, json.loads((schemas / 'game.schema.json').read_text(encoding='utf-8')))

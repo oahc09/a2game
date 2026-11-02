@@ -7,7 +7,7 @@ import {probeProvider} from './providers.mjs';
 import {runGeneratorWorker} from './process.mjs';
 import {buildGamePlan,validateGamePlan,scopeRequest,checkPlanGame,checkReferenceInputProfile} from './game-plan.mjs';
 import {selectCapabilities,digest} from './catalog.mjs';
-import {classifyFailure,repairFeedback} from './diagnostics.mjs';
+import {classifyFailure,repairFeedback,publicDiagnostics} from './diagnostics.mjs';
 export {buildGamePlan,validateGamePlan} from './game-plan.mjs';
 export {startGeneratorStudio} from './studio.mjs';
 export {exportGamePackage,importGamePackage} from './package.mjs';
@@ -128,8 +128,8 @@ export async function testGeneratedDirectory(input,{signal,timeoutMs=60000}={}){
   const game=read(join(result.directory,'game.json'));checkReferenceInputProfile(game);
   if(existsSync(join(directory,'game-plan.json'))){const remaining=deadline-Date.now();if(remaining<=0)throw fail('A2G_GEN_TIMEOUT');
    const plan=await validateGamePlan(limited(join(directory,'game-plan.json'),64*1024),{signal,timeoutMs:remaining});checkPlanGame(plan,game);}
- }catch(e){if(e.code==='A2G_GEN_CANCELLED')throw e;return {status:'FAIL',code:e.code??'A2G_GEN_PLAN_GAME',category:classifyFailure(e.code),G3:'NOT_RUN',runId:job.id};}
- return {status:result.summary.status,code:result.attempt.code??null,G3:'NOT_RUN',runId:job.id};
+ }catch(e){if(e.code==='A2G_GEN_CANCELLED')throw e;return {status:'FAIL',code:e.code??'A2G_GEN_PLAN_GAME',category:classifyFailure(e.code),diagnostics:publicDiagnostics(e),G3:'NOT_RUN',runId:job.id};}
+ return {status:result.summary.status,code:result.attempt.code??null,diagnostics:result.summary.status==='PASS_REFERENCE'?[]:publicDiagnostics(result.attempt),G3:'NOT_RUN',runId:job.id};
 }
 export async function previewGeneratedDirectory(input,{backend='three',signal}={}){
  if(!['air','three'].includes(backend))throw fail('A2G_GEN_BACKEND');

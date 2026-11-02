@@ -1330,7 +1330,7 @@
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "contentSummaryStatus": "PASS",
     "httpNavigation": "PASS",
-    "scope": "CURRENT_SOURCE_FULL_VERIFY",
+    "scope": "HISTORICAL_PRE_HOST_FIRST_REPAIR; CURRENT_SOURCE_FULL_VERIFY_NOT_ESTABLISHED",
     "nodeTests": {
       "pass": 159,
       "total": 159
@@ -1344,11 +1344,21 @@
       "pass": 203,
       "total": 203,
       "suites": 114
-    }
+    },
+    "historicalScope": "CURRENT_SOURCE_FULL_VERIFY"
   },
   "generatorHandoff": "docs/generator-handoff.md",
   "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL",
   "hostFirstWorkstream": "project/host-first-status.json",
   "hostFirstExecutionGuide": "docs/host-agent-pilot.md",
-  "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening"
+  "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening",
+  "hostFirstRepair": {
+    "status": "IMPLEMENTED_PENDING_INDEPENDENT_ACCEPTANCE",
+    "scope": "Core implementation and synthetic regressions; no real-host/model/human acceptance promotion",
+    "guide": "docs/host-agent-pilot.md",
+    "currentEvidenceRule": "Current content fingerprint required; prior reports are historical and must not be used for changed source",
+    "formalG3": "NOT_RUN",
+    "hostModelCalls": 0,
+    "remoteCI": "NOT_RUN"
+  }
 }

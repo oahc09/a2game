@@ -2,6 +2,10 @@
 
 MCP 先 `tools/list` 确认工具真的可用。先调用 `a2game.list_capabilities`（query、limit、offset），再用完整 id/version 调用 `a2game.get_capability`。`a2game.plan_game({prompt})` 不调用模型。
 
+编写前使用客户端的 `resources/list` / `resources/read` 读取 `a2game://spec/0.1.0/` 下的 GameSpec、Conformance、Capability Schema、HostProfile 与非可执行片段。只选择服务实际列出的 URI；核对 envelope 的 specVersion、bytes、sha256（绑定 content 原文）。客户端不支持 Resources 时如实记录，由可信控制端提供公开 capsule，不读取基准关卡或解法。
+
+验证失败按 `diagnostics` 的 `stage/jsonPointer/capabilityId/ruleId/caseId/expected/actual/repairHint` 修同一稿，保留失败，缺失字段不猜。严格评测先由可信控制端创建run并以 `--host-run-id` 绑定专用服务；所有失败计入三次候选上限。旧未绑定服务可用但不能成为完整run证明。公开目录并非强隔离，必须实际通过受控沙箱/宿主边界验证才能声称答案不可读。
+
 已有 JSON 的最小闭环：
 
 1. `a2game.validate_game({gameJson, conformanceJson, solutionJson})`，三个字段均为原始 JSON 字符串。

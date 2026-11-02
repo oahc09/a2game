@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import {readFileSync,writeFileSync} from 'node:fs';
 import {parseArgs} from 'node:util';
+import {publicDiagnostics} from './diagnostics.mjs';
 import {queryCapabilities,getPublicCapability} from './catalog.mjs';
 import {generateGame,validateGameFile,testGeneratedDirectory,previewGeneratedDirectory,probeProvider,admitNativeGeneration,buildGamePlan,validateGamePlan,startGeneratorStudio,exportGamePackage,importGamePackage,safePath} from './index.mjs';
 const help=`A2Game Generator (local, reference only)
@@ -64,4 +65,4 @@ try{
   }else throw Object.assign(Error(),{code:'A2G_GEN_ARGUMENT'});
   if(result){console.log(JSON.stringify(result,null,values.json?0:2));process.exitCode=result.status==='BLOCKED'?3:result.status==='CANCELLED'?130:['PASS_REFERENCE','READY'].includes(result.status)?0:1;}
  }
-}catch(e){console.log(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ARGUMENT',message:'操作未完成，请检查参数、构建和本机配置后重试。'}));process.exitCode=e.code==='A2G_GEN_CANCELLED'?130:2;}
+}catch(e){console.log(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ARGUMENT',message:'操作未完成，请检查参数、构建和本机配置后重试。',diagnostics:publicDiagnostics({...e,code:e.code??'A2G_GEN_ARGUMENT'})}));process.exitCode=e.code==='A2G_GEN_CANCELLED'?130:2;}

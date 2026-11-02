@@ -6,6 +6,7 @@ import {spawnSync} from 'node:child_process';
 import {randomUUID,createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {chromium} from 'playwright';
+import {browserLaunchOptions,browserIdentity} from './browser-launch.mjs';
 import {root,makeRegistry} from './registry.mjs';
 import {createFixture} from '../generator/fixture.mjs';
 import {playSolution} from './agent-solver.mjs';
@@ -52,7 +53,7 @@ try{
   const r=spawnSync(process.execPath,[join(root,'generator/cli.mjs'),command,path,'--json'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:180000});writeFileSync(join(directory,'cli-'+command+'.log'),r.stdout??'');assert.equal(r.status,0,r.stderr);assert.equal(JSON.parse(r.stdout).status,'PASS_REFERENCE');
  }
  report.cliParity={gameSha256:sha(join(gameDirectory,'game.json')),exactHash:expected.final.exactHash,trace:expected.trace,validator:'Shared complete admission and test service; identical external JSON'};
- browser=await chromium.launch({headless:true});
+ const launchOptions=browserLaunchOptions();browser=await chromium.launch(launchOptions);report.browser=browserIdentity(browser,launchOptions);
  for(const backend of ['air','three']){
   const preview=(await call('a2game.preview_game',{action:'open',artifactId:artifact.artifactId,backend})).data,context=await browser.newContext({viewport:{width:390,height:844}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(String(e)));
   await page.goto(preview.url+'&clock=manual');await page.waitForFunction(()=>window.__a2game?.getState().flow.status==='playing');assert.equal(await page.evaluate(()=>window.__a2game.backend),backend);

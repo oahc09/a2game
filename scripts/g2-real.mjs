@@ -5,6 +5,7 @@ import {resolve,relative} from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawn,execFileSync} from 'node:child_process';
 import {chromium} from 'playwright';
+import {browserLaunchOptions,browserIdentity} from './browser-launch.mjs';
 import {PNG} from 'pngjs';
 import {HeadlessRuntime,sha256Canonical,projectPresentation} from '../dist/index.js';
 import {makeRegistry,readJson,spec,root} from './registry.mjs';
@@ -18,7 +19,7 @@ const sourceFiles=directory=>readdirSync(resolve(root,directory),{withFileTypes:
   entry.isDirectory()?sourceFiles(`${directory}/${entry.name}`):[`${directory}/${entry.name}`]);
 const codeFiles=['package-lock.json','project/sdk-lock.json','player/main.mjs','player/mobile-host.mjs','player/gamepad-host.mjs','player/index.html','player/browser-registry.mjs','player/capability-index.json',
   ...sourceFiles('player/adapters'),'scripts/g2-real.mjs',
-  'scripts/prepare-sdks.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
+  'scripts/prepare-sdks.mjs','scripts/browser-launch.mjs','scripts/serve.mjs','scripts/turn-room-service.mjs','scripts/content-service.mjs','scripts/validate-content.py','scripts/asset-policy.mjs','project/asset-policy.json','player/content-loader.mjs','player/resources.mjs',...sourceFiles('assets'),
   'scripts/registry.mjs',...sourceFiles('src'),...sourceFiles('specs/v0.1/games'),...sourceFiles('specs/v0.1/capabilities'),...sourceFiles('specs/v0.1/schemas'),
   ...readdirSync(resolve(root,'dist')).filter(name=>name.endsWith('.js')).map(name=>`dist/${name}`),
   ...readdirSync(resolve(root,'dist/modules')).filter(name=>name.endsWith('.js')).map(name=>`dist/modules/${name}`)];
@@ -26,7 +27,7 @@ const fingerprints=Object.fromEntries(codeFiles.map(path=>[path,hash(path)]));
 const games=['tap-target','grid-merge','grid-merge-spawn','grid-push'];
 const profiles=[{id:'desktop-dpr1',viewport:{width:1230,height:920},deviceScaleFactor:1},
   {id:'mobile-dpr2',viewport:{width:390,height:844},deviceScaleFactor:2}];
-const reports=[];let browser,server,url,browserVersion,infrastructureError,physicalClose;
+const reports=[];let browser,server,url,browserVersion,browserExecutable,infrastructureError,physicalClose;
 
 async function startServer(){
   server=spawn(process.execPath,['scripts/serve.mjs'],{cwd:root,env:{...process.env,A2GAME_PORT:'0'},stdio:['ignore','pipe','pipe']});
@@ -218,9 +219,9 @@ try{
   const sdk=readJson(resolve(root,'player/vendor/sdk-provenance.json'));
   for(const file of sdk.files)assert.equal(hash(file.path),file.sha256,'SDK bytes differ from provenance');
   save('sdk-provenance.json',sdk);save('fingerprints.json',fingerprints);
-  url=await startServer();browser=await chromium.launch({headless:true});browserVersion=browser.version();
+  url=await startServer();const launchOptions=browserLaunchOptions();browser=await chromium.launch(launchOptions);browserVersion=browser.version();browserExecutable=browserIdentity(browser,launchOptions);
   for(const backend of ['three','air']){
-    const result={format:'a2game-g2-real-sdk',runId,backend,browser:browserVersion,platform:process.platform,
+    const result={format:'a2game-g2-real-sdk',runId,backend,browser:browserVersion,browserExecutable,platform:process.platform,
       baselineCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),
       scope:'scene2d reference subset: four allowlisted JSON games; real WebGL2 SDKs; no physical device/IMU claims',
       traceProfile:'explicit-tick-dom-operations-v1; DOM Pointer/Keyboard capture, public Node runtime replay',
@@ -261,7 +262,7 @@ for(const report of reports){
     receipt:pathOf(resolve(directory,`${report.backend}-receipt.json`)),scope:report.scope},null,2)+'\n');
 }
 const status=!infrastructureError&&reports.length===2&&reports.every(report=>report.status==='PASS')?'PASS':infrastructureError?'BLOCKED':'FAIL';
-save('summary.json',{status,runId,url,browser:browserVersion,physicalClose,unchanged,infrastructureError,crossEngineParity,
+save('summary.json',{status,runId,url,browser:browserVersion,browserExecutable,physicalClose,unchanged,infrastructureError,crossEngineParity,
   reports:reports.map(report=>({backend:report.backend,status:report.status,cases:report.cases.length}))});
 console.log(`${status} real SDK G2: ${pathOf(directory)}`);
 if(status!=='PASS')process.exitCode=1;
