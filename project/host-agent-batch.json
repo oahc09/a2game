@@ -1,0 +1,39 @@
+{
+  "format": "a2game-host-agent-prepared-batch",
+  "version": 1,
+  "createdAt": "2026-11-01T05:00:25.073Z",
+  "guide": "docs/host-agent-pilot.md",
+  "scope": "Prepared public context only; no model or host tool dispatch.",
+  "mcpProviderCalls": 0,
+  "hostNativeUsage": "NOT_RUN",
+  "runs": [
+    {
+      "host": "qoder",
+      "status": "BLOCKED_USER_ACTION",
+      "run": "reports/host-first-evaluations/qoder/2026-11-01T05-00-25-078Z-86458cda-209b-4f13-bd32-5f207c61e0a8",
+      "task": "reports/host-first-evaluations/qoder/2026-11-01T05-00-25-078Z-86458cda-209b-4f13-bd32-5f207c61e0a8/TASK.md",
+      "prerequisite": "User reset of the disclosed local router credential; reconnect MCP and use a new session."
+    },
+    {
+      "host": "trae",
+      "status": "NOT_RUN",
+      "run": "reports/host-first-evaluations/trae/2026-11-01T05-00-25-132Z-989907e3-f58e-479b-8e32-782264ea8deb",
+      "task": "reports/host-first-evaluations/trae/2026-11-01T05-00-25-132Z-989907e3-f58e-479b-8e32-782264ea8deb/TASK.md",
+      "prerequisite": "Reconnect A2Game MCP and use a new session for project Skill discovery."
+    },
+    {
+      "host": "workbuddy",
+      "status": "NOT_RUN",
+      "run": "reports/host-first-evaluations/workbuddy/2026-11-01T05-00-25-165Z-e1f4e212-75ae-43d2-a424-47047c94d952",
+      "task": "reports/host-first-evaluations/workbuddy/2026-11-01T05-00-25-165Z-e1f4e212-75ae-43d2-a424-47047c94d952/TASK.md",
+      "prerequisite": "Reconnect A2Game MCP and use a new session for project Skill discovery."
+    },
+    {
+      "host": "zcode",
+      "status": "NOT_RUN",
+      "run": "reports/host-first-evaluations/zcode/2026-11-01T05-00-25-201Z-a0c38b5a-0023-4b15-921d-e57cbe53c3ba",
+      "task": "reports/host-first-evaluations/zcode/2026-11-01T05-00-25-201Z-a0c38b5a-0023-4b15-921d-e57cbe53c3ba/TASK.md",
+      "prerequisite": "Reconnect A2Game MCP and use a new session for project Skill discovery."
+    }
+  ]
+}

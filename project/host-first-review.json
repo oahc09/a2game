@@ -1,0 +1,174 @@
+{
+  "format": "a2game-host-first-review",
+  "version": 1,
+  "reviewedAt": "2026-11-01T04:59:29.161Z",
+  "status": "PARTIAL",
+  "scope": "Latest four host reports compared with exact server receipts. Historical host exports remain unchanged; discrepancies are not normalized away.",
+  "hostNativeUsage": "UNKNOWN",
+  "mcpProviderResponseClaims": 0,
+  "formalG3": "NOT_RUN",
+  "executionGuide": "docs/host-agent-pilot.md",
+  "hosts": [
+    {
+      "host": "qoder",
+      "status": "PARTIAL",
+      "configurationScope": "USER_LEVEL",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "hostRunId": "7260908e-5b2e-4034-a1bd-0518dbf9bb9b",
+      "toolEvidence": {
+        "file": "reports/host-first-evaluations/qoder/2026-11-01T03-52-35-237Z-75a873c8-9299-4091-876c-7e71d9775128/tool-list.json",
+        "sha256": "35789f898e72acb31d3764af25b8287f0c155bbfd7ec5b1499f59f81b791557d",
+        "pointer": "/tools"
+      },
+      "hostResponse": {
+        "file": "reports/host-first-evaluations/qoder/2026-11-01T03-52-35-237Z-75a873c8-9299-4091-876c-7e71d9775128/host-response.json",
+        "sha256": "d6eda9d5c34eae38562d17ba79e7da49d677f090a3b08fbfd968da6ce6850941",
+        "pointer": ""
+      },
+      "serverReceipt": {
+        "file": "reports/host-first-server-review-45902455-e901-4fc1-968e-bc5c5748c30b/qoder-server.json",
+        "sha256": "46c3e4d1801f5e4df94d4dd9f4950c4762b3a8436d9fa355b36b25fd9103946c",
+        "originalSource": "output/mcp/9815dbd7-f804-4743-a1dd-a92777723d2a/7260908e-5b2e-4034-a1bd-0518dbf9bb9b.receipt.json"
+      },
+      "references": [
+        {
+          "file": "reports/host-first-evaluations/qoder/2026-11-01T03-52-35-237Z-75a873c8-9299-4091-876c-7e71d9775128/receipt.json",
+          "sha256": "c57f073a1da72052acb2ea605e4bbec552cbe049155f65034f878eb6498e9abb"
+        },
+        {
+          "file": "reports/host-first-evaluations/qoder/2026-11-01T03-52-35-237Z-75a873c8-9299-4091-876c-7e71d9775128/request.json",
+          "sha256": "9d4699d615b546ecb4d4b7a5cc424f15c3b1deb8f26dde14bd2d9268734eca01"
+        },
+        {
+          "file": "reports/host-first-evaluations/qoder/2026-11-01T03-52-35-237Z-75a873c8-9299-4091-876c-7e71d9775128/startup-evidence.json",
+          "sha256": "e1de82fe9d476a86f6412b7c23b7a5da9a9e1550e116561420e262a0041270bb"
+        }
+      ],
+      "findings": [
+        "USER_SCOPE_ONLY",
+        "CREDENTIAL_EXPOSURE_REPORTED_PENDING_RESET"
+      ]
+    },
+    {
+      "host": "trae",
+      "status": "PARTIAL",
+      "configurationScope": "PROJECT_REPORTED",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "hostRunId": "f20d334c-9f06-4f58-baec-685b6c181f98",
+      "toolEvidence": {
+        "file": "reports/host-first-evaluations/TRAE/2026-11-01T03-49-53Z-c3800f3b-4a41-47e4-b2f8-d4b8fada64a0/tool-list.json",
+        "sha256": "106b80e62e5e8153042ec425727a18bc649a47c12092dbf401e318c3acb07b48",
+        "pointer": "/actualHostAliases"
+      },
+      "hostResponse": {
+        "file": "reports/host-first-evaluations/TRAE/2026-11-01T03-49-53Z-c3800f3b-4a41-47e4-b2f8-d4b8fada64a0/host-response.json",
+        "sha256": "0f8eb9ff7dd0777798a962d45037d5868da5659e20c7b6e3ae453d96472a6b1f",
+        "pointer": ""
+      },
+      "serverReceipt": {
+        "file": "reports/host-first-server-review-45902455-e901-4fc1-968e-bc5c5748c30b/trae-server.json",
+        "sha256": "6b9f0c5ad3b0897b12c1dd916b394a540c30b333e05a891f3dda89886d0a03e7",
+        "originalSource": "output/mcp/0371f41d-a8f0-45ab-8a76-a46e542bf58a/f20d334c-9f06-4f58-baec-685b6c181f98.receipt.json"
+      },
+      "references": [
+        {
+          "file": "reports/host-first-evaluations/TRAE/2026-11-01T03-49-53Z-c3800f3b-4a41-47e4-b2f8-d4b8fada64a0/receipt.json",
+          "sha256": "04bda8290521c20a5d56bc0674dd119b7f14ee1865276ae173f66f14b9a23ac4"
+        },
+        {
+          "file": "reports/host-first-evaluations/TRAE/2026-11-01T03-49-53Z-c3800f3b-4a41-47e4-b2f8-d4b8fada64a0/request.json",
+          "sha256": "f0e7e965ef871db65a689ed9dff16226556c2755a945fba8fe052d5641dc9b33"
+        },
+        {
+          "file": "reports/host-first-evaluations/TRAE/2026-11-01T03-49-53Z-c3800f3b-4a41-47e4-b2f8-d4b8fada64a0/startup-evidence.md",
+          "sha256": "a7996d85c0894e01f8005c072d2f3a8935112af1cee4847e8588cd6df499d502"
+        }
+      ],
+      "findings": [
+        "PRODUCT_AND_EDITOR_VERSION_DISTINCTION"
+      ]
+    },
+    {
+      "host": "workbuddy",
+      "status": "PARTIAL",
+      "configurationScope": "USER_LEVEL",
+      "skillDiscovery": "PROJECT_LAYOUT_INSTALLED_RELOAD_PENDING",
+      "hostRunId": "3f96e86b-eea9-4935-9532-d773969f6a0c",
+      "toolEvidence": {
+        "file": "reports/host-first-evaluations/workbuddy/2026-11-01T03-49-21Z-3ce2a021-dbac-4d31-a1b0-3d29318a7df7/tool-list.json",
+        "sha256": "dff4568d73c0bb2c7da40e04c200216aa54b4089c3ef2d4c36272c3eeb09680d",
+        "pointer": "/tools"
+      },
+      "hostResponse": {
+        "file": "reports/host-first-evaluations/workbuddy/2026-11-01T03-49-21Z-3ce2a021-dbac-4d31-a1b0-3d29318a7df7/host-response.json",
+        "sha256": "d8be5870cec147801c8e6482767f02f5cd82530195d067d55748af4ad37d66fc",
+        "pointer": ""
+      },
+      "serverReceipt": {
+        "file": "reports/host-first-server-review-45902455-e901-4fc1-968e-bc5c5748c30b/workbuddy-server.json",
+        "sha256": "e4f3efa8f70a242e43bd3bf3c20cf7179e54ee6bc9d13cbbace7a20c6173a508",
+        "originalSource": "output/mcp/8ef15e4e-de61-4270-a004-168769049f41/3f96e86b-eea9-4935-9532-d773969f6a0c.receipt.json"
+      },
+      "references": [
+        {
+          "file": "reports/host-first-evaluations/workbuddy/2026-11-01T03-49-21Z-3ce2a021-dbac-4d31-a1b0-3d29318a7df7/receipt.json",
+          "sha256": "e3d26bf59a7f48d7ccce3d593ee3eb901b90942d739a1e5251b430afd49127d1"
+        },
+        {
+          "file": "reports/host-first-evaluations/workbuddy/2026-11-01T03-49-21Z-3ce2a021-dbac-4d31-a1b0-3d29318a7df7/request.json",
+          "sha256": "a4cb1a3decbece8333528dacf1aeb951a7e169e3a4d74e458c74c04750d1a92e"
+        },
+        {
+          "file": "reports/host-first-evaluations/workbuddy/2026-11-01T03-49-21Z-3ce2a021-dbac-4d31-a1b0-3d29318a7df7/startup-evidence.json",
+          "sha256": "603a8f8f14d29eb9f7608fb1959ffecf11cc6e1eeaa942d4835a2702b8e86750"
+        }
+      ],
+      "findings": [
+        "HOST_RESPONSE_SCHEMA_MISMATCH",
+        "SERVER_RECEIPT_MISMATCH",
+        "USER_SCOPE_ONLY",
+        "SKILL_DISCOVERY_RELOAD_PENDING"
+      ]
+    },
+    {
+      "host": "zcode",
+      "status": "PARTIAL",
+      "configurationScope": "PROJECT_REPORTED",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "hostRunId": "1a5a4088-3968-4016-bdf6-7e1eb185dc2c",
+      "toolEvidence": {
+        "file": "reports/host-first-evaluations/zcode/20261101T035050Z-aedcd3d8-1a20-45f8-b444-838d748189d7/tool-list.json",
+        "sha256": "04696b9aaf706a1b60e89e1caf5874472e5a776dbb7e11ebe49eccce822b4bbe",
+        "pointer": "/actualToolAliases"
+      },
+      "hostResponse": {
+        "file": "reports/host-first-evaluations/zcode/20261101T035050Z-aedcd3d8-1a20-45f8-b444-838d748189d7/host-response.json",
+        "sha256": "0165000bc68b173841a26db2f51612664a416cd43e9ebb888438b76f6b5080cb",
+        "pointer": ""
+      },
+      "serverReceipt": {
+        "file": "reports/host-first-server-review-45902455-e901-4fc1-968e-bc5c5748c30b/zcode-server.json",
+        "sha256": "16cfcbb25fb6c8b728e7c9abc412e477d01554e2c9655418e69a5d720feb834e",
+        "originalSource": "output/mcp/f908f4d2-81bf-406e-b595-e69c1b061f7e/1a5a4088-3968-4016-bdf6-7e1eb185dc2c.receipt.json"
+      },
+      "references": [
+        {
+          "file": "reports/host-first-evaluations/zcode/20261101T035050Z-aedcd3d8-1a20-45f8-b444-838d748189d7/receipt.json",
+          "sha256": "b0213657146517c626bff3189b2530b2d505951eeedec72d347c86e9afd41043"
+        },
+        {
+          "file": "reports/host-first-evaluations/zcode/20261101T035050Z-aedcd3d8-1a20-45f8-b444-838d748189d7/request.json",
+          "sha256": "8412876b837e82cdf092c524376ec05bcbde9aa38031f1183bce9071c64a675f"
+        },
+        {
+          "file": "reports/host-first-evaluations/zcode/20261101T035050Z-aedcd3d8-1a20-45f8-b444-838d748189d7/startup-evidence.jsonl",
+          "sha256": "4379c08b2faf76ae8d6ea518ba9b653636ea38011de1114eceb0f76e42cecdb7"
+        }
+      ],
+      "findings": [
+        "SERVER_RECEIPT_MISMATCH",
+        "HOST_G0_OVERCLAIM"
+      ]
+    }
+  ]
+}

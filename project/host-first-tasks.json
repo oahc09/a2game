@@ -1,0 +1,129 @@
+{
+  "format": "a2game-host-first-tasks",
+  "version": 1,
+  "benchmarkSource": "project/generator-benchmark-tasks.json",
+  "benchmarkSourceSha256": "e1c547b76010f4db5de20345e38f1d183ecbb0a7a6717313c41a598204662adf",
+  "pilot": {
+    "taskId": "G01",
+    "hosts": [
+      "qoder",
+      "workbuddy",
+      "trae"
+    ],
+    "requiredIndependentGenerations": 3,
+    "status": "NOT_RUN"
+  },
+  "matrix": {
+    "hosts": [
+      "qoder",
+      "workbuddy",
+      "trae"
+    ],
+    "taskIds": [
+      "G01",
+      "G03",
+      "G17",
+      "G21",
+      "H01"
+    ],
+    "total": 15,
+    "status": "NOT_RUN",
+    "prerequisite": "HOST-G2-PILOT",
+    "cases": [
+      {
+        "host": "qoder",
+        "taskId": "G01",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "qoder",
+        "taskId": "G03",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "qoder",
+        "taskId": "G17",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "qoder",
+        "taskId": "G21",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "qoder",
+        "taskId": "H01",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "workbuddy",
+        "taskId": "G01",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "workbuddy",
+        "taskId": "G03",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "workbuddy",
+        "taskId": "G17",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "workbuddy",
+        "taskId": "G21",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "workbuddy",
+        "taskId": "H01",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "trae",
+        "taskId": "G01",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "trae",
+        "taskId": "G03",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "trae",
+        "taskId": "G17",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "trae",
+        "taskId": "G21",
+        "status": "NOT_RUN"
+      },
+      {
+        "host": "trae",
+        "taskId": "H01",
+        "status": "NOT_RUN"
+      }
+    ]
+  },
+  "maxAttemptsPerCell": 3,
+  "mcpProviderCalls": 0,
+  "hostUsage": "UNKNOWN",
+  "formalG3": "NOT_RUN",
+  "independence": "Each host must generate its own artifacts; do not provide existing game solutions or another host output.",
+  "extensions": {
+    "hosts": [
+      "zcode"
+    ],
+    "pilot": {
+      "taskId": "G01",
+      "requiredIndependentGenerations": 1,
+      "status": "NOT_RUN"
+    },
+    "scope": "Separate extension; original pilot=3 and matrix=15 remain unchanged."
+  },
+  "executionGuide": "docs/host-agent-pilot.md",
+  "projectSetup": "node scripts/install-host-skill.mjs all",
+  "sourceEvidenceCapture": "node scripts/host-agent-run.mjs capture <run> <responseRunId>"
+}

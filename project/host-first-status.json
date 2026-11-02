@@ -1,0 +1,239 @@
+{
+  "format": "a2game-host-first-status",
+  "version": 1,
+  "updatedAt": "2026-11-01T04:59:29.175Z",
+  "sourceSha": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+  "baseline": "project/host-baseline.json",
+  "phase": "HOST-A",
+  "scope": "Four host G0 evidence reviews; original three-host/15-cell baseline unchanged; ZCode tracked separately.",
+  "tasks": {
+    "HOST-0": {
+      "status": "PARTIAL",
+      "scope": "Original baseline retained. Running host versions have varying evidence quality; missing startup traces remain partial.",
+      "receipt": "project/host-baseline.json"
+    },
+    "HOST-1": {
+      "status": "PARTIAL",
+      "scope": "Project Skill layouts installed from one source. Four actual capability calls found in server receipts; Qoder/TRAE host exports match, WorkBuddy/ZCode exports differ. Post-install Skill discovery and full native-host chains remain pending.",
+      "receipt": "integrations/hosts/host-compatibility.json"
+    }
+  },
+  "gates": {
+    "HOST-G0": {
+      "status": "PARTIAL",
+      "scope": "Four reported host calls corroborated by corresponding server results. Two host exports differ; WorkBuddy project Skill discovery awaits a new session.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "Qoder executable path 0.5.1; TRAE UI 3.4.9; WorkBuddy UI 5.9.3",
+      "receipt": "project/host-first-review.json",
+      "limitations": [
+        "WorkBuddy response relocated modelCalls; ZCode response rewrote capability kind and description. Preserve originals; do not weaken contracts.",
+        "WorkBuddy official project Skill path is .codebuddy/skills; layout installed but host reload/discovery is unverified.",
+        "Qoder reports exposed local routing credential; user reset is pending before new native generation.",
+        "Qoder/WorkBuddy use user-level MCP; project isolation remains a separately recorded limitation.",
+        "Explicit host Pilot and implicit fresh-session discovery are not yet accepted."
+      ],
+      "uiObservationReceipt": "reports/host-first-cua-48dfb1c3-684b-4464-9b24-27c1cf53d76b/summary.json",
+      "templateReceipt": "reports/host-first-templates-dd113930-e9e1-41ab-b113-885277a40781/summary.json"
+    },
+    "HOST-G1": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "Slash suggestions were observed but actual explicit or automatic Skill execution has not been recorded."
+      ]
+    },
+    "HOST-G2-PILOT": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "No actual host execution recorded."
+      ]
+    },
+    "HOST-G3": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "No actual host execution recorded."
+      ]
+    },
+    "HOST-G4": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "No actual host execution recorded."
+      ]
+    },
+    "HOST-G5": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "No actual host execution recorded."
+      ]
+    },
+    "HOST-G6": {
+      "status": "NOT_RUN",
+      "scope": "See Host-first development plan.",
+      "sourceSHA": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+      "hostVersion": "UNKNOWN",
+      "receipt": null,
+      "limitations": [
+        "No actual host execution recorded."
+      ]
+    }
+  },
+  "hosts": {
+    "qoder": {
+      "version": "0.5.1 (executable path; UI version not independently verified)",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "LAUNCHED_UI",
+      "actualHostHandshake": "REPORTED_HOST_CALL_WITH_SERVER_RECEIPT",
+      "registryReportedVersion": "0.5.1",
+      "registryDiscovery": "REGISTERED_APPLICATION",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "mcpDiscovery": "NINE_TOOLS_RECORDED",
+      "configurationScope": "USER_LEVEL",
+      "reviewStatus": "PARTIAL",
+      "review": "project/host-first-review.json",
+      "hostExportMatchesServer": true,
+      "executionGuide": "docs/host-agent-pilot.md"
+    },
+    "workbuddy": {
+      "version": "5.9.3 (UI observation)",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "LAUNCHED_UI",
+      "actualHostHandshake": "REPORTED_HOST_CALL_WITH_SERVER_RECEIPT",
+      "registryReportedVersion": "5.9.3",
+      "registryDiscovery": "REGISTERED_APPLICATION",
+      "skillDiscovery": "PROJECT_LAYOUT_INSTALLED_RELOAD_PENDING",
+      "mcpDiscovery": "NINE_TOOLS_RECORDED",
+      "configurationScope": "USER_LEVEL",
+      "reviewStatus": "PARTIAL",
+      "review": "project/host-first-review.json",
+      "hostExportMatchesServer": false,
+      "executionGuide": "docs/host-agent-pilot.md"
+    },
+    "trae": {
+      "version": "3.4.9 (UI observation)",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "LAUNCHED_UI",
+      "actualHostHandshake": "REPORTED_HOST_CALL_WITH_SERVER_RECEIPT",
+      "registryReportedVersion": "3.4.9",
+      "registryDiscovery": "REGISTERED_APPLICATION",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "mcpDiscovery": "NINE_TOOLS_RECORDED",
+      "configurationScope": "PROJECT_REPORTED",
+      "reviewStatus": "PARTIAL",
+      "review": "project/host-first-review.json",
+      "hostExportMatchesServer": true,
+      "executionGuide": "docs/host-agent-pilot.md"
+    },
+    "zcode": {
+      "version": "3.17.1.9553 (reported executable VersionInfo)",
+      "installation": "REPORTED_RUNNING",
+      "skillDiscovery": "VISIBLE_NOT_INVOKED",
+      "actualHostHandshake": "REPORTED_HOST_CALL_WITH_SERVER_RECEIPT",
+      "mcpDiscovery": "NINE_TOOLS_RECORDED",
+      "configurationScope": "PROJECT_REPORTED",
+      "reviewStatus": "PARTIAL",
+      "review": "project/host-first-review.json",
+      "hostExportMatchesServer": false,
+      "executionGuide": "docs/host-agent-pilot.md"
+    }
+  },
+  "modelAccounting": {
+    "hostNativeUsage": "UNKNOWN",
+    "mcpProviderCalls": 0,
+    "providerBudget": 0
+  },
+  "formalAcceptance": {
+    "G3": "NOT_RUN",
+    "verifiedGames": 0,
+    "verifiedHybrids": 0,
+    "physicalDevice": "NOT_RUN",
+    "remoteCI": "QUOTA_BLOCKED"
+  },
+  "sourceState": "UNCOMMITTED_HOST_FIRST_CHANGES; sourceSha is the pre-change Git HEAD",
+  "taskMatrix": "project/host-first-tasks.json",
+  "hostCompatibility": "integrations/hosts/host-compatibility.json",
+  "templateCheck": {
+    "status": "PASS_REFERENCE",
+    "receipt": "reports/host-first-templates-dd113930-e9e1-41ab-b113-885277a40781/summary.json",
+    "configurations": 4,
+    "toolsPerConfiguration": 9,
+    "scope": "Local stdio handshake for connection templates; not executed inside a target host.",
+    "mcpProviderCalls": 0
+  },
+  "noModelMcp": {
+    "status": "PASS_REFERENCE",
+    "receipt": "reports/generator-mcp-cc668c5f-4fba-48ac-9fe9-0176c5e1ad95/summary.json",
+    "clients": 2,
+    "sdkCases": 2,
+    "mcpProviderCalls": 0,
+    "scope": "Current source local-client engineering exercise, keyboard/Hash/restart/dispose/close through real dual SDKs; not actual host Pilot."
+  },
+  "hostUiObservation": {
+    "status": "PARTIAL",
+    "receipt": "reports/host-first-cua-48dfb1c3-684b-4464-9b24-27c1cf53d76b/summary.json",
+    "scope": "Cropped UI observations only; no Skill execution, actual host handshake or model Pilot.",
+    "hostNativeCallsThisObservation": 0,
+    "mcpProviderCallsThisObservation": 0
+  },
+  "review": "project/host-first-review.json",
+  "followup": "docs/host-first-followup.md",
+  "extensionHosts": [
+    "zcode"
+  ],
+  "executionGuide": "docs/host-agent-pilot.md",
+  "executionHardening": {
+    "date": "2026-11-01",
+    "status": "IMPLEMENTED_LOCAL",
+    "checks": ["all declared and artifact-related calls captured", "all exported artifacts checked", "every successful preview open explicitly closed", "host response mismatches block PASS", "real preview close reason and lifecycle bytes preserved"],
+    "tests": ["test/host-agent-run.test.mjs", "test/mcp-preview-lifecycle.test.mjs", "test/mcp-boundaries.test.mjs"],
+    "realHostAfterReconnect": "NOT_RUN",
+    "dualSdkBrowserAfterChange": "NOT_RUN",
+    "mcpProviderCalls": 0,
+    "formalG3": "NOT_RUN",
+    "scope": "Local checker and real loopback cleanup regression only; no new browser, host Pilot or formal acceptance claim. Earlier receipts remain historical."
+  },
+  "executionInfrastructure": {
+    "status": "PASS_REFERENCE",
+    "scope": "Project Skill installation, canonical success/failure call ledger, exact-byte capture and same-session/artifact chain checks.",
+    "receipt": "reports/generator-mcp-cc668c5f-4fba-48ac-9fe9-0176c5e1ad95/host-capture-check.json",
+    "skillSource": "integrations/skill/a2game/",
+    "projectSkillLayouts": {
+      "qoder": ".agents/skills/a2game/",
+      "trae": ".trae/skills/a2game/",
+      "workbuddy": ".codebuddy/skills/a2game/",
+      "zcode": ".agents/skills/a2game/"
+    },
+    "projectSkillLinks": {
+      "workbuddy": {
+        "path": ".codebuddy/skills/a2game/",
+        "target": "../../integrations/skill/a2game",
+        "type": "COPY",
+        "requestedType": "SymbolicLink",
+        "status": "BLOCKED_FILESYSTEM",
+        "reason": "E: is exFAT; directory symbolic link creation failed with EISDIR / path does not support symbolic links. Original identical copy retained.",
+        "hostDiscovery": "NOT_RUN"
+      }
+    },
+    "hostDiscoveryAfterInstall": "NOT_RUN",
+    "actualHostPilots": "NOT_RUN",
+    "requiresMcpReconnect": true
+  }
+}

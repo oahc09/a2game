@@ -1,6 +1,6 @@
 /** Real stdio clients, shared service, no provider dispatch. Optional external model JSON stays unchanged. */
 import {Client,StdioClientTransport} from '../integrations/mcp/client.mjs';
-import {readFileSync,writeFileSync,mkdirSync,readdirSync} from 'node:fs';
+import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync} from 'node:fs';
 import {join,resolve,relative} from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {randomUUID,createHash} from 'node:crypto';
@@ -24,7 +24,7 @@ output.conformance.cases[0].steps.splice(-2,2,{op:'injectAction',action:'collect
 if(process.argv[2]){
  const input=resolve(process.argv[2]);output=Object.fromEntries(['game','conformance','solution'].map(k=>[k,JSON.parse(readFileSync(join(input,k+'.json'),'utf8'))]));
  assert.ok(output.solution.every(row=>!row.raw?.length&&(!row.action||output.game.inputs.actions.some(a=>a.id===row.action&&a.valueType==='button'))));
- report.provenance='EXTERNAL_GENERATED_JSON_REVALIDATION_NO_NEW_MODEL_CALLS';report.externalInput={path:rel(input),gameSha256:sha(join(input,'game.json')),generationReportSha256:sha(join(input,'generation-report.json'))};
+ report.provenance='EXTERNAL_GENERATED_JSON_REVALIDATION_NO_NEW_MODEL_CALLS';report.externalInput={path:rel(input),gameSha256:sha(join(input,'game.json')),generationReportSha256:existsSync(join(input,'generation-report.json'))?sha(join(input,'generation-report.json')):null,sourceIdentity:'NOT_AUTHENTICATED_BY_REVALIDATION'};
 }
 const gameDirectory=join(directory,'exercise');mkdirSync(gameDirectory);for(const k of ['game','conformance','solution'])writeFileSync(join(gameDirectory,k+'.json'),JSON.stringify(output[k],null,2)+'\n');
 const args={gameJson:JSON.stringify(output.game),conformanceJson:JSON.stringify(output.conformance),solutionJson:JSON.stringify(output.solution)},expected=playSolution(output.game,output.solution),env={...process.env};

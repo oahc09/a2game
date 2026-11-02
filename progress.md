@@ -78,3 +78,7 @@ Original prompt: 1.了解当前项目情况，创建AGENTS.md方便AI快速理�
 - 2026-10-28：输入/AI参考阶段工程115/115 Node、203/203 Conformance、360份Schema文档通过，日志 reports/verify-2026-10-28T11-28-16-892Z-28720/verify.log。首次全并发内容发布503保留，测试文件并发限制为2后完整复测通过；未提高8秒校验上限或删减测试。Actions额度超出由用户确认，改为手动默认单任务、可选四组合/SDK、取消旧运行及3天产物；证据恢复工具3项回归已纳入。
 
 2026-10-28 源码恢复实测完成：全新源码目录独立npm ci，Node22.23.4，恢复前门禁拒绝；8,138份原始证据（679,838,647字节，压缩393,230,709字节）SHA恢复、重复恢复与验证后再恢复通过。完整115 Node/203 Conformance/360 Schema、G3 3,332文件及P2只读审计通过。详见 `project/evidence-restoration-run.json` 与 `project/evidence-lock.json`。正式G3仍0/37，verified仍0/32＋0/5；远端未重跑，额度与可信证据托管仍为外部前提。
+
+- 2026-11-01：按用户要求仅修正ZCode第三稿4组scene2d原点为[-3,2.5]，另存reports/zcode-origin-fix-2026-11-01-3c5d907b/candidate/；原产物与播放器不变。真实双SDK桌面/320px初始完整棋盘截图已查看，原8步键盘解法逐步Hash、重开及释放通过；模型调用0，正式G3不升级。见该目录summary.json及REVIEW.md。
+
+- 2026-11-01：并行完成宿主检查器与MCP预览生命周期加固；所有导出候选、声明/关联调用和成功open逐一核对，PARTIAL退出码1；close保留真实原因且幂等，生命周期原字节可归档。相关6项回归和project:check通过，未新增模型调用/浏览器验收，需宿主重连，正式G3不提升。

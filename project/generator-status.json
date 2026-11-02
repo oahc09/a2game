@@ -673,10 +673,12 @@
     "receipt": "reports/generator-mcp-cebc63b6-d29b-4c6d-ae96-a4e5d00aa369/summary.json",
     "modelCalls": 0,
     "providerViaMcp": "HISTORICAL_REFERENCE_PASS_MODEL_IDENTITY_UNVERIFIED",
-    "actualAgentUiHosts": "NOT_RUN",
+    "actualAgentUiHosts": "PARTIAL_G0_SERVER_CORROBORATED_HOST_EXPORT_DISCREPANCIES",
     "sourceSmoke": "output/generator-source-smoke-499b337b-9fca-41b8-baac-a40bde8cf561/receipt.json",
-    "currentNoModelReceipt": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json",
-    "currentSourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json"
+    "currentNoModelReceipt": "reports/generator-mcp-cc668c5f-4fba-48ac-9fe9-0176c5e1ad95/summary.json",
+    "currentSourceSmoke": "output/generator-source-smoke-35b2ad3a-c44f-49f3-92b4-c79ef7112ee3/receipt.json",
+    "previousNoModelReceipt": "reports/generator-mcp-b948111f-77fb-45a9-b882-a4990644f8a4/summary.json",
+    "currentNoModelScope": "Current source local-client engineering exercise, keyboard/Hash/restart/dispose/close through real dual SDKs; not actual host Pilot."
   },
   "gen10Skill": {
     "status": "PARTIAL",
@@ -894,5 +896,14 @@
     "independentHost": "NOT_RUN",
     "freshSessionTrigger": "NOT_RUN",
     "formalG3": "NOT_RUN"
+  },
+  "hostFirst": "project/host-first-status.json",
+  "hostAgentExecution": {
+    "status": "PASS_REFERENCE",
+    "scope": "Infrastructure engineering only; four native-host full chains NOT_RUN.",
+    "receipt": "reports/generator-mcp-cc668c5f-4fba-48ac-9fe9-0176c5e1ad95/summary.json",
+    "captureReceipt": "reports/generator-mcp-cc668c5f-4fba-48ac-9fe9-0176c5e1ad95/host-capture-check.json",
+    "guide": "docs/host-agent-pilot.md",
+    "mcpProviderCalls": 0
   }
 }

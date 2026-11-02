@@ -1,0 +1,14 @@
+{
+  "name": "A2Game",
+  "name_zh": "A2Game 游戏工具",
+  "name_en": "A2Game Game Tools",
+  "description": "Validate and preview engine-neutral A2Game games through a local MCP service.",
+  "description_zh": "使用本地 MCP 校验、测试和预览引擎无关的 A2Game 游戏。",
+  "description_en": "Validate, test and preview engine-neutral A2Game games through local MCP tools.",
+  "source": "a2game-local",
+  "type": "mcp",
+  "version": "1.0.0",
+  "minWorkbuddyVersion": "4.24.0",
+  "examples_zh": ["查询 A2Game 的可用游戏能力", "校验并预览我编写的游戏"],
+  "examples_en": ["List available A2Game capabilities", "Validate and preview my game"]
+}

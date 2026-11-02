@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "a2game": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["<A2GAME_WORKSPACE>/scripts/mcp-server.mjs", "--max-calls", "0"]
+    }
+  }
+}

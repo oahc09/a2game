@@ -4,6 +4,27 @@ import {readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {createMcpService} from '../integrations/mcp/service.mjs';
 import {createFixture} from '../generator/fixture.mjs';
+import {createHash} from 'node:crypto';
+
+test('MCP saves tool identity and argument digest with exact successful and failed receipts, without argument bodies',async()=>{
+ const service=createMcpService();
+ try{
+  const good=await service.call('a2game.list_capabilities',{limit:5,offset:0});
+  const bad=await service.call('a2game.validate_game',{gameJson:'not-json-PRIVATE_SENTINEL'});
+  for(const result of [good,bad]){
+   const saved=JSON.parse(readFileSync(join(service.directory,result.runId+'.receipt.json'),'utf8'));
+   assert.deepEqual(saved,result);
+   const meta=JSON.parse(readFileSync(join(service.directory,result.runId+'.call.json'),'utf8'));
+   assert.equal(meta.sessionId,service.sessionId);assert.equal(meta.runId,result.runId);assert.equal(meta.budgetConsumed,0);
+   assert.ok(!JSON.stringify(meta).includes('PRIVATE_SENTINEL'));
+   assert.match(meta.argumentsSha256,/^[0-9a-f]{64}$/);
+  }
+  const meta=JSON.parse(readFileSync(join(service.directory,good.runId+'.call.json'),'utf8'));
+  assert.equal(meta.tool,'a2game.list_capabilities');
+  assert.equal(meta.argumentsSha256,createHash('sha256').update(JSON.stringify({offset:0,limit:5})).digest('hex'));
+  assert.equal(bad.status,'FAIL');
+ }finally{await service.close();}
+});
 
 test('MCP session rejects path/command/config injection, tampered artifact, implicit generation and concurrent work',async()=>{
  const service=createMcpService(),game=JSON.stringify(createFixture().game);

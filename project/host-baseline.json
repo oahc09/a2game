@@ -1,0 +1,134 @@
+{
+  "format": "a2game-host-first-baseline",
+  "version": 1,
+  "recordedAt": "2026-10-31T14:42:33.044Z",
+  "git": {
+    "head": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+    "remoteDefaultBranch": "main",
+    "remoteHead": "06a4939cc92febc20fe363f8b55df3a3d7cba7be",
+    "trackedChangesAtStart": false,
+    "untrackedAtStart": [
+      ".agents/",
+      ".v2c/",
+      ".zcode/",
+      "docs/A2Game-HOST-FIRST-Agent-Start-2026-10-31.md",
+      "docs/A2Game-HOST-FIRST-Development-Plan-2026-10-31.md"
+    ]
+  },
+  "release": "1.0.0-alpha-reference",
+  "gameSpecVersion": "0.1.0",
+  "mcpToolContractVersion": 1,
+  "node": "v24.14.0",
+  "python": "3.14.4",
+  "browser": {
+    "name": "Chromium",
+    "version": "156.0.8078.4",
+    "source": "local Playwright launch"
+  },
+  "schema": {
+    "count": 7,
+    "sha256": "64f0f45a63dd69e7bb43835459c29c9268d7c7b265de45731b1809fb6653d3af"
+  },
+  "capabilities": {
+    "count": 127,
+    "sha256": "7a60119ffaeebfdf6ddff8a6b2ca81652d0cf3adc5daa98e2f954dece0ab62a4"
+  },
+  "files": {
+    "package-lock.json": "b4f4e470adcef311fa3174955bf12dd5c6c97dfff1fc9528265dd3557188ce76",
+    "integrations/mcp/package-lock.json": "573f8d4223213d58b6787de27c7f6a1819adb93541156d07696496eeb47c2080",
+    "integrations/mcp/contract.mjs": "a5b4ccdca52b77866c39249bc04effef1d14a02217da323d52f4c80bc0452326",
+    "integrations/mcp/server.mjs": "c181cebece073695751b89aacaaf7d25dc7a19641615d6497b6e2bb5e48f8dd5",
+    "integrations/mcp/service.mjs": "ec90f44734d0672972093d64f94bb229dc9915e7263c8dbf85afb69903945461",
+    "integrations/skill/a2game/SKILL.md": "324d86bae5688bae9c3bf5849dbc1fd96a983f3a842c9940efe7aa3be61c4928",
+    "player/vendor/sdk-provenance.json": "279f95c5625e22541923cee589f9c839b7b8cd4cf1088eed98ff42969f90861e"
+  },
+  "sdk": {
+    "three": {
+      "version": "0.186.1",
+      "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz"
+    },
+    "cocosairjs": {
+      "version": "1.0.0",
+      "source": "https://github.com/oahc09/cocosairjs.git",
+      "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+      "entry": "build/cocosair.module.js",
+      "buildDate": "202610241944",
+      "buildNumber": 209,
+      "sourceTree": "clean; generated SDK build metadata may differ per build"
+    },
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "declaredSha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
+        "actualSha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "declaredSha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
+        "actualSha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "declaredSha256": "94a548230cb156d673c366b3f3de607a85899b0a30e61552cbd3259210bbe1bb",
+        "actualSha256": "94a548230cb156d673c366b3f3de607a85899b0a30e61552cbd3259210bbe1bb"
+      }
+    ]
+  },
+  "hosts": {
+    "qoder": {
+      "version": "UNKNOWN",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "REGISTERED_UNVERIFIED_EXECUTION",
+      "actualHostHandshake": "NOT_RUN",
+      "registryReportedVersion": "0.5.1",
+      "registryDiscovery": "REGISTERED_APPLICATION"
+    },
+    "workbuddy": {
+      "version": "UNKNOWN",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "REGISTERED_UNVERIFIED_EXECUTION",
+      "actualHostHandshake": "NOT_RUN",
+      "registryReportedVersion": "5.9.3",
+      "registryDiscovery": "REGISTERED_APPLICATION"
+    },
+    "trae": {
+      "version": "UNKNOWN",
+      "commandDiscovery": "NOT_FOUND_ON_PATH",
+      "installation": "REGISTERED_UNVERIFIED_EXECUTION",
+      "actualHostHandshake": "NOT_RUN",
+      "registryReportedVersion": "3.4.9",
+      "registryDiscovery": "REGISTERED_APPLICATION"
+    }
+  },
+  "historicalAcceptance": {
+    "verifiedGames": 0,
+    "plannedGames": 32,
+    "verifiedHybrids": 0,
+    "plannedHybrids": 5,
+    "independentG3": "NOT_RUN"
+  },
+  "historicalFullVerify": {
+    "nodeTests": 159,
+    "schemaDocuments": 360,
+    "conformanceCases": 203,
+    "status": "HISTORICAL_BEFORE_TERMINAL_FEEDBACK_CHANGE"
+  },
+  "providerBudget": {
+    "hostNativeUsage": "UNKNOWN",
+    "mcpProviderCalls": 0,
+    "authorizedAdditionalCalls": 0
+  },
+  "limitations": [
+    "Command discovery only checks PATH; it does not prove hosts are uninstalled.",
+    "Historical reports are local and git-ignored.",
+    "New HOST gates require actual evidence; this baseline is not host acceptance.",
+    "Host versions are reported by the Windows uninstall registry, not by a running host."
+  ],
+  "isolatedSourceSmoke": {
+    "status": "PASS_LOCAL",
+    "sourceSha256": "7cf6214bcafc75be1b669569df16782a291d73345126e541944a426dacb203a0",
+    "receipt": "output/generator-source-smoke-6e9037a0-12ee-448b-ab34-b8d96ccca653/receipt.json",
+    "scope": "Isolated source copy taken before HOST-1 templates; fixture engineering only.",
+    "mcpProviderCalls": 0
+  }
+}

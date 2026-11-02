@@ -1,5 +1,17 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-01 宿主验收加固：检查器逐个核对所有导出artifact、成功open及声明/关联调用，漏存、归档未完成、响应错配和未显式关闭均报告PARTIAL（退出码1）。预览关闭保留explicit/expired/cancelled/shutdown原因、重复关闭幂等，生命周期事件可随capture归档；默认120秒TTL和8秒完整准入上限不变。仅运行相关工具回归，未重跑双SDK画面；宿主需重连加载新服务。正式G3/真机/人工计数不变。
+
+2026-11-01 WorkBuddy 项目Skill软链接受文件系统阻塞：E: 为 exFAT，实测不支持符号链接，现有3文件副本与唯一源码一致并原样保留。安装器已支持校验并保留指向 `integrations/skill/a2game/` 的指定入口链接，供支持链接的文件系统使用；本机尚未完成链接替换，验收计数不变。
+
+2026-11-01 四宿主全通路准备：已按官方文档修正WorkBuddy项目Skill入口为.codebuddy/skills并从唯一来源安装；MCP新增成功/失败调用元数据与原始回执，host-agent-run可直接归档并校验同会话/同artifact完整链。当前源码真实双SDK的键盘、Hash、重开、释放、关闭及原字节归档工程参考通过，新增真实模型调用0。新宿主会话需重连后按[显式Pilot任务](docs/host-agent-pilot.md)执行；四宿主完整Pilot仍NOT_RUN，G0保持PARTIAL，Qoder已披露密钥暴露待用户重置。原15单元/正式G3/真机/人工计数不变。
+
+2026-11-01 补证审查：四宿主均记录9个工具；Qoder/TRAE能力查询存档可核对，WorkBuddy/ZCode缺原始宿主响应，WorkBuddy Skill不可见。新增只读统一审查入口和[逐宿主补证任务](docs/host-first-followup.md)，[统一记录](project/host-first-review.json)绑定来源与SHA，G0保持PARTIAL。ZCode单独扩展，原三宿主/15单元、正式G3/人工/真机计数不变；本轮无模型调用。
+
+2026-11-01：Computer Use 已打开 Qoder、TRAE、WorkBuddy；前两者的 `/a2game` 菜单可见，WorkBuddy 无匹配。TRAE 项目级 MCP 开关关闭，三个宿主均未完成 A2Game 实际 MCP 握手；Skill 实际执行和模型 Pilot 仍待验。Qoder 接入入口指向用户级设置；本轮未修改宿主配置、未调用模型。[观察回执](reports/host-first-cua-48dfb1c3-684b-4464-9b24-27c1cf53d76b/summary.json)；`HOST-G0` 保持 PARTIAL。
+
+2026-10-31：启动 Host-first HOST-0/HOST-1，已记录本地/远端源码基线、SDK 与运行环境；三宿主登记版本已发现，但运行版本及实际握手尚未验证，无新增模型调用。隔离源码无模型验证已通过，三宿主项目级连接模板已准备，4 份模板本地 stdio 握手均发现 9 个工具；双 SDK 的 MCP 无模型参考检查通过，实际宿主验收待进行，详见 [Host-first 台账](project/host-first-status.json)。
+
 2026-10-31：播放器新增通用终局提示和就近重开；宽屏位于画布内，窄屏固定在可见区域。G17 的 320px 胜负、触摸及键盘重开在双 SDK 通过，G24 和局双 SDK 通过。37 款基础和作者变体共 148 个双 SDK 参考实例通过；G2、动态资源、表现、益智、实时、策略、虚拟移动输入、兼容性和调试器参考复验通过。完整工程回归与覆盖索引未重跑，旧报告保留；正式 G3、人工及真机不升级。见 [G17 记录](docs/generator-g17-visual.md)。
 
 2026-10-31：新增只读模型证据审计，保留私有 telemetry 边界。GLM 循环 1 的 3 次服务自报模型与请求一致，循环 2 的 1 次未返回；旧汇总的额外 2 次仍无证据，独立身份和费用未核实。必要回归 2/2 通过，新增模型调用 0；正式 G3 不变。详见 [多模型记录](docs/generator-multi-model.md)。

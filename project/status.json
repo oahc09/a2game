@@ -1347,5 +1347,8 @@
     }
   },
   "generatorHandoff": "docs/generator-handoff.md",
-  "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL"
+  "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL",
+  "hostFirstWorkstream": "project/host-first-status.json",
+  "hostFirstExecutionGuide": "docs/host-agent-pilot.md",
+  "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening"
 }
