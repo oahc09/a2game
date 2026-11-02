@@ -1,4 +1,4 @@
-import { A2GameError, fail } from './errors.js';
+import { A2GameError, fail, type DiagnosticInfo } from './errors.js';
 import { exactStateHash } from './exact-hash.js';
 import {mobileInputIds,recognizeMobileInput} from './mobile-input.js';
 import {recognizeGamepadInput,gamepadInputSources} from './gamepad-input.js';
@@ -50,6 +50,9 @@ export class HeadlessRuntime {
     private session: Stage;
     private lastError: A2GameError | null = null;
     private disposed = false;
+    // Advisory host diagnostics are deliberately outside deterministic gameplay state.
+    private inputDiagnostics: DiagnosticInfo[] = [];
+    getInputDiagnostics(): DiagnosticInfo[] { return clone(this.inputDiagnostics); }
 
     constructor(definition: unknown, registry: CapabilityRegistry, options: HeadlessOptions = {}) {
         this.registry = registry;
@@ -122,6 +125,7 @@ export class HeadlessRuntime {
         this.session = this.initialSession(this.session.generation+1);
         this.session.status = 'playing';
         this.lastError = null;
+        this.inputDiagnostics = [];
     }
     injectAction(action: NormalizedAction): void {
         this.assertAlive();
@@ -246,7 +250,10 @@ export class HeadlessRuntime {
                 if (!active.includes(id)) continue;
                 stage.pressedSources[a.action] = active.filter(s=>s!==id);
                 if (stage.pressedSources[a.action]!.length > 0) continue;
-            } else if (a.phase==='hold' && !active.includes(id)) continue;
+            } else if (a.phase==='hold' && !active.includes(id)) {
+                if (this.inputDiagnostics.length < 20) this.inputDiagnostics.push({ruleId:'input.hold-without-press',tickIndex:stage.tickIndex});
+                continue; // Advisory only: preserve the existing ignored-edge semantics.
+            }
             const payload: JsonRecord = {action:a.action, edge:a.phase, sourceId:id};
             if (a.value !== undefined) payload.value=clone(a.value);
             if(a.viewportAspect!==undefined){if(!safeFinite(a.viewportAspect)||a.viewportAspect<0.1||a.viewportAspect>10)fail('A2G_E_INPUT_RAW','Invalid action viewport aspect');payload.viewportAspect=a.viewportAspect;}
@@ -489,8 +496,9 @@ export class HeadlessRuntime {
         this.rng.restore(snapshot.rng);
         this.session=clone(snapshot);
         this.lastError=null;
+        this.inputDiagnostics=[];
     }
     debugRng():number { this.assertAlive(); const value = this.rng.nextU32(); this.session.rng = this.rng.state(); return value; }
     getFeedback():JsonRecord[] { return clone(this.session.feedback); }
-    dispose():void { if (this.disposed) return; this.disposed=true; this.session.inputQueue=[];this.session.rawQueue=[];this.session.activePointers={};this.session.pressedSources={};this.session.events=[];this.session.timers=[];this.session.deferred=[];this.session.feedback=[]; }
+    dispose():void { if (this.disposed) return; this.disposed=true; this.inputDiagnostics=[]; this.session.inputQueue=[];this.session.rawQueue=[];this.session.activePointers={};this.session.pressedSources={};this.session.events=[];this.session.timers=[];this.session.deferred=[];this.session.feedback=[]; }
 }

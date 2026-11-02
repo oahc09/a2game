@@ -9,6 +9,7 @@ import {exportGamePackage} from '../../generator/package.mjs';
 import {HeadlessRuntime} from '../../dist/index.js';
 import {playSolution} from '../../scripts/agent-solver.mjs';
 import {contracts,resultSchema} from './contract.mjs';
+import {inspectTextReadability} from './text-readability-feedback.mjs';
 import {publicDiagnostics} from '../../generator/diagnostics.mjs';
 import {queryCapabilities,getPublicCapability} from '../../generator/catalog.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex'),relativePath=p=>relative(root,p).replaceAll('\\','/');
@@ -99,7 +100,8 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
   if(name==='a2game.inspect_game'){
    const game=JSON.parse(readFileSync(join(a.path,'game.json'),'utf8')),runtime=new HeadlessRuntime(game,registry);let state;
    try{runtime.start();state=runtime.observe();}finally{runtime.dispose();}
-   return {artifactId:a.artifactId,gameId:game.id,files:a.files,tested:a.tested,initialHash:state.exactHash,finalHash:a.played?.final.exactHash??null,previews:[...previews.entries()].filter(([,p])=>p.artifactId===a.artifactId).map(([previewId,p])=>({previewId,backend:p.backend})),modelCalls:0,G3:'NOT_RUN'};
+   const textReadability=args.textReadability?inspectTextReadability(args.textReadability,{artifactId:a.artifactId,gameSha256:a.files['game.json'],preview:previews.get(args.textReadability.previewId)}):undefined;
+   return {...(textReadability?{textReadability}:{}),artifactId:a.artifactId,gameId:game.id,files:a.files,tested:a.tested,initialHash:state.exactHash,finalHash:a.played?.final.exactHash??null,previews:[...previews.entries()].filter(([,p])=>p.artifactId===a.artifactId).map(([previewId,p])=>({previewId,backend:p.backend})),modelCalls:0,G3:'NOT_RUN'};
   }
   if(name==='a2game.export_game'){
    if(!a.tested)throw fail('A2G_MCP_TEST_REQUIRED');

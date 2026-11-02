@@ -1365,5 +1365,16 @@
     "transportLifecycleHardening": "Supported tools/call envelopes use canonical strict admission even on rejected arguments/unknown tools; shutdown awaits active-call receipts. Invalid protocol envelopes and unsupported task augmentation are protocol errors, not generated candidates. No real-host gate promotion.",
     "additionalHardening": "Explicit component-bound illegal-action/undo check and live viewport nominal-text diagnostics; unsupported/missing declarations are not passes; readability warnings are not visual acceptance",
     "mechanismContractHardening": "Public swap/realtime/defense state and conditional-presentation contracts; bounded static semantic diagnostics; wave-body validation separated from complete-world constraint integrity. Current-source verification required; old simulated batches remain bound to their original fingerprint and outcomes."
+  },
+  "hostFeedbackOptimization": {
+    "scope": "CORE_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_REFERENCE_SCOPE",
+    "input": "Bounded ignored-hold advisory and explicitly declared loss mismatch, no input/hash semantic change",
+    "readability": "Optional inspect numeric observation bound to active session preview/artifact/SHA; HOST_REPORTED_UNVERIFIED; visual NOT_RUN",
+    "cooldown": "Executing tick n versus observation n+1; existing due/inheritance semantics clarified and synthetic edge tests",
+    "historicalEvidence": "Unchanged remote evidence metadata; private prior run files unavailable after environment change; no reconstructed or re-signed experiments",
+    "realClient": "NOT_RUN",
+    "OSIsolation": "NOT_VERIFIED",
+    "remoteCI": "NOT_RUN"
   }
 }

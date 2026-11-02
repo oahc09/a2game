@@ -15,7 +15,8 @@ export function classifyFailure(code='',attribution,message=''){
 export function repairFeedback(attempt,output){
  const diagnostics=(attempt.diagnostics??[]).slice(0,20).map(d=>({...d,pointer:String(d.jsonPointer??d.pointer??'').slice(0,200),message:String(d.message??'').slice(0,400)}));
  const inactiveInput=attempt.code==='A2G_E_AGENT_CONFORMANCE'&&diagnostics.some(d=>d.code==='A2G_E_FLOW'||/A2G_E_FLOW: (?:Raw )?gameplay input rejected while inactive/i.test(d.message));
- return {code:attempt.code??'A2G_GEN_FAILURE',category:classifyFailure(attempt.code,attempt.attribution,attempt.message),message:String(attempt.message??'').slice(0,600),diagnostics,...(inactiveInput?{hints:[conformanceInputGuidance]}:{}),output};
+ const selectedHints=[...(inactiveInput?[conformanceInputGuidance]:[]),...new Set(diagnostics.filter(d=>['input.hold-without-press','conformance.loss-status-mismatch'].includes(d.ruleId)).map(d=>mechanismHints[d.ruleId]))];
+ return {code:attempt.code??'A2G_GEN_FAILURE',category:classifyFailure(attempt.code,attempt.attribution,attempt.message),message:String(attempt.message??'').slice(0,600),diagnostics,...(selectedHints.length?{hints:selectedHints}:{}),output};
 }
 
 // Public diagnostics never echo exception stacks, provider bodies, credentials or arbitrary objects.
@@ -43,6 +44,8 @@ const coverageHints={
 };
 // Mechanism guidance is selected by exact trusted rule ID, never exception text.
 const mechanismHints={
+ 'input.hold-without-press':'A hold was ignored because its action/sourceId had no active press when consumed. Send press first with the same sourceId, then hold on later ticks, then release/cancel. Raw held keyboard input should use down/up with config.hold:true. Do not replace a needed press with hold.',
+ 'conformance.loss-status-mismatch':'This case explicitly asserted /flow/status equals lost, but execution reached a different status. Check the loss trigger, outcome condition/priority and input timing; preserve the intended losing scenario. A playing negative case is valid for games without a loss condition; do not invent a loss requirement for every game.',
  'puzzle.selected-array':'Use a selected array of at most two nonnegative integer cell indices in the configured puzzle state; an empty selection is []. Preserve the puzzle rules.',
  'puzzle.board-dimensions':'Provide the configured puzzle state board as an array of nonnegative integer tiles. For grid puzzles its length must equal config.width * config.height; check the dimensions and statePath together.',
  'defense.required-state':'Provide the complete tower-defense initial state at config.statePath: wallet, score, lives, nextId, selected, waveCursor, towers, weapons, enemies, bodies, shots, won and lost. Match the required integer, array and boolean types; preserve ownership and bounds.',

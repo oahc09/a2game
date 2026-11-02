@@ -65,7 +65,7 @@ export async function runConformanceSuite(
                         case 'assert': {
                             if (typeof s.path!=='string') fail('A2G_E_CONFORMANCE','Assertion path missing');
                             const actual=readPointer(runtime.observe(),s.path);
-                            if (Object.hasOwn(s,'equals') && !equals(actual,s.equals as Json)) fail('A2G_E_ASSERT',`${s.path}: expected ${JSON.stringify(s.equals)}; actual ${JSON.stringify(actual)}`,{expected:s.equals,actual});
+                            if (Object.hasOwn(s,'equals') && !equals(actual,s.equals as Json)) fail('A2G_E_ASSERT',`${s.path}: expected ${JSON.stringify(s.equals)}; actual ${JSON.stringify(actual)}`,{expected:s.equals,actual,...(s.path==='/flow/status'&&s.equals==='lost'?{ruleId:'conformance.loss-status-mismatch'}:{})});
                             if (Object.hasOwn(s,'approximately')) {
                                 if (!safeFinite(actual)||!safeFinite(s.approximately)||!safeFinite(s.absTol)||!safeFinite(s.relTol)) fail('A2G_E_ASSERT','Approximate assertion requires numeric value and tolerances');
                                 if (Math.abs(actual-s.approximately)>Math.max(s.absTol,s.relTol*Math.abs(s.approximately))) fail('A2G_E_ASSERT',`Approximately failed for ${s.path}`,{expected:s.approximately,actual});
@@ -95,6 +95,7 @@ export async function runConformanceSuite(
             result.status='FAIL';
             result.code=err instanceof A2GameError ? err.code : 'A2G_E_RUNTIME';
             result.diagnostics=[{jsonPointer:`/cases/${caseIndex}`+(stepIndex>=0?`/steps/${stepIndex}`:''),...(err instanceof A2GameError?err.info:{}),caseId:testCase.id}];
+            for (const diagnostic of runtime?.getInputDiagnostics()??[]) result.diagnostics.push({...diagnostic,caseId:testCase.id});
             result.error=`${testCase.id}: ${err instanceof Error?err.message:String(err)}`;
         } finally { runtime?.dispose(); }
         cases.push(result);
