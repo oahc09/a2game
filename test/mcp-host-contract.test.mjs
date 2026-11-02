@@ -78,3 +78,46 @@ test('session-bound ledger accounts for every call including rejected input, and
  assert.equal(read(join(service.directory,'session.json')).state,'CLOSED');
  assert.throws(()=>createMcpService({hostRunId:'not-uuid'}),{code:'A2G_MCP_CONFIG'});
 });
+
+
+test('missing conformance coverage reports controlled rule IDs at /cases before execution',async()=>{
+ const service=createMcpService();
+ try{
+  const variants=[
+   ['one-case',f=>{f.conformance.cases=f.conformance.cases.slice(0,1);},['conformance.minimum-cases','conformance.negative-assertion']],
+   ['missing-win',f=>{f.conformance.cases[0].steps=f.conformance.cases[0].steps.filter(s=>!(s.op==='assert'&&s.path==='/flow/status'));},['conformance.win-assertion']],
+   ['missing-negative',f=>{f.conformance.cases[1].steps=f.conformance.cases[1].steps.filter(s=>!(s.op==='assert'&&s.path==='/flow/status'));},['conformance.negative-assertion']],
+   ['wrong-observation-path',f=>{for(const c of f.conformance.cases)for(const s of c.steps)if(s.op==='assert'&&s.path==='/flow/status')s.path='/status';},['conformance.win-assertion','conformance.negative-assertion']]
+  ];
+  for(const [label,mutate,expectedRules]of variants){
+   const f=createFixture();mutate(f);
+   const admitted=await service.call('a2game.validate_game',{gameJson:JSON.stringify(f.game),conformanceJson:JSON.stringify(f.conformance),solutionJson:JSON.stringify(f.solution)});
+   assert.equal(admitted.status,'PASS_REFERENCE',label+JSON.stringify(admitted));
+   const result=await service.call('a2game.test_game',{artifactId:admitted.data.artifactId});
+   assert.equal(result.status,'FAIL',label);assert.deepEqual(result.diagnostics.map(d=>d.ruleId),expectedRules,label);
+   for(const d of result.diagnostics){assert.equal(d.code,'A2G_E_AGENT_CONFORMANCE');assert.equal(d.stage,'conformance');assert.equal(d.jsonPointer,'/cases');assert.equal(d.caseId,undefined);assert.equal(typeof d.expected,'number');assert.equal(typeof d.actual,'number');assert.ok(d.repairHint.length<=500);}
+   if(label==='wrong-observation-path')assert.ok(result.diagnostics.every(d=>d.repairHint.includes('/flow/status')));
+  }
+  assert.equal(service.stats().budgetConsumed,0);
+ }finally{await service.close();}
+ const [safe]=publicDiagnostics({code:'A2G_E_AGENT_CONFORMANCE',diagnostics:[{ruleId:'conformance.win-assertion',jsonPointer:'/cases',message:'PRIVATE_SENTINEL',repairHint:'PRIVATE_SENTINEL'}]});
+ assert.ok(safe.repairHint.includes('/flow/status'));assert.ok(!JSON.stringify(safe).includes('PRIVATE_SENTINEL'));
+});
+
+test('public HostProfile states solution input edges and conformance observation/coverage contracts',()=>{
+ const envelope=JSON.parse(readPublicResource('a2game://spec/0.1.0/host-profile.json').contents[0].text),profile=JSON.parse(envelope.content);
+ assert.match(profile.solution.actionSemantics,/press.*release/);assert.match(profile.solution.actionSemantics,/not a held press/);assert.equal(profile.solution.ticksMinimum,1);
+ assert.equal(profile.conformance.minimumCases,2);assert.equal(profile.conformance.observationPaths.flowStatus,'/flow/status');assert.equal(profile.conformance.observationPaths.gameState,'/state/<field>');
+ assert.deepEqual(profile.conformance.requiredStatusAssertions,{success:['won'],negative:['playing','lost']});
+ assert.equal(envelope.sha256,hash(envelope.content));
+});
+
+
+test('public HostProfile exposes existing scene2d coordinates without repairing layouts or revealing levels',()=>{
+ const envelope=JSON.parse(readPublicResource('a2game://spec/0.1.0/host-profile.json').contents[0].text),profile=JSON.parse(envelope.content),scene=profile.presentation.scene2d;
+ assert.equal(scene.coordinateSystem,'CENTER_ORIGIN_Y_UP');assert.match(scene.dimensions,/logical.*not physical/);
+ assert.deepEqual(scene.visibleBounds,{x:['-width/2','width/2'],y:['-height/2','height/2']});
+ assert.equal(scene.repeatCell.x,'originX+(cell % columns)*stepX');assert.equal(scene.repeatCell.y,'originY-floor(cell/columns)*stepY');
+ assert.match(scene.layout,/not the top-left/);assert.match(scene.review,/not automatic layout correction/);
+ assert.equal(scene.nodes,undefined);assert.equal(scene.repeat,undefined);assert.equal(scene.solution,undefined);assert.equal(envelope.sha256,hash(envelope.content));
+});

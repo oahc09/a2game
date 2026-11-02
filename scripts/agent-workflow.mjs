@@ -30,7 +30,13 @@ export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=6
    if(output?.format!=='a2game-generation-output'||output.version!==1||!output.game||!output.conformance||!['fixture','independent-model'].includes(output.provenance?.kind)||typeof output.provenance.model!=='string'||output.provenance.model.length>200)throw error('A2G_E_AGENT_ENVELOPE','生成器输出缺少合同字段。');
    provenance=output.provenance;entry.provenance=provenance;const receipt=await service.release(JSON.stringify(output.game));entry.release=receipt;
    const schema=await callJsonProcess([python,'scripts/validate-agent-suite.py'],output.conformance,{timeoutMs:8000,maxBytes:32*1024});if(schema.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE_SCHEMA','Conformance Schema 校验失败。'),{diagnostics:schema.errors});
-   if(output.conformance.cases.length<2||!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&s.equals==='won'))||!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&['playing','lost'].includes(s.equals))))throw error('A2G_E_AGENT_CONFORMANCE','必须包含成功及负例终局断言。');
+   // Coverage requirements precede execution, so locate missing declarations at /cases,
+   // not a fabricated failing case/step. These IDs and hints are trusted public contract data.
+   const coverage=[];
+   if(output.conformance.cases.length<2)coverage.push({ruleId:'conformance.minimum-cases',expected:2,actual:output.conformance.cases.length});
+   if(!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&s.equals==='won')))coverage.push({ruleId:'conformance.win-assertion',expected:1,actual:0});
+   if(!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&['playing','lost'].includes(s.equals))))coverage.push({ruleId:'conformance.negative-assertion',expected:1,actual:0});
+   if(coverage.length)throw Object.assign(error('A2G_E_AGENT_CONFORMANCE','必须包含成功及负例终局断言。'),{diagnostics:coverage.map(d=>({...d,jsonPointer:'/cases',stage:'conformance'}))});
    const conformance=await runConformanceSuite(output.conformance,output.game,makeRegistry);entry.conformance=conformance;if(conformance.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE','生成的正反例未通过。'),{diagnostics:conformance.cases.filter(c=>c.status!=='PASS').flatMap(c=>(c.diagnostics??[{}]).map(d=>({...d,caseId:c.id,code:c.code,stage:'conformance'})))});
    let solution=output.solution;if(!solution){entry.solver=solveButtons(output.game,solverBudget);if(entry.solver.status!=='SOLVED')throw error('A2G_E_AGENT_SOLVER_BUDGET','有界求解尚未找到解，不代表无解。');solution=entry.solver.solution;}
    const playability=playSolution(output.game,solution);entry.playability={status:'PASS',hash:playability.final.exactHash,ticks:playability.final.tickIndex,actionCount:playability.actionCount};

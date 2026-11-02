@@ -35,12 +35,18 @@ export function diagnosticStage(code,stage){
  if(/WORKER|PROVIDER|TIMEOUT|CANCEL|UNAVAILABLE|RELEASE_STORE|ENOENT/.test(code))return 'infra';return 'semantic';
 }
 const hints={parse:'Provide one UTF-8 JSON value without duplicate keys or non-finite numbers.',schema:'Read the versioned Schema resource and correct the field at jsonPointer; preserve protocol 0.1.0.',semantic:'Check the referenced capability, state path and rule against the registered contract.',conformance:'Fix the named case/step; retain a real success and a meaningful negative case. Use expectError immediately before each intentional rejected input.',solution:'Supply a bounded winning input trace for this exact game; do not replace the game or use a reference answer.',lifecycle:'Check pause, restart, terminal-input rejection and deterministic replay without weakening assertions.',policy:'Use only approved content resources and session-issued identifiers; do not supply paths or commands.',integrity:'Revalidate the original unchanged content to create a new artifact.',infra:'Check the local runtime, Python/SDK setup or timeout; do not change models or claim validation passed.',arguments:'Use the listed tool schema and supported launch options; do not pass paths or credentials.',budget:'Generation requires separate explicit authorization and a configured budget; author JSON in the host for the no-provider path.',preview:'Prepare the locked SDKs and inspect the local preview lifecycle; a URL is not gameplay evidence.'};
+// Exact allowlisted coverage IDs select static guidance, never caller/provider repair text.
+const coverageHints={
+ 'conformance.minimum-cases':'Provide at least two Conformance cases, including real success and negative-state assertions; do not weaken gameplay checks.',
+ 'conformance.win-assertion':'Include an explicit assert at observation path /flow/status with equals won after a real winning playthrough. /status is not the Runtime observation path.',
+ 'conformance.negative-assertion':'Include an explicit assert at observation path /flow/status with equals playing or lost in a meaningful negative case. Game state observations use /state/<field>.'
+};
 export function publicDiagnostics(error={},fallbackStage){
  const code=safeCode(error.code),stage=diagnosticStage(code,error.stage??fallbackStage);
  const source=Array.isArray(error.diagnostics)&&error.diagnostics.length?error.diagnostics.slice(0,20):[error.info??{}];
  return source.map(item=>{
   const row=item&&typeof item==='object'?item:{},rowCode=safeCode(row.code??code),rowStage=diagnosticStage(rowCode,row.stage??stage);
-  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:hints[rowStage]};
+  const out={code:rowCode,stage:rowStage,message:`${rowCode}: ${rowStage} validation did not complete.`,repairHint:rowStage==='conformance'&&Object.hasOwn(coverageHints,row.ruleId)?coverageHints[row.ruleId]:hints[rowStage]};
   const pointer=row.jsonPointer??row.pointer;
   if(typeof pointer==='string'&&pointer.length<=256&&(pointer===''||pointer.startsWith('/'))&&!/[\u0000-\u001f]/.test(pointer))out.jsonPointer=pointer;
   for(const key of ['capabilityId','ruleId','caseId']){const value=identifier(row[key]);if(value!==undefined)out[key]=value;}
