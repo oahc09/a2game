@@ -9,12 +9,12 @@ import {fileURLToPath} from 'node:url';
 import {initHostRun,captureHostCall,checkHostRun} from '../scripts/host-agent-run.mjs';
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
-function fixture(t){
+function fixture(t,host='workbuddy'){
  const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));t.after(()=>rmSync(workspace,{recursive:true,force:true}));
  for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist'])mkdirSync(join(workspace,p),{recursive:true});
  write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});write(join(workspace,'docs/host-agent-pilot.md'),'Public task');write(join(workspace,'specs/v0.1/capabilities/public.capability.json'),{id:'a2game.test.public',version:'0.1.0'});
  write(join(workspace,'dist/index.js'),'export const stale = false;');
- const {run,hostRunId}=initHostRun('workbuddy',workspace),sessionId=randomUUID(),artifactId=randomUUID();
+ const {run,hostRunId}=initHostRun(host,workspace),sessionId=randomUUID(),artifactId=randomUUID();
  const output=join(workspace,'output/mcp',sessionId);mkdirSync(output);
  write(join(output,'session.json'),{format:'a2game-mcp-session',version:1,implementationSha256:hostSourceFingerprint(workspace),sessionId,hostRunId,lastSequence:0,createdAt:new Date().toISOString()});
  let sequence=0;
@@ -117,4 +117,26 @@ test('old source receipts cannot count as current implementation acceptance',t=>
 test('actual dist execution bytes are bound even when source is unchanged',t=>{
  const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
  write(join(f.workspace,'dist/index.js'),'export const stale = true;');const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL');assert.ok(result.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));assert.ok(result.missing.some(x=>x.startsWith('SESSION_IMPLEMENTATION_CHANGED_OR_UNBOUND:')));
+});
+
+// Synthetic receipts exercise the ledger only; this test dispatches no authoring agent.
+test('native-agent simulation has a distinct identity and never claims real host discovery',t=>{
+ const f=fixture(t,'native-agent-simulated'),meta=JSON.parse(readFileSync(join(f.workspace,f.run,'run.json')));
+ assert.equal(meta.host,'native-agent-simulated');assert.equal(meta.provenance,'NATIVE_AGENT_SIMULATED_HOST');
+ assert.match(f.run,/native-agent-simulated/);assert.equal(meta.mcpProviderBudget,0);assert.equal(meta.formalG3,'NOT_RUN');
+ f.complete();const checked=f.check();assert.equal(checked.mcpLoopStatus,'PASS_REFERENCE');assert.equal(checked.host,'native-agent-simulated');assert.equal(checked.provenance,'NATIVE_AGENT_SIMULATED_HOST');assert.equal(checked.independentAuthoring,'NOT_VERIFIED');assert.equal(checked.formalG3,'NOT_RUN');
+ const real=initHostRun('qoder',f.workspace);assert.equal(real.provenance,'HOST_NATIVE_GENERATION_PENDING');
+ assert.equal(JSON.parse(readFileSync(join(f.workspace,real.run,'run.json'))).host,'qoder');
+ assert.throws(()=>initHostRun('pretend-qoder',f.workspace),/Unknown host/);
+});
+
+test('simulated provenance cannot be relabelled into real host acceptance or the frozen 15-cell matrix',t=>{
+ const f=fixture(t,'native-agent-simulated');f.complete();assert.equal(f.check().realHostMatrix,'EXCLUDED_SIMULATION');
+ const path=join(f.workspace,f.run,'run.json'),original=JSON.parse(readFileSync(path));
+ write(path,{...original,provenance:'HOST_NATIVE_GENERATION_PENDING'});assert.throws(()=>f.check(),/provenance mismatch/);
+ write(path,{...original,host:'qoder',provenance:'HOST_NATIVE_GENERATION_PENDING'});assert.throws(()=>f.check(),/identity/);
+ write(path,original);const real=initHostRun('qoder',f.workspace),realPath=join(f.workspace,real.run,'run.json'),realMeta=JSON.parse(readFileSync(realPath));
+ write(realPath,{...realMeta,provenance:'NATIVE_AGENT_SIMULATED_HOST'});assert.throws(()=>checkHostRun(real.run,f.workspace),/provenance mismatch/);
+ const matrix=JSON.parse(readFileSync(new URL('../project/host-first-tasks.json',import.meta.url))).matrix;
+ assert.deepEqual(matrix.hosts,['qoder','workbuddy','trae']);assert.equal(matrix.total,15);assert.equal(matrix.cases.length,15);assert.ok(matrix.cases.every(c=>matrix.hosts.includes(c.host)));
 });

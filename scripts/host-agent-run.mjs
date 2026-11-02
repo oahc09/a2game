@@ -2,14 +2,14 @@
 import {hostSourceFingerprint} from './host-source-fingerprint.mjs';
 import {createHash,randomUUID} from 'node:crypto';
 import {existsSync,mkdirSync,readdirSync,readFileSync,realpathSync,writeFileSync} from 'node:fs';
-import {basename,join,relative,resolve,sep} from 'node:path';
+import {basename,dirname,join,relative,resolve,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 import {contracts,resultSchema} from '../integrations/mcp/contract.mjs';
 import {readHostRunLedger} from './host-run-ledger.mjs';
 import {prepareHostWorkspace} from './host-public-workspace.mjs';
 
-const root=resolve(import.meta.dirname,'..'),hosts=['qoder','trae','workbuddy','zcode'];
+const root=resolve(import.meta.dirname,'..'),hosts=['qoder','trae','workbuddy','zcode','native-agent-simulated'];
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const json=path=>JSON.parse(readFileSync(path,'utf8'));
 const write=(path,data)=>writeFileSync(path,typeof data==='string'||Buffer.isBuffer(data)?data:JSON.stringify(data,null,2)+'\n',{flag:'wx'});
@@ -27,23 +27,30 @@ export function decodeHostResult(text){
  return value;
 }
 function runDirectory(run,workspace){return inside(join(workspace,'reports/host-first-evaluations'),resolve(workspace,run));}
+function assertHostIdentity(meta,directory){
+ if(!hosts.includes(meta.host)||basename(dirname(directory))!==meta.host)throw Error('Host identity does not match its run directory');
+ const simulated=meta.host==='native-agent-simulated';
+ if(simulated!==(meta.provenance==='NATIVE_AGENT_SIMULATED_HOST'))throw Error('Host/provenance mismatch: simulated evidence cannot be relabelled as a real host');
+}
 
 export function initHostRun(host,workspace=root){
  if(!hosts.includes(host))throw Error('Unknown host');
  const base=join(workspace,'reports/host-first-evaluations');mkdirSync(base,{recursive:true});
  const parent=join(base,host);mkdirSync(parent,{recursive:true});inside(base,parent);
+ // Simulation is a separate host identity, never evidence of Qoder/TRAE/WorkBuddy discovery.
+ const provenance=host==='native-agent-simulated'?'NATIVE_AGENT_SIMULATED_HOST':'HOST_NATIVE_GENERATION_PENDING';
  const hostRunId=randomUUID();
  const directory=join(parent,new Date().toISOString().replaceAll(':','-').replaceAll('.','-')+'-'+randomUUID());
  mkdirSync(directory);mkdirSync(join(directory,'candidate'));mkdirSync(join(directory,'calls'));
  const isolation=prepareHostWorkspace(directory,workspace);
- write(join(directory,'run.json'),{format:'a2game-host-agent-run',version:1,host,hostRunId,isolation,implementationSha256:hostSourceFingerprint(workspace),runId:basename(directory),createdAt:new Date().toISOString(),maxValidationAttempts:3,mcpProviderBudget:0,hostNativeUsage:'UNKNOWN',provenance:'HOST_NATIVE_GENERATION_PENDING',formalG3:'NOT_RUN'});
- return {hostRunId,isolation,run:relative(workspace,directory).replaceAll('\\','/'),task:'TASK.md',candidate:'candidate/',schemaContext:'schemas/',modelCalls:0};
+ write(join(directory,'run.json'),{format:'a2game-host-agent-run',version:1,host,hostRunId,isolation,implementationSha256:hostSourceFingerprint(workspace),runId:basename(directory),createdAt:new Date().toISOString(),maxValidationAttempts:3,mcpProviderBudget:0,hostNativeUsage:'UNKNOWN',provenance,formalG3:'NOT_RUN'});
+ return {hostRunId,provenance,isolation,run:relative(workspace,directory).replaceAll('\\','/'),task:'TASK.md',candidate:'candidate/',schemaContext:'schemas/',modelCalls:0};
 }
 
 export function captureHostCall(run,runId,workspace=root,hostResponseFile){
  if(!/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(runId))throw Error('Expected response runId UUID');
  const directory=runDirectory(run,workspace),meta=json(join(directory,'run.json'));
- if(!hosts.includes(meta.host))throw Error('Invalid host run');
+ assertHostIdentity(meta,directory);
  const output=join(workspace,'output/mcp');
  const matches=readdirSync(output,{withFileTypes:true}).filter(e=>e.isDirectory()).map(e=>join(output,e.name,runId+'.receipt.json')).filter(existsSync);
  if(matches.length!==1)throw Error('Expected exactly one service receipt for response runId');
@@ -87,6 +94,7 @@ export function captureHostCall(run,runId,workspace=root,hostResponseFile){
 
 export function checkHostRun(run,workspace=root){
  const directory=runDirectory(run,workspace),runMeta=json(join(directory,'run.json')),calls=[],incompleteCaptures=[];
+ assertHostIdentity(runMeta,directory);
  for(const entry of readdirSync(join(directory,'calls'),{withFileTypes:true}).filter(e=>e.isDirectory())){
   const dir=inside(directory,join(directory,'calls',entry.name));
   if(['capture.json','server-call.json','server-response.json'].some(name=>!existsSync(join(dir,name)))){incompleteCaptures.push(entry.name);continue;}
@@ -161,7 +169,7 @@ export function checkHostRun(run,workspace=root){
  const attempts=ledger.calls.filter(e=>e.call.tool==='a2game.validate_game').length;
  if(runMeta.maxValidationAttempts!==3)missing.push('INVALID_VALIDATION_ATTEMPT_LIMIT');
  if(attempts>3)missing.push('VALIDATION_ATTEMPT_BUDGET_EXCEEDED');
- return {format:'a2game-host-run-check',version:1,host:runMeta.host,mcpLoopStatus:selected&&!missing.length?'PASS_REFERENCE':'PARTIAL',selected,missing,
+ return {format:'a2game-host-run-check',version:1,host:runMeta.host,realHostMatrix:runMeta.host==='native-agent-simulated'?'EXCLUDED_SIMULATION':'NOT_EVALUATED',provenance:runMeta.host==='native-agent-simulated'?'NATIVE_AGENT_SIMULATED_HOST':runMeta.provenance??'HOST_NATIVE_GENERATION_PENDING',mcpLoopStatus:selected&&!missing.length?'PASS_REFERENCE':'PARTIAL',selected,missing,
   calls:calls.length,canonicalCalls:ledger.calls.length,hostRunId:runMeta.hostRunId??null,validationAttempts:attempts,missingCaptures,incompleteCaptures,artifactChecks,previewLifecycle,failures:ledger.calls.filter(e=>e.response&&e.response.status!=='PASS_REFERENCE').map(e=>({runId:e.response.runId,tool:e.call.tool,status:e.response.status,codes:e.response.diagnostics.map(d=>d.code)})),
   hostResponseMismatches,
   source:'SERVER_RECEIPTS_WITH_HOST_REPORTED_CALL_IDS',independentAuthoring:'NOT_VERIFIED',isolation:runMeta.isolation??{status:'NOT_RECORDED'},browserInputAndVisual:'NOT_RUN',formalG3:'NOT_RUN',hostNativeUsage:'UNKNOWN',mcpProviderBudgetConsumed:0};
