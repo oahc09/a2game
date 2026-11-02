@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-02 用户选定子agent模拟替代项目验收：新增独立neutral A/B/C×五玩法profile与完整账本/本地controller证据核验；旧真实Host矩阵不变，客户端配置/发现/权限、OS隔离与人工质量不由模拟提升。执行方案见 docs/simulated-host-acceptance.md；新增profile本身不证明任何实验单元通过。
+
 2026-11-02 MCP 传输/关闭加固：支持的 tools/call 报文在服务端统一严格解析并登记 canonical 回执，含错误参数与未知工具；公开 Tool Schema/数量和默认 Provider 预算不变。shutdown 等待活动调用与最终回执，清理失败保留失败状态。JSON-RPC 格式错误和未协商任务增强仍由协议层拒绝，不声称为生成候选；当前源码须独立验证，旧实验不重标。
 
 2026-11-02 Host-first 合同加固（待当前版本验证）：增加显式组件/状态路径绑定的独立非法动作→撤销检查，以及基于实时 canvas/viewport 的名义文字 CSS 像素诊断；缺声明/不支持不记通过，小字 warning 不替代实际画面审查。旧实验仅对应其固定源码版本；真实宿主、OS 强隔离、人工及正式 Gate 不升级。

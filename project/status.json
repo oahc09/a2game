@@ -1349,6 +1349,8 @@
   },
   "generatorHandoff": "docs/generator-handoff.md",
   "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL",
+  "simulatedHostAcceptanceProfile": "project/simulated-host-acceptance-profile.json",
+  "simulatedHostAcceptanceGuide": "docs/simulated-host-acceptance.md",
   "hostFirstWorkstream": "project/host-first-status.json",
   "hostFirstExecutionGuide": "docs/host-agent-pilot.md",
   "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening",
