@@ -100,15 +100,19 @@ test('bounded extraBody adds vendor fields (GLM thinking / Qwen enable_thinking)
 
 test('provider config validation rejects malformed extraBody shapes',async()=>{
  const {probeProvider}=await import('../generator/providers.mjs');
- const {writeFileSync,rmSync}=await import('node:fs');
- const path=new URL('file:///E:/AIProMax/github/a2game/.a2game/dialect-probe.json');
+ const {writeFileSync,rmSync,mkdtempSync}=await import('node:fs');
+ const {join}=await import('node:path');
+ const {tmpdir}=await import('node:os');
+ const directory=mkdtempSync(join(tmpdir(),'a2game-dialect-probe-'));
+ const path=join(directory,'dialect-probe.json');
+ try{
  for(const extra of ['not-an-object',[],{'bad key!':1},{['x'.repeat(5000)]:1}]){
   writeFileSync(path,JSON.stringify({endpoint:'https://open.bigmodel.cn/api/coding/paas/v4/chat/completions',model:'glm-5.3-flash',extraBody:extra}));
-  const probe=await probeProvider({id:'model-http',configFile:'.a2game/dialect-probe.json'});
+  const probe=await probeProvider({id:'model-http',configFile:path});
   assert.equal(probe.status,'BLOCKED');assert.equal(probe.code,'A2G_GEN_CONFIG');
  }
  writeFileSync(path,JSON.stringify({endpoint:'https://open.bigmodel.cn/api/coding/paas/v4/chat/completions',model:'glm-5.3-flash',extraBody:{thinking:{type:'disabled'}}}));
- const ok=await probeProvider({id:'model-http',configFile:'.a2game/dialect-probe.json'});
+ const ok=await probeProvider({id:'model-http',configFile:path});
  assert.equal(ok.status,'READY');
- rmSync(path);
+ }finally{rmSync(directory,{recursive:true,force:true});}
 });

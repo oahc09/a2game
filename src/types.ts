@@ -84,6 +84,9 @@ export interface ModuleContext {
     entity: Readonly<RuntimeEntity>; config: Readonly<JsonRecord>; instanceIndex: number;
     inputs: ReadonlyArray<RuntimeEvent>;
     normalizedInputs?:Readonly<Record<string,JsonRecord>>;
+    /** Trusted Runtime closure over admitted declarations; never sourced from GameSpec JSON.
+     * Undefined means strict validation, not permission inferred from elapsed ticks. */
+    resolveRealtimeConstraintTargets?: (config: Readonly<JsonRecord>) => readonly string[];
     rng: Readonly<{ nextU32(): number; randf(): number; randomInt(min: number, maxInclusive: number): number; state():number[]; restore(state:readonly number[]):void }>;
     world: Readonly<{ state: JsonRecord; entities: Record<string, RuntimeEntity> }>;
 }

@@ -1,76 +1,202 @@
+import {hostSourceFingerprint} from '../scripts/host-source-fingerprint.mjs';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createHash,randomUUID} from 'node:crypto';
 import {mkdirSync,mkdtempSync,readFileSync,writeFileSync,rmSync} from 'node:fs';
 import {tmpdir} from 'node:os';
-import {join,resolve} from 'node:path';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
 import {initHostRun,captureHostCall,checkHostRun} from '../scripts/host-agent-run.mjs';
-
-test('host run captures canonical bytes, verifies a same-artifact/session loop and detects rewritten evidence',()=>{
- const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));
- const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
- const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
- try{
-  for(const p of ['specs/v0.1/schemas','docs','output/mcp'])mkdirSync(join(workspace,p),{recursive:true});
-  write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});
-  write(join(workspace,'docs/host-agent-pilot.md'),'Public task');
-  const run=initHostRun('workbuddy',workspace).run;
-  const sessionId=randomUUID(),artifactId=randomUUID(),air=randomUUID(),three=randomUUID();
-  const output=join(workspace,'output/mcp',sessionId);mkdirSync(output);
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
+function fixture(t,host='workbuddy'){
+ const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));t.after(()=>rmSync(workspace,{recursive:true,force:true}));
+ for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor','integrations/skill/a2game/references'])mkdirSync(join(workspace,p),{recursive:true});
+ write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});write(join(workspace,'docs/host-agent-pilot.md'),'Public task');write(join(workspace,'specs/v0.1/capabilities/public.capability.json'),{id:'a2game.test.public',version:'0.1.0'});
+ for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md'])write(join(workspace,'integrations/skill/a2game',name),'Public Skill '+name);
+ write(join(workspace,'dist/index.js'),'export const stale = false;');
+ for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs'])write(join(workspace,'player',name),'original browser source '+name);
+ write(join(workspace,'player/vendor/sdk-provenance.json'),{receipt:'original'});write(join(workspace,'player/vendor/three.module.js'),'downloaded SDK bound separately');
+ write(join(workspace,'player/validated-games.json'),{generated:true});
+ const {run,hostRunId}=initHostRun(host,workspace),sessionId=randomUUID(),artifactId=randomUUID();
+ const output=join(workspace,'output/mcp',sessionId);mkdirSync(output);
+ write(join(output,'session.json'),{format:'a2game-mcp-session',version:1,implementationSha256:hostSourceFingerprint(workspace),sessionId,hostRunId,lastSequence:0,createdAt:new Date().toISOString()});
+ let sequence=0;
+ const add=(tool,parameters={},data={},options={})=>{
+  const runId=randomUUID(),status=options.status??'PASS_REFERENCE';
+  const response={mcpToolContractVersion:1,runId,status,diagnostics:status==='PASS_REFERENCE'?[]:[{code:'A2G_INVALID',stage:'schema',message:'invalid'}],data:{...data,modelCalls:0}};
+  const bytes=JSON.stringify(response);
+  const call={format:'a2game-mcp-call',version:1,sessionId,hostRunId,runId,sequence:++sequence,state:options.incomplete?'STARTED':'COMPLETED',createdAt:new Date().toISOString(),tool:'a2game.'+tool,parameters,budgetConsumed:0,unknownCalls:0,receiptSha256:options.incomplete?null:hash(bytes)};
+  write(join(output,runId+'.call.json'),call);
+  const session=JSON.parse(readFileSync(join(output,'session.json')));session.lastSequence=sequence;write(join(output,'session.json'),session);
+  if(!options.incomplete)write(join(output,runId+'.receipt.json'),bytes);
+  if(options.capture!==false&&!options.incomplete)captureHostCall(run,runId,workspace);
+  return runId;
+ };
+ const complete=()=>{
+  add('list_capabilities');add('get_capability');add('validate_game',{}, {artifactId});add('test_game',{artifactId},{artifactId});add('inspect_game',{artifactId},{artifactId});
+  for(const backend of ['air','three']){
+   const previewId=randomUUID(),lifecyclePath='output/mcp/'+sessionId+'/'+previewId+'.lifecycle.json';
+   write(join(workspace,lifecyclePath),{format:'a2game-preview-lifecycle',version:1,sessionId,artifactId,previewId,closed:true,closeReason:'explicit'});
+   add('preview_game',{artifactId,backend,action:'open'},{backend,previewId});
+   add('preview_game',{previewId,action:'close'},{closed:true,previewId,closeReason:'explicit',lifecyclePath});
+  }
   const packagePath='output/mcp/'+sessionId+'/package.json';write(join(workspace,packagePath),'{}');
-  const lifecyclePath='output/mcp/'+sessionId+'/air.lifecycle.json';
-  write(join(workspace,lifecyclePath),{format:'a2game-preview-lifecycle',version:1,sessionId,artifactId,previewId:air,closed:true,closeReason:'explicit'});
-  const rows=[
-   ['list_capabilities',{},{}],['get_capability',{},{}],
-   ['validate_game',{}, {artifactId}],['test_game',{artifactId},{artifactId}],['inspect_game',{artifactId},{artifactId}],
-   ['preview_game',{artifactId,backend:'air',action:'open'},{backend:'air',previewId:air}],
-   ['preview_game',{previewId:air,action:'close'},{closed:true,previewId:air,closeReason:'explicit',lifecyclePath}],
-   ['preview_game',{artifactId,backend:'three',action:'open'},{backend:'three',previewId:three}],
-   ['preview_game',{previewId:three,action:'close'},{closed:true,previewId:three}],
-   ['export_game',{artifactId},{artifactId,path:packagePath,sha256:hash('{}')}]
-  ];
-  let first;
-  for(const [tool,parameters,data] of rows){
-   const runId=randomUUID(),response={mcpToolContractVersion:1,runId,status:'PASS_REFERENCE',diagnostics:[],data:{...data,modelCalls:0}};
-   write(join(output,runId+'.receipt.json'),response);
-   write(join(output,runId+'.call.json'),{format:'a2game-mcp-call',version:1,sessionId,runId,tool:'a2game.'+tool,parameters,budgetConsumed:0,unknownCalls:0});
-   captureHostCall(run,runId,workspace);first??=runId;
-  }
-  const result=checkHostRun(run,workspace);
-  assert.equal(result.mcpLoopStatus,'PASS_REFERENCE');assert.equal(result.selected.artifactId,artifactId);
-  assert.equal(result.browserInputAndVisual,'NOT_RUN');
-  const absent=randomUUID();write(join(workspace,run,'receipt.json'),{mcpCalls:[{runId:absent}]});
-  assert.deepEqual(checkHostRun(run,workspace).missingCaptures,[absent]);
-  assert.equal(checkHostRun(run,workspace).mcpLoopStatus,'PARTIAL');
-  write(join(workspace,run,'receipt.json'),{});
-  const extraPreview=randomUUID();
-  for(const [parameters,data]of [
-   [{artifactId,backend:'air',action:'open'},{backend:'air',previewId:extraPreview}],
-   [{previewId:extraPreview,action:'close'},{previewId:extraPreview,closed:true,closeReason:'expired',alreadyClosed:true}]
-  ]){
-   const runId=randomUUID();
-   write(join(output,runId+'.receipt.json'),{mcpToolContractVersion:1,runId,status:'PASS_REFERENCE',diagnostics:[],data:{...data,modelCalls:0}});
-   write(join(output,runId+'.call.json'),{format:'a2game-mcp-call',version:1,sessionId,runId,tool:'a2game.preview_game',parameters,budgetConsumed:0,unknownCalls:0});
-   captureHostCall(run,runId,workspace);
-  }
-  const expired=checkHostRun(run,workspace);
-  assert.equal(expired.mcpLoopStatus,'PARTIAL');
-  assert.ok(expired.missing.includes('PREVIEW_EXPLICIT_CLOSE_MISSING:'+extraPreview));
-  // An uncaptured call on this artifact must be discovered even if omitted from the host inventory.
-  const unreported=randomUUID();
-  write(join(output,unreported+'.call.json'),{format:'a2game-mcp-call',version:1,sessionId,runId:unreported,tool:'a2game.test_game',createdAt:new Date().toISOString(),parameters:{artifactId},budgetConsumed:0,unknownCalls:0});
-  write(join(output,unreported+'.receipt.json'),{mcpToolContractVersion:1,runId:unreported,status:'PASS_REFERENCE',diagnostics:[],data:{artifactId,modelCalls:0}});
-  assert.ok(checkHostRun(run,workspace).missingCaptures.includes(unreported));
-  const unfinished=randomUUID();mkdirSync(join(workspace,run,'calls',unfinished));
-  assert.ok(checkHostRun(run,workspace).incompleteCaptures.includes(unfinished));
-  const different=readFileSync(join(workspace,run,'calls',first,'server-response.json'),'utf8').replace('PASS_REFERENCE','NOT_RUN');
-  write(join(workspace,run,'calls',first,'server-response.json'),different);
-  assert.throws(()=>checkHostRun(run,workspace),/SHA mismatch/);
-  assert.throws(()=>captureHostCall(run,'../../private',workspace),/UUID/);
-  const other=initHostRun('trae',workspace).run;
-  assert.equal(checkHostRun(other,workspace).mcpLoopStatus,'PARTIAL');
- }finally{
-  assert.ok(resolve(workspace).startsWith(resolve(tmpdir(),'a2game-host-run-')));
-  rmSync(workspace,{recursive:true,force:true});
+  add('export_game',{artifactId},{artifactId,path:packagePath,sha256:hash('{}')});
+ };
+ return {workspace,run,hostRunId,sessionId,artifactId,output,add,complete,check:()=>checkHostRun(run,workspace)};
+}
+test('complete bound canonical loop passes; browser/identity acceptance remains unclaimed',t=>{
+ const f=fixture(t);f.complete();const result=f.check();assert.equal(result.mcpLoopStatus,'PASS_REFERENCE');assert.equal(result.validationAttempts,1);assert.equal(result.browserInputAndVisual,'NOT_RUN');
+ const absent=randomUUID();write(join(f.workspace,f.run,'receipt.json'),{mcpCalls:[{runId:absent}]});assert.ok(f.check().missingCaptures.includes(absent));
+ assert.throws(()=>captureHostCall(f.run,'../../private',f.workspace),/UUID/);
+});
+test('uncaptured failed candidates are counted even without artifact ids',t=>{
+ const f=fixture(t);f.complete();const failed=[];for(let i=0;i<3;i++)failed.push(f.add('validate_game',{}, {},{status:'FAIL',capture:false}));
+ const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL');assert.equal(result.validationAttempts,4);assert.equal(result.failures.length,3);assert.ok(result.missing.includes('VALIDATION_ATTEMPT_BUDGET_EXCEEDED'));assert.deepEqual(result.missingCaptures.sort(),failed.sort());
+});
+test('three total candidates pass only after every failure is captured; fourth is refused',t=>{
+ const f=fixture(t);f.add('validate_game',{}, {},{status:'FAIL'});f.add('validate_game',{}, {},{status:'FAIL'});f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');assert.equal(f.check().validationAttempts,3);
+ f.add('validate_game',{}, {},{status:'FAIL'});assert.equal(f.check().mcpLoopStatus,'PARTIAL');
+});
+test('binding excludes other runs and rejects cross-run capture rather than borrowing a session',t=>{
+ const f=fixture(t);f.complete();const other=initHostRun('trae',f.workspace);const id=f.add('list_capabilities');assert.throws(()=>captureHostCall(other.run,id,f.workspace),/another host run/);
+ const unrelated=join(f.workspace,'output/mcp',randomUUID());mkdirSync(unrelated);write(join(unrelated,'session.json'),{hostRunId:other.hostRunId});write(join(unrelated,'bad.call.json'),'not json');assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ const session=JSON.parse(readFileSync(join(f.output,'session.json')));session.hostRunId=other.hostRunId;write(join(f.output,'session.json'),session);assert.equal(f.check().mcpLoopStatus,'PARTIAL');
+});
+test('incomplete canonical calls, missing canonical files and sequence gaps cannot pass',t=>{
+ const f=fixture(t);f.complete();const unfinished=f.add('validate_game',{}, {},{incomplete:true});let result=f.check();assert.ok(result.missing.includes('CANONICAL_CALL_INCOMPLETE:'+unfinished));assert.equal(result.validationAttempts,2);
+ rmSync(join(f.output,unfinished+'.call.json'));const id=f.add('list_capabilities');result=f.check();assert.ok(result.missing.some(x=>x.startsWith('CANONICAL_SEQUENCE_GAP:')));
+ rmSync(join(f.output,id+'.receipt.json'));assert.throws(()=>f.check(),/canonical ledger/);
+});
+test('canonical mutation after capture and altered capture bytes are rejected',t=>{
+ const f=fixture(t);f.complete();const id=f.add('list_capabilities');const path=join(f.output,id+'.call.json');const original=readFileSync(path,'utf8');write(path,original.replace('COMPLETED','STARTED'));assert.throws(()=>f.check(),/canonical ledger/);write(path,original);
+ write(join(f.workspace,f.run,'calls',id,'server-response.json'),'{}');assert.throws(()=>f.check(),/SHA mismatch/);
+});
+test('unbound legacy evidence remains readable but never qualifies for strict PASS',t=>{
+ const f=fixture(t);f.complete();rmSync(join(f.output,'session.json'));assert.equal(f.check().mcpLoopStatus,'PARTIAL');assert.ok(f.check().missing.includes('BOUND_CANONICAL_SESSION_MISSING'));
+});
+test('expired preview cannot substitute for explicit cleanup',t=>{
+ const f=fixture(t);f.complete();const previewId=randomUUID();f.add('preview_game',{artifactId:f.artifactId,backend:'air',action:'open'},{backend:'air',previewId});f.add('preview_game',{previewId,action:'close'},{previewId,closed:true,closeReason:'expired'});assert.ok(f.check().missing.includes('PREVIEW_EXPLICIT_CLOSE_MISSING:'+previewId));
+});
+test('all sessions with the fixed host-run id contribute failures and budget',t=>{
+ const f=fixture(t);f.complete();const sessionId=randomUUID(),runId=randomUUID(),output=join(f.workspace,'output/mcp',sessionId);mkdirSync(output);
+ write(join(output,'session.json'),{format:'a2game-mcp-session',version:1,implementationSha256:hostSourceFingerprint(f.workspace),sessionId,hostRunId:f.hostRunId,lastSequence:1});
+ const response={mcpToolContractVersion:1,runId,status:'FAIL',diagnostics:[{code:'INVALID',stage:'schema',message:'invalid'}]};const bytes=JSON.stringify(response);write(join(output,runId+'.receipt.json'),bytes);
+ write(join(output,runId+'.call.json'),{format:'a2game-mcp-call',version:1,sessionId,hostRunId:f.hostRunId,runId,sequence:1,state:'COMPLETED',tool:'a2game.validate_game',parameters:{},budgetConsumed:0,unknownCalls:0,receiptSha256:hash(bytes)});
+ assert.equal(f.check().validationAttempts,2);assert.ok(f.check().missingCaptures.includes(runId));captureHostCall(f.run,runId,f.workspace);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+});
+test('an unfinished capture and an actual mismatched host response cannot be hidden by summary fields',t=>{
+ const f=fixture(t);f.complete();const unfinished=randomUUID();mkdirSync(join(f.workspace,f.run,'calls',unfinished));assert.ok(f.check().incompleteCaptures.includes(unfinished));rmSync(join(f.workspace,f.run,'calls',unfinished),{recursive:true});
+ const id=f.add('list_capabilities',{}, {},{capture:false});const name='host-response.txt';write(join(f.workspace,f.run,name),{wrong:true});captureHostCall(f.run,id,f.workspace,name);assert.ok(f.check().hostResponseMismatches.includes(id));
+ const capturePath=join(f.workspace,f.run,'calls',id,'capture.json'),capture=JSON.parse(readFileSync(capturePath));capture.hostResponseComparison='MATCH';write(capturePath,capture);assert.ok(f.check().hostResponseMismatches.includes(id));
+});
+test('real no-model service persists every rejected call and monotonic run binding',async()=>{
+ const {createMcpService}=await import('../integrations/mcp/service.mjs');
+ const {readHostRunLedger}=await import('../scripts/host-run-ledger.mjs');
+ const hostRunId=randomUUID(),service=createMcpService({hostRunId});
+ try{
+  for(let i=0;i<4;i++)assert.equal((await service.call('a2game.validate_game',{})).status,'FAIL');
+  const result=readHostRunLedger(fileURLToPath(new URL('..',import.meta.url)),hostRunId);
+  assert.deepEqual(result.problems,[]);assert.equal(result.calls.length,4);assert.equal(result.calls.filter(e=>e.call.tool==='a2game.validate_game').length,4);
+  assert.deepEqual(result.calls.map(e=>e.call.sequence).sort((a,b)=>a-b),[1,2,3,4]);assert.ok(result.calls.every(e=>e.call.hostRunId===hostRunId&&e.call.state==='COMPLETED'));
+ }finally{await service.close();rmSync(service.directory,{recursive:true,force:true});}
+});
+test('real run capture still detects uncaptured service failures and exceeded candidate budget',async()=>{
+ const {createMcpService}=await import('../integrations/mcp/service.mjs');
+ const workspace=fileURLToPath(new URL('..',import.meta.url));
+ const {run,hostRunId}=initHostRun('workbuddy',workspace),service=createMcpService({hostRunId});
+ try{
+  const responses=[];for(let i=0;i<4;i++)responses.push(await service.call('a2game.validate_game',{}));
+  captureHostCall(run,responses[3].runId,workspace);
+  const checked=checkHostRun(run,workspace);assert.equal(checked.validationAttempts,4);assert.equal(checked.missingCaptures.length,3);assert.ok(checked.missing.includes('VALIDATION_ATTEMPT_BUDGET_EXCEEDED'));assert.equal(checked.independentAuthoring,'NOT_VERIFIED');
+ }finally{await service.close();rmSync(service.directory,{recursive:true,force:true});rmSync(join(workspace,run),{recursive:true,force:true});}
+});
+
+test('old source receipts cannot count as current implementation acceptance',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ write(join(f.workspace,'docs/host-agent-pilot.md'),'Changed contract');const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL');assert.ok(result.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));assert.ok(result.missing.some(x=>x.startsWith('SESSION_IMPLEMENTATION_CHANGED_OR_UNBOUND:')));
+});
+
+test('actual dist execution bytes are bound even when source is unchanged',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ write(join(f.workspace,'dist/index.js'),'export const stale = true;');const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL');assert.ok(result.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));assert.ok(result.missing.some(x=>x.startsWith('SESSION_IMPLEMENTATION_CHANGED_OR_UNBOUND:')));
+});
+
+// Synthetic receipts exercise the ledger only; this test dispatches no authoring agent.
+test('native-agent simulation has a distinct identity and never claims real host discovery',t=>{
+ const f=fixture(t,'native-agent-simulated'),meta=JSON.parse(readFileSync(join(f.workspace,f.run,'run.json')));
+ assert.equal(meta.host,'native-agent-simulated');assert.equal(meta.provenance,'NATIVE_AGENT_SIMULATED_HOST');
+ assert.match(f.run,/native-agent-simulated/);assert.equal(meta.mcpProviderBudget,0);assert.equal(meta.formalG3,'NOT_RUN');
+ f.complete();const checked=f.check();assert.equal(checked.mcpLoopStatus,'PASS_REFERENCE');assert.equal(checked.host,'native-agent-simulated');assert.equal(checked.provenance,'NATIVE_AGENT_SIMULATED_HOST');assert.equal(checked.independentAuthoring,'NOT_VERIFIED');assert.equal(checked.formalG3,'NOT_RUN');
+ const real=initHostRun('qoder',f.workspace);assert.equal(real.provenance,'HOST_NATIVE_GENERATION_PENDING');
+ assert.equal(JSON.parse(readFileSync(join(f.workspace,real.run,'run.json'))).host,'qoder');
+ assert.throws(()=>initHostRun('pretend-qoder',f.workspace),/Unknown host/);
+});
+
+test('simulated provenance cannot be relabelled into real host acceptance or the frozen 15-cell matrix',t=>{
+ const f=fixture(t,'native-agent-simulated');f.complete();assert.equal(f.check().realHostMatrix,'EXCLUDED_SIMULATION');
+ const path=join(f.workspace,f.run,'run.json'),original=JSON.parse(readFileSync(path));
+ write(path,{...original,provenance:'HOST_NATIVE_GENERATION_PENDING'});assert.throws(()=>f.check(),/provenance mismatch/);
+ write(path,{...original,host:'qoder',provenance:'HOST_NATIVE_GENERATION_PENDING'});assert.throws(()=>f.check(),/identity/);
+ write(path,original);const real=initHostRun('qoder',f.workspace),realPath=join(f.workspace,real.run,'run.json'),realMeta=JSON.parse(readFileSync(realPath));
+ write(realPath,{...realMeta,provenance:'NATIVE_AGENT_SIMULATED_HOST'});assert.throws(()=>checkHostRun(real.run,f.workspace),/provenance mismatch/);
+ const matrix=JSON.parse(readFileSync(new URL('../project/host-first-tasks.json',import.meta.url))).matrix;
+ assert.deepEqual(matrix.hosts,['qoder','workbuddy','trae']);assert.equal(matrix.total,15);assert.equal(matrix.cases.length,15);assert.ok(matrix.cases.every(c=>matrix.hosts.includes(c.host)));
+});
+
+
+test('browser adapter, script, HTML and CSS bytes invalidate previous run and session evidence',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs']){
+  const path=join(f.workspace,'player',name),original=readFileSync(path);
+  writeFileSync(path,Buffer.concat([original,Buffer.from(' changed')]));
+  const result=f.check();assert.equal(result.mcpLoopStatus,'PARTIAL',name);assert.ok(result.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'),name);assert.ok(result.missing.some(x=>x.startsWith('SESSION_IMPLEMENTATION_CHANGED_OR_UNBOUND:')),name);
+  writeFileSync(path,original);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE',name+' restored');
  }
+ const main=join(f.workspace,'player/main.mjs'),original=readFileSync(main);rmSync(main);assert.equal(f.check().mcpLoopStatus,'PARTIAL','removed browser source');writeFileSync(main,original);
+ write(join(f.workspace,'player/adapters/new-adapter.mjs'),'new adapter');assert.equal(f.check().mcpLoopStatus,'PARTIAL','added browser source');
+});
+
+test('dynamic SDK provenance and generated player catalogs do not masquerade as browser source identity',t=>{
+ const f=fixture(t);f.complete();const before=hostSourceFingerprint(f.workspace);
+ write(join(f.workspace,'player/vendor/sdk-provenance.json'),{receipt:'new dynamic SDK receipt'});write(join(f.workspace,'player/vendor/three.module.js'),'SDK change must be checked by independent locked SDK evidence');
+ write(join(f.workspace,'player/validated-games.json'),{generated:'new catalog'});
+ assert.equal(hostSourceFingerprint(f.workspace),before);assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ // This source-only assertion does not claim SDK verification; the runtime's SDK checks remain mandatory.
+});
+
+test('optional frozen task binds v2 capsule, run metadata and outer task without claiming isolation',t=>{
+ const f=fixture(t),prompt='Design an unseen game.\n',created=initHostRun('native-agent-simulated',f.workspace,{taskId:'UNSEEN-1',prompt}),dir=join(f.workspace,created.run),meta=JSON.parse(readFileSync(join(dir,'run.json')));
+ assert.equal(meta.isolation.task.promptSha256,hash(prompt));assert.equal(meta.isolation.task.taskId,'UNSEEN-1');assert.equal(meta.isolation.runtimeIsolation,'NOT_RUN');
+ assert.equal(readFileSync(join(dir,'public-context/TASK.md'),'utf8'),prompt);assert.ok(!checkHostRun(created.run,f.workspace).missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+ write(join(dir,'TASK.md'),'changed outer prompt');assert.ok(checkHostRun(created.run,f.workspace).missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+});
+test('v2 run checking rejects modified public bytes and mismatched task metadata',t=>{
+ const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+ const dir=join(f.workspace,f.run),path=join(dir,'run.json'),original=readFileSync(path),meta=JSON.parse(original);meta.isolation.task.taskId='OTHER';write(path,meta);assert.ok(f.check().missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+ writeFileSync(path,original);write(join(dir,'public-context/skill/SKILL.md'),'changed');const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.equal(checked.independentAuthoring,'NOT_VERIFIED');
+});
+
+test('v2 marker cannot be removed from run metadata to skip the frozen public capsule check',t=>{
+ const f=fixture(t);f.complete();const path=join(f.workspace,f.run,'run.json'),meta=JSON.parse(readFileSync(path));delete meta.isolation.capsuleVersion;write(path,meta);
+ assert.ok(f.check().missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));
+});
+
+test('current source run cannot bypass capsule validation by removing both v2 markers or the entire manifest',t=>{
+ for(const mutation of ['v1','deleted']){
+  const f=fixture(t);f.complete();assert.equal(f.check().mcpLoopStatus,'PASS_REFERENCE');
+  const dir=join(f.workspace,f.run),path=join(dir,'run.json'),meta=JSON.parse(readFileSync(path));delete meta.isolation.capsuleVersion;write(path,meta);
+  const manifestPath=join(dir,'public-context/manifest.json');
+  if(mutation==='v1'){const manifest=JSON.parse(readFileSync(manifestPath));manifest.version=1;write(manifestPath,manifest);}else rmSync(manifestPath);
+  const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.ok(!checked.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));
+ }
+});
+test('historical v1 run remains readable but cannot be reclassified as a complete current-source run',t=>{
+ const f=fixture(t);f.complete();const dir=join(f.workspace,f.run),path=join(dir,'run.json'),meta=JSON.parse(readFileSync(path));meta.implementationSha256='0'.repeat(64);delete meta.isolation.capsuleVersion;delete meta.isolation.task;
+ const manifestPath=join(dir,'public-context/manifest.json'),manifest=JSON.parse(readFileSync(manifestPath));manifest.version=1;delete manifest.task;delete manifest.skill;delete manifest.resources;
+ for(const name of ['TASK.md','skill','resources'])rmSync(join(dir,'public-context',name),{recursive:true,force:true});
+ for(const name of Object.keys(manifest.files))if(name==='TASK.md'||name.startsWith('skill/')||name.startsWith('resources/'))delete manifest.files[name];
+ write(manifestPath,manifest);meta.isolation.manifestSha256=hash(readFileSync(manifestPath));write(path,meta);
+ const checked=f.check();assert.equal(checked.mcpLoopStatus,'PARTIAL');assert.ok(checked.missing.includes('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND'));assert.ok(!checked.missing.includes('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND'));assert.equal(checked.independentAuthoring,'NOT_VERIFIED');
 });

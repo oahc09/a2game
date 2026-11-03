@@ -1,6 +1,6 @@
 export interface DiagnosticInfo {
     jsonPointer?: string; tickIndex?: number; ruleId?: string;
-    capabilityId?: string; entityId?: string; detail?: string;
+    capabilityId?: string; entityId?: string; detail?: string; caseId?: string; expected?: unknown; actual?: unknown;
 }
 /** Codes are part of the wire contract and must not leak platform-specific stack data. */
 export class A2GameError extends Error {

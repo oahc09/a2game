@@ -1,0 +1,125 @@
+{
+  "format": "a2game-simulated-host-acceptance-profile",
+  "version": 2,
+  "scope": "SIMULATED_HOST_ACCEPTANCE",
+  "groups": [
+    "A",
+    "B",
+    "C"
+  ],
+  "tasks": [
+    "G01",
+    "G03",
+    "G17",
+    "G21",
+    "H01"
+  ],
+  "total": 15,
+  "host": "native-agent-simulated",
+  "provenance": "NATIVE_AGENT_SIMULATED_HOST",
+  "maxValidationAttempts": 3,
+  "mcpProviderBudget": 0,
+  "modelIdentity": "UNKNOWN",
+  "hostNativeUsage": "UNKNOWN",
+  "evidenceTrust": "LOCAL_CONTROLLER_NOT_ATTESTED",
+  "businessEvaluation": "CONTROLLER_REVIEW_REQUIRED",
+  "commonChecks": {
+    "backendHash": [
+      "air.node-host-hash",
+      "three.node-host-hash"
+    ],
+    "lifecycle": [
+      "pause-freeze",
+      "restart-replay",
+      "dispose-resources",
+      "terminal-input-rejected",
+      "preview-explicit-close"
+    ],
+    "visualReference": [
+      "desktop",
+      "narrow-390",
+      "small-320",
+      "initial-progress-terminal",
+      "readability-feedback"
+    ],
+    "replay": [
+      "second-independent-session-replay"
+    ],
+    "inputCoverage": [
+      "keyboard-hold",
+      "pointer-drag",
+      "pointer-cancel",
+      "blur-input-clear",
+      "restart-input-clear"
+    ],
+    "runtimeObservations": [
+      "console-errors",
+      "page-errors",
+      "performance-measurement"
+    ]
+  },
+  "mechanicsChecks": {
+    "G01": [
+      "move-push-target",
+      "blocked-push-no-change",
+      "restart",
+      "no-score-shortcut",
+      "undo-after-illegal",
+      "dead-corner-not-win"
+    ],
+    "G03": [
+      "legal-swap-match",
+      "drop-chain",
+      "invalid-swap",
+      "goal-no-shortcut"
+    ],
+    "G17": [
+      "continuous-input",
+      "auto-fire-three-waves",
+      "hit-dedup",
+      "failure-retry"
+    ],
+    "G21": [
+      "build-cost-path-waves",
+      "leak-life-win",
+      "invalid-location-insufficient-balance",
+      "dead-enemy-cleanup",
+      "upgrade"
+    ],
+    "H01": [
+      "merge-replaces-old-turrets",
+      "old-weapons-stop",
+      "cooldown-economy-order",
+      "path-enemies-terminal-input",
+      "reward-dedup",
+      "merge-required-to-win"
+    ]
+  },
+  "unverified": [
+    "realHostDiscovery",
+    "realClient",
+    "osIsolation",
+    "humanQuality",
+    "formalG3",
+    "physicalDevices"
+  ],
+  "limitations": [
+    "A/B/C are neutral native-agent groups, not host brands or model rankings.",
+    "Canonical receipts establish a local MCP loop, not independent author identity or general gameplay correctness.",
+    "Controller observations and file hashes bind local evidence, not cryptographic identity or semantic truth.",
+    "Complete controller coverage yields READY_FOR_CONTROLLER_ACCEPTANCE; the controller must review semantics before any simulated project acceptance claim.",
+    "This profile never changes the original real-host 15-cell matrix or formal acceptance counts.",
+    "Native authoring boundaries in this profile are instruction-only; OS isolation remains unverified."
+  ],
+  "optionalInputChecks": [
+    "keyboard-hold",
+    "pointer-drag",
+    "pointer-cancel"
+  ],
+  "coverageRequirements": {
+    "replay": "For both air and three, record a second distinct runtime Session, same seed, complete input trace, tick and exactHash comparison. Restarting the first Session is not independent replay.",
+    "inputCoverage": "Record actual canvas input on both backends. Optional input checks may be NOT_APPLICABLE only with NOT_DECLARED applicability, a specific reason and SHA-bound evidence of the absent candidate contract. Unsupported declared or task-required inputs remain FAIL/PARTIAL. Blur and restart input clearing are mandatory. G17 requires hold or drag; declared drag requires cancellation coverage.",
+    "runtimeObservations": "For both air and three, retain console/page-error logs and measured performance samples with metric, units, sample interval, environment and limitations; do not infer performance from absence of errors.",
+    "scope": "Structural local-controller coverage only: no automated semantics, human quality, real client, OS isolation, physical input or GPU-internal cache attestation."
+  }
+}

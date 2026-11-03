@@ -1,3 +1,4 @@
+import {measureTextReadability} from './text-readability.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
@@ -222,6 +223,7 @@ async function main(){
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});
    window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
+     getTextReadability:(options={})=>measureTextReadability(projectPresentation(definition,runtime.observe()),dom.GameCanvas,{referenceCssPx:options.referenceCssPx??16,backend:backendName,adapter}),
      backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,gamepad:gamepadHost.diagnostics(),mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);

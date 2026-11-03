@@ -12,7 +12,7 @@ const integer=(v:unknown,min:number,max:number):v is number=>safeInteger(v)&&v>=
 const id=(v:unknown):v is string=>typeof v==='string'&&/^[a-zA-Z0-9_-]{1,48}$/.test(v);
 export function initialDefenseState(wallet=4,lives=3):JsonRecord{return {wallet,score:0,lives,nextId:0,selected:-1,waveCursor:0,towers:[],weapons:[],enemies:[],bodies:[],shots:[],won:false,lost:false};}
 
-function checkConfig(c:Readonly<JsonRecord>):void {
+function checkConfig(c:Readonly<JsonRecord>,configPointer?:string):void {
  if(typeof c.statePath!=='string'||!/^\/(?:[^~/]|~[01])+$/.test(c.statePath)||!integer(c.width,256,32000)||!integer(c.height,256,32000))error('Invalid defense dimensions/state path');
  for(const [key,min,max] of [['cost',1,1000000],['damage',1,1000],['range',16,64000],['speed',1,128],['cooldownTicks',1,600],['maxTicks',1,1000000]] as const)if(!integer(c[key],min,max))error('Invalid defense '+key);
  const point=(p:unknown)=>isRecord(p)&&integer(p.x,100,Number(c.width)-100)&&integer(p.y,100,Number(c.height)-100);
@@ -21,11 +21,19 @@ function checkConfig(c:Readonly<JsonRecord>):void {
  if(!Array.isArray(c.waves)||c.waves.length<1||c.waves.length>32)error('Invalid defense waves');
  let previous=0;for(const wave of c.waves as JsonRecord[]){if(!isRecord(wave)||!integer(wave.tick,1,Number(c.maxTicks))||wave.tick<previous||!integer(wave.hp,1,1000000)||!integer(wave.reward,0,1000000))error('Invalid defense wave');previous=Number(wave.tick);}
  if(!Array.isArray(c.actions)||c.actions.length<1||c.actions.length>64)error('Invalid defense actions');
- const names=new Set<string>();for(const a of c.actions as JsonRecord[]){if(!isRecord(a)||typeof a.action!=='string'||names.has(a.action)||!['place','select','merge','upgrade'].includes(String(a.kind))||!integer(a.index,0,(c.cells as Json[]).length-1))error('Invalid defense command');names.add(String(a.action));}
+ const names=new Set<string>();for(const [index,a] of (c.actions as JsonRecord[]).entries()){
+  if(!isRecord(a)||typeof a.action!=='string'||names.has(a.action)||!['place','select','merge','upgrade'].includes(String(a.kind)))error('Invalid defense command');
+  if(!integer(a.index,0,(c.cells as Json[]).length-1))fail('A2G_E_CAP_CONFIG','Invalid defense command index',{ruleId:'defense.action-index',capabilityId:'a2game.strategy.tower-defense',expected:(c.cells as Json[]).length-1,...(configPointer?{jsonPointer:configPointer+'/actions/'+index+'/index'}:{})});
+  names.add(String(a.action));
+ }
 }
-function checked(raw:unknown,c:Readonly<JsonRecord>):DefenseState {
+function checked(raw:unknown,c:Readonly<JsonRecord>,statePointer?:string):DefenseState {
  if(!isRecord(raw))error('Defense state must be an object');const s=raw as unknown as DefenseState;
- for(const key of ['wallet','score','nextId'] as const)if(!integer(s[key],0,1000000000))error('Invalid defense '+key);
+ const stateError=(key:string,expected:string):never=>fail('A2G_E_CAP_CONFIG','Invalid defense state field',{ruleId:'defense.required-state',capabilityId:'a2game.strategy.tower-defense',expected,...(statePointer?{jsonPointer:statePointer+'/'+key}:{})});
+ for(const key of ['wallet','score','nextId'] as const)if(!integer(s[key],0,1000000000))stateError(key,'integer');
+ for(const [key,min,max] of [['lives',0,1000],['selected',-1,15],['waveCursor',0,(c.waves as Json[]).length]] as const)if(!integer(s[key],min,max))stateError(key,'integer');
+ for(const key of ['won','lost'] as const)if(typeof s[key]!=='boolean')stateError(key,'boolean');
+ for(const key of ['towers','weapons','enemies','bodies','shots'] as const)if(!Array.isArray(s[key]))stateError(key,'array');
  if(!integer(s.lives,0,1000)||!integer(s.selected,-1,15)||!integer(s.waveCursor,0,(c.waves as Json[]).length)||typeof s.won!=='boolean'||typeof s.lost!=='boolean'||!Array.isArray(s.towers)||s.towers.length>16||!Array.isArray(s.weapons)||s.weapons.length!==s.towers.length||!Array.isArray(s.enemies)||s.enemies.length>32||!Array.isArray(s.bodies)||s.bodies.length>48||!Array.isArray(s.shots)||s.shots.length>16)error('Invalid defense bookkeeping');
  const ids=new Set<string>(),cells=new Set<number>(),weapons=new Set<string>();
  for(const t of s.towers){if(!isRecord(t)||!id(t.id)||ids.has(t.id)||!id(t.weaponId)||weapons.has(t.weaponId)||!integer(t.cell,0,(c.cells as Json[]).length-1)||cells.has(t.cell)||!integer(t.level,1,8))error('Invalid or duplicate tower');ids.add(t.id);cells.add(t.cell);weapons.add(t.weaponId);}
@@ -71,8 +79,9 @@ export function simulateDefense(ctx:ModuleContext):ModuleResult {
 export const defenseImplementation:TrustedCapabilityImplementation={role:'module',simulate:simulateDefense};
 export function validateDefenseDefinition(def:GameDefinition):void {
  const state=Object.fromEntries(Object.entries(def.state).map(([key,field])=>[key,field.initial]));
- for(const entity of [...def.scenes.flatMap(s=>s.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.strategy.tower-defense'){
-  checkConfig(component.config);checked(readPointer(state,String(component.config.statePath)),component.config);
+ const entities=[...def.scenes.flatMap((scene,si)=>scene.entities.map((entity,ei)=>({entity,path:'/scenes/'+si+'/entities/'+ei}))),...Object.entries(def.prototypes??{}).map(([key,entity])=>({entity,path:'/prototypes/'+key.replace(/~/g,'~0').replace(/\//g,'~1')}))];
+ for(const {entity,path} of entities)for(const [ci,component] of (entity.components??[]).entries())if(component.capability.id==='a2game.strategy.tower-defense'){
+  checkConfig(component.config,path+'/components/'+ci+'/config');checked(readPointer(state,String(component.config.statePath)),component.config,'/state/'+String(component.config.statePath).slice(1)+'/initial');
   if((component.config.actions as JsonRecord[]).some(a=>!def.inputs.actions.some(input=>input.id===a.action&&input.valueType==='button')))error('Defense command references an unknown button action');
  }
 }

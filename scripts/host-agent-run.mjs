@@ -1,12 +1,15 @@
 /** Prepare a host run and archive exact service receipts. Never dispatches a model or MCP tool. */
+import {hostSourceFingerprint} from './host-source-fingerprint.mjs';
 import {createHash,randomUUID} from 'node:crypto';
 import {existsSync,mkdirSync,readdirSync,readFileSync,realpathSync,writeFileSync} from 'node:fs';
-import {basename,join,relative,resolve,sep} from 'node:path';
+import {basename,dirname,join,relative,resolve,sep} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {isDeepStrictEqual} from 'node:util';
 import {contracts,resultSchema} from '../integrations/mcp/contract.mjs';
+import {readHostRunLedger} from './host-run-ledger.mjs';
+import {prepareHostWorkspace,verifyPublicWorkspace} from './host-public-workspace.mjs';
 
-const root=resolve(import.meta.dirname,'..'),hosts=['qoder','trae','workbuddy','zcode'];
+const root=resolve(import.meta.dirname,'..'),hosts=['qoder','trae','workbuddy','zcode','native-agent-simulated'];
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
 const json=path=>JSON.parse(readFileSync(path,'utf8'));
 const write=(path,data)=>writeFileSync(path,typeof data==='string'||Buffer.isBuffer(data)?data:JSON.stringify(data,null,2)+'\n',{flag:'wx'});
@@ -24,25 +27,30 @@ export function decodeHostResult(text){
  return value;
 }
 function runDirectory(run,workspace){return inside(join(workspace,'reports/host-first-evaluations'),resolve(workspace,run));}
+function assertHostIdentity(meta,directory){
+ if(!hosts.includes(meta.host)||basename(dirname(directory))!==meta.host)throw Error('Host identity does not match its run directory');
+ const simulated=meta.host==='native-agent-simulated';
+ if(simulated!==(meta.provenance==='NATIVE_AGENT_SIMULATED_HOST'))throw Error('Host/provenance mismatch: simulated evidence cannot be relabelled as a real host');
+}
 
-export function initHostRun(host,workspace=root){
+export function initHostRun(host,workspace=root,task){
  if(!hosts.includes(host))throw Error('Unknown host');
  const base=join(workspace,'reports/host-first-evaluations');mkdirSync(base,{recursive:true});
  const parent=join(base,host);mkdirSync(parent,{recursive:true});inside(base,parent);
+ // Simulation is a separate host identity, never evidence of Qoder/TRAE/WorkBuddy discovery.
+ const provenance=host==='native-agent-simulated'?'NATIVE_AGENT_SIMULATED_HOST':'HOST_NATIVE_GENERATION_PENDING';
+ const hostRunId=randomUUID();
  const directory=join(parent,new Date().toISOString().replaceAll(':','-').replaceAll('.','-')+'-'+randomUUID());
- mkdirSync(directory);mkdirSync(join(directory,'candidate'));mkdirSync(join(directory,'calls'));mkdirSync(join(directory,'schemas'));
- for(const file of readdirSync(join(workspace,'specs/v0.1/schemas')).filter(name=>name.endsWith('.json'))){
-  write(join(directory,'schemas',file),readFileSync(join(workspace,'specs/v0.1/schemas',file)));
- }
- write(join(directory,'TASK.md'),readFileSync(join(workspace,'docs/host-agent-pilot.md')));
- write(join(directory,'run.json'),{format:'a2game-host-agent-run',version:1,host,runId:basename(directory),createdAt:new Date().toISOString(),maxValidationAttempts:3,mcpProviderBudget:0,hostNativeUsage:'UNKNOWN',provenance:'HOST_NATIVE_GENERATION_PENDING',formalG3:'NOT_RUN'});
- return {run:relative(workspace,directory).replaceAll('\\','/'),task:'TASK.md',candidate:'candidate/',schemaContext:'schemas/',modelCalls:0};
+ mkdirSync(directory);mkdirSync(join(directory,'candidate'));mkdirSync(join(directory,'calls'));
+ const isolation=prepareHostWorkspace(directory,workspace,task);
+ write(join(directory,'run.json'),{format:'a2game-host-agent-run',version:1,host,hostRunId,isolation,implementationSha256:hostSourceFingerprint(workspace),runId:basename(directory),createdAt:new Date().toISOString(),maxValidationAttempts:3,mcpProviderBudget:0,hostNativeUsage:'UNKNOWN',provenance,formalG3:'NOT_RUN'});
+ return {hostRunId,provenance,isolation,run:relative(workspace,directory).replaceAll('\\','/'),task:'TASK.md',candidate:'candidate/',schemaContext:'schemas/',modelCalls:0};
 }
 
 export function captureHostCall(run,runId,workspace=root,hostResponseFile){
  if(!/^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$/i.test(runId))throw Error('Expected response runId UUID');
  const directory=runDirectory(run,workspace),meta=json(join(directory,'run.json'));
- if(!hosts.includes(meta.host))throw Error('Invalid host run');
+ assertHostIdentity(meta,directory);
  const output=join(workspace,'output/mcp');
  const matches=readdirSync(output,{withFileTypes:true}).filter(e=>e.isDirectory()).map(e=>join(output,e.name,runId+'.receipt.json')).filter(existsSync);
  if(matches.length!==1)throw Error('Expected exactly one service receipt for response runId');
@@ -51,7 +59,11 @@ export function captureHostCall(run,runId,workspace=root,hostResponseFile){
  inside(output,callFile);
  const bytes=readFileSync(source),response=resultSchema.parse(JSON.parse(bytes)),call=json(callFile);
  if(call.format!=='a2game-mcp-call'||call.runId!==runId||call.sessionId!==basename(resolve(source,'..'))||response.runId!==runId)throw Error('Call metadata does not bind this receipt');
- if(!Object.hasOwn(contracts,call.tool)||call.tool==='a2game.generate_game')throw Error('This run does not permit provider generation');
+ const sessionFile=join(resolve(source,'..'),'session.json');
+ const session=existsSync(sessionFile)?json(inside(output,sessionFile)):null;
+ if(call.hostRunId&&call.hostRunId!==meta.hostRunId||session?.hostRunId&&session.hostRunId!==meta.hostRunId)throw Error('Service session belongs to another host run');
+ if(call.hostRunId&&(session?.hostRunId!==call.hostRunId||session.sessionId!==call.sessionId||call.state!=='COMPLETED'||call.receiptSha256!==sha(bytes)))throw Error('Canonical call ledger is incomplete or inconsistent');
+ if((!Object.hasOwn(contracts,call.tool)&&!(call.tool===null&&response.status!=='PASS_REFERENCE'))||call.tool==='a2game.generate_game')throw Error('This run does not permit provider generation');
  if(call.budgetConsumed!==0||call.unknownCalls!==0)throw Error('MCP provider budget was consumed or is unknown');
  if(call.parameters.artifactId&&response.data?.artifactId&&call.parameters.artifactId!==response.data.artifactId)throw Error('Request and response artifact differ');
  const callRoot=inside(directory,join(directory,'calls'));
@@ -82,6 +94,7 @@ export function captureHostCall(run,runId,workspace=root,hostResponseFile){
 
 export function checkHostRun(run,workspace=root){
  const directory=runDirectory(run,workspace),runMeta=json(join(directory,'run.json')),calls=[],incompleteCaptures=[];
+ assertHostIdentity(runMeta,directory);
  for(const entry of readdirSync(join(directory,'calls'),{withFileTypes:true}).filter(e=>e.isDirectory())){
   const dir=inside(directory,join(directory,'calls',entry.name));
   if(['capture.json','server-call.json','server-response.json'].some(name=>!existsSync(join(dir,name)))){incompleteCaptures.push(entry.name);continue;}
@@ -97,6 +110,10 @@ export function checkHostRun(run,workspace=root){
    if(event.format!=='a2game-preview-lifecycle'||event.sessionId!==call.sessionId||event.previewId!==call.parameters.previewId||event.closeReason!==response.data.closeReason||event.closed!==response.data.closed)throw Error('Preview lifecycle identity differs');
   }
   if(call.tool==='a2game.generate_game')throw Error('Provider generation is outside this host run');
+  if(existsSync(join(dir,'host-response.txt'))){
+   if(!capture.files['host-response.txt'])throw Error('Unsealed host response evidence');
+   try{capture.hostResponseComparison=isDeepStrictEqual(decodeHostResult(readFileSync(join(dir,'host-response.txt'),'utf8')),response)?'MATCH':'DIFFERENT';}catch{capture.hostResponseComparison='UNPARSEABLE';}
+  }else if(capture.hostResponseComparison!=='NOT_CAPTURED')throw Error('Host response evidence missing');
   calls.push({call,response,capture});
  }
  // The host receipt is an inventory, not proof: declared calls must have their own captured bytes.
@@ -108,21 +125,26 @@ export function checkHostRun(run,workspace=root){
  };
  if(existsSync(join(directory,'receipt.json')))collect(json(join(directory,'receipt.json')));
  const captured=new Set(calls.map(e=>e.call.runId)),related=new Set(declared);
- // Recover inventory gaps for known artifacts/previews without sweeping other hosts' work.
- const artifacts=new Set(calls.flatMap(e=>[e.call.parameters.artifactId,e.response.data?.artifactId]).filter(Boolean));
- const previewIds=new Set(calls.flatMap(e=>[e.call.parameters.previewId,e.response.data?.previewId]).filter(Boolean));
- for(const sessionId of new Set(calls.map(e=>e.call.sessionId))){
-  if(!/^[0-9a-f-]{36}$/i.test(sessionId))throw Error('Invalid service session identity');
-  const session=join(workspace,'output/mcp',sessionId);if(!existsSync(session))continue;
-  inside(join(workspace,'output/mcp'),session);
-  for(const file of readdirSync(session).filter(name=>name.endsWith('.call.json'))){
-   const call=json(inside(session,join(session,file)));
-   if(!/^[0-9a-f-]{36}$/i.test(call.runId)||call.sessionId!==sessionId)throw Error('Invalid server call identity');
-   if(!call.createdAt||call.createdAt<runMeta.createdAt)continue;
-   const responseFile=join(session,call.runId+'.receipt.json');if(!existsSync(responseFile))continue;
-   const response=json(inside(session,responseFile));
-   if(artifacts.has(call.parameters?.artifactId)||artifacts.has(response.data?.artifactId)||previewIds.has(call.parameters?.previewId)||previewIds.has(response.data?.previewId))related.add(call.runId);
+ const ledger=readHostRunLedger(workspace,runMeta.hostRunId);
+ const currentImplementation=hostSourceFingerprint(workspace);
+ // Current source only creates v2. Mutable marker removal cannot downgrade its requirements.
+ // Historical v1 remains readable but its old source binding cannot qualify as current.
+ try{
+  const manifestPath=join(directory,'public-context/manifest.json'),manifestVersion=existsSync(manifestPath)?json(manifestPath).version:undefined;
+  if(runMeta.implementationSha256===currentImplementation||runMeta.isolation?.capsuleVersion===2||manifestVersion===2){
+   if(runMeta.isolation?.capsuleVersion!==2)throw Error('Missing v2 run binding');
+   const verified=verifyPublicWorkspace(join(directory,'public-context'),runMeta.isolation.manifestSha256);
+   if(verified.capsuleVersion!==2||!isDeepStrictEqual(verified.task,runMeta.isolation.task)||sha(readFileSync(join(directory,'TASK.md')))!==verified.task.promptSha256)throw Error('Task binding differs');
   }
+ }catch{ledger.problems.push('PUBLIC_CAPSULE_CHANGED_OR_UNBOUND');}
+ if(runMeta.implementationSha256!==currentImplementation)ledger.problems.push('RUN_IMPLEMENTATION_CHANGED_OR_UNBOUND');
+ for(const entry of ledger.calls)related.add(entry.call.runId);
+ for(const entry of calls){
+  const canonical=ledger.calls.find(e=>e.call.runId===entry.call.runId);
+  if(entry.call.hostRunId&&entry.call.hostRunId!==runMeta.hostRunId)throw Error('Captured call belongs to another host run');
+  if(!canonical){ledger.problems.push('CANONICAL_CALL_MISSING:'+entry.call.runId);continue;}
+  const capturedRoot=join(directory,'calls',entry.call.runId);
+  if(!readFileSync(join(capturedRoot,'server-call.json')).equals(canonical.callBytes)||!canonical.responseBytes||!readFileSync(join(capturedRoot,'server-response.json')).equals(canonical.responseBytes))throw Error('Captured bytes differ from canonical ledger');
  }
  const missingCaptures=[...related].filter(id=>!captured.has(id)).sort();
  const success=calls.filter(e=>e.response.status==='PASS_REFERENCE'),exports=success.filter(e=>e.call.tool==='a2game.export_game');
@@ -142,7 +164,7 @@ export function checkHostRun(run,workspace=root){
   artifactChecks.push({sessionId:session,artifactId:artifact,missing:gaps});
   if(gaps.length<missing.length){missing=gaps;selected={sessionId:session,artifactId:artifact,packageCall:candidate.response.runId};}
  }
- missing=[...missing];
+ missing=[...missing,...ledger.problems];
  for(const artifact of artifactChecks)for(const gap of artifact.missing)missing.push('artifact:'+artifact.artifactId+':'+gap);
  for(const id of missingCaptures)missing.push('CAPTURE_MISSING:'+id);
  for(const id of incompleteCaptures)missing.push('CAPTURE_INCOMPLETE:'+id);
@@ -155,12 +177,13 @@ export function checkHostRun(run,workspace=root){
  });
  const hostResponseMismatches=calls.filter(e=>['DIFFERENT','UNPARSEABLE'].includes(e.capture.hostResponseComparison)).map(e=>e.response.runId);
  for(const id of hostResponseMismatches)missing.push('HOST_RESPONSE_MISMATCH:'+id);
- const attempts=calls.filter(e=>e.call.tool==='a2game.validate_game').length;
- if(attempts>runMeta.maxValidationAttempts)missing.push('VALIDATION_ATTEMPT_BUDGET_EXCEEDED');
- return {format:'a2game-host-run-check',version:1,host:runMeta.host,mcpLoopStatus:selected&&!missing.length?'PASS_REFERENCE':'PARTIAL',selected,missing,
-  calls:calls.length,validationAttempts:attempts,missingCaptures,incompleteCaptures,artifactChecks,previewLifecycle,failures:calls.filter(e=>e.response.status!=='PASS_REFERENCE').map(e=>({runId:e.response.runId,tool:e.call.tool,status:e.response.status,codes:e.response.diagnostics.map(d=>d.code)})),
+ const attempts=ledger.calls.filter(e=>e.call.tool==='a2game.validate_game').length;
+ if(runMeta.maxValidationAttempts!==3)missing.push('INVALID_VALIDATION_ATTEMPT_LIMIT');
+ if(attempts>3)missing.push('VALIDATION_ATTEMPT_BUDGET_EXCEEDED');
+ return {format:'a2game-host-run-check',version:1,host:runMeta.host,realHostMatrix:runMeta.host==='native-agent-simulated'?'EXCLUDED_SIMULATION':'NOT_EVALUATED',provenance:runMeta.host==='native-agent-simulated'?'NATIVE_AGENT_SIMULATED_HOST':runMeta.provenance??'HOST_NATIVE_GENERATION_PENDING',mcpLoopStatus:selected&&!missing.length?'PASS_REFERENCE':'PARTIAL',selected,missing,
+  calls:calls.length,canonicalCalls:ledger.calls.length,hostRunId:runMeta.hostRunId??null,validationAttempts:attempts,missingCaptures,incompleteCaptures,artifactChecks,previewLifecycle,failures:ledger.calls.filter(e=>e.response&&e.response.status!=='PASS_REFERENCE').map(e=>({runId:e.response.runId,tool:e.call.tool,status:e.response.status,codes:e.response.diagnostics.map(d=>d.code)})),
   hostResponseMismatches,
-  source:'SERVER_RECEIPTS_WITH_HOST_REPORTED_CALL_IDS',browserInputAndVisual:'NOT_RUN',formalG3:'NOT_RUN',hostNativeUsage:'UNKNOWN',mcpProviderBudgetConsumed:0};
+  source:'SERVER_RECEIPTS_WITH_HOST_REPORTED_CALL_IDS',independentAuthoring:'NOT_VERIFIED',isolation:runMeta.isolation??{status:'NOT_RECORDED'},browserInputAndVisual:'NOT_RUN',formalG3:'NOT_RUN',hostNativeUsage:'UNKNOWN',mcpProviderBudgetConsumed:0};
 }
 
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){

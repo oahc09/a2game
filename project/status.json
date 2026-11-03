@@ -537,11 +537,11 @@
     "reason": "No Android device attached; physical Touch/IMU, permission and calibration tests have no receipt."
   },
   "candidateRun": {
-    "status": "PASS_REFERENCE",
+    "status": "IMPLEMENTED_UNVERIFIED",
     "summary": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
     "historicalSummary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
-    "evidenceScope": "CURRENT_BROWSER_REFERENCE; COVERAGE_INDEX_PENDING_REFRESH",
+    "evidenceScope": "HISTORICAL_SOURCE_RECEIPT_NOT_CURRENT",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate.",
     "previousCurrentReceipt": "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
   },
@@ -1330,7 +1330,7 @@
     "contentSummary": "reports/content-2026-10-31T11-47-43-574Z-18508/summary.json",
     "contentSummaryStatus": "PASS",
     "httpNavigation": "PASS",
-    "scope": "CURRENT_SOURCE_FULL_VERIFY",
+    "scope": "HISTORICAL_PRE_HOST_FIRST_REPAIR; CURRENT_SOURCE_FULL_VERIFY_NOT_ESTABLISHED",
     "nodeTests": {
       "pass": 159,
       "total": 159
@@ -1344,11 +1344,64 @@
       "pass": 203,
       "total": 203,
       "suites": 114
-    }
+    },
+    "historicalScope": "CURRENT_SOURCE_FULL_VERIFY"
   },
   "generatorHandoff": "docs/generator-handoff.md",
   "generatorHandoffStatus": "PASS_REFERENCE_LOCAL; E3_AND_EXTERNAL_ACCEPTANCE_PARTIAL",
+  "simulatedHostAcceptanceProfile": "project/simulated-host-acceptance-profile.json",
+  "simulatedHostAcceptanceGuide": "docs/simulated-host-acceptance.md",
   "hostFirstWorkstream": "project/host-first-status.json",
   "hostFirstExecutionGuide": "docs/host-agent-pilot.md",
-  "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening"
+  "hostFirstLifecycleHardening": "project/host-first-status.json#executionHardening",
+  "hostFirstRepair": {
+    "status": "IMPLEMENTED_PENDING_INDEPENDENT_ACCEPTANCE",
+    "scope": "Core implementation and synthetic regressions; no real-host/model/human acceptance promotion",
+    "guide": "docs/host-agent-pilot.md",
+    "currentEvidenceRule": "Current content fingerprint required; prior reports are historical and must not be used for changed source",
+    "formalG3": "NOT_RUN",
+    "hostModelCalls": 0,
+    "remoteCI": "NOT_RUN",
+    "transportLifecycleHardening": "Supported tools/call envelopes use canonical strict admission even on rejected arguments/unknown tools; shutdown awaits active-call receipts. Invalid protocol envelopes and unsupported task augmentation are protocol errors, not generated candidates. No real-host gate promotion.",
+    "additionalHardening": "Explicit component-bound illegal-action/undo check and live viewport nominal-text diagnostics; unsupported/missing declarations are not passes; readability warnings are not visual acceptance",
+    "mechanismContractHardening": "Public swap/realtime/defense state and conditional-presentation contracts; bounded static semantic diagnostics; wave-body validation separated from complete-world constraint integrity. Current-source verification required; old simulated batches remain bound to their original fingerprint and outcomes."
+  },
+  "hostFeedbackOptimization": {
+    "scope": "CORE_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_REFERENCE_SCOPE",
+    "input": "Bounded ignored-hold advisory and explicitly declared loss mismatch, no input/hash semantic change",
+    "readability": "Optional inspect numeric observation bound to active session preview/artifact/SHA; HOST_REPORTED_UNVERIFIED; visual NOT_RUN",
+    "cooldown": "Executing tick n versus observation n+1; existing due/inheritance semantics clarified and synthetic edge tests",
+    "historicalEvidence": "Unchanged remote evidence metadata; private prior run files unavailable after environment change; no reconstructed or re-signed experiments",
+    "realClient": "NOT_RUN",
+    "OSIsolation": "NOT_VERIFIED",
+    "remoteCI": "NOT_RUN"
+  },
+  "hostAcceptancePreparation": {
+    "scope": "CORE_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_NOT_ACCEPTANCE",
+    "publicCapsule": "Version 2 binds exact public task, shared Skill, schemas/capabilities and fixed HostProfile/fragments; version 1 compatibility retained",
+    "isolation": "PREPARED_NOT_ISOLATED; native agent tool filesystem policy requires independent platform enforcement; never inferred from capsule hashes",
+    "diagnostics": "Static expectError missing-code/ordering guidance and explicit public operation contracts; no valid execution/input/hash change",
+    "coverage": "New simulated profile requires independent-session replay, applicable input cleanup and console/performance observations; structural readiness is not semantic or visual acceptance",
+    "evidence": "Old source/profile evidence remains historical; no experiment artifacts or reconstructed private evidence included",
+    "realClients": "NOT_RUN",
+    "formalG3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "remoteCI": "NOT_RUN"
+  },
+  "hostConstraintLifecycleRepair": {
+    "scope": "CORE_PUBLIC_CONTRACTS_AND_SYNTHETIC_ONLY",
+    "status": "IMPLEMENTED_NOT_ACCEPTANCE",
+    "runtime": "Per-runtime private frozen admitted declaration binding permits dormant constraints only for previously valid target IDs; no provenance remains strict and changed config is rejected. Legal same-declaration prototype instances remain supported.",
+    "boundary": "Trusted in-process resolver, not an external JSON capability, entity-origin proof or cryptographic identity. Snapshot and GameSpec formats unchanged.",
+    "publicContracts": "aimPath bounded direction vector/L1 normalization/zero fallback and state.set existing-state path, literal/expression and post-physics commit timing; no new gameplay operation.",
+    "evidence": "Old source reports and sealed experiments remain historical; current source must be independently tested. No experiment artifacts or reconstructed historical evidence included.",
+    "candidateIndex": "Historical receipt pointers preserved; current candidate status is unverified after implementation change.",
+    "realClients": "NOT_RUN",
+    "osIsolation": "NOT_VERIFIED",
+    "formalG3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "remoteCI": "NOT_RUN"
+  }
 }

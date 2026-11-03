@@ -122,7 +122,11 @@ export function createContentService({python,maxReleases=32,storageDirectory=nul
       try{projectPresentation(game,runtime.observe());runtime.start();runtime.step(1);projectPresentation(game,runtime.observe());}finally{runtime.dispose();}
       const resources=assetPolicy.resolve(game);assertContext();return {...result,resources};
     }catch(error){
-      if(error instanceof A2GameError)throw new ContentError(error.code,error.message,422,'semantic',[{pointer:error.info.jsonPointer??'',message:error.message}]);
+      if(error instanceof A2GameError)error=new ContentError(error.code,error.message,422,'semantic',[{...error.info,pointer:error.info.jsonPointer??'',message:error.message}]);
+      if(error instanceof ContentError)error.diagnostics=error.diagnostics.map(d=>{
+        const pointer=d.jsonPointer??d.pointer??'',rule=/^\/rules\/(\d+)(?:\/|$)/.exec(pointer);
+        return {...d,...(rule&&game.rules?.[Number(rule[1])]?.id?{ruleId:game.rules[Number(rule[1])].id}:{})};
+      });
       throw error;
     }finally{active--;}
   };

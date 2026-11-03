@@ -10,6 +10,28 @@ import {createPlayerServer} from '../scripts/serve.mjs';
 import {createContentService} from '../scripts/content-service.mjs';
 import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
+// Explicit post-migration public-contract revisions; never qualify old evidence for new bytes.
+const publicContractRevisions={
+  "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
+    "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
+    "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"
+  },
+  "specs/v0.1/capabilities/a2game.puzzle.swap.capability.json": {
+    "before": "b8854b33b62aa0f4244fe1bad17b18520ac1f0e1c829e36e000b99c998cb8d40",
+    "current": "bb4ac43c0fa679b86240e63ba49e994f1a6b7568c36ce652d4920a44ddd647cd"
+  },
+  "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
+    "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
+    "current": "3fd357b91c31f1f507a6936640a42d3d6c1eb45e3ef79bf580b7f259df1fa120"
+  },
+  "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
+    "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
+    "current": "4ddfd4f0dc1a4d5f97431d3d8312751069fbbbc14947158070f9235c602e4cd6"
+  }
+};
+function assertPublicContractRevision(path,before,content){
+ assert.ok(Object.hasOwn(publicContractRevisions,path),'Unregistered public contract revision');const revision=publicContractRevisions[path];assert.equal(before,revision.before);assert.equal(sha(content),revision.current);
+}
 function reverseH01Presentation(path,text){
  const variant=path.endsWith('/h01-reward-upgrade.game.json'),game=JSON.parse(text);
  assert.equal(JSON.stringify(game,null,2)+'\n',text);
@@ -24,22 +46,29 @@ function reverseH01Presentation(path,text){
  hint[0].at=[0,-3.65];hint[0].fontSize=0.14;hint[0].text.literal=variant?'合成后用首波奖励升级：未升级无法击退末波':'place0、place1 建塔，select0 后 merge1 合成；旧炮与武器释放，抵御三波。';
  return JSON.stringify(game,null,2)+'\n';
 }
-test('all 362 relocated protocol assets retain migration provenance; capability bindings resolve without claiming formal verification',()=>{
- const migration=read('project/spec-layout-migration.json'),moved=Object.entries(migration.files).filter(([p])=>p.startsWith('specs/v0.1/samples/'));
+function assertMigratedAsset(old,row,content){
  const downgradedAdapters=new Set(['cocosairjs.adapter.json','threejs.adapter.json','public-turn-room.adapter.json'].map(name=>'specs/v0.1/adapters/'+name));
  const adjustedGames=new Set(['h01-candidate.game.json','h01-reward-upgrade.game.json'].map(name=>'specs/v0.1/games/'+name));
- assert.equal(moved.length,362);for(const [old,row]of moved){
   assert.equal(row.to,canonicalSpecPath(old));assert.equal(row.before,row.after);
-  const content=readFileSync(resolve(root,row.to));
-  if(sha(content)===row.before)continue;
-  if(adjustedGames.has(row.to)){assert.equal(sha(reverseH01Presentation(row.to,content.toString('utf8'))),row.before);continue;}
+  if(Object.hasOwn(publicContractRevisions,row.to))assert.equal(row.before,publicContractRevisions[row.to].before,'Historical digest cannot be re-signed');
+  if(sha(content)===row.before)return;
+  if(adjustedGames.has(row.to)){assert.equal(sha(reverseH01Presentation(row.to,content.toString('utf8'))),row.before);return;}
+  if(Object.hasOwn(publicContractRevisions,row.to)){assertPublicContractRevision(row.to,row.before,content);assert.equal(sourceMatches(root,row.to,row.before),false);assert.equal(evidenceMatches(root,row.to,row.before),false);return;}
   // A verification downgrade changes only the status; preserve the original migration digest.
   assert.ok(downgradedAdapters.has(row.to),`Unexpected protocol asset change: ${row.to}`);
   const text=content.toString('utf8');assert.equal(JSON.parse(text).status,'implemented-unverified');
   assert.equal(sha(text.replace('"status": "implemented-unverified"','"status": "verified"')),row.before);
- }
+}
+test('all 362 relocated protocol assets retain migration provenance; capability bindings resolve without claiming formal verification',()=>{
+ const migration=read('project/spec-layout-migration.json'),moved=Object.entries(migration.files).filter(([p])=>p.startsWith('specs/v0.1/samples/'));
+ assert.equal(moved.length,362);for(const [old,row]of moved)assertMigratedAsset(old,row,readFileSync(resolve(root,row.to)));
  const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,127);assert.equal(bindings.capabilities.length,127);
  for(const c of bindings.capabilities){assert.equal(c.implementation.role,registry.implementation(c).role);assert.deepEqual(c.dependencies,registry.negotiate({all:[{id:c.id,version:c.version}]}).capabilities);assert.equal(c.formalVerification,'NOT_SIGNED_OFF');}
+});
+test('actual migration path rejects extra-byte drift and re-signing historical metadata as current',()=>{
+ const migration=read('project/spec-layout-migration.json');
+ for(const [path,revision] of Object.entries(publicContractRevisions)){const [old,row]=Object.entries(migration.files).find(([,r])=>r.to===path),bytes=readFileSync(resolve(root,path));assert.doesNotThrow(()=>assertMigratedAsset(old,row,bytes));assert.throws(()=>assertMigratedAsset(old,{...row,before:revision.current,after:revision.current},bytes));assert.throws(()=>assertMigratedAsset(old,row,Buffer.concat([bytes,Buffer.from(' ')])));}
+ const [old,row]=Object.entries(migration.files).find(([,r])=>r.to==='specs/v0.1/capabilities/a2game.core.state.capability.json');assert.throws(()=>assertMigratedAsset(old,row,Buffer.concat([readFileSync(resolve(root,row.to)),Buffer.from(' ')])));
 });
 test('historical fingerprints accept only reversible path edits and reject semantic edits even when migration metadata is modified',()=>{
  const dir=mkdtempSync(resolve(tmpdir(),'a2game-spec-layout-'));

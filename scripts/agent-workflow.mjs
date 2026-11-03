@@ -7,6 +7,8 @@ import {HeadlessRuntime,runConformanceSuite,sha256Canonical,capabilityManifestDi
 import {root,makeRegistry} from './registry.mjs';
 import {createContentService} from './content-service.mjs';
 import {solveButtons,playSolution} from './agent-solver.mjs';
+import {publicDiagnostics} from '../generator/diagnostics.mjs';
+import {checkIllegalUndo} from './check-illegal-undo.mjs';
 const read=p=>JSON.parse(readFileSync(p,'utf8')),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
 function error(code,message,attribution='AGENT_STRATEGY'){return Object.assign(Error(message),{code,attribution});}
 /** Host-configured process, never a command from a GameSpec or provider response. No shell evaluation. */
@@ -18,7 +20,7 @@ export function buildAgentRequest(prompt,attempt,previous){
  if(typeof prompt!=='string'||prompt.trim().length<1||prompt.length>8000)throw error('A2G_E_AGENT_PROMPT','提示长度必须为 1–8000 字符。');
  const manifests=makeRegistry().list();return {format:'a2game-generation-request',version:1,prompt,attempt,specVersion:'0.1.0',capabilityDigest:capabilityManifestDigest(manifests),capabilities:manifests.map(m=>({id:m.id,version:m.version,kind:m.kind,description:m.description,dependencies:m.dependencies,contract:m.contract,limits:m.limits??{}})),gameSchema:read(resolve(root,'specs/v0.1/schemas/game.schema.json')),conformanceSchema:read(resolve(root,'specs/v0.1/schemas/test-suite.schema.json')),outputContract:{format:'a2game-generation-output',version:1,required:['game','conformance','provenance'],solution:'optional [{action?,value?,raw?,ticks:integer}] winning playthrough; otherwise bounded button BFS',provenance:'{kind: fixture|independent-model, model:string}; self-reported and never sufficient for G3 PASS'},constraints:{arbitraryScripts:false,maxGameBytes:256*1024,maxSolutionTicks:12000,maxSolutionSteps:256,minimumConformanceCases:2},...(previous?{previous}:{} )};
 }
-export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=60000,solverBudget={},directory}={}){
+export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=60000,solverBudget={},directory,mechanicsDeclaration,mechanicsRequireBlockedPush=false}={}){
  if(!Number.isInteger(maxAttempts)||maxAttempts<1||maxAttempts>3||!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>60000)throw error('A2G_E_AGENT_BUDGET','无效的生成预算。','INFRA');
  directory??=resolve(root,'reports',`agent-${new Date().toISOString().replace(/[:.]/g,'-')}-${process.pid}`);directory=resolve(directory);if(existsSync(directory))throw error('A2G_E_AGENT_OUTPUT','回执目录必须是新目录。','INFRA');mkdirSync(directory,{recursive:true});
  const toolchain=Object.fromEntries(['scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
@@ -29,14 +31,27 @@ export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=6
    if(output?.format!=='a2game-generation-output'||output.version!==1||!output.game||!output.conformance||!['fixture','independent-model'].includes(output.provenance?.kind)||typeof output.provenance.model!=='string'||output.provenance.model.length>200)throw error('A2G_E_AGENT_ENVELOPE','生成器输出缺少合同字段。');
    provenance=output.provenance;entry.provenance=provenance;const receipt=await service.release(JSON.stringify(output.game));entry.release=receipt;
    const schema=await callJsonProcess([python,'scripts/validate-agent-suite.py'],output.conformance,{timeoutMs:8000,maxBytes:32*1024});if(schema.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE_SCHEMA','Conformance Schema 校验失败。'),{diagnostics:schema.errors});
-   if(output.conformance.cases.length<2||!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&s.equals==='won'))||!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&['playing','lost'].includes(s.equals))))throw error('A2G_E_AGENT_CONFORMANCE','必须包含成功及负例终局断言。');
-   const conformance=await runConformanceSuite(output.conformance,output.game,makeRegistry);entry.conformance=conformance;if(conformance.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE','生成的正反例未通过。'),{diagnostics:conformance.cases.filter(c=>c.status!=='PASS').map(c=>({pointer:c.id,message:c.error}))});
+   // Coverage requirements precede execution, so locate missing declarations at /cases,
+   // not a fabricated failing case/step. These IDs and hints are trusted public contract data.
+   const coverage=[];
+   if(output.conformance.cases.length<2)coverage.push({ruleId:'conformance.minimum-cases',expected:2,actual:output.conformance.cases.length});
+   if(!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&s.equals==='won')))coverage.push({ruleId:'conformance.win-assertion',expected:1,actual:0});
+   if(!output.conformance.cases.some(c=>c.steps.some(s=>s.op==='assert'&&s.path==='/flow/status'&&['playing','lost'].includes(s.equals))))coverage.push({ruleId:'conformance.negative-assertion',expected:1,actual:0});
+   if(coverage.length)throw Object.assign(error('A2G_E_AGENT_CONFORMANCE','必须包含成功及负例终局断言。'),{diagnostics:coverage.map(d=>({...d,jsonPointer:'/cases',stage:'conformance'}))});
+   const conformance=await runConformanceSuite(output.conformance,output.game,makeRegistry);entry.conformance=conformance;if(conformance.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE','生成的正反例未通过。'),{diagnostics:conformance.cases.filter(c=>c.status!=='PASS').flatMap(c=>(c.diagnostics??[{}]).map(d=>({...d,caseId:c.id,code:c.code,stage:'conformance'})))});
+   // Optional controller policy is out-of-band, never inferred from fields or model-provided case names.
+   entry.mechanics={status:'NOT_REQUESTED'};
+   if(mechanicsDeclaration!==undefined){
+    entry.mechanics=await checkIllegalUndo(output.game,mechanicsDeclaration,{requireBlockedPush:mechanicsRequireBlockedPush});
+    save(resolve(directory,`mechanics-${attempt}.json`),entry.mechanics);
+    if(entry.mechanics.status!=='PASS_REFERENCE')throw Object.assign(error('A2G_E_AGENT_MECHANICS','Explicit controller mechanics gate did not pass.'),{stage:'conformance',diagnostics:entry.mechanics.diagnostics??[]});
+   }
    let solution=output.solution;if(!solution){entry.solver=solveButtons(output.game,solverBudget);if(entry.solver.status!=='SOLVED')throw error('A2G_E_AGENT_SOLVER_BUDGET','有界求解尚未找到解，不代表无解。');solution=entry.solver.solution;}
    const playability=playSolution(output.game,solution);entry.playability={status:'PASS',hash:playability.final.exactHash,ticks:playability.final.tickIndex,actionCount:playability.actionCount};
    // Replay a second Session, so authored expectations are checked without recycling the same state object.
    const repeated=playSolution(output.game,solution);if(repeated.final.exactHash!==playability.final.exactHash)throw error('A2G_E_AGENT_DETERMINISM','相同输入回放哈希不同。');
    success={game:output.game,solution,provenance,receipt,conformance,playability};save(resolve(directory,'game.json'),output.game);save(resolve(directory,'solution.json'),solution);save(resolve(directory,'debug-bundle.json'),{format:'a2game-debug-bundle',version:1,game:output.game,solution,provenance});save(resolve(directory,'playability.json'),playability);entry.status='PASS';
-  }catch(e){entry.code=e.code??'A2G_E_AGENT_RUNTIME';entry.attribution=e.attribution??(e.stage==='infra'?'INFRA':'AGENT_STRATEGY');entry.message=String(e.message).slice(0,600);entry.diagnostics=(e.diagnostics??[]).slice(0,20);previous={code:entry.code,message:entry.message,diagnostics:entry.diagnostics,...(produced?{output:produced}:{})};if(entry.attribution==='INFRA')terminal=true;}
+  }catch(e){entry.code=e.code??'A2G_E_AGENT_RUNTIME';entry.attribution=e.attribution??(e.stage==='infra'?'INFRA':'AGENT_STRATEGY');entry.message=String(e.message).slice(0,600);entry.stage=e.stage;entry.diagnostics=publicDiagnostics(e);previous={code:entry.code,message:entry.message,diagnostics:entry.diagnostics,...(produced?{output:produced}:{})};if(entry.attribution==='INFRA')terminal=true;}
   entry.elapsedMs=performance.now()-started;attempts.push(entry);save(resolve(directory,`attempt-${attempt}.json`),entry);if(success||terminal)break;
  }
  const summary={format:'a2game-agent-workflow',version:1,status:success?'PASS_REFERENCE':'FAIL',directory,toolchain,promptSha256:sha256Canonical(prompt),provider:{program:basename(command?.[0]??''),configurationDigest:sha256Canonical(command??[])},provenance:provenance??null,G3:'NOT_RUN',reason:'Self-reported provider identity, fixture automation and solver success do not establish independent gameplay quality/G3 acceptance.',repairCount:Math.max(0,attempts.length-1),oneShot:success&&attempts.length===1,attempts:attempts.map(({attempt,status,code,attribution,elapsedMs})=>({attempt,status,...(code?{code,attribution}:{}),elapsedMs})),quality:success?{status:'REFERENCE_ONLY',solutionLength:success.solution.length,completedTicks:success.playability.final.tickIndex,difficulty:'Uncalibrated action/Tick/search-cost proxies; no human difficulty claim'}:null};save(resolve(directory,'summary.json'),summary);return {summary,success};

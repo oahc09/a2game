@@ -46,3 +46,19 @@ Artifact只在当前服务会话可引用；内容仍保存在`output/mcp/<sessi
 Skill源码在`integrations/skill/a2game/`，`python scripts/package-a2game-skill.py`生成不覆盖旧文件的ZIP及SHA，只打包不全局安装。已有 ZCode 项目级 `.agents/skills/a2game/` 安装记录和宿主编写 JSON 的无模型流程回执；[宿主回执](../reports/generator-skill-exercise-af02b9ba-79c5-45e2-a7f0-88784fd8010e/host-integration-receipt.json)明确新会话的自动发现和触发仍未验证。宿主练习、Skill 自动触发和真实 Provider 分别计数，不互相替代；不自行追加真实模型预算。
 
 2026-11-01 原始证据：成功与失败响应保存到 output/mcp/<sessionUUID>/<runId>.receipt.json，配套.call.json记录方法、会话、已验证的artifact/preview/backend参数、参数SHA及预算，不保存原始参数正文或环境。重连后生效。node scripts/host-agent-run.mjs capture <run> <runId>只归档已有服务端原字节，不另发工具或模型调用；宿主返回另存比较，不能把服务端回执冒充宿主导出。modelCalls仍位于响应data内，不增加根部字段。完整操作见[四宿主显式Pilot](host-agent-pilot.md)。
+
+
+## Host-first 增量合同（Tool contract 1 兼容扩展）
+
+仍为原9个Tool，旧参数/返回基础字段保留。新增可选诊断字段 `jsonPointer/capabilityId/ruleId/caseId/expected/actual/repairHint`：CLI与MCP共享白名单投影，最多20项，只公开有界安全标量，未知值省略，不回传provider正文/stack/任意对象。支持完整Schema、语义、Conformance/解法与基础设施归因，真实宿主自主修复仍需独立验收。
+
+`resources/list` 提供固定只读URI，`resources/read` 拒绝任意路径、未知版本和未注册URI：
+- `a2game://spec/0.1.0/game.schema.json`
+- `a2game://spec/0.1.0/test-suite.schema.json`
+- `a2game://spec/0.1.0/capability.schema.json`
+- `a2game://spec/0.1.0/host-profile.json`
+- `a2game://spec/0.1.0/contract-fragments.json`
+
+返回JSON envelope包含版本、URI、`content`原文、UTF-8 `bytes`和`sha256`（绑定原文，不是envelope），内容最大256KiB。片段不可执行、不含基准关卡或正确解法。不能加载Resources的客户端应明确记录限制，不把规范缺失归罪于模型。
+
+`export_game.data.format` 与实际包一致为 `a2game-generator-package`；接收端仍须完整重验。严格Host归档需启动参数 `--host-run-id <UUID>`；未绑定的历史客户端继续可用，但不能证明本轮完整调用链。具体run隔离和归档见 `host-agent-pilot.md`。

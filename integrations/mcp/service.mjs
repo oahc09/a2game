@@ -1,26 +1,35 @@
 /** Narrow session adapter: no caller paths, commands, credentials or implicit generation. */
-import {mkdirSync,readFileSync,writeFileSync,readdirSync,statSync} from 'node:fs';
+import {mkdirSync,readFileSync,writeFileSync,readdirSync,statSync,renameSync} from 'node:fs';
 import {join,relative,resolve} from 'node:path';
 import {randomUUID,createHash} from 'node:crypto';
 import {root,makeRegistry} from '../../scripts/registry.mjs';
+import {hostSourceFingerprint} from '../../scripts/host-source-fingerprint.mjs';
 import {buildGamePlan,generateGame,validateGameFile,testGeneratedDirectory,previewGeneratedDirectory,safePath} from '../../generator/index.mjs';
 import {exportGamePackage} from '../../generator/package.mjs';
 import {HeadlessRuntime} from '../../dist/index.js';
 import {playSolution} from '../../scripts/agent-solver.mjs';
 import {contracts,resultSchema} from './contract.mjs';
+import {inspectTextReadability} from './text-readability-feedback.mjs';
+import {publicDiagnostics} from '../../generator/diagnostics.mjs';
 import {queryCapabilities,getPublicCapability} from '../../generator/catalog.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex'),relativePath=p=>relative(root,p).replaceAll('\\','/');
 const fail=code=>Object.assign(Error(code),{code});
-export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=120000,previewTtlMs=120000}={}){
+export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=120000,previewTtlMs=120000,hostRunId=null}={}){
  if(!Number.isInteger(maxCalls)||maxCalls<0||maxCalls>30||!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>600000||!Number.isInteger(previewTtlMs)||previewTtlMs<100||previewTtlMs>300000)throw fail('A2G_MCP_CONFIG');
+ if(hostRunId!==null&&(typeof hostRunId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(hostRunId)))throw fail('A2G_MCP_CONFIG');
  if(provider&&!['fixture','codex','claude','model-http','http'].includes(provider))throw fail('A2G_MCP_CONFIG');
  const sessionId=randomUUID(),directory=safePath(join(root,'output/mcp',sessionId));mkdirSync(directory,{recursive:true});
- const artifacts=new Map(),previews=new Map(),previewHistory=new Map(),controllers=new Set();let active=false,closed=false,calls=0,unknownCalls=0,requests=0;
+ const artifacts=new Map(),previews=new Map(),previewHistory=new Map(),controllers=new Set(),inFlight=new Set();let closing,active=false,closed=false,calls=0,unknownCalls=0,requests=0,sequence=0;
+ const sessionRecord={format:'a2game-mcp-session',version:1,sessionId,hostRunId,implementationSha256:hostSourceFingerprint(root),createdAt:new Date().toISOString(),state:'OPEN',lastSequence:0};
+ save(join(directory,'session.json'),sessionRecord);
+ function replace(path,value){const temporary=path+'.'+randomUUID()+'.tmp';save(temporary,value);renameSync(temporary,path);}
+ function updateSession(){replace(join(directory,'session.json'),{...sessionRecord,lastSequence:sequence,state:closed?'CLOSED':'OPEN'});}
  function save(path,value){safePath(path);writeFileSync(path,typeof value==='string'?value:JSON.stringify(value,null,2)+'\n',{flag:'wx'});}
  function persistCall(result,metadata){
   quota();
-  save(join(directory,result.runId+'.call.json'),{...metadata,budgetConsumed:calls,unknownCalls});
-  save(join(directory,result.runId+'.receipt.json'),result);
+  const receiptPath=join(directory,result.runId+'.receipt.json');
+  save(receiptPath,result);
+  replace(join(directory,result.runId+'.call.json'),{...metadata,state:'COMPLETED',completedAt:new Date().toISOString(),receiptSha256:hash(readFileSync(receiptPath)),budgetConsumed:calls,unknownCalls});
   return result;
  }
  function newArtifact(){if(artifacts.size>=32)throw fail('A2G_MCP_QUOTA');const artifactId=randomUUID(),path=safePath(join(directory,artifactId));mkdirSync(path);return {artifactId,path,status:'NOT_RUN',tested:false};}
@@ -62,7 +71,7 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
    if(Boolean(args.conformanceJson)!==Boolean(args.solutionJson))throw fail('A2G_MCP_TEST_INPUTS');
    const a=newArtifact();save(join(a.path,'game.json'),args.gameJson);
    const result=await validateGameFile(join(a.path,'game.json'),{signal,timeoutMs});a.status=result.status;
-   if(result.status!=='PASS_REFERENCE')return {status:'FAIL',code:result.code??'A2G_MCP_ADMISSION',modelCalls:0};
+   if(result.status!=='PASS_REFERENCE')return {status:'FAIL',code:result.code??'A2G_MCP_ADMISSION',diagnostics:result.diagnostics??[],modelCalls:0};
    if(args.conformanceJson){save(join(a.path,'conformance.json'),args.conformanceJson);save(join(a.path,'solution.json'),args.solutionJson);}
    return {...seal(a),modelCalls:0,G3:'NOT_RUN'};
   }
@@ -72,7 +81,7 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
   if(name==='a2game.test_game'){
    if(!a.files['conformance.json']||!a.files['solution.json'])throw fail('A2G_MCP_TEST_INPUTS');
    const result=await testGeneratedDirectory(a.path,{signal,timeoutMs});a.tested=result.status==='PASS_REFERENCE';
-   if(!a.tested)return {status:result.status,code:result.code??'A2G_MCP_TEST',modelCalls:0};
+   if(!a.tested)return {status:result.status,code:result.code??'A2G_MCP_TEST',diagnostics:result.diagnostics??[],modelCalls:0};
    const game=JSON.parse(readFileSync(join(a.path,'game.json'),'utf8')),solution=JSON.parse(readFileSync(join(a.path,'solution.json'),'utf8'));
    a.played=playSolution(game,solution);return {artifactId:a.artifactId,exactHash:a.played.final.exactHash,trace:a.played.trace,modelCalls:0,G3:'NOT_RUN'};
   }
@@ -91,36 +100,47 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
   if(name==='a2game.inspect_game'){
    const game=JSON.parse(readFileSync(join(a.path,'game.json'),'utf8')),runtime=new HeadlessRuntime(game,registry);let state;
    try{runtime.start();state=runtime.observe();}finally{runtime.dispose();}
-   return {artifactId:a.artifactId,gameId:game.id,files:a.files,tested:a.tested,initialHash:state.exactHash,finalHash:a.played?.final.exactHash??null,previews:[...previews.entries()].filter(([,p])=>p.artifactId===a.artifactId).map(([previewId,p])=>({previewId,backend:p.backend})),modelCalls:0,G3:'NOT_RUN'};
+   const textReadability=args.textReadability?inspectTextReadability(args.textReadability,{artifactId:a.artifactId,gameSha256:a.files['game.json'],preview:previews.get(args.textReadability.previewId)}):undefined;
+   return {...(textReadability?{textReadability}:{}),artifactId:a.artifactId,gameId:game.id,files:a.files,tested:a.tested,initialHash:state.exactHash,finalHash:a.played?.final.exactHash??null,previews:[...previews.entries()].filter(([,p])=>p.artifactId===a.artifactId).map(([previewId,p])=>({previewId,backend:p.backend})),modelCalls:0,G3:'NOT_RUN'};
   }
   if(name==='a2game.export_game'){
    if(!a.tested)throw fail('A2G_MCP_TEST_REQUIRED');
    const pack=await exportGamePackage(a.path,{signal,timeoutMs}),path=join(directory,randomUUID()+'.package.json');save(path,pack);
-   return {artifactId:a.artifactId,path:relativePath(path),sha256:hash(readFileSync(path)),format:'a2game-content-package',modelCalls:0,requires:'Compatible trusted host, locked SDKs and approved resources'};
+   return {artifactId:a.artifactId,path:relativePath(path),sha256:hash(readFileSync(path)),format:pack.format,modelCalls:0,requires:'Compatible trusted host, locked SDKs and approved resources'};
   }
   throw fail('A2G_MCP_TOOL');
  }
- return {sessionId,directory,stats:()=>({budgetConsumed:calls,unknownCalls,maxCalls,artifacts:artifacts.size,previews:previews.size,active,closed}),
-  async call(name,input,{signal}={}){
-   const runId=randomUUID();let controller,timer,abort;
-   const metadata={format:'a2game-mcp-call',version:1,sessionId,runId,tool:Object.hasOwn(contracts,name)?name:null,
+ return {sessionId,hostRunId,directory,stats:()=>({budgetConsumed:calls,unknownCalls,maxCalls,artifacts:artifacts.size,previews:previews.size,active,closed}),
+  async call(name,input,{signal,requestErrorCode}={}){
+   const runId=randomUUID();let controller,timer,abort,settled,completion;
+   const metadata={format:'a2game-mcp-call',version:1,sessionId,hostRunId,sequence:++sequence,state:'STARTED',runId,tool:Object.hasOwn(contracts,name)?name:null,
     createdAt:new Date().toISOString(),argumentsSha256:null,parameters:{}};
    try{
+    save(join(directory,runId+'.call.json'),metadata);updateSession();
     if(closed)throw fail('A2G_MCP_CLOSED');if(!contracts[name])throw fail('A2G_MCP_TOOL');
+    if(requestErrorCode!==undefined)throw fail(['A2G_MCP_ARGUMENTS','A2G_MCP_SIZE'].includes(requestErrorCode)?requestErrorCode:'A2G_MCP_ARGUMENTS');
     if(Buffer.byteLength(JSON.stringify(input??{}))>768*1024)throw fail('A2G_MCP_SIZE');
     const args=contracts[name].schema.parse(input);
     metadata.argumentsSha256=hash(Buffer.from(JSON.stringify(args)));
     for(const key of ['artifactId','previewId','backend','action'])if(args[key]!==undefined)metadata.parameters[key]=args[key];
+    replace(join(directory,runId+'.call.json'),metadata);
     if(active)throw fail('A2G_MCP_BUSY');if(++requests>256)throw fail('A2G_MCP_QUOTA');quota();
-    if(signal?.aborted)throw fail('A2G_MCP_CANCELLED');controller=new AbortController();controllers.add(controller);abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});timer=setTimeout(()=>controller.abort(),timeoutMs);active=true;
-    const data=await execute(name,args,controller.signal);if(controller.signal.aborted)throw fail(signal?.aborted?'A2G_MCP_CANCELLED':'A2G_MCP_TIMEOUT');
-    const result={mcpToolContractVersion:1,runId,status:data.status??'PASS_REFERENCE',diagnostics:data.code?[{code:data.code,stage:name,message:'操作未完成，请按错误码检查输入、测试或宿主配置后重试。'}]:[],data};
+    if(signal?.aborted)throw fail('A2G_MCP_CANCELLED');controller=new AbortController();controllers.add(controller);completion=new Promise(resolve=>{settled=resolve;});inFlight.add(completion);abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});timer=setTimeout(()=>controller.abort(),timeoutMs);active=true;
+    const data=await execute(name,args,controller.signal);if(data.diagnostics)data.diagnostics=publicDiagnostics(data);if(controller.signal.aborted)throw fail(signal?.aborted?'A2G_MCP_CANCELLED':'A2G_MCP_TIMEOUT');
+    const result={mcpToolContractVersion:1,runId,status:data.status??'PASS_REFERENCE',diagnostics:data.code?publicDiagnostics(data):[],data};
     resultSchema.parse(result);if(Buffer.byteLength(JSON.stringify(result))>256*1024)throw fail('A2G_MCP_RESPONSE_SIZE');return persistCall(result,metadata);
    }catch(e){const code=e.name==='ZodError'?'A2G_MCP_ARGUMENTS':/^(?:A2G_|ENOENT)/.test(e.code??'')?e.code:'A2G_MCP_FAILURE';
-    const result={mcpToolContractVersion:1,runId,status:['A2G_MCP_BUDGET','A2G_MCP_BUSY','A2G_MCP_CLOSED'].includes(code)?'BLOCKED':'FAIL',diagnostics:[{code,stage:name,message:'操作未完成；请检查参数、调用预算、文件完整性或宿主配置后重试。'}]};
+    const result={mcpToolContractVersion:1,runId,status:['A2G_MCP_BUDGET','A2G_MCP_BUSY','A2G_MCP_CLOSED'].includes(code)?'BLOCKED':'FAIL',diagnostics:publicDiagnostics({...e,code})};
     try{return persistCall(result,metadata);}catch{result.diagnostics.push({code:'A2G_MCP_EVIDENCE',stage:'receipt',message:'本地回执未能保存；不得声明已取得原始证据。'});return result;}
-   }finally{if(controller){clearTimeout(timer);controllers.delete(controller);signal?.removeEventListener('abort',abort);active=false;}}
+   }finally{if(controller){clearTimeout(timer);controllers.delete(controller);signal?.removeEventListener('abort',abort);active=false;inFlight.delete(completion);settled();}}
   },
-  async close(){closed=true;for(const c of controllers)c.abort();await Promise.allSettled([...previews.keys()].map(id=>closePreview(id,'shutdown')));}
+  close(){return closing??=(async()=>{
+   closed=true;for(const c of controllers)c.abort();
+   await Promise.all([...inFlight]);
+   const results=await Promise.allSettled([...previews.keys()].map(id=>closePreview(id,'shutdown')));
+   updateSession();
+   const errors=results.filter(result=>result.status==='rejected').map(result=>result.reason);
+   if(errors.length)throw new AggregateError(errors,'MCP preview shutdown failed.');
+  })();}
  };
 }

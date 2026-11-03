@@ -167,7 +167,7 @@
     "physicalDevice": "NOT_RUN",
     "remoteCI": "QUOTA_BLOCKED"
   },
-  "sourceState": "UNCOMMITTED_HOST_FIRST_CHANGES; sourceSha is the pre-change Git HEAD",
+  "sourceState": "HISTORICAL_HOST_RECEIPTS; current implementation must match run/session content fingerprints, not this historical sourceSha",
   "taskMatrix": "project/host-first-tasks.json",
   "hostCompatibility": "integrations/hosts/host-compatibility.json",
   "templateCheck": {
@@ -202,8 +202,18 @@
   "executionHardening": {
     "date": "2026-11-01",
     "status": "IMPLEMENTED_LOCAL",
-    "checks": ["all declared and artifact-related calls captured", "all exported artifacts checked", "every successful preview open explicitly closed", "host response mismatches block PASS", "real preview close reason and lifecycle bytes preserved"],
-    "tests": ["test/host-agent-run.test.mjs", "test/mcp-preview-lifecycle.test.mjs", "test/mcp-boundaries.test.mjs"],
+    "checks": [
+      "all declared and artifact-related calls captured",
+      "all exported artifacts checked",
+      "every successful preview open explicitly closed",
+      "host response mismatches block PASS",
+      "real preview close reason and lifecycle bytes preserved"
+    ],
+    "tests": [
+      "test/host-agent-run.test.mjs",
+      "test/mcp-preview-lifecycle.test.mjs",
+      "test/mcp-boundaries.test.mjs"
+    ],
     "realHostAfterReconnect": "NOT_RUN",
     "dualSdkBrowserAfterChange": "NOT_RUN",
     "mcpProviderCalls": 0,
@@ -235,5 +245,22 @@
     "hostDiscoveryAfterInstall": "NOT_RUN",
     "actualHostPilots": "NOT_RUN",
     "requiresMcpReconnect": true
+  },
+  "historicalSourceState": "UNCOMMITTED_HOST_FIRST_CHANGES; sourceSha is the pre-change Git HEAD",
+  "repairImplementation": {
+    "status": "IMPLEMENTED_PENDING_INDEPENDENT_ACCEPTANCE",
+    "baselineSourceSha": "55846644cdc21d8aaabcb2cce1d5fa2f281b0c82",
+    "mcpToolContractVersion": 1,
+    "publicResourceCount": 5,
+    "hostRunBinding": "FIXED_AT_SERVER_START",
+    "candidateBudget": "ALL_CANONICAL_VALIDATE_CALLS_MAX_3",
+    "sourceBinding": "CURRENT_IMPLEMENTATION_SHA256",
+    "authoringIsolation": "PUBLIC_CAPSULE_PREPARED; OS_SANDBOX_REQUIRES_SUPPORTED_HOST_AND_SUCCESSFUL_PROBE",
+    "realHostAfterChange": "NOT_RUN",
+    "hostNativeGeneration": "NOT_RUN",
+    "fifteenCellBenchmark": "NOT_RUN",
+    "formalG3": "NOT_RUN",
+    "human": "NOT_RUN",
+    "remoteCI": "NOT_RUN"
   }
 }

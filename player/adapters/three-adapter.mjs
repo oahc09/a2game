@@ -36,7 +36,10 @@ export class ThreeAdapter {
       material=new T.MeshBasicMaterial({map:texture,transparent:true,depthWrite:false});
     }
     const mesh=new T.Mesh(geometry,material);
-    // PresentationFrame is an ordered painter's list, including transparent text.
+    // Three sorts opaque and transparent objects in separate queues: renderOrder
+    // cannot interleave them. Put every 2D primitive in the same transparent queue
+    // (solid fills still have opacity 1) to honor the frame's painter order.
+    material.transparent=true;
     mesh.renderOrder=this.meshes.length;material.depthTest=false;material.depthWrite=false;
     mesh.position.set(cmd.at[0],cmd.at[1],z);
     this.scene.add(mesh);this.meshes.push(mesh);

@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import {textReadabilityObservationSchema} from './text-readability-feedback.mjs';
 export const mcpToolContractVersion=1;
 const id=z.string().uuid(),prompt=z.string().trim().min(1).max(8000),mode=z.enum(['direct-json','game-plan']);
 const artifact={artifactId:id};
@@ -10,7 +11,7 @@ export const contracts={
  'a2game.validate_game':{description:'对外部提供的原始 JSON 完整准入，创建会话内不可变 artifact；绝不隐式生成。',schema:z.object({gameJson:z.string().min(2).max(256*1024),conformanceJson:z.string().min(2).max(256*1024).optional(),solutionJson:z.string().min(2).max(128*1024).optional()}).strict()},
  'a2game.test_game':{description:'重验 artifact 的 Conformance、模型自解、Hash 和生命周期；缺少测试则拒绝。',schema:z.object(artifact).strict()},
  'a2game.preview_game':{description:'打开限时 loopback 真实 SDK 预览，或关闭本会话签发的预览；不自动启动外部浏览器。',schema:z.object({action:z.enum(['open','close']),artifactId:id.optional(),backend:z.enum(['air','three']).optional(),previewId:id.optional()}).strict()},
- 'a2game.inspect_game':{description:'返回 artifact 的内容 SHA、验证/测试状态、精确 Hash 和预览摘要。',schema:z.object(artifact).strict()},
+ 'a2game.inspect_game':{description:'返回 artifact SHA、测试、Hash、预览摘要；可选接收绑定活动预览的宿主可读性观察，仅供修复建议，不证明视觉通过。',schema:z.object({...artifact,textReadability:textReadabilityObservationSchema.optional()}).strict()},
  'a2game.export_game':{description:'将已通过测试的 artifact 导出为不覆盖旧文件的受控内容包；接收方仍需兼容宿主/SDK/资源。',schema:z.object({...artifact,format:z.literal('package').default('package')}).strict()}
 };
-export const resultSchema=z.object({mcpToolContractVersion:z.literal(1),runId:id,status:z.enum(['PASS_REFERENCE','FAIL','BLOCKED','NOT_RUN']),diagnostics:z.array(z.object({code:z.string(),stage:z.string(),message:z.string(),jsonPointer:z.string().optional()})),data:z.record(z.string(),z.unknown()).optional()}).strict();
+export const resultSchema=z.object({mcpToolContractVersion:z.literal(1),runId:id,status:z.enum(['PASS_REFERENCE','FAIL','BLOCKED','NOT_RUN']),diagnostics:z.array(z.object({code:z.string(),stage:z.string(),message:z.string(),jsonPointer:z.string().max(256).optional(),capabilityId:z.string().max(128).optional(),ruleId:z.string().max(128).optional(),caseId:z.string().max(128).optional(),expected:z.union([z.string().max(80),z.number(),z.boolean(),z.null()]).optional(),actual:z.union([z.string().max(80),z.number(),z.boolean(),z.null()]).optional(),repairHint:z.string().max(500).optional()})),data:z.record(z.string(),z.unknown()).optional()}).strict();

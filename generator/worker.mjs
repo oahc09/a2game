@@ -4,6 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {probeProvider,loadProviderConfig} from './providers.mjs';
 import {createFixture} from './fixture.mjs';
+import {publicDiagnostics} from './diagnostics.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const save=(directory,name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
 let directory;
@@ -46,7 +47,7 @@ try{
  }else if(kind==='admission'){
   const {createContentService}=await import('../scripts/content-service.mjs');
   try{process.stdout.write(JSON.stringify({status:'PASS_REFERENCE',receipt:await createContentService().release(payload.text),G3:'NOT_RUN'}));}
-  catch(e){process.stdout.write(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ADMISSION',G3:'NOT_RUN'}));}
+  catch(e){process.stdout.write(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ADMISSION',diagnostics:publicDiagnostics(e),G3:'NOT_RUN'}));}
  }else if(kind==='validate'){
   if(typeof payload.rawFile!=='string')throw Object.assign(Error(),{code:'A2G_GEN_WORKER_REQUEST'});
   const {runAgentWorkflow}=await import('../scripts/agent-workflow.mjs');
