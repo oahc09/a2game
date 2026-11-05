@@ -1,5 +1,19 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-05 WorkBuddy绑定补验收口：专用run cf10f818-7114-42bf-98d6-4ae73fd0678b取得10次调用/10条规范台账，checkHostRun主审复核PASS_REFERENCE、missing=[]；一次准入、test/inspect、Air/Three各open/显式close、export全部完成。原三个JSON及包SHA不变，无新生成或浏览器重跑；旧PARTIAL和同游戏SHA的旧双SDK实际试玩证据保留。运行绑定问题已解决，宿主生成来源/用量、独立性、同Tick跨端完整Hash、人工和正式G3仍未升级。Qoder/TRAE继续待定。
+
+2026-11-05 WorkBuddy G01已有工具服务回执、双SDK键盘11步通关、非法推动/暂停/重开及导出；主审核对SHA与玩法状态，非同步Tick完整Hash未宣称一致。旧运行因hostRunId=null保持PARTIAL。已仅给本机WorkBuddy a2game连接args追加专用--host-run-id，建立原JSON字节复用的补验目录；桌面重连点击被USER_INPUT_ACTIVE拒绝，当前CONFIGURED_RECONNECT_REQUIRED，宿主补验尚未执行，无新生成、无提交推送。
+
+2026-11-04 最新优先级：仅推进WorkBuddy，Qoder/TRAE待定。WorkBuddy当前仍显示旧会话；新任务点击返回foreground_unavailable，已停止界面输入，未发送新模型任务。本轮真实能力查询与新G01仍未完成，已有HF-N0结果复用，不重复跑矩阵。
+
+2026-11-04 执行范围收紧为[HF-N0→HF-N1→HF-N2](docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md)，停止扩展模拟矩阵。HF-N0的build、纯源码generator smoke、宿主模板握手和本地无模型能力查询通过；这不是三个品牌宿主接入证明。真实宿主已启动检查，桌面点击被USER_INPUT_ACTIVE拒绝后停止界面输入，新宿主查询和新G01尚未执行。保留旧成果/失败，不追加模型调用，不升级正式G3/真机/人工。
+
+2026-11-04 Chrome迁移基线：本机Chrome 156.0.8078.74完成G01/G03×Air/Three共4组工程复核，动态桌面/390/320缩放、键盘逐步Hash、暂停/重开及释放通过；跨标签实际失焦未送达，继续未验证。使用独立浏览器上下文，不读取用户Chrome数据，未改JSON/播放器/SDK。后续单元显式记录Chrome路径/版本，WebKit原失败与WPE/正式Gate不变；见[Chrome说明](docs/chrome-local-validation.md)。
+
+2026-11-04 WebKit根因定位补证：纯WebGL1/2在已显示后重设canvas内部缓冲宽度即可复现，GPU读回正确且无GL错误，系统级窗口截图仍为空白；仅CSS缩放/固定缓冲的视口缩放、Canvas2D及Chromium对照正常，新canvas/context恢复。已将故障定位到本机Windows WebKit 27.2缓冲重设后的呈现路径，不是JSON或SDK专属问题；未声称定位WebKit具体内部代码或验证其他平台。新增自包含最小复现页，播放器和SDK不变，原失败/正式Gate不升级。
+
+2026-11-04 本机WebKit动态缩放限制已做有界对照并[明确范围](docs/webkit-windows-resize.md)：Windows WebKit加载后缩放时双SDK画布空白，固定窄屏初次加载和Chromium缩放正常，集成层/上游根因未定，未改播放器或SDK。A×G01原失败保留；后续模拟单元分别以固定桌面/390/320视口启动页面，不据此宣称动态缩放、Linux WPE或正式G3通过。私有批次记录方法修订，原真实Host/人工/真机及正式计数不变。
+
 2026-11-02 约束生命周期与公开操作语义（仅工程范围）：严格准入后由每个 Runtime 私有冻结绑定已准入组件声明，约束目标合法退场时休眠、同 ID 合法重现时恢复；无内部来源绑定仍严格校验，配置错配拒绝，初态缺目标/越界/重复活体等门禁不放宽。补充 aimPath 方向向量、L1 归一化及 state.set 的路径/表达式/T8 提交时序说明与合成负控。协议版本、JSON 输入边界及 Snapshot 格式不变；这是可信进程内声明来源，不是实例来源或密码学身份认证。旧源实验与候选回执保留历史，不重签为新源码通过；实际实验材料不入库，真实客户端、OS 隔离、人工、真机及远端 CI 仍未升级。
 
 2026-11-02 验收准备闭环（工程范围）：公开capsule v2绑定任务、共享Skill、Schema/能力与固定资源，检查器核对实际字节；仍须平台提供真实生成端访问约束，不能把目录白名单或指令禁读升级为OS隔离。expectError缺码/顺序有可操作静态诊断，合法运行语义不变；模拟profile新版本补第二Session、适用输入释放/离焦/重开、控制台及性能记录。这里只登记核心与合成回归能力，不含实际实验结果，不升级旧真实Host/正式G3/人工/真机/CI门禁。

@@ -199,6 +199,58 @@
     "zcode"
   ],
   "executionGuide": "docs/host-agent-pilot.md",
+  "currentLeanExecution": {
+    "date": "2026-11-04",
+    "plan": "docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md",
+    "scope": ["HF-N0", "HF-N1", "HF-N2"],
+    "priorityHost": "workbuddy",
+    "deferredHosts": ["qoder", "trae"],
+    "simulatedMatrixExpansion": "STOPPED",
+    "HF-N0": "PASS_LOCAL",
+    "HF-N1": "PARTIAL",
+    "HF-N2": "PARTIAL",
+    "realHostQueryThisRound": {"qoder": "BLOCKED", "workbuddy": "PASS_REFERENCE_HOST_REPORTED", "trae": "PARTIAL"},
+    "workbuddyBindingFollowup": {
+      "status": "PASS_REFERENCE",
+      "run": "reports/host-first-evaluations/workbuddy/2026-11-04T23-53-12-504Z-b2975dfe-347e-4786-833c-5836c9ef3317",
+      "hostRunId": "cf10f818-7114-42bf-98d6-4ae73fd0678b",
+      "gameSha256": "54976d9e96ea9e7a4411914a43326d594ef8a44c54aec5180ad9f4429539dc31",
+      "nativeHostReplay": "PASS_REFERENCE_HOST_REPORTED",
+      "calls": 10,
+      "canonicalCalls": 10,
+      "missing": [],
+      "sessionId": "c1e6cc3e-272c-4f96-9ace-7883532655a7",
+      "reviewedAt": "2026-11-05",
+      "browserEvidence": "ORIGINAL_SAME_GAME_SHA_NOT_RERUN",
+      "oldUnboundEvidence": "PRESERVED_PARTIAL",
+      "newGeneration": 0
+    },
+    "blockers": ["WorkBuddy native provenance/usage and independent authoring remain unverified; formal G3 NOT_RUN", "Qoder and TRAE deferred by user; historical Qoder route risk remains unresolved"],
+    "mcpProviderCalls": 0,
+    "newNativeGenerationThisRound": 0,
+    "formalG3": "NOT_RUN"
+  },
+  "localChromeBaseline": {
+    "status": "PASS_REFERENCE_LOCAL_BROWSER_MIGRATION",
+    "browserVersion": "156.0.8078.74",
+    "selection": "EXPLICIT_LOCAL_EXECUTABLE",
+    "guide": "docs/chrome-local-validation.md",
+    "cases": 4,
+    "scope": "Unchanged G01/G03, air/three, dynamic viewport and browser lifecycle engineering only; no new model generation or WPE/brand-host acceptance",
+    "actualBlur": "NOT_VERIFIED_FOCUS_NOT_DELIVERED",
+    "oldWebkitFailures": "PRESERVED",
+    "formalG3": "NOT_RUN"
+  },
+  "windowsWebkitResize": {
+    "status": "LOCAL_WEBGL_BACKING_RESIZE_PRESENTATION_FAILURE_ISOLATED",
+    "scope": "Windows Playwright WebKit 27.2 presented WebGL1/2 canvas backing-store resize; pure WebGL and OS screenshot reproduction, not a Safari/iOS/Linux WPE claim or exact C++/driver attribution",
+    "reproduction": "docs/diagnostics/webkit-canvas-resize.html",
+    "guide": "docs/webkit-windows-resize.md",
+    "subsequentViewportMethod": "INDEPENDENT_FIXED_VIEWPORT_PAGES",
+    "dynamicResize": "FAIL_LOCAL",
+    "originalFailedCell": "PRESERVED_NOT_RESAMPLED",
+    "formalG3": "NOT_RUN"
+  },
   "executionHardening": {
     "date": "2026-11-01",
     "status": "IMPLEMENTED_LOCAL",

@@ -1403,5 +1403,8 @@
     "formalG3": "NOT_RUN",
     "humanReview": "NOT_RUN",
     "remoteCI": "NOT_RUN"
-  }
+  },
+  "windowsWebkitResizeGuide": "docs/webkit-windows-resize.md",
+  "localChromeValidationGuide": "docs/chrome-local-validation.md",
+  "currentLeanExecutionPlan": "docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md"
 }

@@ -1,4 +1,6 @@
 # A2Game 项目完整实施路线图（1.0.0 基线；CLI / MCP / Skill 交付版）
+
+> **2026-11-04 执行调整**：当前按用户[Host-first精简执行计划](docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md)仅推进HF-N0→HF-N1→HF-N2；先真实可玩游戏，复用现有工具和最小相关验证，不再扩展模拟矩阵或新测试体系。下方历史目标及正式验收标准不重置。
 > **性质**：项目目标、技术边界与验收合同；不是“已经开发完成”的功能列表。  
 
 > **当前主线（Host-first）**：先推进 HOST-0/1 的宿主基线与项目级接入，再依真实宿主 Pilot Gate 进入后续批次；原 S0–S11 和 Generator 验收范围保持不变。见 [Host-first 计划](docs/A2Game-HOST-FIRST-Development-Plan-2026-10-31.md) 和 [状态](project/host-first-status.json)。

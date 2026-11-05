@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebGL 绘图缓冲重设最小复现</title>
+<style>body{font:16px system-ui;margin:20px;max-width:760px}canvas{display:block;width:300px;height:300px;background:#070f20;border:1px solid #777;max-width:100%}button{padding:10px;margin:8px 8px 8px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere}p{line-height:1.6}</style>
+<h1>WebGL 绘图缓冲重设</h1>
+<p>不使用 A2Game、JSON 或任何 SDK。正常情况下，下方画布执行所有操作后都应保持红色。先等待初始画面，再点击“重设缓冲宽度”。GPU 读回红色但画面空白，说明绘制与显示结果不一致。</p>
+<canvas width="300" height="300"></canvas>
+<button id="css">仅改 CSS 宽度</button><button id="resize">重设缓冲宽度</button><button id="redraw">再次绘制</button><button id="replace">新建 canvas/context</button>
+<pre id="result"></pre>
+<script>
+const kind = 'webgl2';
+let canvas=document.querySelector('canvas'),gl=canvas.getContext(kind);
+function paint(){
+ if(!gl){document.querySelector('#result').textContent='当前 context 不可用';return;}
+ let pixels;
+ if(kind==='2d'){gl.fillStyle='red';gl.fillRect(0,0,canvas.width,canvas.height);pixels=[...gl.getImageData(10,10,1,1).data];}
+ else{gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(1,0,0,1);gl.clear(gl.COLOR_BUFFER_BIT);const p=new Uint8Array(4);gl.readPixels(10,10,1,1,gl.RGBA,gl.UNSIGNED_BYTE,p);pixels=[...p];}
+ document.querySelector('#result').textContent=JSON.stringify({kind,width:canvas.width,height:canvas.height,gpuReadback:pixels,contextLost:kind==='2d'?null:gl.isContextLost(),error:kind==='2d'?null:gl.getError()},null,2);
+}
+document.querySelector('#css').onclick=()=>{canvas.style.width='250px';paint();};
+document.querySelector('#resize').onclick=()=>{canvas.width=canvas.width===300?250:300;paint();};
+document.querySelector('#redraw').onclick=paint;
+document.querySelector('#replace').onclick=()=>{const next=canvas.cloneNode();canvas.replaceWith(next);canvas=next;gl=canvas.getContext(kind);paint();};
+window.paint=paint;paint();
+</script></html>
