@@ -1,0 +1,1 @@
+<resources><style name="Theme.A2Game" parent="android:style/Theme.Material.Light.NoActionBar"><item name="android:windowLightStatusBar">false</item><item name="android:statusBarColor">#08121D</item><item name="android:navigationBarColor">#08121D</item></style></resources>

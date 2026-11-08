@@ -1,0 +1,629 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.phase2.lumen-depot.01-first-light",
+  "revision": 2,
+  "meta": {
+    "title": "暖光仓库 · 第一束光",
+    "description": "光圈向右移动一格：绕到箱子左侧，连续推动两次。方向键移动，Z 撤销。",
+    "author": "Cindy controller revision; not independent model generation",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.push",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.undo",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 30,
+      "seed": 17
+    }
+  },
+  "scenes": [
+    {
+      "id": "room",
+      "entities": [
+        {
+          "id": "puzzle",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.push",
+                "version": "0.1.0"
+              },
+              "config": {
+                "width": 7,
+                "height": 6,
+                "wallsPath": "/walls",
+                "goalsPath": "/goals",
+                "boxesPath": "/boxes",
+                "playerPath": "/player",
+                "movesPath": "/moves",
+                "solvedPath": "/solved",
+                "historyPath": "/history",
+                "undoAction": "undo",
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "up": "up",
+                  "down": "down"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "room",
+  "state": {
+    "walls": {
+      "type": "array",
+      "initial": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        13,
+        14,
+        20,
+        21,
+        27,
+        28,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ]
+    },
+    "floor": {
+      "type": "array",
+      "initial": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        15,
+        16,
+        17,
+        18,
+        19,
+        22,
+        23,
+        24,
+        25,
+        26,
+        29,
+        30,
+        31,
+        32,
+        33
+      ]
+    },
+    "goals": {
+      "type": "array",
+      "initial": [
+        19
+      ]
+    },
+    "boxes": {
+      "type": "array",
+      "initial": [
+        17
+      ]
+    },
+    "player": {
+      "type": "int",
+      "initial": 24
+    },
+    "moves": {
+      "type": "int",
+      "initial": 0
+    },
+    "solved": {
+      "type": "bool",
+      "initial": false
+    },
+    "history": {
+      "type": "array",
+      "initial": []
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft"
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight"
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp"
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown"
+            }
+          }
+        ]
+      },
+      {
+        "id": "undo",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyZ"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "all-lights-home",
+      "status": "won",
+      "priority": 10,
+      "when": {
+        "state": "/solved"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "moves",
+        "kind": "text",
+        "text": "步数",
+        "bind": {
+          "state": "/moves"
+        }
+      },
+      {
+        "id": "hint",
+        "kind": "text",
+        "text": "光圈向右移动一格；连续推动两次。"
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 7.6,
+      "height": 6.6,
+      "background": "#f5efdf",
+      "nodes": [],
+      "repeat": [
+        {
+          "id": "floor",
+          "source": {
+            "state": "/floor"
+          },
+          "columns": 7,
+          "origin": [
+            -3,
+            2.5
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.97,
+                0.97
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "8": "#ece2d0",
+                  "9": "#e5dac3",
+                  "10": "#ece2d0",
+                  "11": "#e5dac3",
+                  "12": "#ece2d0",
+                  "15": "#e5dac3",
+                  "16": "#ece2d0",
+                  "17": "#e5dac3",
+                  "18": "#ece2d0",
+                  "19": "#e5dac3",
+                  "22": "#ece2d0",
+                  "23": "#e5dac3",
+                  "24": "#ece2d0",
+                  "25": "#e5dac3",
+                  "26": "#ece2d0",
+                  "29": "#e5dac3",
+                  "30": "#ece2d0",
+                  "31": "#e5dac3",
+                  "32": "#ece2d0",
+                  "33": "#e5dac3"
+                },
+                "fallback": "#ece2d0"
+              }
+            }
+          ]
+        },
+        {
+          "id": "walls",
+          "source": {
+            "state": "/walls"
+          },
+          "columns": 7,
+          "origin": [
+            -3,
+            2.5
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "shadow",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.07
+              ],
+              "size": [
+                0.98,
+                0.98
+              ],
+              "fill": "#b6b4a4"
+            },
+            {
+              "id": "face",
+              "kind": "rect",
+              "at": [
+                0,
+                0.015
+              ],
+              "size": [
+                0.95,
+                0.89
+              ],
+              "fill": "#4b655f"
+            },
+            {
+              "id": "cap",
+              "kind": "rect",
+              "at": [
+                0,
+                0.37
+              ],
+              "size": [
+                0.95,
+                0.12
+              ],
+              "fill": "#648179"
+            },
+            {
+              "id": "inset",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.05
+              ],
+              "size": [
+                0.69,
+                0.47
+              ],
+              "fill": "#526f66"
+            }
+          ]
+        },
+        {
+          "id": "goals",
+          "source": {
+            "state": "/goals"
+          },
+          "columns": 7,
+          "origin": [
+            -3,
+            2.5
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "halo",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#d2bf81"
+            },
+            {
+              "id": "ring",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.26,
+              "fill": "#faf2ce"
+            },
+            {
+              "id": "core",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.1,
+              "fill": "#cfaf5a"
+            }
+          ]
+        },
+        {
+          "id": "boxes",
+          "source": {
+            "state": "/boxes"
+          },
+          "columns": 7,
+          "origin": [
+            -3,
+            2.5
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "shadow",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.09
+              ],
+              "size": [
+                0.79,
+                0.74
+              ],
+              "fill": "#b4a37e"
+            },
+            {
+              "id": "rim",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.74,
+                0.74
+              ],
+              "fill": "#a86d33"
+            },
+            {
+              "id": "wood",
+              "kind": "rect",
+              "at": [
+                0,
+                0.04
+              ],
+              "size": [
+                0.64,
+                0.61
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "19": "#94b88a"
+                },
+                "fallback": "#dfa558"
+              }
+            },
+            {
+              "id": "light",
+              "kind": "rect",
+              "at": [
+                0,
+                0.27
+              ],
+              "size": [
+                0.62,
+                0.1
+              ],
+              "fill": "#f3cd82"
+            },
+            {
+              "id": "stripe",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.04
+              ],
+              "size": [
+                0.1,
+                0.5
+              ],
+              "fill": "#b47a3d"
+            },
+            {
+              "id": "seal",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.11,
+              "fill": "#fff0c3"
+            }
+          ]
+        },
+        {
+          "id": "player",
+          "source": {
+            "state": "/player"
+          },
+          "columns": 7,
+          "origin": [
+            -3,
+            2.5
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "shadow",
+              "kind": "circle",
+              "at": [
+                0,
+                -0.12
+              ],
+              "radius": 0.29,
+              "fill": "#b4b3a2"
+            },
+            {
+              "id": "coat",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.28,
+              "fill": "#293f43"
+            },
+            {
+              "id": "face",
+              "kind": "circle",
+              "at": [
+                0,
+                0.09
+              ],
+              "radius": 0.22,
+              "fill": "#f6d7ac"
+            },
+            {
+              "id": "hat",
+              "kind": "rect",
+              "at": [
+                0,
+                0.26
+              ],
+              "size": [
+                0.47,
+                0.12
+              ],
+              "fill": "#d77e48"
+            },
+            {
+              "id": "eye-left",
+              "kind": "circle",
+              "at": [
+                -0.07,
+                0.1
+              ],
+              "radius": 0.028,
+              "fill": "#293f43"
+            },
+            {
+              "id": "eye-right",
+              "kind": "circle",
+              "at": [
+                0.07,
+                0.1
+              ],
+              "radius": 0.028,
+              "fill": "#293f43"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

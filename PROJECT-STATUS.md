@@ -1,6 +1,25 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-08 Phase2本轮并行实施收口（native GPT-6.1 Terra high）：G01后两关Agent按画面通关；H01 rev3数字/图例修正并在Air正常时钟合成升级三波获胜/重开，0追帧暂停；G17 rev5将Boss引力反应窗延至约3.3秒，Three实际上移/通关，旧失败保留。独立SDK修复CocosAirJS吞键事件，双真实SDK持续输入/暂停/释放通过；Android未签名APK重新编入修复后的SDK并核对178项资源。另有本地版本回退与CC0基础3D道具。作品与交付入口见games/phase2/README.md；完整阶段仍IN_PROGRESS，设备、丰富素材和正式/独立来源验收不升级，未提交推送。
+
+2026-11-08 Phase2本轮收口进展：H01 rev3修图例及数字遮挡，完整准入/测试与新包导出通过；G17当前源码Air整局获胜，低观测负载另一次连续通关，暂停根因仍未隔离，不改保护阈值。独立SDK持续输入、多来源释放及脱库Three正常路径通过；本地v1/v2重新准入/回退有参考。Android WebView未签名APK构建及178项分发文件SHA核对通过，设备运行未验。目录现含3个2D主题与CC0树/岩石/货箱3D预设；3D真实Three展示通过。G01后两关质量和G17 Boss阶段正在补齐；正式G3/真机/品牌宿主独立来源不升级。
+
+2026-11-08 第二阶段更新：SDK新增持续输入/多来源释放与通用示例，脱库Three射击和G01点按正常路径通过；H01 rev2修布局/图元/经济提示，正常时钟合成升级三波通关0自动暂停，独立质量待复核。三份主题受审；本地内容v1/v2准入、篡改拒绝及回退已形成参考。Android基线assembleDebug通过，真实WebView开发中；G17 Air补验进行中。见第二阶段计划与status.phase2CreationDelivery。旧失败/历史证据保留，未提交推送、未升级正式G3或真机。
+
 2026-11-08 Skill checker缺项修复收口：按用户确认MIT补license/compatibility/metadata/allowed-tools和Codex openai.yaml，附许可证；澄清技能隐式匹配与专用Profile条件。ZIP/安装器/TRAE同步器精确支持YAML/许可文件，公开capsule绑定8成员并兼容历史3/6成员，身份指纹纳入新增内容。源码与ZIP解压目录codex复检均0严重/0一般、格式/策略/质量通过、安全allow；相关58项56通过/2平台文件symlink跳过/0失败，五副本及真实capsule SHA一致。无新模型/游戏/全局配置/正式Gate升级，未重试永久清理；最新包报告见status.skillPolicyRepairRun及[修复说明](docs/skill-checker-repair.md)，本轮未提交推送。
+
+2026-11-08 原生Terra high并行交付G17 rev2、H01作者修订及实验Player SDK，非品牌宿主原生/G3。SDK脱库双端G01、原对象异步篡改拒绝、有资源stage真实绘制/第二资源坏字节回收、Cocos在途初始化销毁等待已分段验证；新快照保留源指纹，受管资源清零不等于全局引擎/GPU/共享AudioContext完全释放。Three参考Adapter改为按图元ID复用，同G17引导脚本本次0自动追帧暂停（旧约39次），保留1次主动暂停，非通用性能基准。新增可选只读事件粒子/塔防射击点线/合成反馈，双SDK combat及Three塔防前缀已验；H01 Air两次AIR_E_ORTHO_WIDTH后最短布局探针未复现，原因未定，不提通过。修复G01画布转外层撤销导致隐藏暂停，并加暂停/继续；显式流程通过，外部窗口失焦负例未实际触发。两位内容子agent正在交叉Agent质量试玩，M1展示质量/完整M2/M3及后续仍未完成。未提交/推送。
+
+
+2026-11-08 用户授权原生子agent并行开发：GPT-6.1 Terra high分别负责G17/H01，非Orca/品牌宿主原生来源，仍IN_PROGRESS。主审提取固定预设、用户开启、有界且可释放的UI声音模块，G01已接入；1项资源释放回归及真实Air声音开关/移动撤销通过（听觉质量未验）。发现旧服务实际返回A2G_E_RELEASE_STALE，保留原超时，关卡页新增错误/重新加载入口，真实旧服务复现通过，不绕过校验。证据reports/phase2-feedback-20261108/；未提交/推送。
+
+2026-11-08 当前宿主原创新组合《星港牌令》完成：原生抽/出牌＋资源账本＋热量＋双订单，3稿与最终8场景通过；新增真实牌库/手牌画布点击、风险与次数失败提示。双SDK4最终流程、280次Node Hash与70次跨端采样一致，30张最终图。实测牌数10守恒、7牌交付2单、T8净额批次与“第10牌达标仍败”。先前Player/服务并发修改批次保留；最后执行链/SDK逐文件稳定，但未使用MCP资源模块变化使广义指纹仍漂移，按工程范围交付、不推升正式当前源码Gate/G3。Skill补卡牌ABI/事件、成本政策、目标与位置语义并同步打包，额外Provider0。本轮未提交推送，见[记录](docs/host-native-starport-deck.md)与status.nativeHostCardGameRun。
+
+2026-11-08 第二阶段首个可玩切片：G01《暖光仓库》三关原创JSON，复用push/undo，关卡页含缓动/重试/本地进度及可关闭声音；完整CLI导出复验通过，Air/Three正常时钟DOM按作者解法通关共6条，390px检查通过（非盲玩/正式G3）。新增受审CC0作者主题及MCP creation-library公开资源，相关13项回归与1项MCP资源检查通过。独立Player SDK及完整M2未完成。Orca Worker因1310额度上限异常终止，重置2026-11-12 19:30:09，当前会话接手；作品不称真实品牌宿主独立创作。见docs/creation-library.md及games/phase2/sokoban/README.md；未提交/推送。
+
+2026-11-08 按用户新指令启动第二阶段Game Creation & Delivery，当前仅M1＋M2第一款G01创作纵切片IN_PROGRESS；后续依G17/H01→Player SDK→迭代交付→客户端集成→云端的依赖顺序持续推进。历史Host-first/正式G3/真机缺项不升级；协同Worker原生创作不冒称Qoder/WorkBuddy/TRAE独立创作已通过。以实际作品及必要验证收口，不扩大测试体系，不擅自部署/发布。
+
+历史记录（启动前）：2026-11-08 登记第二阶段Game Creation & Delivery规划（docs/A2Game-Game-Creation-Delivery-Phase2.md），状态PLANNED_NOT_STARTED，按M1＋M2→M3→M4→M5→M6排序。三款展示作品为G01/G17/H01，素材/表现复用现有可信目录与Stage基础，目标Player SDK API仅为草案。当前基线本地6bb7c7a，远端刷新TLS失败，上一轮已确认推送；Host-first未完成项和正式Gate保留，不自动启动第二阶段或追加额度。
 
 2026-11-08 五款交付包整理完成：output/workbuddy-delivery-20261108-b0336a71.zip包含当前5份Generator内容包、manifest、SHA清单及导入说明；逐份包定义与当前交付JSON一致。仅核对版本/完整性，不重复试玩/新模型调用、不包含本机配置/私有完整证据，不替代异机接收或正式G3。文档入口已更新，保留全部并发源码/Skill改动；未提交推送。
 

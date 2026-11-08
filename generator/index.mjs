@@ -166,8 +166,9 @@ export async function testGeneratedDirectory(input,{signal,timeoutMs=60000,evide
   return withEvidence({status:result.summary.status,code:result.attempt.code??null,diagnostics:result.summary.status==='PASS_REFERENCE'?[]:publicDiagnostics(result.attempt),G3:'NOT_RUN',runId:job.id},evidence);
  }catch(cause){throw Object.assign(cause,{evidence});}
 }
-export async function previewGeneratedDirectory(input,{backend='three',signal}={}){
+export async function previewGeneratedDirectory(input,{backend='three',ready=false,signal}={}){
  if(!['air','three'].includes(backend))throw fail('A2G_GEN_BACKEND');
+ if(typeof ready!=='boolean')throw fail('A2G_GEN_ARGUMENT');
  const directory=safePath(input),game=limited(join(directory,'game.json'),256*1024);
  try{
   const provenance=read(join(root,'player/vendor/sdk-provenance.json'));
@@ -184,5 +185,5 @@ export async function previewGeneratedDirectory(input,{backend='three',signal}={
  const close=()=>closing??=new Promise((ok,no)=>{server.close(e=>e?no(e):ok());server.closeAllConnections();});
  const cancel=()=>{void close();};signal?.addEventListener('abort',cancel,{once:true});
  if(signal?.aborted){await close();throw fail('A2G_GEN_CANCELLED');}
- return {status:'READY',url:`http://127.0.0.1:${server.address()?.port}/player/index.html?backend=${backend}&release=${receipt.sha256Jcs}`,server,close:async()=>{signal?.removeEventListener('abort',cancel);await close();}};
+ return {status:'READY',url:`http://127.0.0.1:${server.address()?.port}/player/index.html?backend=${backend}&release=${receipt.sha256Jcs}${ready?'&ready=1':''}`,server,close:async()=>{signal?.removeEventListener('abort',cancel);await close();}};
 }

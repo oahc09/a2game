@@ -1738,5 +1738,158 @@
       "fix": "2026-11-07 retrySync production fix + TDZ repair (TRANSIENT moved to module scope after independent startup repro), regression covers transient-EPERM recovery and permanent-EACCES safe failure",
       "honestLimitation": "The original once-observed STARTED/COMPLETED failure left no recorded underlying error; the EPERM causal chain is a supported hypothesis, not a proven cause. The repro proves the TDZ defect and the retry mechanism against injected EPERM only."
     }
+  },
+  "phase2CreationDelivery": {
+    "date": "2026-11-08",
+    "status": "IN_PROGRESS",
+    "guide": "docs/A2Game-Game-Creation-Delivery-Phase2.md",
+    "g01": {
+      "status": "ENGINEERING_REFERENCE_SLICE",
+      "source": "CONTROLLER_AUTHORED_NON_BRANDED_HOST",
+      "collection": "games/phase2/sokoban/collection.json",
+      "levels": 3,
+      "browserReceipt": "reports/phase2-lumen-20261108/browser-summary.json",
+      "deliveryReceipt": "reports/phase2-lumen-20261108/delivery-check.json",
+      "playthrough": "Authored solution guided DOM clicks, normal clock, 2 real SDKs; not blind playtest",
+      "independentAgentQuality": "REFERENCE_OBSERVATIONS_COMPLETE_ALL_3_LEVELS: Three first-level win and second-level undo/retry in old snapshot; current level2 10 moves and level3 14 moves native Agent visible-input wins, level2 previously seen; not blind OS isolation/branded host/G3",
+      "hostFocusFix": {
+        "before": "reports/phase2-collection-focus-20261108/before.json",
+        "after": "reports/phase2-collection-focus-20261108/after.json",
+        "scope": "Canvas keyboard to parent undo fixed; explicit pause/resume verified. Headless tab did not actually lose focus, external-focus negative NOT_RUN"
+      },
+      "qualityReceipt": "reports/phase2-agent-quality-g01-h01-terra-20261108/review.md",
+      "laterLevelQualityReceipt": "reports/phase2-g01-agent-level23-20261108-terra/review.md"
+    },
+    "m2": "PARTIAL: 3 reviewed 2D authoring themes + original CC0 3D tree/rock/crate preset; body-motif capability; optional host motion/events/sound. Rich sprite/model/animation library and auditory quality not complete.",
+    "m3": {
+      "status": "EXPERIMENTAL_DETACHED_REFERENCE_NOT_COMPLETE_M3",
+      "directory": "packages/player-sdk",
+      "guide": "packages/player-sdk/README.md",
+      "initialDualSdk": "reports/phase2-sdk-20261108-native-4d20/browser-summary.json",
+      "inputSnapshotRaceFix": "reports/phase2-sdk-20261108-toctou-8c31/browser-summary.json",
+      "resourceAndDispose": "reports/phase2-sdk-20261108-resources-f2c4/browser-summary.json",
+      "latestG01Distribution": "output/player-sdk-2026-11-08T10-33-31-191Z-70158b14",
+      "latestStageDistribution": "output/player-sdk-2026-11-08T08-12-02-001Z-10f92824",
+      "limitations": [
+        "Tap/held button API; latest held path both real SDKs verified, full games not implied; gesture/IMU/gamepad not integrated",
+        "Trusted single-content build; new content requires full readmission/build",
+        "Retained engine global caches and GPU texture counter 1 not claimed zero",
+        "Historical dual SDK/resource checks retain their original source snapshots; not full latest-source gate"
+      ],
+      "latestShooterDistribution": "output/player-sdk-2026-11-08T10-28-40-143Z-003682b9",
+      "heldInputReceipt": "reports/phase2-sdk-held-air-20261108/fixed/browser-summary.json",
+      "keyboardPropagationFailure": "reports/phase2-sdk-held-air-20261108/browser-summary.json",
+      "sdkDemoShooterRevision": 4
+    },
+    "m4": {
+      "status": "LOCAL_VERSION_DELIVERY_REFERENCE",
+      "guide": "packages/content-delivery/README.md",
+      "receipt": "reports/phase2-sdk-20261108-content-m4-f2c3/summary.json",
+      "scope": "v1/v2 receiver admission, invalid SHA rejection and rollback; local trusted writer, not signed remote publication or live SDK update"
+    },
+    "m5": {
+      "status": "WEB_REFERENCE_ANDROID_UNSIGNED_BUILD",
+      "web": "Detached SDK browser receipts under m3",
+      "android": "examples/android-webview",
+      "baselineBuild": "reports/phase2-android-20261108/bootstrap.log",
+      "device": "NOT_RUN",
+      "androidBuild": "reports/phase2-android-20261108/final-input-build.log",
+      "androidAssets": "reports/phase2-android-20261108/final-input-apk-assets.log",
+      "androidApk": "examples/android-webview/app/build/outputs/apk/debug/app-debug-unsigned.apk",
+      "limitations": "No device/emulator execution; HTTPS interception/WebGL/input/audio/lifecycle NOT_RUN; destruction requests async cleanup without await acknowledgement",
+      "sdkDistribution": "output/player-sdk-2026-11-08T10-28-40-143Z-003682b9",
+      "androidApkVersion": "Unsigned G17 revision4 SDK snapshot with keyboard propagation fix, distinct from current revision5 author package"
+    },
+    "m6": "DEFERRED",
+    "worker": {
+      "channel": "Orca Worker",
+      "id": "t92mozucz57iiyjprwvje5wo",
+      "status": "FAILED_PROVIDER_QUOTA",
+      "code": "1310",
+      "resetReported": "2026-11-12 19:30:09",
+      "contribution": "No files; lead implemented current slice"
+    },
+    "formalG3": "NOT_RUN",
+    "parallelDevelopment": {
+      "channel": "native subagent",
+      "model": "gpt-6.1-terra",
+      "reasoningEffort": "high",
+      "tasks": {
+        "phase2_g17": "COMPLETE: H01 rev3 presentation repair; G01 later-level observations; G17 rev4 PARTIAL observation",
+        "phase2_h01": "COMPLETE: G17 rev5 Boss reaction-window repair/CLI/Three authored flow",
+        "phase2_player_sdk": "COMPLETE: SDK/M4/Android unsigned build/3D authoring kit/H01 rev3 Air authored flow"
+      },
+      "note": "Explicit user authorization; not Orca Worker or branded host provenance",
+      "recovery": "Two follow-up tasks initially failed at local proxy 127.0.0.1:7897; implementation retained and resumed without rerouting. Current follow-ups are separate from completed deliverables.",
+      "modelUsage": "Explicit native gpt-6.1-terra high model work; token/call usage not measured. Only A2Game MCP/Generator Provider calls are 0; that is not zero native-model usage."
+    },
+    "hostFeedback": {
+      "status": "REFERENCE_IMPLEMENTED",
+      "module": "player/feedback-audio.mjs",
+      "verification": "reports/phase2-feedback-20261108/browser.json",
+      "staleServiceUi": "reports/phase2-feedback-20261108/stale.json",
+      "auditoryQuality": "NOT_RUN",
+      "eventModule": "player/event-feedback.mjs",
+      "combatBrowser": "reports/phase2-feedback-20261108/event-browser.json",
+      "defenseThreeBrowser": "reports/phase2-feedback-20261108/h01-event-browser-three.json",
+      "airLayoutFailure": "reports/phase2-feedback-20261108/h01-event-browser-retry.json",
+      "airLayoutProbe": "reports/phase2-feedback-20261108/h01-layout-compare.json",
+      "airLayoutCause": "UNRESOLVED_MINIMAL_PROBES_DID_NOT_REPRODUCE",
+      "rendererOptimization": "reports/phase2-three-reuse-20261108/browser-after-reuse.json"
+    },
+    "g17": {
+      "status": "ENGINEERING_REFERENCE_REV5_REACTION_WINDOW_REPAIR",
+      "directory": "games/phase2/shooter",
+      "source": "native subagent author revision of existing repo game",
+      "receipt": "reports/phase2-shooter-boss5-2026-11-08T10-36-59-524Z-dc73b47d/review.md",
+      "performanceFollowup": "reports/phase2-three-reuse-20261108/browser-after-reuse.json",
+      "independentAgentQuality": "Rev4 PARTIAL observation prompted rev5 pacing repair; rev5 targeted authored gameplay/visual regression, not new independent blind-quality signoff",
+      "browser": "Rev5 Three normal-clock authored win, no pause observed in that run; HP2. Air full flow retains Rev3 snapshot only; SDK input demo remains Rev4.",
+      "limitations": "No independent bullet pattern; contact damage can be rapid near Boss; latest Air whole-fight and latest independent blind-quality not run",
+      "airFullReceipt": "reports/phase2-shooter-air-full-2026-11-08T10-11-43-257Z-c41ab148/receipt.json",
+      "performance": "Targeted diagnosis IN_PROGRESS; no threshold change or flow-quality PASS",
+      "stallDiagnosis": {
+        "receipt": "reports/phase2-shooter-stall-diagnosis-2026-11-08T10-16-01-435Z-31bafe65/receipt.json",
+        "scope": "One Air low-observation-overhead run won without pause. Input timing also changed, so cause not isolated; no source or catch-up threshold changes."
+      },
+      "package": "output/phase2-shooter-boss-rev5-20261108.package.json",
+      "packageSha256": "43df93531687ddd4af15a78cdd28b89737e661724162510a1dcfd357cfcc1b06",
+      "qualityReceipt": "reports/phase2-g17-rev4-agent-observation-20261108-terra/review.md",
+      "followup": "Rev4 ~1s gravity reaction window repaired: Boss HP60/half30, 24s limit; authored Headless 196 ticks and Three observed 200 ticks (~3.3s) gravity-to-win interval; W response confirmed"
+    },
+    "h01": {
+      "status": "CONTROLLER_PRESENTATION_REPAIR_REV3_REFERENCE",
+      "directory": "games/phase2/turret-defense",
+      "source": "Native subagent original, lead controller repair rev2; originals and immutable candidates retained",
+      "receipt": "reports/phase2-h01-lead-repair-20261108/browser.json",
+      "browser": "Rev3 Air normal-clock authored win/restart, 0 pauses; denial/merge/upgrade/managed cleanup verified. Rev3 Three upgrade visuals + unchanged game logic; earlier rev2 Three full win retained.",
+      "independentAgentQuality": "REV2_PARTIAL: route seen; silhouette/value/color-legend feedback. Rev3 numerals/legend repaired with targeted visual inspection; enemy label not present in that screenshot",
+      "qualityReceipt": "reports/phase2-h01-agent-review-rev2-20261108-terra/review.md",
+      "presentationReceipt": "reports/phase2-h01-rev3-20261108-terra/",
+      "package": "output/phase2-h01-rev3-20261108.package.json",
+      "packageSha256": "e67edcf72c39c9520aad1d4edd0c2ab507e4c69a93fbce191aaf677a705de12e",
+      "airReceipt": "reports/phase2-h01-air-20261108-terra/browser.json",
+      "airLegacyFailure": "Historical ORTHO_WIDTH remains unexplained; current successful one-run observation is not causal resolution"
+    },
+    "readyGate": {
+      "status": "REFERENCE_IMPLEMENTED",
+      "receipt": "reports/phase2-ready-20261108/browser.json",
+      "scope": "--ready freezes initial clock until explicit start; restart-to-ready; default preview semantics preserved"
+    },
+    "m2Props3d": {
+      "preset": "assets/themes/woodland-props-3d.json",
+      "game": "games/phase2/stage-props-garden",
+      "receipt": "reports/phase2-props3d-20261108-terra/browser-summary.json",
+      "scope": "Existing collect mechanics showcase, not fourth complete game; actual Three pass, Air NOT_RUN; catalog registered after frozen browser snapshot"
+    },
+    "remaining": [
+      "M1: three playable authored works and targeted Agent observations/repairs delivered; latest G17 rev5 independent blind-quality and Air whole-fight not rerun; authorship not branded-host independent generation",
+      "M2: richer sprite/model/animation assets and auditory quality beyond reviewed primitive authoring kits not complete",
+      "M3: experimental API; held input both real SDKs verified after keyboard capture fix; gesture/IMU/gamepad outside present slice",
+      "M4: local version delivery reference only; no signed publication or live client update",
+      "M5: Android unsigned APK compiled/assets checked, device/emulator runtime not executed",
+      "M6: deferred cloud service, no deployment authorization inferred"
+    ],
+    "localBatch": "IMPLEMENTATION_AND_TARGETED_REFERENCE_CHECKS_COMPLETE; phase roadmap remains IN_PROGRESS, not formal acceptance"
   }
 }

@@ -43,6 +43,11 @@ test('Three.js adapter projects generic PresentationFrame; reuses and releases r
     const initial=sampleFrame(), frozen=structuredClone(initial);
     adapter.draw(initial);const before=tally.created;
     adapter.draw(initial);assert.equal(tally.created,before);
+    const originalMeshes=[...adapter.meshes];
+    adapter.draw({...initial,commands:initial.commands.map(command=>({...command,at:[command.at[0]+.1,command.at[1]]}))});
+    assert.equal(tally.created,before,'moving objects must preserve their GPU resources');assert.deepEqual(adapter.meshes,originalMeshes);
+    adapter.draw({...initial,commands:[...initial.commands].reverse()});assert.equal(tally.created,before);assert.equal(adapter.meshes[0],originalMeshes.at(-1));
+    adapter.draw(initial);assert.equal(tally.created,before);
     adapter.draw({...initial,commands:[...initial.commands,{kind:'text',id:'extra',at:[0,0],text:'hello',fontSize:.4,fill:'#ffffff'}]});
     assert.ok(tally.renders>=3);assert.deepEqual(initial,frozen);
     adapter.draw(initial);adapter.releaseVisualsForContextLoss();assert.equal(adapter.meshes.length,0);

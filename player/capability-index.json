@@ -121,6 +121,7 @@
   "a2game.turnbased.legal-move",
   "a2game.turnbased.player-order",
   "a2game.turnbased.turn",
+  "a2game.visual.body-motif",
   "a2game.visual.body-style",
   "a2game.visual.bound-stage",
   "a2game.visual.scene2d",

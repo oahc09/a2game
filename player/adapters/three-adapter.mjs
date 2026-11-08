@@ -9,7 +9,7 @@ export class ThreeAdapter {
     this.scene=new THREE.Scene();
     this.camera=new THREE.OrthographicCamera(-4,4,3,-3,0.1,100);
     this.camera.position.set(0,0,15);this.camera.lookAt(0,0,0);
-    this.meshes=[];this.lastSignature='';this.disposed=false;
+    this.meshes=[];this.visuals=new Map();this.lastSignature='';this.disposed=false;
   }
   async prepare(definition){if(definition.presentation.stage){this.stage=new ThreeStageHost(this.THREE,this.renderer,this.resources);await this.stage.prepare(definition.presentation.stage);}}
   unlockAudio(){this.stage?.audio?.unlock();}
@@ -45,11 +45,10 @@ export class ThreeAdapter {
     this.scene.add(mesh);this.meshes.push(mesh);
   }
   clear(){
-    for(const mesh of this.meshes){
-      this.scene.remove(mesh);mesh.geometry.dispose();mesh.material.map?.dispose();mesh.material.dispose();
-    }
-    this.meshes=[];
+    for(const mesh of new Set([...this.meshes,...[...this.visuals.values()].map(entry=>entry.mesh)]))this.releaseVisual(mesh);
+    this.meshes=[];this.visuals.clear();
   }
+  releaseVisual(mesh){this.scene.remove(mesh);mesh.geometry.dispose();mesh.material.map?.dispose();mesh.material.dispose();}
   releaseVisualsForContextLoss(){
     // Detach resource disposal listeners while the old context is lost. Restoring
     // then rebuilds visuals from the frame, avoiding stale WebGL handle deletion.
@@ -69,8 +68,22 @@ export class ThreeAdapter {
     this.renderer.setClearColor(frame.background,1);
     const signature=JSON.stringify(frame.commands);
     if(signature!==this.lastSignature){
-      this.lastSignature=signature;this.clear();
-      frame.commands.forEach((cmd,i)=>this.makeVisual(cmd,i*0.005));
+      const next=new Map();this.meshes=[];
+      frame.commands.forEach((cmd,i)=>{
+        // Position and painter order never require new GPU objects. A changed
+        // primitive or text rebuilds only that visual, including its own texture.
+        const shape=JSON.stringify([cmd.kind,cmd.size,cmd.radius,cmd.text,cmd.fontSize,cmd.fill]);
+        const previous=this.visuals.get(cmd.id);let mesh;
+        if(previous?.shape===shape){mesh=previous.mesh;this.meshes.push(mesh);}
+        else{
+          if(previous){this.releaseVisual(previous.mesh);this.visuals.delete(cmd.id);}
+          this.makeVisual(cmd,i*0.005);mesh=this.meshes.at(-1);
+        }
+        mesh.renderOrder=i;mesh.position.set(cmd.at[0],cmd.at[1],i*0.005);
+        next.set(cmd.id,{shape,mesh});
+      });
+      for(const [id,entry]of this.visuals)if(!next.has(id))this.releaseVisual(entry.mesh);
+      this.visuals=next;this.lastSignature=signature;
     }
     if(frame.stage){
       this.stage.draw(frame.stage,w,h,frame.background);this.renderer.autoClear=false;this.renderer.clearDepth();this.renderer.render(this.scene,this.camera);this.renderer.autoClear=true;

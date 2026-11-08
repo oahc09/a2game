@@ -1,4 +1,7 @@
 import {measureTextReadability} from './text-readability.mjs';
+import {createFrameMotion} from './frame-motion.mjs';
+import {createFeedbackAudio} from './feedback-audio.mjs';
+import {createEventFeedback} from './event-feedback.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
@@ -11,6 +14,15 @@ import {createMobileHost,createTraceRecorder} from './mobile-host.mjs';
 
 const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint','instructions','stageResult','stageResultTitle','stageResultDetail','stageRestart'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
+if(params.get('embed')==='1')document.documentElement.classList.add('embedded');
+const frameMotion=params.get('motion')==='1'?createFrameMotion():null;
+const feedbackAudio=createFeedbackAudio(),eventFeedback=createEventFeedback({onSound:name=>feedbackAudio.play(name)});
+let waitingToStart=false;
+let effectsEnabled=params.get('feedback')==='1';
+const effectsToggle=document.getElementById('effectsToggle'),effectsSound=document.getElementById('effectsSound');
+effectsToggle.setAttribute('aria-pressed',String(effectsEnabled));effectsToggle.textContent=`事件特效：${effectsEnabled?'开':'关'}`;
+effectsToggle.onclick=()=>{effectsEnabled=!effectsEnabled;eventFeedback.reset();effectsToggle.setAttribute('aria-pressed',String(effectsEnabled));effectsToggle.textContent=`事件特效：${effectsEnabled?'开':'关'}`;};
+effectsSound.onclick=async()=>{const enabled=await feedbackAudio.enable(!feedbackAudio.diagnostics().enabled);effectsSound.setAttribute('aria-pressed',String(enabled));effectsSound.textContent=feedbackAudio.diagnostics().unavailable?'反馈声音不可用':`反馈声音：${enabled?'开':'关'}`;};
 const gameName=params.get('game')??'tap-target';
 const backendName=['preview','air','three'].includes(params.get('backend'))?params.get('backend'):'preview';
 const releaseId=params.get('release');
@@ -25,9 +37,9 @@ dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendNam
 let runtime,adapter,definition,resources,raf,resizeRaf,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 function inputTimeUs(){const tick=runtime.tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
 function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
-function pauseSession(){gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
+function pauseSession(){feedbackAudio.silence();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
 function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
-const showError=e=>{errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
+const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  const canvas=dom.GameCanvas;
  if(mode==='preview') return new CanvasPreviewAdapter(canvas);
@@ -74,7 +86,7 @@ function updateInfo(obs){
    el.disabled=!(definition.inputs.actions.some(x=>x.id===el.dataset.action)) || obs.flow.status!=='playing';
  }
 }
-function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(traceRecorder?.diagnostics().overflow){finishTrace=false;document.getElementById('traceStatus').textContent='录制超过 4096 个样本，已停止；请重开并缩短录制。';document.getElementById('traceExport').disabled=true;}if(finishTrace){const snapshot=runtime.snapshot();if(!snapshot.inputQueue.length&&!snapshot.rawQueue.length){traceRecorder.stop(snapshot.tickIndex);finishTrace=false;document.getElementById('traceStatus').textContent='录制已结束；数据仅保存在本页内存，可导出。';document.getElementById('traceExport').disabled=false;}}const o=observation();adapter.draw(projectPresentation(definition,o));updateInfo(o);}
+function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(traceRecorder?.diagnostics().overflow){finishTrace=false;document.getElementById('traceStatus').textContent='录制超过 4096 个样本，已停止；请重开并缩短录制。';document.getElementById('traceExport').disabled=true;}if(finishTrace){const snapshot=runtime.snapshot();if(!snapshot.inputQueue.length&&!snapshot.rawQueue.length){traceRecorder.stop(snapshot.tickIndex);finishTrace=false;document.getElementById('traceStatus').textContent='录制已结束；数据仅保存在本页内存，可导出。';document.getElementById('traceExport').disabled=false;}}const o=observation();const target=projectPresentation(definition,o);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,o,{visual:effectsEnabled});const decorated=effectsEnabled?eventFeedback.project(target):target;adapter.draw(frameMotion?frameMotion.project(decorated):decorated);updateInfo(o);}
 function sendAction(action){
  adapter?.unlockAudio?.();
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
@@ -94,7 +106,7 @@ function animate(now){
    if(steps>max){
      // Explicit stall; never silently drop unprocessed simulation ticks.
      pauseSession();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
-   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}
+   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe(),{visual:effectsEnabled});}carry-=steps/hz;}
  }
  // Manual-clock callers draw after each step/control; idle frames have no new presentation.
  if(contextState==='healthy'&&!manualClock)render();raf=requestAnimationFrame(animate);
@@ -145,14 +157,18 @@ function bindInputs(){
  listen(dom.pause,'click',()=>{
    if(contextState==='reload-required'){location.reload();return;}
    if(contextState!=='healthy')return;
-   if(runtime.status==='paused'){resumeSession();record('resume');carry=0;ts=0;dom.hint.textContent='已恢复';}
+   const startingFromReady=waitingToStart;
+   if(waitingToStart){waitingToStart=false;document.getElementById('readyPanel').hidden=true;}
+   if(runtime.status==='paused'){resumeSession();record('resume');carry=0;ts=0;dom.hint.textContent=startingFromReady?'已开始':'已恢复；持续操作请重新按住按键';}
    else if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;dom.hint.textContent='已暂停';}render();
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
-   runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
+   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
  listen(dom.stageRestart,'click',()=>{dom.restart.click();if(runtime.status==='playing')canvas.focus({preventScroll:true});});
+ listen(document.getElementById('prepareRestart'),'click',()=>{if(contextState!=='healthy')return;dom.restart.click();if(runtime.status==='playing'){pauseSession();waitingToStart=true;carry=0;ts=0;document.getElementById('readyPanel').hidden=false;render();}});
+ listen(document.getElementById('readyStart'),'click',()=>{if(waitingToStart&&contextState==='healthy'){adapter?.unlockAudio?.();dom.pause.click();canvas.focus({preventScroll:true});}});
  listen(canvas,'webglcontextlost',e=>{
    if(adapter.disposed)return;
    e.preventDefault();contextState='lost';pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;
@@ -169,7 +185,16 @@ function bindInputs(){
  // Let the native SDK's container/layout observers finish before changing its design size.
  // Two coalesced frames avoid a transient zero screen scale during a viewport switch.
  listen(window,'resize',()=>{if(!manualClock)return;cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(()=>{resizeRaf=requestAnimationFrame(()=>{resizeRaf=undefined;if(!disposal&&contextState==='healthy')render();});});});
- listen(window,'blur',()=>{if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
+ listen(window,'blur',()=>{
+   // Moving from an embedded canvas to its same-origin host controls is still
+   // inside the game application. A real tab/window blur remains a pause.
+   try{if(params.get('embed')==='1'&&parent!==window&&!parent.document.hidden&&parent.document.hasFocus()){
+     const heldKeys=new Set(definition.inputs.actions.flatMap(action=>action.bindings.filter(binding=>binding.source==='keyboard.button'&&binding.config?.hold===true).map(binding=>binding.config.code)));
+     for(const code of heldKeys)injectRaw({source:'keyboard',kind:'cancel',payload:{code}});
+     return;
+   }}catch{}
+   if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}
+ });
  listen(document,'visibilitychange',()=>{if(document.hidden&&runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}});
  for(const which of ['game','backend'])listen(dom[which],'change',()=>{
    const query=new URLSearchParams({backend:dom.backend.value});
@@ -179,9 +204,9 @@ function bindInputs(){
 }
 function dispose(){
  if(disposal)return disposal;
- dom.stageResult.hidden=true;
+ dom.stageResult.hidden=true;document.getElementById('readyPanel').hidden=true;
  if(raf)cancelAnimationFrame(raf);if(resizeRaf)cancelAnimationFrame(resizeRaf);gamepadHost?.dispose();listeners.abort();traceRecorder?.dispose();runtime?.dispose();
- disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>resources?.dispose());return disposal;
+ eventFeedback.dispose();disposal=Promise.resolve().then(()=>adapter?.dispose()).finally(()=>feedbackAudio.dispose()).finally(()=>resources?.dispose());return disposal;
 }
 async function main(){
  try{
@@ -212,24 +237,24 @@ async function main(){
    listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
    listen(document.getElementById('sensorStop'),'click',()=>{mobileHost.stop();});
    document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
-   listen(document.getElementById('traceStart'),'click',()=>{runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
+   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
    listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
    listen(document.getElementById('traceExport'),'click',()=>{try{const trace=traceRecorder.export(),url=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=definition.id+'.input-trace.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){document.getElementById('traceStatus').textContent=error.message;}});
    adapter=await createAdapter(backendName);
    // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
    render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-   runtime.start();bindInputs();render();raf=requestAnimationFrame(animate);
+   runtime.start();bindInputs();if(params.get('ready')==='1'){pauseSession();waitingToStart=true;document.getElementById('readyPanel').hidden=false;}render();raf=requestAnimationFrame(animate);
    window.render_game_to_text=()=>JSON.stringify({coordinateSystem:'center origin, +X right, +Y up; pointer top-left',
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});
    window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
      getTextReadability:(options={})=>measureTextReadability(projectPresentation(definition,runtime.observe()),dom.GameCanvas,{referenceCssPx:options.referenceCssPx??16,backend:backendName,adapter}),
-     backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,gamepad:gamepadHost.diagnostics(),mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
+     backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,feedback:{visualEnabled:effectsEnabled,audio:feedbackAudio.diagnostics(),...eventFeedback.diagnostics()},gamepad:gamepadHost.diagnostics(),mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.injectRaw=injectRaw;
      window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
-     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
+     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe(),{visual:effectsEnabled});}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{
        if(!Number.isFinite(ms)||ms<0)throw Error('Invalid advanceTime');

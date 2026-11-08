@@ -37,6 +37,8 @@
 
 2026-10-31 兼容增量：声明 `a2game.visual.body-style` 且 `showValues:true` 时，可选 `minValueFontSize` 与 `minValueBodySize`（逻辑单位，大于 0 且不超过 2）。前者是正值标签的最小字号，后者是正值实体绘制形状的最小直径或边长；不改变碰撞体、输入范围、状态或 Hash。未设置时沿用原有尺寸，无正值的实体不受最小形状尺寸影响。较大的标签仍应检查遮挡、视口缩放和文本宽度。
 
+2026-11-08 可选增量：显式声明 `a2game.visual.body-motif@0.1.0`（依赖 `a2game.visual.scene2d`、`a2game.visual.body-style`）后，`bodyLayer.motifs` 可按 `actor`、`solid`、`target`、`projectile`、`pickup` 指定各 1–8 个既有 VisualNode。每个模板独立检查唯一 ID；本地 `at` 每轴范围 `[-2,2]`，`size` 每轴 `(0,4]`、`radius` `(0,2]`、`fontSize` `(0,4]`。投影中心为 `origin+[x,y]/1000`，节点 `at` 乘 `[hx,hy]/1000`；矩形尺寸逐轴同尺度，`[2,2]` 对应完整 AABB；圆半径与字号乘 `min(hx,hy)/1000`。节点的 `item` 绑定为该 Body 的 `value`，其他绑定与填色遵循普通 VisualNode。未配置的 kind 保持旧画法，`showValues` 标签仍在图案后绘制；模板绘制不使用正值最小形状尺寸，且所有命令共用每帧 640 上限。图案只读，不影响物理、Tick、状态或 Hash；内容中不含脚本。独立模板与示例见 `assets/themes/spaceflight.json`、`specs/v0.1/games/body-motif.game.json`；此增量真实双 SDK 画面尚未在本合同回执中验证。
+
 表现布局应将完整棋盘、标题与目标置于 `[-width/2,width/2] × [-height/2,height/2]`，包括文字尺寸和图形半径；字体大小为逻辑单位，应考虑缩放后的实际可读性。只显示部分棋盘或原始 true/false 不代表质量通过。
 
 操作说明应解释目标、输入及规则；益智关卡不应在初始画面直接列出完整获胜操作顺序。消除后的编号、遮挡层与结束反馈应保持可读，不能仅以场景非空或逻辑获胜作为完整质量验收。

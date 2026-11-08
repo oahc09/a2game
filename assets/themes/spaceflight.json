@@ -1,0 +1,141 @@
+{
+  "format": "a2game-authoring-theme",
+  "version": 1,
+  "id": "spaceflight",
+  "title": "星航编队",
+  "scope": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+  "license": "CC0-1.0",
+  "source": "Original geometry authored in Cindy Phase2, 2026-11-08",
+  "tags": [
+    "2d",
+    "space",
+    "scene2d",
+    "body-motif"
+  ],
+  "motifs": {
+    "actor": [
+      {
+        "id": "wing",
+        "kind": "rect",
+        "at": [
+          0,
+          0
+        ],
+        "size": [
+          0.55,
+          1.7
+        ],
+        "fill": "#4DD6E4"
+      },
+      {
+        "id": "fuselage",
+        "kind": "rect",
+        "at": [
+          0,
+          0
+        ],
+        "size": [
+          1.7,
+          0.46
+        ],
+        "fill": "#D8FAFF"
+      },
+      {
+        "id": "nose",
+        "kind": "rect",
+        "at": [
+          0.65,
+          0
+        ],
+        "size": [
+          0.48,
+          0.25
+        ],
+        "fill": "#FFE08A"
+      },
+      {
+        "id": "cockpit",
+        "kind": "circle",
+        "at": [
+          0.05,
+          0
+        ],
+        "radius": 0.18,
+        "fill": "#286F91"
+      }
+    ],
+    "target": [
+      {
+        "id": "wing",
+        "kind": "rect",
+        "at": [
+          0,
+          0
+        ],
+        "size": [
+          1.7,
+          0.6
+        ],
+        "fill": "#C75579"
+      },
+      {
+        "id": "keel",
+        "kind": "rect",
+        "at": [
+          0,
+          0
+        ],
+        "size": [
+          0.7,
+          1.55
+        ],
+        "fill": "#F77B99"
+      },
+      {
+        "id": "core",
+        "kind": "circle",
+        "at": [
+          0,
+          0
+        ],
+        "radius": 0.35,
+        "fill": "#FFD49B"
+      },
+      {
+        "id": "eye",
+        "kind": "circle",
+        "at": [
+          0,
+          0
+        ],
+        "radius": 0.12,
+        "fill": "#743F6B"
+      }
+    ],
+    "projectile": [
+      {
+        "id": "bolt",
+        "kind": "rect",
+        "at": [
+          0,
+          0
+        ],
+        "size": [
+          1.7,
+          0.45
+        ],
+        "fill": {
+          "from": {
+            "item": true
+          },
+          "map": {
+            "1": "#FFE18C",
+            "2": "#71F1E2",
+            "3": "#C5A2FF"
+          },
+          "fallback": "#FFE18C"
+        }
+      }
+    ]
+  }
+}

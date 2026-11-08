@@ -1,0 +1,765 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "phase2-arc-drifter-revision",
+  "subject": {
+    "type": "game",
+    "id": "local.phase2.arc-drifter-revision",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "shoot-kill-upgrade-complete",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 330
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 239
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 239
+        },
+        {
+          "op": "assert",
+          "path": "/state/bossHp",
+          "equals": 60
+        },
+        {
+          "op": "step",
+          "ticks": 206
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 5
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 50
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/kills",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/rank",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/power",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        }
+      ]
+    },
+    {
+      "id": "held-movement-stops-and-pause-clears",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 6
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/x",
+          "equals": 2040
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/vx",
+          "equals": 0
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/y",
+          "equals": 1020
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "resume"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/y",
+          "equals": 1020
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/vy",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "continuous-fire-stops-after-release",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 55
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/nextId",
+          "equals": 4
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/nextId",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "upgrade-needs-earned-energy",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/power",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/credits",
+          "equals": 0
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 330
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/rank",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/credits",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/bonus",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/rank",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/credits",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "no-fire-collision-or-timeout-loses",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1490
+        },
+        {
+          "op": "assert",
+          "path": "/state/kills",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "boss-half-health-gravity-and-player-control",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 330
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 239
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "evolve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 239
+        },
+        {
+          "op": "assert",
+          "path": "/state/bossHp",
+          "equals": 60
+        },
+        {
+          "op": "step",
+          "ticks": 196
+        },
+        {
+          "op": "assert",
+          "path": "/state/bossPhase2",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/gravityField",
+          "equals": [
+            0,
+            0.125
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/1/id",
+          "equals": "E_core"
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/1/y",
+          "equals": 5400
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/1/vy",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/y",
+          "equals": 1300
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/1/y",
+          "equals": 5290
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/1/vy",
+          "equals": -20
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/y",
+          "equals": 1280
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 5
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/bodies/0/y",
+          "equals": 1470
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

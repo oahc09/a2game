@@ -17,7 +17,7 @@ const help=`A2Game Generator (local, reference only)
   import-package FILE --output NEW_DIR
   validate GAME.json [--evidence-dir DIR]
   test GENERATED_DIR [--evidence-dir DIR]
-  preview GENERATED_DIR [--backend air|three]
+  preview GENERATED_DIR [--backend air|three] [--ready]
   inspect GENERATED_DIR [--backend air|three]  (手动导入 debug-bundle.json)
   probe --provider ID [--config FILE]
   import-native --context FILE --raw FILE --host-record FILE --output DIR
@@ -25,7 +25,7 @@ const help=`A2Game Generator (local, reference only)
 真实模型调用使用显式 provider/config；fixture 不计模型或 G3 验收。`;
 const controller=new AbortController();process.once('SIGINT',()=>controller.abort());process.once('SIGTERM',()=>controller.abort());
 try{
- const {positionals,values}=parseArgs({allowPositionals:true,options:{help:{type:'boolean'},version:{type:'boolean'},json:{type:'boolean'},query:{type:'string'},offset:{type:'string'},limit:{type:'string'},id:{type:'string'},'cap-version':{type:'string'},'prompt-file':{type:'string'},'plan-file':{type:'string'},provider:{type:'string'},config:{type:'string'},output:{type:'string'},mode:{type:'string'},'max-attempts':{type:'string'},'timeout-ms':{type:'string'},'max-calls':{type:'string'},port:{type:'string'},backend:{type:'string'},context:{type:'string'},raw:{type:'string'},'host-record':{type:'string'},'evidence-dir':{type:'string'}}});
+ const {positionals,values}=parseArgs({allowPositionals:true,options:{ready:{type:'boolean'},help:{type:'boolean'},version:{type:'boolean'},json:{type:'boolean'},query:{type:'string'},offset:{type:'string'},limit:{type:'string'},id:{type:'string'},'cap-version':{type:'string'},'prompt-file':{type:'string'},'plan-file':{type:'string'},provider:{type:'string'},config:{type:'string'},output:{type:'string'},mode:{type:'string'},'max-attempts':{type:'string'},'timeout-ms':{type:'string'},'max-calls':{type:'string'},port:{type:'string'},backend:{type:'string'},context:{type:'string'},raw:{type:'string'},'host-record':{type:'string'},'evidence-dir':{type:'string'}}});
  let result;const command=positionals[0],options={signal:controller.signal,timeoutMs:Number(values['timeout-ms']??60000)};
  if(values.help||!command&&!values.version){console.log(help);}
  else if(values.version){console.log('1.0.0');}
@@ -56,7 +56,7 @@ try{
   else if(command==='test')result=await testGeneratedDirectory(positionals[1],{...options,evidenceDir:values['evidence-dir']});
   else if(command==='probe')result=await probeProvider({id:values.provider,configFile:values.config});
   else if(['preview','inspect'].includes(command)){
-   const session=await previewGeneratedDirectory(positionals[1],{...options,backend:values.backend??'three'});
+   const session=await previewGeneratedDirectory(positionals[1],{...options,backend:values.backend??'three',ready:values.ready??false});
    result={status:session.status,code:session.code,nextStep:session.nextStep,url:command==='inspect'?session.url?.replace(/\/player\/index.html.*/, '/player/inspect.html'):session.url,...(command==='inspect'?{instruction:'在页面导入产物目录的 debug-bundle.json。'}:{})};
    console.log(JSON.stringify(result,null,values.json?0:2));
    if(session.status==='READY')await new Promise(ok=>controller.signal.aborted?ok():controller.signal.addEventListener('abort',ok,{once:true}));

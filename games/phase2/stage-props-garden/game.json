@@ -1,0 +1,569 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.phase2.woodland-props-stage",
+  "revision": 1,
+  "meta": {
+    "title": "林间小站 · 道具展示",
+    "description": "按空格或点击“收集”两次，让小光球走到终点。这里展示树、岩石和货箱的组合模型。",
+    "author": "Cindy native subagent original CC0 authoring preset; reference collect mechanic",
+    "genres": [
+      "casual"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      }
+    ],
+    "anyOf": [
+      [
+        {
+          "id": "a2game.input.touch.tap",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.input.keyboard.button",
+          "version": "0.1.0"
+        }
+      ]
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "goal": {
+      "type": "int",
+      "initial": 2
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "collect",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "touch.tap",
+            "config": {
+              "region": "playfield"
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "disabled"
+  },
+  "rules": [
+    {
+      "id": "reward-on-press",
+      "priority": 0,
+      "on": {
+        "type": "input.action",
+        "action": "collect",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "all-collected",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "score",
+        "kind": "text",
+        "text": "已收集",
+        "bind": {
+          "text": {
+            "template": "已收集 {0} / {1}",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "state": "/goal"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "collect-label",
+        "kind": "button",
+        "text": "收集",
+        "bind": {
+          "action": "collect"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#112933",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.52
+          ],
+          "fontSize": 0.3,
+          "fill": "#e5efda",
+          "text": {
+            "literal": "林间小站"
+          }
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -2.55
+          ],
+          "fontSize": 0.18,
+          "fill": "#d0dfc3",
+          "text": {
+            "literal": "空格 / 收集：让光球到达右侧"
+          }
+        }
+      ]
+    },
+    "stage": {
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          5,
+          4.6,
+          9.8
+        ],
+        "target": [
+          0,
+          0.45,
+          0
+        ],
+        "near": 0.1,
+        "far": 80,
+        "fov": 38,
+        "orthoHeight": 6
+      },
+      "nodes": [
+        {
+          "id": "island-base",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            -0.25,
+            0
+          ],
+          "size": [
+            6.8,
+            0.5,
+            3.7
+          ],
+          "color": "#4c6958",
+          "material": "standard"
+        },
+        {
+          "id": "island-top",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.015,
+            0
+          ],
+          "size": [
+            6.85,
+            0.08,
+            3.75
+          ],
+          "color": "#9bad7d",
+          "material": "standard"
+        },
+        {
+          "id": "path",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.07,
+            0.8
+          ],
+          "size": [
+            5.6,
+            0.06,
+            0.9
+          ],
+          "color": "#d9c79c",
+          "material": "standard"
+        },
+        {
+          "id": "tree-a-trunk",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -2.45,
+            0.55,
+            -0.6
+          ],
+          "size": [
+            0.3,
+            1.1,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0.18,
+            0
+          ],
+          "color": "#76513a",
+          "material": "standard"
+        },
+        {
+          "id": "tree-a-canopy-low",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            -2.45,
+            1.35,
+            -0.6
+          ],
+          "size": [
+            1.25,
+            1.05,
+            1
+          ],
+          "color": "#4d8069",
+          "material": "standard"
+        },
+        {
+          "id": "tree-a-canopy-high",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            -2.33,
+            1.86,
+            -0.58
+          ],
+          "size": [
+            0.92,
+            0.92,
+            0.83
+          ],
+          "color": "#7bad7c",
+          "material": "standard"
+        },
+        {
+          "id": "tree-a-canopy-light",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            -2.81,
+            1.55,
+            -0.26999999999999996
+          ],
+          "size": [
+            0.52,
+            0.48,
+            0.47
+          ],
+          "color": "#acd09c",
+          "material": "standard"
+        },
+        {
+          "id": "tree-b-trunk",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2.25,
+            0.55,
+            -1
+          ],
+          "size": [
+            0.3,
+            1.1,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0.18,
+            0
+          ],
+          "color": "#76513a",
+          "material": "standard"
+        },
+        {
+          "id": "tree-b-canopy-low",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            2.25,
+            1.35,
+            -1
+          ],
+          "size": [
+            1.25,
+            1.05,
+            1
+          ],
+          "color": "#4d8069",
+          "material": "standard"
+        },
+        {
+          "id": "tree-b-canopy-high",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            2.37,
+            1.86,
+            -0.98
+          ],
+          "size": [
+            0.92,
+            0.92,
+            0.83
+          ],
+          "color": "#7bad7c",
+          "material": "standard"
+        },
+        {
+          "id": "tree-b-canopy-light",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            1.8900000000000001,
+            1.55,
+            -0.6699999999999999
+          ],
+          "size": [
+            0.52,
+            0.48,
+            0.47
+          ],
+          "color": "#acd09c",
+          "material": "standard"
+        },
+        {
+          "id": "rock-a-stone",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            -0.95,
+            0.27,
+            -0.7
+          ],
+          "size": [
+            1.15,
+            0.54,
+            0.86
+          ],
+          "rotation": [
+            0.08,
+            0.35,
+            -0.08
+          ],
+          "color": "#859899",
+          "material": "standard"
+        },
+        {
+          "id": "rock-a-moss",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            -1.17,
+            0.49,
+            -0.6599999999999999
+          ],
+          "size": [
+            0.5,
+            0.1,
+            0.38
+          ],
+          "color": "#9bb98c",
+          "material": "standard"
+        },
+        {
+          "id": "crate-a-box",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.7,
+            0.4,
+            -0.55
+          ],
+          "size": [
+            0.8,
+            0.8,
+            0.8
+          ],
+          "color": "#ba8755",
+          "material": "standard"
+        },
+        {
+          "id": "crate-a-top",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.7,
+            0.81,
+            -0.55
+          ],
+          "size": [
+            0.85,
+            0.07,
+            0.85
+          ],
+          "color": "#d4a976",
+          "material": "standard"
+        },
+        {
+          "id": "crate-a-strap-front",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.7,
+            0.4,
+            -0.14400000000000002
+          ],
+          "size": [
+            0.12,
+            0.7,
+            0.025
+          ],
+          "color": "#73553f",
+          "material": "standard"
+        },
+        {
+          "id": "crate-a-strap-side",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1.1059999999999999,
+            0.4,
+            -0.55
+          ],
+          "size": [
+            0.025,
+            0.7,
+            0.12
+          ],
+          "color": "#73553f",
+          "material": "standard"
+        },
+        {
+          "id": "collect-orb",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            {
+              "state": "/score"
+            },
+            0.28,
+            0.82
+          ],
+          "size": [
+            0.3,
+            0.3,
+            0.3
+          ],
+          "color": "#ffda78",
+          "material": "unlit"
+        }
+      ],
+      "particles": [],
+      "audio": []
+    }
+  },
+  "extensions": {}
+}

@@ -1,0 +1,241 @@
+{
+  "format": "a2game-authoring-theme",
+  "version": 1,
+  "id": "tidal-turrets",
+  "title": "港湾炮台与货艇",
+  "scope": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+  "license": "CC0-1.0",
+  "source": "Original geometry authored by Cindy lead, 2026-11-08",
+  "tags": [
+    "2d",
+    "tower-defense",
+    "body-motif",
+    "炮台",
+    "货艇"
+  ],
+  "motifs": {
+    "actor": [
+      {
+        "id": "base-left",
+        "kind": "rect",
+        "at": [
+          -1.6,
+          -0.7
+        ],
+        "size": [
+          4,
+          3.4
+        ],
+        "fill": "#203E55"
+      },
+      {
+        "id": "base-right",
+        "kind": "rect",
+        "at": [
+          1.6,
+          -0.7
+        ],
+        "size": [
+          4,
+          3.4
+        ],
+        "fill": "#203E55"
+      },
+      {
+        "id": "cap",
+        "kind": "circle",
+        "at": [
+          0,
+          0
+        ],
+        "radius": 2,
+        "fill": {
+          "from": {
+            "item": true
+          },
+          "map": {
+            "2": "#6AA9B5",
+            "4": "#59CDC8",
+            "8": "#BFA3ED"
+          },
+          "fallback": "#D9BF7B"
+        }
+      },
+      {
+        "id": "barrel",
+        "kind": "rect",
+        "at": [
+          0,
+          2
+        ],
+        "size": [
+          1.1,
+          4
+        ],
+        "fill": "#A0ECE2"
+      },
+      {
+        "id": "muzzle",
+        "kind": "rect",
+        "at": [
+          0,
+          2
+        ],
+        "size": [
+          2.1,
+          0.7
+        ],
+        "fill": "#284E64"
+      },
+      {
+        "id": "rim",
+        "kind": "rect",
+        "at": [
+          0,
+          -1.8
+        ],
+        "size": [
+          4,
+          0.55
+        ],
+        "fill": {
+          "from": {
+            "item": true
+          },
+          "map": {
+            "2": "#6AA9B5",
+            "4": "#59CDC8",
+            "8": "#BFA3ED"
+          },
+          "fallback": "#D9BF7B"
+        }
+      },
+      {
+        "id": "signal",
+        "kind": "circle",
+        "at": [
+          1.5,
+          1
+        ],
+        "radius": 0.28,
+        "fill": "#FFE6A4"
+      },
+      {
+        "id": "damage",
+        "kind": "text",
+        "at": [
+          0,
+          -0.4
+        ],
+        "text": {
+          "item": true
+        },
+        "fontSize": 3.7,
+        "fill": "#102438"
+      }
+    ],
+    "target": [
+      {
+        "id": "hull-left",
+        "kind": "rect",
+        "at": [
+          -1.5,
+          0
+        ],
+        "size": [
+          4,
+          2.6
+        ],
+        "fill": "#C64F6D"
+      },
+      {
+        "id": "hull-right",
+        "kind": "rect",
+        "at": [
+          1.5,
+          0
+        ],
+        "size": [
+          4,
+          2.6
+        ],
+        "fill": "#C64F6D"
+      },
+      {
+        "id": "bow",
+        "kind": "circle",
+        "at": [
+          2,
+          0
+        ],
+        "radius": 1.5,
+        "fill": "#D66880"
+      },
+      {
+        "id": "deck",
+        "kind": "rect",
+        "at": [
+          0,
+          0.65
+        ],
+        "size": [
+          3.1,
+          1.9
+        ],
+        "fill": "#ED9CA7"
+      },
+      {
+        "id": "cabin",
+        "kind": "rect",
+        "at": [
+          -0.6,
+          1.1
+        ],
+        "size": [
+          1.6,
+          1.9
+        ],
+        "fill": "#263F57"
+      },
+      {
+        "id": "stern",
+        "kind": "rect",
+        "at": [
+          -2,
+          0
+        ],
+        "size": [
+          0.8,
+          2.3
+        ],
+        "fill": "#8D3D5F"
+      },
+      {
+        "id": "wake",
+        "kind": "rect",
+        "at": [
+          -2,
+          -1.4
+        ],
+        "size": [
+          3.8,
+          0.3
+        ],
+        "fill": "#8DC5CC"
+      },
+      {
+        "id": "health",
+        "kind": "text",
+        "at": [
+          0.1,
+          -0.1
+        ],
+        "text": {
+          "item": true
+        },
+        "fontSize": 3.7,
+        "fill": "#FFFFFF"
+      }
+    ]
+  }
+}

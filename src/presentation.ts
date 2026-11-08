@@ -31,7 +31,7 @@ export interface Scene2DSpec {
     background: string;
     nodes: VisualNode[];
     repeat?: VisualRepeat[];
-    bodyLayer?: {statePath:string;unitsPerMeter:1000;origin:[number,number];palette:Record<WorldBody['kind'],string>;circleKinds?:WorldBody['kind'][];valuePalette?:Record<string,string>;showValues?:boolean;minValueFontSize?:number;minValueBodySize?:number};
+    bodyLayer?: {statePath:string;unitsPerMeter:1000;origin:[number,number];palette:Record<WorldBody['kind'],string>;circleKinds?:WorldBody['kind'][];valuePalette?:Record<string,string>;showValues?:boolean;minValueFontSize?:number;minValueBodySize?:number;motifs?:Partial<Record<WorldBody['kind'],VisualNode[]>>};
 }
 export type DrawCommand =
     | { id: string; kind: 'rect'; at: [number,number]; size: [number,number]; fill: string }
@@ -118,7 +118,7 @@ export function validatePresentation(def:GameDefinition):void {
     positive(p.width,'/presentation/scene2d/width');positive(p.height,'/presentation/scene2d/height');cssColor(p.background,'/presentation/scene2d/background');
     const states=new Set(Object.keys(def.state));
     if(p.bodyLayer!==undefined){
-        const layer=record(p.bodyLayer,'/presentation/scene2d/bodyLayer');hasOnly(layer,['statePath','unitsPerMeter','origin','palette','circleKinds','valuePalette','showValues','minValueFontSize','minValueBodySize'],'/presentation/scene2d/bodyLayer');
+        const layer=record(p.bodyLayer,'/presentation/scene2d/bodyLayer');hasOnly(layer,['statePath','unitsPerMeter','origin','palette','circleKinds','valuePalette','showValues','minValueFontSize','minValueBodySize','motifs'],'/presentation/scene2d/bodyLayer');
         checkBinding({state:layer.statePath},states,'/presentation/scene2d/bodyLayer/statePath');coordinate(layer.origin,'/presentation/scene2d/bodyLayer/origin');
         if(layer.unitsPerMeter!==1000)fail('A2G_E_PRESENTATION','bodyLayer requires declared integer units');
         const palette=record(layer.palette,'/presentation/scene2d/bodyLayer/palette');for(const kind of ['actor','solid','target','projectile','pickup'])cssColor(palette[kind],'/presentation/scene2d/bodyLayer/palette/'+kind);
@@ -126,6 +126,20 @@ export function validatePresentation(def:GameDefinition):void {
         if(layer.circleKinds!==undefined){if(!Array.isArray(layer.circleKinds)||layer.circleKinds.length>5||layer.circleKinds.some(kind=>!['actor','solid','target','projectile','pickup'].includes(String(kind))))fail('A2G_E_PRESENTATION','Invalid circle styles');if(!def.requires.all.some(ref=>ref.id==='a2game.visual.body-style'))fail('A2G_E_CAP_DEPENDENCY','Circle body styles require visual.body-style',{jsonPointer:'/requires/all',ruleId:'presentation.body-style-dependency',capabilityId:'a2game.visual.body-style',expected:'0.1.0'});}
         if(layer.valuePalette!==undefined||layer.showValues!==undefined){if(!def.requires.all.some(ref=>ref.id==='a2game.visual.body-style'))fail('A2G_E_CAP_DEPENDENCY','Value styles require visual.body-style',{jsonPointer:'/requires/all',ruleId:'presentation.body-style-dependency',capabilityId:'a2game.visual.body-style',expected:'0.1.0'});if(layer.showValues!==undefined&&typeof layer.showValues!=='boolean')fail('A2G_E_PRESENTATION','Invalid value label flag');if(layer.valuePalette!==undefined){const palette=record(layer.valuePalette,'/presentation/scene2d/bodyLayer/valuePalette');if(Object.keys(palette).length>128)fail('A2G_E_BUDGET_EXCEEDED','Value palette budget');for(const value of Object.values(palette))cssColor(value,'/presentation/scene2d/bodyLayer/valuePalette');}}
         for(const key of ['minValueFontSize','minValueBodySize'])if(layer[key]!==undefined){const value=layer[key];if(!safeFinite(value)||value<=0||value>2)fail('A2G_E_PRESENTATION','Value style minimum must be greater than zero and at most two',{jsonPointer:'/presentation/scene2d/bodyLayer/'+key});if(layer.showValues!==true)fail('A2G_E_PRESENTATION','Value style minimum requires showValues=true',{jsonPointer:'/presentation/scene2d/bodyLayer/'+key});}
+        if(layer.motifs!==undefined){
+            if(!def.requires.all.some(ref=>ref.id==='a2game.visual.body-motif'&&ref.version==='0.1.0'))fail('A2G_E_CAP_DEPENDENCY','Body motifs require visual.body-motif@0.1.0',{jsonPointer:'/requires/all',ruleId:'presentation.body-motif-dependency',capabilityId:'a2game.visual.body-motif',expected:'0.1.0'});
+            const path='/presentation/scene2d/bodyLayer/motifs',motifs=record(layer.motifs,path);
+            hasOnly(motifs,['actor','solid','target','projectile','pickup'],path);
+            for(const [kind,templates] of Object.entries(motifs)){
+                const pth=path+'/'+kind;
+                if(!Array.isArray(templates)||templates.length<1||templates.length>8)fail('A2G_E_PRESENTATION','Body motif requires 1 to 8 nodes',{jsonPointer:pth});
+                uniqueNodes(templates,states,pth);
+                for(const [i,raw] of templates.entries()){
+                    const n=raw as VisualNode,where=pth+'/'+i;
+                    if(n.at.some(v=>Math.abs(v)>2)||n.size!==undefined&&(!Array.isArray(n.size)||n.size.length!==2||n.size.some(v=>!safeFinite(v)||v<=0||v>4))||n.radius!==undefined&&(!safeFinite(n.radius)||n.radius<=0||n.radius>2)||n.fontSize!==undefined&&(!safeFinite(n.fontSize)||n.fontSize<=0||n.fontSize>4))fail('A2G_E_PRESENTATION','Body motif geometry exceeds normalized bounds',{jsonPointer:where});
+                }
+            }
+        }
     }
     if(!Array.isArray(p.nodes)||p.nodes.length>128)fail('A2G_E_PRESENTATION','Invalid nodes',{jsonPointer:'/presentation/scene2d/nodes'});
     uniqueNodes(p.nodes,states,'/presentation/scene2d/nodes');
@@ -200,7 +214,14 @@ export function projectPresentation(def:GameDefinition,obs:SessionObservation):P
             const at:[number,number]=[layer.origin[0]+b.x/1000,layer.origin[1]+b.y/1000];
             const fill=layer.valuePalette?.[String(b.value)]??layer.palette[b.kind];
             const minSize=b.value>0?(layer.minValueBodySize??0):0;
-            if(layer.circleKinds?.includes(b.kind))commands.push({id:'body:'+b.id,kind:'circle',at,radius:Math.max(Math.min(b.hx,b.hy)/1000,minSize/2),fill});else commands.push({id:'body:'+b.id,kind:'rect',at,size:[Math.max(b.hx*2/1000,minSize),Math.max(b.hy*2/1000,minSize)],fill});
+            const motif=layer.motifs?.[b.kind];
+            if(motif){
+                const sx=b.hx/1000,sy=b.hy/1000,unit=Math.min(sx,sy);
+                for(const node of motif){
+                    const scaled:VisualNode={...node,at:[node.at[0]*sx,node.at[1]*sy],...(node.size?{size:[node.size[0]*sx,node.size[1]*sy]}:{}),...(node.radius!==undefined?{radius:node.radius*unit}:{}),...(node.fontSize!==undefined?{fontSize:node.fontSize*unit}:{})};
+                    emit(scaled,'body:'+b.id+'.'+node.id,at,b.value);
+                }
+            }else if(layer.circleKinds?.includes(b.kind))commands.push({id:'body:'+b.id,kind:'circle',at,radius:Math.max(Math.min(b.hx,b.hy)/1000,minSize/2),fill});else commands.push({id:'body:'+b.id,kind:'rect',at,size:[Math.max(b.hx*2/1000,minSize),Math.max(b.hy*2/1000,minSize)],fill});
             if(layer.showValues&&b.value>0){if(commands.length>=maxNodes)fail('A2G_E_BUDGET_EXCEEDED','Body label budget');commands.push({id:'body-label:'+b.id,kind:'text',at,text:String(b.value),fontSize:Math.max(Math.min(b.hy/1000,0.4),layer.minValueFontSize??0),fill:'#ffffff'});}
         }
     }

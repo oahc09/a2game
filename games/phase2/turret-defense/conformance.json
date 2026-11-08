@@ -1,0 +1,423 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "phase2-foundry-defense",
+  "subject": {
+    "type": "game",
+    "id": "phase2.foundry-defense",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "full-production-merge-upgrade-win",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 121
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 121
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "buildA",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildA",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "selectA",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "selectA",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mergeB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mergeB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/batches",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/level",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/merged",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers",
+          "equals": [
+            {
+              "id": "tower_2",
+              "cell": 1,
+              "level": 2,
+              "weaponId": "weapon_2"
+            }
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/weapons/0/owner",
+          "equals": "tower_2"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/weapons/0/id",
+          "equals": "weapon_2"
+        },
+        {
+          "op": "step",
+          "ticks": 812
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 6
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/level",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 1100
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildA",
+          "phase": "press"
+        }
+      ]
+    },
+    {
+      "id": "direct-upgrade-alternative-wins",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 121
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "refine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 121
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "claimOre",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 814
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgradeB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1100
+        },
+        {
+          "op": "assert",
+          "path": "/state/merged",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "insufficient-balance-rejects-purchase",
+      "seed": 1108,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buildB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers",
+          "equals": []
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.invalid",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/message",
+          "equals": "建塔需3铸币，先熔炼并收取矿石"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

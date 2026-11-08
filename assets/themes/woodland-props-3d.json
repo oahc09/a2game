@@ -1,0 +1,27 @@
+{
+  "format": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+  "version": 1,
+  "id": "woodland-props-3d",
+  "title": "林间小站 · 3D 道具",
+  "source": "Original geometric design by Cindy native subagent for A2Game Phase 2",
+  "license": "CC0-1.0",
+  "usage": "Authoring-only local positions. Prefix IDs and translate at coordinates, then inline only nodes into presentation.stage.nodes. No custom runtime fields or asset references.",
+  "props": {
+    "tree": [
+      {"id":"trunk","kind":"mesh","geometry":"box","at":[0,0.55,0],"size":[0.3,1.1,0.3],"rotation":[0,0.18,0],"color":"#76513a","material":"standard"},
+      {"id":"canopy-low","kind":"mesh","geometry":"sphere","at":[0,1.35,0],"size":[1.25,1.05,1.0],"color":"#4d8069","material":"standard"},
+      {"id":"canopy-high","kind":"mesh","geometry":"sphere","at":[0.12,1.86,0.02],"size":[0.92,0.92,0.83],"color":"#7bad7c","material":"standard"},
+      {"id":"canopy-light","kind":"mesh","geometry":"sphere","at":[-0.36,1.55,0.33],"size":[0.52,0.48,0.47],"color":"#acd09c","material":"standard"}
+    ],
+    "rock": [
+      {"id":"stone","kind":"mesh","geometry":"sphere","at":[0,0.27,0],"size":[1.15,0.54,0.86],"rotation":[0.08,0.35,-0.08],"color":"#859899","material":"standard"},
+      {"id":"moss","kind":"mesh","geometry":"sphere","at":[-0.22,0.49,0.04],"size":[0.5,0.1,0.38],"color":"#9bb98c","material":"standard"}
+    ],
+    "crate": [
+      {"id":"box","kind":"mesh","geometry":"box","at":[0,0.4,0],"size":[0.8,0.8,0.8],"color":"#ba8755","material":"standard"},
+      {"id":"top","kind":"mesh","geometry":"box","at":[0,0.81,0],"size":[0.85,0.07,0.85],"color":"#d4a976","material":"standard"},
+      {"id":"strap-front","kind":"mesh","geometry":"box","at":[0,0.4,0.406],"size":[0.12,0.7,0.025],"color":"#73553f","material":"standard"},
+      {"id":"strap-side","kind":"mesh","geometry":"box","at":[0.406,0.4,0],"size":[0.025,0.7,0.12],"color":"#73553f","material":"standard"}
+    ]
+  }
+}

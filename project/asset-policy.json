@@ -39,6 +39,42 @@
       "integrity": "sha256-z+64MEtMuNTD1rxOixn9tXnY5d2vXflMQAKT8OronGs=",
       "source": "Repository-authored pixel-art key for H05",
       "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/themes/warm-workshop.json",
+      "type": "json",
+      "mime": "application/json",
+      "bytes": 4342,
+      "integrity": "sha256-sWwdL3IqS20R7yKz9q9kP30hlBgiWklftqGMRncB9F0=",
+      "source": "Repository-authored vector geometry; Cindy Phase2 G01",
+      "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/themes/spaceflight.json",
+      "type": "json",
+      "mime": "application/json",
+      "bytes": 2334,
+      "integrity": "sha256-kifNkPa58C5mAWER7/5j/1ZDykjIIdvbPv9KBCwucPg=",
+      "source": "Original geometry authored in Cindy Phase2, 2026-11-08",
+      "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/themes/tidal-turrets.json",
+      "type": "json",
+      "mime": "application/json",
+      "bytes": 4016,
+      "integrity": "sha256-vQhQ9A3ufat/8Hb5TCAxLlZHrjlor466jngt8+XtG04=",
+      "source": "Original geometry authored by Cindy lead, 2026-11-08",
+      "license": "CC0-1.0"
+    },
+    {
+      "uri": "assets/themes/woodland-props-3d.json",
+      "type": "json",
+      "mime": "application/json",
+      "bytes": 1953,
+      "integrity": "sha256-UnZKAQo9+F2VTB6wsGGaizw6YYYrx0X5INxQWMxz2KE=",
+      "source": "Original geometric design by Cindy native subagent for A2Game Phase 2",
+      "license": "CC0-1.0"
     }
   ]
 }

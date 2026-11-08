@@ -56,3 +56,26 @@ test('grid-push rejects invalid overlapping layout at tick boundary without part
  assert.throws(()=>rt.step(1),e=>e.code==='A2G_E_STATE_TYPE');
  assert.equal(rt.observe().tickIndex,0);assert.deepEqual(rt.observe().state.boxes,[0]);assert.equal(rt.status,'error');
 });
+test('body motifs scale per body axis, bind body value, preserve fallback and never mutate the runtime hash',()=>{
+ const d=def('body-motif');d.presentation.scene2d.bodyLayer.motifs.actor=[
+  {id:'frame',kind:'rect',at:[1,-1],size:[2,2],fill:{from:{item:true},map:{'1':'#123456'},fallback:'#abcdef'}},
+  {id:'dot',kind:'circle',at:[0,0],radius:1,fill:'#ffffff'},
+  {id:'value',kind:'text',at:[0,0],fontSize:1,text:{item:true},fill:'#ffffff'}
+ ];d.presentation.scene2d.bodyLayer.showValues=true;
+ const rt=new HeadlessRuntime(d,makeRegistry());rt.start();const obs=rt.observe(),before=obs.exactHash;
+ const modified=structuredClone(obs);modified.state.world.bodies[0].hx=200;modified.state.world.bodies[0].hy=100;
+ modified.state.world.bodies.push({...modified.state.world.bodies[0],id:'fallback',kind:'solid'});
+ const frame=projectPresentation(d,modified),nodes=frame.commands;
+ assert.deepEqual(nodes.find(x=>x.id==='body:hero.frame'),{id:'body:hero.frame',kind:'rect',at:[-2.8,-1.1],size:[.4,.2],fill:'#123456'});
+ assert.equal(nodes.find(x=>x.id==='body:hero.dot').radius,.1);assert.equal(nodes.find(x=>x.id==='body:hero.value').fontSize,.1);assert.equal(nodes.find(x=>x.id==='body:hero.value').text,'1');
+ assert.ok(nodes.find(x=>x.id==='body:hero.value'));assert.ok(nodes.find(x=>x.id==='body-label:hero'));assert.equal(nodes.find(x=>x.id==='body:fallback').kind,'rect');
+ assert.equal(rt.observe().exactHash,before);rt.dispose();
+});
+test('body motifs require their capability, bounded geometry and shared primitive budget',()=>{
+ const d=def('body-motif'),missing=structuredClone(d);missing.requires.all=missing.requires.all.filter(x=>x.id!=='a2game.visual.body-motif');
+ assert.throws(()=>compileGame(missing,makeRegistry()),e=>e.code==='A2G_E_CAP_DEPENDENCY');
+ const bad=structuredClone(d);bad.presentation.scene2d.bodyLayer.motifs.actor[0].at=[2.01,0];assert.throws(()=>compileGame(bad,makeRegistry()),e=>e.code==='A2G_E_PRESENTATION');
+ const rt=new HeadlessRuntime(d,makeRegistry());rt.start();const obs=rt.observe(),over=structuredClone(obs);over.state.world.bodies=Array.from({length:128},(_,i)=>({...over.state.world.bodies[0],id:'n'+i}));
+ const big=structuredClone(d);big.presentation.scene2d.bodyLayer.motifs.actor=Array.from({length:8},(_,i)=>({id:'n'+i,kind:'circle',at:[0,0],radius:.3,fill:'#ffffff'}));
+ assert.throws(()=>projectPresentation(big,over),e=>e.code==='A2G_E_BUDGET_EXCEEDED');rt.dispose();
+});

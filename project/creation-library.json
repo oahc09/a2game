@@ -1,0 +1,1037 @@
+{
+  "format": "a2game-creation-library",
+  "version": 1,
+  "specVersion": "0.1.0",
+  "scope": "REVIEWED_AUTHORING_ASSETS_NOT_AUTOMATIC_QUALITY_ACCEPTANCE",
+  "entries": [
+    {
+      "id": "warm-workshop",
+      "version": "1.0.0",
+      "title": "暖光仓库",
+      "tags": [
+        "2d",
+        "puzzle",
+        "warm",
+        "cartoon",
+        "scene2d"
+      ],
+      "kind": "scene2d-authoring-theme",
+      "asset": {
+        "uri": "assets/themes/warm-workshop.json",
+        "type": "json",
+        "mime": "application/json",
+        "bytes": 4342,
+        "integrity": "sha256-sWwdL3IqS20R7yKz9q9kP30hlBgiWklftqGMRncB9F0=",
+        "source": "Repository-authored vector geometry; Cindy Phase2 G01",
+        "license": "CC0-1.0"
+      },
+      "preset": {
+        "format": "a2game-authoring-theme",
+        "version": 1,
+        "id": "warm-workshop",
+        "title": "暖光仓库",
+        "scope": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+        "license": "CC0-1.0",
+        "source": "Repository-authored vector geometry; Cindy Phase2 G01",
+        "tags": [
+          "2d",
+          "puzzle",
+          "warm",
+          "cartoon",
+          "scene2d"
+        ],
+        "palette": {
+          "background": "#f5efdf",
+          "floorLight": "#ece2d0",
+          "floorDark": "#e5dac3"
+        },
+        "motifs": {
+          "walls": [
+            {
+              "id": "shadow",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.07
+              ],
+              "size": [
+                0.98,
+                0.98
+              ],
+              "fill": "#b6b4a4"
+            },
+            {
+              "id": "face",
+              "kind": "rect",
+              "at": [
+                0,
+                0.015
+              ],
+              "size": [
+                0.95,
+                0.89
+              ],
+              "fill": "#4b655f"
+            },
+            {
+              "id": "cap",
+              "kind": "rect",
+              "at": [
+                0,
+                0.37
+              ],
+              "size": [
+                0.95,
+                0.12
+              ],
+              "fill": "#648179"
+            },
+            {
+              "id": "inset",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.05
+              ],
+              "size": [
+                0.69,
+                0.47
+              ],
+              "fill": "#526f66"
+            }
+          ],
+          "goals": [
+            {
+              "id": "halo",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#d2bf81"
+            },
+            {
+              "id": "ring",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.26,
+              "fill": "#faf2ce"
+            },
+            {
+              "id": "core",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.1,
+              "fill": "#cfaf5a"
+            }
+          ],
+          "boxes": [
+            {
+              "id": "shadow",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.09
+              ],
+              "size": [
+                0.79,
+                0.74
+              ],
+              "fill": "#b4a37e"
+            },
+            {
+              "id": "rim",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.74,
+                0.74
+              ],
+              "fill": "#a86d33"
+            },
+            {
+              "id": "wood",
+              "kind": "rect",
+              "at": [
+                0,
+                0.04
+              ],
+              "size": [
+                0.64,
+                0.61
+              ],
+              "fill": "#dfa558"
+            },
+            {
+              "id": "light",
+              "kind": "rect",
+              "at": [
+                0,
+                0.27
+              ],
+              "size": [
+                0.62,
+                0.1
+              ],
+              "fill": "#f3cd82"
+            },
+            {
+              "id": "stripe",
+              "kind": "rect",
+              "at": [
+                0,
+                -0.04
+              ],
+              "size": [
+                0.1,
+                0.5
+              ],
+              "fill": "#b47a3d"
+            },
+            {
+              "id": "seal",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.11,
+              "fill": "#fff0c3"
+            }
+          ],
+          "player": [
+            {
+              "id": "shadow",
+              "kind": "circle",
+              "at": [
+                0,
+                -0.12
+              ],
+              "radius": 0.29,
+              "fill": "#b4b3a2"
+            },
+            {
+              "id": "coat",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.28,
+              "fill": "#293f43"
+            },
+            {
+              "id": "face",
+              "kind": "circle",
+              "at": [
+                0,
+                0.09
+              ],
+              "radius": 0.22,
+              "fill": "#f6d7ac"
+            },
+            {
+              "id": "hat",
+              "kind": "rect",
+              "at": [
+                0,
+                0.26
+              ],
+              "size": [
+                0.47,
+                0.12
+              ],
+              "fill": "#d77e48"
+            },
+            {
+              "id": "eye-left",
+              "kind": "circle",
+              "at": [
+                -0.07,
+                0.1
+              ],
+              "radius": 0.028,
+              "fill": "#293f43"
+            },
+            {
+              "id": "eye-right",
+              "kind": "circle",
+              "at": [
+                0.07,
+                0.1
+              ],
+              "radius": 0.028,
+              "fill": "#293f43"
+            }
+          ]
+        },
+        "usage": "Copy motif templates into scene2d.repeat; bind boxes wood fill to goal-cell colors when desired. Resolve all authoring parameters before complete GameSpec admission. No texture, script, or Runtime plugin."
+      }
+    },
+    {
+      "id": "spaceflight",
+      "version": "1.0.0",
+      "title": "星航编队",
+      "tags": [
+        "2d",
+        "space",
+        "scene2d",
+        "body-motif",
+        "飞机",
+        "机体",
+        "太空",
+        "图元"
+      ],
+      "kind": "body-motif-authoring-theme",
+      "requires": [
+        "a2game.visual.scene2d@0.1.0",
+        "a2game.visual.body-style@0.1.0",
+        "a2game.visual.body-motif@0.1.0"
+      ],
+      "asset": {
+        "uri": "assets/themes/spaceflight.json",
+        "type": "json",
+        "mime": "application/json",
+        "bytes": 2334,
+        "integrity": "sha256-kifNkPa58C5mAWER7/5j/1ZDykjIIdvbPv9KBCwucPg=",
+        "source": "Original geometry authored in Cindy Phase2, 2026-11-08",
+        "license": "CC0-1.0"
+      },
+      "preset": {
+        "format": "a2game-authoring-theme",
+        "version": 1,
+        "id": "spaceflight",
+        "title": "星航编队",
+        "scope": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+        "license": "CC0-1.0",
+        "source": "Original geometry authored in Cindy Phase2, 2026-11-08",
+        "tags": [
+          "2d",
+          "space",
+          "scene2d",
+          "body-motif"
+        ],
+        "motifs": {
+          "actor": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.55,
+                1.7
+              ],
+              "fill": "#4DD6E4"
+            },
+            {
+              "id": "fuselage",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.46
+              ],
+              "fill": "#D8FAFF"
+            },
+            {
+              "id": "nose",
+              "kind": "rect",
+              "at": [
+                0.65,
+                0
+              ],
+              "size": [
+                0.48,
+                0.25
+              ],
+              "fill": "#FFE08A"
+            },
+            {
+              "id": "cockpit",
+              "kind": "circle",
+              "at": [
+                0.05,
+                0
+              ],
+              "radius": 0.18,
+              "fill": "#286F91"
+            }
+          ],
+          "target": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.6
+              ],
+              "fill": "#C75579"
+            },
+            {
+              "id": "keel",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.7,
+                1.55
+              ],
+              "fill": "#F77B99"
+            },
+            {
+              "id": "core",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#FFD49B"
+            },
+            {
+              "id": "eye",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.12,
+              "fill": "#743F6B"
+            }
+          ],
+          "projectile": [
+            {
+              "id": "bolt",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.45
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "1": "#FFE18C",
+                  "2": "#71F1E2",
+                  "3": "#C5A2FF"
+                },
+                "fallback": "#FFE18C"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "tidal-turrets",
+      "version": "1.0.0",
+      "title": "港湾炮台与货艇",
+      "tags": [
+        "2d",
+        "tower-defense",
+        "body-motif",
+        "炮台",
+        "货艇"
+      ],
+      "kind": "body-motif-authoring-theme",
+      "requires": [
+        "a2game.visual.scene2d@0.1.0",
+        "a2game.visual.body-style@0.1.0",
+        "a2game.visual.body-motif@0.1.0"
+      ],
+      "asset": {
+        "uri": "assets/themes/tidal-turrets.json",
+        "type": "json",
+        "mime": "application/json",
+        "bytes": 4016,
+        "integrity": "sha256-vQhQ9A3ufat/8Hb5TCAxLlZHrjlor466jngt8+XtG04=",
+        "source": "Original geometry authored by Cindy lead, 2026-11-08",
+        "license": "CC0-1.0"
+      },
+      "preset": {
+        "format": "a2game-authoring-theme",
+        "version": 1,
+        "id": "tidal-turrets",
+        "title": "港湾炮台与货艇",
+        "scope": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+        "license": "CC0-1.0",
+        "source": "Original geometry authored by Cindy lead, 2026-11-08",
+        "tags": [
+          "2d",
+          "tower-defense",
+          "body-motif",
+          "炮台",
+          "货艇"
+        ],
+        "motifs": {
+          "actor": [
+            {
+              "id": "base-left",
+              "kind": "rect",
+              "at": [
+                -1.6,
+                -0.7
+              ],
+              "size": [
+                4,
+                3.4
+              ],
+              "fill": "#203E55"
+            },
+            {
+              "id": "base-right",
+              "kind": "rect",
+              "at": [
+                1.6,
+                -0.7
+              ],
+              "size": [
+                4,
+                3.4
+              ],
+              "fill": "#203E55"
+            },
+            {
+              "id": "cap",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 2,
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "2": "#6AA9B5",
+                  "4": "#59CDC8",
+                  "8": "#BFA3ED"
+                },
+                "fallback": "#D9BF7B"
+              }
+            },
+            {
+              "id": "barrel",
+              "kind": "rect",
+              "at": [
+                0,
+                2
+              ],
+              "size": [
+                1.1,
+                4
+              ],
+              "fill": "#A0ECE2"
+            },
+            {
+              "id": "muzzle",
+              "kind": "rect",
+              "at": [
+                0,
+                2
+              ],
+              "size": [
+                2.1,
+                0.7
+              ],
+              "fill": "#284E64"
+            },
+            {
+              "id": "rim",
+              "kind": "rect",
+              "at": [
+                0,
+                -1.8
+              ],
+              "size": [
+                4,
+                0.55
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "2": "#6AA9B5",
+                  "4": "#59CDC8",
+                  "8": "#BFA3ED"
+                },
+                "fallback": "#D9BF7B"
+              }
+            },
+            {
+              "id": "signal",
+              "kind": "circle",
+              "at": [
+                1.5,
+                1
+              ],
+              "radius": 0.28,
+              "fill": "#FFE6A4"
+            },
+            {
+              "id": "damage",
+              "kind": "text",
+              "at": [
+                0,
+                -0.4
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 3.7,
+              "fill": "#102438"
+            }
+          ],
+          "target": [
+            {
+              "id": "hull-left",
+              "kind": "rect",
+              "at": [
+                -1.5,
+                0
+              ],
+              "size": [
+                4,
+                2.6
+              ],
+              "fill": "#C64F6D"
+            },
+            {
+              "id": "hull-right",
+              "kind": "rect",
+              "at": [
+                1.5,
+                0
+              ],
+              "size": [
+                4,
+                2.6
+              ],
+              "fill": "#C64F6D"
+            },
+            {
+              "id": "bow",
+              "kind": "circle",
+              "at": [
+                2,
+                0
+              ],
+              "radius": 1.5,
+              "fill": "#D66880"
+            },
+            {
+              "id": "deck",
+              "kind": "rect",
+              "at": [
+                0,
+                0.65
+              ],
+              "size": [
+                3.1,
+                1.9
+              ],
+              "fill": "#ED9CA7"
+            },
+            {
+              "id": "cabin",
+              "kind": "rect",
+              "at": [
+                -0.6,
+                1.1
+              ],
+              "size": [
+                1.6,
+                1.9
+              ],
+              "fill": "#263F57"
+            },
+            {
+              "id": "stern",
+              "kind": "rect",
+              "at": [
+                -2,
+                0
+              ],
+              "size": [
+                0.8,
+                2.3
+              ],
+              "fill": "#8D3D5F"
+            },
+            {
+              "id": "wake",
+              "kind": "rect",
+              "at": [
+                -2,
+                -1.4
+              ],
+              "size": [
+                3.8,
+                0.3
+              ],
+              "fill": "#8DC5CC"
+            },
+            {
+              "id": "health",
+              "kind": "text",
+              "at": [
+                0.1,
+                -0.1
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 3.7,
+              "fill": "#FFFFFF"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "woodland-props-3d",
+      "version": "1.0.0",
+      "title": "林间小站 · 3D 道具",
+      "tags": [
+        "3d",
+        "nature",
+        "stage",
+        "tree",
+        "rock",
+        "crate",
+        "自然",
+        "树",
+        "岩石",
+        "货箱"
+      ],
+      "kind": "stage-authoring-props",
+      "requires": [
+        "a2game.visual.stage@0.1.0"
+      ],
+      "asset": {
+        "uri": "assets/themes/woodland-props-3d.json",
+        "type": "json",
+        "mime": "application/json",
+        "bytes": 1953,
+        "integrity": "sha256-UnZKAQo9+F2VTB6wsGGaizw6YYYrx0X5INxQWMxz2KE=",
+        "source": "Original geometric design by Cindy native subagent for A2Game Phase 2",
+        "license": "CC0-1.0"
+      },
+      "preset": {
+        "format": "AUTHORING_PRESET_NOT_GAMESPEC_EXTENSION",
+        "version": 1,
+        "id": "woodland-props-3d",
+        "title": "林间小站 · 3D 道具",
+        "source": "Original geometric design by Cindy native subagent for A2Game Phase 2",
+        "license": "CC0-1.0",
+        "usage": "Authoring-only local positions. Prefix IDs and translate at coordinates, then inline only nodes into presentation.stage.nodes. No custom runtime fields or asset references.",
+        "props": {
+          "tree": [
+            {
+              "id": "trunk",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.55,
+                0
+              ],
+              "size": [
+                0.3,
+                1.1,
+                0.3
+              ],
+              "rotation": [
+                0,
+                0.18,
+                0
+              ],
+              "color": "#76513a",
+              "material": "standard"
+            },
+            {
+              "id": "canopy-low",
+              "kind": "mesh",
+              "geometry": "sphere",
+              "at": [
+                0,
+                1.35,
+                0
+              ],
+              "size": [
+                1.25,
+                1.05,
+                1.0
+              ],
+              "color": "#4d8069",
+              "material": "standard"
+            },
+            {
+              "id": "canopy-high",
+              "kind": "mesh",
+              "geometry": "sphere",
+              "at": [
+                0.12,
+                1.86,
+                0.02
+              ],
+              "size": [
+                0.92,
+                0.92,
+                0.83
+              ],
+              "color": "#7bad7c",
+              "material": "standard"
+            },
+            {
+              "id": "canopy-light",
+              "kind": "mesh",
+              "geometry": "sphere",
+              "at": [
+                -0.36,
+                1.55,
+                0.33
+              ],
+              "size": [
+                0.52,
+                0.48,
+                0.47
+              ],
+              "color": "#acd09c",
+              "material": "standard"
+            }
+          ],
+          "rock": [
+            {
+              "id": "stone",
+              "kind": "mesh",
+              "geometry": "sphere",
+              "at": [
+                0,
+                0.27,
+                0
+              ],
+              "size": [
+                1.15,
+                0.54,
+                0.86
+              ],
+              "rotation": [
+                0.08,
+                0.35,
+                -0.08
+              ],
+              "color": "#859899",
+              "material": "standard"
+            },
+            {
+              "id": "moss",
+              "kind": "mesh",
+              "geometry": "sphere",
+              "at": [
+                -0.22,
+                0.49,
+                0.04
+              ],
+              "size": [
+                0.5,
+                0.1,
+                0.38
+              ],
+              "color": "#9bb98c",
+              "material": "standard"
+            }
+          ],
+          "crate": [
+            {
+              "id": "box",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.4,
+                0
+              ],
+              "size": [
+                0.8,
+                0.8,
+                0.8
+              ],
+              "color": "#ba8755",
+              "material": "standard"
+            },
+            {
+              "id": "top",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.81,
+                0
+              ],
+              "size": [
+                0.85,
+                0.07,
+                0.85
+              ],
+              "color": "#d4a976",
+              "material": "standard"
+            },
+            {
+              "id": "strap-front",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.4,
+                0.406
+              ],
+              "size": [
+                0.12,
+                0.7,
+                0.025
+              ],
+              "color": "#73553f",
+              "material": "standard"
+            },
+            {
+              "id": "strap-side",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0.406,
+                0.4,
+                0
+              ],
+              "size": [
+                0.025,
+                0.7,
+                0.12
+              ],
+              "color": "#73553f",
+              "material": "standard"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "hostFeedback": {
+    "motion": {
+      "option": "player/index.html?motion=1",
+      "durationMs": 130,
+      "respectsReducedMotion": true,
+      "scope": "host drawing only; not a GameSpec feature or state mutation"
+    },
+    "sound": {
+      "entry": "player/feedback-audio.mjs",
+      "version": "1.0.0",
+      "presets": {
+        "move": [
+          390
+        ],
+        "push": [
+          300,
+          440
+        ],
+        "undo": [
+          260
+        ],
+        "retry": [
+          330
+        ],
+        "success": [
+          440,
+          550,
+          660
+        ],
+        "merge": [
+          330,
+          495,
+          660
+        ],
+        "hit": [
+          160
+        ],
+        "error": [
+          140,
+          110
+        ]
+      },
+      "requiresUserGesture": true,
+      "defaultEnabled": false,
+      "maxVoices": 8,
+      "dispose": "Mute stops all active voices; dispose closes AudioContext",
+      "scope": "Optional trusted host UI synthesis; not a GameSpec field, asset download or packaged game audio"
+    },
+    "events": {
+      "entry": "player/event-feedback.mjs",
+      "version": "1.0.0",
+      "defaultEnabled": false,
+      "playerQuery": "feedback=1",
+      "controls": "Event effects toggle; audio needs separate explicit gesture",
+      "eventTypes": [
+        "combat.hit",
+        "combat.death",
+        "defense.fired",
+        "defense.reward",
+        "defense.merged",
+        "grid.box-pushed",
+        "puzzle.undone"
+      ],
+      "visual": [
+        "bounded impact/death particles",
+        "defense firing dotted trace",
+        "merge sparkle"
+      ],
+      "maxEffects": 12,
+      "maxFrameCommands": 640,
+      "reducedMotion": true,
+      "positionSource": "Existing declared scene2d.bodyLayer only; unavailable positions omit visual feedback",
+      "scope": "Trusted optional host decoration only; no GameSpec field, no state or exactHash mutation",
+      "evidence": [
+        "reports/phase2-feedback-20261108/event-browser.json",
+        "reports/phase2-feedback-20261108/h01-event-browser-three.json"
+      ],
+      "limitations": [
+        "Not embedded in content JSON packages or standalone SDK prototype",
+        "Auditory quality NOT_RUN",
+        "H01 Air recordings retained layout failure; minimal later probes passed, root cause unresolved"
+      ]
+    }
+  },
+  "limitations": [
+    "No texture sprite pack, 3D pack or particle preset added in this increment.",
+    "Theme is inlined during authoring. Runtime does not download authoring JSON.",
+    "Hashes bind bytes, not visual quality or model provenance."
+  ]
+}

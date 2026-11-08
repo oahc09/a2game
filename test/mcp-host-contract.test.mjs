@@ -15,7 +15,7 @@ const root=resolve(import.meta.dirname,'..'),hash=b=>createHash('sha256').update
 const read=p=>JSON.parse(readFileSync(p,'utf8'));
 
 test('versioned resources enumerate exact white-listed bounded contracts, not author games or solutions',async()=>{
- assert.equal(publicResources.length,5);
+ assert.equal(publicResources.length,6);
  for(const resource of publicResources){
   const result=readPublicResource(resource.uri),body=JSON.parse(result.contents[0].text);
   assert.equal(body.specVersion,'0.1.0');assert.equal(body.uri,resource.uri);
@@ -24,8 +24,10 @@ test('versioned resources enumerate exact white-listed bounded contracts, not au
  }
  for(const uri of ['file:///etc/passwd','a2game://spec/0.1.0/../../games/G01.json',publicResources[0].uri+'?path=private','a2game://spec/0.2.0/game.schema.json'])assert.throws(()=>readPublicResource(uri),{code:'A2G_MCP_RESOURCE'});
  const transport=new StdioClientTransport({command:process.execPath,args:[join(root,'scripts/mcp-server.mjs')],stderr:'pipe'}),client=new Client({name:'resource-contract-test',version:'1.0.0'});
- try{await client.connect(transport);assert.equal((await client.listTools()).tools.length,9);assert.equal((await client.listResources()).resources.length,5);
+ try{await client.connect(transport);assert.equal((await client.listTools()).tools.length,9);assert.equal((await client.listResources()).resources.length,6);
   const response=await client.readResource({uri:publicResources[0].uri});assert.equal(JSON.parse(response.contents[0].text).sha256,JSON.parse(readPublicResource(publicResources[0].uri).contents[0].text).sha256);
+  const library=await client.readResource({uri:'a2game://spec/0.1.0/creation-library.json'});
+  assert.equal(JSON.parse(JSON.parse(library.contents[0].text).content).entries[0].id,'warm-workshop');
   await assert.rejects(client.readResource({uri:'file:///etc/passwd'}));
  }finally{await client.close();await transport.close();}
 });

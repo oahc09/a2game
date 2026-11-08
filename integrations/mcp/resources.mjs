@@ -32,7 +32,8 @@ const entries=[
  {name:'conformance-schema',uri:'a2game://spec/0.1.0/test-suite.schema.json',path:'../../specs/v0.1/schemas/test-suite.schema.json'},
  {name:'capability-schema',uri:'a2game://spec/0.1.0/capability.schema.json',path:'../../specs/v0.1/schemas/capability.schema.json'},
  {name:'host-profile',uri:'a2game://spec/0.1.0/host-profile.json',value:hostProfile},
- {name:'contract-fragments',uri:'a2game://spec/0.1.0/contract-fragments.json',value:example}
+ {name:'contract-fragments',uri:'a2game://spec/0.1.0/contract-fragments.json',value:example},
+ {name:'creation-library',uri:'a2game://spec/0.1.0/creation-library.json',path:'../../project/creation-library.json'}
 ];
 export const publicResources=Object.freeze(entries.map(({name,uri})=>Object.freeze({name,uri,mimeType:'application/json',description:`Public A2Game ${version} ${name}; JSON envelope includes content text, SHA256 and byte length; max ${maxBytes} content bytes.`})));
 export function readPublicResource(uri){

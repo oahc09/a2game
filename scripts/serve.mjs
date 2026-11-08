@@ -20,7 +20,7 @@ function body(req,limit=CONTENT_MAX_BYTES){
     req.once('error',reject);req.once('end',()=>accept(Buffer.concat(chunks)));
   });
 }
-export function createPlayerServer({contentService=createContentService({storageDirectory:process.env.A2GAME_CONTENT_DIR??resolve(root,'.a2game/releases')}),enableRooms=false}={}){
+export function createPlayerServer({contentService=createContentService({storageDirectory:process.env.A2GAME_CONTENT_DIR??resolve(root,'.a2game/releases')}),enableRooms=false,collections=new Map()}={}){
   const rooms=enableRooms?createTurnRoomService({contentService}):null;
   const server=createServer({requestTimeout:10000,headersTimeout:10000},async(req,res)=>{
     const json=(status,data)=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8'});res.end(JSON.stringify(data));};
@@ -33,6 +33,11 @@ export function createPlayerServer({contentService=createContentService({storage
       if((req.headers.origin&&req.headers.origin!==origin)||req.headers['sec-fetch-site']==='cross-site')
         throw new ContentError('A2G_E_ORIGIN','请求必须来自当前播放器同源页面。',403,'policy');
       const path=decodeURIComponent(target.pathname);
+      if(path.startsWith('/api/collections/')&&req.method==='GET'){
+        const collection=collections.get(path.slice('/api/collections/'.length));
+        if(!collection)throw new ContentError('A2G_E_NOT_FOUND','关卡集不存在。',404,'policy');
+        json(200,collection);return;
+      }
       if(path.startsWith('/api/rooms')){
         if(!rooms)throw new RoomError('A2G_E_ROOM_DISABLED','未启用本机公开回合参考。',404);
         const token=req.headers.authorization?.match(/^Bearer ([a-f0-9-]{36})$/)?.[1],match=path.match(/^\/api\/rooms\/([a-f0-9-]{36})(?:\/(join|moves|journal))?$/);

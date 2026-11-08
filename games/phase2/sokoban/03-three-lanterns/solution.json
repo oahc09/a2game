@@ -1,0 +1,58 @@
+[
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "down",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "left",
+    "ticks": 1
+  }
+]

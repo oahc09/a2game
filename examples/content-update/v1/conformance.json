@@ -1,0 +1,230 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "lumen-01-first-light",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.phase2.lumen-depot.01-first-light",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "finish-level",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/solved",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ],
+      "seed": 17
+    },
+    {
+      "id": "undo-and-retry",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            17
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ],
+      "seed": 17
+    },
+    {
+      "id": "blocked-push-keeps-box-and-undo",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 17
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            10
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "undo",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/player",
+          "equals": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/boxes",
+          "equals": [
+            17
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/moves",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ],
+      "seed": 17
+    }
+  ]
+}

@@ -1,0 +1,3724 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.phase2.arc-drifter-revision",
+  "revision": 5,
+  "meta": {
+    "title": "光弧巡游：引力核心",
+    "description": "24秒内击退四波；Boss半血激活引力场，敌我均向下受力。生命耗尽或超时失败。WASD移动，按住Space射击，击杀得能量按E成长。",
+    "author": "Cindy native subagent author revision, derived from host-native arc-drifter attempt-3",
+    "genres": [
+      "realtime-shooter",
+      "growth"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.combat.aim",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.auto-target",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.health",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.hitscan",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.horde",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.projectile",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.status",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.weapon",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.acceleration",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.auto-scroll",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.bounce",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.charge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.collider",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.constraint",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.contact",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.follow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.jump",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.landing",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.lane-move",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.object-pool",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.rigid-body",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.spawner",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.trigger-zone",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.velocity",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-motif",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 1108,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "scenes": [
+    {
+      "id": "patrol",
+      "entities": [
+        {
+          "id": "clock-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "arena-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/arena",
+                "width": 3600,
+                "height": 6000,
+                "gravity": 0,
+                "moveSpeed": 40,
+                "heldMovement": true,
+                "restitution": 0,
+                "maxObjects": 64,
+                "projectileSpeed": 128,
+                "projectileHalfSize": 128,
+                "weaponRange": 10000,
+                "damage": 1,
+                "damageBonusPath": "/bonus",
+                "fireRequestPath": "/fireRequest",
+                "cooldownTicks": 18,
+                "invulnerabilityTicks": 10,
+                "weapon": "projectile",
+                "autoTarget": true,
+                "seekSpeed": 10,
+                "maxTicks": 1440,
+                "goalScore": 20,
+                "actions": {
+                  "left": "pilotLeft",
+                  "right": "pilotRight",
+                  "up": "pilotUp",
+                  "down": "pilotDown",
+                  "fire": "shootHeld"
+                },
+                "constraints": [
+                  {
+                    "body": "A_pilot",
+                    "minX": 0,
+                    "maxX": 3600,
+                    "minY": 0,
+                    "maxY": 6000
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 300,
+                    "body": {
+                      "id": "B_scout",
+                      "kind": "target",
+                      "x": 2300,
+                      "y": 5400,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 300,
+                      "hy": 300,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 5,
+                      "fixed": false,
+                      "invulnerableUntil": 0
+                    }
+                  },
+                  {
+                    "tick": 480,
+                    "body": {
+                      "id": "C_guard",
+                      "kind": "target",
+                      "x": 1200,
+                      "y": 5400,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 300,
+                      "hy": 300,
+                      "hp": 4,
+                      "team": 2,
+                      "value": 5,
+                      "fixed": false,
+                      "invulnerableUntil": 0
+                    }
+                  },
+                  {
+                    "tick": 720,
+                    "body": {
+                      "id": "D_armor",
+                      "kind": "target",
+                      "x": 2600,
+                      "y": 5400,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 380,
+                      "hy": 380,
+                      "hp": 6,
+                      "team": 2,
+                      "value": 5,
+                      "fixed": false,
+                      "invulnerableUntil": 0
+                    }
+                  },
+                  {
+                    "tick": 840,
+                    "body": {
+                      "id": "E_core",
+                      "kind": "target",
+                      "x": 1800,
+                      "y": 5400,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 500,
+                      "hy": 500,
+                      "hp": 60,
+                      "team": 2,
+                      "value": 5,
+                      "fixed": false,
+                      "invulnerableUntil": 0
+                    }
+                  }
+                ],
+                "tiltGravityPath": "/gravityField"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "patrol",
+  "state": {
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "arena": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "A_pilot",
+            "kind": "actor",
+            "x": 1800,
+            "y": 900,
+            "vx": 0,
+            "vy": 0,
+            "hx": 360,
+            "hy": 360,
+            "hp": 5,
+            "team": 1,
+            "value": 0,
+            "fixed": false,
+            "invulnerableUntil": 0
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "fireRequest": {
+      "type": "bool",
+      "initial": false
+    },
+    "credits": {
+      "type": "int",
+      "initial": 0
+    },
+    "rank": {
+      "type": "int",
+      "initial": 0
+    },
+    "bonus": {
+      "type": "int",
+      "initial": 0
+    },
+    "power": {
+      "type": "int",
+      "initial": 1
+    },
+    "hp": {
+      "type": "int",
+      "initial": 5
+    },
+    "kills": {
+      "type": "int",
+      "initial": 0
+    },
+    "timeLeft": {
+      "type": "int",
+      "initial": 24
+    },
+    "lastDamage": {
+      "type": "int",
+      "initial": 0
+    },
+    "flash": {
+      "type": "string",
+      "initial": "calm"
+    },
+    "flashUntil": {
+      "type": "int",
+      "initial": 0
+    },
+    "banner": {
+      "type": "string",
+      "initial": ""
+    },
+    "bannerUntil": {
+      "type": "int",
+      "initial": 0
+    },
+    "phase": {
+      "type": "string",
+      "initial": "准备 · 可测试移动与射击"
+    },
+    "message": {
+      "type": "string",
+      "initial": "WASD移动，Space连射；击杀后E成长"
+    },
+    "bossHp": {
+      "type": "int",
+      "initial": -1
+    },
+    "bossLabel": {
+      "type": "string",
+      "initial": ""
+    },
+    "gravityField": {
+      "type": "vec2",
+      "initial": [
+        0,
+        0
+      ]
+    },
+    "bossPhase2": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "pilotUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "shootHeld",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "evolve",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "fire-press",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "fire-hold",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "hold"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "fire-release",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "release"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "fire-cancel",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "cancel"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "evolve",
+      "on": {
+        "type": "input.action",
+        "action": "evolve",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/credits"
+              },
+              {
+                "const": 5
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/rank"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/credits",
+          "value": -5
+        },
+        {
+          "op": "state.add",
+          "path": "/rank",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/bonus",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/power",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/flash",
+          "value": "grow"
+        },
+        {
+          "op": "state.set",
+          "path": "/flashUntil",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "成长完成：新弹丸威力提升"
+        }
+      ]
+    },
+    {
+      "id": "evolve-invalid",
+      "on": {
+        "type": "input.action",
+        "action": "evolve",
+        "edge": "press"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/credits"
+              },
+              {
+                "const": 5
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/rank"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "需5能量，最高成长两次"
+        }
+      ]
+    },
+    {
+      "id": "reward",
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/source"
+              },
+              {
+                "const": "A_pilot"
+              }
+            ]
+          },
+          {
+            "op": "ne",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "A_pilot"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/credits",
+          "value": 5
+        },
+        {
+          "op": "state.add",
+          "path": "/kills",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/banner",
+          "value": "击退 +5 能量"
+        },
+        {
+          "op": "state.set",
+          "path": "/bannerUntil",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 36
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "reward-tip",
+      "priority": 10,
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/source"
+              },
+              {
+                "const": "A_pilot"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/arena/won"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/rank"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "能量已到账，按 E 提升武器"
+        }
+      ]
+    },
+    {
+      "id": "enemy-hit",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "A_pilot"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lastDamage",
+          "value": {
+            "event": "/amount"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/flash",
+          "value": "hit"
+        },
+        {
+          "op": "state.set",
+          "path": "/flashUntil",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 7
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-hp",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "A_pilot"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "event": "/hp"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/flash",
+          "value": "hurt"
+        },
+        {
+          "op": "state.set",
+          "path": "/flashUntil",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 10
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pilot-hurt-tip",
+      "priority": 10,
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "A_pilot"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/arena/lost"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "受伤了：横移/换层避开红色敌机"
+        }
+      ]
+    },
+    {
+      "id": "flash-end",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "state": "/flashUntil"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flash",
+          "value": "calm"
+        }
+      ]
+    },
+    {
+      "id": "banner-end",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "state": "/bannerUntil"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/banner",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "won-summary",
+      "priority": 100,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "航域清空"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "巡游完成！移动与成长都已生效"
+        }
+      ]
+    },
+    {
+      "id": "lost-summary",
+      "priority": 100,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "拦截失败"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "生命耗尽或超时；重开后及时成长"
+        }
+      ]
+    },
+    {
+      "id": "phase-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "准备 · 5秒接敌"
+        }
+      ]
+    },
+    {
+      "id": "phase-300",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "侦察来袭"
+        }
+      ]
+    },
+    {
+      "id": "phase-480",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "护卫来袭"
+        }
+      ]
+    },
+    {
+      "id": "phase-720",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "装甲来袭"
+        }
+      ]
+    },
+    {
+      "id": "phase-960",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1440
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bossPhase2"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "BOSS 来袭"
+        }
+      ]
+    },
+    {
+      "id": "seconds-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 24
+        }
+      ]
+    },
+    {
+      "id": "seconds-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 120
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 23
+        }
+      ]
+    },
+    {
+      "id": "seconds-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 120
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 180
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 22
+        }
+      ]
+    },
+    {
+      "id": "seconds-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 180
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 240
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 21
+        }
+      ]
+    },
+    {
+      "id": "seconds-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 240
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "seconds-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 360
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 19
+        }
+      ]
+    },
+    {
+      "id": "seconds-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 360
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 420
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 18
+        }
+      ]
+    },
+    {
+      "id": "seconds-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 420
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 17
+        }
+      ]
+    },
+    {
+      "id": "seconds-8",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 540
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 16
+        }
+      ]
+    },
+    {
+      "id": "seconds-9",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 540
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 600
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "seconds-10",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 600
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 660
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 14
+        }
+      ]
+    },
+    {
+      "id": "seconds-11",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 660
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 13
+        }
+      ]
+    },
+    {
+      "id": "seconds-12",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 780
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "seconds-13",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 780
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 11
+        }
+      ]
+    },
+    {
+      "id": "seconds-14",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 900
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "seconds-15",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 900
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 960
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "id": "seconds-16",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 960
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1020
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "seconds-17",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1020
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1080
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": "seconds-18",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1080
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1140
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "seconds-19",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1140
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1200
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "seconds-20",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1200
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1260
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "seconds-21",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1260
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1320
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "seconds-22",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1320
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1380
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "seconds-23",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1380
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1440
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "seconds-24",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1440
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1500
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/timeLeft",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "boss-arrival-hp",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 840
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bossHp",
+          "value": 60
+        },
+        {
+          "op": "state.set",
+          "path": "/bossLabel",
+          "value": "核心 HP"
+        }
+      ]
+    },
+    {
+      "id": "boss-hp-hit",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "E_core"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bossHp",
+          "value": {
+            "event": "/hp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "boss-phase-two",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "E_core"
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "event": "/hp"
+              },
+              {
+                "const": 30
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "event": "/hp"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bossPhase2"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bossPhase2",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/gravityField",
+          "value": [
+            0,
+            0.125
+          ]
+        },
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "BOSS · 引力场"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "核心半血！引力场令敌我下坠，W向上脱离"
+        }
+      ]
+    },
+    {
+      "id": "boss-hp-death",
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "E_core"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bossHp",
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "pilot-lost",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "patrol-cleared",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-pilotUp",
+        "kind": "button",
+        "text": "W ↑",
+        "bind": {
+          "action": "pilotUp"
+        }
+      },
+      {
+        "id": "button-pilotDown",
+        "kind": "button",
+        "text": "S ↓",
+        "bind": {
+          "action": "pilotDown"
+        }
+      },
+      {
+        "id": "button-pilotLeft",
+        "kind": "button",
+        "text": "A ←",
+        "bind": {
+          "action": "pilotLeft"
+        }
+      },
+      {
+        "id": "button-pilotRight",
+        "kind": "button",
+        "text": "D →",
+        "bind": {
+          "action": "pilotRight"
+        }
+      },
+      {
+        "id": "button-shootHeld",
+        "kind": "button",
+        "text": "Space 连射",
+        "bind": {
+          "action": "shootHeld"
+        }
+      },
+      {
+        "id": "button-evolve",
+        "kind": "button",
+        "text": "E 成长",
+        "bind": {
+          "action": "evolve"
+        }
+      },
+      {
+        "id": "controls",
+        "kind": "text",
+        "text": "24秒击退四架；生命归零或超时失败。WASD移动，Space连射，5能量按E成长。Boss半血引力下拉敌我。"
+      },
+      {
+        "id": "message",
+        "kind": "text",
+        "bind": {
+          "state": "/message"
+        }
+      },
+      {
+        "id": "damage-result",
+        "kind": "text",
+        "text": "最近真实命中",
+        "bind": {
+          "state": "/lastDamage"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 10.2,
+      "background": "#06131F",
+      "nodes": [
+        {
+          "id": "outer-left",
+          "kind": "rect",
+          "at": [
+            -2.2,
+            -0.4
+          ],
+          "size": [
+            0.06,
+            6.45
+          ],
+          "fill": "#1B4D63"
+        },
+        {
+          "id": "outer-right",
+          "kind": "rect",
+          "at": [
+            2.2,
+            -0.4
+          ],
+          "size": [
+            0.06,
+            6.45
+          ],
+          "fill": "#1B4D63"
+        },
+        {
+          "id": "header-rule",
+          "kind": "rect",
+          "at": [
+            0,
+            3.7
+          ],
+          "size": [
+            7.5,
+            0.025
+          ],
+          "fill": "#276079"
+        },
+        {
+          "id": "dashboard-rule",
+          "kind": "rect",
+          "at": [
+            0,
+            -3.7
+          ],
+          "size": [
+            7.5,
+            0.025
+          ],
+          "fill": "#276079"
+        },
+        {
+          "id": "dashboard-0",
+          "kind": "rect",
+          "at": [
+            -2.55,
+            -4.25
+          ],
+          "size": [
+            1.52,
+            1.13
+          ],
+          "fill": "#0B2031"
+        },
+        {
+          "id": "dashboard-accent-0",
+          "kind": "rect",
+          "at": [
+            -3.25,
+            -4.25
+          ],
+          "size": [
+            0.035,
+            0.95
+          ],
+          "fill": "#5FE9D7"
+        },
+        {
+          "id": "dashboard-1",
+          "kind": "rect",
+          "at": [
+            -0.8499999999999999,
+            -4.25
+          ],
+          "size": [
+            1.52,
+            1.13
+          ],
+          "fill": "#0B2031"
+        },
+        {
+          "id": "dashboard-accent-1",
+          "kind": "rect",
+          "at": [
+            -1.55,
+            -4.25
+          ],
+          "size": [
+            0.035,
+            0.95
+          ],
+          "fill": "#FFD282"
+        },
+        {
+          "id": "dashboard-2",
+          "kind": "rect",
+          "at": [
+            0.8500000000000001,
+            -4.25
+          ],
+          "size": [
+            1.52,
+            1.13
+          ],
+          "fill": "#0B2031"
+        },
+        {
+          "id": "dashboard-accent-2",
+          "kind": "rect",
+          "at": [
+            0.1499999999999999,
+            -4.25
+          ],
+          "size": [
+            0.035,
+            0.95
+          ],
+          "fill": "#CBA8FF"
+        },
+        {
+          "id": "dashboard-3",
+          "kind": "rect",
+          "at": [
+            2.55,
+            -4.25
+          ],
+          "size": [
+            1.52,
+            1.13
+          ],
+          "fill": "#0B2031"
+        },
+        {
+          "id": "dashboard-accent-3",
+          "kind": "rect",
+          "at": [
+            1.8499999999999996,
+            -4.25
+          ],
+          "size": [
+            0.035,
+            0.95
+          ],
+          "fill": "#FF91AA"
+        },
+        {
+          "id": "left-route-0",
+          "kind": "rect",
+          "at": [
+            -2.05,
+            2.05
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "right-route-0",
+          "kind": "rect",
+          "at": [
+            2.05,
+            2.05
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "left-route-1",
+          "kind": "rect",
+          "at": [
+            -2.05,
+            0.8299999999999998
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "right-route-1",
+          "kind": "rect",
+          "at": [
+            2.05,
+            0.8299999999999998
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "left-route-2",
+          "kind": "rect",
+          "at": [
+            -2.05,
+            -0.3900000000000001
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "right-route-2",
+          "kind": "rect",
+          "at": [
+            2.05,
+            -0.3900000000000001
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "left-route-3",
+          "kind": "rect",
+          "at": [
+            -2.05,
+            -1.6100000000000003
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "right-route-3",
+          "kind": "rect",
+          "at": [
+            2.05,
+            -1.6100000000000003
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "left-route-4",
+          "kind": "rect",
+          "at": [
+            -2.05,
+            -2.83
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "right-route-4",
+          "kind": "rect",
+          "at": [
+            2.05,
+            -2.83
+          ],
+          "size": [
+            0.21,
+            0.035
+          ],
+          "fill": "#3A8493"
+        },
+        {
+          "id": "field",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.4
+          ],
+          "size": [
+            3.85,
+            6.4
+          ],
+          "fill": "#0A2131"
+        },
+        {
+          "id": "grid-x-0",
+          "kind": "rect",
+          "at": [
+            -1.7999999999999998,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-0",
+          "kind": "rect",
+          "at": [
+            0,
+            -3.4000000000000004
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-1",
+          "kind": "rect",
+          "at": [
+            -1.2,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-1",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.4000000000000004
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-2",
+          "kind": "rect",
+          "at": [
+            -0.6,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-2",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.4000000000000001
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-3",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-3",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.4000000000000002
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-4",
+          "kind": "rect",
+          "at": [
+            0.6,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-4",
+          "kind": "rect",
+          "at": [
+            0,
+            0.5999999999999999
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-5",
+          "kind": "rect",
+          "at": [
+            1.2,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-5",
+          "kind": "rect",
+          "at": [
+            0,
+            1.5999999999999999
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-x-6",
+          "kind": "rect",
+          "at": [
+            1.7999999999999998,
+            -0.4
+          ],
+          "size": [
+            0.012,
+            6
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "grid-y-6",
+          "kind": "rect",
+          "at": [
+            0,
+            2.5999999999999996
+          ],
+          "size": [
+            3.6,
+            0.012
+          ],
+          "fill": "#143345"
+        },
+        {
+          "id": "star-0",
+          "kind": "circle",
+          "at": [
+            -1.68,
+            -3.2
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-1",
+          "kind": "circle",
+          "at": [
+            -0.8579999999999998,
+            -1.27
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-2",
+          "kind": "circle",
+          "at": [
+            -0.03599999999999976,
+            0.6599999999999999
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-3",
+          "kind": "circle",
+          "at": [
+            0.7860000000000003,
+            -3.0100000000000002
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-4",
+          "kind": "circle",
+          "at": [
+            1.6080000000000003,
+            -1.0799999999999998
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-5",
+          "kind": "circle",
+          "at": [
+            -0.9299999999999998,
+            0.8499999999999999
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-6",
+          "kind": "circle",
+          "at": [
+            -0.10799999999999983,
+            -2.8200000000000003
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-7",
+          "kind": "circle",
+          "at": [
+            0.7140000000000002,
+            -0.8899999999999999
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-8",
+          "kind": "circle",
+          "at": [
+            1.5360000000000003,
+            1.0400000000000003
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-9",
+          "kind": "circle",
+          "at": [
+            -1.002,
+            -2.6300000000000003
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-10",
+          "kind": "circle",
+          "at": [
+            -0.17999999999999988,
+            -0.7
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-11",
+          "kind": "circle",
+          "at": [
+            0.6420000000000001,
+            1.2299999999999998
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-12",
+          "kind": "circle",
+          "at": [
+            1.4640000000000002,
+            -2.4400000000000004
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-13",
+          "kind": "circle",
+          "at": [
+            -1.0739999999999998,
+            -0.51
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-14",
+          "kind": "circle",
+          "at": [
+            -0.25199999999999995,
+            1.4200000000000002
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-15",
+          "kind": "circle",
+          "at": [
+            0.5700000000000001,
+            -2.25
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-16",
+          "kind": "circle",
+          "at": [
+            1.3920000000000001,
+            -0.3200000000000001
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-17",
+          "kind": "circle",
+          "at": [
+            -1.1459999999999997,
+            1.6099999999999997
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-18",
+          "kind": "circle",
+          "at": [
+            -0.324,
+            -2.06
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-19",
+          "kind": "circle",
+          "at": [
+            0.498,
+            -0.13000000000000017
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-20",
+          "kind": "circle",
+          "at": [
+            1.32,
+            1.8
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-21",
+          "kind": "circle",
+          "at": [
+            -1.2179999999999997,
+            -1.8699999999999999
+          ],
+          "radius": 0.025,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-22",
+          "kind": "circle",
+          "at": [
+            -0.3959999999999998,
+            0.059999999999999776
+          ],
+          "radius": 0.033,
+          "fill": "#416579"
+        },
+        {
+          "id": "star-23",
+          "kind": "circle",
+          "at": [
+            0.426,
+            1.9900000000000004
+          ],
+          "radius": 0.041,
+          "fill": "#416579"
+        },
+        {
+          "id": "top-frame",
+          "kind": "rect",
+          "at": [
+            0,
+            2.8
+          ],
+          "size": [
+            3.85,
+            0.055
+          ],
+          "fill": {
+            "from": {
+              "state": "/flash"
+            },
+            "map": {
+              "calm": "#28546A",
+              "hit": "#A0FFE0",
+              "hurt": "#FF6C8C",
+              "grow": "#C4A0FF"
+            },
+            "fallback": "#28546A"
+          }
+        },
+        {
+          "id": "bottom-frame",
+          "kind": "rect",
+          "at": [
+            0,
+            -3.6
+          ],
+          "size": [
+            3.85,
+            0.055
+          ],
+          "fill": {
+            "from": {
+              "state": "/flash"
+            },
+            "map": {
+              "calm": "#28546A",
+              "hit": "#A0FFE0",
+              "hurt": "#FF6C8C",
+              "grow": "#C4A0FF"
+            },
+            "fallback": "#28546A"
+          }
+        },
+        {
+          "id": "left-frame",
+          "kind": "rect",
+          "at": [
+            -1.9,
+            -0.4
+          ],
+          "size": [
+            0.055,
+            6.45
+          ],
+          "fill": {
+            "from": {
+              "state": "/flash"
+            },
+            "map": {
+              "calm": "#28546A",
+              "hit": "#A0FFE0",
+              "hurt": "#FF6C8C",
+              "grow": "#C4A0FF"
+            },
+            "fallback": "#28546A"
+          }
+        },
+        {
+          "id": "right-frame",
+          "kind": "rect",
+          "at": [
+            1.9,
+            -0.4
+          ],
+          "size": [
+            0.055,
+            6.45
+          ],
+          "fill": {
+            "from": {
+              "state": "/flash"
+            },
+            "map": {
+              "calm": "#28546A",
+              "hit": "#A0FFE0",
+              "hurt": "#FF6C8C",
+              "grow": "#C4A0FF"
+            },
+            "fallback": "#28546A"
+          }
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            -0.5,
+            4.2
+          ],
+          "fill": "#F2FBFF",
+          "text": {
+            "literal": "光弧纵线"
+          },
+          "fontSize": 0.9
+        },
+        {
+          "id": "phase",
+          "kind": "text",
+          "at": [
+            -0.8,
+            3.31
+          ],
+          "fill": "#FFD28E",
+          "text": {
+            "state": "/phase"
+          },
+          "fontSize": 0.4
+        },
+        {
+          "id": "time",
+          "kind": "text",
+          "at": [
+            2.85,
+            4.2
+          ],
+          "fill": "#FFD28E",
+          "text": {
+            "state": "/timeLeft"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "time-label",
+          "kind": "text",
+          "at": [
+            3.55,
+            4.2
+          ],
+          "fill": "#8EBCCD",
+          "text": {
+            "literal": "秒"
+          },
+          "fontSize": 0.48
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            -2.55,
+            -3.93
+          ],
+          "fill": "#D9ECF3",
+          "text": {
+            "literal": "生命"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "hp-value",
+          "kind": "text",
+          "at": [
+            -2.55,
+            -4.6
+          ],
+          "fill": "#68E4D4",
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "credits-label",
+          "kind": "text",
+          "at": [
+            -0.85,
+            -3.93
+          ],
+          "fill": "#D9ECF3",
+          "text": {
+            "literal": "能量"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "credits-value",
+          "kind": "text",
+          "at": [
+            -0.85,
+            -4.6
+          ],
+          "fill": "#FFD282",
+          "text": {
+            "state": "/credits"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "power-label",
+          "kind": "text",
+          "at": [
+            0.85,
+            -3.93
+          ],
+          "fill": "#D9ECF3",
+          "text": {
+            "literal": "威力"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "power-value",
+          "kind": "text",
+          "at": [
+            0.85,
+            -4.6
+          ],
+          "fill": "#CBA8FF",
+          "text": {
+            "state": "/power"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "kills-label",
+          "kind": "text",
+          "at": [
+            2.55,
+            -3.93
+          ],
+          "fill": "#D9ECF3",
+          "text": {
+            "literal": "击退/4"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "kills-value",
+          "kind": "text",
+          "at": [
+            2.55,
+            -4.6
+          ],
+          "fill": "#FF91AA",
+          "text": {
+            "state": "/kills"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "boss-hp-label",
+          "kind": "text",
+          "at": [
+            2,
+            3.31
+          ],
+          "fill": "#FF91AA",
+          "text": {
+            "state": "/bossLabel"
+          },
+          "fontSize": 0.29,
+          "omitWhen": [
+            ""
+          ]
+        },
+        {
+          "id": "boss-hp-value",
+          "kind": "text",
+          "at": [
+            3.2,
+            3.31
+          ],
+          "fill": "#FFE5A0",
+          "text": {
+            "state": "/bossHp"
+          },
+          "fontSize": 0.4,
+          "omitWhen": [
+            -1
+          ]
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/arena/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -1.8,
+          -3.4
+        ],
+        "palette": {
+          "actor": "#5FE9D7",
+          "solid": "#40596D",
+          "target": "#F07492",
+          "projectile": "#FFE18C",
+          "pickup": "#8FF0BA"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile"
+        ],
+        "valuePalette": {
+          "1": "#FFE18C",
+          "2": "#71F1E2",
+          "3": "#C5A2FF"
+        },
+        "showValues": false,
+        "motifs": {
+          "actor": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.55
+              ],
+              "fill": "#4DD6E4"
+            },
+            {
+              "id": "fuselage",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.46,
+                1.7
+              ],
+              "fill": "#D8FAFF"
+            },
+            {
+              "id": "nose",
+              "kind": "rect",
+              "at": [
+                0,
+                0.65
+              ],
+              "size": [
+                0.25,
+                0.48
+              ],
+              "fill": "#FFE08A"
+            },
+            {
+              "id": "cockpit",
+              "kind": "circle",
+              "at": [
+                0,
+                0.05
+              ],
+              "radius": 0.18,
+              "fill": "#286F91"
+            }
+          ],
+          "target": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.6
+              ],
+              "fill": "#C75579"
+            },
+            {
+              "id": "keel",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.7,
+                1.55
+              ],
+              "fill": "#F77B99"
+            },
+            {
+              "id": "core",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#FFD49B"
+            },
+            {
+              "id": "eye",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.12,
+              "fill": "#743F6B"
+            }
+          ],
+          "projectile": [
+            {
+              "id": "bolt",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.45,
+                1.7
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "1": "#FFE18C",
+                  "2": "#71F1E2",
+                  "3": "#C5A2FF"
+                },
+                "fallback": "#FFE18C"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

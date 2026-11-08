@@ -1,0 +1,86 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "woodland-props-stage",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.phase2.woodland-props-stage",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "collect-two",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "pause-and-incomplete-goal",
+      "seed": 42,
+      "steps": [
+        { "op": "start" },
+        { "op": "pause" },
+        { "op": "step", "ticks": 1 },
+        { "op": "assert", "path": "/state/score", "equals": 0 },
+        { "op": "assert", "path": "/flow/status", "equals": "paused" },
+        { "op": "resume" },
+        { "op": "injectAction", "action": "collect", "phase": "press" },
+        { "op": "injectAction", "action": "collect", "phase": "release" },
+        { "op": "step", "ticks": 1 },
+        { "op": "assert", "path": "/state/score", "equals": 1 },
+        { "op": "assert", "path": "/flow/status", "equals": "playing" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "format": "a2game-game-collection",
+  "version": 1,
+  "id": "lumen-depot",
+  "title": "暖光仓库",
+  "subtitle": "把每一束光，送回家。",
+  "theme": "warm-workshop",
+  "levels": [
+    {
+      "id": "01-first-light",
+      "title": "第一束光",
+      "hint": "绕到箱子左侧，把它推入光圈。",
+      "game": "01-first-light/game.json",
+      "par": 3
+    },
+    {
+      "id": "02-switchback",
+      "title": "绕行之间",
+      "hint": "换一个方向思考；Z 可以撤销走错的一步。",
+      "game": "02-switchback/game.json",
+      "par": 8
+    },
+    {
+      "id": "03-three-lanterns",
+      "title": "三盏归灯",
+      "hint": "先为自己留路，再让三盏灯依次归位。",
+      "game": "03-three-lanterns/game.json",
+      "par": 14
+    }
+  ]
+}
