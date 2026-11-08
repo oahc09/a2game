@@ -28,7 +28,7 @@ A2Game Skill 提供知识与创作流程，模型由宿主 Agent 提供。默认
 
 优先使用已连接的 `a2game.*` MCP 工具；没有 MCP 时用项目中实际可用的 `a2game --help` 或 `node generator/cli.mjs --help`。不要自动安装、修改宿主 MCP 配置、切换模型或扩大预算。连接方式和准确命令见 [工具流程](references/workflow.md)。
 
-先查询当前 Registry 的能力与依赖，判断需求是否可实现。缺少必需能力就说明缺口，不用计数按钮替代用户要求的玩法。Manifest 存在不等于所有平台来源或设备均已支持。
+先查询当前 Registry 的能力与依赖，判断需求是否可实现。需要素材时，按工具流程发现实际列出的创作素材资源；目录存在不等于目标宿主已支持全部表现能力。缺少必需能力就说明缺口，不用计数按钮替代用户要求的玩法。Manifest 存在不等于所有平台来源或设备均已支持。
 
 宿主模型先做适合任务规模的 GamePlan，再自己编写 GameSpec `0.1.0`、Conformance 和自解步骤，不追加 Generator Provider 调用。GamePlan 是创作笔记，不是客户端运行协议；简单游戏几行即可，不强制另一份 JSON。`plan_game` 只返回无模型的关键词草案，需要作者核对和补全，不能算模型设计已完成。现有 `direct-json`/`game-plan` 是 Generator 的输入模式，后者使用内部 Schema；不要把它们当所有宿主必经的模型调用。只有用户明确委托代调用、Provider 和额度均已配置时，才使用 `generate_game` 或 CLI `generate`。
 
@@ -45,12 +45,4 @@ A2Game Skill 提供知识与创作流程，模型由宿主 Agent 提供。默认
 导出的包是内容包，需要接收方有兼容的受信宿主、SDK 和审核资源；不是含 Runtime 的独立应用。把实际包路径、游戏摘要、已验证范围和待验项一起交付，不只给路径。边界与常见错误见 [诊断](references/troubleshooting.md)。
 
 
-## 可选的独立非法推动与撤销工程 Profile
-
-`grid-push-illegal-undo-v1` 专用检查以控制端给出的同名 Profile 要求为触发条件；没有该要求不执行，普通游戏不额外套用此门禁。这不限制本技能按上文自动匹配创作任务。触发后另交 `mechanics.json`，不将新字段塞进 GameSpec、Conformance 或 MCP 参数。公开 HostProfile 的 `mechanicsCheck` 给出完整声明合同；普通 `validate_game/test_game` 不证明此独立检查通过。
-
-此 Profile 限定入口场景中唯一、直接声明的 `a2game.puzzle.push@0.1.0`，并使用其内建 `historyPath/undoAction`。明确绑定 sceneId/entityId/componentIndex 和配置中 player/boxes/moves/solved 四个核心路径；提交有限合法前缀、实际非法方向动作、非法种类及真实 undo 动作。不能用无关 no-op 或撞墙代替 `--require-blocked-push` 要求的被墙/箱/边界阻挡的箱子推动。检查器独立确认几何合法性、非法动作后整个 observed state（含历史）/RNG 不变，以及 undo 回到最后一次合法动作之前；所有边界保持 playing。
-
-控制端运行 `node scripts/check-illegal-undo.mjs GAME.json mechanics.json --require-blocked-push`，保留失败回执与标准化轨迹，再在两个真实 SDK 对照输入和 Hash。自定义规则 undo、多行为组合等不在此 Profile 内，记录 UNSUPPORTED，而不是宣布普通游戏不合法；缺声明是 NOT_REQUESTED，不能当 PASS。它不替代原正反例、完整可玩性、画面、作品质量或正式 G3 门禁。
-
-可用 `window.__a2game.getTextReadability({referenceCssPx:16})` 在改变视口后重新检查名义 CSS 字号。16px 只是建议；DIAGNOSTIC_ONLY/SMALL_TEXT 不是实际字形测量、美观评分或自动质量 PASS。
+`grid-push-illegal-undo-v1` 专用检查以控制端给出的同名 Profile 要求为触发条件；没有该要求不执行，普通游戏不额外套用此门禁。触发后按[工具流程](references/workflow.md)另交 `mechanics.json`。这不限制本技能按上文自动匹配创作任务。文字测量、输入停止/多指、素材及释放细节按[作品质量](references/quality.md)检查，诊断值不自动等于质量通过。

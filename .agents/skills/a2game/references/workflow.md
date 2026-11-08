@@ -4,6 +4,8 @@ MCP 先 `tools/list` 确认工具真的可用。先调用 `a2game.list_capabilit
 
 编写前使用客户端的 `resources/list` / `resources/read` 读取 `a2game://spec/0.1.0/` 下的 GameSpec、Conformance、Capability Schema、HostProfile 与非可执行片段。只选择服务实际列出的 URI；核对 envelope 的 specVersion、bytes、sha256（绑定 content 原文）。客户端不支持 Resources 时如实记录，由可信控制端提供公开 capsule，不读取基准关卡或解法。
 
+需要创作素材时，若服务实际列出 `a2game://spec/0.1.0/creation-library.json`，用同一资源通道读取并校验envelope，不另找一个同名Tool。按条目的id/version、tags、kind与所需能力选择，核实来源、许可及资源完整性；可用条目以本次返回为准。`scene2d-authoring-theme`包含创作时preset/图元，需适配合法scene2d节点、绑定和唯一ID，不是完整GameSpec或会自动套版的Runtime插件。将主题id/version/SHA与来源记录在创作/交付说明，不新增协议字段。旧宿主或公开capsule未提供该资源时，不假定能读取仓库素材目录；由可信控制端交付批准的清单/模板，或如实记录素材缺口。
+
 验证失败按 `diagnostics` 的 `stage/jsonPointer/capabilityId/ruleId/caseId/expected/actual/repairHint` 修复，缺失字段不猜。每次准入或测试前将本次输入的原始字节与 SHA 保存在独立快照，修复另存新稿；保留失败响应及其对应快照，无法取得原稿时如实标记缺失，不以重建内容冒充。严格评测先由可信控制端创建run并以 `--host-run-id` 绑定专用服务；所有失败计入三次候选上限。旧未绑定服务可用但不能成为完整run证明。公开目录并非强隔离，必须实际通过受控沙箱/宿主边界验证才能声称答案不可读。
 
 已有 JSON 的最小闭环：
@@ -42,10 +44,21 @@ HUD的bind容器较宽，完整准入/test通过仍可能出现绑定不生效�
 
 修订器按结构化字段更新，避免全文件字符串替换同时改掉规则ID/查找键。写稿失败先停止下游validate/test，确认三件套已完整写入、原字节和SHA已留证后再执行；准备失败后的ENOENT应归控制流程/基础设施，不能当模型玩法或能力验证失败。保留原失败，修复另记。
 
-若要创建独立练习，可要求“设计一个有清晰目标和至少一个未完成反例的单屏小游戏”，自行查询能力并写新 JSON；不使用冻结 Benchmark/G3 的作者标准答案。明确标注练习的作者和实际生成来源。
+## 原生卡牌的具体ABI（当前0.1.0参考实现）
 
+`a2game.turnbased.cards`的config为statePath、drawAction、playActions、maxHand、shuffle，可选goalScore。其初态至少明确提供 `{"deck":[],"hand":[],"discard":[],"initialized":false,"score":0,"won":false}`；数组存非负整数牌值，总数≤128，hand≤maxHand≤32。此空数组片段只说明字段，不是一份可玩关卡。需要首次Tick洗牌时initialized不能预先设为true；shuffle使用共享RNG。
 
-独立 mechanics gate（仅显式选择上述工程 Profile）：作者另写 `mechanics.json`，控制端使用 `check-illegal-undo.mjs`，不是第十个 MCP Tool。声明严格字段为 `format/version/profile/sceneId/entityId/componentIndex/coreStatePaths/legalPrefix/illegalAction/illegalKind/undoAction`；format=`a2game-illegal-undo-check`，version=1，profile=`grid-push-illegal-undo-v1`。`legalPrefix` 是 1–128 个真实方向 action ID，每项按 press→release→1 Tick；`illegalKind` 为 blocked-push 或 blocked-move，控制端要求 blocked-push 时前者才合格。coreStatePaths 必须完整等于所选组件配置的四条 playerPath/boxesPath/movesPath/solvedPath，history 与 undo 从真实组件绑定，不猜字段名字。
+drawAction从deck头移一张到hand尾，满手/空库没有drawn事件；playActions[i]按**当前位置**移除手牌并放到discard，后牌左移，空位置无played事件。`cards.drawn.payload.count`是抽完后的手牌长度，不是本次抽牌数量；`cards.played.payload.card`是牌值，不是位置或自定义费用。计数投影应基于成功事件，并与实际三数组守恒核对，不因按钮按过就加成功数。
+
+原生score累加已出牌数字，won只按可选goalScore判断；它们不是自动的能量、回合或订单条件。自定义资源费用和合法性由游戏另行明确实现，模块不替作者检查“魔力足够才可出牌”。若要求不足时保留/退回牌，需完整设计并验证回退与守恒，不能假定模块已有未声明配置。不要把Runtime的Tick数当作出牌回合数。
+
+## 可选的非法推动与撤销 Profile
+
+仅当控制端明确要求`grid-push-illegal-undo-v1`时，另交`mechanics.json`，不把其字段放入GameSpec、Conformance或MCP参数。公开HostProfile的mechanicsCheck为权威声明合同；普通validate/test不证明此独立检查通过。Profile限定入口场景中唯一、直接声明的`a2game.puzzle.push@0.1.0`及其内建historyPath/undoAction。
+
+声明严格字段为 `format/version/profile/sceneId/entityId/componentIndex/coreStatePaths/legalPrefix/illegalAction/illegalKind/undoAction`；format=`a2game-illegal-undo-check`，version=1，profile=`grid-push-illegal-undo-v1`。绑定真实sceneId/entityId/componentIndex与player/boxes/moves/solved四条配置路径。`legalPrefix`是1–128个真实方向action，每项按press→release→1 Tick；`illegalKind`为blocked-push或blocked-move，控制端要求blocked-push时只能使用真正被墙/箱/边界阻挡的推动，不能用无关no-op或普通撞墙替代。coreStatePaths必须等于所选组件的playerPath/boxesPath/movesPath/solvedPath，history与undo从真实配置绑定。
+
+可信控制端运行`node scripts/check-illegal-undo.mjs GAME.json mechanics.json --require-blocked-push`。检查器核对几何、非法动作后整个observed state（含历史）/RNG不变、undo回到最后一次合法动作之前，所有边界保持playing；保留失败与标准化轨迹，再以双SDK实际输入/Hash复核。自定义规则undo或多行为组合不在范围时记录UNSUPPORTED，不把普通游戏判非法；缺声明是NOT_REQUESTED，不算PASS。这个工程Profile不替代原正反例、完整可玩性、作品质量或正式G3。
 
 报告中的 `trace` 为实际执行的 `{action,ticks:1,phase,expectedHash,flowStatus}`，包括 legal-prefix/illegal/undo；失败也保留已执行前缀，不丢弃。将它用作控制端衍生的双 SDK 验证轨迹，明确记录不是模型自报结果。`implementationSha256` 与 `implementationSha256After` 必须相等；旧源码结果或不同 JSON 不能沿用。
 

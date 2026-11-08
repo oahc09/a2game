@@ -2,6 +2,8 @@
 
 2026-11-08 [skill-checker修复收口](skill-checker-repair.md)：按用户确认MIT补元数据、Codex界面/隐式匹配策略和许可证；同步支持精确YAML/许可文件的8文件分发与指纹，历史3/6文件capsule可读。源码和ZIP解压目录codex检查均0严重/0一般、静态安全allow；56项相关回归通过、2平台跳过。最新包/报告见status.skillPolicyRepairRun；旧报告不改写，未增加Provider调用或正式Gate通过。
 
+2026-11-08 技能收口版已生成：`output/skill/2f1b5701-ad9e-4da3-95e0-6c32f733c8d9/a2game.zip`。保留四款原生实测知识，精简入口，专用Profile按需阅读；当前MCP已实际列出creation-library，素材指引以本次资源发现为准，旧“需控制端另交清单”的缺口记录属于当时范围。主题preset仅用于创作适配，不承诺图片/音频/3D素材齐全或自动跨端安装。source/五副本/ZIP及公开capsule、资源摘要和批准主题校验通过，见status.skillPackageFinalization；本次仅技能与分发验证，没有新生成或真实宿主/浏览器验收。
+
 本轮更新技能与分发链路，没有追加真实宿主创作、Generator Provider、物理设备或远端 CI 执行。真实效果与技能实现分开记录，正式计数不升级。
 
 后续增量已有两次当前宿主原生创作工程参考：[星隙快递](host-native-star-courier.md)和使用其反馈版Skill创作的[潮汐铸防](host-native-tidal-foundry.md)。后者实际验证生产资金、合成所有权、击杀奖励回投和伤害提升，双SDK包含不同建设路线；失败和反馈后Skill版本分别记账。下文首次技能改进的NOT_RUN为当时范围记录，不将两款参考样例升级成强隔离独立G3、跨宿主自动触发或跨模型质量通过。
