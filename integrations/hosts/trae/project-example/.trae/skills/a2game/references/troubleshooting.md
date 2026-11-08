@@ -8,6 +8,15 @@
 | A2G_MCP_TEST_INPUTS | 同时提供 Conformance 和自解；有正例也需未完成/失败反例 |
 | A2G_MCP_BUSY | 当前操作结束或取消后再试，不并发扩充预算 |
 | A2G_GEN_INPUT_PROFILE | 检查实时方向动作的 hold 绑定并重新做实际来源输入复核 |
+| validate/test通过但动态提示不显示 | 核对HUD使用bind.state而非bind.path；对照Runtime提示与实际可见文字，细节见workflow的动态HUD指引 |
+| 释放检查失败但适配器已disposed | 区分resources.ownedResources、Air的adapter.ownedNodes和Three的adapter.ownedMeshes；保留原失败，不把缺字段当0或宣称GPU零泄漏 |
+| 升级/通关已完成但HUD仍要求旧操作 | 限定reward提示的真实条件，核对升级后及终态文字；跨事件覆盖不能仅靠提高priority解决 |
+| 多动作游戏在手机出现空方向垫/长按钮列 | 检查参考Player的action ID布局选择，区分协议语义与Host便捷布局；按workflow同步更名并重验 |
+| 有多个模块但不能证明联动 | 按authoring核对生产、消费、时序、对象所有权和实际效果；局部反例不证明某机制全局必要 |
+| injectRaw被Conformance Schema拒绝 | 将输入放到step.raw对象；solution的raw数组是另一种外层，不删除输入/释放断言 |
+| 按住Space只有一枪或松开仍失控 | 核对模块press/hold消费、fireRequest桥接和实际release/cancel；不要靠永远autoFire绕过停止要求 |
+| 虚拟多指能通关但松指后继续滑动 | 检查实际pointerup/capture事件及后续位移；vx归零可能只是撞墙，先核实浏览器驱动 |
+| 手动Tick截图黑/旧帧但逻辑PASS | 等待原生绘制帧并核对固定视口捕获，保留原图与补拍；不将日志PASS当视觉PASS |
 | 缺 SDK/资源/许可 | 按可信项目准备说明补齐；不自动下载任意 URL、不谎报双端通过 |
 
 记录每种模式的独立 runId、任务文本、Provider/模型身份范围、Seed、上下文 SHA、真实调用数、修复次数、测试/截图和已知限制。模型自报身份不能替代宿主路由证据。无终局或无法来源输入操作时保持失败/待验，不修改验收阈值。

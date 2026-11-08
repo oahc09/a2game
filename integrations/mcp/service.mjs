@@ -14,6 +14,9 @@ import {publicDiagnostics} from '../../generator/diagnostics.mjs';
 import {queryCapabilities,getPublicCapability} from '../../generator/catalog.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex'),relativePath=p=>relative(root,p).replaceAll('\\','/');
 const fail=code=>Object.assign(Error(code),{code});
+// Module scope so the hoisted ledger helpers can use it during createMcpService's
+// first session write; a function-body const would be a temporal-dead-zone trap.
+const TRANSIENT=new Set(['EPERM','EBUSY','EACCES']);
 export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=120000,previewTtlMs=120000,hostRunId=null}={}){
  if(!Number.isInteger(maxCalls)||maxCalls<0||maxCalls>30||!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>600000||!Number.isInteger(previewTtlMs)||previewTtlMs<100||previewTtlMs>300000)throw fail('A2G_MCP_CONFIG');
  if(hostRunId!==null&&(typeof hostRunId!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(hostRunId)))throw fail('A2G_MCP_CONFIG');
@@ -22,9 +25,13 @@ export function createMcpService({provider,configFile,maxCalls=0,timeoutMs=12000
  const artifacts=new Map(),previews=new Map(),previewHistory=new Map(),controllers=new Set(),inFlight=new Set();let closing,active=false,closed=false,calls=0,unknownCalls=0,requests=0,sequence=0;
  const sessionRecord={format:'a2game-mcp-session',version:1,sessionId,hostRunId,implementationSha256:hostSourceFingerprint(root),createdAt:new Date().toISOString(),state:'OPEN',lastSequence:0};
  save(join(directory,'session.json'),sessionRecord);
- function replace(path,value){const temporary=path+'.'+randomUUID()+'.tmp';save(temporary,value);renameSync(temporary,path);}
+ // Windows AV/indexer pressure makes rename/write fail transiently (EPERM/EBUSY/EACCES);
+ // bounded synchronous retries keep the ledger lifecycle from collapsing an in-flight
+ // call into a synchronous error, which would erase the observable STARTED phase.
+ function retrySync(io){for(let attempt=0;;attempt++){try{return io();}catch(error){if(attempt>=3||!TRANSIENT.has(error.code))throw error;Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,10*(attempt+1));}}}
+ function replace(path,value){const temporary=path+'.'+randomUUID()+'.tmp';save(temporary,value);retrySync(()=>renameSync(temporary,path));}
  function updateSession(){replace(join(directory,'session.json'),{...sessionRecord,lastSequence:sequence,state:closed?'CLOSED':'OPEN'});}
- function save(path,value){safePath(path);writeFileSync(path,typeof value==='string'?value:JSON.stringify(value,null,2)+'\n',{flag:'wx'});}
+ function save(path,value){safePath(path);retrySync(()=>writeFileSync(path,typeof value==='string'?value:JSON.stringify(value,null,2)+'\n',{flag:'wx'}));}
  function persistCall(result,metadata){
   quota();
   const receiptPath=join(directory,result.runId+'.receipt.json');

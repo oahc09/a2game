@@ -1,4 +1,167 @@
 {
+  "nativeHostShooterGameRun": {
+    "date": "2026-11-08",
+    "status": "PASS_REFERENCE_WITH_RETAINED_FAILURE_HISTORY",
+    "scope": "ONE_NATIVE_HOST_REALTIME_SHOOTER_GROWTH_REFERENCE",
+    "guide": "docs/host-native-arc-drifter.md",
+    "receipt": "output/host-native-arc-drifter-20261108/receipt.json",
+    "game": "output/host-native-arc-drifter-20261108/attempt-3/game.json",
+    "package": "output/host-native-arc-drifter-20261108/arc-drifter.package.json",
+    "packageSha256": "46e57ab4d361e7db4e7e5e33a2b02ff895828345ca0a7aa7ffd7aa6df9710be3",
+    "candidates": 3,
+    "gameRevision": 2,
+    "conformanceCases": 6,
+    "failedConformanceSchema": 1,
+    "realBrowserFlows": 6,
+    "nodeHashComparisons": 116,
+    "crossEngineHashSamples": 29,
+    "recaptureLogicalMatches": 58,
+    "validFinalScreenshots": 40,
+    "releaseDrift": 0,
+    "actualDamageAmounts": [
+      1,
+      2,
+      3
+    ],
+    "oldProjectileDamagePreserved": true,
+    "normalClockCompletion": "~17.0–17.2s full health on keyboard and corrected virtual-touch routes",
+    "additionalProviderCalls": 0,
+    "independentAuthoring": "NOT_VERIFIED_SHARED_WORKSPACE",
+    "quality": "AUTHOR_SCRIPTED_STATE_ASSISTED_PLAY_AND_VISUAL_REVIEW; NOT_INDEPENDENT_JUDGE_OR_PIXEL_ONLY_POLICY",
+    "finalImplementationFingerprintUnchanged": true,
+    "feedbackSkillPackage": "output/skill/d7be114a-2bee-47fc-bcd9-f76424869a54/a2game.zip",
+    "feedbackSkillSha256": "40b6a4624761555110f423cb921d7a5a4e83296192434d13b0889c6525e3e85c",
+    "formalG3": "NOT_RUN",
+    "historicalFailures": "ORIGINAL_SCHEMA_REJECTION,DRIVER_TIMEOUT_AND_FALSE_PASS,PROBE_ERROR,BLACK_CAPTURE_RETAINED"
+  },
+  "nativeHostCompoundGameRun": {
+    "date": "2026-11-07",
+    "status": "PASS_REFERENCE_WITH_RETAINED_FAILURE_HISTORY",
+    "scope": "ONE_NATIVE_HOST_COMPOUND_GAME_ENGINEERING_REFERENCE",
+    "guide": "docs/host-native-tidal-foundry.md",
+    "receipt": "output/host-native-tidal-foundry-20261107/receipt.json",
+    "game": "output/host-native-tidal-foundry-20261107/attempt-3/game.json",
+    "package": "output/host-native-tidal-foundry-20261107/tidal-foundry.package.json",
+    "packageSha256": "6366fbf1d738875dd3bd5e30f186cf1e5ad1c3828597f514685202b51d008e5e",
+    "candidates": 3,
+    "conformanceCases": 6,
+    "realBrowserFlows": 4,
+    "nodeHashComparisons": 144,
+    "crossEngineHashSamples": 36,
+    "screenshots": 32,
+    "linkage": "production→payment→tower merge/ownership→real damage→kill reward→upgrade; alternative direct-upgrade route verified",
+    "normalClockRoutes": {
+      "air": "merge",
+      "three": "direct-upgrade"
+    },
+    "sourceUnchangedDuringFinalEvidence": true,
+    "additionalProviderCalls": 0,
+    "independentAuthoring": "NOT_VERIFIED_SHARED_WORKSPACE",
+    "quality": "AUTHOR_PLAYTEST_AND_VISUAL_REFERENCE; NOT_INDEPENDENT_JUDGE",
+    "feedbackSkillPackage": "output/skill/62ce47f1-9d16-49a6-8c06-ef7d45dc5abe/a2game.zip",
+    "feedbackSkillSha256": "f1829acb173b18b53802b7ed5a228f1e5ee19ea3b8ed9a38735087a449d8e055",
+    "formalG3": "NOT_RUN",
+    "historicalFailures": "PRESERVED; preparation TypeError disk record is a summary, not raw stdout"
+  },
+  "nativeHostGameRun": {
+    "date": "2026-11-07",
+    "status": "PASS_REFERENCE_WITH_RETAINED_FAILURE_HISTORY",
+    "scope": "ONE_CURRENT_HOST_AUTHORED_GAME_WITH_CLI_AND_REAL_DUAL_SDK",
+    "guide": "docs/host-native-star-courier.md",
+    "receipt": "output/host-native-star-courier-20261107/receipt.json",
+    "game": "output/host-native-star-courier-20261107/attempt-3/game.json",
+    "package": "output/host-native-star-courier-20261107/star-courier.package.json",
+    "packageSha256": "8d06ece6a03fa64b09528d9093d26fd08ae0997c7b333637da80a0ab6795c6af",
+    "candidates": 3,
+    "conformanceCases": 5,
+    "realBrowserFlows": 4,
+    "nodeHashComparisons": 88,
+    "crossEngineHashSamples": 22,
+    "screenshots": 18,
+    "additionalProviderCalls": 0,
+    "independentAuthoring": "NOT_VERIFIED_SHARED_WORKSPACE",
+    "automaticSkillTrigger": "NOT_RUN_EXPLICIT_TASK",
+    "agentQuality": "AUTHOR_PLAYTEST_AND_VISUAL_REFERENCE; NOT_INDEPENDENT_JUDGE",
+    "feedbackSkillPackage": "output/skill/513c75c5-a7ba-47c4-b532-7042a55afed4/a2game.zip",
+    "feedbackSkillSha256": "a6c9771bc64ecc4d92abb364f4191b2a7ef48ee59b5e25630e66b955d907a7e1",
+    "formalG3": "NOT_RUN",
+    "historicalFailures": "RETAINED",
+    "sharedWorkspaceSourceDrift": "CONCURRENT_MCP_SERVICE_CHANGE_PRESERVED; CLI_ROUTE_NOT_AFFECTED; NO_WHOLE_WORKSPACE_FREEZE_CLAIM"
+  },
+  "skillAuthoringChain": {
+    "date": "2026-11-07",
+    "status": "GUIDANCE_AND_DISTRIBUTION_VALIDATED",
+    "guide": "integrations/skill/a2game/references/authoring.md",
+    "package": "output/skill/89bee119-6eff-4712-b0b6-2b3be2455b3e/a2game.zip",
+    "sha256": "b325b8e0fc792374cceb70bc319922b323fbd803d4f1fa3153d5ee3af6d7b945",
+    "receipt": "output/skill/89bee119-6eff-4712-b0b6-2b3be2455b3e/authoring-chain-receipt.json",
+    "chain": [
+      "natural-language",
+      "host-model-gameplan",
+      "gamespec",
+      "mcp-validation",
+      "author-repair",
+      "playable-delivery"
+    ],
+    "gamePlanRole": "AGENT_AUTHORING_ONLY; NO_CLIENT_PROTOCOL",
+    "existingKeywordPlanner": "UNCHANGED_HOST_DRAFT_NOT_MODEL_DESIGN",
+    "mcpRuntimeChanges": false,
+    "gameSpecChanges": false,
+    "additionalProviderCalls": 0,
+    "realGeneration": "NOT_RUN",
+    "crossModelEffect": "NOT_MEASURED",
+    "formalGatePromotion": false
+  },
+  "skillCapabilityImprovement": {
+    "date": "2026-11-07",
+    "status": "IMPLEMENTED_REFERENCE_VALIDATED",
+    "scope": "SKILL_GUIDANCE_AND_DISTRIBUTION_ONLY",
+    "guide": "docs/skill-capability-improvements.md",
+    "source": "integrations/skill/a2game/SKILL.md",
+    "receipt": "output/skill/df006af7-f3f5-46dc-9935-f8c119934305/improvement-receipt.json",
+    "package": "output/skill/df006af7-f3f5-46dc-9935-f8c119934305/a2game.zip",
+    "sha256": "ff74218c3f48948c4977349d0e85ae41e3a935742633462dc58a8b2ab8a22771",
+    "existingRepositoryCopies": 5,
+    "tests": {
+      "passed": 56,
+      "skipped": 2,
+      "failed": 0
+    },
+    "realHostAutomaticTrigger": "NOT_RUN",
+    "independentAuthoring": "NOT_RUN",
+    "gameQualityEffect": "NOT_MEASURED",
+    "additionalGeneratorProviderCalls": 0,
+    "behaviorReview": "READ_ONLY_SUBAGENT; SESSION_USES_MODEL; NOT_REAL_HOST_ACCEPTANCE",
+    "projectCheck": "EXISTING_STALE_G3_PREPARATION_scripts/agent-workflow.mjs",
+    "formalG3Promotion": false,
+    "historicalEvidence": "PRESERVED_WITH_ORIGINAL_SOURCE_AND_SKILL_BINDINGS"
+  },
+  "currentQualityEvaluation": {
+    "mode": "AGENT_QUALITY_REPLACES_HUMAN_QUALITY",
+    "status": "PASS_REFERENCE",
+    "guide": "docs/workbuddy-delivery.md",
+    "reviewedGames": [
+      "G01",
+      "G03",
+      "G17",
+      "G21",
+      "H01"
+    ],
+    "passedGames": [
+      "G01",
+      "G03",
+      "G17",
+      "G21",
+      "H01"
+    ],
+    "needsFixGames": [],
+    "g17QualityStatus": "REVISION3_NORMAL_CLOCK_SCREENSHOT_FEEDBACK_POLICY_PASS_NOT_LLM_TURN_FREEPLAY",
+    "pendingGames": [],
+    "humanReviewRequired": false,
+    "historicalReports": "PRESERVED",
+    "formalG3OtherRequirements": "UNCHANGED",
+    "g17VisualAgentReceipt": "reports/g17-visual-agent-20261107/summary.json"
+  },
   "format": "a2game-project-status",
   "formatVersion": 1,
   "asOf": "2026-10-31",
@@ -28,7 +191,7 @@
       "status": "PASS",
       "scope": "Four allowlisted scene2d reference JSON games on Windows Chromium WebGL2/SwiftShader; physical GPU, real-device input and full gameplay catalog excluded",
       "evidence": {
-        "g2": "reports/g2-2026-10-31T13-47-46-227Z-45820/summary.json",
+        "g2": "reports/g2-2026-11-07T04-51-36-931Z-8712/summary.json",
         "historicalG2": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
@@ -49,48 +212,56 @@
     {
       "id": "S4",
       "name": "2D/3D presentation and lifecycle",
-      "status": "PASS",
+      "status": "PARTIAL",
       "scope": "Versioned primitive meshes, textures/sprites, PBR/unlit shader presets, camera, HUD, tick rotation, bounded particles and event audio; exact state stays in shared Runtime",
       "evidence": {
         "perspective": "reports/visual-stage-2026-10-31T13-49-38-362Z-27372/summary.json",
         "orthographic": "reports/visual-stage-2026-10-31T13-50-48-352Z-14740/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
-      }
+      },
+      "previousStatus": "PASS",
+      "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
     },
     {
       "id": "S5",
       "name": "Puzzle and casual gameplay library",
-      "status": "PASS",
+      "status": "PARTIAL",
       "scope": "Twelve bounded shared puzzle mechanisms, 24 real SDK cases and 12 Node/Three/AIR parity groups; individual Gxx/Hxx gameplay DoD and G3 remain independent.",
       "evidence": {
         "puzzles": "reports/puzzles-2026-10-31T13-52-01-197Z-10352/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "variants": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
-      }
+      },
+      "previousStatus": "PASS",
+      "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
     },
     {
       "id": "S6",
       "name": "Realtime physics and combat",
-      "status": "PASS",
+      "status": "PARTIAL",
       "scope": "Bounded aabb-int-v1 shared 2D motion/physics/combat reference profile; not full Gxx/3D/device coverage.",
       "evidence": {
         "mechanisms": "reports/realtime-2026-10-31T13-51-24-109Z-42092/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
-      }
+      },
+      "previousStatus": "PASS",
+      "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
     },
     {
       "id": "S7",
       "name": "Strategy economy and turn-based",
-      "status": "PASS",
+      "status": "PARTIAL",
       "scope": "Shared bounded economy/path/turn/card mechanisms; full Gxx and Agent coverage remain separate.",
       "evidence": {
         "mechanisms": "reports/strategy-2026-10-31T13-54-08-439Z-30400/summary.json",
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
-      }
+      },
+      "previousStatus": "PASS",
+      "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
     },
     {
       "id": "S8",
@@ -131,7 +302,7 @@
     {
       "id": "S11",
       "name": "Further platform and compatibility expansion",
-      "status": "PASS",
+      "status": "PARTIAL",
       "evidence": {
         "compatibility": "reports/compat-2026-10-31T13-56-35-490Z-28188/summary.json",
         "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
@@ -139,7 +310,9 @@
         "verification": "reports/verify-2026-10-31T12-18-32-042Z-35380/verify.log",
         "verificationStatus": "HISTORICAL_FULL_VERIFY_BEFORE_TERMINAL_FEEDBACK_CHANGE"
       },
-      "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim."
+      "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim.",
+      "previousStatus": "PASS",
+      "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
     }
   ],
   "gates": {
@@ -215,27 +388,17 @@
     }
   },
   "g2Run": {
-    "date": "2026-10-27",
-    "runId": "g2-2026-10-27T11-45-55-521Z-36492",
-    "summary": "reports/g2-2026-10-27T11-45-55-521Z-36492/summary.json",
+    "date": "2026-11-07",
+    "runId": "g2-2026-11-07T04-51-36-931Z-8712",
+    "summary": "reports/g2-2026-11-07T04-51-36-931Z-8712/summary.json",
     "threeReceipt": "reports/g2-threejs-real.json",
     "cocosAirReceipt": "reports/g2-cocosairjs-real.json",
-    "browser": "Chromium 156.0.8078.4",
+    "browser": "156.0.8078.4",
     "renderer": "WebGL2 ANGLE Vulkan SwiftShader",
-    "gameViewportCases": {
-      "pass": 16,
-      "total": 16
+    "physicalClose": {
+      "status": "PASS",
+      "elapsedMs": 303
     },
-    "nativeClockContextCases": {
-      "pass": 2,
-      "total": 2
-    },
-    "nodeThreeAirParity": {
-      "pass": 8,
-      "total": 8
-    },
-    "httpNavigation": "PASS",
-    "physicalClose": "PASS",
     "limitations": [
       "scene2d four-game reference subset only; not complete Gxx/Hxx or Agent G3",
       "Chromium mobile viewport and DOM Pointer are not physical Touch/IMU or physical GPU verification",
@@ -330,11 +493,11 @@
     "unchangedSchemaSampleFiles": 36
   },
   "contentRun": {
-    "date": "2026-10-31",
+    "date": "2026-11-07",
     "profile": "trusted-reference-host-v1",
     "status": "PASS",
-    "summary": "reports/content-2026-10-31T13-48-36-868Z-13520/summary.json",
-    "historicalSummary": "reports/content-2026-10-27T11-58-16-036Z-9928/summary.json",
+    "summary": "reports/content-2026-11-07T04-50-18-705Z-27020/summary.json",
+    "historicalSummary": "reports/content-2026-10-31T13-48-36-868Z-13520/summary.json",
     "command": "npm run content:e2e",
     "realSDKBackends": [
       "three",
@@ -525,11 +688,13 @@
     }
   },
   "mobileInputRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "summary": "reports/mobile-2026-10-31T13-56-18-878Z-21372/summary.json",
     "historicalSummary": "reports/mobile-2026-10-27T11-58-21-353Z-11196/summary.json",
     "scope": "Real SDKs, CDP virtual Touch/Orientation and synthetic Motion; explicit native-browser permission denial and temporary virtual-context grant, calibration, trace export/replay and cleanup. Physical-device gate NOT_RUN.",
-    "previousCurrentReceipt": "reports/mobile-2026-10-31T09-52-17-391Z-45024/summary.json"
+    "previousCurrentReceipt": "reports/mobile-2026-10-31T09-52-17-391Z-45024/summary.json",
+    "previousStatus": "PASS_REFERENCE",
+    "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
   },
   "mobileDeviceRun": {
     "status": "NOT_RUN",
@@ -537,25 +702,29 @@
     "reason": "No Android device attached; physical Touch/IMU, permission and calibration tests have no receipt."
   },
   "candidateRun": {
-    "status": "IMPLEMENTED_UNVERIFIED",
+    "status": "PARTIAL",
     "summary": "reports/candidates-2026-10-31T13-40-04-100Z-18548/summary.json",
     "historicalSummary": "reports/candidates-2026-10-27T11-45-55-555Z-43504/summary.json",
     "evidence": "project/candidate-evidence.json",
     "evidenceScope": "HISTORICAL_SOURCE_RECEIPT_NOT_CURRENT",
     "scope": "32 separate bounded Gxx levels and 5 independent Hxx definitions; 74 real SDK cases, positive/negative Hash replay, 37 parity groups. Full DoD, G3 and physical input remain separate.",
-    "previousCurrentReceipt": "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json"
+    "previousCurrentReceipt": "reports/candidates-2026-10-31T09-54-43-316Z-23888/summary.json",
+    "previousStatus": "IMPLEMENTED_UNVERIFIED",
+    "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
   },
   "agentWorkflowRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "workflow": "reports/agent-2026-10-31T11-54-51-449Z-30984/summary.json",
     "browser": "reports/agent-browser-2026-10-31T13-56-54-812Z-49532/summary.json",
     "historicalWorkflow": "reports/agent-2026-10-27T11-58-38-274Z-44696/summary.json",
     "historicalBrowser": "reports/agent-browser-2026-10-27T11-58-48-978Z-45840/summary.json",
     "scope": "Model-independent stdio contract, strict JSON and full admission, diagnostic repair, positive/negative Conformance, bounded solver and repeated playthrough; actual SDK debugger. Deterministic fixture only, independent G3 NOT_RUN.",
-    "previousCurrentReceipt": "reports/agent-browser-2026-10-31T10-10-34-664Z-38288/summary.json"
+    "previousCurrentReceipt": "reports/agent-browser-2026-10-31T10-10-34-664Z-38288/summary.json",
+    "previousStatus": "PASS_REFERENCE",
+    "downgradeReason": "Full 2026-10-31 13:40-13:56 receipt batch (23 common stale fingerprints each) verified stale by direct fingerprint scan; all dependent gates/stages/runs/adapters downgraded. Authorized re-evidence this round covers only g2:real + content:e2e; other harnesses (stage:e2e, candidates:e2e, variants:e2e, gameplay:check, mobile harness) remain pending and are listed as restoration conditions."
   },
   "compatibilityRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "browser": "reports/compat-2026-10-31T13-56-35-490Z-28188/summary.json",
     "matrix": "reports/node-matrix-2026-10-31T11-55-36-247Z-24308/summary.json",
     "performance": "reports/performance-2026-10-31T11-56-33-952Z-34748/summary.json",
@@ -565,7 +734,9 @@
     "remoteCI": "UNVERIFIED_AFTER_PUSH",
     "physicalGamepad": "NOT_RUN",
     "scope": "Initial reference profiles: public loopback turn rooms, replay save v1/v2 and trusted migrations, virtual-validated opt-in Gamepad, selected Node 22/24 regressions, fixed Headless performance and pinned CI configuration. No full game/G3/device/Internet/remote CI claim.",
-    "previousCurrentReceipt": "reports/compat-2026-10-31T10-11-11-568Z-40340/summary.json"
+    "previousCurrentReceipt": "reports/compat-2026-10-31T10-11-11-568Z-40340/summary.json",
+    "previousStatus": "PASS_REFERENCE",
+    "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
   },
   "engineeringDelivery": {
     "throughStage": "S11",
@@ -588,13 +759,15 @@
     "physicalTasks": "EXCLUDED_BY_USER"
   },
   "variantsRun": {
-    "status": "PASS_REFERENCE",
+    "status": "PARTIAL",
     "summary": "reports/variants-2026-10-31T13-40-04-126Z-20972/summary.json",
     "historicalSummary": "reports/variants-2026-10-27T11-46-31-964Z-20624/summary.json",
     "recipes": "project/rule-variants.json",
     "authorship": "Repository-authored; independent G3 remains NOT_RUN",
     "scope": "37 authored rule/level variants; 74 native SDK cases, positive/negative Node/Host and cross-engine hashes, pause/restart/disposal. Not independent G3.",
-    "previousCurrentReceipt": "reports/variants-2026-10-31T10-01-06-428Z-49240/summary.json"
+    "previousCurrentReceipt": "reports/variants-2026-10-31T10-01-06-428Z-49240/summary.json",
+    "previousStatus": "PASS_REFERENCE",
+    "downgradeReason": "Bound receipts are from the 2026-10-31 13:40-13:56 batch whose 23-file fingerprint set (src/, dist/, player/, scripts/) no longer matches current source (11-02/03 fixes + 11-07 evidence tooling). Re-evidence of this harness is not in the authorized g2:real/content:e2e scope; recorded as pending."
   },
   "perGameRun": {
     "status": "PARTIAL",
@@ -1101,7 +1274,7 @@
     "plan": "reports/g3-plan-2026-10-27T13-58-29-912Z-35480/plan.json",
     "tasks": "project/g3-tasks.json",
     "documentation": "docs/independent-g3.md",
-    "historicalToolingProof": "reports/g3-fixture-2026-10-27T14-04-09-132Z-32648/summary.json",
+    "historicalToolingProof": "reports/g3-fixture-2026-10-31T11-55-15-266Z-53588/summary.json",
     "toolingProofStatus": "PASS_REFERENCE_SYNTHETIC_CURRENT_SOURCE",
     "provider": "CURRENT_CODEX_CLI",
     "independenceReview": "NOT_RUN",
@@ -1187,8 +1360,8 @@
       "H04"
     ],
     "formalHumanApproval": "NOT_RUN",
-    "previousToolingProof": "reports/g3-fixture-2026-10-31T11-55-15-266Z-53588/summary.json",
-    "toolingProof": "reports/g3-fixture-2026-10-31T13-57-06-217Z-46204/summary.json"
+    "previousToolingProof": "reports/g3-fixture-2026-10-31T13-57-06-217Z-46204/summary.json",
+    "toolingProof": "reports/g3-fixture-2026-11-07T09-54-24-267Z-33768/summary.json"
   },
   "repositoryMaintenanceRun": {
     "date": "2026-10-28",
@@ -1406,5 +1579,135 @@
   },
   "windowsWebkitResizeGuide": "docs/webkit-windows-resize.md",
   "localChromeValidationGuide": "docs/chrome-local-validation.md",
-  "currentLeanExecutionPlan": "docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md"
+  "currentLeanExecutionPlan": "docs/A2Game-HOST-FIRST-Lean-Execution-2026-11-04.md",
+  "workbuddyContentRepairs": {
+    "status": "PASS_REFERENCE_ENGINEERING_ONLY",
+    "guide": "integrations/hosts/workbuddy/repaired-games/README.md",
+    "quickstart": "docs/workbuddy-quickstart.md",
+    "deliveryGuide": "docs/workbuddy-delivery.md",
+    "receiverReceipt": "reports/workbuddy-delivery-20261107/summary.json",
+    "g21Receipt": "reports/host-content-repair-g21-final-20261107/summary.json",
+    "h01Receipt": "reports/host-content-repair-20261107/summary.json",
+    "formalG3": "NOT_RUN",
+    "nativeGeneration": "NOT_CLAIMED"
+  },
+  "workerAgentE2ERun": {
+    "status": "PASS_REFERENCE",
+    "scope": "ENGINEERING_REFERENCE_ONLY",
+    "date": "2026-11-07",
+    "summary": "output/orca-agent-e2e-20261107/receipt.json",
+    "game": "output/orca-agent-e2e-20261107/sort-six/game.json",
+    "package": "output/orca-agent-e2e-20261107/sort-six.package.json",
+    "diagnosticsRepair": [
+      "generator/diagnostics.mjs",
+      "generator/cli.mjs",
+      "test/mechanism-diagnostics.test.mjs"
+    ],
+    "regression": "test/mechanism-diagnostics.test.mjs 7/7 pass",
+    "modelCalls": 0,
+    "modelCallsScope": "ADDITIONAL_GENERATOR_PROVIDER_ONLY; ORCA_WORKER_SESSION_USES_A_MODEL",
+    "failedCandidateBytes": "NOT_PRESERVED; failure diagnostics retained",
+    "independentAuthoring": "NOT_VERIFIED_SHARED_WORKSPACE",
+    "leadReview": "CLI_TEST_AND_CATALOG_DIAGNOSTIC_PASS; original failed candidate replay PARTIAL",
+    "workerReverification": {
+      "status": "PASS_REFERENCE_WITH_HISTORICAL_GAP",
+      "record": "output/orca-reverify-20261107/reverify-record.json",
+      "snapshot": "output/orca-reverify-20261107/snapshot-sort-six/",
+      "skillPackage": "output/skill/10594fe9-702f-422f-ae7b-965b1d7e5381/a2game.zip",
+      "providerCalls": 0,
+      "installation": "NOT_RUN"
+    },
+    "G2": "NOT_RUN",
+    "G3": "NOT_RUN",
+    "humanReview": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "note": "Independent host-agent CLI exercise on own game; validate/test PASS_REFERENCE with current source, real dual-SDK browser input engineering reference only. project:check staleness (48 fingerprints) pre-exists at HEAD and is unrelated; no receipts reset, no reports pointers changed."
+  },
+  "evidenceDrift20261107": {
+    "status": "PARTIALLY_RESTORED",
+    "date": "2026-11-07",
+    "cause": "reports/g2-*-real receipts runId g2-2026-10-31T13-47-46-227Z-45820 and content receipt reports/content-2026-10-31T13-48-36-868Z-13520 predate 2026-11-02/03 source fixes (57d7c34, dd4e069, 496e063) and 2026-11-07 content-service/python-runtime/evidence tooling changes; bound digests differ from current files.",
+    "downgraded": {
+      "gates": [
+        "G2CocosAirJSRealSDK",
+        "G2ThreeJSRealSDK",
+        "G0BrowserDynamicJson"
+      ],
+      "stages": [
+        "S2",
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S11"
+      ],
+      "adapters": [
+        "specs/v0.1/adapters/cocosairjs.adapter.json",
+        "specs/v0.1/adapters/threejs.adapter.json",
+        "specs/v0.1/adapters/public-turn-room.adapter.json"
+      ],
+      "runs": [
+        "candidateRun",
+        "variantsRun",
+        "perGameRun",
+        "mobileInputRun",
+        "compatibilityRun",
+        "contentRun",
+        "agentWorkflowRun"
+      ]
+    },
+    "historicalPointers": "reports/g2-2026-10-31T13-47-46-227Z-45820/ and reports/content-2026-10-31T13-48-36-868Z-13520/ preserved untouched; project/adapter-evidence.json receipts preserved as history.",
+    "restoration": "Authorized per lead: source freeze -> npm run build -> npm run content:e2e -> npm run g2:real (<=2 browsers, sequential) -> on PASS update status pointers, re-promote gates/S2/adapters with new receipts, rerun project:check, repack evidence.",
+    "scope": "Full 2026-10-31 13:40-13:56 receipt batch (23 common stale fingerprints each) verified stale by direct fingerprint scan; all dependent gates/stages/runs/adapters downgraded. Authorized re-evidence this round covers only g2:real + content:e2e; other harnesses (stage:e2e, candidates:e2e, variants:e2e, gameplay:check, mobile harness) remain pending and are listed as restoration conditions.",
+    "restored20261107": {
+      "g2": "reports/g2-2026-11-07T04-51-36-931Z-8712/ (8/8 cases PASS, cross-engine parity 8/8, fingerprintsUnchanged=true, fingerprint overlap with same-day generator/test fixes: none)",
+      "content": "reports/content-2026-11-07T04-50-18-705Z-27020/ (dual SDK PASS, unchanged, persistentRestart PASS, bundleTransfer PASS)",
+      "promoted": {
+        "gates": [
+          "G2CocosAirJSRealSDK",
+          "G2ThreeJSRealSDK",
+          "G0BrowserDynamicJson"
+        ],
+        "stage": "S2",
+        "adapters": [
+          "cocosairjs-a2game",
+          "threejs-a2game"
+        ]
+      },
+      "g3Fixture": "reports/g3-fixture-2026-11-07T09-54-24-267Z-33768/ (no-model synthetic fixture + dual-SDK replay 2/2 PASS, fingerprints 0 stale vs current source; chain preserved historical<-previous<-current)"
+    },
+    "stillPending": {
+      "stages": [
+        "S4",
+        "S5",
+        "S6",
+        "S7",
+        "S11"
+      ],
+      "runs": [
+        "candidateRun",
+        "variantsRun",
+        "perGameRun",
+        "mobileInputRun",
+        "compatibilityRun",
+        "agentWorkflowRun"
+      ],
+      "adapter": "a2game-public-turn-room",
+      "harnesses": "stage:e2e, candidates:e2e, variants:e2e, gameplay:check, mobile harness, compatibility harness re-runs are outside this round's authorized g2:real/content:e2e scope",
+      "latent": "independentG3Run.toolingProof browser fingerprints predate dd4e069 (agent-workflow.mjs); preparation-only, formal G3 stays NOT_RUN"
+    },
+    "promoted": {
+      "gates": [
+        "G2CocosAirJSRealSDK",
+        "G2ThreeJSRealSDK",
+        "G0BrowserDynamicJson"
+      ],
+      "stage": "S2",
+      "adapters": "SDK adapters remain implemented-unverified: S4 visual-stage leg still pending stage:e2e re-evidence"
+    },
+    "mcpLedgerRetry": {
+      "fix": "2026-11-07 retrySync production fix + TDZ repair (TRANSIENT moved to module scope after independent startup repro), regression covers transient-EPERM recovery and permanent-EACCES safe failure",
+      "honestLimitation": "The original once-observed STARTED/COMPLETED failure left no recorded underlying error; the EPERM causal chain is a supported hypothesis, not a proven cause. The repro proves the TDZ defect and the retry mechanism against injected EPERM only."
+    }
+  }
 }

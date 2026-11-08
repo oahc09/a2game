@@ -7,6 +7,7 @@ import {spawnSync} from 'node:child_process';
 import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
 import {makeRegistry,root} from './registry.mjs';
 import {archivePath,verifySources} from './final-acceptance-audit.mjs';
+import {resolvePython} from './python-runtime.mjs';
 
 assert.equal(process.argv.length,2,'This command uses only the current project evidence pointers.');
 const read=p=>JSON.parse(readFileSync(archivePath(root,p),'utf8'));
@@ -103,7 +104,7 @@ const python=[
   "print(json.dumps({'format':'a2game-reference-coverage-schema-check','status':'FAIL' if errors else 'PASS','documents':len(files),'schema':'specs/v0.1/schemas/coverage-result.schema.json','errors':errors}))",
   'sys.exit(1 if errors else 0)'
 ].join('\n');
-const check=spawnSync('python',['-c',python,resolve(root,directory)],{cwd:root,encoding:'utf8',windowsHide:true});
+const check=spawnSync(resolvePython(),['-c',python,resolve(root,directory)],{cwd:root,encoding:'utf8',windowsHide:true});
 assert.equal(check.status,0,'Coverage Schema validation failed: '+(check.stderr||check.stdout));
 const schema=JSON.parse(check.stdout);assert.equal(schema.status,'PASS');assert.equal(schema.documents,148);
 const schemaPath=directory+'/schema-check.json';saveNew(schemaPath,schema);

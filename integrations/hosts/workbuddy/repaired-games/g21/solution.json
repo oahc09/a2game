@@ -1,0 +1,10 @@
+[
+  { "action": "cell0", "ticks": 1 },
+  { "action": "cell1", "ticks": 1 },
+  { "ticks": 500 },
+  { "action": "cell2", "ticks": 1 },
+  { "ticks": 137 },
+  { "ticks": 30 },
+  { "ticks": 120 },
+  { "ticks": 35 }
+]

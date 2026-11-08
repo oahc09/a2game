@@ -4,7 +4,7 @@ export const conformanceInputGuidance='Gameplay input (injectAction/injectRaw) i
 /** Fixed failure categories; never relay arbitrary provider bodies as public diagnostics. */
 export function classifyFailure(code='',attribution,message=''){
  if(code==='A2G_GEN_CANCELLED')return 'PROVIDER_INFRA';
- if(/PATH|OUTPUT_EXISTS|INLINE_CREDENTIAL|SECURITY|ASSET|RESOURCE|INTEGRITY/.test(code))return 'SECURITY_POLICY';
+ if(/PATH|OUTPUT_EXISTS|INLINE_CREDENTIAL|SECURITY|ASSET|RESOURCE|INTEGRITY|EVIDENCE/.test(code))return 'SECURITY_POLICY';
  if(/PLAN_SCHEMA|PROMPT|MODE|UNSUPPORTED|PLAN_REFERENCE|PLAN_DEPENDENCY/.test(code))return 'INPUT_SPEC';
  if(attribution==='INFRA'||/WORKER|TIMEOUT|CODEX_|PROVIDER_(?:CONFIG|START|TIMEOUT|EXIT|HTTP|SIZE|INCOMPLETE|REFUSAL)/.test(code))return 'PROVIDER_INFRA';
  if(/PROVIDER_JSON|ENVELOPE|SCHEMA|SPEC_VERSION/.test(code))return 'GENERATION_FORMAT';
@@ -31,8 +31,8 @@ export function diagnosticStage(code,stage){
  if(/JSON|PARSE/.test(code))return 'parse';if(/SCHEMA/.test(code))return 'schema';
  if(/CONFORMANCE|ASSERT/.test(code))return 'conformance';if(/SOLUTION|SOLVER|PLAYABILITY/.test(code))return 'solution';
  if(/LIFECYCLE/.test(code))return 'lifecycle';if(/INTEGRITY/.test(code))return 'integrity';
- if(/PATH|ASSET|RESOURCE|SECURITY/.test(code))return 'policy';if(/BUDGET/.test(code))return 'budget';
- if(/ARGUMENT|CONFIG/.test(code))return 'arguments';if(/SDK|PREVIEW/.test(code))return 'preview';
+ if(/PATH|ASSET|RESOURCE|SECURITY|EVIDENCE/.test(code))return 'policy';if(/BUDGET/.test(code))return 'budget';
+ if(/ARGUMENT|CONFIG/.test(code))return 'arguments';if(code==='A2G_GEN_CATALOG_QUERY')return 'arguments';if(/SDK|PREVIEW/.test(code))return 'preview';
  if(/WORKER|PROVIDER|TIMEOUT|CANCEL|UNAVAILABLE|RELEASE_STORE|ENOENT/.test(code))return 'infra';return 'semantic';
 }
 const hints={parse:'Provide one UTF-8 JSON value without duplicate keys or non-finite numbers.',schema:'Read the versioned Schema resource and correct the field at jsonPointer; preserve protocol 0.1.0.',semantic:'Check the referenced capability, state path and rule against the registered contract.',conformance:'Fix the named case/step; retain a real success and a meaningful negative case. Use expectError immediately before each intentional rejected input.',solution:'Supply a bounded winning input trace for this exact game; do not replace the game or use a reference answer.',lifecycle:'Check pause, restart, terminal-input rejection and deterministic replay without weakening assertions.',policy:'Use only approved content resources and session-issued identifiers; do not supply paths or commands.',integrity:'Revalidate the original unchanged content to create a new artifact.',infra:'Check the local runtime, Python/SDK setup or timeout; do not change models or claim validation passed.',arguments:'Use the listed tool schema and supported launch options; do not pass paths or credentials.',budget:'Generation requires separate explicit authorization and a configured budget; author JSON in the host for the no-provider path.',preview:'Prepare the locked SDKs and inspect the local preview lifecycle; a URL is not gameplay evidence.'};
@@ -43,7 +43,9 @@ const coverageHints={
  'conformance.negative-assertion':'Include an explicit assert at observation path /flow/status with equals playing or lost in a meaningful negative case. Game state observations use /state/<field>.'
 };
 // Mechanism guidance is selected by exact trusted rule ID, never exception text.
-const codeHints={A2G_MCP_READABILITY_BINDING:'Use an active preview from this same service session and artifact, matching backend and exact raw game SHA. Reopen closed/expired previews; a revised candidate requires its own preview and fresh real viewport measurement. Do not relabel old observations or treat caller-reported values as visual acceptance.'};
+const codeHints={A2G_MCP_READABILITY_BINDING:'Use an active preview from this same service session and artifact, matching backend and exact raw game SHA. Reopen closed/expired previews; a revised candidate requires its own preview and fresh real viewport measurement. Do not relabel old observations or treat caller-reported values as visual acceptance.',
+ 'A2G_GEN_CATALOG_QUERY':'Capability query parameters are out of range: query is at most 120 characters, offset 0..1000 and limit 1..20. Page through the catalog with offset instead of raising the limit.',
+ 'A2G_GEN_EVIDENCE':'Evidence capture failed: pass a writable directory; the run writes exact input copies plus a SHA manifest with no-overwrite and never modifies the source files. Use a fresh directory for each evidence set.'};
 const mechanismHints={
  'conformance.expect-error-code':'The expectError step requires a string code for the error expected from the immediately following operation. Paused or terminal gameplay input is rejected with A2G_E_FLOW. Use the correct public error contract; never remove the negative check just to pass.',
  'conformance.expect-error-order':'Put one expectError with its code immediately before each intentionally rejected operation. Do not nest expectError steps or leave one at the end without an operation. An operation that succeeds when an error was expected must still fail the test.',

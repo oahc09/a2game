@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 import {HeadlessRuntime} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';
+import {queryCapabilities} from '../generator/catalog.mjs';
 import {createMcpService} from '../integrations/mcp/service.mjs';
 const load=name=>JSON.parse(readFileSync(new URL('../specs/v0.1/games/'+name+'.game.json',import.meta.url)));
 const failure=g=>{try{const r=new HeadlessRuntime(g,makeRegistry());r.dispose();assert.fail('Expected rejection');}catch(e){assert.equal(e.code,'A2G_E_CAP_CONFIG');return publicDiagnostics(e)[0];}};
@@ -24,6 +25,17 @@ test('visual dependency diagnostics identify declaration and static repair',()=>
 test('static mechanism hints never echo exception messages, stack, provider bodies or supplied repair text',()=>{
  const secret='PRIVATE_SENTINEL /home/private/token.txt Bearer abc';const d=publicDiagnostics({code:'A2G_E_CAP_CONFIG',message:secret,stack:secret,providerBody:secret,info:{ruleId:'puzzle.selected-array',jsonPointer:'/state/puzzle/initial/selected',capabilityId:'a2game.puzzle.swap',expected:'array',actual:secret,repairHint:secret,detail:secret}})[0];assert.match(d.repairHint,/selected/);assert.ok(!JSON.stringify(d).includes('PRIVATE_SENTINEL'));assert.ok(!JSON.stringify(d).includes('/home/'));
  const unknown=publicDiagnostics({code:'A2G_E_CAP_CONFIG',info:{ruleId:'provider.injected',repairHint:secret}})[0];assert.ok(!JSON.stringify(unknown).includes('PRIVATE_SENTINEL'));
+});
+test('catalog query parameter faults project argument-stage guidance with exact paging bounds',()=>{
+ const error=Object.assign(Error('能力查询参数超出范围。'),{code:'A2G_GEN_CATALOG_QUERY',diagnostics:[{pointer:'',message:'能力查询参数超出范围。'}]});
+ const d=publicDiagnostics(error)[0];
+ assert.equal(d.stage,'arguments');
+ assert.match(d.repairHint,/limit 1\.\.20/);
+ assert.match(d.repairHint,/offset/);
+ assert.ok(!/state path/.test(d.repairHint));
+ let thrown;try{queryCapabilities({limit:21});}catch(e){thrown=e;}
+ assert.equal(thrown?.code,'A2G_GEN_CATALOG_QUERY');
+ assert.equal(queryCapabilities({limit:20}).capabilities.length,20);
 });
 test('actual no-provider MCP service preserves safe mechanism diagnostics in both envelope locations',async()=>{
  const service=createMcpService();try{const g=load('puzzle-match');g.state.puzzle.initial.selected='PRIVATE_SENTINEL';const result=await service.call('a2game.validate_game',{gameJson:JSON.stringify(g)});assert.equal(result.status,'FAIL');assert.deepEqual(result.data.diagnostics,result.diagnostics);const d=result.diagnostics[0];assert.equal(d.ruleId,'puzzle.selected-array');assert.equal(d.jsonPointer,'/state/puzzle/initial/selected');assert.match(d.repairHint,/selected/);assert.ok(!JSON.stringify(result.diagnostics).includes('PRIVATE_SENTINEL'));for(const [name,mutate,rule] of [

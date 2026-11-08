@@ -26,7 +26,32 @@ export function safePath(input){
  return path;
 }
 function limited(file,max=768*1024){const b=readFileSync(safePath(file));if(b.length>max)throw fail('A2G_GEN_INPUT_SIZE');return new TextDecoder('utf-8',{fatal:true}).decode(b);}
+// Bounded raw-bytes read: evidence must bind the file exactly as it is on disk
+// (BOM included, invalid UTF-8 included), so decode happens separately and later.
+function boundedBytes(file,max=768*1024){const b=readFileSync(safePath(file));if(b.length>max)throw fail('A2G_GEN_INPUT_SIZE');return b;}
+const decodeUtf8=b=>new TextDecoder('utf-8',{fatal:true}).decode(b);
 function privateRun(){const id=randomUUID(),directory=join(root,'.a2game/generator',id);mkdirSync(directory,{recursive:true});return {id,directory};}
+// Opt-in retention of exact input bytes: write-once copies plus a SHA manifest are
+// created BEFORE admission runs, so failed attempts keep bindable originals too.
+function keepInputs(evidenceDir,files,runId){
+ if(evidenceDir===undefined)return null;
+ if(typeof evidenceDir!=='string'||!evidenceDir.trim())throw fail('A2G_GEN_EVIDENCE');
+ const target=resolve(evidenceDir,`inputs-${Date.now()}-${runId}`),saved={};
+ try{
+  mkdirSync(target,{recursive:true});
+  for(const [name,content] of Object.entries(files)){
+   const bytes=Buffer.isBuffer(content)?content:Buffer.from(content,'utf8');
+   writeFileSync(resolve(target,name),bytes,{flag:'wx'});
+   saved[name]={sha256:hash(bytes),bytes:bytes.length};
+  }
+  writeFileSync(resolve(target,'evidence-manifest.json'),JSON.stringify({format:'a2game-input-evidence',version:1,runId,files:saved},null,2)+'\n',{flag:'wx'});
+ }catch(cause){throw Object.assign(fail('A2G_GEN_EVIDENCE'),{cause});}
+ return {directory:target,files:saved};
+}
+const withEvidence=(result,evidence)=>evidence?{...result,evidence}:result;
+// Decode failures must stay locatable: the snapshot already exists, so the thrown
+// error carries the evidence descriptor.
+const decodeWithEvidence=(bytes,evidence)=>{try{return decodeUtf8(bytes);}catch(cause){throw Object.assign(cause,{evidence});}};
 async function validateRaw(rawFile,prompt,directory,options){
  mkdirSync(directory,{recursive:true});
  const result=await runGeneratorWorker('validate',{rawFile,prompt,directory},options);
@@ -114,22 +139,32 @@ export async function generateGame({prompt,providerId='fixture',configFile,mode=
  save(join(output,'generation-report.json'),report);
  return {...report,outputDirectory:output};
 }
-export async function validateGameFile(file,{signal,timeoutMs=60000}={}){
+export async function validateGameFile(file,{signal,timeoutMs=60000,evidenceDir}={}){
  const job=privateRun();
- const result=await runGeneratorWorker('admission',{directory:job.directory,text:limited(file,256*1024)},{signal,timeoutMs});
- return JSON.parse(result.stdout);
+ const raw=boundedBytes(file,256*1024);
+ const evidence=keepInputs(evidenceDir,{'game.json':raw},job.id);
+ try{
+  const result=await runGeneratorWorker('admission',{directory:job.directory,text:decodeWithEvidence(raw,evidence)},{signal,timeoutMs});
+  return withEvidence(JSON.parse(result.stdout),evidence);
+ }catch(cause){throw Object.assign(cause,{evidence});}
 }
-export async function testGeneratedDirectory(input,{signal,timeoutMs=60000}={}){
+export async function testGeneratedDirectory(input,{signal,timeoutMs=60000,evidenceDir}={}){
  const directory=safePath(input),job=privateRun(),deadline=Date.now()+timeoutMs;
- const fields=['game','conformance','solution'].map(name=>`"${name}":${limited(join(directory,name+'.json'))}`);
- const rawFile=join(job.directory,'retest.raw.json');writeFileSync(rawFile,'{"format":"a2game-generation-output","version":1,'+fields.join(',')+',"provenance":{"kind":"fixture","model":"local-retest-only"}}',{flag:'wx'});
- const result=await validateRaw(rawFile,'Validate the supplied game without any generation.',join(job.directory,'check'),{signal,timeoutMs});
- if(result.summary.status==='PASS_REFERENCE')try{
-  const game=read(join(result.directory,'game.json'));checkReferenceInputProfile(game);
-  if(existsSync(join(directory,'game-plan.json'))){const remaining=deadline-Date.now();if(remaining<=0)throw fail('A2G_GEN_TIMEOUT');
-   const plan=await validateGamePlan(limited(join(directory,'game-plan.json'),64*1024),{signal,timeoutMs:remaining});checkPlanGame(plan,game);}
- }catch(e){if(e.code==='A2G_GEN_CANCELLED')throw e;return {status:'FAIL',code:e.code??'A2G_GEN_PLAN_GAME',category:classifyFailure(e.code),diagnostics:publicDiagnostics(e),G3:'NOT_RUN',runId:job.id};}
- return {status:result.summary.status,code:result.attempt.code??null,diagnostics:result.summary.status==='PASS_REFERENCE'?[]:publicDiagnostics(result.attempt),G3:'NOT_RUN',runId:job.id};
+ const sources={};for(const name of ['game','conformance','solution'])sources[name+'.json']=boundedBytes(join(directory,name+'.json'));
+ if(existsSync(join(directory,'game-plan.json')))sources['game-plan.json']=boundedBytes(join(directory,'game-plan.json'),64*1024);
+ const evidence=keepInputs(evidenceDir,sources,job.id);
+ try{
+  let texts;try{texts=Object.fromEntries(Object.entries(sources).map(([name,bytes])=>[name,decodeUtf8(bytes)]));}catch(cause){throw Object.assign(cause,{evidence});}
+  const fields=Object.entries(texts).filter(([name])=>name!=='game-plan.json').map(([name,content])=>`"${name.slice(0,-5)}":${content}`);
+  const rawFile=join(job.directory,'retest.raw.json');writeFileSync(rawFile,'{"format":"a2game-generation-output","version":1,'+fields.join(',')+',"provenance":{"kind":"fixture","model":"local-retest-only"}}',{flag:'wx'});
+  const result=await validateRaw(rawFile,'Validate the supplied game without any generation.',join(job.directory,'check'),{signal,timeoutMs});
+  if(result.summary.status==='PASS_REFERENCE')try{
+   const game=read(join(result.directory,'game.json'));checkReferenceInputProfile(game);
+   if(texts['game-plan.json']!==undefined){const remaining=deadline-Date.now();if(remaining<=0)throw fail('A2G_GEN_TIMEOUT');
+    const plan=await validateGamePlan(texts['game-plan.json'],{signal,timeoutMs:remaining});checkPlanGame(plan,game);}
+  }catch(e){if(e.code==='A2G_GEN_CANCELLED')throw Object.assign(e,{evidence});return withEvidence({status:'FAIL',code:e.code??'A2G_GEN_PLAN_GAME',category:classifyFailure(e.code),diagnostics:publicDiagnostics(e),G3:'NOT_RUN',runId:job.id},evidence);}
+  return withEvidence({status:result.summary.status,code:result.attempt.code??null,diagnostics:result.summary.status==='PASS_REFERENCE'?[]:publicDiagnostics(result.attempt),G3:'NOT_RUN',runId:job.id},evidence);
+ }catch(cause){throw Object.assign(cause,{evidence});}
 }
 export async function previewGeneratedDirectory(input,{backend='three',signal}={}){
  if(!['air','three'].includes(backend))throw fail('A2G_GEN_BACKEND');

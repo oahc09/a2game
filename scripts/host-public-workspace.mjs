@@ -6,7 +6,8 @@ import {readPublicResource} from '../integrations/mcp/resources.mjs';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const fail=()=>{throw Error('Unsafe or incomplete public authoring capsule');};
 const save=(p,b)=>writeFileSync(p,b,{flag:'wx'});
-const skillFiles=['SKILL.md','references/workflow.md','references/troubleshooting.md'];
+const legacySkillFiles=['SKILL.md','references/workflow.md','references/troubleshooting.md'];
+const skillFiles=[...legacySkillFiles,'references/discovery.md','references/authoring.md','references/quality.md'];
 const resourceNames=['host-profile','contract-fragments'];
 const uriFor=name=>'a2game://spec/0.1.0/'+name+'.json';
 const digest=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
@@ -51,9 +52,13 @@ export function verifyPublicWorkspace(capsule,expectedDigest){
  const base=resolve(capsule),bytes=regular(base,join(base,'manifest.json'));
  if(!digest(expectedDigest)||hash(bytes)!==expectedDigest)fail();
  const manifest=JSON.parse(bytes);if(manifest.format!=='a2game-public-authoring-capsule'||![1,2].includes(manifest.version)||manifest.specVersion!=='0.1.0'||!manifest.files||typeof manifest.files!=='object'||Array.isArray(manifest.files))fail();
+ // Existing sealed v2 capsules retain their original three-file Skill contract.
+ // New capsules carry all guides; arbitrary/partial Skill file sets remain rejected.
+ const boundSkillFiles=manifest.version===2?Object.keys(manifest.skill?.files??{}):[];
+ if(manifest.version===2&&![legacySkillFiles,skillFiles].some(names=>sameKeys(manifest.skill?.files,names)))fail();
  const seen=[];function walk(dir){for(const name of readdirSync(dir)){const p=join(dir,name);const st=lstatSync(p);if(st.isSymbolicLink())fail();if(st.isDirectory()){const rel=relative(base,p).replaceAll('\\','/');if(!(manifest.version===2?['schemas','capabilities','skill','skill/references','resources']:['schemas','capabilities']).includes(rel))fail();walk(p);}else if(st.isFile())seen.push(relative(base,p).replaceAll('\\','/'));else fail();}}walk(base);
  const expected=[...Object.keys(manifest.files),'manifest.json'].sort();if(JSON.stringify(seen.sort())!==JSON.stringify(expected))fail();
- const fixed=manifest.version===2?['TASK.md',...skillFiles.map(n=>'skill/'+n),...resourceNames.flatMap(n=>['resources/'+n+'.json','resources/'+n+'.envelope.json'])]:[];
+ const fixed=manifest.version===2?['TASK.md',...boundSkillFiles.map(n=>'skill/'+n),...resourceNames.flatMap(n=>['resources/'+n+'.json','resources/'+n+'.envelope.json'])]:[];
  for(const [path,sha]of Object.entries(manifest.files)){
   if(!(/^(?:AUTHORING\.md|schemas\/[A-Za-z0-9._-]+\.json|capabilities\/[A-Za-z0-9._-]+\.capability\.json)$/.test(path)||fixed.includes(path))||!digest(sha)||hash(regular(base,join(base,path)))!==sha)fail();
  }
@@ -63,7 +68,7 @@ export function verifyPublicWorkspace(capsule,expectedDigest){
   if(!sameKeys(task,['taskId','path','promptSha256','mode'])||typeof task.taskId!=='string'||!/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(task.taskId)||task.path!=='TASK.md'||task.promptSha256!==manifest.files['TASK.md']||!['LEGACY_EXPLICIT_GUIDE','CONTROLLER_SUPPLIED_TASK'].includes(task.mode))fail();
   const prompt=regular(base,join(base,'TASK.md'));
   if(!prompt.length||!prompt.toString('utf8').trim()||prompt.includes(0)||task.mode==='CONTROLLER_SUPPLIED_TASK'&&prompt.length>65536)fail();
-  if(!sameKeys(manifest.skill,['source','files'])||manifest.skill.source!=='integrations/skill/a2game'||!sameKeys(manifest.skill.files,skillFiles)||skillFiles.some(n=>manifest.skill.files[n]!==manifest.files['skill/'+n]))fail();
+  if(!sameKeys(manifest.skill,['source','files'])||manifest.skill.source!=='integrations/skill/a2game'||boundSkillFiles.some(n=>manifest.skill.files[n]!==manifest.files['skill/'+n]))fail();
   if(!sameKeys(manifest.resources,resourceNames.map(uriFor)))fail();
   for(const name of resourceNames){
    const uri=uriFor(name),mapping=manifest.resources[uri],contentPath='resources/'+name+'.json',envelopePath='resources/'+name+'.envelope.json';

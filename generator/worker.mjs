@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 import {probeProvider,loadProviderConfig} from './providers.mjs';
 import {createFixture} from './fixture.mjs';
 import {publicDiagnostics} from './diagnostics.mjs';
+import {resolvePython} from '../scripts/python-runtime.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const save=(directory,name,value)=>writeFileSync(resolve(directory,name),JSON.stringify(value,null,2)+'\n',{flag:'wx'});
 let directory;
@@ -36,13 +37,11 @@ try{
   try{process.stdout.write(JSON.stringify(await verifyGeneratedBrowser(payload.workflow,payload.browserDirectory)));}finally{console.log=prior;}
  }else if(kind==='parse-json'){
   const {callJsonProcess}=await import('../scripts/agent-workflow.mjs');
-  const python=process.env.A2GAME_PYTHON??resolve(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');
-  const result=await callJsonProcess([python,resolve(root,'scripts/parse-agent-output.py')],{text:payload.text},{timeoutMs:8000,maxBytes:2*1024*1024});
+  const result=await callJsonProcess([resolvePython(),resolve(root,'scripts/parse-agent-output.py')],{text:payload.text},{timeoutMs:8000,maxBytes:2*1024*1024});
   process.stdout.write(JSON.stringify(result));
  }else if(kind==='plan-check'){
   const {callJsonProcess}=await import('../scripts/agent-workflow.mjs');
-  const python=process.env.A2GAME_PYTHON??resolve(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');
-  const result=await callJsonProcess([python,resolve(root,'generator/validate-plan.py')],{text:payload.text},{timeoutMs:8000,maxBytes:128*1024});
+  const result=await callJsonProcess([resolvePython(),resolve(root,'generator/validate-plan.py')],{text:payload.text},{timeoutMs:8000,maxBytes:128*1024});
   process.stdout.write(JSON.stringify(result));
  }else if(kind==='admission'){
   const {createContentService}=await import('../scripts/content-service.mjs');

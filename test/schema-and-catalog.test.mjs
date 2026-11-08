@@ -6,13 +6,14 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {sha256Canonical,compileGame,HeadlessRuntime} from '../dist/index.js';
 import {makeRegistry,spec} from '../scripts/registry.mjs';
+import {resolvePython} from '../scripts/python-runtime.mjs';
 const root=new URL('../',import.meta.url);
 function game(){return JSON.parse(readFileSync(join(spec,'games/tap-target.game.json'),'utf8'));}
 function validate(obj){
  const dir=mkdtempSync(join(tmpdir(),'a2game-schema-'));
  try {
   const input=join(dir,'game.json');writeFileSync(input,JSON.stringify(obj));
-  const exec=spawnSync('python',['scripts/validate-one.py','game',input],{cwd:root,encoding:'utf8'});
+  const exec=spawnSync(resolvePython(),['scripts/validate-one.py','game',input],{cwd:root,encoding:'utf8'});
   return {status:exec.status,result:JSON.parse(exec.stdout)};
  }finally{rmSync(dir,{recursive:true,force:true});}
 }

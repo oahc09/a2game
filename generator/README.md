@@ -1,5 +1,7 @@
 # 本地 Generator（Batch A）
 
+Skill与本目录Generator分工不同：Skill指导宿主模型先设计GamePlan、编写GameSpec，再通过MCP/CLI验证、按诊断修复；它不内置模型，也不要求再次调用Provider。GamePlan是创作阶段内容，普通MCP创作可用短笔记；只有显式使用本目录`--plan-file`时才使用内部JSON Schema。最终游戏共用GameSpec `0.1.0` 和同一Runtime。完整[模型创作与反馈流程](../integrations/skill/a2game/references/authoring.md)不会把关键词草案或工程通过当作模型设计/作品质量已通过。
+
 在仓库根目录执行 `npm ci`、`npm run build`；Python 环境安装 `requirements-dev.txt` 中的依赖，或通过 `A2GAME_PYTHON` 指定已有环境。所有入口均使用 `npm run generator -- ...`，不需要发布或全局安装。
 
 ```powershell
@@ -71,7 +73,7 @@ Studio 默认用 fixture、真实预算 0。页面可生成/取消、实际双 S
 
 ## MCP 与 Skill
 
-`npm run mcp:serve`启动本机stdio的9个受限工具，默认Provider调用额度0。已有JSON直接validate/test，不隐式调用模型。CLI能力查询使用`capabilities --query puzzle --json`和`capability --id a2game.puzzle.grid-push --cap-version 0.1.0 --json`，与MCP共享公开Registry查询。
+`npm run mcp:serve`启动本机stdio的9个受限工具，默认Provider调用额度0。已有JSON直接validate/test，不隐式调用模型。CLI能力查询使用`capabilities --query puzzle --json`和`capability --id a2game.puzzle.push --cap-version 0.1.0 --json`，与MCP共享公开Registry查询。
 
 `npm run mcp:check`通过官方SDK与独立Python客户端执行无模型闭环、CLI对照和真实双SDK输入/Hash/释放；`npm run generator:smoke`另测无SDK的新源码闭环。`npm run skill:package`只创建Skill ZIP和SHA，不安装或更改全局配置。项目级Skill安装及宿主练习、MCP真实Provider历史调用已有参考记录；Skill新会话自动触发和Provider返回模型身份仍待核实。详见[MCP边界](../docs/generator-mcp.md)与[Skill源码](../integrations/skill/a2game/SKILL.md)。
 

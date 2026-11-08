@@ -1,0 +1,21 @@
+[
+  {
+    "action": "buy0",
+    "ticks": 1
+  },
+  {
+    "action": "buy1",
+    "ticks": 1
+  },
+  {
+    "action": "sel0",
+    "ticks": 1
+  },
+  {
+    "action": "mrg1",
+    "ticks": 1
+  },
+  {
+    "ticks": 1000
+  }
+]

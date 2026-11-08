@@ -6,11 +6,12 @@ import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_proce
 import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
 import {makeRegistry,root as workspace} from './registry.mjs';
 import {archivePath,pendingGates,currentBindings,verifySources,validateArchive} from './final-acceptance-audit.mjs';
+import {resolvePython} from './python-runtime.mjs';
 const read=p=>JSON.parse(readFileSync(p,'utf8')),hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
 const save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
 const identities=registry=>registry.games.map(({status,extensions,...entry})=>entry);
 function schemaCheck(directory){
- const p=spawnSync('python',['scripts/check-acceptance-schema.py',directory],{cwd:workspace,encoding:'utf8',windowsHide:true});
+ const p=spawnSync(resolvePython(),['scripts/check-acceptance-schema.py',directory],{cwd:workspace,encoding:'utf8',windowsHide:true});
  assert.equal(p.status,0,'A2G_E_ACCEPTANCE_SCHEMA: '+(p.stderr||p.stdout));return JSON.parse(p.stdout);
 }
 export function collectAcceptance(root=workspace){

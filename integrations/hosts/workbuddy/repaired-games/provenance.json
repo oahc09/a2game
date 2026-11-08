@@ -1,0 +1,69 @@
+{
+  "format": "a2game-controller-content-repairs",
+  "date": "2026-11-07",
+  "scope": "CONTROLLER_AUTHORED_REVISIONS_NOT_NEW_MODEL_GENERATION_OR_FORMAL_G3",
+  "games": {
+    "g21": {
+      "sourceRun": "2026-11-06T16-42-27-302Z-24723b3b-058f-48fb-9fb1-bf1db3af7cb3",
+      "sourceCandidate": 1,
+      "originalRevision": 1,
+      "repairedRevision": 2,
+      "originalGameSha256": "73fd6f808c13fdfd054c5f314f98ffa098dd935eb0cc4deacf32aac7f4ecde20",
+      "repairedGameSha256": "940ec77f6bef4ebd61df918ba74c870a571d9ebd65e5896a5278846b937bc6dc",
+      "change": "Replace three full-playfield tap bindings with distinct touch.select scene-space hit regions; rescale defense dimensions/positions/range/speed and matching scene layout by 5 to eliminate body overlap and HUD occlusion",
+      "secondRepair": {
+        "date": "2026-11-07",
+        "author": "controller-agent-revision",
+        "kind": "CONTROLLER_AUTHORED_REVISION_NOT_MODEL_REGENERATION",
+        "revision": 3,
+        "previousGameSha256": "940ec77f6bef4ebd61df918ba74c870a571d9ebd65e5896a5278846b937bc6dc",
+        "repairedGameSha256": "60f87ab713a0f54b797cde747dc4da1d1df511e1a6a61d0e3107d751057c2023",
+        "conformanceSha256": "5afbf7a788baf28cca4fe0efca6bc1c0f4c781950096b13342f20463d38c1fd6",
+        "solutionSha256": "d58b88c641703caf43a989bfafcf28dfd138f4afb0b9e1ea7d4353322b2d287b",
+        "change": "Delay waves tick 2/152/302 -> 480/630/780 (30Hz, ~16s reading time, same 150-tick spacing, maxTicks 900 kept), move title text node away from adapter watermark corner, add in-scene build hint text, translate meta.description to Chinese stating three waves with 0-based counter; retime existing conformance steps/solution waits to the public module semantics (pre-increment tickIndex, Manhattan range, terminal-step early stop) without weakening negatives (insufficient funds, occupied cell, paused input); adapter/player unchanged"
+      }
+    },
+    "h01": {
+      "sourceRun": "2026-11-07T02-55-40-899Z-b7840123-47b4-4b64-b3b4-83fb342ead6e",
+      "sourceCandidate": 3,
+      "originalRevision": 1,
+      "repairedRevision": 2,
+      "originalGameSha256": "c92688415bccd87876067ee2af4e699a938ef4391e06c340b1a6622563d5071a",
+      "repairedGameSha256": "df690ca1ee4707e329fd67d72d9539f9165ab9986812f01275edf74d186e31b9",
+      "change": "Scale defense dimensions/positions/range/speed by 5 and matching scene coordinates by 5; fixed 300-unit body projection becomes smaller relative to separated cells; gameplay config revision, not presentation-only",
+      "secondRepair": {
+        "date": "2026-11-07",
+        "author": "controller-agent-revision",
+        "kind": "CONTROLLER_AUTHORED_REVISION_NOT_MODEL_REGENERATION",
+        "revision": 3,
+        "previousGameSha256": "df690ca1ee4707e329fd67d72d9539f9165ab9986812f01275edf74d186e31b9",
+        "repairedGameSha256": "a0037950e731d84e6b782e5c5a3e4ef3df37f64184c77fb690f5426dd86d4278",
+        "conformanceSha256": "266b96a8719969470de647904d0de0d30404e03c87e5b359a8c676a36b8582cd",
+        "solutionSha256": "ad6ee405cf90718b2757cba1cf9af71c4da953f3d7e09934c5a6669c1cadf72a",
+        "change": "Delay wave1 tick 60->540 and wave2 tick 300->900 (30Hz, ~18s reading time), raise maxTicks 600->1200, add a2game.visual.text require plus in-scene title/key/prep hint texts (keyboard 1/2 buy, 3 select, 4 merge); retime existing conformance step offsets and solution wait without weakening any negative case (paused-input refusal, post-win input refusal, merge retirement, insufficient funds all retained); adapter/player unchanged"
+      }
+    },
+    "g17": {
+      "sourceRun": "2026-11-06T15-37-58-436Z-313e4e38-2da1-46d3-868f-e16fc07db60f",
+      "sourceCandidate": 2,
+      "originalRevision": 1,
+      "repairedRevision": 3,
+      "originalGameSha256": "7c3ad6bc041104751e871570aa65067f3fcfaacf9baa103350e9b69f99a14b2a",
+      "secondRepairNote": "rev3 unblock (2026-11-07, CONTROLLER_AUTHORED_NON_MODEL): restitution 800 so downed raiders bounce and stay aimable ~16-18s each; maxTicks 2100->3600 (60s @60Hz); live countdown via core.bootstrap level.started + core.timer repeating timer + rules.timer-schedule (state /remaining decrements every 60 ticks, HUD 剩余秒数 real-time; frozen while paused, reset on restart); /phase state 准备期->战斗中 displayed in sidebar; requires += core.bootstrap/core.timer/rules.timer-schedule; conformance adds remaining/pause-freeze/restart-reset asserts, negatives retained (lives depletion idle loss at ~t1806, terminal input refusal, lifecycle)",
+      "repairedGameSha256": "fcb97fbcdb858407cf75b5f9895b7d13b1bbac53927c14b11634100a802c651e",
+      "conformanceSha256": "8bb9057da43e727465663b4e3bea0307a08e20ab63c7d91d9cf45e5388344061",
+      "solutionSha256": "f232ff6c6736d6f8663caee572738c1c3039c872d7f8cb97fe524ad0c4a0f673",
+      "history": [
+        {
+          "revision": 2,
+          "gameSha256": "783064372cc5aad26609ad3cf7f170c22840ff9d26b0601f7a6a6ef2b716c10d",
+          "conformanceSha256": "08db15cbcc7243c4ab477d4c0603bd714417fd93a645049a1511a476381d31c6",
+          "solutionSha256": "59ef042f80d8c35e33d45cf03706c46977805f7b8917105d8197c92e11d3f6f2",
+          "date": "2026-11-07",
+          "note": "rev2: agent-quality first controller revision (prep window, static 35s limit disclosure, score label, visibility)"
+        }
+      ],
+      "previousGameSha256": "783064372cc5aad26609ad3cf7f170c22840ff9d26b0601f7a6a6ef2b716c10d"
+    }
+  }
+}

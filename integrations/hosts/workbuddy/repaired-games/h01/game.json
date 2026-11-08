@@ -1,0 +1,503 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "h01-merge-tower-workbuddy",
+  "revision": 3,
+  "meta": {
+    "title": "合成炮台防御",
+    "description": "花金币购买一级炮台，选中一个炮台后与另一座同级炮台合成为高一级炮台；合成后旧炮台及其武器退役，只保留新炮台作战。守住两波沿路径进攻的敌人即可通关，漏怪扣基地生命。按键盘 1/2 购买、3 选中合成源、4 合成；首波约18秒后到达。",
+    "author": "workbuddy-host-agent",
+    "genres": [
+      "strategy",
+      "tower-defense"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.range",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.placement-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.cost",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.reward",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 30,
+      "seed": 7
+    }
+  },
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "defense",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/defense",
+                "width": 3200,
+                "height": 2400,
+                "cost": 4,
+                "damage": 1,
+                "range": 1200,
+                "speed": 100,
+                "cooldownTicks": 14,
+                "maxTicks": 1200,
+                "cells": [
+                  {
+                    "x": 1000,
+                    "y": 1100
+                  },
+                  {
+                    "x": 1400,
+                    "y": 1100
+                  },
+                  {
+                    "x": 1800,
+                    "y": 1100
+                  },
+                  {
+                    "x": 2200,
+                    "y": 1100
+                  }
+                ],
+                "path": [
+                  {
+                    "x": 500,
+                    "y": 750
+                  },
+                  {
+                    "x": 2700,
+                    "y": 750
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 540,
+                    "hp": 3,
+                    "reward": 2
+                  },
+                  {
+                    "tick": 900,
+                    "hp": 2,
+                    "reward": 4
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "buy0",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "buy1",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "sel0",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "mrg1",
+                    "kind": "merge",
+                    "index": 1
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "defense": {
+      "type": "object",
+      "initial": {
+        "wallet": 10,
+        "score": 0,
+        "nextId": 0,
+        "lives": 1,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "buy0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "buy1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "sel0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          }
+        ]
+      },
+      {
+        "id": "mrg1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "h01-lose",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "h01-win",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "hudWallet",
+        "kind": "text",
+        "text": "金币",
+        "bind": {
+          "state": "/defense/wallet"
+        }
+      },
+      {
+        "id": "hudLives",
+        "kind": "text",
+        "text": "生命",
+        "bind": {
+          "state": "/defense/lives"
+        }
+      },
+      {
+        "id": "hudScore",
+        "kind": "text",
+        "text": "击杀",
+        "bind": {
+          "state": "/defense/score"
+        }
+      },
+      {
+        "id": "hudWave",
+        "kind": "text",
+        "text": "波次",
+        "bind": {
+          "state": "/defense/waveCursor"
+        }
+      },
+      {
+        "id": "hudSelected",
+        "kind": "text",
+        "text": "选中格",
+        "bind": {
+          "state": "/defense/selected"
+        }
+      },
+      {
+        "id": "hudTowerLevel",
+        "kind": "text",
+        "text": "炮台1等级",
+        "bind": {
+          "state": "/defense/towers/0/level"
+        }
+      },
+      {
+        "id": "btnBuy0",
+        "kind": "button",
+        "text": "1 购买炮台(4金)",
+        "bind": {
+          "action": "buy0"
+        }
+      },
+      {
+        "id": "btnBuy1",
+        "kind": "button",
+        "text": "2 购买炮台(4金)",
+        "bind": {
+          "action": "buy1"
+        }
+      },
+      {
+        "id": "btnSel0",
+        "kind": "button",
+        "text": "3 选中合成源",
+        "bind": {
+          "action": "sel0"
+        }
+      },
+      {
+        "id": "btnMrg1",
+        "kind": "button",
+        "text": "4 合成到槽2",
+        "bind": {
+          "action": "mrg1"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 5,
+      "height": 3,
+      "background": "#101418",
+      "nodes": [
+        {
+          "id": "enemyPath",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.44999999999999996
+          ],
+          "size": [
+            2.2,
+            0.25
+          ],
+          "fill": "#3f3f46"
+        },
+        {
+          "id": "baseMarker",
+          "kind": "rect",
+          "at": [
+            1.1,
+            -0.44999999999999996
+          ],
+          "size": [
+            0.25,
+            0.44999999999999996
+          ],
+          "fill": "#7f1d1d"
+        },
+        {
+          "id": "cell0",
+          "kind": "rect",
+          "at": [
+            -0.6,
+            -0.1
+          ],
+          "size": [
+            0.3,
+            0.3
+          ],
+          "fill": "#27272a"
+        },
+        {
+          "id": "cell1",
+          "kind": "rect",
+          "at": [
+            -0.2,
+            -0.1
+          ],
+          "size": [
+            0.3,
+            0.3
+          ],
+          "fill": "#27272a"
+        },
+        {
+          "id": "cell2",
+          "kind": "rect",
+          "at": [
+            0.2,
+            -0.1
+          ],
+          "size": [
+            0.3,
+            0.3
+          ],
+          "fill": "#27272a"
+        },
+        {
+          "id": "cell3",
+          "kind": "rect",
+          "at": [
+            0.6,
+            -0.1
+          ],
+          "size": [
+            0.3,
+            0.3
+          ],
+          "fill": "#27272a"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            -1.2,
+            1.05
+          ],
+          "fill": "#dfe8f0",
+          "text": {
+            "literal": "合成炮台防御"
+          },
+          "fontSize": 0.26
+        },
+        {
+          "id": "key-hint",
+          "kind": "text",
+          "at": [
+            -0.6,
+            0.62
+          ],
+          "fill": "#ffd34d",
+          "text": {
+            "literal": "1/2 购买炮台(4金) · 3 选中 · 4 合成"
+          },
+          "fontSize": 0.18
+        },
+        {
+          "id": "prep-hint",
+          "kind": "text",
+          "at": [
+            -0.6,
+            0.32
+          ],
+          "fill": "#8fd8a0",
+          "text": {
+            "literal": "首波约18秒后到达 · 守住两波即胜利"
+          },
+          "fontSize": 0.18
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -1.6,
+          -1.2
+        ],
+        "palette": {
+          "actor": "#4ade80",
+          "solid": "#38bdf8",
+          "target": "#f87171",
+          "projectile": "#facc15",
+          "pickup": "#a78bfa"
+        }
+      }
+    }
+  }
+}

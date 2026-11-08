@@ -5,7 +5,7 @@ import {publicDiagnostics} from './diagnostics.mjs';
 import {queryCapabilities,getPublicCapability} from './catalog.mjs';
 import {generateGame,validateGameFile,testGeneratedDirectory,previewGeneratedDirectory,probeProvider,admitNativeGeneration,buildGamePlan,validateGamePlan,startGeneratorStudio,exportGamePackage,importGamePackage,safePath} from './index.mjs';
 const help=`A2Game Generator (local, reference only)
-  capabilities [--query TEXT] [--offset 0] [--limit 10]
+  capabilities [--query TEXT ≤120] [--offset 0..1000] [--limit 1..20]
   capability --id CAPABILITY_ID --cap-version 0.1.0
   generate --prompt-file FILE --provider fixture|codex|claude|model-http|http --output DIR
            [--config FILE] [--mode direct-json|game-plan] [--plan-file FILE]
@@ -15,8 +15,8 @@ const help=`A2Game Generator (local, reference only)
   studio [--provider fixture|codex|claude|model-http|http] [--config FILE] [--max-calls 0..30] [--port 0]
   export-package GENERATED_DIR --output FILE
   import-package FILE --output NEW_DIR
-  validate GAME.json
-  test GENERATED_DIR
+  validate GAME.json [--evidence-dir DIR]
+  test GENERATED_DIR [--evidence-dir DIR]
   preview GENERATED_DIR [--backend air|three]
   inspect GENERATED_DIR [--backend air|three]  (手动导入 debug-bundle.json)
   probe --provider ID [--config FILE]
@@ -25,7 +25,7 @@ const help=`A2Game Generator (local, reference only)
 真实模型调用使用显式 provider/config；fixture 不计模型或 G3 验收。`;
 const controller=new AbortController();process.once('SIGINT',()=>controller.abort());process.once('SIGTERM',()=>controller.abort());
 try{
- const {positionals,values}=parseArgs({allowPositionals:true,options:{help:{type:'boolean'},version:{type:'boolean'},json:{type:'boolean'},query:{type:'string'},offset:{type:'string'},limit:{type:'string'},id:{type:'string'},'cap-version':{type:'string'},'prompt-file':{type:'string'},'plan-file':{type:'string'},provider:{type:'string'},config:{type:'string'},output:{type:'string'},mode:{type:'string'},'max-attempts':{type:'string'},'timeout-ms':{type:'string'},'max-calls':{type:'string'},port:{type:'string'},backend:{type:'string'},context:{type:'string'},raw:{type:'string'},'host-record':{type:'string'}}});
+ const {positionals,values}=parseArgs({allowPositionals:true,options:{help:{type:'boolean'},version:{type:'boolean'},json:{type:'boolean'},query:{type:'string'},offset:{type:'string'},limit:{type:'string'},id:{type:'string'},'cap-version':{type:'string'},'prompt-file':{type:'string'},'plan-file':{type:'string'},provider:{type:'string'},config:{type:'string'},output:{type:'string'},mode:{type:'string'},'max-attempts':{type:'string'},'timeout-ms':{type:'string'},'max-calls':{type:'string'},port:{type:'string'},backend:{type:'string'},context:{type:'string'},raw:{type:'string'},'host-record':{type:'string'},'evidence-dir':{type:'string'}}});
  let result;const command=positionals[0],options={signal:controller.signal,timeoutMs:Number(values['timeout-ms']??60000)};
  if(values.help||!command&&!values.version){console.log(help);}
  else if(values.version){console.log('1.0.0');}
@@ -52,8 +52,8 @@ try{
    await new Promise(ok=>controller.signal.aborted?ok():controller.signal.addEventListener('abort',ok,{once:true}));await session.close();result=null;
   }
   else if(command==='import-native')result=await admitNativeGeneration({...options,contextFile:values.context,rawFile:values.raw,hostRecordFile:values['host-record'],outputDirectory:values.output});
-  else if(command==='validate')result=await validateGameFile(positionals[1],options);
-  else if(command==='test')result=await testGeneratedDirectory(positionals[1],options);
+  else if(command==='validate')result=await validateGameFile(positionals[1],{...options,evidenceDir:values['evidence-dir']});
+  else if(command==='test')result=await testGeneratedDirectory(positionals[1],{...options,evidenceDir:values['evidence-dir']});
   else if(command==='probe')result=await probeProvider({id:values.provider,configFile:values.config});
   else if(['preview','inspect'].includes(command)){
    const session=await previewGeneratedDirectory(positionals[1],{...options,backend:values.backend??'three'});
@@ -65,4 +65,4 @@ try{
   }else throw Object.assign(Error(),{code:'A2G_GEN_ARGUMENT'});
   if(result){console.log(JSON.stringify(result,null,values.json?0:2));process.exitCode=result.status==='BLOCKED'?3:result.status==='CANCELLED'?130:['PASS_REFERENCE','READY'].includes(result.status)?0:1;}
  }
-}catch(e){console.log(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ARGUMENT',message:'操作未完成，请检查参数、构建和本机配置后重试。',diagnostics:publicDiagnostics({...e,code:e.code??'A2G_GEN_ARGUMENT'})}));process.exitCode=e.code==='A2G_GEN_CANCELLED'?130:2;}
+}catch(e){console.log(JSON.stringify({status:'FAIL',code:e.code??'A2G_GEN_ARGUMENT',message:'操作未完成，请检查参数、构建和本机配置后重试。',diagnostics:publicDiagnostics({...e,code:e.code??'A2G_GEN_ARGUMENT'}),...(e.evidence&&typeof e.evidence==='object'?{evidence:e.evidence}:{})}));process.exitCode=e.code==='A2G_GEN_CANCELLED'?130:2;}

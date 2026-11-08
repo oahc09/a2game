@@ -7,6 +7,7 @@ import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabili
 import {validateJsonTree} from '../dist/utils.js';
 import {root,makeRegistry} from './registry.mjs';
 import {createAssetPolicy} from './asset-policy.mjs';
+import {resolvePython} from './python-runtime.mjs';
 
 export class ContentError extends Error {
   constructor(code,message,statusCode=422,stage='policy',diagnostics=[]){
@@ -93,8 +94,7 @@ function diskStore(directory,contextDigest,maxReleases){
 export function createContentService({python,maxReleases=32,storageDirectory=null}={}){
   if(!Number.isInteger(maxReleases)||maxReleases<1||maxReleases>32)throw new ContentError('A2G_E_RELEASE_CONFIG','maxReleases 必须为 1–32 的整数。',503,'infra');
   if(storageDirectory!==null&&(typeof storageDirectory!=='string'||!storageDirectory.trim()))throw new ContentError('A2G_E_RELEASE_CONFIG','本地发布目录不能为空。',503,'infra');
-  const localPython=resolve(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');
-  python??=process.env.A2GAME_PYTHON??(existsSync(localPython)?localPython:'python');
+  python=resolvePython(python);
   const fingerprints=()=>Object.fromEntries(contextFiles().map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
   const contextDigest=sha256Canonical(fingerprints()),manifests=makeRegistry().list(),manifestDigest=capabilityManifestDigest(manifests);
   const assetPolicy=createAssetPolicy();

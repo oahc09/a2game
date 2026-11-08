@@ -1,0 +1,408 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "circuit-ward-conf-1",
+  "subject": {
+    "type": "game",
+    "id": "circuit-ward",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "place-pay-kill-insufficient-win",
+      "seed": 0,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.placed",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.invalid",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.placed",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 478
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.wave",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/lives",
+          "equals": 3
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.placed",
+          "count": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 137
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.wave",
+          "count": 2
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 2
+        },
+        {
+          "op": "step",
+          "ticks": 120
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/lives",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "insufficient-funds-empty-cell-isolated",
+      "seed": 0,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.placed",
+          "count": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.invalid",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.placed",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "lifecycle-pause-resume-restart",
+      "seed": 0,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press",
+          "sourceId": "p1"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release",
+          "sourceId": "p1"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 3
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "step",
+          "ticks": 5
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "paused"
+        },
+        {
+          "op": "resume"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 25
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 476
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 1
+        },
+        {
+          "op": "restart",
+          "seed": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/wallet",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/nextId",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/game/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "adapterId": "threejs-a2game",
   "adapterVersion": "0.1.0",
   "runtimeVersion": "0.1.0",
-  "status": "verified",
+  "status": "implemented-unverified",
   "supportedCapabilities": [
     {
       "id": "a2game.visual.scene2d",

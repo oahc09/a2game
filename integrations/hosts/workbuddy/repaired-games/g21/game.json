@@ -1,0 +1,521 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "circuit-ward",
+  "revision": 3,
+  "meta": {
+    "title": "Circuit Ward",
+    "description": "点击空格位花费金币建塔，塔自动沿车道射击；击杀获得金币奖励，漏怪扣基地生命。守住全部三波进攻即通关；金币不足或点击已占用格位会被拒绝且不扣费。波次从 0 开始计数，首波约16秒后到达。",
+    "author": "workbuddy-host-native",
+    "genres": [
+      "tower-defense",
+      "strategy",
+      "realtime"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.range",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.placement-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.cost",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.reward",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 30,
+      "seed": 0
+    }
+  },
+  "scenes": [
+    {
+      "id": "lane",
+      "entities": [
+        {
+          "id": "defense",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/game",
+                "width": 4000,
+                "height": 3000,
+                "cost": 3,
+                "damage": 2,
+                "range": 1300,
+                "speed": 50,
+                "cooldownTicks": 10,
+                "maxTicks": 900,
+                "cells": [
+                  {
+                    "x": 1000,
+                    "y": 2250
+                  },
+                  {
+                    "x": 2100,
+                    "y": 2250
+                  },
+                  {
+                    "x": 3200,
+                    "y": 2250
+                  }
+                ],
+                "path": [
+                  {
+                    "x": 500,
+                    "y": 1500
+                  },
+                  {
+                    "x": 3500,
+                    "y": 1500
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 480,
+                    "hp": 6,
+                    "reward": 3
+                  },
+                  {
+                    "tick": 630,
+                    "hp": 9,
+                    "reward": 3
+                  },
+                  {
+                    "tick": 780,
+                    "hp": 12,
+                    "reward": 3
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "cell0",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "cell1",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "cell2",
+                    "kind": "place",
+                    "index": 2
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "lane",
+  "state": {
+    "game": {
+      "type": "object",
+      "initial": {
+        "wallet": 6,
+        "score": 0,
+        "nextId": 0,
+        "lives": 3,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 12,
+              "sceneHeight": 9,
+              "x": -2,
+              "y": 1.5,
+              "hx": 0.8999999999999999,
+              "hy": 0.8999999999999999,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 12,
+              "sceneHeight": 9,
+              "x": 0.2,
+              "y": 1.5,
+              "hx": 0.8999999999999999,
+              "hy": 0.8999999999999999,
+              "mode": "tap"
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 12,
+              "sceneHeight": 9,
+              "x": 2.4,
+              "y": 1.5,
+              "hx": 0.8999999999999999,
+              "hy": 0.8999999999999999,
+              "mode": "tap"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "user-opt-in"
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "defense-holds",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/game/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "base-falls",
+      "status": "lost",
+      "priority": 2,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/game/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [],
+    "cues": [],
+    "scene2d": {
+      "width": 6,
+      "height": 4.5,
+      "background": "#101820",
+      "bodyLayer": {
+        "statePath": "/game/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -2,
+          -1.5
+        ],
+        "palette": {
+          "actor": "#3aa0ff",
+          "solid": "#33424f",
+          "target": "#ff5544",
+          "projectile": "#ffd34d",
+          "pickup": "#66cc88"
+        }
+      },
+      "nodes": [
+        {
+          "id": "lane-strip",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            3,
+            0.4
+          ],
+          "fill": "#22303f"
+        },
+        {
+          "id": "base-gate",
+          "kind": "rect",
+          "at": [
+            1.6,
+            0
+          ],
+          "size": [
+            0.25,
+            0.8
+          ],
+          "fill": "#8a2f2f"
+        },
+        {
+          "id": "cellmark0",
+          "kind": "rect",
+          "at": [
+            -1,
+            0.75
+          ],
+          "size": [
+            0.35000000000000003,
+            0.35000000000000003
+          ],
+          "fill": "#2f4050"
+        },
+        {
+          "id": "cellmark1",
+          "kind": "rect",
+          "at": [
+            0.1,
+            0.75
+          ],
+          "size": [
+            0.35000000000000003,
+            0.35000000000000003
+          ],
+          "fill": "#2f4050"
+        },
+        {
+          "id": "cellmark2",
+          "kind": "rect",
+          "at": [
+            1.2,
+            0.75
+          ],
+          "size": [
+            0.35000000000000003,
+            0.35000000000000003
+          ],
+          "fill": "#2f4050"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            1.2,
+            2
+          ],
+          "fill": "#dfe8f0",
+          "text": {
+            "literal": "Circuit Ward"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "gold-label",
+          "kind": "text",
+          "at": [
+            -2.6,
+            1.6
+          ],
+          "fill": "#ffd34d",
+          "text": {
+            "literal": "金:"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "gold-value",
+          "kind": "text",
+          "at": [
+            -2.2,
+            1.6
+          ],
+          "fill": "#ffd34d",
+          "text": {
+            "state": "/game/wallet"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "lives-label",
+          "kind": "text",
+          "at": [
+            -1.7000000000000002,
+            1.6
+          ],
+          "fill": "#ff8877",
+          "text": {
+            "literal": "生命:"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "lives-value",
+          "kind": "text",
+          "at": [
+            -1.2,
+            1.6
+          ],
+          "fill": "#ff8877",
+          "text": {
+            "state": "/game/lives"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "wave-label",
+          "kind": "text",
+          "at": [
+            -0.7000000000000001,
+            1.6
+          ],
+          "fill": "#9fc4e8",
+          "text": {
+            "literal": "波:"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "wave-value",
+          "kind": "text",
+          "at": [
+            -0.3,
+            1.6
+          ],
+          "fill": "#9fc4e8",
+          "text": {
+            "state": "/game/waveCursor"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "price-label",
+          "kind": "text",
+          "at": [
+            0.25,
+            1.6
+          ],
+          "fill": "#dfe8f0",
+          "text": {
+            "literal": "塔价:3"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "score-label",
+          "kind": "text",
+          "at": [
+            1,
+            1.6
+          ],
+          "fill": "#8fd8a0",
+          "text": {
+            "literal": "分:"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "score-value",
+          "kind": "text",
+          "at": [
+            1.4000000000000001,
+            1.6
+          ],
+          "fill": "#8fd8a0",
+          "text": {
+            "state": "/game/score"
+          },
+          "fontSize": 0.25
+        },
+        {
+          "id": "build-hint",
+          "kind": "text",
+          "at": [
+            -1,
+            1.15
+          ],
+          "fill": "#9fb8cc",
+          "text": {
+            "literal": "点击格位建塔(3金) · 首波约16秒后到"
+          },
+          "fontSize": 0.2
+        }
+      ]
+    }
+  }
+}

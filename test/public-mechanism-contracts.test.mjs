@@ -5,6 +5,7 @@ import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {getPublicCapability} from '../generator/catalog.mjs';
+import {resolvePython} from '../scripts/python-runtime.mjs';
 import {readPublicResource} from '../integrations/mcp/resources.mjs';
 import {simulatePuzzle,validatePuzzleDefinition} from '../dist/modules/puzzle.js';
 import {initialDefenseState,validateDefenseDefinition} from '../dist/modules/tower-defense.js';
@@ -14,7 +15,7 @@ import {makeRegistry} from '../scripts/registry.mjs';
 const root=fileURLToPath(new URL('..',import.meta.url));
 const ids=['a2game.puzzle.swap','a2game.strategy.tower-defense','a2game.realtime.world'];
 const manifest=id=>JSON.parse(readFileSync(new URL('../specs/v0.1/capabilities/'+id+'.capability.json',import.meta.url)));
-const runPython=(code,data)=>{const r=spawnSync('python',['-c',code],{cwd:root,input:JSON.stringify(data),encoding:'utf8'});assert.equal(r.status,0,r.stderr||r.stdout);};
+const runPython=(code,data)=>{const r=spawnSync(resolvePython(),['-c',code],{cwd:root,input:JSON.stringify(data),encoding:'utf8'});assert.equal(r.status,0,r.stderr||r.stdout);};
 const schemaCheck=(id,valid,invalid=[])=>runPython(`import json,sys\nfrom jsonschema import Draft202012Validator\nx=json.load(sys.stdin); v=Draft202012Validator(x['schema'])\nfor state in x['valid']: v.validate(state)\nfor state in x['invalid']: assert not v.is_valid(state),state\n`,{schema:manifest(id).contract.stateSchema,valid,invalid});
 
 test('public get_capability exposes complete state schemas and non-level semantics without protocol bump',()=>{

@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,readdirSync,existsSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {createMcpService} from '../integrations/mcp/service.mjs';
+import {syncBuiltinESMExports} from 'node:module';
 import {createFixture} from '../generator/fixture.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';
 import {publicResources,readPublicResource} from '../integrations/mcp/resources.mjs';
@@ -68,7 +70,19 @@ test('session-bound ledger accounts for every call including rejected input, and
    const meta=read(join(service.directory,r.runId+'.call.json'));assert.equal(meta.hostRunId,hostRunId);assert.equal(meta.sequence,index+1);assert.equal(meta.state,'COMPLETED');assert.equal(meta.receiptSha256,hash(readFileSync(join(service.directory,r.runId+'.receipt.json'))));
   }
   const fixture=createFixture(),pending=service.call('a2game.validate_game',{gameJson:JSON.stringify(fixture.game),conformanceJson:JSON.stringify(fixture.conformance),solutionJson:JSON.stringify(fixture.solution)});
-  const started=readdirSync(service.directory).filter(n=>n.endsWith('.call.json')).map(n=>read(join(service.directory,n))).find(m=>m.sequence===3);assert.equal(started.state,'STARTED');assert.equal(existsSync(join(service.directory,started.runId+'.receipt.json')),false);
+  // Synchronous handshake: observe the STARTED ledger phase while the call is in flight.
+  // If the call completed synchronously (a prefix error), fail with that receipt's own
+  // error instead of mislabeling it as a state-machine violation.
+  const readCall=sequence=>readdirSync(service.directory).filter(n=>n.endsWith('.call.json')).map(n=>read(join(service.directory,n))).find(m=>m.sequence===sequence);
+  let started=readCall(3);
+  for(let attempt=0;attempt<100&&(!started||started.state!=='STARTED');attempt++){
+   if(started&&started.state==='COMPLETED'&&existsSync(join(service.directory,started.runId+'.receipt.json'))){
+    const receipt=read(join(service.directory,started.runId+'.receipt.json'));
+    assert.fail(`call completed synchronously before STARTED could be observed: ${receipt.status} ${receipt.diagnostics?.map(d=>d.code+':'+d.message).join('; ')}`);
+   }
+   await new Promise(ok=>setTimeout(ok,10));started=readCall(3);
+  }
+  assert.ok(started,'call metadata never appeared');assert.equal(started.state,'STARTED');assert.equal(existsSync(join(service.directory,started.runId+'.receipt.json')),false);
   const admitted=await pending;
   assert.equal(admitted.status,'PASS_REFERENCE',JSON.stringify(admitted));const artifactId=admitted.data.artifactId;
   const tested=await service.call('a2game.test_game',{artifactId});assert.equal(tested.status,'PASS_REFERENCE',JSON.stringify(tested));
@@ -120,4 +134,29 @@ test('public HostProfile exposes existing scene2d coordinates without repairing 
  assert.equal(scene.repeatCell.x,'originX+(cell % columns)*stepX');assert.equal(scene.repeatCell.y,'originY-floor(cell/columns)*stepY');
  assert.match(scene.layout,/not the top-left/);assert.match(scene.review,/not automatic layout correction/);
  assert.equal(scene.nodes,undefined);assert.equal(scene.repeat,undefined);assert.equal(scene.solution,undefined);assert.equal(envelope.sha256,hash(envelope.content));
+});
+test('ledger writes retry one transient EPERM at service startup and fail safely on permanent errors',async()=>{
+ const realWrite=fs.writeFileSync;
+ const failWith=code=>{const error=new Error('injected '+code);error.code=code;return error;};
+ // One-shot EPERM on the very first session.json write: startup must recover via retry.
+ let injected=0;
+ fs.writeFileSync=function once(path,...rest){if(injected===0&&String(path).endsWith('session.json')){injected++;throw failWith('EPERM');}return realWrite(path,...rest);};
+ syncBuiltinESMExports();
+ let service;
+ try{
+  service=createMcpService();
+  assert.equal(injected,1,'EPERM injection never fired');
+  const capabilities=await service.call('a2game.list_capabilities',{});
+  assert.equal(capabilities.status,'PASS_REFERENCE');
+  assert.equal(JSON.parse(fs.readFileSync(join(service.directory,'session.json'),'utf8')).state,'OPEN');
+ }finally{fs.writeFileSync=realWrite;syncBuiltinESMExports();}
+ await service.close();
+ // Permanent failure: EACCES on every write fails safely with the real code, never a TDZ ReferenceError.
+ let permanent=0;
+ fs.writeFileSync=function always(path,...rest){if(String(path).endsWith('session.json')){permanent++;throw failWith('EACCES');}return realWrite(path,...rest);};
+ syncBuiltinESMExports();
+ try{
+  assert.throws(()=>createMcpService(),error=>{assert.equal(error.code,'EACCES');assert.ok(!(error instanceof ReferenceError));return true;});
+  assert.ok(permanent>=2,'retry attempts never ran');
+ }finally{fs.writeFileSync=realWrite;syncBuiltinESMExports();}
 });

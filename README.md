@@ -1,5 +1,7 @@
 # A2Game 1.0.0 — 独立游戏 JSON 播放器与共享 Runtime
 
+A2Game Skill 是指导宿主模型创作游戏的知识与流程包。宿主模型负责“自然语言需求 → GamePlan设计 → GameSpec编写 → 根据MCP诊断修复”，MCP/共享Runtime负责准入、测试和执行；作品还需实际试玩与质量复核。GamePlan属于Agent创作阶段，不增加客户端运行协议。同一Skill可在不同Agent/模型中使用，产物统一遵循GameSpec `0.1.0`；各宿主和模型的实际效果分别验证。详见[创作流程](integrations/skill/a2game/references/authoring.md)。
+
 当前主线：真实 Agent 宿主接入与验证。Qoder、TRAE、WorkBuddy、ZCode 可按[显式全通路任务](docs/host-agent-pilot.md)执行；项目Skill安装、同会话MCP链与原始证据归档入口已备齐，真实宿主独立Pilot仍待验。
 
 2026-10-31 顺序推进结果：Batch A/B/C保留工程参考；Batch D的5任务×2模式已真实执行10/10，30次调用含1次宿主中止，9/10工程及来源输入通过。H01规划模式原稿仍失败；宿主修正版与HUD调整已通过双SDK桌面/窄屏4/4参考验证，真实模型重测未运行。参考H01动态数字的320px双SDK局部检查已通过，完整视觉仍待复核；G17仍有画面对比度不足。MCP已有无模型工程和真实Provider历史调用，模型身份尚未独立核实；Skill已有项目级安装和宿主练习，新会话自动触发仍待验。当前源码参考浏览器证据已重验；终局反馈修改后的完整工程回归和覆盖索引尚未重跑。正式G3 0/37、Verified 0/32+0/5，真机、人工和远端CI独立。见[H01修复](docs/generator-h01-repair.md)、[实际结果](docs/generator-real-findings.md)、[MCP/Skill说明](docs/generator-mcp.md)与[台账](project/generator-status.json)。

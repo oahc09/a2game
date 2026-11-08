@@ -1,5 +1,49 @@
 # A2Game 项目变更记录
 
+- 2026-11-08：整理五款当前内容交付ZIP与逐文件SHA/导入说明，核对包定义与当前修订一致；输出留本地、不自动发布，不重复验收矩阵或提升正式Gate。
+
+- 2026-11-08：当前宿主原创《光弧巡游》实时射击＋成长，实际验证持续移动/射击、释放、1→2→3伤害、新旧弹丸代际与升级消费。保留首稿Schema拒绝、触控驱动误放/通关假阳性及手动黑图；修复测试封装、画布布局、驱动与捕获方式后，6场景/双SDK6流程、116次Node Hash和29次跨端匹配，40图留证。实测反馈补Skill原始输入、连射/排队、弹丸快照、实质释放与原生绘制后截图指导，无额外Provider或正式Gate升级。
+
+- 2026-11-07：当前宿主原创复合玩法《潮汐铸防》，完整验证生产资金、跨Tick支付、合成对象/武器退休、首杀回投与真实4→8伤害，另验直升替代路线和省略升级败局。保留3稿与UI/控制器失败，6逻辑场景、双SDK4流程、144次Node Hash和36次跨端采样通过，32图留证；实测反馈补Skill复合因果/反事实、阶段文案、Host动作布局及修订停止条件。无额外Provider调用、Runtime/协议改动或正式G3升级，未提交推送。
+
+- 2026-11-07：G17 controller revision3放宽瞄准窗、增实时倒计时，保留负例；Orca Worker时序试玩与主审正常时钟截图反馈Agent通关/Three定向回归完成，Agent质量参考5/5，明确视觉反馈策略与LLM对话轮次自由玩法差异，正式G3不升级。
+
+- 2026-11-07：治理收口与台账时序修复：10-31 整批陈旧回执涉及的 gates/阶段/runs/adapter 全部诚实降级留档；授权冻结后 content:e2e 与 g2:real 真实 PASS 并恢复 G2×2/内容门/S2，g3 无模型 fixture 重验恢复备证链（正式 G3 仍 NOT_RUN），project:check 恢复 PASS；SDK/room adapter 因 S4 未重取保持 implemented-unverified。MCP 台账 STARTED 阶段被同步前缀瞬态 FS 错误（EPERM/EBUSY）压缩为即时 COMPLETED 的根因，以瞬态错误有界同步重试修复生产写路径、测试改为真实同步握手；npm test 终态 330/327/0/3 平台跳过；package.json 裸 python 统一走 scripts/run-python.mjs；conformance/schema:full/spec:validate 全绿；evidence:pack 13,976 文件（sha256 7f91ced3…）与 Skill 重打包（b325b8e0…，不安装）收尾。
+
+- 2026-11-07：以当前宿主模型原创《星隙快递》完整走通GamePlan→GameSpec→CLI验证→实测修复→真实Air/Three试玩与导出，保留3候选及HUD/字号/验证脚本/预览收尾失败。最终5场景、4浏览器输入流程、88次Node Hash与22次跨SDK采样通过；实测补充Skill动态HUD、资源计数层级、时钟证据及目录暴露边界，同步副本/重打包，无额外Provider调用、Runtime改动或正式Gate升级。
+
+- 2026-11-07：按用户定位细化Skill的“需求→宿主模型GamePlan→GameSpec→MCP验证→模型修复→可玩交付”链路，补充机制联动、需求与证据对应及分类反馈修复；自由规划不进入客户端协议，不冒充plan_game关键词草案为模型设计。同步五处副本、重新打包，完成文档/分发验证；模型路由、预算、MCP/Runtime和GameSpec不变，未追加真实模型调用或验收升级。
+
+- 2026-11-07：G17新增controller revision2修复准备时间、时限/得分文案与出生布局；Worker Air与主审Three定向DOM通关、新包导出通过；质量仍PARTIAL（自由通关/操作窗口限制），纠正原限时秒数误判，不升级原生G3或覆盖旧证据。
+
+- 2026-11-07：提升A2Game Skill触发、自然语言独立创作及视觉/素材/完整度指导；新增三份按需引用、同步五处现有副本，公开capsule新增完整指南并兼容历史三文件v2，拒绝半套指南；修正CLI能力ID示例，skill:package复用Python解析桥。56项相关回归通过、2平台符号链接跳过，frontmatter/ZIP/模板握手/副本SHA通过；只读行为复核不计真实宿主触发或新游戏验收。既有G3备证陈旧继续记录，无新增Provider调用或正式计数升级。
+
+- 2026-11-07：按用户要求将当前真人质量门替换为Agent质量（Worker实际试玩与主审复核）；记录G21/H01已覆盖、G01/G03/G17待补，保留历史证据及正式G3其他条件，不自动提升验收计数。
+
+- 2026-11-07：Orca Worker代理试玩确认并修复G21/H01准备时间过短、操作说明难发现等内容问题，revision3正常时钟Air与主审Three定向通关通过并导出新包；撤回H01“输入路径全断”误判，保留旧稿、失败和非真人验收边界。
+
+- 2026-11-07：主审复核后收口 CLI 留证与证据治理：--evidence-dir 改为有界原始字节单次读取→wx 快照→同 buffer 解码（BOM/非法 UTF-8 均留原字节，异常统一附 evidence），CLI FAIL JSON 在显式 --evidence-dir 下返回快照路径与 SHA，可选 game-plan 同趟捕获复用消除二次读取竞态；新增 JS API 与真实 CLI 子进程回归。symlink 探测按链接类别拆分（junction 场景在本机实际执行并验证拒绝）。审查发现 10-31 整批回执（23 个共同陈旧指纹）早于 11-02/03 源修复：诚实降级受影响 gates/阶段/runs/adapter（含 adapter-evidence 一致性，仅留 schema 允许字段），按授权冻结重取证 content:e2e 与 g2:real 均 PASS，G2×2/内容门/S2 以新回执恢复，SDK/room adapter 因 S4 未重取保持 implemented-unverified；package.json 两处裸 python 经 scripts/run-python.mjs 统一；conformance/schema:full/spec:validate 全绿；project:check 仅余 1 项已记录的备证性质潜在陈旧；指针变更后执行 evidence:pack 重打包，Skill 重打包不安装。
+
+- 2026-11-07：修复上轮实测暴露的仓库可修问题：新增 scripts/python-runtime.mjs 统一 Python 解析（显式>A2GAME_PYTHON>.venv>PATH），接入 content-service、generator worker、final-acceptance、refresh-reference-coverage 及两个此前用裸 `python` 的测试文件，无 venv PATH 下 17/17 通过；symlink 拒绝测试改为真实链接平台探测并显式 SKIPPED 附原因（本机 EPERM/EISDIR 不冒充覆盖，链接可用平台全量执行）；CLI validate/test 新增可选 --evidence-dir 以 wx 不可覆盖方式在准入前留存输入原字节与 SHA 清单（FAIL 同样留证，默认行为不变），Skill workflow.md 同步说明；project:check 的既有 stale 指纹（回执早于 11-02/03 修复提交）以 status.json evidenceDrift20261107 精确记录并写明恢复条件，不翻转 gates、不削弱验收。
+
+- 2026-11-07：Orca Worker 从新 Skill 包复核三处实际失败的指引，先保存三件套快照再独立复跑 CLI test，结果 PASS_REFERENCE；历史两份失败稿原字节缺失，完整失败链保持 PARTIAL。
+
+- 2026-11-07：整理WorkBuddy五款交付入口及Generator包/播放器导入格式区别，H01最终修正版包在同机新导入目录完成准入、实际通关、重开、释放与关闭；无需新模型或WorkBuddy追加执行，不升级正式验收。
+
+- 2026-11-07：根据 Orca Worker 六管排序的实际失败补充 sort 的计分、容量和胜利语义，完善 Skill 源的能力分页、终局拒绝和每次测试前原字节快照指引；主审独立复跑 CLI test 和越界诊断。失败响应可查，但两份失败前 Conformance 未留原字节，复验链 PARTIAL；Worker 会话使用模型，额外 Generator Provider 调用为 0。
+
+- 2026-11-07：新增独立工程修正版修复G21画布格位选择、G21/H01塔体重叠/HUD遮挡，完整准入/现有测试与真实双SDK输入通关通过；记录来源SHA、当前修订和历史验收边界，增加WorkBuddy最短交付说明并转向HF-N5，不改播放器/协议、不调用模型。
+
+- 2026-11-07：独立 Agent 实测收口真实反馈链缺口：CLI `capabilities` 超出 limit/offset/query 边界时的公共诊断此前误标 semantic 且提示"检查能力/状态路径/规则"，实际是纯参数越界（MCP schema 已声明 1..20，CLI 帮助未标注）。修复后该错误投影为 arguments 阶段并给出精确边界与 offset 分页指引（静态允许清单，不回显异常文本），CLI 帮助同步标注边界；新增 mechanism-diagnostics 回归。同轮以无模型路径完整实测 CLI：原创六管水排序（6×4 容量，1-6 倒液、7 撤销）validate 一次通过、test 三次内修正作者预期（score=完成管数、终局拒绝需逐条 expectError）后 PASS_REFERENCE，真实双 SDK（CocosAirJS/Three.js）浏览器键盘 13 次倒液通关、中途/重开断言与 8 张截图、显式关闭预览并导出内容包。工程参考不计 G2/G3/人工/真机；project:check 在 HEAD 即存在 48 项与本轮无关的既有 stale 指纹（已留证，不据此重跑 G2）。证据见 output/orca-agent-e2e-20261107/。
+
+- 2026-11-07：记录G21玩法工程参考与3个expired/画布输入未验边界，准备WorkBuddy H01合成炮台任务，要求消费炮台退场与攻击去重证据、原字节候选快照和最小双SDK操作；未启动新模型。
+
+- 2026-11-07：记录G17 Air通关补验及整轮PARTIAL边界，准备WorkBuddy G21塔防任务；延续独占候选快照、最小双SDK试玩，明确中断/定向补验导出范围，未调用新模型。
+
+- 2026-11-06：记录G03修复后工程参考结果及首拒绝稿缺失；准备WorkBuddy G17任务，要求准入前独占创建候选字节/SHA快照、修复另存，未启动新模型或扩大矩阵。
+
+- 2026-11-06：刷新WorkBuddy优先的后续计划：准备G03，按失败修复后逐款G17/G21/H01并穿插交付；明确旧绑定问题关闭、其他宿主待定，不新增模型调用或测试矩阵。
+
 - 2026-11-05：主审复核WorkBuddy绑定补验PASS_REFERENCE（10调用/10规范台账、无缺项），原游戏与包SHA一致、双端预览显式关闭；更新当前台账，保留旧PARTIAL与原试玩证据，不重跑矩阵、不升级正式G3。
 
 - 2026-11-05：修正本机WorkBuddy的a2game MCP启动绑定，准备原G01字节复用的补验任务，保留旧PARTIAL回执；实际宿主重连/补验待执行，未改Runtime或追加游戏生成。

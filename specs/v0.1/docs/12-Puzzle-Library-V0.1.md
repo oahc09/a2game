@@ -6,6 +6,8 @@
 
 `a2game.puzzle.swap` 实现相邻交换、MatchN、Cascade、GravityFill；`tray` 实现有向遮挡、容量和三张消除；`pair-match` 提供记忆翻牌和有侧边可取约束的麻将变体；`direction` 检查箭头射线；`placement` 提供目标归位或 Polyomino；`falling-piece` 提供旋转、碰撞、下落与消行；`sort` 提供容量和连续同色倾倒；`connected-match` 提供连通消除及悬空掉落。`push`、`slide` 复用既有实现并增加可选撤销。
 
+`a2game.puzzle.sort` 的 `width` 是管数，`selectActions` 按管索引一一对应；`tubes` 必须有 `width` 个数组，末尾为管顶，颜色值非零。容量为 `capacity`，未配置时取 `height`。选择非空源管后选择目标：目标为空或管顶同色且未满时，倒入源管顶部连续同色段，直至目标满或该段倒完；非法选择可清除选中状态，但不产生成功移动。每次成功倒液后，`moves` 加一，`score` 是已满且全为同色的管数，不计空管。默认胜利条件是每管均为空或已满且同色；配置 `targetScore` 时达到该分数也会置 `won`。`score` 和默认胜利条件在成功倒液后更新，不应假设初始状态会自动按管数计分。
+
 2026-10-27 顶出修复：`falling-piece` 硬降或重力锁定后，在同一事务中消行、生成下一块并检查出生位置；出生被占用立即置 lost，不能用该 Tick 的后续移动或下一 Tick 移动逃离重叠位置。进入 Tick 时已经被占用的出生位置同样先判失败。此前实现的检查延迟允许移动规避顶出，本次修复不改变合法拼块的移动、旋转、重力周期和消行规则。G09 revision 3 使用空 4×8 棋盘、四个 tetromino 连续消四行；变体 revision 3 改变序列并加快重力。原单拼块样例与旧回执保留，完整人工质量与独立 G3 另验。
 
 每种行为有独立 Manifest/config Schema、必需能力依赖和参考 GameSpec。内部 `grid`、`occupancy`、`match-n`、`cascade`、`gravity-fill`、`layered-stack`、`occlusion`、`reveal`、`polyomino`、`rotate-piece`、`line-clear`、`select`、`undo`、`merge` 声明算法服务；这些不是供 JSON 执行任意命令的解释器。`core.goal/rng/score/timer` 声明 Runtime 既有服务。

@@ -1,0 +1,321 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "h01-merge-tower-suite",
+  "subject": {
+    "type": "game",
+    "id": "h01-merge-tower-workbuddy",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "case1-win-with-merge",
+      "seed": 7,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy1",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "sel0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "sel0",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "mrg1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mrg1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/selected",
+          "equals": -1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 540
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/waveCursor",
+          "equals": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 1
+        },
+        {
+          "op": "step",
+          "ticks": 14
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 346
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/waveCursor",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 8
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 2
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "press"
+        }
+      ]
+    },
+    {
+      "id": "case2-lost-no-defense",
+      "seed": 7,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "press"
+        },
+        {
+          "op": "resume"
+        },
+        {
+          "op": "step",
+          "ticks": 555
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/lives",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "case3-merge-ownership-no-retired-fire",
+      "seed": 7,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy0",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "buy1",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "sel0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "sel0",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "mrg1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mrg1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/selected",
+          "equals": -1
+        },
+        {
+          "op": "step",
+          "ticks": 540
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.merged",
+          "count": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/waveCursor",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 14
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "defense.fired",
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 10
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}
