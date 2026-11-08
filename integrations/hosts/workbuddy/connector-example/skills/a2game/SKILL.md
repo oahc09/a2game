@@ -1,11 +1,28 @@
 ---
 name: a2game
 description: Create, improve, validate, playtest and package A2Game JSON games from natural-language briefs using A2Game MCP or CLI. Use for requests to make a new playable mini-game, puzzle, runner, shooter, tower-defense or hybrid game in an A2Game workspace, including Chinese requests such as 做个小游戏、生成新游戏、改善游戏画面与完整度. Also use for existing A2Game JSON and content packages. Not for unrelated engine development or projects explicitly using another game engine.
+license: MIT
+compatibility: >-
+  A2Game 1.0.0 and GameSpec 0.1.0. Uses host-provided file, command and browser tools;
+  optional A2Game MCP or an installed CLI. CLI requires Node.js 22+, Python 3.10+
+  and project dependencies; real previews require trusted CocosAirJS/Three.js SDKs.
+metadata:
+  author: oahc09
+  version: "1.0.0"
+  last-updated: "2026-11-08"
+  keywords: "A2Game, GamePlan, GameSpec, JSON games, MCP, CLI, playtest, 游戏创作"
+  description_en: >-
+    Guide the host model from a natural-language game brief through GamePlan,
+    GameSpec, validation, bounded repair, real-SDK playtesting and content delivery.
+  description_zh: "指导宿主模型完成自然语言游戏规划、GameSpec编写、验证修复、真实SDK试玩与内容包交付。"
+allowed-tools: "Read Write Edit Bash"
 ---
 
 # A2Game 游戏交付
 
 A2Game Skill 提供知识与创作流程，模型由宿主 Agent 提供。默认链路是自然语言需求 → 宿主模型设计 GamePlan → 编写 GameSpec/测试/解法 → MCP 验证 → 同一作者根据反馈修复 → 实际试玩与交付。不同宿主和模型共用 GameSpec `0.1.0` 与同一 Runtime，不把模型专属格式写进游戏协议。
+
+工具元数据不授予额外权限；实际工具名称、可用性与权限以宿主提供的Schema为准，沿用原调用预算和数据边界，不为匹配声明自动安装工具或改宿主配置。
 
 在 A2Game 项目中，用户只给玩法或主题、没有提及 Skill/JSON/MCP，也应按本技能处理创作需求；指定其他引擎时尊重原选择。只要求诊断或审查时给出发现，不自动改作品。连接或触发失败时见 [宿主发现与触发](references/discovery.md)，不要把显式读取本文件说成自动发现成功。
 
@@ -30,7 +47,7 @@ A2Game Skill 提供知识与创作流程，模型由宿主 Agent 提供。默认
 
 ## 可选的独立非法推动与撤销工程 Profile
 
-仅当控制端明确要求 `grid-push-illegal-undo-v1` 时，另交 `mechanics.json`，不将新字段塞进 GameSpec、Conformance 或 MCP 参数。公开 HostProfile 的 `mechanicsCheck` 给出完整声明合同；普通 `validate_game/test_game` 不证明此独立检查通过。
+`grid-push-illegal-undo-v1` 专用检查以控制端给出的同名 Profile 要求为触发条件；没有该要求不执行，普通游戏不额外套用此门禁。这不限制本技能按上文自动匹配创作任务。触发后另交 `mechanics.json`，不将新字段塞进 GameSpec、Conformance 或 MCP 参数。公开 HostProfile 的 `mechanicsCheck` 给出完整声明合同；普通 `validate_game/test_game` 不证明此独立检查通过。
 
 此 Profile 限定入口场景中唯一、直接声明的 `a2game.puzzle.push@0.1.0`，并使用其内建 `historyPath/undoAction`。明确绑定 sceneId/entityId/componentIndex 和配置中 player/boxes/moves/solved 四个核心路径；提交有限合法前缀、实际非法方向动作、非法种类及真实 undo 动作。不能用无关 no-op 或撞墙代替 `--require-blocked-push` 要求的被墙/箱/边界阻挡的箱子推动。检查器独立确认几何合法性、非法动作后整个 observed state（含历史）/RNG 不变，以及 undo 回到最后一次合法动作之前；所有边界保持 playing。
 

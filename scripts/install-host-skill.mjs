@@ -15,7 +15,8 @@ try{
   const path=join(dir,name),stat=lstatSync(path);
   if(stat.isSymbolicLink())throw Error('Skill symlinks are not supported');
   if(stat.isDirectory())return files(path);
-  if(!name.endsWith('.md')||stat.size>65536)throw Error('Unexpected Skill file');
+  const rel=relative(source,path).replaceAll('\\','/');
+  if((!name.endsWith('.md')&&!['agents/openai.yaml','LICENSE'].includes(rel))||stat.size>65536)throw Error('Unexpected Skill file');
   return [path];
  });
  const sources=files(source),targets=[...new Set((host==='all'?Object.values(destinations):[destinations[host]]))];

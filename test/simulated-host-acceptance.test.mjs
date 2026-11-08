@@ -12,9 +12,9 @@ const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const write=(p,v)=>writeFileSync(p,typeof v==='string'?v:JSON.stringify(v));
 function fixture(t,host='native-agent-simulated'){
  const workspace=mkdtempSync(join(tmpdir(),'a2game-host-run-'));t.after(()=>rmSync(workspace,{recursive:true,force:true}));
- for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor','integrations/skill/a2game/references'])mkdirSync(join(workspace,p),{recursive:true});
+ for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','docs','output/mcp','dist','player/adapters','player/vendor','integrations/skill/a2game/references','integrations/skill/a2game/agents'])mkdirSync(join(workspace,p),{recursive:true});
  write(join(workspace,'specs/v0.1/schemas/public.json'),{type:'object'});write(join(workspace,'docs/host-agent-pilot.md'),'Public task');write(join(workspace,'specs/v0.1/capabilities/public.capability.json'),{id:'a2game.test.public',version:'0.1.0'});
- for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md'])write(join(workspace,'integrations/skill/a2game',name),'Public Skill '+name);
+ for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md','agents/openai.yaml','LICENSE'])write(join(workspace,'integrations/skill/a2game',name),'Public Skill '+name);
  write(join(workspace,'dist/index.js'),'export const stale = false;');
  for(const name of ['main.mjs','bootstrap.js','index.html','style.css','adapters/example.mjs'])write(join(workspace,'player',name),'original browser source '+name);
  write(join(workspace,'player/vendor/sdk-provenance.json'),{receipt:'original'});write(join(workspace,'player/vendor/three.module.js'),'downloaded SDK bound separately');

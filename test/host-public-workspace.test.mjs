@@ -6,6 +6,7 @@ import {createHash} from 'node:crypto';
 import {readPublicResource} from '../integrations/mcp/resources.mjs';
 import {tmpdir} from 'node:os';
 import {prepareHostWorkspace,verifyPublicWorkspace} from '../scripts/host-public-workspace.mjs';
+import {hostSourceFingerprint} from '../scripts/host-source-fingerprint.mjs';
 import {sandboxArguments,probeAuthoringSandbox,launchAuthoringSandbox} from '../scripts/host-authoring-sandbox.mjs';
 // Probe each real-link class separately: file symlinks need SeCreateSymbolicLinkPrivilege
 // on Windows and some volumes reject junctions too. Only platform capability rejections
@@ -27,7 +28,7 @@ function canCreateLinkClass(base,kind){
   throw error;
  }
 }
-function setup(){const base=mkdtempSync(join(tmpdir(),'a2game-public-'));const repo=join(base,'repository'),run=join(base,'run');for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','specs/v0.1/games','docs','integrations/skill/a2game/references'])mkdirSync(join(repo,p),{recursive:true});mkdirSync(join(run,'candidate'),{recursive:true});writeFileSync(join(repo,'specs/v0.1/schemas/game.schema.json'),'{}');writeFileSync(join(repo,'specs/v0.1/capabilities/a2game.core.state.capability.json'),'{}');writeFileSync(join(repo,'specs/v0.1/games/g01.game.json'),'PRIVATE ANSWER');writeFileSync(join(repo,'docs/host-agent-pilot.md'),'Public task');for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md'])writeFileSync(join(repo,'integrations/skill/a2game',name),'Public Skill '+name);const isolation=prepareHostWorkspace(run,repo);writeFileSync(join(run,'run.json'),JSON.stringify({isolation}));return {base,repo,run,isolation};}
+function setup(){const base=mkdtempSync(join(tmpdir(),'a2game-public-'));const repo=join(base,'repository'),run=join(base,'run');for(const p of ['specs/v0.1/schemas','specs/v0.1/capabilities','specs/v0.1/games','docs','integrations/skill/a2game/references','integrations/skill/a2game/agents'])mkdirSync(join(repo,p),{recursive:true});mkdirSync(join(run,'candidate'),{recursive:true});writeFileSync(join(repo,'specs/v0.1/schemas/game.schema.json'),'{}');writeFileSync(join(repo,'specs/v0.1/capabilities/a2game.core.state.capability.json'),'{}');writeFileSync(join(repo,'specs/v0.1/games/g01.game.json'),'PRIVATE ANSWER');writeFileSync(join(repo,'docs/host-agent-pilot.md'),'Public task');for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md','agents/openai.yaml','LICENSE'])writeFileSync(join(repo,'integrations/skill/a2game',name),'Public Skill '+name);const isolation=prepareHostWorkspace(run,repo);writeFileSync(join(run,'run.json'),JSON.stringify({isolation}));return {base,repo,run,isolation};}
 test('public capsule contains only allowlisted contracts; additions and modified bytes fail closed',()=>{const x=setup();try{assert.equal(x.isolation.status,'PREPARED_NOT_ISOLATED');assert.equal(verifyPublicWorkspace(join(x.run,'public-context'),x.isolation.manifestSha256).status,'VERIFIED_PUBLIC_BYTES');assert.deepEqual(readdirSync(join(x.run,'public-context')).sort(),['AUTHORING.md','TASK.md','capabilities','manifest.json','resources','schemas','skill']);writeFileSync(join(x.run,'public-context','answer.json'),'{}');assert.throws(()=>verifyPublicWorkspace(join(x.run,'public-context'),x.isolation.manifestSha256));rmSync(join(x.run,'public-context','answer.json'));writeFileSync(join(x.run,'public-context/schemas/game.schema.json'),'{"modified":true}');assert.throws(()=>sandboxArguments(x.run));}finally{rmSync(x.base,{recursive:true,force:true});}});
 test('capsule source symlinks cannot smuggle repository answers',t=>{const x=setup();try{
  if(!canCreateLinkClass(x.base,'file')){t.skip('this platform/volume cannot create file symlinks (EPERM/EISDIR); symlink-source rejection is exercised on link-capable platforms and CI');return;}
@@ -48,7 +49,7 @@ test('v2 capsule binds exact shared Skill, mounted task, versioned resource cont
   const base=join(x.run,'public-context'),manifest=JSON.parse(readFileSync(join(base,'manifest.json')));
   assert.equal(manifest.version,2);assert.equal(manifest.task.mode,'LEGACY_EXPLICIT_GUIDE');assert.equal(manifest.task.taskId,'G01');
   assert.equal(manifest.task.promptSha256,hash(readFileSync(join(base,'TASK.md'))));assert.deepEqual(readFileSync(join(base,'TASK.md')),readFileSync(join(x.run,'TASK.md')));
-  for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md'])assert.deepEqual(readFileSync(join(base,'skill',name)),readFileSync(join(x.repo,'integrations/skill/a2game',name)));
+  for(const name of ['SKILL.md','references/workflow.md','references/troubleshooting.md','references/discovery.md','references/authoring.md','references/quality.md','agents/openai.yaml','LICENSE'])assert.deepEqual(readFileSync(join(base,'skill',name)),readFileSync(join(x.repo,'integrations/skill/a2game',name)));
   for(const name of ['host-profile','contract-fragments']){const uri='a2game://spec/0.1.0/'+name+'.json',expected=readPublicResource(uri).contents[0].text;assert.equal(readFileSync(join(base,'resources',name+'.envelope.json'),'utf8'),expected);assert.equal(readFileSync(join(base,'resources',name+'.json'),'utf8'),JSON.parse(expected).content);}
   for(const path of Object.keys(manifest.files))assert.ok(!readFileSync(join(base,path),'utf8').includes('PRIVATE ANSWER'));
   assert.equal(x.isolation.runtimeIsolation,'NOT_RUN');assert.equal(x.isolation.independentAuthoring,'NOT_VERIFIED');
@@ -67,7 +68,7 @@ test('v2 metadata stays structurally bound even when a caller supplies a newly c
  }
 });
 test('Skill/task/resource tampering, missing required files, resource envelope mismatch and cross-cell extra output fail closed',()=>{
- for(const path of ['TASK.md','skill/SKILL.md','skill/references/discovery.md','skill/references/authoring.md','skill/references/quality.md','resources/host-profile.json','resources/contract-fragments.envelope.json']){const x=setup();try{writeFileSync(join(x.run,'public-context',path),'changed');assert.throws(()=>verifyPublicWorkspace(join(x.run,'public-context'),x.isolation.manifestSha256));}finally{rmSync(x.base,{recursive:true,force:true});}}
+ for(const path of ['TASK.md','skill/SKILL.md','skill/references/discovery.md','skill/references/authoring.md','skill/references/quality.md','skill/agents/openai.yaml','skill/LICENSE','resources/host-profile.json','resources/contract-fragments.envelope.json']){const x=setup();try{writeFileSync(join(x.run,'public-context',path),'changed');assert.throws(()=>verifyPublicWorkspace(join(x.run,'public-context'),x.isolation.manifestSha256));}finally{rmSync(x.base,{recursive:true,force:true});}}
  const x=setup();try{
   const base=join(x.run,'public-context'),path='resources/host-profile.envelope.json',env=JSON.parse(readFileSync(join(base,path)));env.uri='a2game://spec/0.1.0/contract-fragments.json';const bytes=JSON.stringify(env);writeFileSync(join(base,path),bytes);const changed=rewriteManifest(x,m=>{m.files[path]=hash(bytes);});assert.throws(()=>verifyPublicWorkspace(base,changed));
  }finally{rmSync(x.base,{recursive:true,force:true});}
@@ -89,15 +90,27 @@ test('v1 minimal capsules remain readable but cannot acquire v2 files or imply i
  }finally{rmSync(x.base,{recursive:true,force:true});}
 });
 
-test('sealed v2 three-file Skills remain valid; partially bundled new guides fail closed',()=>{
+test('sealed v2 three/six-file Skills remain valid; partial guides or metadata fail closed',()=>{
  const guides=['references/discovery.md','references/authoring.md','references/quality.md'];
- for(const removed of [guides,[guides[2]]]){
+ const metadata=['agents/openai.yaml','LICENSE'];
+ for(const removed of [[...guides,...metadata],metadata,['agents/openai.yaml'],[guides[2]]]){
   const x=setup();try{
    const base=join(x.run,'public-context');
    for(const name of removed)rmSync(join(base,'skill',name));
+   if(removed.includes('agents/openai.yaml'))rmSync(join(base,'skill/agents'),{recursive:true});
    const changed=rewriteManifest(x,m=>{for(const name of removed){delete m.skill.files[name];delete m.files['skill/'+name];}});
-   if(removed.length===guides.length)assert.equal(verifyPublicWorkspace(base,changed).status,'VERIFIED_PUBLIC_BYTES');
+   if(removed.length===guides.length+metadata.length||removed===metadata)assert.equal(verifyPublicWorkspace(base,changed).status,'VERIFIED_PUBLIC_BYTES');
    else assert.throws(()=>verifyPublicWorkspace(base,changed));
+  }finally{rmSync(x.base,{recursive:true,force:true});}
+ }
+});
+
+test('invocation metadata and license bytes participate in implementation identity',()=>{
+ for(const name of ['agents/openai.yaml','LICENSE']){
+  const x=setup();try{
+   const before=hostSourceFingerprint(x.repo);
+   writeFileSync(join(x.repo,'integrations/skill/a2game',name),'changed metadata');
+   assert.notEqual(hostSourceFingerprint(x.repo),before);
   }finally{rmSync(x.base,{recursive:true,force:true});}
  }
 });

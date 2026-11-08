@@ -1,0 +1,6 @@
+interface:
+  display_name: "A2Game 游戏创作"
+  short_description: "按自然语言规划并创作 A2Game 游戏，验证玩法、复核画面并交付内容包"
+  default_prompt: "使用 $a2game 将需求规划为可玩的 JSON 游戏，完成验证、修复和真实 SDK 试玩后交付内容包。"
+policy:
+  allow_implicit_invocation: true

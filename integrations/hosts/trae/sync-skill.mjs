@@ -22,7 +22,7 @@ if(!files.some(p=>relative(source,p)==='SKILL.md'))errors.push('Skill 源缺少 
 const entry=files.some(p=>relative(source,p)==='SKILL.md')?readFileSync(join(source,'SKILL.md'),'utf8'):'';
 if(entry&&!(/^---\n/.test(entry)&&/^name: a2game$/m.test(entry)&&/^description: .+/m.test(entry)))errors.push('SKILL.md frontmatter 不符合 name/description 合同');
 for(const [,link] of entry.matchAll(/\]\(([^)]+)\)/g)){const t=link.replaceAll('\\','/');if(t.startsWith('/')||t.split('/').includes('..'))errors.push('SKILL.md 链接必须为相对路径: '+t);else if(!files.some(p=>relative(source,p).replaceAll('\\','/')===t))errors.push('SKILL.md 链接目标不存在: '+t);}
-for(const p of files){if(!p.endsWith('.md'))errors.push('Skill 源仅允许 .md 文件: '+relative(root,p));if(statSync(p).size>64*1024)errors.push('Skill 文件超过 64KiB: '+relative(root,p));}
+for(const p of files){const rel=relative(source,p).replaceAll('\\','/');if(!p.endsWith('.md')&&!['agents/openai.yaml','LICENSE'].includes(rel))errors.push('Skill 源仅允许 Markdown、LICENSE 与 agents/openai.yaml: '+relative(root,p));if(statSync(p).size>64*1024)errors.push('Skill 文件超过 64KiB: '+relative(root,p));}
 
 // 2) 仅创建缺失的副本，不覆盖已有改动或跟随目标符号链接。
 if(!checkOnly&&!errors.length){

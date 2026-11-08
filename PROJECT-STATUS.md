@@ -1,5 +1,7 @@
 # A2Game 当前实施状态（1.0.0 工作区）
 
+2026-11-08 Skill checker缺项修复收口：按用户确认MIT补license/compatibility/metadata/allowed-tools和Codex openai.yaml，附许可证；澄清技能隐式匹配与专用Profile条件。ZIP/安装器/TRAE同步器精确支持YAML/许可文件，公开capsule绑定8成员并兼容历史3/6成员，身份指纹纳入新增内容。源码与ZIP解压目录codex复检均0严重/0一般、格式/策略/质量通过、安全allow；相关58项56通过/2平台文件symlink跳过/0失败，五副本及真实capsule SHA一致。无新模型/游戏/全局配置/正式Gate升级，未重试永久清理；最新包报告见status.skillPolicyRepairRun及[修复说明](docs/skill-checker-repair.md)，本轮未提交推送。
+
 2026-11-08 五款交付包整理完成：output/workbuddy-delivery-20261108-b0336a71.zip包含当前5份Generator内容包、manifest、SHA清单及导入说明；逐份包定义与当前交付JSON一致。仅核对版本/完整性，不重复试玩/新模型调用、不包含本机配置/私有完整证据，不替代异机接收或正式G3。文档入口已更新，保留全部并发源码/Skill改动；未提交推送。
 
 2026-11-08 当前宿主原创实时射击成长《光弧巡游》实跑完成：WASD/持续射击/自动瞄准/击杀能量成长，3候选两版GameSpec，首稿injectRaw封装Schema失败原文留存，修后6场景通过。双SDK各手动键盘、正常键盘、390px虚拟多指共6流程通过，正常整局约17.0–17.2秒满生命；松开/部分指释放位移0，真实1/2/3命中与旧弹丸快照、满级与排队边界已验。116次Node Hash、29次跨SDK及58次补拍采样一致，40张最终有效图，原触控误判/黑图与修复保留。更新Skill四引用并同步/重打包，无额外Provider、Runtime或协议改动，不推升正式G3/真机/独立质量。见[完整记录](docs/host-native-arc-drifter.md)与status.nativeHostShooterGameRun，未提交/推送。

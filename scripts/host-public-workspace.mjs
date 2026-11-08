@@ -7,7 +7,8 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const fail=()=>{throw Error('Unsafe or incomplete public authoring capsule');};
 const save=(p,b)=>writeFileSync(p,b,{flag:'wx'});
 const legacySkillFiles=['SKILL.md','references/workflow.md','references/troubleshooting.md'];
-const skillFiles=[...legacySkillFiles,'references/discovery.md','references/authoring.md','references/quality.md'];
+const previousSkillFiles=[...legacySkillFiles,'references/discovery.md','references/authoring.md','references/quality.md'];
+const skillFiles=[...previousSkillFiles,'agents/openai.yaml','LICENSE'];
 const resourceNames=['host-profile','contract-fragments'];
 const uriFor=name=>'a2game://spec/0.1.0/'+name+'.json';
 const digest=value=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
@@ -52,11 +53,11 @@ export function verifyPublicWorkspace(capsule,expectedDigest){
  const base=resolve(capsule),bytes=regular(base,join(base,'manifest.json'));
  if(!digest(expectedDigest)||hash(bytes)!==expectedDigest)fail();
  const manifest=JSON.parse(bytes);if(manifest.format!=='a2game-public-authoring-capsule'||![1,2].includes(manifest.version)||manifest.specVersion!=='0.1.0'||!manifest.files||typeof manifest.files!=='object'||Array.isArray(manifest.files))fail();
- // Existing sealed v2 capsules retain their original three-file Skill contract.
- // New capsules carry all guides; arbitrary/partial Skill file sets remain rejected.
+ // Existing sealed v2 capsules retain their three/six-file contracts.
+ // New capsules bind guides, UI/invocation metadata and license; partial sets fail closed.
  const boundSkillFiles=manifest.version===2?Object.keys(manifest.skill?.files??{}):[];
- if(manifest.version===2&&![legacySkillFiles,skillFiles].some(names=>sameKeys(manifest.skill?.files,names)))fail();
- const seen=[];function walk(dir){for(const name of readdirSync(dir)){const p=join(dir,name);const st=lstatSync(p);if(st.isSymbolicLink())fail();if(st.isDirectory()){const rel=relative(base,p).replaceAll('\\','/');if(!(manifest.version===2?['schemas','capabilities','skill','skill/references','resources']:['schemas','capabilities']).includes(rel))fail();walk(p);}else if(st.isFile())seen.push(relative(base,p).replaceAll('\\','/'));else fail();}}walk(base);
+ if(manifest.version===2&&![legacySkillFiles,previousSkillFiles,skillFiles].some(names=>sameKeys(manifest.skill?.files,names)))fail();
+ const seen=[];function walk(dir){for(const name of readdirSync(dir)){const p=join(dir,name);const st=lstatSync(p);if(st.isSymbolicLink())fail();if(st.isDirectory()){const rel=relative(base,p).replaceAll('\\','/');if(!(manifest.version===2?['schemas','capabilities','skill','skill/references','resources',...(boundSkillFiles.includes('agents/openai.yaml')?['skill/agents']:[])]:['schemas','capabilities']).includes(rel))fail();walk(p);}else if(st.isFile())seen.push(relative(base,p).replaceAll('\\','/'));else fail();}}walk(base);
  const expected=[...Object.keys(manifest.files),'manifest.json'].sort();if(JSON.stringify(seen.sort())!==JSON.stringify(expected))fail();
  const fixed=manifest.version===2?['TASK.md',...boundSkillFiles.map(n=>'skill/'+n),...resourceNames.flatMap(n=>['resources/'+n+'.json','resources/'+n+'.envelope.json'])]:[];
  for(const [path,sha]of Object.entries(manifest.files)){

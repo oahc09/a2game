@@ -1,4 +1,33 @@
 {
+  "skillPolicyRepairRun": {
+    "date": "2026-11-08",
+    "status": "PASS_LOCAL_SKILL_CHECKER_CODEX",
+    "scope": "SKILL_METADATA_AND_DISTRIBUTION_ONLY",
+    "guide": "docs/skill-checker-repair.md",
+    "source": "integrations/skill/a2game/SKILL.md",
+    "receipt": "output/skill-policy-fix-20261108-f7d4a387/summary.json",
+    "report": "output/skill-policy-fix-20261108-f7d4a387/a2game-skill-report-final.html",
+    "zipReport": "output/skill-policy-fix-20261108-f7d4a387/a2game-skill-report-zip.html",
+    "package": "output/skill/39adc253-9f87-4b66-8a87-d1fdf2627003/a2game.zip",
+    "sha256": "9cb3b34e995c340a7a4bfe9529568bae2af9b73cf89db54b0844fe86163d0660",
+    "license": "MIT_USER_CONFIRMED",
+    "skillFiles": 8,
+    "projectCopies": 5,
+    "severe": 0,
+    "warnings": 0,
+    "security": "allow",
+    "tests": {
+      "total": 58,
+      "passed": 56,
+      "skipped": 2,
+      "failed": 0,
+      "log": "output/skill-policy-fix-20261108-f7d4a387/tests.log"
+    },
+    "additionalProviderCalls": 0,
+    "realHostAutomaticTrigger": "NOT_RUN",
+    "globalInstallation": "NOT_RUN",
+    "formalGatePromotion": false
+  },
   "nativeHostShooterGameRun": {
     "date": "2026-11-08",
     "status": "PASS_REFERENCE_WITH_RETAINED_FAILURE_HISTORY",
