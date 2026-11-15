@@ -4,6 +4,8 @@
 
 ## 表现合同
 
+2026-11-14音频修正：PresentationFrame中的音频key按cue ID与逻辑eventId稳定绑定，不包含当前观察Tick。宿主记住已消费事件，避免历史事件在后续Tick重复播放；用户解锁前的事件只消费不补播，同帧同cue合并，Tick回退/重开清空消费缓存，dispose释放缓存与原生音源。此修正不改GameSpec或逻辑Hash。
+
 - `scene2d` 继续提供背景尺寸与 HUD；`stage.camera` 提供透视/正交相机、位置、目标、裁剪距离、FOV 和正交高度。中心坐标、右手 Y 向上，角度为弧度；Host 转换为 SDK 单位。
 - `nodes` 最多 128 个，支持 `sprite` 和 `mesh`。Mesh 为 box/sphere/plane，Sprite 使用经过审核的 image 资源。尺寸为正 vec3，位置为数字或顶层数值状态 JSON Pointer。资源逻辑 ID 必须存在且类型匹配。
 - 可信材质预设为 `unlit/standard`：分别使用原生无光照/PBR 材质与 Shader，不执行来自 JSON 的脚本或 Shader 源码。未来材质扩展需单独注册 Capability。

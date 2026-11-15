@@ -1,0 +1,72 @@
+{
+  "format": "a2game-function-closure-work",
+  "version": 1,
+  "date": "2026-11-15",
+  "status": "BOUNDED_FUNCTIONAL_IMPLEMENTATION_DELIVERED",
+  "priority": "FUNCTIONS_AND_ISSUES_BEFORE_EXTERNAL_ACCEPTANCE",
+  "tasks": [
+    {
+      "id": "FC-1",
+      "title": "Air历史异常与播放器问题收口",
+      "status": "FIXED_REPRODUCED_PATH",
+      "deliverable": "核对AIR_E_ORTHO_WIDTH历史记录、初始化/尺寸/切换/释放路径；取得复现或可解释诊断后修复。未复现保留未解决，不改为PASS。",
+      "reproduction": "reports/fc1-air-1794708953965/summary.json",
+      "fixedRecheck": "reports/fc1-air-1794709057209/summary.json",
+      "scope": "Zero-size container fallback triggers native design-resolution update and invalid camera width; guard hidden/unsettled layout, fail early for hidden initialization. Historical original cause remains unproven without historical geometry.",
+      "playthrough": "reports/fc1-closure-1794709127718/levels-1794710262302/summary.json",
+      "historicalIncident": "Historical dimensions were not captured; the matching reproduced path is fixed, not claimed as the uniquely proven historical cause."
+    },
+    {
+      "id": "FC-2",
+      "title": "持久化生成队列与发布版本重启恢复",
+      "status": "IMPLEMENTED_TARGETED_REFERENCE",
+      "deliverable": "单Worker有界生成排队、取消、恢复、完整复验、选版恢复、损坏隔离；已开始中断任务不重跑，累计已用/预留额度不重置。"
+    },
+    {
+      "id": "FC-3",
+      "title": "账户、权限与鉴权",
+      "status": "IMPLEMENTED_SINGLE_ADMIN_REFERENCE",
+      "deliverable": "环境令牌登录、短期HttpOnly会话、退出/重启失效、来源/跨站限制和固定发布权限；不提供多用户账户。",
+      "userChoice": "单管理员令牌＋发布权限"
+    },
+    {
+      "id": "FC-4",
+      "title": "生产部署准备与功能交接",
+      "status": "SINGLE_INSTANCE_DEPLOYMENT_GUIDE_PREPARED",
+      "deliverable": "提供配置、持久化目录、启动/停止、恢复和发布回退说明，并完成相关功能回归；生产部署单独授权，准备完成不等于上线。",
+      "guide": "docs/service-operations.md"
+    }
+  ],
+  "nextPhase": {
+    "name": "实际验证与正式验收",
+    "status": "ACTUAL_VALIDATION_AND_ACCEPTANCE_NOT_RUN",
+    "items": [
+      "实际宿主新创作",
+      "Agent质量复核及对应验收合同",
+      "适用设备输入与生命周期",
+      "独立G3及逐款正式登记"
+    ],
+    "entryCondition": "功能缺口清单逐项关闭或明确记录待决阻塞；对应模型预算、设备与部署操作分别具备授权。"
+  },
+  "developmentValidation": "每次改动执行直接相关的必要回归，不以功能优先为由跳过校验；源码变化时按既有合同处理受影响回执。",
+  "realModelCallBudget": 0,
+  "physicalDevices": "DEFERRED",
+  "deployment": "NOT_AUTHORIZED_BY_PRIORITY_CHANGE",
+  "commitAndPush": "NOT_AUTHORIZED_BY_PRIORITY_CHANGE",
+  "validation": {
+    "command": "node --test --test-concurrency=1 test/adapters.test.mjs test/generator-studio.test.mjs test/service-persistence.test.mjs test/service-queue.test.mjs test/admin-boundary.test.mjs test/update-channel.test.mjs",
+    "exitCode": 0,
+    "tests": 12,
+    "pass": 12,
+    "fail": 0,
+    "outputTail": "reports/fc1-closure-1794709127718/targeted-tests-tail.log",
+    "scope": "Targeted functional regressions only; not full npm run verify or formal acceptance",
+    "realProviderCalls": 0
+  },
+  "remainingLimits": [
+    "Single writer / one worker / at most16 tasks including history and16 release records; no unlimited history UI or multi-node scheduling",
+    "Actual public TLS gateway, deployment and platform/device acceptance remain unexecuted",
+    "Historical Air incident has no captured dimensions; unique historical cause is not certified",
+    "Old-source executable SDKs require fresh publication rather than silent migration"
+  ]
+}

@@ -18,6 +18,7 @@ if(existsSync(output))throw Error('Output already exists');mkdirSync(join(output
 const copy=(src,dst)=>cpSync(resolve(root,src),join(output,dst),{recursive:true,errorOnExist:true,force:false});
 copy('dist','dist');copy('specs/v0.1/capabilities','specs/v0.1/capabilities');copy('player/adapters','player/adapters');copy('player/resources.mjs','player/resources.mjs');copy('player/browser-registry.mjs','player/browser-registry.mjs');copy('player/capability-index.json','player/capability-index.json');copy('packages/player-sdk/index.mjs','player/index-sdk.mjs');copy('examples/embedded-player','player');
 mkdirSync(join(output,'player/vendor'),{recursive:true});const provenance=JSON.parse(readFileSync(resolve(root,'player/vendor/sdk-provenance.json'),'utf8'));
+for(const file of ['pointer-host.mjs','mobile-host.mjs','gamepad-host.mjs','input-labels.mjs'])copy('player/'+file,'player/'+file);
 for(const item of provenance.files){const source=resolve(root,item.path),sha=createHash('sha256').update(readFileSync(source)).digest('hex');if(sha!==item.sha256)throw Error('SDK provenance SHA differs: '+item.path);copyFileSync(source,join(output,'player/vendor',item.path.split('/').at(-1)));}
 copy('player/vendor/sdk-provenance.json','player/vendor/sdk-provenance.json');
 mkdirSync(join(output,'player/assets'));for(const resource of bundle.resources){const {bytes}=service.readAsset(resource.sha256);writeFileSync(join(output,'player/assets',resource.sha256),bytes,{flag:'wx'});}

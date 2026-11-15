@@ -1,0 +1,59 @@
+[
+  {
+    "action": "refine",
+    "ticks": 121
+  },
+  {
+    "action": "claimOre",
+    "ticks": 1
+  },
+  {
+    "action": "refine",
+    "ticks": 121
+  },
+  {
+    "action": "claimOre",
+    "ticks": 1
+  },
+  {
+    "action": "buildA",
+    "ticks": 1
+  },
+  {
+    "action": "buildB",
+    "ticks": 1
+  },
+  {
+    "action": "selectA",
+    "ticks": 1
+  },
+  {
+    "action": "mergeB",
+    "ticks": 1
+  },
+  {
+    "ticks": 812
+  },
+  {
+    "action": "upgradeB",
+    "ticks": 1
+  },
+  {
+    "ticks": 840
+  },
+  {
+    "action": "refine",
+    "ticks": 121
+  },
+  {
+    "action": "claimOre",
+    "ticks": 1
+  },
+  {
+    "action": "upgradeB",
+    "ticks": 1
+  },
+  {
+    "ticks": 600
+  }
+]

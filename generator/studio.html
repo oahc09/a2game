@@ -44,7 +44,7 @@ async function refresh(){const state=await api('status');$('budget').textContent
  $('history').replaceChildren();for(const job of state.jobs.filter(j=>j.status==='completed')){const b=document.createElement('button');b.textContent=job.id.slice(0,8);b.onclick=()=>show(job).catch(e=>message('载入未完成：'+e.message,true));$('history').append(b);}return state;}
 const stageName={plan:'校验规划',generate:'请求生成',validate:'完整验证',import:'导入并重新验证'};
 async function poll(id){try{const job=await api('jobs/'+id);$('progress').replaceChildren();for(const row of job.progress){const li=document.createElement('li');li.textContent=(stageName[row.stage]||row.stage)+(row.attempt?' · 第 '+row.attempt+' 次':'');$('progress').append(li);}
- if(job.status==='running'){timer=setTimeout(()=>poll(id),600);return;}active=null;busy(false);await refresh();
+ if(job.status==='running'||job.status==='queued'){if(job.status==='queued')message('任务已保存，等待前面的任务完成。');timer=setTimeout(()=>poll(id),600);return;}active=null;busy(false);await refresh();
  if(job.status==='completed'){message('工程验证通过，可开始试玩。人工质量与正式验收仍待复核。');await show(job);}else{message(job.status==='cancelled'?'任务已取消。':'本次未通过：'+(job.error?.code||job.result?.code||'请查看验证结果'),true);$('tests-text').textContent=JSON.stringify(job,null,2);tab('tests');$('empty').hidden=true;}
  }catch(e){busy(false);message('状态读取未完成：'+e.message+'；请刷新后查看运行记录。',true);}}
 function track(job){active=job.id;busy(true);message('任务已开始，正在生成并验证。');poll(job.id);}

@@ -1,6 +1,6 @@
 # 素材怎么选、怎么用
 
-素材目录帮助Agent复用现成的外观，不必每次重新画角色、飞机或炮台。当前主要提供基础图形组合，还不是完整的图片、模型和动画资源库。
+素材目录帮助Agent复用现成的外观，不必每次重新画角色、飞机或炮台。现有图元主题之外，新增9幅原创透明精灵、3段PCM音效和港湾Stage模型/动画预设，均有源文件、许可和审核摘要；这仍不是任意模型格式导入器。
 
 ## 1. 现在有哪些素材
 
@@ -10,6 +10,11 @@
 | `spaceflight@1.0.0` | 飞机、敌机、弹丸 | 射击游戏 |
 | `tidal-turrets@1.0.0` | 炮台、货艇和数字标记 | 塔防、合成炮台 |
 | `woodland-props-3d@1.0.0` | 树、岩石、货箱的基础3D组合 | 小场景和道具展示 |
+| `warehouse-* / space-* / harbor-* @1.0.0` | 九幅256px透明PNG及可编辑SVG源 | 三款代表作品的角色、物件与反馈素材 |
+| `collect-chime / impact-soft / merge-chord @1.0.0` | 三段原创短PCM WAV | 收取、命中、合成提示 |
+| `harbor-models@1.0.0` | 仓库、码头组合模型与Tick旋转/粒子预设 | 现有Stage能力的3D创作 |
+
+新增资源见[原创素材包](../assets/creation-kit/README.md)。`runtime-stage-sprite`与`runtime-stage-audio`条目需要在GameSpec的`assets`中声明，并以现有`presentation.stage`引用；不要把PNG条目当作scene2d图元主题。`stage-authoring-kit`是创作模板，不是可执行模型脚本。
 
 源文件都在`assets/themes/`。这些原创素材标注CC0许可；目录同时记录来源、版本、文件大小和SHA摘要，便于核对文件是否被修改。摘要不能证明文件来自谁。
 
@@ -67,7 +72,7 @@ Three绘制对象复用已有定向性能观察，但不是所有机器上的性
 ## 6. 预览与交付
 
 - 想先读说明再开始：使用`preview --ready`。
-- 想导出推箱子三关：运行`node games/phase2/sokoban/export.mjs`，每次创建新目录，不覆盖旧包。
+- 想导出推箱子五关：运行`node games/phase2/sokoban/export.mjs`，每次创建新目录，不覆盖旧包。
 - 想嵌入网页：看[Player SDK](../packages/player-sdk/README.md)。
 - 想保留和回退版本：看[本地版本管理](../packages/content-delivery/README.md)。
 

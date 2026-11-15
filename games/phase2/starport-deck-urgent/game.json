@@ -1,0 +1,1265 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.host.starport-deck.urgent",
+  "revision": 1,
+  "meta": {
+    "title": "星港牌令 · 紧急订单",
+    "description": "初始热量1，9次出牌内交付两单。电矿透支、热≥4或出牌超限均败；必须安排两次冷却。",
+    "author": "Current host model",
+    "genres": [
+      "cards",
+      "resource-planning",
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-clamp",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.cards",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.deck",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.hand",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.legal-move",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.player-order",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 1109,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "scenes": [
+    {
+      "id": "dock",
+      "entities": [
+        {
+          "id": "deck-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.cards",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/cards",
+                "drawAction": "drawCard",
+                "playActions": [
+                  "slot1",
+                  "slot2",
+                  "slot3"
+                ],
+                "maxHand": 3,
+                "shuffle": false
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "dock",
+  "state": {
+    "cards": {
+      "type": "object",
+      "initial": {
+        "deck": [
+          1,
+          4,
+          2,
+          3,
+          1,
+          4,
+          2,
+          3,
+          2,
+          1
+        ],
+        "hand": [],
+        "discard": [],
+        "initialized": false,
+        "score": 0,
+        "won": false
+      }
+    },
+    "energy": {
+      "type": "int",
+      "initial": 0
+    },
+    "ore": {
+      "type": "int",
+      "initial": 0
+    },
+    "heat": {
+      "type": "int",
+      "initial": 1
+    },
+    "orders": {
+      "type": "int",
+      "initial": 0
+    },
+    "turns": {
+      "type": "int",
+      "initial": 0
+    },
+    "deckCount": {
+      "type": "int",
+      "initial": 10
+    },
+    "handCount": {
+      "type": "int",
+      "initial": 0
+    },
+    "discardCount": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "紧急订单：初热1，别忘两次冷却"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "drawCard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 12,
+              "x": 3.85,
+              "y": 4.6,
+              "hx": 0.75,
+              "hy": 1,
+              "mode": "tap",
+              "maxDistanceNorm": 0.12
+            }
+          }
+        ],
+        "policy": "simultaneous"
+      },
+      {
+        "id": "slot1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 12,
+              "x": -3,
+              "y": 0,
+              "hx": 1.25,
+              "hy": 1.3,
+              "mode": "tap",
+              "maxDistanceNorm": 0.12
+            }
+          }
+        ],
+        "policy": "simultaneous"
+      },
+      {
+        "id": "slot2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 12,
+              "x": 0,
+              "y": 0,
+              "hx": 1.25,
+              "hy": 1.3,
+              "mode": "tap",
+              "maxDistanceNorm": 0.12
+            }
+          }
+        ],
+        "policy": "simultaneous"
+      },
+      {
+        "id": "slot3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          },
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 10,
+              "sceneHeight": 12,
+              "x": 3,
+              "y": 0,
+              "hx": 1.25,
+              "hy": 1.3,
+              "mode": "tap",
+              "maxDistanceNorm": 0.12
+            }
+          }
+        ],
+        "policy": "simultaneous"
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "draw-hint",
+      "on": {
+        "type": "input.action",
+        "action": "drawCard",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "手牌最多3张；满手或空库时抽牌无变化"
+        }
+      ]
+    },
+    {
+      "id": "drawn",
+      "on": {
+        "type": "cards.drawn"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/deckCount",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/handCount",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "抽牌成功，数字键按位置出牌"
+        }
+      ]
+    },
+    {
+      "id": "played-count",
+      "priority": 0,
+      "on": {
+        "type": "cards.played"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/handCount",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/discardCount",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/turns",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "empty-slot-1",
+      "on": {
+        "type": "input.action",
+        "action": "slot1",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "该位置没有牌；先抽牌或选其他位置"
+        }
+      ]
+    },
+    {
+      "id": "empty-slot-2",
+      "on": {
+        "type": "input.action",
+        "action": "slot2",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "该位置没有牌；先抽牌或选其他位置"
+        }
+      ]
+    },
+    {
+      "id": "empty-slot-3",
+      "on": {
+        "type": "input.action",
+        "action": "slot3",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "该位置没有牌；先抽牌或选其他位置"
+        }
+      ]
+    },
+    {
+      "id": "effect-1",
+      "priority": 10,
+      "on": {
+        "type": "cards.played"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/card"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/heat",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "充能：电+2，热+1"
+        }
+      ]
+    },
+    {
+      "id": "effect-2",
+      "priority": 10,
+      "on": {
+        "type": "cards.played"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/card"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/heat",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "采矿：电-1，矿+2，热+1"
+        }
+      ]
+    },
+    {
+      "id": "effect-3",
+      "priority": 10,
+      "on": {
+        "type": "cards.played"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/card"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": -2
+        },
+        {
+          "op": "state.add",
+          "path": "/orders",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/heat",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "装配：电-1矿-2，交付+1"
+        }
+      ]
+    },
+    {
+      "id": "effect-4",
+      "priority": 10,
+      "on": {
+        "type": "cards.played"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/card"
+          },
+          {
+            "const": 4
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/heat",
+          "value": -3
+        },
+        {
+          "op": "state.clamp",
+          "path": "/heat",
+          "min": 0,
+          "max": 99
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "冷却：热-3，最低0"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "overheated",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/heat"
+          },
+          {
+            "const": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": "resource-debt",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "or",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/energy"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/ore"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "too-many-turns",
+      "status": "lost",
+      "priority": 2,
+      "when": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/turns"
+          },
+          {
+            "const": 9
+          }
+        ]
+      }
+    },
+    {
+      "id": "orders-complete",
+      "status": "won",
+      "priority": 3,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/orders"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-draw",
+        "kind": "button",
+        "text": "D 抽一张",
+        "bind": {
+          "action": "drawCard"
+        }
+      },
+      {
+        "id": "button-slot1",
+        "kind": "button",
+        "text": "1 出位置1",
+        "bind": {
+          "action": "slot1"
+        }
+      },
+      {
+        "id": "button-slot2",
+        "kind": "button",
+        "text": "2 出位置2",
+        "bind": {
+          "action": "slot2"
+        }
+      },
+      {
+        "id": "button-slot3",
+        "kind": "button",
+        "text": "3 出位置3",
+        "bind": {
+          "action": "slot3"
+        }
+      },
+      {
+        "id": "instructions",
+        "kind": "text",
+        "text": "点牌库抽牌、点牌出牌；数字键按位置。三条败局：电/矿为负、热≥4、出牌>9；失败优先于订单达标。"
+      },
+      {
+        "id": "message",
+        "kind": "text",
+        "bind": {
+          "state": "/message"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 12,
+      "background": "#071520",
+      "nodes": [
+        {
+          "id": "deck-pile-bg",
+          "kind": "rect",
+          "at": [
+            3.85,
+            4.6
+          ],
+          "size": [
+            1.5,
+            2
+          ],
+          "fill": "#203E50"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            5.25
+          ],
+          "fill": "#F3FBFF",
+          "text": {
+            "literal": "星港牌令"
+          },
+          "fontSize": 1
+        },
+        {
+          "id": "orders-label",
+          "kind": "text",
+          "at": [
+            -1.45,
+            4.25
+          ],
+          "fill": "#DCEEF5",
+          "text": {
+            "literal": "订单"
+          },
+          "fontSize": 0.7
+        },
+        {
+          "id": "orders",
+          "kind": "text",
+          "at": [
+            0,
+            4.25
+          ],
+          "fill": {
+            "from": {
+              "state": "/turns"
+            },
+            "map": {
+              "10": "#FF718B"
+            },
+            "fallback": "#94F4DD"
+          },
+          "text": {
+            "state": "/orders"
+          },
+          "fontSize": 1
+        },
+        {
+          "id": "orders-goal",
+          "kind": "text",
+          "at": [
+            1.1,
+            4.25
+          ],
+          "fill": "#94F4DD",
+          "text": {
+            "literal": "/ 2"
+          },
+          "fontSize": 0.7
+        },
+        {
+          "id": "deck-label",
+          "kind": "text",
+          "at": [
+            3.85,
+            5
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "牌库"
+          },
+          "fontSize": 0.54
+        },
+        {
+          "id": "deck",
+          "kind": "text",
+          "at": [
+            3.85,
+            4.25
+          ],
+          "fill": "#FFD28E",
+          "text": {
+            "state": "/deckCount"
+          },
+          "fontSize": 0.85
+        },
+        {
+          "id": "discard-label",
+          "kind": "text",
+          "at": [
+            -3.85,
+            5
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "弃牌"
+          },
+          "fontSize": 0.54
+        },
+        {
+          "id": "discard",
+          "kind": "text",
+          "at": [
+            -3.85,
+            4.25
+          ],
+          "fill": "#BBA7F5",
+          "text": {
+            "state": "/discardCount"
+          },
+          "fontSize": 0.85
+        },
+        {
+          "id": "energy-label",
+          "kind": "text",
+          "at": [
+            -3.4,
+            3.2
+          ],
+          "fill": "#DCEEF5",
+          "text": {
+            "literal": "电力"
+          },
+          "fontSize": 0.58
+        },
+        {
+          "id": "energy-value",
+          "kind": "text",
+          "at": [
+            -3.4,
+            2.55
+          ],
+          "fill": {
+            "from": {
+              "state": "/energy"
+            },
+            "map": {
+              "-1": "#FF718B",
+              "-2": "#FF718B",
+              "-3": "#FF718B",
+              "-4": "#FF718B",
+              "-5": "#FF718B",
+              "-6": "#FF718B",
+              "-7": "#FF718B",
+              "-8": "#FF718B",
+              "-9": "#FF718B",
+              "-10": "#FF718B"
+            },
+            "fallback": "#71E3E0"
+          },
+          "text": {
+            "state": "/energy"
+          },
+          "fontSize": 0.88
+        },
+        {
+          "id": "ore-label",
+          "kind": "text",
+          "at": [
+            -1.15,
+            3.2
+          ],
+          "fill": "#DCEEF5",
+          "text": {
+            "literal": "矿石"
+          },
+          "fontSize": 0.58
+        },
+        {
+          "id": "ore-value",
+          "kind": "text",
+          "at": [
+            -1.15,
+            2.55
+          ],
+          "fill": {
+            "from": {
+              "state": "/ore"
+            },
+            "map": {
+              "-1": "#FF718B",
+              "-2": "#FF718B",
+              "-3": "#FF718B",
+              "-4": "#FF718B",
+              "-5": "#FF718B",
+              "-6": "#FF718B",
+              "-7": "#FF718B",
+              "-8": "#FF718B",
+              "-9": "#FF718B",
+              "-10": "#FF718B"
+            },
+            "fallback": "#FFD28E"
+          },
+          "text": {
+            "state": "/ore"
+          },
+          "fontSize": 0.88
+        },
+        {
+          "id": "heat-label",
+          "kind": "text",
+          "at": [
+            1.15,
+            3.2
+          ],
+          "fill": "#DCEEF5",
+          "text": {
+            "literal": "热 / 4"
+          },
+          "fontSize": 0.58
+        },
+        {
+          "id": "heat-value",
+          "kind": "text",
+          "at": [
+            1.15,
+            2.55
+          ],
+          "fill": {
+            "from": {
+              "state": "/heat"
+            },
+            "map": {
+              "0": "#9DE7D2",
+              "1": "#FFD28E",
+              "2": "#FFBC79",
+              "3": "#FF9477",
+              "4": "#FF718B",
+              "5": "#FF718B",
+              "6": "#FF718B",
+              "7": "#FF718B",
+              "8": "#FF718B",
+              "9": "#FF718B",
+              "10": "#FF718B"
+            },
+            "fallback": "#FF718B"
+          },
+          "text": {
+            "state": "/heat"
+          },
+          "fontSize": 0.88
+        },
+        {
+          "id": "turns-label",
+          "kind": "text",
+          "at": [
+            3.4,
+            3.2
+          ],
+          "fill": "#DCEEF5",
+          "text": {
+            "literal": "出牌 / 9"
+          },
+          "fontSize": 0.58
+        },
+        {
+          "id": "turns-value",
+          "kind": "text",
+          "at": [
+            3.4,
+            2.55
+          ],
+          "fill": {
+            "from": {
+              "state": "/turns"
+            },
+            "map": {
+              "10": "#FF718B"
+            },
+            "fallback": "#C8B0FF"
+          },
+          "text": {
+            "state": "/turns"
+          },
+          "fontSize": 0.88
+        },
+        {
+          "id": "slot-0",
+          "kind": "rect",
+          "at": [
+            -3,
+            0
+          ],
+          "size": [
+            2.58,
+            2.68
+          ],
+          "fill": "#182D42"
+        },
+        {
+          "id": "position-0",
+          "kind": "text",
+          "at": [
+            -3,
+            1.7
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "位置 1"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "empty-0",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "fill": "#53718A",
+          "text": {
+            "literal": "空"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "slot-1",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            2.58,
+            2.68
+          ],
+          "fill": "#182D42"
+        },
+        {
+          "id": "position-1",
+          "kind": "text",
+          "at": [
+            0,
+            1.7
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "位置 2"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "empty-1",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "fill": "#53718A",
+          "text": {
+            "literal": "空"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "slot-2",
+          "kind": "rect",
+          "at": [
+            3,
+            0
+          ],
+          "size": [
+            2.58,
+            2.68
+          ],
+          "fill": "#182D42"
+        },
+        {
+          "id": "position-2",
+          "kind": "text",
+          "at": [
+            3,
+            1.7
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "位置 3"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "empty-2",
+          "kind": "text",
+          "at": [
+            3,
+            0
+          ],
+          "fill": "#53718A",
+          "text": {
+            "literal": "空"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "legend-1",
+          "kind": "text",
+          "at": [
+            0,
+            -2.1
+          ],
+          "fill": "#88E9DF",
+          "text": {
+            "literal": "1 充能：+2电，热+1"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "legend-2",
+          "kind": "text",
+          "at": [
+            0,
+            -2.9
+          ],
+          "fill": "#FFD28E",
+          "text": {
+            "literal": "2 采矿：-1电，+2矿，热+1"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "legend-3",
+          "kind": "text",
+          "at": [
+            0,
+            -3.7
+          ],
+          "fill": "#C9B2FF",
+          "text": {
+            "literal": "3 装配：-1电 -2矿，订单+1"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "legend-4",
+          "kind": "text",
+          "at": [
+            0,
+            -4.5
+          ],
+          "fill": "#A1CFFF",
+          "text": {
+            "literal": "4 冷却：热-3，最低0"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "keys",
+          "kind": "text",
+          "at": [
+            0,
+            -5.35
+          ],
+          "fill": "#9CBED0",
+          "text": {
+            "literal": "点牌库/按D抽牌 · 点牌/数字键出牌"
+          },
+          "fontSize": 0.58
+        }
+      ],
+      "repeat": [
+        {
+          "id": "hand",
+          "source": {
+            "state": "/cards/hand"
+          },
+          "columns": 3,
+          "origin": [
+            -3,
+            0
+          ],
+          "step": [
+            3,
+            3
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "shadow",
+              "kind": "rect",
+              "at": [
+                0.08,
+                -0.1
+              ],
+              "size": [
+                2.5,
+                2.6
+              ],
+              "fill": "#04101B"
+            },
+            {
+              "id": "face",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                2.5,
+                2.6
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "1": "#16636B",
+                  "2": "#795731",
+                  "3": "#5C4A86",
+                  "4": "#2D5B87"
+                },
+                "fallback": "#3B4F66"
+              }
+            },
+            {
+              "id": "stripe",
+              "kind": "rect",
+              "at": [
+                0,
+                0.95
+              ],
+              "size": [
+                2.15,
+                0.1
+              ],
+              "fill": "#D6F4EE"
+            },
+            {
+              "id": "number",
+              "kind": "text",
+              "at": [
+                0,
+                0.05
+              ],
+              "fill": "#F4FCFF",
+              "text": {
+                "item": true
+              },
+              "fontSize": 1.35
+            },
+            {
+              "id": "type-label",
+              "kind": "text",
+              "at": [
+                0,
+                -0.85
+              ],
+              "fill": "#D9EEF4",
+              "text": {
+                "literal": "牌面类型"
+              },
+              "fontSize": 0.54
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ]
+}

@@ -2,11 +2,13 @@
 
 这里是第二阶段的试玩入口。先选一款游戏，运行对应命令，再打开命令打印的网址。
 
+本轮另有[扩展关卡与素材展台](expansions.md)：推箱子新增两关、四波补给塔防、星港牌组与紧急订单，以及透明精灵/Stage模型演示。需要在同一业务网页选择、切换和回退作品时，使用[本机交付服务](../../packages/delivery-service/README.md)。
+
 运行前需要安装项目依赖、构建代码，并准备对应的真实引擎SDK。首次使用请看[项目安装说明](../../README.md)。
 
 ## 1. 暖光仓库：推箱子
 
-三关逐步增加难度。把箱子推到目标位置，可以撤销、重试并保存通关进度。
+五关逐步增加难度。把箱子推到目标位置，可以撤销、重试并保存通关进度；第四、第五关由有界作者搜索生成参考解法，前三关内容保留。
 
 ```powershell
 node scripts/serve-collection.mjs games/phase2/sokoban/collection.json
@@ -24,6 +26,8 @@ node generator/cli.mjs preview games/phase2/shooter --backend three --ready
 
 当前为第5版。不同引擎的整局测试版本不同，详见[玩法与测试范围](shooter/README.md)。
 
+2026-11-14当前交付：第5版源Air与独立SDK双端已补完整正常时钟通关（含保护暂停后的显式恢复）。内容包、SDK和Android内置内容版本统一，产物位置见[当前选择清单](../../project/phase2-delivery.json)。
+
 ## 3. 港湾守望：合成炮台
 
 熔炼矿石获得金币，购买、合成和升级炮台，抵挡三波敌艇。
@@ -33,6 +37,8 @@ node generator/cli.mjs preview games/phase2/turret-defense --backend three --rea
 ```
 
 当前第3版已有Air整局试玩，Three有玩法和画面记录。[完整玩法说明](turret-defense/README.md)。
+
+2026-11-14：第3版当前独立SDK双端均完成合成、升级、三波胜利和重开。主审已知路线Agent复核及网页回退范围见[P0交付说明](../../docs/phase2-p0-delivery.md)。
 
 ## 玩之前与玩完后
 

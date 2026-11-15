@@ -1,0 +1,93 @@
+{
+  "format": "a2game-priority-work",
+  "version": 1,
+  "date": "2026-11-14",
+  "status": "PARTIAL_EXTERNAL_GATES",
+  "tasks": [
+    {
+      "id": "P1-1",
+      "title": "G17暂停和Air异常诊断",
+      "status": "PARTIAL_AIR_EXCEPTION_NOT_REPRODUCED",
+      "finding": "Original P0 full observation transfer correlated with 8/7 pauses; compact transfer yielded 0/0 in same SDKs, one route lost and one won. Low-overhead profile max Tick 5.1ms/draw 2ms. No threshold change; historical ORTHO_WIDTH remains unreproduced, not causally resolved."
+    },
+    {
+      "id": "P1-2",
+      "title": "代表作品可复用素材与表现",
+      "status": "COMPLETE_REFERENCE_ASSET_KIT",
+      "assets": 13,
+      "scope": "9 transparent PNG/SVG originals, 3 PCM cues, compound Stage model/animation kit; no arbitrary glTF loader/auditory aesthetics claim"
+    },
+    {
+      "id": "P1-3",
+      "title": "独立SDK手势、IMU和手柄接入",
+      "status": "COMPLETE_REFERENCE_VIRTUAL",
+      "flows": 12
+    },
+    {
+      "id": "P1-4",
+      "title": "37款当前源码参考证据",
+      "status": "COMPLETE_CURRENT_REFERENCE"
+    },
+    {
+      "id": "P1-5",
+      "title": "正式档案检查前置条件",
+      "status": "COMPLETE_CURRENT_ARCHIVE_REFERENCE"
+    },
+    {
+      "id": "P2-1",
+      "title": "关卡与组合玩法深度",
+      "status": "COMPLETE_AUTHOR_REFERENCE",
+      "receipts": [
+        "reports/p1-sdk-profile-1794625088019/levels-1794630826866/summary.json",
+        "reports/p1-sdk-profile-1794625088019/levels-1794631451513/summary.json"
+      ]
+    },
+    {
+      "id": "P2-2",
+      "title": "实际宿主创作链路",
+      "status": "BLOCKED_EXTERNAL_HOST_BUDGET",
+      "constraint": "No new model calls without explicit host/provider budget; engineering preparation cannot imply native-host acceptance",
+      "engineering": "Existing host capture, native import SHA binding and fixture generation/publication available; no new branded/native-host model execution authorized.",
+      "preparedRequest": "reports/p1-sdk-profile-1794625088019/native-host-ready/summary.json"
+    },
+    {
+      "id": "P2-3",
+      "title": "客户端在线更新与失败回退",
+      "status": "COMPLETE_LOOPBACK_REFERENCE",
+      "receipt": "reports/p1-sdk-profile-1794625088019/delivery-1794630267253/summary.json"
+    },
+    {
+      "id": "P2-4",
+      "title": "云端生成与发布服务的本地实现",
+      "status": "COMPLETE_LOOPBACK_REFERENCE",
+      "constraint": "Loopback only; default model budget 0; no deployment or credential operation",
+      "receipt": "reports/p1-sdk-profile-1794625088019/delivery-1794630267253/summary.json"
+    }
+  ],
+  "physicalDevices": "DEFERRED_BY_EXISTING_USER_INSTRUCTION",
+  "remoteCI": "NOT_TRIGGERED",
+  "realModelCalls": 0,
+  "formalG3": "NOT_RUN",
+  "remaining": [
+    "Historical AIR_E_ORTHO_WIDTH not reproduced; causal resolution pending",
+    "Actual native/branded host generation lacks a new explicit call budget",
+    "Human quality, independent G3, applicable physical evidence and production cloud deployment are not certified"
+  ],
+  "receipts": {
+    "verification": "reports/verify-2026-11-14T04-59-25-348Z-64060/verify.log",
+    "referenceCoverage": "reports/reference-coverage-4dd8be36-0b4f-4383-9510-678b5e971208/schema-check.json",
+    "archive": "reports/acceptance-2026-11-14T05-21-43-397Z-63556/summary.json",
+    "quality": "reports/p1-sdk-profile-1794625088019/quality-review-current.json",
+    "delivery": "reports/p1-sdk-profile-1794625088019/delivery-1794630267253/summary.json",
+    "defaultService": "reports/p1-sdk-profile-1794625088019/service-12-versions.json"
+  },
+  "portableEvidence": {
+    "status": "PACKED",
+    "path": "output/a2game-evidence-20261114-p1p2.jsonl.gz",
+    "files": 16117,
+    "uncompressedBytes": 1343004802,
+    "compressedBytes": 829465337,
+    "sha256": "61cd1232d2937a1516d7b566d4b552ff73399e4e32d3aa5c568394631b786a6d",
+    "scope": "Per-file byte checks and archive SHA during packing; full restore not repeated this batch"
+  }
+}

@@ -28,7 +28,7 @@ node scripts/package-player-sdk.mjs games/phase2/sokoban/01-first-light/game.jso
 
 页面根据游戏声明生成标题、按钮和键盘绑定，支持点按、按住、松开、暂停、继续、重开和关闭。没有在游戏中声明的快捷键不会自动添加。
 
-暂停、重开和关闭会清除持续输入；继续后需要重新按住按键。触屏按钮可按住，但不代表已实现全部触摸手势、传感器或手柄输入。
+暂停、重开和关闭会清除持续输入；继续后需要重新按住按键。声明`touch.*`时，画布原生Pointer由共享Runtime识别拖动、轨迹、双指旋转/缩放等手势。声明`imu.*`或`gamepad.*`时才显示设备按钮，必须显式启用；暂停/重开后需重新启用并校准。虚拟输入结果不代表真机通过。
 
 CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要新实例时，重新加载页面；示例切换引擎也通过重新加载完成。
 
@@ -45,6 +45,8 @@ CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要�
 | `action(id)` | 点按一个动作 |
 | `press(id, source)` / `release(id, source)` | 按住 / 释放某个输入来源 |
 | `cancelInputs()` | 取消持续输入 |
+| `enableSensors()` / `calibrateSensors()` / `disableSensors()` | 显式启用、校准、停止已声明的IMU输入 |
+| `enableGamepad()` / `disableGamepad()` | 显式启用/停止手柄，停止会释放设备来源 |
 | `getInfo()` | 读取标题、操作名称和键盘绑定 |
 | `status()` / `diagnostics()` | 查看运行状态 / 资源检查信息 |
 | `dispose()` | 关闭实例并等待清理 |
@@ -54,6 +56,8 @@ CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要�
 
 调用`dispose()`后，状态先变为`disposing`，待加载和适配器清理结束才成为`disposed`。加载失败的实例会关闭；再次加载需要新建实例，CocosAirJS仍需遵守重新加载页面的限制。
 
+`load()`尚未完成时，`status()`返回`loading`；仅在内容、资源和引擎适配器全部准备完成后才返回`ready`，此时可以读取`getInfo()`并开始游戏。
+
 ## 5. 怎样更新游戏
 
 打包命令支持三种JSON：`a2game`游戏定义、`a2game-release-bundle`运行内容包，以及`a2game-generator-package`生成工具导出的包。
@@ -61,6 +65,8 @@ CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要�
 对于生成工具包，脚本只读取`files.content`里的运行内容，不验证或交付解法、来源声明、测试结果和GamePlan等其他信息。
 
 **换游戏或修改JSON后，必须重新完整检查并打包。** 当前SDK绑定一个确定的内容包，不能直接接收任意新JSON，也不是在线更新系统。保留旧输出目录，新版本生成到新目录。
+
+若已使用本地版本管理，可运行 `node scripts/content-delivery.mjs build-player --root output/my-game`，从选中版本完整复验并构建，避免手工寻找包路径；也可用 `--version v1` 构建旧版。输出携带版本及包摘要，具体见[版本交付说明](../content-delivery/README.md)。
 
 ## 6. 检查和信任范围
 
@@ -78,4 +84,4 @@ SDK来源见分发目录的`player/vendor/sdk-provenance.json`，共享物理库
 
 输入与关闭记录见本地`reports/phase2-sdk-held-air-20261108/fixed/browser-summary.json`；原失败保留在同目录上一级。较早的资源加载失败与在途初始化关闭记录见`reports/phase2-sdk-20261108-resources-f2c4/browser-summary.json`，只代表当时的代码版本。
 
-当前不包括完整手势、IMU、手柄、录制、参考播放器附加音效和动画。自动追帧超限会暂停并报告`A2G_E_CLOCK_STALL`，用户可以选择继续。受管资源清理不代表引擎全局缓存或全部GPU资源归零，也不构成移动端或商业发布承诺。
+当前新增手势、IMU与手柄桥接已有双SDK虚拟/合成输入及Node回放Hash证据，物理设备仍未验。录制、参考播放器附加音效和动画不因此自动集成。自动追帧超限会暂停并报告`A2G_E_CLOCK_STALL`，用户可以选择继续。受管资源清理不代表引擎全局缓存或全部GPU资源归零，也不构成移动端或商业发布承诺。

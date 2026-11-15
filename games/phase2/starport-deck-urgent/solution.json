@@ -1,0 +1,66 @@
+[
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "drawCard",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  },
+  {
+    "action": "slot1",
+    "ticks": 1
+  }
+]

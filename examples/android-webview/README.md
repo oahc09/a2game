@@ -1,5 +1,7 @@
 # Android WebView 本地接入示例
 
+2026-11-14当前构建已统一为G17 revision5及本轮SDK输入、音频与loading修复。离线未签名构建、264项内置文件逐文件字节/SHA比对通过；APK与分发位置见[当前交付选择](../../project/phase2-delivery.json)。没有安装、设备/模拟器执行或发布；旧259项分发和下面2026-11-08的revision4均为历史快照。
+
 这是用于验证接入方式的最小 Android 工程，不是已验收或可发布的 Android 客户端。需要本机 JDK、Android SDK 35、构建工具、Gradle/AndroidX 依赖，以及已完整准入并打包的可信 Player SDK 分发目录。例如从本工程目录构建：
 
 ```powershell

@@ -790,7 +790,7 @@
               "size": [
                 1.25,
                 1.05,
-                1.0
+                1
               ],
               "color": "#4d8069",
               "material": "standard"
@@ -943,6 +943,517 @@
           ]
         }
       }
+    },
+    {
+      "id": "warehouse-crate",
+      "version": "1.0.0",
+      "title": "warehouse-crate",
+      "tags": [
+        "warehouse",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/warehouse-crate.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 18240,
+        "integrity": "sha256-z+FPsMbYYCN/nIBsoyt9u3bSo+Kf9rqm4j9ZZPaodHo=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "warehouse-worker",
+      "version": "1.0.0",
+      "title": "warehouse-worker",
+      "tags": [
+        "warehouse",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/warehouse-worker.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 13770,
+        "integrity": "sha256-Lj4Oa5CwNjXHMdOFWszXT7gNCzK8GpJ/Chj2BjRB1+0=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "warehouse-goal",
+      "version": "1.0.0",
+      "title": "warehouse-goal",
+      "tags": [
+        "warehouse",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/warehouse-goal.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 12676,
+        "integrity": "sha256-rM7KO3yEDRAp/y52i3Dp9VsBZMyCJ0Ab/9TGjTj6yd4=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "space-pilot",
+      "version": "1.0.0",
+      "title": "space-pilot",
+      "tags": [
+        "space",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/space-pilot.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 17671,
+        "integrity": "sha256-0gJofT8VEretg0h9S3TbzQr633jx+LJIE665LrF7KRQ=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "space-enemy",
+      "version": "1.0.0",
+      "title": "space-enemy",
+      "tags": [
+        "space",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/space-enemy.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 17293,
+        "integrity": "sha256-zUUvZvD8m80mXrRtkqHAGOAptNVwGqgA6E86vxvs/go=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "space-burst",
+      "version": "1.0.0",
+      "title": "space-burst",
+      "tags": [
+        "space",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/space-burst.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 21817,
+        "integrity": "sha256-0eLSn8sxVH5AxgRUpKp0fxRQV3cvq/8l1frJTKsl3ko=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "harbor-turret",
+      "version": "1.0.0",
+      "title": "harbor-turret",
+      "tags": [
+        "harbor",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/harbor-turret.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 14169,
+        "integrity": "sha256-YWmUbioMwASkkBLeaB+juyy2ANNvv3RQuzVgVEdwdB4=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "harbor-boat",
+      "version": "1.0.0",
+      "title": "harbor-boat",
+      "tags": [
+        "harbor",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/harbor-boat.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 15614,
+        "integrity": "sha256-XHLU2nkqOZxDNMgH4n6nY6xFR3L4sm5pAQGVk2NbgDU=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "harbor-coin",
+      "version": "1.0.0",
+      "title": "harbor-coin",
+      "tags": [
+        "harbor",
+        "image",
+        "phase2"
+      ],
+      "kind": "runtime-stage-sprite",
+      "asset": {
+        "uri": "assets/creation-kit/harbor-coin.png",
+        "type": "image",
+        "mime": "image/png",
+        "bytes": 30508,
+        "integrity": "sha256-ZO38iSQf+UgoD2gjsVICRLWNvcJqH2MJGW43IhW7vj8=",
+        "source": "Original SVG artwork rendered locally by A2Game; no external images",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "collect-chime",
+      "version": "1.0.0",
+      "title": "collect-chime",
+      "tags": [
+        "collect",
+        "audio",
+        "phase2"
+      ],
+      "kind": "runtime-stage-audio",
+      "asset": {
+        "uri": "assets/creation-kit/collect-chime.wav",
+        "type": "audio",
+        "mime": "audio/wav",
+        "bytes": 12392,
+        "integrity": "sha256-MOxFF4yNYSJ15OiJ10Xz4tb6Q7S8m+G2x76UWToQt7g=",
+        "source": "Original bounded PCM synthesis; no samples or external audio",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "impact-soft",
+      "version": "1.0.0",
+      "title": "impact-soft",
+      "tags": [
+        "impact",
+        "audio",
+        "phase2"
+      ],
+      "kind": "runtime-stage-audio",
+      "asset": {
+        "uri": "assets/creation-kit/impact-soft.wav",
+        "type": "audio",
+        "mime": "audio/wav",
+        "bytes": 5336,
+        "integrity": "sha256-gHwpobcALuzI8f7CDGKmjzFBBiAFcyt7sr7UG2jAIZ0=",
+        "source": "Original bounded PCM synthesis; no samples or external audio",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "merge-chord",
+      "version": "1.0.0",
+      "title": "merge-chord",
+      "tags": [
+        "merge",
+        "audio",
+        "phase2"
+      ],
+      "kind": "runtime-stage-audio",
+      "asset": {
+        "uri": "assets/creation-kit/merge-chord.wav",
+        "type": "audio",
+        "mime": "audio/wav",
+        "bytes": 15478,
+        "integrity": "sha256-UV8yFbXjum2NdE05oi/dowoPmt7xN21jhhVkkH3T0SA=",
+        "source": "Original bounded PCM synthesis; no samples or external audio",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim"
+    },
+    {
+      "id": "harbor-models",
+      "version": "1.0.0",
+      "title": "harbor-models",
+      "tags": [
+        "harbor",
+        "json",
+        "phase2"
+      ],
+      "kind": "stage-authoring-kit",
+      "asset": {
+        "uri": "assets/creation-kit/harbor-models.json",
+        "type": "json",
+        "mime": "application/json",
+        "bytes": 2685,
+        "integrity": "sha256-H3OHFuKc2a5XW0oMjpbaquFkGWCZnXKZxTzN5hVLTEA=",
+        "source": "Original Stage primitive model and animation authoring kit",
+        "license": "CC0-1.0"
+      },
+      "requiredCapabilities": [
+        {
+          "id": "a2game.visual.stage",
+          "version": "0.1.0"
+        }
+      ],
+      "review": "Original SVG/source and transparent PNG contact sheet inspected by controller Agent; PCM finite envelope/levels checked; no listening or arbitrary model-import claim",
+      "preset": {
+        "format": "a2game-stage-authoring-kit",
+        "version": 1,
+        "license": "CC0-1.0",
+        "scope": "Existing Stage primitive model compositions and Tick spin/particle presets; not arbitrary glTF loading",
+        "models": {
+          "dock": [
+            {
+              "id": "deck",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                4,
+                0.2,
+                2
+              ],
+              "color": "#ae8259",
+              "material": "standard"
+            },
+            {
+              "id": "post0",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                -1.6,
+                -0.6,
+                0
+              ],
+              "size": [
+                0.3,
+                1.4,
+                0.3
+              ],
+              "color": "#57756f",
+              "material": "standard"
+            },
+            {
+              "id": "post1",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                1.6,
+                -0.6,
+                0
+              ],
+              "size": [
+                0.3,
+                1.4,
+                0.3
+              ],
+              "color": "#57756f",
+              "material": "standard"
+            }
+          ],
+          "warehouse": [
+            {
+              "id": "building",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.8,
+                0
+              ],
+              "size": [
+                2,
+                1.6,
+                1.5
+              ],
+              "color": "#c9b499",
+              "material": "standard"
+            },
+            {
+              "id": "roof",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                1.7,
+                0
+              ],
+              "size": [
+                2.3,
+                0.25,
+                1.8
+              ],
+              "color": "#397d86",
+              "material": "standard"
+            },
+            {
+              "id": "door",
+              "kind": "mesh",
+              "geometry": "box",
+              "at": [
+                0,
+                0.55,
+                0.77
+              ],
+              "size": [
+                0.65,
+                1.1,
+                0.06
+              ],
+              "color": "#4f6470",
+              "material": "unlit"
+            }
+          ]
+        },
+        "animation": {
+          "coinSpin": {
+            "spin": [
+              0,
+              0.6,
+              0
+            ]
+          },
+          "impact": {
+            "count": 8,
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "spread": [
+              1,
+              1,
+              0.3
+            ],
+            "velocity": [
+              0,
+              0.4,
+              0
+            ],
+            "size": 0.06,
+            "color": "#ffe0a0",
+            "periodTicks": 60
+          }
+        },
+        "images": [
+          "warehouse-crate",
+          "warehouse-worker",
+          "warehouse-goal",
+          "space-pilot",
+          "space-enemy",
+          "space-burst",
+          "harbor-turret",
+          "harbor-boat",
+          "harbor-coin"
+        ],
+        "audio": [
+          "collect-chime",
+          "impact-soft",
+          "merge-chord"
+        ]
+      }
     }
   ],
   "hostFeedback": {
@@ -1030,8 +1541,8 @@
     }
   },
   "limitations": [
-    "No texture sprite pack, 3D pack or particle preset added in this increment.",
     "Theme is inlined during authoring. Runtime does not download authoring JSON.",
-    "Hashes bind bytes, not visual quality or model provenance."
+    "Hashes bind bytes, not visual quality or model provenance.",
+    "Original runtime sprites/PCM cues and primitive-model presets are available; no arbitrary glTF loader or independent auditory-quality approval."
   ]
 }

@@ -37,9 +37,15 @@ def main():
     # Validate the JS-parsed numeric representation that the actual Runtime consumes.
     game, manifests = payload['game'], payload['manifests']
     errors = []
+    checked_schemas = {}
 
     def validate(value, schema, prefix=''):
-        Draft202012Validator.check_schema(schema)
+        # The trusted capability meta-schema is shared by all manifests in this
+        # admission. Check each schema object once; still validate every value.
+        schema_identity = id(schema)
+        if schema_identity not in checked_schemas:
+            Draft202012Validator.check_schema(schema)
+            checked_schemas[schema_identity] = schema
         for error in islice(Draft202012Validator(schema, format_checker=FormatChecker()).iter_errors(value), 20 - len(errors)):
             parts = list(error.absolute_path)
             if error.validator == 'required' and isinstance(error.instance, dict):

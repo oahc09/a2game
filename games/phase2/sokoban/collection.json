@@ -26,6 +26,20 @@
       "hint": "先为自己留路，再让三盏灯依次归位。",
       "game": "03-three-lanterns/game.json",
       "par": 14
+    },
+    {
+      "id": "04-divided-aisle",
+      "title": "分隔货道",
+      "hint": "先找通路，再安排两个箱子的归位次序。",
+      "game": "04-divided-aisle/game.json",
+      "par": 18
+    },
+    {
+      "id": "05-clear-the-way",
+      "title": "先让一步",
+      "hint": "先把下面的箱子移开，再为上面的箱子腾路。",
+      "game": "05-clear-the-way/game.json",
+      "par": 5
     }
   ]
 }

@@ -1,0 +1,172 @@
+{
+  "format": "a2game-phase2-delivery-selection",
+  "version": 1,
+  "date": "2026-11-14",
+  "status": "HISTORICAL_BASELINE_WITH_FC1_TARGETED_BUILD",
+  "scope": "The12 P1 SDKs and prior Android build are retained historical snapshots before FC-1 adapter changes. Rebuild/re-publish before current-source service use.",
+  "sdkImplementationSha256": "84bcefa7c8111d0a8be58bbd298c1826fe4e55f08445a0eb95913bc78ce485d4",
+  "entries": [
+    {
+      "id": "g01-1",
+      "source": "games/phase2/sokoban/01-first-light",
+      "gameId": "org.a2game.phase2.lumen-depot.01-first-light",
+      "revision": 1,
+      "files": {
+        "game.json": "cf99915929d674d9bd76686cc62ae9c52c47237e26de02bca68a0d7c948c1836",
+        "conformance.json": "110601e8dcf8e3938932c4cede50be80abb672618d7a833f6df7521d4206557d",
+        "solution.json": "93e4cce5036aca617972c463abd98362a3f40cd9bb74bca0531f2ea8a98d8f99"
+      },
+      "package": "output/p0-delivery-1794622493416/g01-1/versions/v1/package.json",
+      "packageSha256": "bc9835ae3f5663a3c6691584d76fd8195480b62616ff0ddeb092f054e156f7aa",
+      "sdk": "output/player-sdk-2026-11-14T04-36-53-848Z-b9f9daab",
+      "inventoryFiles": 263,
+      "bundleFileSha256": "268c479f612abd5b66a685bba8d9386cfd9f27e70e0ccd29554f3858e9c6415f",
+      "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
+      "releaseBundle": "output/player-sdk-2026-11-14T04-36-53-848Z-b9f9daab/player/game.release.json"
+    },
+    {
+      "id": "g01-2",
+      "source": "games/phase2/sokoban/02-switchback",
+      "gameId": "org.a2game.phase2.lumen-depot.02-switchback",
+      "revision": 1,
+      "files": {
+        "game.json": "b266752e4775db27c64318a720efd6955f10519a8dadafa01fb43415235595d3",
+        "conformance.json": "433fc78cc24d5c941b41727558ed77c05edf827b8f5ca35a89ef9ba1362b773f",
+        "solution.json": "3edaafa265f787aba8aecd895ac59c075833899ed033dd65947087a16d41a68d"
+      },
+      "package": "output/p0-delivery-1794622493416/g01-2/versions/v1/package.json",
+      "packageSha256": "51e2d322974729a32e85510bf4355fd0e44eb78db604ffe89064a5d068e339e3",
+      "sdk": "output/player-sdk-2026-11-14T04-36-59-039Z-96e653f0",
+      "inventoryFiles": 263,
+      "bundleFileSha256": "556f805b6458ae34d4900c7bb56b4113aca2b781df26c3d1a1f20060d00dbafb",
+      "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
+      "releaseBundle": "output/player-sdk-2026-11-14T04-36-59-039Z-96e653f0/player/game.release.json"
+    },
+    {
+      "id": "g01-3",
+      "source": "games/phase2/sokoban/03-three-lanterns",
+      "gameId": "org.a2game.phase2.lumen-depot.03-three-lanterns",
+      "revision": 1,
+      "files": {
+        "game.json": "ba6444a060a3030bface5ddb0524563c56d05675d386ac6d3f3f3cefaf037bd5",
+        "conformance.json": "d42c14a6c2e5a2d9f070c40d5dc1f637f89ba7ebe08123d02a34e052e1fa93ff",
+        "solution.json": "cf6382649cff8bdbdeca50c27844d477448c9a4cea9d91748e0dda6b7b4b6847"
+      },
+      "package": "output/p0-delivery-1794622493416/g01-3/versions/v1/package.json",
+      "packageSha256": "0e8f4e794b0b5c203eaaa9662b92af51a6fcb83f5c1729b88a26271e90c05141",
+      "sdk": "output/player-sdk-2026-11-14T04-37-04-017Z-3cdb9784",
+      "inventoryFiles": 263,
+      "bundleFileSha256": "65c20552f49136c8b4e76ed988afc59afa0c53558443a97fcf340fa727158c82",
+      "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
+      "releaseBundle": "output/player-sdk-2026-11-14T04-37-04-017Z-3cdb9784/player/game.release.json"
+    },
+    {
+      "id": "g17",
+      "source": "games/phase2/shooter",
+      "gameId": "local.phase2.arc-drifter-revision",
+      "revision": 5,
+      "files": {
+        "game.json": "17708776fe4aeef84193b08b477d73ca4fb7ac8bdea86551235a9c953c1d3d84",
+        "conformance.json": "9911bda45650a865d60e9a29499a4e58234f279561517db86a128bffe1a55d4d",
+        "solution.json": "7ddd8754e6a7abec5652875fff713b04a02a934fd626998d9300ab132f81d6aa"
+      },
+      "package": "output/phase2-shooter-boss-rev5-20261108.package.json",
+      "packageSha256": "43df93531687ddd4af15a78cdd28b89737e661724162510a1dcfd357cfcc1b06",
+      "sdk": "output/player-sdk-2026-11-14T04-37-08-892Z-1362f83d",
+      "inventoryFiles": 263,
+      "bundleFileSha256": "30963f3521d0b3c43e43ff93a200f940a76541f7dff05304277f5b26a170ba4d",
+      "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
+      "releaseBundle": "output/player-sdk-2026-11-14T04-37-08-892Z-1362f83d/player/game.release.json"
+    },
+    {
+      "id": "h01",
+      "source": "games/phase2/turret-defense",
+      "gameId": "phase2.foundry-defense",
+      "revision": 3,
+      "files": {
+        "game.json": "69bae7a93a58573909be570835b47d9bbb3fd2cf7b6755c54a1235adda5d5aa7",
+        "conformance.json": "caf8d2c4b68d33617e18911a9b0561f6c3b1434f225fb3347df399eb24bd5f04",
+        "solution.json": "bf98f0686227e02b228e9f1b77b7f39adefa8a2f2e5b5e7168b39fc774aa00a6"
+      },
+      "package": "output/phase2-h01-rev3-20261108.package.json",
+      "packageSha256": "e67edcf72c39c9520aad1d4edd0c2ab507e4c69a93fbce191aaf677a705de12e",
+      "sdk": "output/player-sdk-2026-11-14T04-37-13-591Z-0cb51eff",
+      "inventoryFiles": 263,
+      "bundleFileSha256": "8781cbefea4693ac99204e28a3297dd1ed7832061e2fe2782379eb8b5b48baca",
+      "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
+      "releaseBundle": "output/player-sdk-2026-11-14T04-37-13-591Z-0cb51eff/player/game.release.json"
+    }
+  ],
+  "android": {
+    "status": "HISTORICAL_SDK_BEFORE_FC1",
+    "apk": "reports/p1-sdk-profile-1794625088019/current-selection-1794631010974/a2game-g17-r5-p1-unsigned.apk",
+    "sha256": "0426476572424f6dd5d3e43d4ad286a83e2fd1234f410283efbd27bfe1ce32b9",
+    "gameId": "local.phase2.arc-drifter-revision",
+    "revision": 5,
+    "sdk": "output/player-sdk-2026-11-14T04-37-08-892Z-1362f83d",
+    "embeddedFiles": 264,
+    "device": "NOT_RUN",
+    "currentSdkRuntime": false
+  },
+  "previousSelection": "reports/p1-sdk-profile-1794625088019/current-selection-1794631010974/p0-selection.json",
+  "additionalSdks": [
+    {
+      "source": "games/phase2/sokoban/04-divided-aisle",
+      "gameId": "org.a2game.phase2.lumen-depot.04-divided-aisle",
+      "sdk": "output/player-sdk-2026-11-14T04-33-49-355Z-c8f77afb",
+      "revision": 1,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3"
+    },
+    {
+      "source": "games/phase2/sokoban/05-clear-the-way",
+      "gameId": "org.a2game.phase2.lumen-depot.05-clear-the-way",
+      "sdk": "output/player-sdk-2026-11-14T04-33-53-869Z-949da73e",
+      "revision": 1,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3"
+    },
+    {
+      "source": "games/phase2/starport-deck",
+      "gameId": "local.host.starport-deck",
+      "sdk": "output/player-sdk-2026-11-14T04-34-03-405Z-4939b14f",
+      "revision": 3,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3"
+    },
+    {
+      "source": "games/phase2/starport-deck-urgent",
+      "gameId": "local.host.starport-deck.urgent",
+      "sdk": "output/player-sdk-2026-11-14T04-34-08-012Z-dd87731c",
+      "revision": 1,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3"
+    },
+    {
+      "source": "games/phase2/turret-defense-four-waves",
+      "gameId": "phase2.foundry-defense.four-waves",
+      "sdk": "output/player-sdk-2026-11-14T04-44-16-564Z-b340e408",
+      "revision": 2,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3"
+    },
+    {
+      "source": "games/phase2/creation-gallery/game.json",
+      "gameId": "org.a2game.phase2.creation-gallery",
+      "sdk": "output/player-sdk-2026-11-14T05-19-45-685Z-b547748d",
+      "revision": 1,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
+      "previousSdk": "output/player-sdk-2026-11-14T03-38-33-509Z-2333ce81"
+    },
+    {
+      "source": "games/phase2/harbor-models/game.json",
+      "gameId": "org.a2game.phase2.harbor-models",
+      "sdk": "output/player-sdk-2026-11-14T05-19-50-344Z-d1d5118f",
+      "revision": 1,
+      "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
+      "previousSdk": "output/player-sdk-2026-11-14T03-38-38-474Z-79f9f302"
+    }
+  ],
+  "functionClosureSdk": {
+    "sdk": "output/player-sdk-2026-11-15T02-37-44-439Z-3337ad3e",
+    "gameId": "phase2.foundry-defense",
+    "revision": 3,
+    "scope": "Current Air hide/restore and authored normal-clock win/Node replay only; other SDK input/platform evidence not refreshed",
+    "receipt": "reports/fc1-closure-1794709127718/levels-1794710262302/summary.json"
+  }
+}

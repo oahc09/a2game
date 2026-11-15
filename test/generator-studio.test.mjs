@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {mkdtempSync,readFileSync,existsSync} from 'node:fs';
-import {join} from 'node:path';
+import {join,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {generateGame,exportGamePackage,importGamePackage,startGeneratorStudio} from '../generator/index.mjs';
 test('content package roundtrip revalidates unchanged JSON and refuses tampering/overwrite',async()=>{
@@ -26,4 +26,8 @@ test('Studio rejects foreign origins, browser config injection and unbudgeted re
   assert.equal((await (await fetch(url+'status')).json()).jobs.length,0);
  }finally{await studio.close();await studio.close();}
  await assert.rejects(fetch(url+'status'));
+});
+test('an unavailable real-provider configuration keeps the existing fixture-only Studio available',async()=>{
+ const studio=await startGeneratorStudio({providerId:'codex',configFile:resolve('output','missing-studio-config-for-preflight.json'),maxCalls:0});
+ try{const status=await(await fetch(studio.url+'api/status')).json();assert.equal(status.status,'READY');assert.notEqual(status.provider.status,'READY');assert.equal(status.remainingCalls,0);assert.ok(status.providers.includes('fixture'));}finally{await studio.close();}
 });

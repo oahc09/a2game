@@ -54,3 +54,18 @@ export async function publishVersion({root:directory,source,description}){
 export function selectVersion({root:directory,version}){const root=checkedDir(directory),unlock=lock(root);try{verifyLatest(root);const {meta}=verify(root,label(version));setLatest(root,meta);return {status:'PASS',version:meta.version,gameId:meta.gameId,packageSha256:meta.packageSha256};}finally{unlock();}}
 export function inspectDelivery({root:directory}){const root=checkedDir(directory);return {latest:verifyLatest(root)};}
 export async function importVersion({root:directory,version}){const root=checkedDir(directory),unlock=lock(root);try{verifyLatest(root);const {meta,bytes}=verify(root,label(version)),imports=ensureDir(join(root,'imports')),target=safePath(join(imports,`${meta.version}-${randomUUID()}`));const result=await importGamePackage(bytes.toString('utf8'),target);return {status:'PASS',version:meta.version,outputDirectory:target,receiver:result};}finally{unlock();}}
+
+/** Freeze and fully re-admit the selected package before the separate SDK build. */
+export async function preparePlayerVersion({root:directory,version}){
+ const root=checkedDir(directory),unlock=lock(root);try{
+  const pointer=verifyLatest(root),selected=version??pointer?.version;
+  if(!selected)fail('no selected version');
+  const {meta,bytes}=verify(root,label(selected));
+  if(pointer&&pointer.gameId!==meta.gameId)fail('delivery directory belongs to another game');
+  const imports=ensureDir(join(root,'imports')),target=safePath(join(imports,`${meta.version}-${randomUUID()}`));
+  const receiver=await importGamePackage(bytes.toString('utf8'),target);
+  const packagePath=join(target,'package.json');writeFileSync(packagePath,bytes,{flag:'wx'});
+  const result={status:'PASS',version:meta.version,gameId:meta.gameId,packageSha256:meta.packageSha256,packagePath,outputDirectory:target,receiver};
+  writeFileSync(join(target,'player-source.json'),json(result),{flag:'wx'});return result;
+ }finally{unlock();}
+}

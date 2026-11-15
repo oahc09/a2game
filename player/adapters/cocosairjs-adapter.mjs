@@ -15,6 +15,7 @@ export class CocosAirAdapter {
     const a=this.air;
     this.container=this.canvas.closest?.('.stage')??this.canvas.parentElement;
     this.width=this.container?.clientWidth||900;this.height=this.container?.clientHeight||640;
+    if(this.container&&(!Number.isFinite(this.container.clientWidth)||!Number.isFinite(this.container.clientHeight)||this.container.clientWidth<=0||this.container.clientHeight<=0))throw Error('A2G_E_VIEWPORT_NOT_READY: show a nonzero container before creating CocosAirJS');
     this.app=await a.createAirApp({canvas:this.canvas,screenMode:'container',container:this.container,designResolution:{width:this.width,height:this.height,policy:2}});
     this.scene=new a.Scene('A2Game');
     this.ui=a.createUICanvas(this.scene,'A2GameUI',{designWidth:this.width,designHeight:this.height});
@@ -29,7 +30,12 @@ export class CocosAirAdapter {
   draw(frame){
     if(this.disposed)throw Error('A2G_E_DISPOSED: CocosAirJS adapter disposed');
     if(!frame?.commands)throw Error('PresentationFrame expected');
-    const width=this.container?.clientWidth||900,height=this.container?.clientHeight||640;
+    const width=this.container?this.container.clientWidth:900,height=this.container?this.container.clientHeight:640;
+    // A hidden container is not a request to resize the SDK to our fallback.
+    // Wait for its native layout observer to restore a finite viewport.
+    const sx=this.air.view?.getScaleX?.()??1,sy=this.air.view?.getScaleY?.()??1;
+    if(!Number.isFinite(width)||!Number.isFinite(height)||width<=0||height<=0||!Number.isFinite(sx)||!Number.isFinite(sy)||sx<=0||sy<=0){this.viewportDeferred=true;return;}
+    this.viewportDeferred=false;
     if(width!==this.width||height!==this.height){
       this.width=width;this.height=height;this.air.view?.setDesignResolutionSize(width,height,2);
       this.ui.getComponent(this.air.UITransform)?.setContentSize(width,height);
@@ -59,7 +65,7 @@ export class CocosAirAdapter {
     }
   }
   diagnostics(){return {disposed:this.disposed,ownedNodes:this.nodes.length,sceneAlive:this.scene?.isValid??null,
-    stage:this.stage?.diagnostics(),context:this.app?.contextHealth?.snapshot(),release:this.releaseReceipt??null};}
+    viewport:{width:this.width,height:this.height,deferred:this.viewportDeferred??false},stage:this.stage?.diagnostics(),context:this.app?.contextHealth?.snapshot(),release:this.releaseReceipt??null};}
   dispose(){
     if(this.disposal)return this.disposal;
     this.disposed=true;this.stage?.dispose();this.clear();

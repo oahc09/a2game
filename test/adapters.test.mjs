@@ -74,6 +74,14 @@ test('CocosAirJS adapter consumes same PresentationFrame and releases scene (moc
 });
 
 // Structural regression only; scripts/painter-order-smoke.mjs checks real SDK pixels.
+test('Air defers hidden or unsettled layout without changing the last valid dimensions (mock only)',async()=>{
+ const{air,tally}=mockAir(),container={clientWidth:800,clientHeight:600};let sx=1,sy=1,resizes=0;air.view={getScaleX:()=>sx,getScaleY:()=>sy,setDesignResolutionSize(){resizes++;}};
+ const adapter=await CocosAirAdapter.create(air,{parentElement:container}),frame=sampleFrame();adapter.draw(frame);const nodes=tally.rect;
+ container.clientWidth=0;container.clientHeight=0;adapter.draw(frame);assert.equal(resizes,0);assert.equal(tally.rect,nodes);assert.equal(adapter.diagnostics().viewport.deferred,true);
+ container.clientWidth=390;container.clientHeight=500;sx=0;sy=0;adapter.draw(frame);assert.equal(resizes,0);
+ sx=1;sy=1;adapter.draw(frame);assert.equal(resizes,1);assert.equal(adapter.width,390);assert.equal(adapter.diagnostics().viewport.deferred,false);await adapter.dispose();
+ container.clientWidth=0;await assert.rejects(CocosAirAdapter.create(air,{parentElement:container}),/A2G_E_VIEWPORT_NOT_READY/);assert.equal(tally.started,1);
+});
 test('Three scene2d primitives share one painter queue across text and solid shapes (mock only)',()=>{
  const oldDoc=globalThis.document;globalThis.document={createElement:()=>({getContext:()=>({measureText:()=>({width:128}),fillText(){}})})};
  try{

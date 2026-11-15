@@ -1,0 +1,1322 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "starport-deck-original",
+  "subject": {
+    "type": "game",
+    "id": "local.host.starport-deck",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "two-orders-seven-plays-win",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/orders",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/hand",
+          "equals": [
+            4
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/deck",
+          "equals": [
+            2,
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        }
+      ]
+    },
+    {
+      "id": "full-hand-and-empty-position-do-not-consume",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/hand",
+          "equals": [
+            1,
+            2,
+            4
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/deck",
+          "equals": [
+            3,
+            1,
+            2,
+            4,
+            3,
+            2,
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/deckCount",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/state/discardCount",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "cost-debt-loses-not-free-reject",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/discard",
+          "equals": [
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": -1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "skip-cooling-overheats",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/orders",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "cooling-clamps-and-idle-is-turn-neutral",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 120
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "same-tick-card-batch-settles-net-ledger",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/discard",
+          "equals": [
+            1,
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "tenth-play-goal-still-loses",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "drawCard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slot1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/orders",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "pointer-deck-card-letterbox-and-empty-slot",
+      "seed": 1109,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "mouse",
+              "u": 0.8208333333333333,
+              "v": 0.1166666666666667,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "mouse",
+              "u": 0.8208333333333333,
+              "v": 0.1166666666666667,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/hand",
+          "equals": [
+            1
+          ]
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 2,
+              "pointerType": "mouse",
+              "u": 0.02,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 2,
+              "pointerType": "mouse",
+              "u": 0.02,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 0
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 3,
+              "pointerType": "mouse",
+              "u": 0.25,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 3,
+              "pointerType": "mouse",
+              "u": 0.25,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cards/discard",
+          "equals": [
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/heat",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 4,
+              "pointerType": "mouse",
+              "u": 0.25,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 4,
+              "pointerType": "mouse",
+              "u": 0.25,
+              "v": 0.5,
+              "viewportAspect": 1
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/turns",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

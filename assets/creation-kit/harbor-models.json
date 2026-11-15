@@ -1,0 +1,160 @@
+{
+  "format": "a2game-stage-authoring-kit",
+  "version": 1,
+  "license": "CC0-1.0",
+  "scope": "Existing Stage primitive model compositions and Tick spin/particle presets; not arbitrary glTF loading",
+  "models": {
+    "dock": [
+      {
+        "id": "deck",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          0,
+          0,
+          0
+        ],
+        "size": [
+          4,
+          0.2,
+          2
+        ],
+        "color": "#ae8259",
+        "material": "standard"
+      },
+      {
+        "id": "post0",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          -1.6,
+          -0.6,
+          0
+        ],
+        "size": [
+          0.3,
+          1.4,
+          0.3
+        ],
+        "color": "#57756f",
+        "material": "standard"
+      },
+      {
+        "id": "post1",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          1.6,
+          -0.6,
+          0
+        ],
+        "size": [
+          0.3,
+          1.4,
+          0.3
+        ],
+        "color": "#57756f",
+        "material": "standard"
+      }
+    ],
+    "warehouse": [
+      {
+        "id": "building",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          0,
+          0.8,
+          0
+        ],
+        "size": [
+          2,
+          1.6,
+          1.5
+        ],
+        "color": "#c9b499",
+        "material": "standard"
+      },
+      {
+        "id": "roof",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          0,
+          1.7,
+          0
+        ],
+        "size": [
+          2.3,
+          0.25,
+          1.8
+        ],
+        "color": "#397d86",
+        "material": "standard"
+      },
+      {
+        "id": "door",
+        "kind": "mesh",
+        "geometry": "box",
+        "at": [
+          0,
+          0.55,
+          0.77
+        ],
+        "size": [
+          0.65,
+          1.1,
+          0.06
+        ],
+        "color": "#4f6470",
+        "material": "unlit"
+      }
+    ]
+  },
+  "animation": {
+    "coinSpin": {
+      "spin": [
+        0,
+        0.6,
+        0
+      ]
+    },
+    "impact": {
+      "count": 8,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "spread": [
+        1,
+        1,
+        0.3
+      ],
+      "velocity": [
+        0,
+        0.4,
+        0
+      ],
+      "size": 0.06,
+      "color": "#ffe0a0",
+      "periodTicks": 60
+    }
+  },
+  "images": [
+    "warehouse-crate",
+    "warehouse-worker",
+    "warehouse-goal",
+    "space-pilot",
+    "space-enemy",
+    "space-burst",
+    "harbor-turret",
+    "harbor-boat",
+    "harbor-coin"
+  ],
+  "audio": [
+    "collect-chime",
+    "impact-soft",
+    "merge-chord"
+  ]
+}

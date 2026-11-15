@@ -1,0 +1,401 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.phase2.harbor-models",
+  "revision": 1,
+  "meta": {
+    "title": "港湾模型与动画",
+    "description": "码头与仓库基础模型，Tick派生旋转与粒子。点击两次完成展示。",
+    "genres": [
+      "casual",
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      }
+    ],
+    "anyOf": [
+      [
+        {
+          "id": "a2game.input.touch.tap",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.input.keyboard.button",
+          "version": "0.1.0"
+        }
+      ]
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {
+    "chime": {
+      "uri": "assets/creation-kit/merge-chord.wav",
+      "type": "audio",
+      "integrity": "sha256-UV8yFbXjum2NdE05oi/dowoPmt7xN21jhhVkkH3T0SA="
+    }
+  },
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "goal": {
+      "type": "int",
+      "initial": 2
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "collect",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "touch.tap",
+            "config": {
+              "region": "playfield"
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "disabled"
+  },
+  "rules": [
+    {
+      "id": "reward-on-press",
+      "priority": 0,
+      "on": {
+        "type": "input.action",
+        "action": "collect",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "all-collected",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "scoreLabel",
+        "kind": "text",
+        "text": "点击屏幕得分",
+        "bind": {
+          "text": {
+            "template": "Score: {0} / {1}",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "state": "/goal"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 12,
+      "height": 12,
+      "background": "#10222e",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            5.5
+          ],
+          "text": {
+            "literal": "港湾模型 · Tick旋转与粒子"
+          },
+          "fontSize": 0.6,
+          "fill": "#e7f2e9"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -5.5
+          ],
+          "text": {
+            "literal": "点击两次完成 · 原创 CC0"
+          },
+          "fontSize": 0.5,
+          "fill": "#aacbc8"
+        }
+      ]
+    },
+    "stage": {
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          5,
+          4,
+          8
+        ],
+        "target": [
+          0,
+          0.5,
+          0
+        ],
+        "near": 0.1,
+        "far": 50,
+        "fov": 45,
+        "orthoHeight": 8
+      },
+      "nodes": [
+        {
+          "id": "dock_deck",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            4,
+            0.2,
+            2
+          ],
+          "color": "#ae8259",
+          "material": "standard"
+        },
+        {
+          "id": "dock_post0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -1.6,
+            -0.6,
+            0
+          ],
+          "size": [
+            0.3,
+            1.4,
+            0.3
+          ],
+          "color": "#57756f",
+          "material": "standard"
+        },
+        {
+          "id": "dock_post1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1.6,
+            -0.6,
+            0
+          ],
+          "size": [
+            0.3,
+            1.4,
+            0.3
+          ],
+          "color": "#57756f",
+          "material": "standard"
+        },
+        {
+          "id": "warehouse_building",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1,
+            0
+          ],
+          "size": [
+            2,
+            1.6,
+            1.5
+          ],
+          "color": "#c9b499",
+          "material": "standard"
+        },
+        {
+          "id": "warehouse_roof",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.9,
+            0
+          ],
+          "size": [
+            2.3,
+            0.25,
+            1.8
+          ],
+          "color": "#397d86",
+          "material": "standard"
+        },
+        {
+          "id": "warehouse_door",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.75,
+            0.77
+          ],
+          "size": [
+            0.65,
+            1.1,
+            0.06
+          ],
+          "color": "#4f6470",
+          "material": "unlit"
+        },
+        {
+          "id": "coin",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            2,
+            1.5,
+            0
+          ],
+          "size": [
+            0.65,
+            0.65,
+            0.2
+          ],
+          "color": "#e8c279",
+          "material": "standard",
+          "spin": [
+            0,
+            0.6,
+            0
+          ]
+        }
+      ],
+      "particles": [
+        {
+          "id": "sparks",
+          "count": 8,
+          "origin": [
+            0,
+            0,
+            0
+          ],
+          "spread": [
+            1,
+            1,
+            0.3
+          ],
+          "velocity": [
+            0,
+            0.4,
+            0
+          ],
+          "size": 0.06,
+          "color": "#ffe0a0",
+          "periodTicks": 60
+        }
+      ],
+      "audio": [
+        {
+          "id": "collectSound",
+          "asset": "chime",
+          "event": "input.action",
+          "volume": 0.2
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,77 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "org.a2game.phase2.harbor-models",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.phase2.harbor-models",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "positive",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "collect",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "negative",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

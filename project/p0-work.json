@@ -1,0 +1,100 @@
+{
+  "format": "a2game-p0-work",
+  "version": 1,
+  "date": "2026-11-14",
+  "status": "COMPLETE_SCOPED_REFERENCE",
+  "tasks": [
+    {
+      "id": "P0-1",
+      "status": "COMPLETE",
+      "evidence": "reports/p0-completion-20261114-1794622384344/air-low-observation/browser.json",
+      "scope": "G17 r5 Air normal clock won; pause/resume retained, not uninterrupted"
+    },
+    {
+      "id": "P0-2",
+      "status": "COMPLETE_REVIEW_WITH_P1_FINDINGS",
+      "evidence": "reports/p0-completion-20261114-1794622384344/quality-review.md",
+      "scope": "Controller Agent actual DOM/keyboard and screenshot review, source/route-aware, not independent blind signoff"
+    },
+    {
+      "id": "P0-3",
+      "status": "COMPLETE",
+      "manifest": "project/phase2-delivery.json",
+      "evidence": "reports/p0-completion-20261114-1794622384344/android-assets.json"
+    },
+    {
+      "id": "P0-4",
+      "status": "COMPLETE",
+      "evidence": "reports/p0-completion-20261114-1794622384344/version-browser/summary.json",
+      "scope": "Six current SDK normal routes plus same-origin v2 to v1 reload, bad-package rejection and disposal"
+    }
+  ],
+  "browserRows": [
+    {
+      "id": "g17",
+      "backend": "three",
+      "status": "PASS_REFERENCE",
+      "revision": 5,
+      "stalls": 8,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    },
+    {
+      "id": "g17",
+      "backend": "cocosairjs",
+      "status": "PASS_REFERENCE",
+      "revision": 5,
+      "stalls": 7,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    },
+    {
+      "id": "g01-1",
+      "backend": "three",
+      "status": "PASS_REFERENCE",
+      "revision": 1,
+      "stalls": 0,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    },
+    {
+      "id": "g01-1",
+      "backend": "cocosairjs",
+      "status": "PASS_REFERENCE",
+      "revision": 1,
+      "stalls": 0,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    },
+    {
+      "id": "h01",
+      "backend": "three",
+      "status": "PASS_REFERENCE",
+      "revision": 3,
+      "stalls": 0,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    },
+    {
+      "id": "h01",
+      "backend": "cocosairjs",
+      "status": "PASS_REFERENCE",
+      "revision": 3,
+      "stalls": 0,
+      "scope": "Normal clock, actual DOM/keyboard, known-route controller Agent review; not independent blind play/G3"
+    }
+  ],
+  "before": "reports/p0-completion-20261114-1794622384344/before-status.json",
+  "previousEvidenceLock": "reports/p0-completion-20261114-1794622384344/previous-evidence-lock.json",
+  "retainedFailures": {
+    "setup": "PowerShell quoting failure before execution",
+    "sdkLoadRace": "reports/p0-completion-20261114-1794622384344/sdk-browser/summary.json",
+    "sourceAirFirst": "reports/p0-completion-20261114-1794622384344/browser.json",
+    "sdkInputAttempts": "reports/p0-completion-20261114-1794622384344/sdk-browser-retry/summary.json",
+    "exportTimeouts": "3 repeated source-export workflow timeouts; standalone source CLI test passed, existing package all 3 files exactly matched, fresh receiver content admission passed"
+  },
+  "remainingP1": [
+    "G17 clock-stall root cause/performance under instrumentation; no threshold change",
+    "Richer assets and polish; narrow H01 secondary canvas text is small but instructions and controls remain available outside canvas",
+    "G01 fallback action names remain English in generic SDK controls"
+  ],
+  "formalG3Passed": 0,
+  "device": "NOT_RUN",
+  "realProviderCalls": 0,
+  "reportDirectory": "reports/p0-completion-20261114-1794622384344"
+}

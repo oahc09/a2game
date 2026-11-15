@@ -46,6 +46,21 @@ node scripts/content-delivery.mjs import --root output/my-game --version v1
 
 ## 4. 文件保存在哪里
 
+### 从选中版本生成独立网页播放器
+
+准备好最新 `dist/` 和真实引擎SDK后执行：
+
+```powershell
+node scripts/content-delivery.mjs build-player --root output/my-game
+node scripts/content-delivery.mjs build-player --root output/my-game --version v1
+```
+
+不传 `--version` 时使用 `latest.json` 选中的版本；显式指定只影响本次构建，不改变版本选择。命令先核对版本摘要，再在接收环境重新检查内容、资源、测试和解法，保存本次实际使用的包快照，然后生成新的独立播放器目录。任一步失败都不切换版本。
+
+成功结果的 `player.output` 是静态服务目录，访问 `/player/index.html`。输出中的 `delivery-source.json` 记录版本、原包SHA和运行包摘要，并纳入文件清单；`imports/` 内的 `player-build.json` 保留本次构建位置。摘要不认证作者。
+
+回退时先 `select --version v1`，再运行 `build-player`，把业务网页入口指向新生成的目录并重新加载页面。旧分发目录和已打开的播放器不会自动切换；本命令不发布文件、不实现在线热更新，也不绕过CocosAirJS的单文档初始化限制。部署和分发仍由接收方管理。
+
 - `versions/vN/`：作者文件、原格式`package.json`、说明和文件摘要。
 - `latest.json`：当前选择的版本。
 - `imports/`：每次导入的结果。

@@ -1,0 +1,447 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.phase2.creation-gallery",
+  "revision": 1,
+  "meta": {
+    "title": "创作素材展台",
+    "description": "九幅透明精灵；点击两次完成展示，按空格可听取合成音色。不是完整新游戏或听觉质量签收。",
+    "genres": [
+      "casual",
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      }
+    ],
+    "anyOf": [
+      [
+        {
+          "id": "a2game.input.touch.tap",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.input.keyboard.button",
+          "version": "0.1.0"
+        }
+      ]
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {
+    "warehouse_crate": {
+      "uri": "assets/creation-kit/warehouse-crate.png",
+      "type": "image",
+      "integrity": "sha256-z+FPsMbYYCN/nIBsoyt9u3bSo+Kf9rqm4j9ZZPaodHo="
+    },
+    "warehouse_worker": {
+      "uri": "assets/creation-kit/warehouse-worker.png",
+      "type": "image",
+      "integrity": "sha256-Lj4Oa5CwNjXHMdOFWszXT7gNCzK8GpJ/Chj2BjRB1+0="
+    },
+    "warehouse_goal": {
+      "uri": "assets/creation-kit/warehouse-goal.png",
+      "type": "image",
+      "integrity": "sha256-rM7KO3yEDRAp/y52i3Dp9VsBZMyCJ0Ab/9TGjTj6yd4="
+    },
+    "space_pilot": {
+      "uri": "assets/creation-kit/space-pilot.png",
+      "type": "image",
+      "integrity": "sha256-0gJofT8VEretg0h9S3TbzQr633jx+LJIE665LrF7KRQ="
+    },
+    "space_enemy": {
+      "uri": "assets/creation-kit/space-enemy.png",
+      "type": "image",
+      "integrity": "sha256-zUUvZvD8m80mXrRtkqHAGOAptNVwGqgA6E86vxvs/go="
+    },
+    "space_burst": {
+      "uri": "assets/creation-kit/space-burst.png",
+      "type": "image",
+      "integrity": "sha256-0eLSn8sxVH5AxgRUpKp0fxRQV3cvq/8l1frJTKsl3ko="
+    },
+    "harbor_turret": {
+      "uri": "assets/creation-kit/harbor-turret.png",
+      "type": "image",
+      "integrity": "sha256-YWmUbioMwASkkBLeaB+juyy2ANNvv3RQuzVgVEdwdB4="
+    },
+    "harbor_boat": {
+      "uri": "assets/creation-kit/harbor-boat.png",
+      "type": "image",
+      "integrity": "sha256-XHLU2nkqOZxDNMgH4n6nY6xFR3L4sm5pAQGVk2NbgDU="
+    },
+    "harbor_coin": {
+      "uri": "assets/creation-kit/harbor-coin.png",
+      "type": "image",
+      "integrity": "sha256-ZO38iSQf+UgoD2gjsVICRLWNvcJqH2MJGW43IhW7vj8="
+    },
+    "chime": {
+      "uri": "assets/creation-kit/merge-chord.wav",
+      "type": "audio",
+      "integrity": "sha256-UV8yFbXjum2NdE05oi/dowoPmt7xN21jhhVkkH3T0SA="
+    }
+  },
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "goal": {
+      "type": "int",
+      "initial": 2
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "collect",
+        "valueType": "button",
+        "policy": "first-ready",
+        "bindings": [
+          {
+            "source": "touch.tap",
+            "config": {
+              "region": "playfield"
+            }
+          },
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      }
+    ],
+    "traceRecording": "disabled"
+  },
+  "rules": [
+    {
+      "id": "reward-on-press",
+      "priority": 0,
+      "on": {
+        "type": "input.action",
+        "action": "collect",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "all-collected",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "state": "/goal"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "scoreLabel",
+        "kind": "text",
+        "text": "点击屏幕得分",
+        "bind": {
+          "text": {
+            "template": "Score: {0} / {1}",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "state": "/goal"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 12,
+      "height": 12,
+      "background": "#10222e",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            5.5
+          ],
+          "text": {
+            "literal": "创作素材 · 九幅透明精灵"
+          },
+          "fontSize": 0.6,
+          "fill": "#e7f2e9"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -5.5
+          ],
+          "text": {
+            "literal": "点击两次完成 · 原创 CC0"
+          },
+          "fontSize": 0.5,
+          "fill": "#aacbc8"
+        }
+      ]
+    },
+    "stage": {
+      "camera": {
+        "projection": "orthographic",
+        "at": [
+          0,
+          0,
+          12
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "near": 0.1,
+        "far": 50,
+        "fov": 45,
+        "orthoHeight": 12,
+        "fitSize": [
+          12,
+          12
+        ]
+      },
+      "nodes": [
+        {
+          "id": "warehouse_crate",
+          "kind": "sprite",
+          "at": [
+            -3.8,
+            3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "warehouse_crate"
+        },
+        {
+          "id": "warehouse_worker",
+          "kind": "sprite",
+          "at": [
+            0,
+            3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "warehouse_worker"
+        },
+        {
+          "id": "warehouse_goal",
+          "kind": "sprite",
+          "at": [
+            3.8,
+            3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "warehouse_goal"
+        },
+        {
+          "id": "space_pilot",
+          "kind": "sprite",
+          "at": [
+            -3.8,
+            0,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "space_pilot"
+        },
+        {
+          "id": "space_enemy",
+          "kind": "sprite",
+          "at": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "space_enemy"
+        },
+        {
+          "id": "space_burst",
+          "kind": "sprite",
+          "at": [
+            3.8,
+            0,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "space_burst"
+        },
+        {
+          "id": "harbor_turret",
+          "kind": "sprite",
+          "at": [
+            -3.8,
+            -3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "harbor_turret"
+        },
+        {
+          "id": "harbor_boat",
+          "kind": "sprite",
+          "at": [
+            0,
+            -3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "harbor_boat"
+        },
+        {
+          "id": "harbor_coin",
+          "kind": "sprite",
+          "at": [
+            3.8,
+            -3.8,
+            0
+          ],
+          "size": [
+            2.8,
+            2.8,
+            1
+          ],
+          "color": "#ffffff",
+          "asset": "harbor_coin"
+        }
+      ],
+      "particles": [],
+      "audio": [
+        {
+          "id": "collectSound",
+          "asset": "chime",
+          "event": "input.action",
+          "volume": 0.2
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

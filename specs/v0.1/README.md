@@ -33,9 +33,9 @@ specs/v0.1/
 ```
 
 - `schemas/`：采用 JSON Schema Draft 2020-12 的 7 份结构 Schema；跨字段语义约束由 `src/validator.ts`、`src/registry.ts` 与 `scripts/preflight.py`（`npm run schema:full`）执行。
-- `games/`：112 份现行游戏 GameSpec JSON（`specVersion` 均为 `0.1.0`），由共享 Runtime 解释执行。
-- `capabilities/`：127 份能力 Manifest；能力协商与可信绑定见 `src/registry.ts`、`src/trusted-modules.ts`。
-- [`project/capability-bindings.json`](../../project/capability-bindings.json)：127 项当前可信绑定、依赖闭包与测试声明索引。可执行用例引用、规范编号和未解析声明分别标识，均不自动成为逐能力正式验收回执；由 `npm run catalog:build` 同步生成。
+- `games/`：113 份现行游戏 GameSpec JSON（`specVersion` 均为 `0.1.0`），由共享 Runtime 解释执行。
+- `capabilities/`：128 份能力 Manifest；能力协商与可信绑定见 `src/registry.ts`、`src/trusted-modules.ts`。
+- [`project/capability-bindings.json`](../../project/capability-bindings.json)：128 项当前可信绑定、依赖闭包与测试声明索引。可执行用例引用、规范编号和未解析声明分别标识，均不自动成为逐能力正式验收回执；由 `npm run catalog:build` 同步生成。
 - `tests/`：Conformance 套件、RNG 黄金向量、InputTrace 与负例（含 `negative-fixtures.json`）；实际执行由 `scripts/run-conformance.mjs`（`npm run conformance`）完成并通过。
 - `examples/input-traces/touch-imu.input-trace.json`：Touch + IMU 标准化录制格式样例（采样数据为合成示例；真机采集 Gate 独立验收）。
 - `coverage/games.json`：32 个候选玩法的登记数据；真实验收回执指针在 `project/` 与 `reports/`。
@@ -58,7 +58,7 @@ python tools/validate_specs.py
 ## 当前状态（2026-10-28）
 
 - 规范文档已扩展至 20 份（`docs/01` ~ `docs/20`，含 Puzzle/Realtime/Strategy 库、Mobile Input、Game Candidates、Agent Workflow、Compatibility Extensions、Tower Defense、Rigid3D 等）。
-- `games/` 112 份、`capabilities/` 127 份、32 款候选登记；Conformance、完整 Schema、Node/Host Hash 与真实双 SDK 浏览器证据持续通过（回执见 `project/status.json` 与 `reports/`）。
+- `games/` 113 份、`capabilities/` 128 份、32 款候选登记；Conformance、完整 Schema、Node/Host Hash 与真实双 SDK 浏览器结果按各次回执记录，旧版通过不自动适用于当前源码（见 `project/status.json` 与 `reports/`）。
 - 正式验收维度独立：正式 verified 0/32＋0/5、正式独立 G3 0/37、人工质量与真机 NOT_RUN；项目整体为 Alpha 参考实现。
 
 ## 初始交付范围（2026-10-24 draft.1，历史记录）

@@ -4,6 +4,12 @@
   "gameSpecVersion": "0.1.0",
   "schemaDialect": "2020-12",
   "content": {
+    "/specs/v0.1/games/body-motif.game.json": {
+      "id": "org.a2game.samples.body-motif",
+      "title": "实体图案投影",
+      "revision": 1,
+      "sha256Jcs": "bc572f8439ff209f630e6d7ef6ec7b7587aca6259937b3bf742d2fcbd4303f89"
+    },
     "/specs/v0.1/games/g01-candidate.game.json": {
       "id": "org.a2game.games.g01",
       "title": "G01 推箱子",

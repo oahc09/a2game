@@ -11,6 +11,7 @@ test('visual-stage projects bindings, animation, bounded particles and event aud
   runtime.pause();runtime.step(60);assert.deepEqual(projectPresentation(definition,runtime.observe()),second);
   runtime.resume();runtime.injectAction({action:'collect',phase:'press'});runtime.step(1);const frame=projectPresentation(definition,runtime.observe());
   assert.equal(frame.stage.nodes.find(node=>node.id==='scoreOrb').at[0],1);assert.ok(frame.stage.audio.length>0);
+  runtime.step(1);assert.deepEqual(projectPresentation(definition,runtime.observe()).stage.audio,frame.stage.audio,'historical events keep stable playback keys across Tick changes');
   runtime.restart();assert.deepEqual(projectPresentation(definition,runtime.observe()).stage.nodes,first.stage.nodes);runtime.dispose();
 });
 test('visual-stage rejects missing capability, unsupported material, bad resource and particle budget before execution',()=>{

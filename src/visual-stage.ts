@@ -67,6 +67,6 @@ export function projectVisualStage(def:GameDefinition,obs:SessionObservation):Vi
     nodes.push({id:`${particle.id}[${i}]`,kind:'mesh',geometry:'sphere',size:[particle.size,particle.size,particle.size],rotation:[0,0,0],color:particle.color,material:'unlit',
       at:[0,1,2].map(axis=>particle.origin[axis]!+((((i+1)*(axis+3)*2654435761)>>>0)/4294967296-0.5)*particle.spread[axis]!+particle.velocity[axis]!*age)});
   }
-  const audio=(stage.audio??[]).flatMap(cue=>obs.events.filter(event=>event.type===cue.event).map(event=>({id:cue.id,key:`${obs.tickIndex}:${cue.id}:${event.eventId}`})));
+  const audio=(stage.audio??[]).flatMap(cue=>obs.events.filter(event=>event.type===cue.event).map(event=>({id:cue.id,key:`${cue.id}:${event.eventId}`})));
   return {camera:structuredClone(stage.camera),nodes,audio,tickIndex:obs.tickIndex};
 }

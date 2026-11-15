@@ -62,7 +62,8 @@ function assertMigratedAsset(old,row,content){
 test('all 362 relocated protocol assets retain migration provenance; capability bindings resolve without claiming formal verification',()=>{
  const migration=read('project/spec-layout-migration.json'),moved=Object.entries(migration.files).filter(([p])=>p.startsWith('specs/v0.1/samples/'));
  assert.equal(moved.length,362);for(const [old,row]of moved)assertMigratedAsset(old,row,readFileSync(resolve(root,row.to)));
- const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,127);assert.equal(bindings.capabilities.length,127);
+ const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,128);assert.equal(bindings.capabilities.length,128);
+ assert.ok(bindings.capabilities.some(c=>c.id==='a2game.visual.body-motif'));
  for(const c of bindings.capabilities){assert.equal(c.implementation.role,registry.implementation(c).role);assert.deepEqual(c.dependencies,registry.negotiate({all:[{id:c.id,version:c.version}]}).capabilities);assert.equal(c.formalVerification,'NOT_SIGNED_OFF');}
 });
 test('actual migration path rejects extra-byte drift and re-signing historical metadata as current',()=>{
@@ -89,7 +90,8 @@ test('HTTP exposes canonical game/capability URLs while keeping protocol tools a
   for(const path of ['/specs/v0.1/games/tap-target.game.json','/specs/v0.1/capabilities/a2game.core.state.capability.json'])assert.equal((await fetch(origin+path)).status,200);
   for(const path of ['/specs/v0.1/samples/games/tap-target.game.json','/specs/v0.1/tools/build_artifacts.py','/project/status.json'])assert.equal((await fetch(origin+path)).status,404);
   globalThis.fetch=(url,...args)=>originalFetch(new URL(url,origin+'/player/'),...args);
-  const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,112);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
+  const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,113);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
+  assert.ok(catalog.some(c=>c.path==='/specs/v0.1/games/body-motif.game.json'));
   const game=await loadBuiltinGame('grid-push');assert.equal(game.id,'org.a2game.samples.grid-push');
  }finally{globalThis.fetch=originalFetch;await new Promise(ok=>server.close(ok));}
 });

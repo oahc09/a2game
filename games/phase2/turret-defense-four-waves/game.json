@@ -1,0 +1,2401 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "phase2.foundry-defense.four-waves",
+  "revision": 2,
+  "meta": {
+    "title": "港湾守望 · 四波补给",
+    "description": "抵御四波：第三波返6币后再生产收取一批，凑9币把B升四级，才能挡住48生命末艇。无塔位自动购买。",
+    "author": "Cindy lead controller repair of native subagent Phase2 H01 revision 1",
+    "genres": [
+      "economy",
+      "tower-defense",
+      "merge"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.cost",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.placement-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.range",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.reward",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-motif",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 1108,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "scenes": [
+    {
+      "id": "harbor",
+      "entities": [
+        {
+          "id": "clock-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "defense-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/defense",
+                "width": 10000,
+                "height": 5000,
+                "cost": 3,
+                "damage": 2,
+                "range": 4000,
+                "speed": 20,
+                "cooldownTicks": 60,
+                "maxTicks": 2700,
+                "cells": [
+                  {
+                    "x": 2500,
+                    "y": 3600
+                  },
+                  {
+                    "x": 5000,
+                    "y": 3000
+                  }
+                ],
+                "path": [
+                  {
+                    "x": 500,
+                    "y": 1500
+                  },
+                  {
+                    "x": 9000,
+                    "y": 1500
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 900,
+                    "hp": 8,
+                    "reward": 6
+                  },
+                  {
+                    "tick": 1200,
+                    "hp": 16,
+                    "reward": 0
+                  },
+                  {
+                    "tick": 1500,
+                    "hp": 36,
+                    "reward": 6
+                  },
+                  {
+                    "tick": 1850,
+                    "hp": 48,
+                    "reward": 0
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "buildA",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "buildB",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "selectA",
+                    "kind": "select",
+                    "index": 0
+                  },
+                  {
+                    "action": "mergeB",
+                    "kind": "merge",
+                    "index": 1
+                  },
+                  {
+                    "action": "upgradeB",
+                    "kind": "upgrade",
+                    "index": 1
+                  },
+                  {
+                    "action": "upgradeA",
+                    "kind": "upgrade",
+                    "index": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "harbor",
+  "state": {
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "ore": {
+      "type": "int",
+      "initial": 2
+    },
+    "busy": {
+      "type": "bool",
+      "initial": false
+    },
+    "ready": {
+      "type": "bool",
+      "initial": false
+    },
+    "due": {
+      "type": "int",
+      "initial": 0
+    },
+    "batches": {
+      "type": "int",
+      "initial": 0
+    },
+    "forge": {
+      "type": "string",
+      "initial": "待机"
+    },
+    "phase": {
+      "type": "string",
+      "initial": "准备阶段 · 可暂停规划"
+    },
+    "prepSeconds": {
+      "type": "int",
+      "initial": 15
+    },
+    "message": {
+      "type": "string",
+      "initial": "先熔炼两批矿石，建塔后选择合成或直升"
+    },
+    "merged": {
+      "type": "bool",
+      "initial": false
+    },
+    "defense": {
+      "type": "object",
+      "initial": {
+        "wallet": 0,
+        "score": 0,
+        "nextId": 0,
+        "lives": 1,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "refine",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyR"
+            }
+          }
+        ]
+      },
+      {
+        "id": "claimOre",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyH"
+            }
+          }
+        ]
+      },
+      {
+        "id": "buildA",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "buildB",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2"
+            }
+          }
+        ]
+      },
+      {
+        "id": "selectA",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3"
+            }
+          }
+        ]
+      },
+      {
+        "id": "mergeB",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyM"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgradeB",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU"
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgradeA",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyV"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "refine",
+      "on": {
+        "type": "input.action",
+        "action": "refine",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/busy"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ready"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/ore"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/busy",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/due",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 120
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/forge",
+          "value": "熔炼中"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "熔炼约2秒，成熟后 H 收取"
+        }
+      ]
+    },
+    {
+      "id": "refine-invalid",
+      "on": {
+        "type": "input.action",
+        "action": "refine",
+        "edge": "press"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/busy"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ready"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/ore"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "铸炉忙碌或矿石不足，完成后先H收取"
+        }
+      ],
+      "priority": -20
+    },
+    {
+      "id": "mature",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/busy"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/due"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/busy",
+          "value": false
+        },
+        {
+          "op": "state.set",
+          "path": "/ready",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/forge",
+          "value": "待收取"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "铸料已成熟：按 H 收取3币"
+        }
+      ]
+    },
+    {
+      "id": "claimOre",
+      "on": {
+        "type": "input.action",
+        "action": "claimOre",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/ready"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ready",
+          "value": false
+        },
+        {
+          "op": "state.set",
+          "path": "/forge",
+          "value": "待机"
+        },
+        {
+          "op": "state.add",
+          "path": "/batches",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/defense/wallet",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "3铸币到账，可用于建设"
+        }
+      ]
+    },
+    {
+      "id": "collect-invalid",
+      "on": {
+        "type": "input.action",
+        "action": "claimOre",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/ready"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "尚未熔炼完成；先R熔炼，完成后H收取"
+        }
+      ],
+      "priority": -20
+    },
+    {
+      "id": "placed",
+      "on": {
+        "type": "defense.placed"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "炮台已建造：选A后可合至B"
+        }
+      ]
+    },
+    {
+      "id": "merged",
+      "on": {
+        "type": "defense.merged"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/merged",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "合成完成，旧双塔/武器已替换"
+        }
+      ]
+    },
+    {
+      "id": "reward",
+      "on": {
+        "type": "defense.reward"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "首杀奖励6币：二级B可按 U 升三级"
+        }
+      ],
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/score"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "prep-second-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 15
+        }
+      ]
+    },
+    {
+      "id": "prep-second-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 120
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 14
+        }
+      ]
+    },
+    {
+      "id": "prep-second-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 120
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 180
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 13
+        }
+      ]
+    },
+    {
+      "id": "prep-second-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 180
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 240
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "prep-second-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 240
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 11
+        }
+      ]
+    },
+    {
+      "id": "prep-second-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 300
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 360
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 10
+        }
+      ]
+    },
+    {
+      "id": "prep-second-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 360
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 420
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 9
+        }
+      ]
+    },
+    {
+      "id": "prep-second-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 420
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 8
+        }
+      ]
+    },
+    {
+      "id": "prep-second-8",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 480
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 540
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": "prep-second-9",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 540
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 600
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "prep-second-10",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 600
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 660
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "prep-second-11",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 660
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "prep-second-12",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 780
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "prep-second-13",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 780
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "prep-second-14",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 840
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 900
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "phase-901",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 901
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1201
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "侦察艇入侵"
+        },
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "phase-1201",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1201
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1501
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "装甲艇入侵"
+        },
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "phase-1501",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 1501
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 100000
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "主舰决战"
+        },
+        {
+          "op": "state.set",
+          "path": "/prepSeconds",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "victory-summary",
+      "priority": 100,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "state": "/defense/won"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "港口守住 · 四艇击退"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "四级火力完成拦截，港口安全！"
+        }
+      ]
+    },
+    {
+      "id": "loss-summary",
+      "priority": 100,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "state": "/defense/lost"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "防线失守"
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏艇或超时；重开后检查生产与升级"
+        }
+      ]
+    },
+    {
+      "id": "upgrade-confirmed",
+      "priority": 90,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/defense/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/defense/towers/0/level"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "炮台升级完成；以塔位伤害数字为准"
+        }
+      ]
+    },
+    {
+      "id": "explain-buildA",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "buildA"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "建塔需3铸币，先熔炼并收取矿石"
+        }
+      ]
+    },
+    {
+      "id": "explain-buildB",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "buildB"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "建塔需3铸币，先熔炼并收取矿石"
+        }
+      ]
+    },
+    {
+      "id": "explain-selectA",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "selectA"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "塔位A尚未建塔，请先建A"
+        }
+      ]
+    },
+    {
+      "id": "explain-mergeB",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "mergeB"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "先建同级双塔，3选A后M合到B"
+        }
+      ]
+    },
+    {
+      "id": "explain-upgradeA",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "upgradeA"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "先建A；升级需3×当前等级铸币"
+        }
+      ]
+    },
+    {
+      "id": "explain-upgradeB",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/action"
+          },
+          {
+            "const": "upgradeB"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "先建B；升级成本=3×当前等级，四级需9币"
+        }
+      ]
+    },
+    {
+      "id": "third-wave-ore-supply",
+      "on": {
+        "type": "defense.reward"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/score"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "第三波补给矿石+1：再熔炼收取一次，凑9币升B四级"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "harbor-lost",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "harbor-saved",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-refine",
+        "kind": "button",
+        "text": "R 熔炼",
+        "bind": {
+          "action": "refine"
+        }
+      },
+      {
+        "id": "button-collect",
+        "kind": "button",
+        "text": "H 收取",
+        "bind": {
+          "action": "claimOre"
+        }
+      },
+      {
+        "id": "button-buildA",
+        "kind": "button",
+        "text": "1 建 A",
+        "bind": {
+          "action": "buildA"
+        }
+      },
+      {
+        "id": "button-buildB",
+        "kind": "button",
+        "text": "2 建 B",
+        "bind": {
+          "action": "buildB"
+        }
+      },
+      {
+        "id": "button-selectA",
+        "kind": "button",
+        "text": "3 选 A",
+        "bind": {
+          "action": "selectA"
+        }
+      },
+      {
+        "id": "button-mergeB",
+        "kind": "button",
+        "text": "M 合至 B",
+        "bind": {
+          "action": "mergeB"
+        }
+      },
+      {
+        "id": "button-upgradeB",
+        "kind": "button",
+        "text": "U 升 B",
+        "bind": {
+          "action": "upgradeB"
+        }
+      },
+      {
+        "id": "button-upgradeA",
+        "kind": "button",
+        "text": "V 升 A",
+        "bind": {
+          "action": "upgradeA"
+        }
+      },
+      {
+        "id": "instruction",
+        "kind": "text",
+        "text": "两批各3币：双塔选A合B，或建B直升；首杀6币升三级。"
+      },
+      {
+        "id": "tip",
+        "kind": "text",
+        "bind": {
+          "state": "/message"
+        }
+      },
+      {
+        "id": "wave",
+        "kind": "text",
+        "text": "已抵达波次 / 4",
+        "bind": {
+          "state": "/defense/waveCursor"
+        }
+      },
+      {
+        "id": "countdown",
+        "kind": "text",
+        "text": "首波剩余秒",
+        "bind": {
+          "state": "/prepSeconds"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 12,
+      "height": 13.2,
+      "background": "#081820",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            5.75
+          ],
+          "fill": "#F1FCFF",
+          "text": {
+            "literal": "潮汐铸防 · 港湾守望"
+          },
+          "fontSize": 0.86
+        },
+        {
+          "id": "subtitle",
+          "kind": "text",
+          "at": [
+            0,
+            4.9
+          ],
+          "fill": "#8DBACA",
+          "text": {
+            "literal": "下方按钮建塔 · 同级可合成"
+          },
+          "fontSize": 0.52
+        },
+        {
+          "id": "phase",
+          "kind": "text",
+          "at": [
+            0,
+            4.2
+          ],
+          "fill": "#FFD18A",
+          "text": {
+            "state": "/phase"
+          },
+          "fontSize": 0.52
+        },
+        {
+          "id": "ore-label",
+          "kind": "text",
+          "at": [
+            -3.65,
+            3.5
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "矿石"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "ore-value",
+          "kind": "text",
+          "at": [
+            -3.65,
+            2.75
+          ],
+          "fill": "#79E3DD",
+          "text": {
+            "state": "/ore"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "coins-label",
+          "kind": "text",
+          "at": [
+            0,
+            3.5
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "铸币"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "coins-value",
+          "kind": "text",
+          "at": [
+            0,
+            2.75
+          ],
+          "fill": "#FFD18A",
+          "text": {
+            "state": "/defense/wallet"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "kills-label",
+          "kind": "text",
+          "at": [
+            3.65,
+            3.5
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "击退 / 4"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "kills-value",
+          "kind": "text",
+          "at": [
+            3.65,
+            2.75
+          ],
+          "fill": "#FF9EAC",
+          "text": {
+            "state": "/defense/score"
+          },
+          "fontSize": 0.72
+        },
+        {
+          "id": "lane",
+          "kind": "rect",
+          "at": [
+            -0.25,
+            -1
+          ],
+          "size": [
+            8.5,
+            0.16
+          ],
+          "fill": "#3B6275"
+        },
+        {
+          "id": "slot-a",
+          "kind": "rect",
+          "at": [
+            -2.5,
+            1.1
+          ],
+          "size": [
+            1.3,
+            1.3
+          ],
+          "fill": "#173B4B"
+        },
+        {
+          "id": "slot-b",
+          "kind": "rect",
+          "at": [
+            0,
+            0.5
+          ],
+          "size": [
+            1.3,
+            1.3
+          ],
+          "fill": "#173B4B"
+        },
+        {
+          "id": "slot-a-label",
+          "kind": "text",
+          "at": [
+            -2.5,
+            2.08
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "塔位 A"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "slot-b-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "塔位 B"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "entry",
+          "kind": "text",
+          "at": [
+            -4.6,
+            -1.75
+          ],
+          "fill": "#FF94AC",
+          "text": {
+            "literal": "来袭"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "exit",
+          "kind": "text",
+          "at": [
+            4.1,
+            -1.75
+          ],
+          "fill": "#7BE2D7",
+          "text": {
+            "literal": "港口"
+          },
+          "fontSize": 0.46
+        },
+        {
+          "id": "forge-panel",
+          "kind": "rect",
+          "at": [
+            0,
+            -4.2
+          ],
+          "size": [
+            10.4,
+            2
+          ],
+          "fill": "#103B42"
+        },
+        {
+          "id": "forge-label",
+          "kind": "text",
+          "at": [
+            0,
+            -3.55
+          ],
+          "fill": "#88E9DB",
+          "text": {
+            "literal": "铸炉 · 每批3币"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "forge-state",
+          "kind": "text",
+          "at": [
+            0,
+            -4.2
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "state": "/forge"
+          },
+          "fontSize": 0.6
+        },
+        {
+          "id": "forge-key",
+          "kind": "text",
+          "at": [
+            0,
+            -4.9
+          ],
+          "fill": "#DCEEF3",
+          "text": {
+            "literal": "R 熔炼 / H 收取"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "legend",
+          "kind": "text",
+          "at": [
+            0,
+            -5.65
+          ],
+          "fill": "#8DBACA",
+          "text": {
+            "literal": "炮台数字=伤害 · 红艇数字=生命"
+          },
+          "fontSize": 0.5
+        },
+        {
+          "id": "costs",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "literal": "建塔3币 / 同级合成 / 升三级6币"
+          },
+          "fontSize": 0.5,
+          "fill": "#B4D8DB"
+        },
+        {
+          "id": "feedback",
+          "kind": "text",
+          "at": [
+            0,
+            -6.12
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.46,
+          "fill": "#D6E7E5"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -5,
+          -2.5
+        ],
+        "palette": {
+          "actor": "#48D4D9",
+          "solid": "#3F6577",
+          "target": "#EC8298",
+          "projectile": "#F8D48F",
+          "pickup": "#9CE2AE"
+        },
+        "circleKinds": [
+          "actor",
+          "target"
+        ],
+        "showValues": false,
+        "motifs": {
+          "actor": [
+            {
+              "id": "base-left",
+              "kind": "rect",
+              "at": [
+                -1.6,
+                -0.7
+              ],
+              "size": [
+                4,
+                3.4
+              ],
+              "fill": "#203E55"
+            },
+            {
+              "id": "base-right",
+              "kind": "rect",
+              "at": [
+                1.6,
+                -0.7
+              ],
+              "size": [
+                4,
+                3.4
+              ],
+              "fill": "#203E55"
+            },
+            {
+              "id": "cap",
+              "kind": "circle",
+              "at": [
+                -1.2,
+                0
+              ],
+              "radius": 2,
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "2": "#6AA9B5",
+                  "4": "#59CDC8",
+                  "8": "#BFA3ED"
+                },
+                "fallback": "#D9BF7B"
+              }
+            },
+            {
+              "id": "barrel",
+              "kind": "rect",
+              "at": [
+                -1.2,
+                2
+              ],
+              "size": [
+                1.1,
+                4
+              ],
+              "fill": "#A0ECE2"
+            },
+            {
+              "id": "muzzle",
+              "kind": "rect",
+              "at": [
+                -1.2,
+                2
+              ],
+              "size": [
+                2.1,
+                0.7
+              ],
+              "fill": "#284E64"
+            },
+            {
+              "id": "rim",
+              "kind": "rect",
+              "at": [
+                0,
+                -1.8
+              ],
+              "size": [
+                4,
+                0.55
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "2": "#6AA9B5",
+                  "4": "#59CDC8",
+                  "8": "#BFA3ED"
+                },
+                "fallback": "#D9BF7B"
+              }
+            },
+            {
+              "id": "signal",
+              "kind": "circle",
+              "at": [
+                -1,
+                1
+              ],
+              "radius": 0.28,
+              "fill": "#FFE6A4"
+            },
+            {
+              "id": "damage",
+              "kind": "text",
+              "at": [
+                1.9,
+                1.8
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 2.5,
+              "fill": "#F6FCFF"
+            }
+          ],
+          "target": [
+            {
+              "id": "hull-left",
+              "kind": "rect",
+              "at": [
+                -1.5,
+                0
+              ],
+              "size": [
+                4,
+                2.6
+              ],
+              "fill": "#C64F6D"
+            },
+            {
+              "id": "hull-right",
+              "kind": "rect",
+              "at": [
+                1.5,
+                0
+              ],
+              "size": [
+                4,
+                2.6
+              ],
+              "fill": "#C64F6D"
+            },
+            {
+              "id": "bow",
+              "kind": "circle",
+              "at": [
+                2,
+                0
+              ],
+              "radius": 1.5,
+              "fill": "#D66880"
+            },
+            {
+              "id": "deck",
+              "kind": "rect",
+              "at": [
+                0,
+                0.65
+              ],
+              "size": [
+                3.1,
+                1.9
+              ],
+              "fill": "#ED9CA7"
+            },
+            {
+              "id": "cabin",
+              "kind": "rect",
+              "at": [
+                -0.6,
+                1.1
+              ],
+              "size": [
+                1.6,
+                1.9
+              ],
+              "fill": "#263F57"
+            },
+            {
+              "id": "stern",
+              "kind": "rect",
+              "at": [
+                -2,
+                0
+              ],
+              "size": [
+                0.8,
+                2.3
+              ],
+              "fill": "#8D3D5F"
+            },
+            {
+              "id": "wake",
+              "kind": "rect",
+              "at": [
+                -2,
+                -1.4
+              ],
+              "size": [
+                3.8,
+                0.3
+              ],
+              "fill": "#8DC5CC"
+            },
+            {
+              "id": "health",
+              "kind": "text",
+              "at": [
+                1.8,
+                1.9
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 2.7,
+              "fill": "#FFFFFF"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ]
+}
