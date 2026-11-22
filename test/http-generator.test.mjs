@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createServer} from 'node:http';
-import {requestGeneration} from '../scripts/http-generator.mjs';
+import {requestGeneration} from '../generator/adapters/http-generator.mjs';
 const server=async handler=>{const s=createServer(handler);await new Promise(r=>s.listen(0,'127.0.0.1',r));return {url:'http://127.0.0.1:'+s.address().port,close:()=>new Promise(r=>{s.close(r);s.closeAllConnections();})};};
 test('HTTP generator forwards UTF-8 repair context, preserves raw JSON for strict parsing and reports HTTP failures without response contents',async()=>{
  const s=await server(async(req,res)=>{const chunks=[];for await(const c of req)chunks.push(c);const body=JSON.parse(Buffer.concat(chunks));assert.equal(req.method,'POST');assert.equal(body.previous.message,'修复游戏');res.setHeader('content-type','application/json; charset=utf-8');res.end('{"title":"中文","duplicate":1,"duplicate":2}');});

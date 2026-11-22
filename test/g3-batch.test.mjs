@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {buildG3Plan,validateG3Config,inspectGeneratedTask} from '../scripts/g3-batch.mjs';
-import {generateWithModel} from '../scripts/model-generator.mjs';
+import {generateWithModel} from '../generator/adapters/model-generator.mjs';
 import {checkG3SuiteBudget,executeG3Case} from '../scripts/g3-playthrough.mjs';
 import {HeadlessRuntime,runConformanceSuite} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';

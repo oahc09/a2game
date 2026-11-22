@@ -92,7 +92,7 @@ test('an unfinished capture and an actual mismatched host response cannot be hid
  const capturePath=join(f.workspace,f.run,'calls',id,'capture.json'),capture=JSON.parse(readFileSync(capturePath));capture.hostResponseComparison='MATCH';write(capturePath,capture);assert.ok(f.check().hostResponseMismatches.includes(id));
 });
 test('real no-model service persists every rejected call and monotonic run binding',async()=>{
- const {createMcpService}=await import('../integrations/mcp/service.mjs');
+ const {createMcpService}=await import('../integrations/mcp/mcp.mjs');
  const {readHostRunLedger}=await import('../scripts/host-run-ledger.mjs');
  const hostRunId=randomUUID(),service=createMcpService({hostRunId});
  try{
@@ -103,7 +103,7 @@ test('real no-model service persists every rejected call and monotonic run bindi
  }finally{await service.close();rmSync(service.directory,{recursive:true,force:true});}
 });
 test('real run capture still detects uncaptured service failures and exceeded candidate budget',async()=>{
- const {createMcpService}=await import('../integrations/mcp/service.mjs');
+ const {createMcpService}=await import('../integrations/mcp/mcp.mjs');
  const workspace=fileURLToPath(new URL('..',import.meta.url));
  const {run,hostRunId}=initHostRun('workbuddy',workspace),service=createMcpService({hostRunId});
  try{

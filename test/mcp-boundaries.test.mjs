@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {createMcpService} from '../integrations/mcp/service.mjs';
+import {createMcpService} from '../integrations/mcp/mcp.mjs';
 import {createFixture} from '../generator/fixture.mjs';
 import {createHash} from 'node:crypto';
 

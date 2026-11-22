@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {generateWithModel} from '../scripts/model-generator.mjs';
+import {generateWithModel} from '../generator/adapters/model-generator.mjs';
 
 /** Offline dialect conformance for the model-http adapter against the four vendor families named in the
  * multi-model compatibility plan (docs/generator-multi-model.md). Mock fetch only: no network, no credentials,

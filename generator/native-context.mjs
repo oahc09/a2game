@@ -2,7 +2,7 @@ import {conformanceInputGuidance} from './diagnostics.mjs';
 /** Public context only. Keep envelope and solution types explicit across native overlays. */
 export async function buildNativeContext(prompt,attempt=1,previous){
  const [{buildAgentRequest},{withCodexHostProfile},{withNativeDelivery}]=await Promise.all([
-  import('../scripts/agent-workflow.mjs'),import('../scripts/codex-generator.mjs'),import('../scripts/g3-native-contract.mjs')
+  import('../scripts/agent-workflow.mjs'),import('./adapters/codex-generator.mjs'),import('../scripts/g3-native-contract.mjs')
  ]);
  const base=buildAgentRequest(prompt,attempt,previous),request=withNativeDelivery(withCodexHostProfile(base));
  request.constraints={...request.constraints,referenceHostConformance:conformanceInputGuidance};

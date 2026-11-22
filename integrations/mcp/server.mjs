@@ -2,7 +2,7 @@ import {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {StdioServerTransport} from '@modelcontextprotocol/sdk/server/stdio.js';
 import {CallToolRequestSchema,McpError,ErrorCode} from '@modelcontextprotocol/sdk/types.js';
 import {contracts,resultSchema} from './contract.mjs';
-import {createMcpService} from './service.mjs';
+import {createMcpService} from './mcp.mjs';
 import {publicResources,readPublicResource} from './resources.mjs';
 // Preserve the SDK's bounded object/array-member budget before strict tool parsing.
 function excessiveElements(value){

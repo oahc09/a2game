@@ -75,7 +75,7 @@ test('start is idempotent and pause/resume clears held sources without erasing d
 });
 
 test('no-provider MCP test preserves hold/loss diagnostics in both safe envelope locations',async()=>{
- const {createMcpService}=await import('../integrations/mcp/service.mjs');
+ const {createMcpService}=await import('../integrations/mcp/mcp.mjs');
  const service=createMcpService();try{
   const fixture=createFixture();
   fixture.conformance.cases.push(

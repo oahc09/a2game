@@ -4,7 +4,7 @@ import {writeFileSync,rmSync} from 'node:fs';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {probeProvider} from '../generator/providers.mjs';
-import {parseClaudeReply} from '../scripts/claude-generator.mjs';
+import {parseClaudeReply} from '../generator/adapters/claude-generator.mjs';
 
 test('claude provider probe validates executable, explicit model and bounded timeout',async()=>{
  const base=join(tmpdir(),'a2game-claude-probe-');

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {existsSync,readFileSync,readdirSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {setTimeout as delay} from 'node:timers/promises';
-import {createMcpService} from '../integrations/mcp/service.mjs';
+import {createMcpService} from '../integrations/mcp/mcp.mjs';
 import {createFixture} from '../generator/fixture.mjs';
 
 const root=resolve(import.meta.dirname,'..');

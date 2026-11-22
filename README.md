@@ -225,10 +225,18 @@ a2game/
 │       ├── examples/          # JSON 格式示例
 │       └── tools/             # 此版本的规范构建与静态校验工具
 ├── src/                       # 共享 TypeScript 玩法/表现/输入参考实现
+├── generator/                 # 创作命令与生成服务
+├── integrations/              # MCP、Skill 与 Agent 接入
+├── packages/                  # 独立播放器与交付模块
+├── games/                     # 可玩作品
+├── assets/                    # 主题、道具与其他素材
+├── examples/                  # 网页和 Android 接入示例
+├── docs/                      # 使用说明；history/ 保存历史报告
 ├── test/                      # Node 单元和 Mock Adapter 测试
 ├── player/                    # Canvas2D/Three/AIR 浏览器播放器和 SDK vendor 布局
 ├── scripts/                   # build checks、Conformance、Browser smoke 和静态服务器
 ├── dist/                      # TypeScript 构建产物（可重建）
+├── output/                    # 本地交付包和临时测试数据
 └── reports/                   # 历史及本轮验收日志、Canvas2D 实际截图
 ```
 

@@ -5,7 +5,7 @@ import {HeadlessRuntime} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';
 import {queryCapabilities} from '../generator/catalog.mjs';
-import {createMcpService} from '../integrations/mcp/service.mjs';
+import {createMcpService} from '../integrations/mcp/mcp.mjs';
 const load=name=>JSON.parse(readFileSync(new URL('../specs/v0.1/games/'+name+'.game.json',import.meta.url)));
 const failure=g=>{try{const r=new HeadlessRuntime(g,makeRegistry());r.dispose();assert.fail('Expected rejection');}catch(e){assert.equal(e.code,'A2G_E_CAP_CONFIG');return publicDiagnostics(e)[0];}};
 const defense=g=>g.scenes[0].entities[0].components.find(c=>c.capability.id==='a2game.strategy.tower-defense');

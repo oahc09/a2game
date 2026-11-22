@@ -2,6 +2,22 @@
 
 Git 保存 `src/`、`player/`、`test/`、`scripts/`、`specs/v0.1/`、`project/`、文档、依赖锁和源码资源。目录调整须同步引用及证据指纹。
 
+## 新文件放哪里
+
+| 内容 | 目录 |
+| --- | --- |
+| 游戏规则、浏览器播放器 | `src/`、`player/` |
+| 游戏创作工具、对外接入和可嵌入模块 | `generator/`、`integrations/`、`packages/` |
+| 可玩作品、素材、接入示例 | `games/`、`assets/`、`examples/` |
+| 协议、项目配置和进展数据 | `specs/`、`project/` |
+| 项目命令、可重复执行的测试 | `scripts/`、`test/` |
+| 使用说明、历史报告 | `docs/`、`docs/history/`。旧版交付报告见 [2026-10-24 交付报告](history/delivery-report-2026-10-24.md) |
+| 自动化配置和 Agent 接入 | `.github/`、`.agents/`、`.claude/`、`.codebuddy/`、`.trae/`、`.v2c/`、`.workbuddy/`、`.zcode/` |
+
+临时捕获和测试数据放在 `output/` 的独立任务目录。需要保留的结果放在 `reports/`，并记录对应的版本。个人工作副本先确认是否仍在使用，再决定归档或回收。
+
+## 本地文件怎样清理
+
 | 本地内容 | 维护方式 |
 | --- | --- |
 | `reports/` | 验收原始输出、截图、Trace 和失败记录；本地保留，按现有决定不再进入 Git |

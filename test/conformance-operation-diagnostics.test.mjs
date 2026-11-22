@@ -31,7 +31,7 @@ test('public operations and preview-binding guidance are static contracts, not t
 });
 
 test('real no-provider MCP preserves missing-code guidance in top-level and data diagnostics',async()=>{
- const {createMcpService}=await import('../integrations/mcp/service.mjs');const service=createMcpService();
+ const {createMcpService}=await import('../integrations/mcp/mcp.mjs');const service=createMcpService();
  try{const f=createFixture();f.conformance.cases.push({id:'missing-expected-code',seed:42,steps:[{op:'start'},{op:'expectError'},{op:'injectAction',action:'collect',phase:'press'}]});
   const admitted=await service.call('a2game.validate_game',{gameJson:JSON.stringify(f.game),conformanceJson:JSON.stringify(f.conformance),solutionJson:JSON.stringify(f.solution)});assert.equal(admitted.status,'PASS_REFERENCE');
   const result=await service.call('a2game.test_game',{artifactId:admitted.data.artifactId});assert.equal(result.status,'FAIL');assert.deepEqual(result.diagnostics,result.data.diagnostics);

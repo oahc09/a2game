@@ -40,6 +40,8 @@ npm run generator:studio
 
 每次输出目录必须不存在。成功输出 `game.json`、`conformance.json`、`solution.json`、`release-receipt.json`、`debug-bundle.json`、`tests/` 和 `generation-report.json`。报告用相对路径与 SHA256 标识文件；私有 prompt、原始回复、失败尝试、服务 telemetry 单独保存在 `.a2game/generator/<runId>/`。失败仍保留本次公开报告，不覆盖旧运行。回放会重新检查完整 Schema、正负例、解法及双 Session Hash。
 
+生成流程在 `generator/index.mjs`，Codex、Claude 和 HTTP 模型调用的实现集中在 `generator/adapters/`。`scripts/` 下同名文件是旧命令和配置的兼容入口。MCP 启动、打包和项目验收命令也放在 `scripts/`。
+
 对已有 `model-http` 运行，可用 `node scripts/audit-model-evidence.mjs <generation-report.json>` 只读核对私有逐次记录、返回模型名与请求是否一致、用量和原始响应摘要；不调用模型、不复制私有回复。输出仅为新的本地审计回执。缺失、未返回、模型不符与响应篡改分别记录；服务自报一致不等于独立身份认证。该工具不修改生成、模型路由或调用预算。
 
 `--max-attempts` 为 1–3，`--timeout-ms` 是整个生成任务的时间上限（100–600000）；取消或超时会清理本次 worker 子进程树。未知费用与用量保持 `null` / `NOT_REPORTED`；宿主求解辅助单独标记。退出码：0 成功，1 验证/生成失败，2 参数或本机操作失败，3 `BLOCKED`，130 取消。直接 `node generator/cli.mjs ... --json` 可获得单个 JSON 结果，避免 npm 自身输出横幅。

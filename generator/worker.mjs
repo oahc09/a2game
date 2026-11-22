@@ -22,13 +22,13 @@ try{
    const output=createFixture();if(config.fixtureMode==='invalid-game')output.game.specVersion='0.9.0';text=config.fixtureMode==='invalid-json'||config.fixtureMode==='repair-json'&&request.attempt===1?'not JSON':JSON.stringify(output);
    telemetry={providerId,model:'DEMO_FIXTURE',provenance:'fixture',cost:'NOT_APPLICABLE',usage:null};
   }else if(providerId==='codex'){
-   const {generateCodex}=await import('../scripts/codex-generator.mjs');telemetry=await generateCodex(config,request,directory);text=readFileSync(resolve(directory,'output.raw.json'),'utf8');
+   const {generateCodex}=await import('./adapters/codex-generator.mjs');telemetry=await generateCodex(config,request,directory);text=readFileSync(resolve(directory,'output.raw.json'),'utf8');
   }else if(providerId==='claude'){
-   const {generateClaude}=await import('../scripts/claude-generator.mjs');telemetry=await generateClaude(config,request,directory);text=readFileSync(resolve(directory,'output.raw.json'),'utf8');
+   const {generateClaude}=await import('./adapters/claude-generator.mjs');telemetry=await generateClaude(config,request,directory);text=readFileSync(resolve(directory,'output.raw.json'),'utf8');
   }else if(providerId==='model-http'){
-   const {generateWithModel}=await import('../scripts/model-generator.mjs');const result=await generateWithModel(config,request);text=result.text;telemetry=result.telemetry;
+   const {generateWithModel}=await import('./adapters/model-generator.mjs');const result=await generateWithModel(config,request);text=result.text;telemetry=result.telemetry;
   }else{
-   const {requestGeneration}=await import('../scripts/http-generator.mjs');text=await requestGeneration(config,request);telemetry={providerId,requestedModel:null,returnedModel:null,identityStatus:'UNVERIFIED',usage:null,cost:'NOT_REPORTED'};
+   const {requestGeneration}=await import('./adapters/http-generator.mjs');text=await requestGeneration(config,request);telemetry={providerId,requestedModel:null,returnedModel:null,identityStatus:'UNVERIFIED',usage:null,cost:'NOT_REPORTED'};
   }
   save(directory,'provider-call.json',{...telemetry,elapsedMs:performance.now()-started,outputSha256:createHash('sha256').update(text).digest('hex')});process.stdout.write(text);
  }else if(kind==='browser'){
@@ -50,7 +50,7 @@ try{
  }else if(kind==='validate'){
   if(typeof payload.rawFile!=='string')throw Object.assign(Error(),{code:'A2G_GEN_WORKER_REQUEST'});
   const {runAgentWorkflow}=await import('../scripts/agent-workflow.mjs');
-  const result=await runAgentWorkflow({prompt:payload.prompt,command:[process.execPath,resolve(root,'scripts/codex-generator.mjs'),'--read-output',resolve(payload.rawFile)],maxAttempts:1,timeoutMs:60000,directory:resolve(directory,'validation')});
+  const result=await runAgentWorkflow({prompt:payload.prompt,command:[process.execPath,resolve(root,'generator/adapters/codex-generator.mjs'),'--read-output',resolve(payload.rawFile)],maxAttempts:1,timeoutMs:60000,directory:resolve(directory,'validation')});
   if(result.success){
    const {checkLifecycle}=await import('./lifecycle.mjs');
    try{save(resolve(directory,'validation'),'lifecycle.json',checkLifecycle(result.success.game,result.success.solution));}

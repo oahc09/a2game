@@ -6,7 +6,7 @@ import {setTimeout as delay} from 'node:timers/promises';
 import {join} from 'node:path';
 import {inspectTextReadability as inspect,textReadabilityObservationSchema as schema} from '../integrations/mcp/text-readability-feedback.mjs';
 import {contracts} from '../integrations/mcp/contract.mjs';
-import {createMcpService} from '../integrations/mcp/service.mjs';
+import {createMcpService} from '../integrations/mcp/mcp.mjs';
 import {createFixture} from '../generator/fixture.mjs';
 const artifactId=randomUUID(),previewId=randomUUID(),gameSha256='a'.repeat(64);
 const observation=()=>({previewId,gameSha256,backend:'three',viewport:{width:390,height:844},status:'DIAGNOSTIC_ONLY',referenceCssPx:16,measuredCanvasRect:{left:10,top:20,width:368,height:375},scene:{width:320,height:440},texts:[{fontScene:18,nominalTextCssPx:15}]});

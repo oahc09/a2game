@@ -5,7 +5,7 @@ import {readFileSync,writeFileSync,mkdtempSync,mkdirSync,readdirSync,existsSync}
 import {join,resolve} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
-import {createMcpService} from '../integrations/mcp/service.mjs';
+import {createMcpService} from '../integrations/mcp/mcp.mjs';
 import {syncBuiltinESMExports} from 'node:module';
 import {createFixture} from '../generator/fixture.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';

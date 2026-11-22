@@ -18,7 +18,7 @@ const save=(p,v)=>{mkdirSync(resolve(p,'..'),{recursive:true});writeFileSync(p,J
 const rel=(p)=>relative(root,p).replaceAll('\\','/');
 const hash=(p)=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex');
 const PACK_VERSION='public-task-pack-v2';
-const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-native-contract.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
+const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-native-contract.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/codex-generator.mjs','generator/adapters/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
 
 function loadConfig(configPath){
  const config=read(configPath);
