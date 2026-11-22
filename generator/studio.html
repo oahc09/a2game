@@ -15,7 +15,7 @@
 <div class="progress"><div class="number">运行记录</div><p id="message" aria-live="polite">写好需求后，开始第一次生成。</p><ol id="progress"></ol></div>
 <label class="button file">导入游戏包<input id="import" type="file" accept="application/json,.json"></label>
 <p class="note muted">导入会重新验证。游戏包需要兼容宿主、已审核资源与已准备的 SDK。</p>
-<details><summary>本次会话的已验证结果</summary><div id="history" class="history"></div></details>
+<details><summary>任务记录</summary><div id="history" class="history" style="overflow-wrap:anywhere"></div><div id="archive-lookup" hidden><label for="archived-job-id">归档任务 ID</label><input id="archived-job-id" maxlength="36"><button id="find-archived-job" type="button">查询任务</button><a id="download-archived-job" class="button" hidden>导出游戏包</a></div></details>
 </section>
 <section class="output" aria-label="生成结果"><div class="output-head"><div><span class="number">02 / 运行与检查</span><h2 id="result-title">等待第一个作品</h2></div><div class="tools"><select id="backend" aria-label="渲染引擎"><option value="three">Three.js</option><option value="air">CocosAirJS</option></select><button id="inspect" disabled>读取状态</button><button id="export" disabled>导出游戏包</button></div></div>
 <div class="tabs" role="tablist" aria-label="结果视图"><button role="tab" data-tab="play" aria-selected="true">试玩</button><button role="tab" data-tab="plan" aria-selected="false">规划</button><button role="tab" data-tab="json" aria-selected="false">JSON</button><button role="tab" data-tab="tests" aria-selected="false">验证</button><button role="tab" data-tab="state" aria-selected="false">状态</button></div>
@@ -41,7 +41,10 @@ async function show(job){
  $('debug').href=artifact('debug-bundle.json');$('debug').hidden=false;preview();tab('play');
 }
 async function refresh(){const state=await api('status');$('budget').textContent='本机真实生成剩余上限：'+state.remainingCalls+' 次。';for(const id of state.providers)if(![...$('provider').options].some(o=>o.value===id)){$('provider').add(new Option('本机已配置 · '+id,id));}
- $('history').replaceChildren();for(const job of state.jobs.filter(j=>j.status==='completed')){const b=document.createElement('button');b.textContent=job.id.slice(0,8);b.onclick=()=>show(job).catch(e=>message('载入未完成：'+e.message,true));$('history').append(b);}return state;}
+ $('archive-lookup').hidden=!state.canArchive;
+ $('history').replaceChildren();for(const job of state.jobs){const row=document.createElement('div');const label=document.createElement('span');label.textContent=job.id+' · '+({completed:'已完成',failed:'失败',cancelled:'已取消',interrupted:'已中断',running:'运行中',queued:'排队中'}[job.status]??job.status);row.append(label);
+  if(job.status==='completed'){const b=document.createElement('button');b.textContent='查看';b.onclick=()=>show(job).catch(e=>message('载入未完成：'+e.message,true));row.append(b);}
+  if(state.canArchive&&!['queued','running'].includes(job.status)){const b=document.createElement('button');b.textContent='归档';b.onclick=async()=>{b.disabled=true;try{await api('jobs/'+job.id+'/archive',{method:'POST',body:'{}'});await refresh();message('已归档 '+job.id+'。');}catch(e){message('归档未完成：'+e.message,true);b.disabled=false;}};row.append(b);}$('history').append(row);}return state;}
 const stageName={plan:'校验规划',generate:'请求生成',validate:'完整验证',import:'导入并重新验证'};
 async function poll(id){try{const job=await api('jobs/'+id);$('progress').replaceChildren();for(const row of job.progress){const li=document.createElement('li');li.textContent=(stageName[row.stage]||row.stage)+(row.attempt?' · 第 '+row.attempt+' 次':'');$('progress').append(li);}
  if(job.status==='running'||job.status==='queued'){if(job.status==='queued')message('任务已保存，等待前面的任务完成。');timer=setTimeout(()=>poll(id),600);return;}active=null;busy(false);await refresh();
@@ -50,6 +53,14 @@ async function poll(id){try{const job=await api('jobs/'+id);$('progress').replac
 function track(job){active=job.id;busy(true);message('任务已开始，正在生成并验证。');poll(job.id);}
 $('create').onsubmit=async event=>{event.preventDefault();busy(true);try{track(await api('jobs',{method:'POST',body:JSON.stringify({prompt:$('prompt').value,providerId:$('provider').value,mode:$('mode').value,maxAttempts:Number($('attempts').value)})}));}catch(e){busy(false);message('生成未启动：'+e.message+'；请检查来源和预算。',true);}};
 $('cancel').onclick=async()=>{if(active){await api('jobs/'+active+'/cancel',{method:'POST',body:'{}'});message('正在取消并释放本次任务。');}};
+$('find-archived-job').onclick=async()=>{
+ const id=$('archived-job-id').value.trim(),download=$('download-archived-job');download.hidden=true;
+ if(!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(id)){message('请填写完整任务 ID。',true);return;}
+ try{const job=await api('jobs/'+id);$('tests-text').textContent=JSON.stringify(job,null,2);tab('tests');$('empty').hidden=true;
+  if(job.status==='completed'){download.href='/studio/api/jobs/'+id+'/download';download.hidden=false;}
+  message('已找到任务 '+id+'。');
+ }catch(e){message('查询未完成：'+e.message,true);}
+};
 $('backend').onchange=preview;for(const button of document.querySelectorAll('[data-tab]'))button.onclick=()=>tab(button.dataset.tab);
 $('provider').onchange=()=>{$('source-note').textContent=$('provider').value==='fixture'?'演示固定生成计数夹具，不解释需求，不计真实模型验收。':'使用启动时指定的本机 Provider；每次尝试计入本机调用上限。';};
 $('inspect').onclick=()=>{try{const game=frame.contentWindow.__a2game;if(!game)throw Error('游戏尚未载入');$('state-text').textContent=JSON.stringify({state:game.getState(),resources:game.diagnostics()},null,2);tab('state');}catch(e){message('状态读取未完成：'+e.message+'；请等待试玩载入后重试。',true);}};

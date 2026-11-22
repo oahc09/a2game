@@ -2,8 +2,8 @@ import {HeadlessRuntime,projectPresentation,sha256Canonical} from '../dist/index
 import {validateJsonTree} from '../dist/utils.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {ResourceScope} from './resources.mjs';
-import {ThreeAdapter} from './adapters/three-adapter.mjs';
-import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
+import {createPlayerEngineRegistry} from './engines.mjs';
+export {createPlayerEngineRegistry} from './engines.mjs';
 import {trustedBundleDigest} from './trusted-bundle.mjs';
 import {createPointerHost} from './pointer-host.mjs';
 import {createMobileHost} from './mobile-host.mjs';
@@ -11,9 +11,9 @@ import {createGamepadHost} from './gamepad-host.mjs';
 import {actionLabel} from './input-labels.mjs';
 
 // Experimental: the trust anchor is supplied by the build, never by the game package.
-let cocosDocumentClaimed=false;
-export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
- if(!['three','cocosairjs'].includes(backend)||!(container instanceof HTMLElement))throw Error('A2G_E_CONFIG: invalid backend or container');
+const builtinEngines=createPlayerEngineRegistry();
+export function createA2GamePlayer({backend,container,engines=builtinEngines,onEvent=()=>{}}){
+ if(typeof engines?.has!=='function'||typeof engines.create!=='function'||!engines.has(backend)||!(container instanceof HTMLElement))throw Error('A2G_E_CONFIG: invalid backend or container');
  let runtime,adapter,resources,definition,host,canvas,raf,last=0,carry=0,sequence=0,disposed=false,closed=false,loading=false,ready=false,started=false,disposal,flow,loadDone=Promise.resolve();
  const held=new Map();let holdSerial=0,pointerHost,mobileHost,gamepadHost;const inputAbort=new AbortController();
  const emit=(type,detail={})=>{try{onEvent(Object.freeze({type,...detail}));}catch(e){console.error('A2Game event handler',e);}};
@@ -35,7 +35,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
     const registry=await createBrowserRegistry();assert();definition=snapshot.definition;
     resources=new ResourceScope(snapshot.resources.map(record=>({...record,href:new URL('./assets/'+record.sha256,import.meta.url).href})));await resources.load();assert();
     runtime=new HeadlessRuntime(definition,registry);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
-    if(backend==='three'){const module=await import('three');assert();adapter=new ThreeAdapter(module,canvas,resources);await adapter.prepare(definition);}else{if(cocosDocumentClaimed)throw Error('A2G_E_COCOS_DOCUMENT: reload the page before another CocosAirJS instance');cocosDocumentClaimed=true;const module=await import('cocosair.js');assert();adapter=await CocosAirAdapter.create(module,canvas);assert();await adapter.prepare(definition,resources);}assert();
+    adapter=await engines.create(backend,{canvas,definition,resources,signal:inputAbort.signal});assert();
     const getRuntime=()=>disposed?undefined:runtime;
     if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal});
     if(hasBinding('imu.'))mobileHost=createMobileHost({getRuntime,inject:raw,onStatus:detail=>emit('sensor-status',detail),signal:inputAbort.signal});

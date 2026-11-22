@@ -22,7 +22,7 @@ export function createReleaseRegistry({maxVersions=16,maxBytes=128*1024*1024}={}
  if(!Number.isInteger(maxVersions)||maxVersions<1||maxVersions>16||!Number.isSafeInteger(maxBytes)||maxBytes<1||maxBytes>256*1024*1024)throw deliveryError('A2G_DELIVERY_CONFIG');
  const versions=new Map(),chunks=new Map(),selected=new Map();let bytes=0;
  return{
-  async add(input){
+  async add(input,{expectedId,skip,keepSelection=false}={}){
    if(lstatSync(resolve(input)).isSymbolicLink())throw deliveryError('A2G_DELIVERY_SYMLINK');const directory=realpathSync(resolve(input));if(!directory.startsWith(join(workspace,'output')+sep))throw deliveryError('A2G_DELIVERY_DIRECTORY');
    const inventoryBytes=bounded(join(directory,'build-inventory.json'),1024*1024),inventory=JSON.parse(inventoryBytes),bundleBytes=bounded(join(directory,'player/game.release.json'),1024*1024),bundle=JSON.parse(bundleBytes);
    if(!Array.isArray(inventory.files)||!inventory.files.length||inventory.files.length>600)throw deliveryError('A2G_DELIVERY_INVENTORY');
@@ -37,9 +37,12 @@ export function createReleaseRegistry({maxVersions=16,maxBytes=128*1024*1024}={}
     const asset=bundle.resources.find(r=>file==='player/assets/'+r.sha256);files.push({file,sha256,bytes:data.length,mime:asset?(assetTypes.get(asset.uri)??contentType(asset.uri)):contentType(file)});
    }
    for(const required of['player/index.html','player/example.mjs','player/index-sdk.mjs','player/game.release.json','player/trusted-bundle.mjs','dist/index.js'])if(!names.has(required))throw deliveryError('A2G_DELIVERY_INCOMPLETE');
-   const def=bundle.definition,id=digest(Buffer.from(JSON.stringify(files))),entry=Object.freeze({id,gameId:def.id,revision:def.revision,title:def.meta.title,base:'/delivery/releases/'+id+'/',files:Object.freeze(files.map(Object.freeze))});if(versions.has(id))return versions.get(id);if(versions.size>=maxVersions)throw deliveryError('A2G_DELIVERY_CAPACITY',409);
+   const def=bundle.definition,id=digest(Buffer.from(JSON.stringify(files))),entry=Object.freeze({id,gameId:def.id,revision:def.revision,title:def.meta.title,base:'/delivery/releases/'+id+'/',files:Object.freeze(files.map(Object.freeze))});
+   if(expectedId!==undefined&&id!==expectedId)throw deliveryError('A2G_DELIVERY_STATE');
+   if(skip?.(id))return null;
+   if(versions.has(id))return versions.get(id);if(versions.size>=maxVersions)throw deliveryError('A2G_DELIVERY_CAPACITY',409);
    if(Buffer.byteLength(JSON.stringify({format:'a2game-delivery-channel',version:1,versions:[...versions.values(),entry],selected:{...Object.fromEntries(selected),[entry.gameId]:id}}))>1024*1024)throw deliveryError('A2G_DELIVERY_CHANNEL_SIZE');
-   for(const[key,data]of pending)chunks.set(key,data);bytes+=added;versions.set(id,entry);selected.set(entry.gameId,id);return entry;
+   for(const[key,data]of pending)chunks.set(key,data);bytes+=added;versions.set(id,entry);if(!keepSelection||!selected.has(entry.gameId))selected.set(entry.gameId,id);return entry;
   },
   channel:()=>({format:'a2game-delivery-channel',version:1,versions:[...versions.values()],selected:Object.fromEntries(selected)}),
   get:id=>versions.get(id),

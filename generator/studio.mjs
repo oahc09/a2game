@@ -22,6 +22,18 @@ export async function startGeneratorStudio({providerId='fixture',configFile,maxC
  const contentService=createContentService(),server=createPlayerServer({contentService}),player=server.listeners('request')[0];server.removeAllListeners('request');
  const controller=new AbortController(),jobs=new Map(),tasks=new Set();let active=null,usedCalls=stateStore?.read().usedCalls??0,remainingCalls=Math.max(0,maxCalls-usedCalls),closing=false,storageFault=false;
  const publicJob=job=>({id:job.id,status:job.status,progress:job.progress,result:job.result,release:job.release??null,error:job.error??null});
+ const archivedJob=id=>stateStore?.archived('job',id);
+ const findJob=id=>jobs.get(id)??archivedJob(id);
+ const exporting=new Set();
+ function archiveJob(id){
+  if(!stateStore)throw error('A2G_GEN_STUDIO_ARCHIVE_DISABLED',409);
+  const state=stateStore.read(),record=state.jobs.find(row=>row.id===id);
+  if(!record){if(archivedJob(id))return;throw error('A2G_GEN_STUDIO_NOT_FOUND',404);}
+  if(!['completed','failed','cancelled','interrupted'].includes(record.status)||exporting.has(id))throw error('A2G_GEN_STUDIO_BUSY',409);
+  stateStore.archive('job',record);
+  stateStore.save({...state,jobs:state.jobs.filter(row=>row.id!==id)});
+  jobs.delete(id);
+ }
  const checkpoint=()=>{if(stateStore)try{const s=stateStore.read();stateStore.save({...s,usedCalls,jobs:[...jobs.values()].map(job=>({...publicJob(job),request:job.request??null}))});}catch(e){storageFault=true;throw e;}};
  for(const stored of stateStore?.read().jobs??[]){
   if(!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/.test(stored.id)||jobs.has(stored.id)||!['queued','running','completed','cancelled','failed','interrupted'].includes(stored.status)||!Array.isArray(stored.progress)||stored.progress.length>32||stored.result!==null&&typeof stored.result!=='object')throw error('A2G_GEN_STUDIO_STATE');
@@ -39,9 +51,10 @@ export async function startGeneratorStudio({providerId='fixture',configFile,maxC
  function dispatchNext(){if(active||closing||storageFault)return;const next=[...jobs.values()].find(job=>job.status==='queued');if(next){next.status='running';active=next;checkpoint();launch(()=>runGeneration(next));}}
  async function runGeneration(job){const input=job.request;let result;try{result=await generateGame({prompt:input.prompt,mode:input.mode,providerId:input.providerId,configFile:input.providerId==='fixture'?undefined:configFile,maxAttempts:input.maxAttempts,timeoutMs:180000,outputDirectory:job.directory,signal:job.controller.signal,onProgress:p=>{if(job.progress.length<32)job.progress.push({...p,at:new Date().toISOString()});}});await finish(job,result);}catch(e){job.status=job.controller.signal.aborted?'cancelled':'failed';job.error={code:e.code??'A2G_GEN_STUDIO_JOB'};}finally{if(input.providerId!=='fixture'){usedCalls-=Math.max(0,input.maxAttempts-(result?.generationCalls??input.maxAttempts));remainingCalls=Math.max(0,maxCalls-usedCalls);}if(active===job)active=null;checkpoint();dispatchNext();}}
  async function exportCompletedJob(id){
-  if(closing)throw error('A2G_GEN_STUDIO_CLOSING',503);if(storageFault)throw error('A2G_GEN_STUDIO_STORAGE',503);const job=jobs.get(id);if(!job||job.status!=='completed')throw error('A2G_GEN_STUDIO_NOT_FOUND',404);
-  if(job.exporting)throw error('A2G_GEN_STUDIO_BUSY',409);job.exporting=true;const task=exportGamePackage(job.directory,{signal:controller.signal});tasks.add(task);
-  try{return await task;}finally{tasks.delete(task);job.exporting=false;}
+  if(closing)throw error('A2G_GEN_STUDIO_CLOSING',503);if(storageFault)throw error('A2G_GEN_STUDIO_STORAGE',503);const job=findJob(id);if(!job||job.status!=='completed')throw error('A2G_GEN_STUDIO_NOT_FOUND',404);
+  if(exporting.has(id))throw error('A2G_GEN_STUDIO_BUSY',409);
+  exporting.add(id);const task=exportGamePackage(job.directory??join(stateStore.directory,'jobs',id),{signal:controller.signal});tasks.add(task);
+  try{return await task;}finally{tasks.delete(task);exporting.delete(id);}
  }
  async function finish(job,result){
   const {outputDirectory,...publicResult}=result;job.result=publicResult;
@@ -65,7 +78,7 @@ export async function startGeneratorStudio({providerId='fixture',configFile,maxC
     res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; frame-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'");
     res.writeHead(200,{'Content-Type':'text/html; charset=utf-8'});res.end(readFileSync(join(root,'generator/studio.html')));return;
    }
-   if(pathname==='/studio/api/status'&&req.method==='GET'){json(200,{status:'READY',provider,providers:['fixture',...(providerId!=='fixture'?[providerId]:[])],remainingCalls,jobs:[...jobs.values()].map(publicJob),active:active?.id??null});return;}
+   if(pathname==='/studio/api/status'&&req.method==='GET'){json(200,{status:'READY',provider,providers:['fixture',...(providerId!=='fixture'?[providerId]:[])],remainingCalls,jobs:[...jobs.values()].map(publicJob),active:active?.id??null,canArchive:Boolean(stateStore)});return;}
    if(pathname==='/studio/api/jobs'&&req.method==='POST'){
     const input=JSON.parse(await body(req));
     if(!input||Object.keys(input).some(k=>!['prompt','mode','providerId','maxAttempts'].includes(k))||typeof input.prompt!=='string'||!input.prompt.trim()||input.prompt.length>8000||!['direct-json','game-plan'].includes(input.mode)||!['fixture',providerId].includes(input.providerId)||!Number.isInteger(input.maxAttempts)||input.maxAttempts<1||input.maxAttempts>3)throw error('A2G_GEN_STUDIO_INPUT');
@@ -75,12 +88,14 @@ export async function startGeneratorStudio({providerId='fixture',configFile,maxC
     const text=await body(req,768*1024);if(active)throw error('A2G_GEN_STUDIO_BUSY',409);reserve('fixture',0);const job=createJob();json(202,publicJob(job));
     launch(async()=>{try{job.progress.push({stage:'import',attempt:0});await finish(job,await importGamePackage(text,job.directory,{signal:job.controller.signal,timeoutMs:60000}));}catch(e){job.status=job.controller.signal.aborted?'cancelled':'failed';job.error={code:e.code??'A2G_GEN_STUDIO_IMPORT'};}finally{if(active===job)active=null;checkpoint();dispatchNext();}});return;
    }
-   const match=pathname.match(/^\/studio\/api\/jobs\/([a-f0-9-]{36})(?:\/(cancel|download|artifact)(?:\/([a-z-]+\.json))?)?$/),job=match&&jobs.get(match[1]);
+   const match=pathname.match(/^\/studio\/api\/jobs\/([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})(?:\/(cancel|download|artifact|archive)(?:\/([a-z-]+\.json))?)?$/);
+   if(match?.[2]==='archive'&&!match[3]&&req.method==='POST'){await body(req);if(closing||storageFault)throw error('A2G_GEN_STUDIO_STORAGE',503);archiveJob(match[1]);json(200,{id:match[1],archived:true});return;}
+   const job=match&&findJob(match[1]);
    if(!job)throw error('A2G_GEN_STUDIO_NOT_FOUND',404);
    if(!match[2]&&req.method==='GET'){json(200,publicJob(job));return;}
-   if(match[2]==='cancel'&&req.method==='POST'){if(job.status==='running')job.controller.abort();else if(job.status==='queued'){job.status='cancelled';job.controller.abort();if(job.request.providerId!=='fixture'){usedCalls-=job.request.maxAttempts;remainingCalls=Math.max(0,maxCalls-usedCalls);}checkpoint();}json(202,{status:'CANCELLING',id:job.id});return;}
+   if(match[2]==='cancel'&&req.method==='POST'&&jobs.has(job.id)){if(job.status==='running')job.controller.abort();else if(job.status==='queued'){job.status='cancelled';job.controller.abort();if(job.request.providerId!=='fixture'){usedCalls-=job.request.maxAttempts;remainingCalls=Math.max(0,maxCalls-usedCalls);}checkpoint();}json(202,{status:'CANCELLING',id:job.id});return;}
    if(match[2]==='artifact'&&req.method==='GET'&&allowedFiles.has(match[3])&&job.status==='completed'){
-    const path=join(job.directory,match[3]);if(!existsSync(path))throw error('A2G_GEN_STUDIO_NOT_FOUND',404);res.writeHead(200,{'Content-Type':'application/json; charset=utf-8'});res.end(readFileSync(path));return;
+    const path=join(job.directory??join(stateStore.directory,'jobs',job.id),match[3]);if(!existsSync(path))throw error('A2G_GEN_STUDIO_NOT_FOUND',404);res.writeHead(200,{'Content-Type':'application/json; charset=utf-8'});res.end(readFileSync(path));return;
    }
    if(match[2]==='download'&&req.method==='GET'&&job.status==='completed'){
     // Bound package validations and wait for them during shutdown as well.
@@ -95,5 +110,5 @@ export async function startGeneratorStudio({providerId='fixture',configFile,maxC
  const cancel=()=>{void close();};signal?.addEventListener('abort',cancel,{once:true});server.once('close',()=>signal?.removeEventListener('abort',cancel));
  if(signal?.aborted){await close();throw error('A2G_GEN_CANCELLED');}
  dispatchNext();
- return {status:'READY',url:`http://127.0.0.1:${server.address().port}/studio/`,server,close,getJob:id=>{const job=jobs.get(id);return job?structuredClone(publicJob(job)):null;},exportPackage:exportCompletedJob};
+ return {status:'READY',url:`http://127.0.0.1:${server.address().port}/studio/`,server,close,getJob:id=>{const job=findJob(id);return job?structuredClone(publicJob(job)):null;},exportPackage:exportCompletedJob};
 }

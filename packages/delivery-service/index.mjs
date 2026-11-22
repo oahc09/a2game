@@ -1,5 +1,5 @@
 /** Same-origin loopback service; host fixes all providers, budgets, paths and publication permissions. */
-import{readFileSync,writeFileSync,mkdirSync}from'node:fs';import{join}from'node:path';import{randomUUID,createPrivateKey,createPublicKey,sign}from'node:crypto';import{execFile}from'node:child_process';import{promisify}from'node:util';
+import{readFileSync,writeFileSync,mkdirSync}from'node:fs';import{join,resolve}from'node:path';import{randomUUID,createPrivateKey,createPublicKey,sign}from'node:crypto';import{execFile}from'node:child_process';import{promisify}from'node:util';
 import{startGeneratorStudio}from'../../generator/studio.mjs';import{createReleaseRegistry,workspace,deliveryError as fail,contentType}from'./registry.mjs';
 import{openServiceStore}from'../../generator/service-store.mjs';import{createAdminAuth}from'./admin-auth.mjs';
 const execute=promisify(execFile);
@@ -10,9 +10,18 @@ export async function startCreationDeliveryService({releases=[],providerId='fixt
  if(publicOrigin!==undefined){let url;try{url=new URL(publicOrigin);}catch{throw fail('A2G_DELIVERY_PUBLIC_CONFIG');}if(url.protocol!=='https:'||url.origin!==publicOrigin||!stateDirectory||!adminTokenEnv||!signPayload)throw fail('A2G_DELIVERY_PUBLIC_CONFIG');}
  const registry=createReleaseRegistry(),auth=createAdminAuth(adminTokenEnv,publicOrigin),store=stateDirectory?openServiceStore(stateDirectory):undefined,recovery=[];let studio;const retained=new Map();
  const checkpoint=()=>{if(store){const previous=store.read();for(const row of registry.channel().versions)if(!retained.has(row.id))throw fail('A2G_DELIVERY_STATE');store.save({...previous,releases:[...retained.values()],selected:registry.channel().selected});}};
- const admit=async directory=>{const before=registry.channel(),entry=await registry.add(directory);if(!retained.has(entry.id)&&retained.size>=16){registry.remove(entry.id);for(const id of Object.values(before.selected))if(registry.get(id))registry.select(id);throw fail('A2G_DELIVERY_CAPACITY',409);}retained.set(entry.id,{id:entry.id,directory});return entry;};
- try{for(const row of store?.read().releases??[]){if(typeof row?.id!=='string'||typeof row.directory!=='string'||retained.has(row.id))throw fail('A2G_DELIVERY_STATE');retained.set(row.id,row);const before=registry.channel();let entry;try{entry=await registry.add(row.directory);if(entry.id!==row.id)throw fail('A2G_DELIVERY_STATE');}catch(e){if(entry&&!before.versions.some(v=>v.id===entry.id))registry.remove(entry.id);for(const id of Object.values(before.selected))registry.select(id);recovery.push({id:row.id,status:'REJECTED',code:e.code??'A2G_DELIVERY_RECOVERY'});}}
-  for(const directory of releases)await admit(directory);for(const[game,id]of Object.entries(store?.read().selected??{}))if(registry.get(id)?.gameId===game)registry.select(id);checkpoint();
+ const admit=async (directory,options)=>{const before=registry.channel(),entry=await registry.add(directory,options);if(!entry)return null;if(!retained.has(entry.id)&&retained.size>=16){registry.remove(entry.id);for(const id of Object.values(before.selected))if(registry.get(id))registry.select(id);throw fail('A2G_DELIVERY_CAPACITY',409);}if(!retained.has(entry.id))retained.set(entry.id,{id:entry.id,directory});return entry;};
+ try{
+  for(const row of store?.read().releases??[]){
+   if(typeof row?.id!=='string'||typeof row.directory!=='string'||retained.has(row.id))throw fail('A2G_DELIVERY_STATE');
+   retained.set(row.id,row);
+   try{await registry.add(row.directory,{expectedId:row.id});}
+   catch(e){recovery.push({id:row.id,status:'REJECTED',code:e.code??(e instanceof SyntaxError?'A2G_DELIVERY_INTEGRITY':'A2G_DELIVERY_RECOVERY')});}
+  }
+  const recoveredDirectories=new Set([...retained.values()].map(row=>resolve(row.directory)));
+  for(const directory of releases)if(!recoveredDirectories.has(resolve(directory)))await admit(directory,{skip:id=>!retained.has(id)&&Boolean(store?.archived('release',id))});
+  for(const[game,id]of Object.entries(store?.read().selected??{}))if(registry.get(id)?.gameId===game)registry.select(id);
+  checkpoint();
   studio=await startGeneratorStudio({providerId,configFile,maxCalls,port,signal,stateStore:store});
  }catch(e){registry.dispose();auth.dispose();store?.close();throw e;}
  const server=studio.server,legacy=server.listeners('request')[0];server.removeAllListeners('request');
@@ -27,10 +36,56 @@ export async function startCreationDeliveryService({releases=[],providerId='fixt
    if(url.pathname==='/delivery/api/config'&&req.method==='GET'){json(200,{mode:publicKey?'signed':'loopback-reviewed',publicKey,allowPublish,channel:'/delivery/api/channel',modelBudgetConfiguredAtStartup:true,persistent:Boolean(store),adminLogin:Boolean(adminTokenEnv),recovery});return;}
    if(url.pathname==='/delivery/api/channel'&&req.method==='GET'){const payload=JSON.stringify(registry.channel()),signature=signPayload?await signPayload(Buffer.from(payload)):null;json(200,{payload,signature:signature?Buffer.from(signature).toString('base64'):null});return;}
    if(url.pathname==='/delivery/api/select'&&req.method==='POST'){const input=await body(req);if(!input||Object.keys(input).some(k=>k!=='id')||typeof input.id!=='string')throw fail('A2G_DELIVERY_INPUT');const before=registry.channel().selected,entry=registry.select(input.id);try{checkpoint();}catch(e){for(const id of Object.values(before))registry.select(id);throw e;}json(200,entry);return;}
-   const job=url.pathname.match(/^\/delivery\/api\/jobs\/([a-f0-9-]{36})\/publish$/);
+   const retention=url.pathname.match(/^\/delivery\/api\/versions\/([a-f0-9]{64})\/(archive|restore)$/);
+   if(retention&&req.method==='POST'){
+    if(!allowPublish)throw fail('A2G_DELIVERY_PUBLISH_DISABLED',403);
+    if(!store)throw fail('A2G_DELIVERY_ARCHIVE_DISABLED',409);
+    const input=await body(req);
+    if(!input||Array.isArray(input)||Object.keys(input).length)throw fail('A2G_DELIVERY_INPUT');
+    if(closing||publishing)throw fail('A2G_DELIVERY_BUSY',409);
+    const [,id,action]=retention;
+    if(action==='archive'){
+     if(Object.values(registry.channel().selected).includes(id))throw fail('A2G_DELIVERY_VERSION_SELECTED',409);
+     const record=retained.get(id);
+     if(record){const state=store.read();store.archive('release',record);store.save({...state,releases:state.releases.filter(row=>row.id!==id)});retained.delete(id);registry.remove(id);const rejected=recovery.findIndex(row=>row.id===id);if(rejected>=0)recovery.splice(rejected,1);}
+     else if(!store.archived('release',id))throw fail('A2G_DELIVERY_NOT_FOUND',404);
+     json(200,{id,archived:true});return;
+    }
+    if(retained.has(id))throw fail('A2G_DELIVERY_VERSION_RETAINED',409);
+    const record=store.archived('release',id);
+    if(!record)throw fail('A2G_DELIVERY_NOT_FOUND',404);
+    if(retained.size>=16)throw fail('A2G_DELIVERY_CAPACITY',409);
+    publishing=true;
+    try{const entry=await track((async()=>{const restored=await admit(record.directory,{expectedId:id,keepSelection:true});try{checkpoint();}catch(e){retained.delete(id);registry.remove(id);throw e;}return restored;})());json(200,entry);}finally{publishing=false;}
+    return;
+   }
+   const job=url.pathname.match(/^\/delivery\/api\/jobs\/([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})\/publish$/);
    if(job&&req.method==='POST'){
-    if(!allowPublish)throw fail('A2G_DELIVERY_PUBLISH_DISABLED',403);if(publishing)throw fail('A2G_DELIVERY_BUSY',409);if(studio.getJob(job[1])?.status!=='completed')throw fail('A2G_DELIVERY_JOB_NOT_COMPLETE',409);const input=await body(req);if(!input||Object.keys(input).length)throw fail('A2G_DELIVERY_INPUT');publishing=true;
-    try{const entry=await track((async()=>{const pack=await studio.exportPackage(job[1]);controller.signal.throwIfAborted();const dir=join(workspace,'.a2game/delivery-publisher',randomUUID());mkdirSync(dir,{recursive:true});const file=join(dir,'package.json');writeFileSync(file,JSON.stringify(pack),{flag:'wx'});const result=await execute(process.execPath,[join(workspace,'scripts/package-player-sdk.mjs'),file],{cwd:workspace,encoding:'utf8',maxBuffer:1024*1024,timeout:60000,windowsHide:true,signal:controller.signal});controller.signal.throwIfAborted();const build=JSON.parse(result.stdout);if(build.status!=='PASS')throw fail('A2G_DELIVERY_BUILD');const previous=registry.channel(),entry=await admit(build.output);try{checkpoint();}catch(e){if(!previous.versions.some(v=>v.id===entry.id)){registry.remove(entry.id);retained.delete(entry.id);}for(const id of Object.values(previous.selected))registry.select(id);throw e;}return entry;})());json(201,entry);}finally{publishing=false;}return;
+    if(!allowPublish)throw fail('A2G_DELIVERY_PUBLISH_DISABLED',403);
+    if(studio.getJob(job[1])?.status!=='completed')throw fail('A2G_DELIVERY_JOB_NOT_COMPLETE',409);
+    const input=await body(req);
+    if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(key=>key!=='prepareOnly'||input[key]!==true))throw fail('A2G_DELIVERY_INPUT');
+    if(closing||publishing)throw fail('A2G_DELIVERY_BUSY',409);
+    publishing=true;
+    try{
+     const entry=await track((async()=>{
+      const pack=await studio.exportPackage(job[1]);controller.signal.throwIfAborted();
+      const dir=join(workspace,'.a2game/delivery-publisher',randomUUID());mkdirSync(dir,{recursive:true});
+      const file=join(dir,'package.json');writeFileSync(file,JSON.stringify(pack),{flag:'wx'});
+      let build;
+      try{
+       const result=await execute(process.execPath,[join(workspace,'scripts/package-player-sdk.mjs'),file],{cwd:workspace,encoding:'utf8',maxBuffer:1024*1024,timeout:60000,windowsHide:true,signal:controller.signal});
+       build=JSON.parse(result.stdout);
+      }catch{throw fail('A2G_DELIVERY_BUILD');}
+      controller.signal.throwIfAborted();
+      if(build.status!=='PASS')throw fail('A2G_DELIVERY_BUILD');
+      const previous=registry.channel(),entry=await admit(build.output,{keepSelection:input.prepareOnly===true});
+      try{checkpoint();}catch(e){if(!previous.versions.some(v=>v.id===entry.id)){registry.remove(entry.id);retained.delete(entry.id);}for(const id of Object.values(previous.selected))registry.select(id);throw e;}
+      return entry;
+     })());
+     json(201,entry);
+    }finally{publishing=false;}
+    return;
    }
    const asset=url.pathname.match(/^\/delivery\/releases\/([a-f0-9]{64})\/(.+)$/);
    if(asset&&['GET','HEAD'].includes(req.method)){const{record,data}=registry.file(asset[1],decodeURIComponent(asset[2]));res.writeHead(200,{'Content-Type':record.mime,'Content-Length':data.length,'Cache-Control':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data);return;}

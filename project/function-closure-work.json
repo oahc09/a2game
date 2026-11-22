@@ -4,6 +4,34 @@
   "date": "2026-11-15",
   "status": "BOUNDED_FUNCTIONAL_IMPLEMENTATION_DELIVERED",
   "priority": "FUNCTIONS_AND_ISSUES_BEFORE_EXTERNAL_ACCEPTANCE",
+  "playerEngineRegistry": {
+    "date": "2026-11-21",
+    "scope": "Shared engine and adapter lifecycle. Trusted SDK hosts can register custom engines.",
+    "verification": "Registry lifecycle and cancellation, packaged custom renderer, three main player entries and real dual SDK signed switch/rollback."
+  },
+  "sdkBatch": {
+    "date": "2026-11-21",
+    "status": "PASS_CURRENT_BUILD_AND_ADMISSION",
+    "packages": 12,
+    "inventoryFiles": 3179,
+    "manifest": "project/phase2-delivery.json",
+    "localConfig": ".a2game/delivery-reference.json",
+    "android": "HISTORICAL_BUILD"
+  },
+  "sdkUpgrade": {
+    "date": "2026-11-21",
+    "scope": "Recovery diagnostics, rebuild from archived or active completed jobs, explicit browser activation and compatible rollback",
+    "verification": "390px Chromium with real SDK builds and loopback service restart. Stale, corrupt and missing SDKs were diagnosed. Archived fixture rebuild, rejected job ID, explicit activation and compatible rollback passed.",
+    "realModelCalls": 0
+  },
+  "retention": {
+    "date": "2026-11-21",
+    "scope": "Terminal job archive and lookup, archived completed job export and publication, unselected release archive and revalidated restore",
+    "activeJobLimit": 16,
+    "retainedReleaseLimit": 16,
+    "selectedReleaseArchive": "REQUIRES_SEPARATE_RETIREMENT_POLICY",
+    "originalArtifactsAndCallLedger": "RETAINED"
+  },
   "tasks": [
     {
       "id": "FC-1",

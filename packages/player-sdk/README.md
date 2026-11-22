@@ -36,6 +36,35 @@ CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要�
 
 入口示例：[example.mjs](../../examples/embedded-player/example.mjs)。
 
+### 接入宿主自己的渲染引擎
+
+`createPlayerEngineRegistry()` 返回包含 `three` 和 `cocosairjs` 的独立注册表。宿主可以登记自己的 Adapter，再把注册表传给播放器。
+
+```js
+import {createA2GamePlayer, createPlayerEngineRegistry} from './player/index-sdk.mjs';
+import {createMyAdapter} from './my-engine-adapter.mjs';
+
+const engines = createPlayerEngineRegistry().register({
+  id: 'my-engine',
+  label: 'My Engine',
+  create: ({canvas, resources, signal}) => createMyAdapter({canvas, resources, signal})
+});
+const player = createA2GamePlayer({backend: 'my-engine', container, engines});
+await player.load(bundle);
+```
+
+| Adapter 接口 | 约定 |
+| --- | --- |
+| `create({canvas, resources, signal})` | 同步或异步创建实例。SDK 加载和初始化由宿主 Adapter 负责。工厂抛错时自行释放尚未返回的资源。 |
+| `prepare(definition, resources, signal)` | 可选。初始化表现层，可在此拒绝引擎不支持的表现特性。 |
+| `draw(frame)` | 必需，同步消费 `PresentationFrame`。游戏 Tick、逻辑和输入由共享 Runtime 与 Player 处理。 |
+| `dispose()` | 必需，可异步。释放引擎对象及监听器。初始化或准备中止后，注册表也会释放已返回的实例。 |
+| `diagnostics()`、`unlockAudio()`、`pauseAudio()` | 可选，提供诊断和音频生命周期。 |
+
+如引擎要求每份文档只初始化一次，注册时设 `singleDocument: true`。注册表拒绝重复 ID；`list()` 和 `has(id)` 可供宿主生成引擎选择器。宿主负责提供自定义引擎的代码与资源；游戏包继续使用构建时的受信摘要。仓库的交付页和独立 SDK 示例仍选择两种内置引擎，自定义引擎由嵌入网页显式登记。
+
+### 播放控制
+
 | 接口 | 用途 |
 | --- | --- |
 | `load(bundle)` | 加载该分发目录允许的游戏内容 |

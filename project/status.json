@@ -2122,6 +2122,10 @@
     "evidenceScope": "HISTORICAL_PRE_FUNCTION_CLOSURE_SOURCE_CHANGE"
   },
   "functionClosurePriority": {
+    "playerEngineRegistry": "Shared browser/SDK engine registry implemented and tested with two built-ins and a host-provided contract adapter. Formal G2 remains pending.",
+    "sdkBatch": "12 current-source SDK packages rebuilt, checked and admitted by the loopback delivery service. Android remains historical.",
+    "sdkUpgrade": "Delivery UI classifies recovery failures and rebuilds from completed or archived jobs. Manual activation and rollback use compatible channel entries.",
+    "retention": "Terminal job and unselected version archiving implemented with preserved artifacts and call accounting. See project/function-closure-work.json.",
     "date": "2026-11-15",
     "status": "BOUNDED_FUNCTIONAL_IMPLEMENTATION_DELIVERED",
     "work": "project/function-closure-work.json",

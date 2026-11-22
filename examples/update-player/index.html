@@ -3,5 +3,7 @@
 <header><small>A2GAME / GAME DELIVERY</small><h1>让新版本，稳妥接棒。</h1><p>选择游戏版本，下载核对后再打开。新版本准备失败时保留原版本；需要时可回到上一次选择。</p></header>
 <nav><a href="/studio/">创作任务</a><button id="check">检查版本</button><button id="logout" hidden>退出登录</button></nav><div class="controls"><label for="versions">可用作品</label><select id="versions" aria-label="可用作品"></select><button id="load">加载所选版本</button><button id="rollback" disabled>回到上一版</button></div>
 <p id="status" role="status">正在读取交付清单…</p><section id="player" aria-label="游戏播放器"><p id="empty">作品会在核对完成后显示在这里。</p></section>
-<section id="publishing" hidden><h2>交付已完成作品</h2><p>先在创作任务页完成检查，再选择结果。此操作只发布到本机服务，不上传远端。</p><div class="controls"><select id="jobs" aria-label="已完成创作任务"></select><button id="publish">发布到本机交付列表</button></div></section>
+<section id="recovery" hidden><h2>无法恢复的 SDK</h2><ul id="recovery-list" style="overflow-wrap:anywhere"></ul></section>
+<section id="publishing" hidden><h2>重新构建并发布</h2><p>选择已完成任务，或填写已归档任务的完整 ID。重建通过校验后，可在可用作品中加载新版本。</p><div class="controls"><select id="jobs" aria-label="已完成创作任务"></select><label for="publish-job-id">归档任务 ID</label><input id="publish-job-id" maxlength="36"><button id="publish">重新构建并发布</button></div></section>
+<section id="retention" hidden><h2>版本保留</h2><div class="controls"><select id="archive-version" aria-label="可归档版本"></select><button id="archive">归档版本</button></div><div class="controls"><label for="restore-id">归档版本 ID</label><input id="restore-id" maxlength="64"><button id="restore">恢复到可用列表</button></div></section>
 <footer>本机受控演示。来源批准与传输完整性分别核对；正式G3和真机验收独立记录。更新会重新开始游戏。</footer><script type="module" src="./app.mjs"></script></body></html>

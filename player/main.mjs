@@ -6,14 +6,14 @@ import {createGamepadHost} from './gamepad-host.mjs';
 import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
-import {ThreeAdapter} from './adapters/three-adapter.mjs';
-import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
+import {createPlayerEngineRegistry} from './engines.mjs';
 import {loadBuiltinCatalog,loadBuiltinGame,loadBuiltinResources,loadReleasedGame,importGameFile} from './content-loader.mjs';
 import {ResourceScope} from './resources.mjs';
 import {createMobileHost,createTraceRecorder} from './mobile-host.mjs';
 
 const dom=Object.fromEntries(['game','backend','restart','pause','GameCanvas','engineLabel','score','status','hash','trace','error','hint','instructions','stageResult','stageResultTitle','stageResultDetail','stageRestart'].map(x=>[x,document.getElementById(x)]));
 const params=new URLSearchParams(location.search);
+const engines=createPlayerEngineRegistry().register({id:'preview',label:'Canvas2D Preview',create:({canvas})=>new CanvasPreviewAdapter(canvas)});
 if(params.get('embed')==='1')document.documentElement.classList.add('embedded');
 const frameMotion=params.get('motion')==='1'?createFrameMotion():null;
 const feedbackAudio=createFeedbackAudio(),eventFeedback=createEventFeedback({onSound:name=>feedbackAudio.play(name)});
@@ -41,16 +41,7 @@ function pauseSession(){feedbackAudio.silence();gamepadHost?.stop();traceRecorde
 function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
 const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
- const canvas=dom.GameCanvas;
- if(mode==='preview') return new CanvasPreviewAdapter(canvas);
- if(mode==='three'){
-   let three;
-   try { three=await import('three'); }catch(e){throw Error('Three.js SDK missing. Provide player/vendor/three.module.js (official ESM build).');}
-   const result=new ThreeAdapter(three,canvas,resources);try{await result.prepare(definition);return result;}catch(error){await result.dispose();throw error;}
- }
- let air;
- try {air=await import('cocosair.js');}catch(e){throw Error('CocosAirJS SDK missing. Provide player/vendor/cocosair.js (official ESM build).');}
- const result=await CocosAirAdapter.create(air,canvas);try{await result.prepare(definition,resources);return result;}catch(error){await result.dispose();throw error;}
+ return engines.create(mode==='air'?'cocosairjs':mode,{canvas:dom.GameCanvas,definition,resources,signal:listeners.signal});
 }
 function observation(){return runtime?.observe();}
 function updateInfo(obs){

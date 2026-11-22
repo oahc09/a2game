@@ -33,5 +33,12 @@ export function createUpdateClient({container,onStatus=()=>{},backend='three'}){
   }catch(cause){if(staged){await disposeFrame(staged).catch(()=>{});staged.remove();}if(!closed)emit('failed',{code:cause.code??'A2G_UPDATE_FAILED',retained:current?.id??null});throw cause;}
  }
  async function guarded(id,options){if(busy)throw error('A2G_UPDATE_BUSY');busy=true;pending=activate(id,options);try{return await pending;}finally{busy=false;pending=undefined;}}
- return{check,activate:guarded,async rollback(){if(busy)throw error('A2G_UPDATE_BUSY');const id=history.pop();if(!id)throw error('A2G_UPDATE_NO_PREVIOUS');try{return await guarded(id,{remember:false});}catch(cause){history.push(id);throw cause;}},status:()=>({current:current?structuredClone(current):null,previous:history.at(-1)??null,closed,busy}),async close(){closed=true;serial++;abort?.abort();await pending?.catch(()=>{});await disposeFrame(frame).finally(()=>{frame?.remove();frame=null;current=null;history.length=0;});}};
+ const previous=()=>history.findLast(id=>id!==current?.id&&channel?.versions.some(row=>row.id===id));
+ return{check,activate:guarded,async rollback(){
+  if(busy)throw error('A2G_UPDATE_BUSY');
+  const id=previous();if(!id)throw error('A2G_UPDATE_NO_PREVIOUS');
+  const index=history.lastIndexOf(id),restored=await guarded(id,{remember:false});
+  history.splice(index);
+  return restored;
+ },status:()=>({current:current?structuredClone(current):null,previous:previous()??null,closed,busy}),async close(){closed=true;serial++;abort?.abort();await pending?.catch(()=>{});await disposeFrame(frame).finally(()=>{frame?.remove();frame=null;current=null;history.length=0;});}};
 }
