@@ -4,6 +4,7 @@ import {join,dirname,relative,resolve} from 'node:path';
 import {tmpdir} from 'node:os';
 import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
+import {requirePython} from './python-runtime.mjs';
 import {createHash,randomUUID} from 'node:crypto';
 import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
@@ -15,6 +16,7 @@ const excluded=new Set(['vendor','reports','node_modules','dist','.git','output'
 function copy(source,target){const stat=lstatSync(source);if(stat.isSymbolicLink())throw Error('Symbolic source rejected');if(stat.isDirectory()){mkdirSync(target,{recursive:true});for(const name of readdirSync(source).sort())if(!excluded.has(name)&&!name.endsWith('.pyc'))copy(join(source,name),join(target,name));}else if(stat.isFile()){mkdirSync(dirname(target),{recursive:true});copyFileSync(source,target);receipt.sourceFiles[relative(root,source).replaceAll('\\','/')]=hash(readFileSync(source));}}
 let browser;
 try{
+ const python=requirePython(undefined,{schema:true});
  const source=resolve(process.argv[2]??'');const bytes=readFileSync(source);if(bytes.length>768*1024)throw Error('Package exceeds limit');
  const pack=JSON.parse(bytes),definition=pack.files?.content?.definition,solution=pack.files?.solution;
  if(!definition||!Array.isArray(solution)||solution.some(row=>row.raw?.length||row.action&&(!definition.inputs.actions.some(a=>a.id===row.action&&a.valueType==='button')||row.value!==undefined&&typeof row.value!=='boolean')))throw Error('This independent-host input smoke supports button solutions only; import-package remains generic.');
@@ -24,7 +26,7 @@ try{
  const sdk=JSON.parse(readFileSync(join(root,'player/vendor/sdk-provenance.json'),'utf8'));mkdirSync(join(host,'player/vendor'),{recursive:true});
  for(const item of sdk.files){assert.match(item.path,/^player\/vendor\/[\w.-]+\.js$/);assert.equal(hash(readFileSync(join(root,item.path))),item.sha256);copyFileSync(join(root,item.path),join(host,item.path));}
  copyFileSync(join(root,'player/vendor/sdk-provenance.json'),join(host,'player/vendor/sdk-provenance.json'));receipt.sdkPolicy='Exact locked installed SDK bytes copied to independent host; no reports/old releases.';
- const npm=process.env.npm_execpath??join(dirname(process.execPath),'node_modules/npm/bin/npm-cli.js'),python=process.env.A2GAME_PYTHON??join(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');assert.ok(existsSync(npm)&&existsSync(python));
+ const npm=process.env.npm_execpath??join(dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');assert.ok(existsSync(npm));
  const user=join(host,'.npmrc-smoke-user'),global=join(host,'.npmrc-smoke-global');writeFileSync(user,'');writeFileSync(global,'');
  const env={...process.env,A2GAME_PYTHON:python,PYTHONUTF8:'1',PYTHONIOENCODING:'utf-8',npm_config_userconfig:user,npm_config_globalconfig:global};
  function step(name,args){const started=performance.now(),result=spawnSync(process.execPath,args,{cwd:host,env,shell:false,windowsHide:true,encoding:'utf8',timeout:180000,maxBuffer:4*1024*1024});writeFileSync(join(directory,name+'.stdout.log'),result.stdout??'');writeFileSync(join(directory,name+'.stderr.log'),result.stderr??'');receipt.steps.push({name,status:result.status===0&&!result.error?'PASS':'FAIL',elapsedMs:performance.now()-started});assert.equal(result.status,0,`${name}: ${result.error?.code??''}`);return result.stdout;}
@@ -54,4 +56,4 @@ try{
  }finally{if(previous===undefined)delete process.env.A2GAME_PYTHON;else process.env.A2GAME_PYTHON=previous;}
  assert.equal(receipt.cases[0].hash,receipt.cases[1].hash);receipt.status='PASS_REFERENCE';receipt.hostScope='Independent source installation on same machine; Python interpreter reused, approved assets + exact SDK prerequisites explicitly supplied. Not a new physical machine or signed model origin.';
 }catch(e){receipt.code=e.code??'A2G_GEN_PACKAGE_SMOKE';receipt.failure=String(e.message);process.exitCode=1;}
-finally{await browser?.close();receipt.sourcesUnchanged=Object.entries(receipt.sourceFiles).every(([p,d])=>hash(readFileSync(join(root,p)))===d);if(!receipt.sourcesUnchanged){receipt.status='FAIL';process.exitCode=1;}save('summary.json',receipt);console.log(JSON.stringify({status:receipt.status,receipt:relative(root,join(directory,'summary.json')).replaceAll('\\','/'),failure:receipt.failure}));}
+finally{await browser?.close();receipt.sourcesUnchanged=Object.entries(receipt.sourceFiles).every(([p,d])=>hash(readFileSync(join(root,p)))===d);if(!receipt.sourcesUnchanged){receipt.status='FAIL';process.exitCode=1;}save('summary.json',receipt);console.log(JSON.stringify({status:receipt.status,code:receipt.code,receipt:relative(root,join(directory,'summary.json')).replaceAll('\\','/'),failure:receipt.failure}));}

@@ -1,3 +1,4 @@
+import {requirePython} from './python-runtime.mjs';
 /** WPE/WebKit-only supplemental MCP smoke. Does not replace Chromium G2 or real-host acceptance. */
 import {Client,StdioClientTransport} from '../integrations/mcp/client.mjs';
 import {readFileSync,writeFileSync,mkdirSync,readdirSync,existsSync} from 'node:fs';
@@ -77,7 +78,7 @@ try{
   await fixtureClient.connect(fixtureTransport);const generated=await fixtureClient.callTool({name:'a2game.generate_game',arguments:{prompt:'DEMO_FIXTURE counter exercise',provider:'fixture',maxAttempts:1}},undefined,{timeout:180000}),value=generated.structuredContent;
   assert.equal(value.status,'PASS_REFERENCE',JSON.stringify(generated));assert.equal(value.data.generationCalls,0);assert.equal(value.data.fixtureCalls,1);assert.equal(value.data.provenance,'DEMO_FIXTURE');report.explicitFixtureGeneration={status:'PASS_REFERENCE',fixtureCalls:1,modelCalls:0,provenance:'DEMO_FIXTURE'};
  }finally{await fixtureClient.close();}
- const python=process.env.A2GAME_PYTHON??join(root,'.venv/Scripts/python.exe'),raw=spawnSync(python,[join(root,'scripts/mcp-raw-client.py'),process.execPath,join(root,'scripts/mcp-server.mjs'),gameDirectory],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:2*1024*1024});writeFileSync(join(directory,'raw-client.stdout.log'),raw.stdout??'');writeFileSync(join(directory,'raw-client.stderr.log'),raw.stderr??'');assert.equal(raw.status,0,raw.stderr);const second=JSON.parse(raw.stdout);assert.equal(second.finalHash,expected.final.exactHash);save('raw-client.json',second);report.clients.push(second);
+ const python=requirePython(),raw=spawnSync(python,[join(root,'scripts/mcp-raw-client.py'),process.execPath,join(root,'scripts/mcp-server.mjs'),gameDirectory],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:180000,maxBuffer:2*1024*1024});writeFileSync(join(directory,'raw-client.stdout.log'),raw.stdout??'');writeFileSync(join(directory,'raw-client.stderr.log'),raw.stderr??'');assert.equal(raw.status,0,raw.stderr);const second=JSON.parse(raw.stdout);assert.equal(second.finalHash,expected.final.exactHash);save('raw-client.json',second);report.clients.push(second);
  report.status='PASS_REFERENCE';
 }catch(e){report.failure=String(e.message);report.code=e.code??'A2G_MCP_SMOKE';process.exitCode=1;}
 finally{await browser?.close();await client.close();report.sourcesUnchanged=Object.entries(fingerprints).every(([p,h])=>sha(join(root,p))===h);if(!report.sourcesUnchanged){report.status='FAIL';process.exitCode=1;}report.screenshots=Object.fromEntries(readdirSync(directory).filter(p=>p.endsWith('.png')).map(p=>[p,sha(join(directory,p))]));save('summary.json',report);console.log(JSON.stringify({status:report.status,receipt:rel(join(directory,'summary.json'))}));}

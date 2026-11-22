@@ -1,4 +1,4 @@
-import test from'node:test';import assert from'node:assert/strict';import{randomUUID,randomBytes}from'node:crypto';import{resolve,join}from'node:path';import{readFileSync,writeFileSync,mkdirSync,renameSync}from'node:fs';
+import test from'node:test';import assert from'node:assert/strict';import{randomUUID,randomBytes,createHash}from'node:crypto';import{resolve,join}from'node:path';import{readFileSync,writeFileSync,mkdirSync,renameSync}from'node:fs';
 import{openServiceStore}from'../generator/service-store.mjs';import{startCreationDeliveryService}from'../packages/delivery-service/index.mjs';
 const directory=()=>resolve('output','service-state-test-'+randomUUID());
 test('single writer retains quotas and detects corrupt state without replacing it',()=>{
@@ -21,6 +21,11 @@ test('admin login, fixture publication and restart recover jobs/selection withou
   let done;for(let i=0;i<180;i++){done=await(await request('/studio/api/jobs/'+job.id,{headers:{Cookie:cookie}})).json();if(done.status!=='running')break;await new Promise(r=>setTimeout(r,500));}assert.equal(done.status,'completed',JSON.stringify(done.error));
   const published=await request('/delivery/api/jobs/'+job.id+'/publish',{method:'POST',headers:{Cookie:cookie,'Content-Type':'application/json','X-A2Game-Delivery':'1'},body:'{}'});assert.equal(published.status,201,await published.clone().text());const entry=await published.json();
   const state=JSON.parse(readFileSync(join(stateDirectory,'state.json'))).state;assert.equal(state.usedCalls,2);assert.equal(state.jobs.length,2);assert.ok(!readFileSync(join(stateDirectory,'state.json'),'utf8').includes(token));
+  const released=state.releases[0].directory,license=readFileSync('LICENSE');
+  assert.deepEqual(readFileSync(join(released,'licenses/a2game-LICENSE')),license);
+  const inventory=JSON.parse(readFileSync(join(released,'build-inventory.json'),'utf8'));
+  assert.ok(inventory.files.some(file=>file.file==='licenses/a2game-LICENSE'&&file.sha256===createHash('sha256').update(license).digest('hex')));
+
   await service.close();await start();assert.equal((await request('/studio/api/status',{headers:{Cookie:cookie}})).status,401);cookie=await login();status=await(await request('/studio/api/status',{headers:{Cookie:cookie}})).json();assert.equal(status.remainingCalls,0);assert.equal(status.jobs.length,2);assert.equal(status.jobs.find(j=>j.id===job.id).status,'completed');
   let envelope=await(await request('/delivery/api/channel',{headers:{Cookie:cookie}})).json(),channel=JSON.parse(envelope.payload);assert.equal(channel.versions.length,1);assert.equal(channel.selected[entry.gameId],entry.id);
   await service.close();writeFileSync(join(state.releases[0].directory,'player/example.mjs'),'tampered after publication');await start();cookie=await login();const config=await(await request('/delivery/api/config',{headers:{Cookie:cookie}})).json();assert.equal(config.recovery.length,1);assert.equal(config.recovery[0].status,'REJECTED');envelope=await(await request('/delivery/api/channel',{headers:{Cookie:cookie}})).json();assert.equal(JSON.parse(envelope.payload).versions.length,0);

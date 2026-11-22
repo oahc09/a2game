@@ -3,7 +3,7 @@ export const conformanceInputGuidance='Gameplay input (injectAction/injectRaw) i
 
 /** Fixed failure categories; never relay arbitrary provider bodies as public diagnostics. */
 export function classifyFailure(code='',attribution,message=''){
- if(code==='A2G_GEN_CANCELLED')return 'PROVIDER_INFRA';
+ if(code==='A2G_GEN_CANCELLED'||code==='A2G_E_PYTHON_UNAVAILABLE'||code==='A2G_E_PYTHON_SCHEMA')return 'PROVIDER_INFRA';
  if(/PATH|OUTPUT_EXISTS|INLINE_CREDENTIAL|SECURITY|ASSET|RESOURCE|INTEGRITY|EVIDENCE/.test(code))return 'SECURITY_POLICY';
  if(/PLAN_SCHEMA|PROMPT|MODE|UNSUPPORTED|PLAN_REFERENCE|PLAN_DEPENDENCY/.test(code))return 'INPUT_SPEC';
  if(attribution==='INFRA'||/WORKER|TIMEOUT|CODEX_|PROVIDER_(?:CONFIG|START|TIMEOUT|EXIT|HTTP|SIZE|INCOMPLETE|REFUSAL)/.test(code))return 'PROVIDER_INFRA';
