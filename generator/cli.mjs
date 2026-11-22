@@ -22,6 +22,7 @@ const help=`A2Game Generator (local, reference only)
   probe --provider ID [--config FILE]
   import-native --context FILE --raw FILE --host-record FILE --output DIR
   --help | --version | --json
+能力查询支持完整 ID 和常见玩法名，例如：capabilities --query 扫雷 --json
 真实模型调用使用显式 provider/config；fixture 不计模型或 G3 验收。`;
 const controller=new AbortController();process.once('SIGINT',()=>controller.abort());process.once('SIGTERM',()=>controller.abort());
 try{

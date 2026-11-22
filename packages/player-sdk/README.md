@@ -56,10 +56,14 @@ await player.load(bundle);
 | Adapter 接口 | 约定 |
 | --- | --- |
 | `create({canvas, resources, signal})` | 同步或异步创建实例。SDK 加载和初始化由宿主 Adapter 负责。工厂抛错时自行释放尚未返回的资源。 |
-| `prepare(definition, resources, signal)` | 可选。初始化表现层，可在此拒绝引擎不支持的表现特性。 |
+| `prepare(renderSetup, resources, signal)` | 可选。使用共享表现层生成的 `RenderSetup` 初始化，可拒绝引擎不支持的投影方式。资源由 Player 验证后提供。 |
 | `draw(frame)` | 必需，同步消费 `PresentationFrame`。游戏 Tick、逻辑和输入由共享 Runtime 与 Player 处理。 |
 | `dispose()` | 必需，可异步。释放引擎对象及监听器。初始化或准备中止后，注册表也会释放已返回的实例。 |
 | `diagnostics()`、`unlockAudio()`、`pauseAudio()` | 可选，提供诊断和音频生命周期。 |
+
+`RenderSetup` 包含逻辑画布的 `width`、`height`、`background`。有 3D Stage 时，`stage` 包含 `projection` 与 `audio`（由 `id`、`asset`、`volume` 组成的预加载条目）。逐帧图元、摄像机参数和音频触发随 `PresentationFrame` 下发。GameSpec 校验、状态绑定和玩法执行由共享层完成。
+
+从使用 `prepare(definition, resources, signal)` 的试用 SDK 升级时，将 `definition.presentation.stage` 的读取改为 `renderSetup.stage`，并在 `draw(frame)` 中使用 `frame.stage` 的摄像机和图元。此迁移适用于自定义 Adapter，原有 `game.json` 可直接用于新 SDK。
 
 如引擎要求每份文档只初始化一次，注册时设 `singleDocument: true`。注册表拒绝重复 ID；`list()` 和 `has(id)` 可供宿主生成引擎选择器。宿主负责提供自定义引擎的代码与资源；游戏包继续使用构建时的受信摘要。仓库的交付页和独立 SDK 示例仍选择两种内置引擎，自定义引擎由嵌入网页显式登记。
 

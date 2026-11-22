@@ -4,7 +4,7 @@ export class ThreeStageHost {
     this.scene.add(new T.AmbientLight(0xffffff,2));const light=new T.DirectionalLight(0xffffff,3);light.position.set(3,5,6);this.scene.add(light);
     this.perspective=new T.PerspectiveCamera(45,1,0.1,100);this.orthographic=new T.OrthographicCamera(-4,4,3,-3,0.1,100);
   }
-  async prepare(spec){this.audio=await createStageAudio('three',this.T,this.scene,this.resources,spec.audio);}
+  async prepare({audio}){this.audio=await createStageAudio('three',this.T,this.scene,this.resources,audio);}
   clear(){for(const mesh of this.objects.values()){this.scene.remove(mesh);mesh.geometry.dispose();if(mesh.material.map){mesh.material.map.dispose();this.ownedTextures--;}mesh.material.dispose();}this.objects.clear();this.last='';}
   draw(frame,width,height,background){
     const T=this.T,c=frame.camera,camera=c.projection==='perspective'?this.perspective:this.orthographic;

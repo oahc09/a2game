@@ -11,7 +11,7 @@ export class ThreeAdapter {
     this.camera.position.set(0,0,15);this.camera.lookAt(0,0,0);
     this.meshes=[];this.visuals=new Map();this.lastSignature='';this.disposed=false;
   }
-  async prepare(definition){if(definition.presentation.stage){this.stage=new ThreeStageHost(this.THREE,this.renderer,this.resources);await this.stage.prepare(definition.presentation.stage);}}
+  async prepare({stage}){if(stage){this.stage=new ThreeStageHost(this.THREE,this.renderer,this.resources);await this.stage.prepare(stage);}}
   unlockAudio(){this.stage?.audio?.unlock();}
   pauseAudio(){this.stage?.audio?.pause();}
   makeVisual(cmd,z){

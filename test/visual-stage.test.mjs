@@ -1,8 +1,40 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation,projectRenderSetup} from '../dist/index.js';
+import {createPlayerEngineRegistry} from '../player/engines.mjs';
 import {readJson,spec,makeRegistry} from '../scripts/registry.mjs';
 const game=()=>readJson(`${spec}/games/visual-stage.game.json`);
+test('custom engines prepare from a detached render setup and draw projected frames',async()=>{
+  const definition=game();
+  const runtime=new HeadlessRuntime(definition,makeRegistry());
+  const {width,height,background}=definition.presentation.scene2d;
+  const {camera,audio}=definition.presentation.stage;
+  const resources=new Map();
+  let drawn;
+  const engines=createPlayerEngineRegistry().register({id:'render-only',create:()=>({
+    prepare(setup,approvedResources){
+      assert.equal(approvedResources,resources);
+      assert.deepEqual(setup,{width,height,background,stage:{
+        projection:camera.projection,audio:audio.map(({id,asset,volume})=>({id,asset,volume}))
+      }});
+      setup.stage.audio[0].volume=0;
+    },
+    draw(frame){drawn=frame;},
+    dispose(){}
+  })});
+  let adapter;
+  try{
+    const setup=projectRenderSetup(definition),volume=audio[0].volume;
+    adapter=await engines.create('render-only',{canvas:{},renderSetup:setup,resources});
+    assert.equal(audio[0].volume,volume);
+    adapter.draw(projectPresentation(definition,runtime.observe()));
+    assert.deepEqual(drawn.stage.camera,camera);
+    assert.ok(drawn.stage.nodes.length>0);
+  }finally{
+    await adapter?.dispose();
+    runtime.dispose();
+  }
+});
 test('visual-stage projects bindings, animation, bounded particles and event audio without changing exact state',()=>{
   const definition=game();definition.presentation.stage.camera.projection='orthographic';definition.presentation.stage.camera.fitSize=[10,8];const runtime=new HeadlessRuntime(definition,makeRegistry());runtime.start();
   const initial=runtime.observe(),first=projectPresentation(definition,initial);assert.equal(first.stage.nodes.length,15);assert.deepEqual(first.stage.camera.fitSize,[10,8]);

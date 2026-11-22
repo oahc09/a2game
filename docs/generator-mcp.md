@@ -23,7 +23,7 @@ node scripts/mcp-server.mjs
 
 | Tool | 主要输入 | 行为 |
 |---|---|---|
-| a2game.list_capabilities | query、offset、limit≤20 | 当前受信Registry的Headless参考能力列表；平台支持仍需Host协商 |
+| a2game.list_capabilities | query、offset、limit≤20 | 按能力 ID、描述或玩法名查找当前已注册的能力 |
 | a2game.get_capability | id、version | 完整公开能力合同/依赖 |
 | a2game.plan_game | prompt | 宿主关键词草案，无模型 |
 | a2game.generate_game | prompt、provider、mode、maxAttempts≤3 | 仅固定Provider和显式可用额度 |
@@ -58,6 +58,21 @@ Skill源码在`integrations/skill/a2game/`，`python scripts/package-a2game-skil
 - `a2game://spec/0.1.0/capability.schema.json`
 - `a2game://spec/0.1.0/host-profile.json`
 - `a2game://spec/0.1.0/contract-fragments.json`
+- `a2game://spec/0.1.0/creation-library.json`
+
+### 查找最新玩法能力
+
+| `list_capabilities` 搜索词 | 可用 `get_capability` 查看详情的 ID |
+| --- | --- |
+| 扫雷 | `a2game.puzzle.mine-board` |
+| 贪吃蛇 | `a2game.realtime.grid-trail` |
+| 生产线 | `a2game.strategy.production-line` |
+| 黑白棋 | `a2game.turnbased.disk-flip` |
+| 格子战术 | `a2game.turnbased.grid-tactics` |
+
+读取详情时传入查询结果里的 `id` 和 `version`，再按返回的配置、状态和依赖编写 JSON。实时玩法、塔防、3D 刚体、回合制和场景绑定也应读取当前合同。`host-profile.json` 列出了这些入口。具体引擎支持以对应播放器的能力协商为准。
+
+更新源码后运行 `npm run build`，再重启 A2Game MCP。连接后查询「扫雷」即可确认宿主已加载新版本。
 
 返回JSON envelope包含版本、URI、`content`原文、UTF-8 `bytes`和`sha256`（绑定原文，不是envelope），内容最大256KiB。片段不可执行、不含基准关卡或正确解法。不能加载Resources的客户端应明确记录限制，不把规范缺失归罪于模型。
 

@@ -7,13 +7,13 @@ import {sha256Canonical} from '../dist/index.js';
 import {root} from './registry.mjs';
 import {buildG3Plan,inspectGeneratedTask} from './g3-batch.mjs';
 import {buildAgentRequest,runAgentWorkflow} from './agent-workflow.mjs';
-import {withCodexHostProfile} from './codex-generator.mjs';
+import {withCodexHostProfile} from '../generator/adapters/codex-generator.mjs';
 import {checkG3SuiteBudget} from './g3-playthrough.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
 import {withNativeDelivery,workerInstructions,archiveNativeSources,classifyNativeFailure,pendingNativeReviews,nativeProtectedSources} from './g3-native-contract.mjs';
 const save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n'),read=p=>JSON.parse(readFileSync(p,'utf8'));
 const rel=p=>relative(root,p).replaceAll('\\','/'),hashBytes=p=>createHash('sha256').update(readFileSync(p)).digest('hex'),hash=p=>hashBytes(resolve(root,p));
-const SOURCE_PATHS=['scripts/g3-native-subagent.mjs','scripts/g3-native-contract.mjs','scripts/agent-workflow.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/codex-generator.mjs','generator/adapters/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json'];
+const SOURCE_PATHS=['scripts/g3-native-subagent.mjs','scripts/g3-native-contract.mjs','scripts/agent-workflow.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','generator/adapters/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json'];
 const safe=id=>id.replaceAll(/[^A-Za-z0-9._-]/g,'_');
 function packManifest(packDir){const files={};const walk=d=>readdirSync(d,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(d+'/'+e.name):[d+'/'+e.name]);for(const f of walk(packDir))files[relative(packDir,f).replaceAll('\\','/')]=hashBytes(f);return {files,fileManifestSha256:sha256Canonical(files),contextSha256:sha256Canonical(read(resolve(packDir,'context.json')))};}
 export function prepareNativeBatch({taskIds,model,approvedCalls=3,label}){

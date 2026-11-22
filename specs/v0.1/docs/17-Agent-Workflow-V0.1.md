@@ -16,7 +16,7 @@
 
 ## HTTP 生成器接入
 
-已有 HTTP 服务可以直接使用 `scripts/http-generator.mjs`，无需另写 stdin/stdout 包装。将 `project/http-generator.example.json` 复制为本机配置，填写返回上述 output 合同的 endpoint；随后在工作流配置的 command 中使用 `["node", "scripts/http-generator.mjs", "本机HTTP配置.json"]`。接口接收完整 generation-request，原样保留修复上下文，返回单个 JSON。
+已有 HTTP 服务可以直接使用 `generator/adapters/http-generator.mjs`，无需另写 stdin/stdout 包装。将 `project/http-generator.example.json` 复制为本机配置，填写返回上述 output 合同的 endpoint；随后在工作流配置的 command 中使用 `["node", "generator/adapters/http-generator.mjs", "本机HTTP配置.json"]`。接口接收完整 generation-request，原样保留修复上下文，返回单个 JSON。
 
 远端仅允许 HTTPS，本机允许 loopback HTTP；不跟随重定向。URL 禁止用户名/密码，限制请求 2 MiB、响应 768 KiB、HTTP 总耗时最多 55 秒（默认 50 秒，需小于外层进程预算），严格检查 UTF-8 与 JSON 媒体类型。原始正文交给既有严格解析器处理，禁止传输层悄悄修复重复键。可选 `bearerTokenEnv` 只能填写调用方显式提供的环境变量名称，适配器只在运行时读取这一项，不写入回执；密钥本身不得写入配置。供应者仍需返回真实 provenance，传输方式不改变独立性或 G3 判定。
 

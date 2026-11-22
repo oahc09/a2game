@@ -1,10 +1,10 @@
 {
   "format": "a2game-phase2-delivery-selection",
   "version": 1,
-  "date": "2026-11-21",
+  "date": "2026-11-22",
   "status": "CURRENT_SDK_BATCH_ADMITTED",
-  "scope": "12 current-source SDKs rebuilt, inventoried and admitted through the local service. Android remains the previous offline build.",
-  "sdkImplementationSha256": "f79ad792c4bef16f0c8bdf653c862757675ef99598e47abfa2c3331a43394061",
+  "scope": "12 SDKs rebuilt with the RenderSetup contract, inventoried and admitted locally. Android remains the previous offline build.",
+  "sdkImplementationSha256": "f422324855868cba22656a98d2fcd27a4b018f2d1e04ece35bc39878a2354d3c",
   "entries": [
     {
       "id": "g01-1",
@@ -18,12 +18,12 @@
       },
       "package": "output/p0-delivery-1794622493416/g01-1/versions/v1/package.json",
       "packageSha256": "bc9835ae3f5663a3c6691584d76fd8195480b62616ff0ddeb092f054e156f7aa",
-      "sdk": "output/player-sdk-2026-11-21T13-09-10-611Z-e2ab881b",
+      "sdk": "output/player-sdk-2026-11-22T02-23-45-262Z-0fa56247",
       "inventoryFiles": 264,
       "bundleFileSha256": "268c479f612abd5b66a685bba8d9386cfd9f27e70e0ccd29554f3858e9c6415f",
       "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-10-611Z-e2ab881b/player/game.release.json",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-16-339Z-a2e15a4b"
+      "releaseBundle": "output/player-sdk-2026-11-22T02-23-45-262Z-0fa56247/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-10-611Z-e2ab881b"
     },
     {
       "id": "g01-2",
@@ -37,12 +37,12 @@
       },
       "package": "output/p0-delivery-1794622493416/g01-2/versions/v1/package.json",
       "packageSha256": "51e2d322974729a32e85510bf4355fd0e44eb78db604ffe89064a5d068e339e3",
-      "sdk": "output/player-sdk-2026-11-21T13-09-13-173Z-8beebe80",
+      "sdk": "output/player-sdk-2026-11-22T02-23-59-807Z-5fce279f",
       "inventoryFiles": 264,
       "bundleFileSha256": "556f805b6458ae34d4900c7bb56b4113aca2b781df26c3d1a1f20060d00dbafb",
       "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-13-173Z-8beebe80/player/game.release.json",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-18-357Z-2be76074"
+      "releaseBundle": "output/player-sdk-2026-11-22T02-23-59-807Z-5fce279f/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-13-173Z-8beebe80"
     },
     {
       "id": "g01-3",
@@ -56,12 +56,12 @@
       },
       "package": "output/p0-delivery-1794622493416/g01-3/versions/v1/package.json",
       "packageSha256": "0e8f4e794b0b5c203eaaa9662b92af51a6fcb83f5c1729b88a26271e90c05141",
-      "sdk": "output/player-sdk-2026-11-21T13-09-15-717Z-f97207ab",
+      "sdk": "output/player-sdk-2026-11-22T02-24-25-154Z-ce32b6a4",
       "inventoryFiles": 264,
       "bundleFileSha256": "65c20552f49136c8b4e76ed988afc59afa0c53558443a97fcf340fa727158c82",
       "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-15-717Z-f97207ab/player/game.release.json",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-20-451Z-92dfbea0"
+      "releaseBundle": "output/player-sdk-2026-11-22T02-24-25-154Z-ce32b6a4/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-15-717Z-f97207ab"
     },
     {
       "id": "g17",
@@ -75,12 +75,12 @@
       },
       "package": "output/phase2-shooter-boss-rev5-20261108.package.json",
       "packageSha256": "43df93531687ddd4af15a78cdd28b89737e661724162510a1dcfd357cfcc1b06",
-      "sdk": "output/player-sdk-2026-11-21T13-09-18-348Z-499777a6",
+      "sdk": "output/player-sdk-2026-11-22T02-24-41-216Z-1addb17f",
       "inventoryFiles": 264,
       "bundleFileSha256": "30963f3521d0b3c43e43ff93a200f940a76541f7dff05304277f5b26a170ba4d",
       "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-18-348Z-499777a6/player/game.release.json",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-22-542Z-4fddba33"
+      "releaseBundle": "output/player-sdk-2026-11-22T02-24-41-216Z-1addb17f/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-18-348Z-499777a6"
     },
     {
       "id": "h01",
@@ -94,12 +94,12 @@
       },
       "package": "output/phase2-h01-rev3-20261108.package.json",
       "packageSha256": "e67edcf72c39c9520aad1d4edd0c2ab507e4c69a93fbce191aaf677a705de12e",
-      "sdk": "output/player-sdk-2026-11-21T13-09-21-024Z-b34604bc",
+      "sdk": "output/player-sdk-2026-11-22T02-25-18-272Z-bd4b2431",
       "inventoryFiles": 264,
       "bundleFileSha256": "8781cbefea4693ac99204e28a3297dd1ed7832061e2fe2782379eb8b5b48baca",
       "packageStatus": "HISTORICAL_P0_CONTEXT_REQUIRES_RECEIVER_READMISSION",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-21-024Z-b34604bc/player/game.release.json",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-24-599Z-7d5b2132"
+      "releaseBundle": "output/player-sdk-2026-11-22T02-25-18-272Z-bd4b2431/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-21-024Z-b34604bc"
     }
   ],
   "android": {
@@ -118,77 +118,77 @@
     {
       "source": "games/phase2/sokoban/04-divided-aisle",
       "gameId": "org.a2game.phase2.lumen-depot.04-divided-aisle",
-      "sdk": "output/player-sdk-2026-11-21T13-09-23-547Z-cedfa147",
+      "sdk": "output/player-sdk-2026-11-22T02-26-52-388Z-adbad062",
       "revision": 1,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-26-619Z-350fceb1",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-23-547Z-cedfa147/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-23-547Z-cedfa147",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-26-52-388Z-adbad062/player/game.release.json",
       "inventoryFiles": 264,
       "bundleFileSha256": "6d95b0905079d3fe7b421b1282305649f6b1d0457d314baab32a54f28b6b3b37"
     },
     {
       "source": "games/phase2/sokoban/05-clear-the-way",
       "gameId": "org.a2game.phase2.lumen-depot.05-clear-the-way",
-      "sdk": "output/player-sdk-2026-11-21T13-09-26-076Z-1abd4d75",
+      "sdk": "output/player-sdk-2026-11-22T02-27-03-664Z-cca94faf",
       "revision": 1,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-28-643Z-ebafe651",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-26-076Z-1abd4d75/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-26-076Z-1abd4d75",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-27-03-664Z-cca94faf/player/game.release.json",
       "inventoryFiles": 264,
       "bundleFileSha256": "ad5702c0c4f2b4604a35e7266cc604b4143630d6b3dd46c69b803910a938abad"
     },
     {
       "source": "games/phase2/starport-deck",
       "gameId": "local.host.starport-deck",
-      "sdk": "output/player-sdk-2026-11-21T13-09-28-627Z-f097ed42",
+      "sdk": "output/player-sdk-2026-11-22T02-27-20-994Z-6f6518a3",
       "revision": 3,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-30-784Z-3ffc7f91",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-28-627Z-f097ed42/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-28-627Z-f097ed42",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-27-20-994Z-6f6518a3/player/game.release.json",
       "inventoryFiles": 264,
       "bundleFileSha256": "004dda9e8ec5ed9806d52c9c3f2231868e3ecf7d530c4a5ced3505db5d54adba"
     },
     {
       "source": "games/phase2/starport-deck-urgent",
       "gameId": "local.host.starport-deck.urgent",
-      "sdk": "output/player-sdk-2026-11-21T13-09-31-321Z-c4188e8e",
+      "sdk": "output/player-sdk-2026-11-22T02-27-40-847Z-46df1c54",
       "revision": 1,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-32-895Z-9e04f648",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-31-321Z-c4188e8e/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-31-321Z-c4188e8e",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-27-40-847Z-46df1c54/player/game.release.json",
       "inventoryFiles": 264,
       "bundleFileSha256": "558345fe1e5f9959af30622ce17b5030edbb74f5e4c44dac9baa91e1ebbd5fe0"
     },
     {
       "source": "games/phase2/turret-defense-four-waves",
       "gameId": "phase2.foundry-defense.four-waves",
-      "sdk": "output/player-sdk-2026-11-21T13-09-35-065Z-64b5dbea",
+      "sdk": "output/player-sdk-2026-11-22T02-27-59-730Z-97eab5fb",
       "revision": 2,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-35-143Z-28b30358",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-35-065Z-64b5dbea/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-35-065Z-64b5dbea",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-27-59-730Z-97eab5fb/player/game.release.json",
       "inventoryFiles": 264,
       "bundleFileSha256": "f2cb1680fc3705c1c9e1d650da00fabb3a5a6f94410f9b9b54cab1b80e531514"
     },
     {
       "source": "games/phase2/creation-gallery/game.json",
       "gameId": "org.a2game.phase2.creation-gallery",
-      "sdk": "output/player-sdk-2026-11-21T13-09-37-627Z-58f3d70c",
+      "sdk": "output/player-sdk-2026-11-22T02-28-16-989Z-5bd8a7c8",
       "revision": 1,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-37-280Z-0263b105",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-37-627Z-58f3d70c/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-37-627Z-58f3d70c",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-28-16-989Z-5bd8a7c8/player/game.release.json",
       "inventoryFiles": 274,
       "bundleFileSha256": "a2599f0d347cc3ef3f8076b334dd6ed79e31d5a8e9de4e07b6625ad0a7ab8258"
     },
     {
       "source": "games/phase2/harbor-models/game.json",
       "gameId": "org.a2game.phase2.harbor-models",
-      "sdk": "output/player-sdk-2026-11-21T13-09-40-791Z-c8c30f2e",
+      "sdk": "output/player-sdk-2026-11-22T02-28-33-820Z-c1e226d8",
       "revision": 1,
       "scope": "AUTHOR_REFERENCE_NOT_INDEPENDENT_G3",
-      "previousSdk": "output/player-sdk-2026-11-21T12-46-42-962Z-9d0871f5",
-      "releaseBundle": "output/player-sdk-2026-11-21T13-09-40-791Z-c8c30f2e/player/game.release.json",
+      "previousSdk": "output/player-sdk-2026-11-21T13-09-40-791Z-c8c30f2e",
+      "releaseBundle": "output/player-sdk-2026-11-22T02-28-33-820Z-c1e226d8/player/game.release.json",
       "inventoryFiles": 265,
       "bundleFileSha256": "00f14bddc29c39f557acbd845fdd5dcc4ad6016f36b1db02e7296dc9e05617d1"
     }
@@ -202,7 +202,8 @@
   },
   "sdkBatch": {
     "packages": 12,
-    "receipt": "output/phase2-sdk-rebuild-1795266548820/summary.json",
-    "admission": "PASS"
+    "receipt": "output/phase2-sdk-render-setup-1795314372926/summary.json",
+    "admission": "PASS",
+    "previousReceipt": "output/phase2-sdk-rebuild-1795266548820/summary.json"
   }
 }

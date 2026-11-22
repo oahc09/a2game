@@ -6,7 +6,9 @@ export const digest=value=>createHash('sha256').update(JSON.stringify(value)).di
 export const fault=(code,pointer,message)=>Object.assign(Error(message),{code,diagnostics:[{pointer,message}]});
 export function queryCapabilities({query='',offset=0,limit=10}={}){
  if(typeof query!=='string'||query.length>120||!Number.isInteger(offset)||offset<0||offset>1000||!Number.isInteger(limit)||limit<1||limit>20)throw fault('A2G_GEN_CATALOG_QUERY','','能力查询参数超出范围。');
- const q=query.toLowerCase(),all=makeRegistry().list().filter(m=>(m.id+' '+m.description).toLowerCase().includes(q));
+ const q=query.toLowerCase();
+ const matchedIds=new Set(aliases.filter(([,pattern])=>pattern.test(q)).flatMap(([, ,ids])=>ids));
+ const all=makeRegistry().list().filter(m=>matchedIds.has(m.id)||(m.id+' '+m.description).toLowerCase().includes(q));
  return {total:all.length,offset,capabilities:all.slice(offset,offset+limit).map(m=>({id:m.id,version:m.version,kind:m.kind,description:m.description,status:'REGISTERED_HEADLESS_REFERENCE',platformSupport:'Requires host-specific negotiation'})),modelCalls:0};
 }
 export function getPublicCapability(ref){const registry=makeRegistry();registry.negotiate({all:[ref]});return registry.get(ref);}
@@ -27,7 +29,12 @@ const aliases=[
  ['turn-based',/turn.based|回合/i,['a2game.turnbased.turn']],
  ['rigid3d',/rigid.?3d|3d.physics|三维物理|3D刚体/i,['a2game.physics.rigid3d']],
  ['runner',/runner|跑酷/i,['a2game.realtime.world','a2game.realtime.lane-move','a2game.realtime.auto-scroll']],
- ['jump',/platformer|jump|跳跃/i,['a2game.realtime.world','a2game.realtime.jump']]
+ ['jump',/platformer|jump|跳跃/i,['a2game.realtime.world','a2game.realtime.jump']],
+ ['mine-board',/\bminesweeper\b|扫雷/i,['a2game.puzzle.mine-board']],
+ ['grid-trail',/\bsnake\b|贪吃蛇/i,['a2game.realtime.grid-trail']],
+ ['production-line',/\bproduction[ -]line\b|生产线|工厂产线/i,['a2game.strategy.production-line']],
+ ['disk-flip',/\breversi\b|\bothello\b|黑白棋|翻转棋/i,['a2game.turnbased.disk-flip']],
+ ['grid-tactics',/\bgrid[ -]tactics\b|网格战术|格子战术/i,['a2game.turnbased.grid-tactics']]
 ];
 const base=['a2game.core.state','a2game.core.rules','a2game.core.flow','a2game.visual.text','a2game.visual.scene2d','a2game.visual.body-style'];
 export function closeCapabilities(refs){

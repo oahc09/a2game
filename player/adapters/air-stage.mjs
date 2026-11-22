@@ -6,7 +6,7 @@ export class AirStageHost {
     this.lightNode=new a.Node('A2GameStageLight');scene.addChild(this.lightNode);this.lightNode.setRotationFromEuler(-35,-30,0);this.lightNode.addComponent(a.DirectionalLight).illuminance=50000;
     if(scene.globals?.ambient){scene.globals.ambient.skyIllum=20000;scene.globals.ambient.skyColor=new a.Color(180,200,230,255);}
   }
-  async prepare(spec){this.audio=await createStageAudio('air',this.a,this.root,this.resources,spec.audio);}
+  async prepare({audio}){this.audio=await createStageAudio('air',this.a,this.root,this.resources,audio);}
   clear(){for(const {node,renderer} of this.objects.values()){renderer.mesh=null;renderer.material=null;node.destroy();}this.objects.clear();for(const asset of this.assets)asset.destroy();this.assets=[];this.last='';}
   draw(frame,background,aspect=1){
     const a=this.a,c=frame.camera;this.cameraNode.setPosition(...c.at);this.cameraNode.lookAt(new a.Vec3(...c.target));

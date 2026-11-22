@@ -35,7 +35,7 @@ export function createPlayerEngineRegistry(){
   },
   has:id=>engines.has(id),
   list:()=>[...engines.values()].map(({id,label})=>({id,label})),
-  async create(id,{canvas,definition,resources,signal}){
+  async create(id,{canvas,renderSetup,resources,signal}){
    const engine=engines.get(id);
    if(!engine)throw Error(`A2G_E_ENGINE_UNAVAILABLE: ${id}`);
    signal?.throwIfAborted();
@@ -55,7 +55,7 @@ export function createPlayerEngineRegistry(){
      throw Error(`A2G_E_ENGINE_CONTRACT: ${id}`);
     }
     signal?.throwIfAborted();
-    await adapter.prepare?.(structuredClone(definition),resources,signal);
+    await adapter.prepare?.(renderSetup,resources,signal);
     signal?.throwIfAborted();
     return adapter;
    }catch(error){

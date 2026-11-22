@@ -1,4 +1,12 @@
 {
+  "cliCapabilityRefresh": {
+    "date": "2026-11-22",
+    "scope": "Public catalog lookup and keyword plan selection for mine-board, grid-trail, production-line, disk-flip and grid-tactics",
+    "publicCapabilityCount": 133,
+    "guide": "generator/README.md",
+    "providerCalls": 0,
+    "formalG3": "NOT_RUN"
+  },
   "coverageV2GalleryReceipt": "reports/coverage-v2-gallery-current-1795353341321.json",
   "coverageV2FullPlayExperience": {
     "status": "OPEN",
@@ -2501,8 +2509,9 @@
     "evidenceScope": "HISTORICAL_PRE_FUNCTION_CLOSURE_SOURCE_CHANGE"
   },
   "functionClosurePriority": {
-    "playerEngineRegistry": "Shared browser/SDK engine registry implemented and tested with two built-ins and a host-provided contract adapter. Formal G2 remains pending.",
-    "sdkBatch": "12 current-source SDK packages rebuilt, checked and admitted by the loopback delivery service. Android remains historical.",
+    "playerEngineRegistry": "The browser Player and standalone SDK project engine-neutral RenderSetup for initialization and send PresentationFrame for drawing. GameSpec parsing, binding resolution and gameplay remain in the shared layer. Custom adapters using the previous prepare signature require migration. Formal G2 remains partial.",
+    "playerRenderSetupValidation": "2026-11-22: real Three.js and CocosAirJS perspective/orthographic Stage and standalone signed SDK delivery regressions passed; a packaged custom adapter received only render initialization fields and verified audio resources, drew frames and disposed in Chromium.",
+    "sdkBatch": "2026-11-22: 12 RenderSetup SDK packages rebuilt; 3179 inventory files checked; local delivery admission passed and launch configuration updated. Android remains historical.",
     "sdkUpgrade": "Delivery UI classifies recovery failures and rebuilds from completed or archived jobs. Manual activation and rollback use compatible channel entries.",
     "retention": "Terminal job and unselected version archiving implemented with preserved artifacts and call accounting. See project/function-closure-work.json.",
     "date": "2026-11-15",

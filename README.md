@@ -13,6 +13,7 @@ A2Game 让 AI Agent 根据需求编写游戏，再检查、试玩并导出游戏
 | 先玩现有游戏 | [三款游戏与启动方法](games/phase2/README.md) |
 | 了解已经做到哪一步 | [当前进展](PROJECT-STATUS.md) |
 | 让其他 AI Agent 创作游戏 | [Agent 使用任务](docs/host-agent-pilot.md) |
+| 用 CLI 查询能力、检查并打包游戏 | [Generator CLI](generator/README.md) |
 | 把游戏放进自己的网页 | [Player SDK 使用说明](packages/player-sdk/README.md) |
 | 在本机生成作品并切换、回退交付版本 | [生成与版本交付服务](packages/delivery-service/README.md) |
 | 配置管理员、持久化队列和重启恢复 | [单管理员服务运维说明](docs/service-operations.md) |

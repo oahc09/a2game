@@ -8,7 +8,7 @@ import {root,makeRegistry} from './registry.mjs';
 import {buildAgentRequest,runAgentWorkflow} from './agent-workflow.mjs';
 import {buildG3Plan,inspectGeneratedTask} from './g3-batch.mjs';
 import {checkG3SuiteBudget} from './g3-playthrough.mjs';
-import {generateCodex} from './codex-generator.mjs';
+import {generateCodex} from '../generator/adapters/codex-generator.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p),'utf8')),hash=p=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex'),rel=p=>relative(root,p).replaceAll('\\','/'),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
 const config=read(process.argv[2]);assert.ok(config.tasks.length>0&&config.tasks.length<=config.maxCalls&&config.maxCalls<=5);
@@ -23,7 +23,7 @@ for(const task of config.tasks){const contract=plan.tasks.find(t=>t.id===task.id
   if(prior.validation){const path=prior.validation.replace(/summary\.json$/,'attempt-1.json');previous.diagnostics=read(path).diagnostics;}
   const instruction=task.mode==='presentation-only'?'Only repair presentation/hud and metadata. Increase game.revision by exactly 1. Preserve world, inputs, state, rules, prototypes, scenes, runtime, assets, requirements, solution and conformance exactly. Do not change gameplay or tests. Keep all drawing centers/shapes inside declared scene bounds; every text font should project to at least 15 pixels in a 724x460 canvas. Return a full a2game-generation-output envelope with format, version, game, conformance, solution, provenance.':'Repair the previous output using the actual diagnostics and public contracts, preserving the task requirements. Return a full a2game-generation-output envelope with format, version, game, conformance, solution, provenance.';
   calls++;console.log('FOLLOWUP',task.id,task.mode);await generateCodex(config,buildAgentRequest(contract.prompt+'\n'+instruction,1,previous),local);
-  const validation=await runAgentWorkflow({prompt:contract.prompt,command:[process.execPath,'scripts/codex-generator.mjs','--read-output',resolve(local,'output.raw.json')],maxAttempts:1,timeoutMs:60000,directory:resolve(local,'validation')});item.validation=rel(resolve(local,'validation/summary.json'));
+  const validation=await runAgentWorkflow({prompt:contract.prompt,command:[process.execPath,'generator/adapters/codex-generator.mjs','--read-output',resolve(local,'output.raw.json')],maxAttempts:1,timeoutMs:60000,directory:resolve(local,'validation')});item.validation=rel(resolve(local,'validation/summary.json'));
   if(!validation.success){const error=read(item.validation.replace(/summary\.json$/,'attempt-1.json'));throw Object.assign(Error(error.message),{code:error.code,attribution:error.attribution});}
   const output=read(rel(resolve(local,'validation/output-1.json')));checkG3SuiteBudget(output.conformance);inspectGeneratedTask(contract,validation.success);
   if(task.mode==='presentation-only'){

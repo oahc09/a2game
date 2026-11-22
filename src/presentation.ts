@@ -2,7 +2,7 @@ import { fail } from './errors.js';
 import { readPointer, safeFinite, safeInteger } from './utils.js';
 import type { GameDefinition, Json, JsonRecord, SessionObservation } from './types.js';
 import {validateVisualStage,projectVisualStage} from './visual-stage.js';
-import type {VisualStageFrame} from './visual-stage.js';
+import type {StageAudio,VisualStageFrame,VisualStageSpec} from './visual-stage.js';
 import type {WorldBody} from './modules/realtime.js';
 
 /** Scene2D 0.1 extension: pure declarative layout, not an engine scene graph. */
@@ -41,6 +41,13 @@ export interface PresentationFrame {
     width: number; height: number; background: string;
     commands: DrawCommand[];
     stage?: VisualStageFrame;
+}
+export interface RenderSetup {
+    width: number; height: number; background: string;
+    stage?: {
+        projection: VisualStageSpec['camera']['projection'];
+        audio: Pick<StageAudio, 'id' | 'asset' | 'volume'>[];
+    };
 }
 const color = /^#[0-9a-fA-F]{6}$/;
 const nodeKeys=['id','kind','at','size','radius','fill','text','fontSize','omitWhen'];
@@ -175,9 +182,21 @@ function textValue(value:Json):string {
     if(['number','boolean','string'].includes(typeof value))return String(value);
     fail('A2G_E_PRESENTATION','Text binding must resolve to scalar');
 }
-export function projectPresentation(def:GameDefinition,obs:SessionObservation):PresentationFrame{
+function requireScene2D(def:GameDefinition):Scene2DSpec{
     const layout = def.presentation.scene2d as unknown as Scene2DSpec|undefined;
     if(!layout)fail('A2G_E_PRESENTATION','No scene2d defined');
+    return layout;
+}
+export function projectRenderSetup(def:GameDefinition):RenderSetup{
+    const {width,height,background}=requireScene2D(def);
+    const stage=def.presentation.stage as unknown as VisualStageSpec|undefined;
+    return {
+        width,height,background,
+        ...(stage?{stage:{projection:stage.camera.projection,audio:(stage.audio??[]).map(({id,asset,volume})=>({id,asset,volume}))}}:{})
+    };
+}
+export function projectPresentation(def:GameDefinition,obs:SessionObservation):PresentationFrame{
+    const layout=requireScene2D(def);
     const commands:DrawCommand[]=[];
     const emit=(node:VisualNode,id:string,origin:[number,number],item?:Json):void=>{
         if(commands.length>=maxNodes)fail('A2G_E_BUDGET_EXCEEDED','Presentation primitive budget exceeded');

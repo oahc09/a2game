@@ -3,7 +3,7 @@ import {createFrameMotion} from './frame-motion.mjs';
 import {createFeedbackAudio} from './feedback-audio.mjs';
 import {createEventFeedback} from './event-feedback.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
-import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation,projectRenderSetup,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {createPlayerEngineRegistry} from './engines.mjs';
@@ -41,7 +41,7 @@ function pauseSession(){feedbackAudio.silence();gamepadHost?.stop();traceRecorde
 function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
 const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
- return engines.create(mode==='air'?'cocosairjs':mode,{canvas:dom.GameCanvas,definition,resources,signal:listeners.signal});
+ return engines.create(mode==='air'?'cocosairjs':mode,{canvas:dom.GameCanvas,renderSetup:projectRenderSetup(definition),resources,signal:listeners.signal});
 }
 function observation(){return runtime?.observe();}
 function updateInfo(obs){

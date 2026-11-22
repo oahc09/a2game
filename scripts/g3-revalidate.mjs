@@ -9,7 +9,7 @@ import {buildAgentRequest,runAgentWorkflow} from './agent-workflow.mjs';
 import {buildG3Plan,inspectGeneratedTask} from './g3-batch.mjs';
 import {checkG3SuiteBudget} from './g3-playthrough.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
-import {generateCodex} from './codex-generator.mjs';
+import {generateCodex} from '../generator/adapters/codex-generator.mjs';
 const read=p=>JSON.parse(readFileSync(archivePath(root,p),'utf8')),rel=p=>relative(root,p).replaceAll('\\','/'),hash=p=>createHash('sha256').update(readFileSync(archivePath(root,p))).digest('hex');
 const source=process.argv[2],id=process.argv[3],batch=read(source),old=batch.cases.find(c=>c.id===id),original=old?.attempts.at(-1);assert.ok(original&&original.attribution==='INFRA','只重试基础设施失败；模型修复需独立调用并计数。');
 const originalRaw=original.directory+'/output.raw.json',cli=read(original.directory+'/cli.json');assert.equal(cli.status,'PASS');assert.equal(hash(originalRaw),cli.outputSha256);
@@ -20,7 +20,7 @@ for(let repair=0;repair<=(config?3-original.attempt:0);repair++){
  const item=repair?{attempt:original.attempt+repair,directory:rel(local),status:'FAIL'}:{...original,status:'FAIL',validationOnlyRetry:true,originalValidation:original.validation};
  try{
   if(repair){calls++;await generateCodex(config,buildAgentRequest(task.prompt,item.attempt,previous),local);raw=rel(resolve(local,'output.raw.json'));}
-  const validation=await runAgentWorkflow({prompt:task.prompt,command:[process.execPath,'scripts/codex-generator.mjs','--read-output',archivePath(root,raw)],maxAttempts:1,timeoutMs:60000,directory:resolve(local,'validation')});item.validation=rel(resolve(local,'validation/summary.json'));
+  const validation=await runAgentWorkflow({prompt:task.prompt,command:[process.execPath,'generator/adapters/codex-generator.mjs','--read-output',archivePath(root,raw)],maxAttempts:1,timeoutMs:60000,directory:resolve(local,'validation')});item.validation=rel(resolve(local,'validation/summary.json'));
   if(!validation.success){const error=read(rel(resolve(local,'validation/attempt-1.json')));previous={code:error.code,message:error.message,diagnostics:error.diagnostics,output:{raw:readFileSync(archivePath(root,raw),'utf8')}};throw Object.assign(Error(error.message),{code:error.code,attribution:error.attribution});}
   checkG3SuiteBudget(read(rel(resolve(local,'validation/output-1.json'))).conformance);inspectGeneratedTask(task,validation.success);
   const browser=await verifyGeneratedBrowser(resolve(local,'validation'),resolve(local,'browser'));item.browser=rel(resolve(local,'browser/summary.json'));assert.equal(browser.status,'PASS');row.status='PASS_REFERENCE';item.status='PASS_REFERENCE';delete item.code;delete item.attribution;

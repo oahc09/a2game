@@ -30,7 +30,7 @@ const config=JSON.parse(readFileSync(resolve(process.argv[2]),'utf8')),files={},
 const attachTree=dir=>{for(const entry of readdirSync(archivePath(root,dir),{withFileTypes:true})){const path=dir+'/'+entry.name;if(entry.isDirectory())attachTree(path);else attach(path);}};
 const contract=load('project/gameplay-acceptance.json'),wanted=contract.cases.map(c=>c.id).sort(),rows=[],usage={input_tokens:0,cached_input_tokens:0,output_tokens:0,reasoning_output_tokens:0},missingUsage=[],countedCalls=new Set();let calls=0,pilotCalls=0,historicalExtraCalls=0;
 function generationSources(batch){const fingerprints=load(batch.fingerprints);for(const [path,digest] of Object.entries(fingerprints)){
- if(['scripts/codex-generator.mjs','scripts/g3-codex.mjs'].includes(path)){
+ if(['generator/adapters/codex-generator.mjs','scripts/codex-generator.mjs','scripts/g3-codex.mjs'].includes(path)){
   if(batch.archivedSources?.[path])assert.equal(hash(attach(batch.archivedSources[path])),digest);
   else if(config.historicalSources?.[path])assert.equal(hash(attach(config.historicalSources[path])),digest,'归档生成器源码摘要不同。');
   else{assert.match(config.historicalGeneratorCommit??'',/^[a-f0-9]{7,40}$/);const source=execFileSync('git',['show',config.historicalGeneratorCommit+':'+path],{cwd:root,maxBuffer:1024*1024,windowsHide:true});assert.equal(createHash('sha256').update(source).digest('hex'),digest,'历史生成器代码与已提交版本不同。');}

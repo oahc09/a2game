@@ -8,7 +8,7 @@ export class CocosAirAdapter {
     try{await adapter.init();return adapter;}catch(error){await adapter.dispose();throw error;}
   }
   constructor(air,canvas){this.air=air;this.canvas=canvas;this.nodes=[];this.current='';this.disposed=false;}
-  async prepare(definition,resources){if(definition.presentation.stage){this.stage=new AirStageHost(this.air,this.scene,resources);await this.stage.prepare(definition.presentation.stage);}}
+  async prepare({stage},resources){if(stage){this.stage=new AirStageHost(this.air,this.scene,resources);await this.stage.prepare(stage);}}
   unlockAudio(){this.stage?.audio?.unlock();}
   pauseAudio(){this.stage?.audio?.pause();}
   async init(){

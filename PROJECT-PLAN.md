@@ -303,7 +303,7 @@ PROJECT-STATUS.md + project/status.json (仅在真实验收后更新)
 | 基础能力 | 现有入口/记录 | 处理原则 |
 |---|---|---|
 | Capability Registry / Manifest | `src/registry.ts`、`scripts/registry.mjs`、`specs/v0.1/` | MCP 只读暴露真实注册能力与依赖闭包，不能凭宣传目录声称已实现 |
-| Generator / Provider | `scripts/agent-workflow.mjs`、`scripts/codex-generator.mjs`、`scripts/model-generator.mjs`、`scripts/http-generator.mjs` | 保留调用预算、模型来源、输出字节、错误码与现有路由；通过 Core/Service 复用 |
+| Generator / Provider | `scripts/agent-workflow.mjs`、`generator/adapters/codex-generator.mjs`、`generator/adapters/model-generator.mjs`、`generator/adapters/http-generator.mjs` | 保留调用预算、模型来源、输出字节、错误码与现有路由；通过 Core/Service 复用 |
 | 游戏校验与运行 | `scripts/content-service.mjs`、`src/validator.ts`、`src/runtime.ts`、`src/conformance.ts` | MCP/CLI/Studio 调用同一权威实现和 Policy；不放宽完整 JSON Schema 2020-12 |
 | 无模型工具与输出 | 既有 CLI、`player/inspect.html`、`scripts/agent-browser.mjs` | 新 MCP 以这些能力为后端，不复刻浏览器和 Runtime |
 | 已有本地 Studio | 第 15.6 节 Batch C 记录 | **已有参考实现，保留不删**；不追加为下一阶段的开发焦点 |

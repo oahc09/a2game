@@ -1,4 +1,4 @@
-import {HeadlessRuntime,projectPresentation,sha256Canonical} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation,projectRenderSetup,sha256Canonical} from '../dist/index.js';
 import {validateJsonTree} from '../dist/utils.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {ResourceScope} from './resources.mjs';
@@ -35,7 +35,7 @@ export function createA2GamePlayer({backend,container,engines=builtinEngines,onE
     const registry=await createBrowserRegistry();assert();definition=snapshot.definition;
     resources=new ResourceScope(snapshot.resources.map(record=>({...record,href:new URL('./assets/'+record.sha256,import.meta.url).href})));await resources.load();assert();
     runtime=new HeadlessRuntime(definition,registry);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
-    adapter=await engines.create(backend,{canvas,definition,resources,signal:inputAbort.signal});assert();
+    adapter=await engines.create(backend,{canvas,renderSetup:projectRenderSetup(definition),resources,signal:inputAbort.signal});assert();
     const getRuntime=()=>disposed?undefined:runtime;
     if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal});
     if(hasBinding('imu.'))mobileHost=createMobileHost({getRuntime,inject:raw,onStatus:detail=>emit('sensor-status',detail),signal:inputAbort.signal});

@@ -18,6 +18,25 @@ npm run generator:browser
 npm run generator:studio
 ```
 
+当前工作区的 CLI 从公开 Registry 读取能力，目录共 133 项。按玩法名称查找，再用完整 ID 查看依赖和配置合同：
+
+| 查询词 | 能力 ID |
+| --- | --- |
+| 扫雷 | `a2game.puzzle.mine-board` |
+| 贪吃蛇 | `a2game.realtime.grid-trail` |
+| 工厂产线 | `a2game.strategy.production-line` |
+| 黑白棋 | `a2game.turnbased.disk-flip` |
+| 网格战术 | `a2game.turnbased.grid-tactics` |
+
+```powershell
+node generator/cli.mjs capabilities --query 扫雷 --json
+node generator/cli.mjs capability --id a2game.puzzle.mine-board --cap-version 0.1.0 --json
+node generator/cli.mjs plan --prompt-file prompt.txt --output output/game-plan.json --json
+node generator/cli.mjs test output/my-first-game --evidence-dir output/cli-evidence --json
+```
+
+以上五种玩法名也可用于 `plan` 选择能力。目录和草案只确认能力可发现、可协商，具体玩法、输入与渲染还需验证作品。目录每页最多 20 项，使用 `--offset` 翻页。`validate` 和 `test` 均可通过 `--evidence-dir` 记录输入原字节和 SHA256。选择发布版本或构建独立播放器使用单独的[内容交付 CLI](../packages/content-delivery/README.md)。
+
 `fixture` 总是构造相同的三步计数游戏，只验证工程链，不理解提示词，不属于独立模型生成。`inspect` 打开现有 Inspector，再手动导入产物目录的 `debug-bundle.json`。预览只绑定 `127.0.0.1`，`Ctrl+C` 结束监听；缺 SDK 返回 `BLOCKED`，不会自动改用 Canvas2D。
 
 `generator:browser` 每次新建 fixture 产物，经公开 Generator 预览入口分别启动真实 Three.js/CocosAirJS，在桌面与 390px 窄屏检查初始、未达目标、通关、暂停/重开、键盘/按钮输入、Headless Hash、资源与监听释放；截图和来源指纹保存到独立 `reports/generator-browser-<UUID>/`。它需要已准备的 SDK 和 Playwright Chromium（`npx playwright install chromium`），缺少时明确失败/阻塞，不会改用模拟后端。这项验收仍属于夹具工程参考，不代表自然语言生成质量或真机触控。
@@ -40,7 +59,7 @@ npm run generator:studio
 
 每次输出目录必须不存在。成功输出 `game.json`、`conformance.json`、`solution.json`、`release-receipt.json`、`debug-bundle.json`、`tests/` 和 `generation-report.json`。报告用相对路径与 SHA256 标识文件；私有 prompt、原始回复、失败尝试、服务 telemetry 单独保存在 `.a2game/generator/<runId>/`。失败仍保留本次公开报告，不覆盖旧运行。回放会重新检查完整 Schema、正负例、解法及双 Session Hash。
 
-生成流程在 `generator/index.mjs`，Codex、Claude 和 HTTP 模型调用的实现集中在 `generator/adapters/`。`scripts/` 下同名文件是旧命令和配置的兼容入口。MCP 启动、打包和项目验收命令也放在 `scripts/`。
+生成流程在 `generator/index.mjs`，Codex、Claude 和 HTTP 模型调用的实现集中在 `generator/adapters/`。直接调用模型适配器或填写批次配置时，使用该目录下的路径。`scripts/` 存放 MCP 启动、打包和项目验收命令。
 
 对已有 `model-http` 运行，可用 `node scripts/audit-model-evidence.mjs <generation-report.json>` 只读核对私有逐次记录、返回模型名与请求是否一致、用量和原始响应摘要；不调用模型、不复制私有回复。输出仅为新的本地审计回执。缺失、未返回、模型不符与响应篡改分别记录；服务自报一致不等于独立身份认证。该工具不修改生成、模型路由或调用预算。
 

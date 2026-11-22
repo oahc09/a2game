@@ -87,7 +87,7 @@ npm run g3:run -- .a2game/g3-provider.json --ids=G01
 
 每次使用独立 `reports/g3-batch-*/`；逐款完成即写检查点，中断后保留已有材料。再次执行不会覆盖旧批次，也不会自动复用旧 PASS 或合并重复任务；用 `--ids` 选择尚需执行的任务，避免重复调用。生成器未配置时只执行 `g3:plan`，不会自动猜测服务或读取凭据。
 
-已有返回项目 generation-output 合同的 HTTP 服务或 stdin/stdout 生成命令，也可直接填写 `command`，继续复用既有 `http-generator.mjs` / `agent-workflow.mjs`。
+已有返回项目 generation-output 合同的 HTTP 服务或 stdin/stdout 生成命令，也可直接填写 `command`，继续复用既有 `generator/adapters/http-generator.mjs` / `scripts/agent-workflow.mjs`。
 
 ## 验收和记录
 

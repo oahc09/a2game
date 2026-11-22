@@ -7,7 +7,7 @@ import {sha256Canonical} from '../dist/index.js';
 import {root} from './registry.mjs';
 import {buildAgentRequest,runAgentWorkflow,callJsonProcess} from './agent-workflow.mjs';
 import {buildG3Plan,inspectGeneratedTask} from './g3-batch.mjs';
-import {generateCodex} from './codex-generator.mjs';
+import {generateCodex} from '../generator/adapters/codex-generator.mjs';
 import {bindAgentEvidence} from './bind-agent-evidence.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p),'utf8')),hash=p=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex'),rel=p=>relative(root,p).replaceAll('\\','/'),save=(p,v)=>writeFileSync(resolve(root,p),JSON.stringify(v,null,2)+'\n');

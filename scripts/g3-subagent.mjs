@@ -8,7 +8,7 @@ import {sha256Canonical} from '../dist/index.js';
 import {root} from './registry.mjs';
 import {buildG3Plan,inspectGeneratedTask} from './g3-batch.mjs';
 import {buildAgentRequest,runAgentWorkflow} from './agent-workflow.mjs';
-import {withCodexHostProfile} from './codex-generator.mjs';
+import {withCodexHostProfile} from '../generator/adapters/codex-generator.mjs';
 import {checkG3SuiteBudget} from './g3-playthrough.mjs';
 import {verifyGeneratedBrowser} from './g3-browser.mjs';
 import {withNativeDelivery,workerInstructions,archiveNativeSources,classifyNativeFailure,pendingNativeReviews,nativeProtectedSources} from './g3-native-contract.mjs';
@@ -18,7 +18,7 @@ const save=(p,v)=>{mkdirSync(resolve(p,'..'),{recursive:true});writeFileSync(p,J
 const rel=(p)=>relative(root,p).replaceAll('\\','/');
 const hash=(p)=>createHash('sha256').update(readFileSync(resolve(root,p))).digest('hex');
 const PACK_VERSION='public-task-pack-v2';
-const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-native-contract.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/codex-generator.mjs','generator/adapters/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
+const SOURCE_FILES=['scripts/g3-subagent.mjs','scripts/g3-native-contract.mjs','scripts/g3-batch.mjs','scripts/g3-browser.mjs','scripts/g3-playthrough.mjs','scripts/agent-workflow.mjs','scripts/agent-solver.mjs','generator/adapters/codex-generator.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py','project/g3-tasks.json','project/gameplay-acceptance.json','project/acceptance-baseline.json'];
 
 function loadConfig(configPath){
  const config=read(configPath);
@@ -95,7 +95,7 @@ export async function validateAttempt(configPath,gameId,attempt){
   if(generation.rawOutput?.sha256)assert.equal(hash(rawPath),generation.rawOutput.sha256,'A2G_E_G3_REPLY_INTEGRITY: 原始输出与宿主记录不一致。');
   const workflow=resolve(attemptDir,'validation');
   assert.ok(!existsSync(workflow),'A2G_E_G3_WORKFLOW_EXISTS: 验证目录必须新建，保留旧回执。');
-  const result=await runAgentWorkflow({prompt:task.prompt,command:[process.execPath,'scripts/codex-generator.mjs','--read-output',rawPath],
+  const result=await runAgentWorkflow({prompt:task.prompt,command:[process.execPath,'generator/adapters/codex-generator.mjs','--read-output',rawPath],
    maxAttempts:1,timeoutMs:config.timeoutMs??60000,directory:workflow});
   row.validation=rel(resolve(workflow,'summary.json'));
   const validationSummary=read(resolve(workflow,'summary.json'));

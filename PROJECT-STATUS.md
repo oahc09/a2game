@@ -1,5 +1,7 @@
 # A2Game 当前进展
 
+2026-11-22：Generator CLI 目录读取当前 133 项公开能力。新增五种 v2 机制的玩法名检索与草案能力选择，详见 [Generator CLI](generator/README.md)。本轮范围为本地检索和规划，不计真实模型生成或正式验收。
+
 ## v2 交付与持续可玩性
 
 最新试玩反馈指出关卡衔接、持续游玩和交互仍有缺口。此前通过的是限定范围内的重开和第二局验证。完整游玩体验仍待开发与验收，具体交互问题需要按作品和输入设备复现。[下一阶段计划](PROJECT-PLAN.md#v2-完整游玩体验)
@@ -67,6 +69,8 @@ v2 第 10 批完成接收端验收补验。G156、G122、G107 三份内容包均
 集中工程回归已收口。首轮 Node 通过 347 项，3 项因平台条件跳过，两项协议迁移断言失败。更新当前 Manifest 摘要及数量后，迁移测试 4 项全部通过。静态规范、367 份 Schema 文档、204 个 Conformance 场景及 113 项目录构建均通过。接收端抽检 G161、G177、G58 均通过，G177 首次校验超时后串行复验通过。正式 G3、设备与独立人工质量仍待验。[首轮回归日志](reports/coverage-v2-engineering-1795332410547/verify.log) · [补验结果](reports/coverage-v2-engineering-1795332410547/followup-result.json)
 
 2026-11-22：v2 首批交付两个可玩原型。G90《潮汐灯塔》新增交互小说类型，四个结局经过 Headless 验证。G58《引潮核心 · 弹幕战》衍生自 G17，加入可预判的弹幕和反击窗口。两款复用现有共享 Runtime 与 Player，在真实 Three.js 和 CocosAirJS 中完成作者工程验证并导出本地内容包。正式验收仍按原台账跟踪。[玩法与试玩入口](games/coverage-v2/README.md)
+
+2026-11-22：主播放器和独立 SDK 已共用引擎无关的 `RenderSetup`。共享层负责 GameSpec 校验、绑定和玩法执行，Adapter 通过初始化描述和已核验资源完成准备，再消费 `PresentationFrame`。12 份 SDK 已重建并通过本地准入，共核对 3,179 个文件。交付清单和本机启动配置已同步，Android 仍使用历史包。[Adapter 迁移说明](packages/player-sdk/README.md) · [当前交付清单](project/phase2-delivery.json)
 
 Three.js 和 CocosAirJS 均通过透视与正交 Stage 浏览器回归，以及独立 SDK 的签名版本切换、回退、坏包拒绝与释放检查。打包后的自定义 Adapter 在 Chromium 中验证了初始化字段、受信音频资源、逐帧调用和释放。正式 G2 仍为 PARTIAL。[透视回执](reports/visual-stage-2026-11-22T02-25-05-862Z-54020/summary.json) · [正交回执](reports/visual-stage-2026-11-22T02-27-34-069Z-13148/summary.json) · [SDK 交付回执](reports/delivery-1795314236563/summary.json)
 
