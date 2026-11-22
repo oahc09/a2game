@@ -1,0 +1,17 @@
+[
+  {
+    "ticks": 21
+  },
+  {
+    "action": "parry",
+    "ticks": 40
+  },
+  {
+    "action": "parry",
+    "ticks": 1
+  },
+  {
+    "action": "strike",
+    "ticks": 1
+  }
+]

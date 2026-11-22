@@ -1,0 +1,1505 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.lantern-minefield",
+  "revision": 1,
+  "meta": {
+    "title": "灯巡 · 扫雷",
+    "description": "按棋格标示的数字或字母揭格。首次揭格保证安全。按 Q 切换插旗，揭开全部安全格胜利。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.mine-board",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 35022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "board",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.mine-board",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/board",
+                "width": 4,
+                "height": 4,
+                "cells": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8",
+                  "cell9",
+                  "cell10",
+                  "cell11",
+                  "cell12",
+                  "cell13",
+                  "cell14",
+                  "cell15"
+                ],
+                "flagAction": "flag"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "board": {
+      "type": "object",
+      "initial": {
+        "mines": [
+          0,
+          5,
+          15
+        ],
+        "tiles": [
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2,
+          -2
+        ],
+        "revealed": 0,
+        "flagging": false,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell9",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell10",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell11",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell12",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell13",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell14",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell15",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flag",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyQ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "cleared",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/board/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "detonated",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/board/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "1 格",
+        "bind": {
+          "action": "cell0"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "2 格",
+        "bind": {
+          "action": "cell1"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "3 格",
+        "bind": {
+          "action": "cell2"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "4 格",
+        "bind": {
+          "action": "cell3"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "5 格",
+        "bind": {
+          "action": "cell4"
+        }
+      },
+      {
+        "id": "choice-5",
+        "kind": "button",
+        "text": "6 格",
+        "bind": {
+          "action": "cell5"
+        }
+      },
+      {
+        "id": "choice-6",
+        "kind": "button",
+        "text": "7 格",
+        "bind": {
+          "action": "cell6"
+        }
+      },
+      {
+        "id": "choice-7",
+        "kind": "button",
+        "text": "8 格",
+        "bind": {
+          "action": "cell7"
+        }
+      },
+      {
+        "id": "choice-8",
+        "kind": "button",
+        "text": "9 格",
+        "bind": {
+          "action": "cell8"
+        }
+      },
+      {
+        "id": "choice-9",
+        "kind": "button",
+        "text": "A 格",
+        "bind": {
+          "action": "cell9"
+        }
+      },
+      {
+        "id": "choice-10",
+        "kind": "button",
+        "text": "B 格",
+        "bind": {
+          "action": "cell10"
+        }
+      },
+      {
+        "id": "choice-11",
+        "kind": "button",
+        "text": "C 格",
+        "bind": {
+          "action": "cell11"
+        }
+      },
+      {
+        "id": "choice-12",
+        "kind": "button",
+        "text": "D 格",
+        "bind": {
+          "action": "cell12"
+        }
+      },
+      {
+        "id": "choice-13",
+        "kind": "button",
+        "text": "E 格",
+        "bind": {
+          "action": "cell13"
+        }
+      },
+      {
+        "id": "choice-14",
+        "kind": "button",
+        "text": "F 格",
+        "bind": {
+          "action": "cell14"
+        }
+      },
+      {
+        "id": "choice-15",
+        "kind": "button",
+        "text": "G 格",
+        "bind": {
+          "action": "cell15"
+        }
+      },
+      {
+        "id": "choice-16",
+        "kind": "button",
+        "text": "Q 切换插旗",
+        "bind": {
+          "action": "flag"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "board",
+          "kind": "rect",
+          "at": [
+            0,
+            0.27
+          ],
+          "size": [
+            4.69,
+            4.48
+          ],
+          "fill": "#345556"
+        },
+        {
+          "id": "tile-0",
+          "kind": "rect",
+          "at": [
+            -1.65,
+            1.85
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/0"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-0",
+          "kind": "text",
+          "at": [
+            -1.95,
+            2.13
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-0",
+          "kind": "text",
+          "at": [
+            -1.65,
+            1.74
+          ],
+          "text": {
+            "state": "/board/tiles/0"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-1",
+          "kind": "rect",
+          "at": [
+            -0.5499999999999998,
+            1.85
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/1"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-1",
+          "kind": "text",
+          "at": [
+            -0.8499999999999999,
+            2.13
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-1",
+          "kind": "text",
+          "at": [
+            -0.5499999999999998,
+            1.74
+          ],
+          "text": {
+            "state": "/board/tiles/1"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-2",
+          "kind": "rect",
+          "at": [
+            0.5500000000000003,
+            1.85
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/2"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-2",
+          "kind": "text",
+          "at": [
+            0.2500000000000003,
+            2.13
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-2",
+          "kind": "text",
+          "at": [
+            0.5500000000000003,
+            1.74
+          ],
+          "text": {
+            "state": "/board/tiles/2"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-3",
+          "kind": "rect",
+          "at": [
+            1.6500000000000004,
+            1.85
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/3"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-3",
+          "kind": "text",
+          "at": [
+            1.3500000000000003,
+            2.13
+          ],
+          "text": {
+            "literal": "4"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-3",
+          "kind": "text",
+          "at": [
+            1.6500000000000004,
+            1.74
+          ],
+          "text": {
+            "state": "/board/tiles/3"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-4",
+          "kind": "rect",
+          "at": [
+            -1.65,
+            0.8
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/4"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-4",
+          "kind": "text",
+          "at": [
+            -1.95,
+            1.08
+          ],
+          "text": {
+            "literal": "5"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-4",
+          "kind": "text",
+          "at": [
+            -1.65,
+            0.6900000000000001
+          ],
+          "text": {
+            "state": "/board/tiles/4"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-5",
+          "kind": "rect",
+          "at": [
+            -0.5499999999999998,
+            0.8
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/5"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-5",
+          "kind": "text",
+          "at": [
+            -0.8499999999999999,
+            1.08
+          ],
+          "text": {
+            "literal": "6"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-5",
+          "kind": "text",
+          "at": [
+            -0.5499999999999998,
+            0.6900000000000001
+          ],
+          "text": {
+            "state": "/board/tiles/5"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-6",
+          "kind": "rect",
+          "at": [
+            0.5500000000000003,
+            0.8
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/6"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-6",
+          "kind": "text",
+          "at": [
+            0.2500000000000003,
+            1.08
+          ],
+          "text": {
+            "literal": "7"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-6",
+          "kind": "text",
+          "at": [
+            0.5500000000000003,
+            0.6900000000000001
+          ],
+          "text": {
+            "state": "/board/tiles/6"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-7",
+          "kind": "rect",
+          "at": [
+            1.6500000000000004,
+            0.8
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/7"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-7",
+          "kind": "text",
+          "at": [
+            1.3500000000000003,
+            1.08
+          ],
+          "text": {
+            "literal": "8"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-7",
+          "kind": "text",
+          "at": [
+            1.6500000000000004,
+            0.6900000000000001
+          ],
+          "text": {
+            "state": "/board/tiles/7"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-8",
+          "kind": "rect",
+          "at": [
+            -1.65,
+            -0.25
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/8"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-8",
+          "kind": "text",
+          "at": [
+            -1.95,
+            0.030000000000000027
+          ],
+          "text": {
+            "literal": "9"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-8",
+          "kind": "text",
+          "at": [
+            -1.65,
+            -0.36
+          ],
+          "text": {
+            "state": "/board/tiles/8"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-9",
+          "kind": "rect",
+          "at": [
+            -0.5499999999999998,
+            -0.25
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/9"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-9",
+          "kind": "text",
+          "at": [
+            -0.8499999999999999,
+            0.030000000000000027
+          ],
+          "text": {
+            "literal": "A"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-9",
+          "kind": "text",
+          "at": [
+            -0.5499999999999998,
+            -0.36
+          ],
+          "text": {
+            "state": "/board/tiles/9"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-10",
+          "kind": "rect",
+          "at": [
+            0.5500000000000003,
+            -0.25
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/10"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-10",
+          "kind": "text",
+          "at": [
+            0.2500000000000003,
+            0.030000000000000027
+          ],
+          "text": {
+            "literal": "B"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-10",
+          "kind": "text",
+          "at": [
+            0.5500000000000003,
+            -0.36
+          ],
+          "text": {
+            "state": "/board/tiles/10"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-11",
+          "kind": "rect",
+          "at": [
+            1.6500000000000004,
+            -0.25
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/11"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-11",
+          "kind": "text",
+          "at": [
+            1.3500000000000003,
+            0.030000000000000027
+          ],
+          "text": {
+            "literal": "C"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-11",
+          "kind": "text",
+          "at": [
+            1.6500000000000004,
+            -0.36
+          ],
+          "text": {
+            "state": "/board/tiles/11"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-12",
+          "kind": "rect",
+          "at": [
+            -1.65,
+            -1.3000000000000003
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/12"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-12",
+          "kind": "text",
+          "at": [
+            -1.95,
+            -1.0200000000000002
+          ],
+          "text": {
+            "literal": "D"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-12",
+          "kind": "text",
+          "at": [
+            -1.65,
+            -1.4100000000000004
+          ],
+          "text": {
+            "state": "/board/tiles/12"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-13",
+          "kind": "rect",
+          "at": [
+            -0.5499999999999998,
+            -1.3000000000000003
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/13"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-13",
+          "kind": "text",
+          "at": [
+            -0.8499999999999999,
+            -1.0200000000000002
+          ],
+          "text": {
+            "literal": "E"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-13",
+          "kind": "text",
+          "at": [
+            -0.5499999999999998,
+            -1.4100000000000004
+          ],
+          "text": {
+            "state": "/board/tiles/13"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-14",
+          "kind": "rect",
+          "at": [
+            0.5500000000000003,
+            -1.3000000000000003
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/14"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-14",
+          "kind": "text",
+          "at": [
+            0.2500000000000003,
+            -1.0200000000000002
+          ],
+          "text": {
+            "literal": "F"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-14",
+          "kind": "text",
+          "at": [
+            0.5500000000000003,
+            -1.4100000000000004
+          ],
+          "text": {
+            "state": "/board/tiles/14"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "tile-15",
+          "kind": "rect",
+          "at": [
+            1.6500000000000004,
+            -1.3000000000000003
+          ],
+          "size": [
+            1.03,
+            0.98
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/tiles/15"
+            },
+            "map": {
+              "9": "#AF5962",
+              "-2": "#466A73",
+              "-1": "#A46443"
+            },
+            "fallback": "#294F54"
+          }
+        },
+        {
+          "id": "key-15",
+          "kind": "text",
+          "at": [
+            1.3500000000000003,
+            -1.0200000000000002
+          ],
+          "text": {
+            "literal": "G"
+          },
+          "fontSize": 0.25,
+          "fill": "#EEE9BC"
+        },
+        {
+          "id": "value-15",
+          "kind": "text",
+          "at": [
+            1.6500000000000004,
+            -1.4100000000000004
+          ],
+          "text": {
+            "state": "/board/tiles/15"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6E7CB",
+          "omitWhen": [
+            -2,
+            -1,
+            9
+          ]
+        },
+        {
+          "id": "reveal-label",
+          "kind": "text",
+          "at": [
+            3.5,
+            0.8
+          ],
+          "text": {
+            "literal": "已揭安全格"
+          },
+          "fontSize": 0.34,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "reveal",
+          "kind": "text",
+          "at": [
+            3.5,
+            0.24
+          ],
+          "text": {
+            "state": "/board/revealed"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB89"
+        },
+        {
+          "id": "mode",
+          "kind": "text",
+          "at": [
+            -3.55,
+            0.6
+          ],
+          "text": {
+            "literal": "插旗模式"
+          },
+          "fontSize": 0.34,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "flag",
+          "kind": "text",
+          "at": [
+            -3.55,
+            0.1
+          ],
+          "text": {
+            "state": "/board/flagging"
+          },
+          "fontSize": 0.37,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.37
+          ],
+          "text": {
+            "literal": "灯巡 · 扫雷"
+          },
+          "fontSize": 0.58,
+          "fill": "#E9F1C9"
+        },
+        {
+          "id": "key",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "literal": "格内数字为相邻雷数  ·  Q 切换插旗"
+          },
+          "fontSize": 0.32,
+          "fill": "#BBD8D0"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

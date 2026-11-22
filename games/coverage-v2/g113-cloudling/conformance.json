@@ -1,0 +1,120 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-cloudling",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.cloudling",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "care-and-grow",
+      "seed": 11322,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/growth",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/food",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/joy",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "ignore-needs",
+      "seed": 11322,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 181
+        },
+        {
+          "op": "assert",
+          "path": "/state/satiety",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/joy",
+          "equals": 3
+        },
+        {
+          "op": "step",
+          "ticks": 270
+        },
+        {
+          "op": "assert",
+          "path": "/state/growth",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

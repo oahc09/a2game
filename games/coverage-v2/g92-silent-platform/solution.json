@@ -1,0 +1,18 @@
+[
+  {
+    "action": "clock",
+    "ticks": 1
+  },
+  {
+    "action": "ticket",
+    "ticks": 1
+  },
+  {
+    "action": "link",
+    "ticks": 1
+  },
+  {
+    "action": "submit",
+    "ticks": 1
+  }
+]

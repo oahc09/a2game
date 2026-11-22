@@ -1,0 +1,989 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.stone-slide",
+  "revision": 1,
+  "meta": {
+    "title": "石门滑块",
+    "description": "移动两格宽主块和两格高挡块。先下移挡块，再把主块右移到出口。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "main": {
+      "type": "int",
+      "initial": 0
+    },
+    "bar": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile0": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile1": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile2": {
+      "type": "int",
+      "initial": 2
+    },
+    "tile3": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile4": {
+      "type": "int",
+      "initial": 1
+    },
+    "tile5": {
+      "type": "int",
+      "initial": 1
+    },
+    "tile6": {
+      "type": "int",
+      "initial": 2
+    },
+    "tile7": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile8": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile9": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile10": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile11": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile12": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile13": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile14": {
+      "type": "int",
+      "initial": 0
+    },
+    "tile15": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "lower",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "raise",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "right-0",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/main"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bar"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/main",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile4",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile5",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile7",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "right-1",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/main"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bar"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/main",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/tile4",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile5",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile7",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "left-1",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/main"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/main",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile4",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile5",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile7",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "left-2",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/main"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/main",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile4",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile5",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile7",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "lower",
+      "on": {
+        "type": "input.action",
+        "action": "lower",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/bar"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bar",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/tile2",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile10",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/tile14",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "raise",
+      "on": {
+        "type": "input.action",
+        "action": "raise",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bar"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/main"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bar",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile2",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/tile6",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/tile10",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/tile14",
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "exit",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/main"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "key-right",
+        "kind": "button",
+        "text": "主块右移",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "key-left",
+        "kind": "button",
+        "text": "主块左移",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "key-lower",
+        "kind": "button",
+        "text": "挡块下移",
+        "bind": {
+          "action": "lower"
+        }
+      },
+      {
+        "id": "key-raise",
+        "kind": "button",
+        "text": "挡块上移",
+        "bind": {
+          "action": "raise"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.04
+          ],
+          "text": {
+            "literal": "石门滑块"
+          },
+          "fontSize": 0.6,
+          "fill": "#E8ECD5"
+        },
+        {
+          "id": "cell-0",
+          "kind": "rect",
+          "at": [
+            -1.4249999999999998,
+            1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile0"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-1",
+          "kind": "rect",
+          "at": [
+            -0.475,
+            1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile1"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-2",
+          "kind": "rect",
+          "at": [
+            0.475,
+            1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile2"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-3",
+          "kind": "rect",
+          "at": [
+            1.4249999999999998,
+            1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile3"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-4",
+          "kind": "rect",
+          "at": [
+            -1.4249999999999998,
+            0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile4"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-5",
+          "kind": "rect",
+          "at": [
+            -0.475,
+            0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile5"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-6",
+          "kind": "rect",
+          "at": [
+            0.475,
+            0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile6"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-7",
+          "kind": "rect",
+          "at": [
+            1.4249999999999998,
+            0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile7"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-8",
+          "kind": "rect",
+          "at": [
+            -1.4249999999999998,
+            -0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile8"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-9",
+          "kind": "rect",
+          "at": [
+            -0.475,
+            -0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile9"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-10",
+          "kind": "rect",
+          "at": [
+            0.475,
+            -0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile10"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-11",
+          "kind": "rect",
+          "at": [
+            1.4249999999999998,
+            -0.475
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile11"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-12",
+          "kind": "rect",
+          "at": [
+            -1.4249999999999998,
+            -1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile12"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-13",
+          "kind": "rect",
+          "at": [
+            -0.475,
+            -1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile13"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-14",
+          "kind": "rect",
+          "at": [
+            0.475,
+            -1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile14"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "cell-15",
+          "kind": "rect",
+          "at": [
+            1.4249999999999998,
+            -1.4249999999999998
+          ],
+          "size": [
+            0.9,
+            0.9
+          ],
+          "fill": {
+            "from": {
+              "state": "/tile15"
+            },
+            "map": {
+              "1": "#FDBD65",
+              "2": "#66C8B5"
+            },
+            "fallback": "#263F52"
+          }
+        },
+        {
+          "id": "exit",
+          "kind": "text",
+          "at": [
+            2.48,
+            0.48
+          ],
+          "text": {
+            "literal": "出口"
+          },
+          "fontSize": 0.4,
+          "fill": "#E8ECD5"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.82
+          ],
+          "text": {
+            "literal": "↑↓ 挡块 · ←→ 主块"
+          },
+          "fontSize": 0.4,
+          "fill": "#E8ECD5"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

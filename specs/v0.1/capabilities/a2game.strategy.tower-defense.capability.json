@@ -143,6 +143,54 @@
           "minItems": 2,
           "maxItems": 64
         },
+        "routeGrid": {
+          "type": "object",
+          "properties": {
+            "columns": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 12
+            },
+            "rows": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 12
+            },
+            "origin": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "minimum": 100,
+                  "maximum": 31900
+                },
+                "y": {
+                  "type": "integer",
+                  "minimum": 100,
+                  "maximum": 31900
+                }
+              },
+              "required": [
+                "x",
+                "y"
+              ],
+              "additionalProperties": false
+            },
+            "spacing": {
+              "type": "integer",
+              "minimum": 256,
+              "maximum": 8000
+            }
+          },
+          "required": [
+            "columns",
+            "rows",
+            "origin",
+            "spacing"
+          ],
+          "additionalProperties": false,
+          "description": "When declared, path contains the entry and exit grid centers. Towers block grid cells; disconnected placement is rejected before payment."
+        },
         "waves": {
           "type": "array",
           "items": {
@@ -197,6 +245,12 @@
                 "minimum": 0,
                 "maximum": 15,
                 "description": "Every command kind requires index < config.cells.length, not merely <=15. Invalid values fail admission."
+              },
+              "specialization": {
+                "enum": [
+                  "range",
+                  "slow"
+                ]
               }
             },
             "required": [
@@ -208,6 +262,57 @@
           },
           "minItems": 1,
           "maxItems": 64
+        },
+        "mergeSpecializations": {
+          "type": "object",
+          "properties": {
+            "range": {
+              "type": "integer",
+              "minimum": 17,
+              "maximum": 64000
+            },
+            "slowRange": {
+              "type": "integer",
+              "minimum": 16,
+              "maximum": 64000
+            },
+            "slowSpeed": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 127
+            },
+            "slowTicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 600
+            }
+          },
+          "required": [
+            "range",
+            "slowRange",
+            "slowSpeed",
+            "slowTicks"
+          ],
+          "additionalProperties": false
+        },
+        "ammo": {
+          "type": "object",
+          "properties": {
+            "linePath": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "warehouse": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 11
+            }
+          },
+          "required": [
+            "linePath",
+            "warehouse"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [
@@ -283,6 +388,12 @@
               "weaponId": {
                 "type": "string",
                 "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+              },
+              "specialization": {
+                "enum": [
+                  "range",
+                  "slow"
+                ]
               }
             },
             "required": [
@@ -350,10 +461,25 @@
                 "minimum": 1,
                 "maximum": 64
               },
+              "fromCell": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 143
+              },
+              "toCell": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 143
+              },
               "reward": {
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 1000000
+              },
+              "slowUntil": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000600
               }
             },
             "required": [
@@ -447,6 +573,16 @@
             ]
           },
           "maxItems": 16
+        },
+        "route": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 143
+          },
+          "maxItems": 144,
+          "description": "Current shortest entry-to-exit route for routeGrid mode, as row-major cell indices."
         },
         "won": {
           "type": "boolean"

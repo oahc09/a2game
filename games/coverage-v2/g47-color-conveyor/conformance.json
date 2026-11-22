@@ -1,0 +1,359 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-color-conveyor",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.color-conveyor",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "sort-and-pack",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "pack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "pack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/packed",
+          "equals": 4
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "pack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "pack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "wrong-lane-counted",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/misses",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/blue",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "full-bin-does-not-consume",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "toggle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "blue",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "red",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 45
+        },
+        {
+          "op": "assert",
+          "path": "/state/red",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/remaining",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/color",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

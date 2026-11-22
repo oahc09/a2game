@@ -1,0 +1,493 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.harbor-drums",
+  "revision": 1,
+  "meta": {
+    "title": "港湾双鼓",
+    "description": "Tick 20–25 按 J 击左鼓。Tick 60–65 同时按 J 和 K 击双鼓。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "left": {
+      "type": "int",
+      "initial": -100
+    },
+    "right": {
+      "type": "int",
+      "initial": -100
+    },
+    "single": {
+      "type": "bool",
+      "initial": false
+    },
+    "dual": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/left",
+          "value": {
+            "state": "/clock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/right",
+          "value": {
+            "state": "/clock"
+          }
+        }
+      ]
+    },
+    {
+      "id": "single",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/left"
+              },
+              {
+                "const": 20
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/left"
+              },
+              {
+                "const": 25
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/single",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "dual",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/left"
+                  },
+                  {
+                    "const": 60
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/left"
+                  },
+                  {
+                    "const": 65
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/right"
+                  },
+                  {
+                    "const": 60
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/right"
+                  },
+                  {
+                    "const": 65
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/left"
+              },
+              {
+                "state": "/right"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/dual",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/single"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/dual"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "late",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 68
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "left",
+        "kind": "button",
+        "text": "J 左鼓",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "right",
+        "kind": "button",
+        "text": "K 右鼓",
+        "bind": {
+          "action": "right"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "港湾双鼓"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "text": {
+            "literal": "Tick 20–25 按 J 击左鼓。Tick 60–65 同时按 J 和 K 击双鼓。"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "text": {
+            "literal": "当前拍点"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            0,
+            0.75
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "single-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "text": {
+            "literal": "单击命中"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "single",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.75
+          ],
+          "text": {
+            "state": "/single"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "dual-label",
+          "kind": "text",
+          "at": [
+            3,
+            0
+          ],
+          "text": {
+            "literal": "双击命中"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        },
+        {
+          "id": "dual",
+          "kind": "text",
+          "at": [
+            3,
+            -0.75
+          ],
+          "text": {
+            "state": "/dual"
+          },
+          "fontSize": 0.43,
+          "fill": "#F5DAB1"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

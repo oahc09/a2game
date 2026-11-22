@@ -12,6 +12,7 @@ import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 // Explicit post-migration public-contract revisions; never qualify old evidence for new bytes.
 const publicContractRevisions={
+  "specs/v0.1/capabilities/a2game.physics.rigid3d.capability.json": {before: "27993268426195158afb371f4d28b4742f230f3b6930e40cb5da8962627afb13", current: "a39d165d329f48677cbf4a729a37b9204d3c11409ba366e8ceb3273076a91520"},
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
     "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"
@@ -22,11 +23,19 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "3fd357b91c31f1f507a6936640a42d3d6c1eb45e3ef79bf580b7f259df1fa120"
+    "current": "49ddf501e06a4c9f74fbcab062f5527e2798ee855a0f0b6ea6e6c010af200827"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
-    "current": "4ddfd4f0dc1a4d5f97431d3d8312751069fbbbc14947158070f9235c602e4cd6"
+    "current": "7b564a15c71fa502658e4364880c9e2f88b7bc85249513bb122746772d896dde"
+  },
+  "specs/v0.1/capabilities/a2game.turnbased.turn.capability.json": {
+    "before": "a9e3a34d59178bc43d2716e6379fae82d451165b22f90fa48ea0487f263e1a1f",
+    "current": "8abcf1f5beb5da309fef8727d3d82b0338b6ab4c9df5c1905e9d4caa666d9320"
+  },
+  "specs/v0.1/capabilities/a2game.visual.bound-stage.capability.json": {
+    "before": "f19001bc3b0c6dc53e512a9efb62a716bdc0b58ab466b552dec7aa33caaffc8d",
+    "current": "c65848d79b2fdc6670de5bdb26b64d11c0249e58f8767201ef534a92f64c42e0"
   }
 };
 function assertPublicContractRevision(path,before,content){
@@ -62,7 +71,7 @@ function assertMigratedAsset(old,row,content){
 test('all 362 relocated protocol assets retain migration provenance; capability bindings resolve without claiming formal verification',()=>{
  const migration=read('project/spec-layout-migration.json'),moved=Object.entries(migration.files).filter(([p])=>p.startsWith('specs/v0.1/samples/'));
  assert.equal(moved.length,362);for(const [old,row]of moved)assertMigratedAsset(old,row,readFileSync(resolve(root,row.to)));
- const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,128);assert.equal(bindings.capabilities.length,128);
+ const registry=makeRegistry(),bindings=read('project/capability-bindings.json');assert.equal(bindings.count,133);assert.equal(bindings.capabilities.length,133);
  assert.ok(bindings.capabilities.some(c=>c.id==='a2game.visual.body-motif'));
  for(const c of bindings.capabilities){assert.equal(c.implementation.role,registry.implementation(c).role);assert.deepEqual(c.dependencies,registry.negotiate({all:[{id:c.id,version:c.version}]}).capabilities);assert.equal(c.formalVerification,'NOT_SIGNED_OFF');}
 });

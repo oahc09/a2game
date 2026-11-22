@@ -1,0 +1,114 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-sky-letter",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.sky-letter",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "quest-opens-route",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "accept",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "accept",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "decline-leaves-platform-low",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "decline",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "decline",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/4/y",
+          "equals": 150
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

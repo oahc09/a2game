@@ -1,0 +1,317 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-watchfire-waves",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.watchfire-waves",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "upgrade-changes-damage",
+      "seed": 73022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 8
+        },
+        {
+          "op": "assert",
+          "path": "/state/choice",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/damage",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 44
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 18
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 72
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "stationary-unupgraded-dies",
+      "seed": 73022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 205
+        },
+        {
+          "op": "assert",
+          "path": "/state/choice",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/lost",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "speed-path-affects-movement",
+      "seed": 73022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 31
+        },
+        {
+          "op": "injectAction",
+          "action": "swift",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "swift",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/choice",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/damage",
+          "equals": 0
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 4028
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/choice",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "before-wave-upgrade-rejected",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/choice",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/waveReady",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ],
+      "seed": 73022
+    }
+  ]
+}

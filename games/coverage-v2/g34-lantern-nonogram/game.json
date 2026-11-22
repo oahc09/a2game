@@ -1,0 +1,1071 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.lantern-nonogram",
+  "revision": 1,
+  "meta": {
+    "title": "灯影数织",
+    "description": "1–9 切换涂格。按行列线索还原图案，连续数表示相邻涂格段。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "cell0": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell1": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell2": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell3": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell4": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell5": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell6": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell7": {
+      "type": "int",
+      "initial": 0
+    },
+    "cell8": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "flip0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit8",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "flip8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit9",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "flip-0",
+      "on": {
+        "type": "input.action",
+        "action": "flip0",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell0",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-1",
+      "on": {
+        "type": "input.action",
+        "action": "flip1",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell1",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-2",
+      "on": {
+        "type": "input.action",
+        "action": "flip2",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell2",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell2"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-3",
+      "on": {
+        "type": "input.action",
+        "action": "flip3",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell3",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell3"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-4",
+      "on": {
+        "type": "input.action",
+        "action": "flip4",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell4",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell4"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-5",
+      "on": {
+        "type": "input.action",
+        "action": "flip5",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell5",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell5"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-6",
+      "on": {
+        "type": "input.action",
+        "action": "flip6",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell6",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell6"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-7",
+      "on": {
+        "type": "input.action",
+        "action": "flip7",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell7",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell7"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flip-8",
+      "on": {
+        "type": "input.action",
+        "action": "flip8",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell8",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/cell8"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "done",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell0"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell1"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell2"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell3"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell4"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell5"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell6"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell7"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell8"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-flip0",
+        "kind": "button",
+        "text": "翻格 1",
+        "bind": {
+          "action": "flip0"
+        }
+      },
+      {
+        "id": "ui-flip1",
+        "kind": "button",
+        "text": "翻格 2",
+        "bind": {
+          "action": "flip1"
+        }
+      },
+      {
+        "id": "ui-flip2",
+        "kind": "button",
+        "text": "翻格 3",
+        "bind": {
+          "action": "flip2"
+        }
+      },
+      {
+        "id": "ui-flip3",
+        "kind": "button",
+        "text": "翻格 4",
+        "bind": {
+          "action": "flip3"
+        }
+      },
+      {
+        "id": "ui-flip4",
+        "kind": "button",
+        "text": "翻格 5",
+        "bind": {
+          "action": "flip4"
+        }
+      },
+      {
+        "id": "ui-flip5",
+        "kind": "button",
+        "text": "翻格 6",
+        "bind": {
+          "action": "flip5"
+        }
+      },
+      {
+        "id": "ui-flip6",
+        "kind": "button",
+        "text": "翻格 7",
+        "bind": {
+          "action": "flip6"
+        }
+      },
+      {
+        "id": "ui-flip7",
+        "kind": "button",
+        "text": "翻格 8",
+        "bind": {
+          "action": "flip7"
+        }
+      },
+      {
+        "id": "ui-flip8",
+        "kind": "button",
+        "text": "翻格 9",
+        "bind": {
+          "action": "flip8"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.16
+          ],
+          "text": {
+            "literal": "灯影数织"
+          },
+          "fontSize": 0.61,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -3.05
+          ],
+          "text": {
+            "literal": "1–9 切换涂格。按行列线索还原图案，连续数表示相邻涂格段。"
+          },
+          "fontSize": 0.29,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile0",
+          "kind": "rect",
+          "at": [
+            -1.05,
+            1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell0"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key0",
+          "kind": "text",
+          "at": [
+            -1.05,
+            1.05
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile1",
+          "kind": "rect",
+          "at": [
+            0,
+            1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell1"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key1",
+          "kind": "text",
+          "at": [
+            0,
+            1.05
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile2",
+          "kind": "rect",
+          "at": [
+            1.05,
+            1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell2"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key2",
+          "kind": "text",
+          "at": [
+            1.05,
+            1.05
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile3",
+          "kind": "rect",
+          "at": [
+            -1.05,
+            0
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell3"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key3",
+          "kind": "text",
+          "at": [
+            -1.05,
+            0
+          ],
+          "text": {
+            "literal": "4"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile4",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell4"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key4",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "text": {
+            "literal": "5"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile5",
+          "kind": "rect",
+          "at": [
+            1.05,
+            0
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell5"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key5",
+          "kind": "text",
+          "at": [
+            1.05,
+            0
+          ],
+          "text": {
+            "literal": "6"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile6",
+          "kind": "rect",
+          "at": [
+            -1.05,
+            -1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell6"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key6",
+          "kind": "text",
+          "at": [
+            -1.05,
+            -1.05
+          ],
+          "text": {
+            "literal": "7"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile7",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell7"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key7",
+          "kind": "text",
+          "at": [
+            0,
+            -1.05
+          ],
+          "text": {
+            "literal": "8"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "tile8",
+          "kind": "rect",
+          "at": [
+            1.05,
+            -1.05
+          ],
+          "size": [
+            0.96,
+            0.96
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell8"
+            },
+            "map": {
+              "1": "#DEBE76"
+            },
+            "fallback": "#344B60"
+          }
+        },
+        {
+          "id": "key8",
+          "kind": "text",
+          "at": [
+            1.05,
+            -1.05
+          ],
+          "text": {
+            "literal": "9"
+          },
+          "fontSize": 0.37,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "row-0",
+          "kind": "text",
+          "at": [
+            -2.05,
+            1.05
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "column-0",
+          "kind": "text",
+          "at": [
+            -1.05,
+            2.05
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "row-1",
+          "kind": "text",
+          "at": [
+            -2.05,
+            0
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "column-1",
+          "kind": "text",
+          "at": [
+            0,
+            2.05
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "row-2",
+          "kind": "text",
+          "at": [
+            -2.05,
+            -1.05
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        },
+        {
+          "id": "column-2",
+          "kind": "text",
+          "at": [
+            1.05,
+            2.05
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.36,
+          "fill": "#E6EDDB"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

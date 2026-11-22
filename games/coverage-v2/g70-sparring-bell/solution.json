@@ -1,0 +1,21 @@
+[
+  {
+    "ticks": 21
+  },
+  {
+    "action": "dodge",
+    "ticks": 1
+  },
+  {
+    "action": "strike",
+    "ticks": 39
+  },
+  {
+    "action": "dodge",
+    "ticks": 1
+  },
+  {
+    "action": "strike",
+    "ticks": 1
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "action": "recruit",
+    "ticks": 1
+  },
+  {
+    "action": "launch",
+    "ticks": 24
+  },
+  {
+    "action": "recruit",
+    "ticks": 1
+  },
+  {
+    "action": "recruit",
+    "ticks": 1
+  },
+  {
+    "action": "launch",
+    "ticks": 24
+  }
+]

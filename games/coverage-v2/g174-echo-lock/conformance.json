@@ -1,0 +1,215 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-echo-lock",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.echo-lock",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "escape",
+      "seed": 16922,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ring",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ring",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "unsafe-route",
+      "seed": 16922,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/guard",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

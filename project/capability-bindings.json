@@ -2,7 +2,7 @@
   "format": "a2game-capability-bindings",
   "version": 1,
   "specVersion": "0.1.0",
-  "count": 128,
+  "count": 133,
   "scope": "Current trusted bindings and test declarations; references are not per-capability execution receipts or formal platform approval.",
   "capabilities": [
     {
@@ -2767,6 +2767,35 @@
       "formalVerification": "NOT_SIGNED_OFF"
     },
     {
+      "id": "a2game.puzzle.mine-board",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.puzzle.mine-board.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.puzzle.mine-board",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "local-coverage-v2-lantern-minefield",
+          "executableCases": [],
+          "specification": null,
+          "status": "UNRESOLVED_DECLARATION"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
       "id": "a2game.puzzle.occlusion",
       "version": "0.1.0",
       "kind": "service",
@@ -4392,6 +4421,35 @@
           ],
           "specification": null,
           "status": "EXECUTABLE_CASE_REFERENCE"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
+      "id": "a2game.realtime.grid-trail",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.realtime.grid-trail.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.realtime.grid-trail",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "local-coverage-v2-moss-trail",
+          "executableCases": [],
+          "specification": null,
+          "status": "UNRESOLVED_DECLARATION"
         }
       ],
       "formalVerification": "NOT_SIGNED_OFF"
@@ -6196,6 +6254,43 @@
       "formalVerification": "NOT_SIGNED_OFF"
     },
     {
+      "id": "a2game.strategy.production-line",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.strategy.production-line.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.strategy.inventory",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.strategy.production-line",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.strategy.production",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "local-coverage-v2-riverworks",
+          "executableCases": [],
+          "specification": "specs/v0.1/docs/04-Conformance-Test-V0.1.md",
+          "status": "SPECIFICATION_REFERENCE"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
       "id": "a2game.strategy.production",
       "version": "0.1.0",
       "kind": "service",
@@ -6884,6 +6979,70 @@
           ],
           "specification": null,
           "status": "EXECUTABLE_CASE_REFERENCE"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
+      "id": "a2game.turnbased.disk-flip",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.turnbased.disk-flip.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.turnbased.disk-flip",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "local-coverage-v2-monsoon-disks",
+          "executableCases": [],
+          "specification": null,
+          "status": "UNRESOLVED_DECLARATION"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
+      "id": "a2game.turnbased.grid-tactics",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.turnbased.grid-tactics.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.turnbased.grid-tactics",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "local-coverage-v2-amber-crossing",
+          "executableCases": [],
+          "specification": null,
+          "status": "UNRESOLVED_DECLARATION"
+        },
+        {
+          "id": "local-coverage-v2-wind-cards",
+          "executableCases": [],
+          "specification": null,
+          "status": "UNRESOLVED_DECLARATION"
         }
       ],
       "formalVerification": "NOT_SIGNED_OFF"

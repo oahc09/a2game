@@ -1,0 +1,14 @@
+[
+  {
+    "action": "lower",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  }
+]

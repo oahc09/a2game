@@ -1,0 +1,728 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.bronze-parry",
+  "revision": 1,
+  "meta": {
+    "title": "铜卫弹反",
+    "description": "Tick 20–25 按 P 弹反，削减架势。破防后按 J 反击。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "hp": {
+      "type": "int",
+      "initial": 2
+    },
+    "rival": {
+      "type": "int",
+      "initial": 2
+    },
+    "guard": {
+      "type": "int",
+      "initial": 2
+    },
+    "window": {
+      "type": "int",
+      "initial": 0
+    },
+    "cooldown": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "等待出招预告"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "parry",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "strike",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "tell-16",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 16
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "对手抬手 · 准备防守"
+        }
+      ]
+    },
+    {
+      "id": "tell-56",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 56
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "对手抬手 · 准备防守"
+        }
+      ]
+    },
+    {
+      "id": "respond-20",
+      "on": {
+        "type": "input.action",
+        "action": "parry",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 26
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/window"
+              },
+              {
+                "const": 20
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/window",
+          "value": 36
+        },
+        {
+          "op": "state.add",
+          "path": "/guard",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "弹反成功 · 架势下降"
+        }
+      ]
+    },
+    {
+      "id": "respond-60",
+      "on": {
+        "type": "input.action",
+        "action": "parry",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 66
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/window"
+              },
+              {
+                "const": 60
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/window",
+          "value": 76
+        },
+        {
+          "op": "state.add",
+          "path": "/guard",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "弹反成功 · 架势下降"
+        }
+      ]
+    },
+    {
+      "id": "hit-26",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 26
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/window"
+              },
+              {
+                "const": 26
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "未应对 · 被击中"
+        }
+      ]
+    },
+    {
+      "id": "hit-66",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 66
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/window"
+              },
+              {
+                "const": 66
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "未应对 · 被击中"
+        }
+      ]
+    },
+    {
+      "id": "strike",
+      "on": {
+        "type": "input.action",
+        "action": "strike",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/window"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/window"
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/cooldown"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/guard"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/rival",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/cooldown",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 21
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "反击命中"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/rival"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-parry",
+        "kind": "button",
+        "text": "P 弹反",
+        "bind": {
+          "action": "parry"
+        }
+      },
+      {
+        "id": "ui-strike",
+        "kind": "button",
+        "text": "J 反击",
+        "bind": {
+          "action": "strike"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "铜卫弹反"
+          },
+          "fontSize": 0.62,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.54
+          ],
+          "text": {
+            "literal": "时钟"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.5,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.54
+          ],
+          "text": {
+            "literal": "体力"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.5,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "rival-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.54
+          ],
+          "text": {
+            "literal": "对手体力"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "rival",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/rival"
+          },
+          "fontSize": 0.5,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "guard-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "架势"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "guard",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/guard"
+          },
+          "fontSize": 0.5,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "window-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "反击窗口截止"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "window",
+          "kind": "text",
+          "at": [
+            0,
+            -0.48
+          ],
+          "text": {
+            "state": "/window"
+          },
+          "fontSize": 0.5,
+          "fill": "#F4DDAC"
+        },
+        {
+          "id": "notice",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4DDAC"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

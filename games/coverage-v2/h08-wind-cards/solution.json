@@ -1,0 +1,38 @@
+[
+  {
+    "action": "card1",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "card1",
+    "ticks": 1
+  },
+  {
+    "action": "up",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "end",
+    "ticks": 1
+  },
+  {
+    "action": "card1",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  }
+]

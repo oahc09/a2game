@@ -182,6 +182,8 @@ G0 PASS 绝不等于 G1 PASS。任何未跑的 G2/G3 不能计作完成。报告
 - `taxonomy` 的 `genres/mechanics` 为开放字符串集合；新增类目不修改 `GameSpec` 根结构。
 - `requiredCapabilities` 使用**能力 ID + 精确版本**；不以游戏名字推断引擎一定支持什么。
 - 一个游戏可同时属于 Puzzle/Combat/Strategy，允许交叉机制组合。平台与输入 Profile 独立编码：Desktop Web、Mobile Web Touch、Mobile Web IMU、Host Physics 2D/3D。
+
+独立 v2 原型套件 `local-coverage-v2-ember-connect`、`local-coverage-v2-riverworks` 和 `local-coverage-v2-bronze-signal` 分别验证按列落子、产线反压和塔防合成分支。套件随原型保存，可通过 `node generator/cli.mjs test <作品目录> --json` 执行。[原型目录](../../../games/coverage-v2/README.md)
 - `CoverageRegistry` 的 `expectedSemantics` 与 `ConformanceSuites` 可逐步扩充，但不得将未实现条目记为 verified。
 - `CoverageResult` 是 `(gameId, scenarioId, adapterId, platformProfile, capabilitySet, testRevision)` 的独立记录，避免“某游戏 Chrome PASS 就算所有设备 PASS”。
 

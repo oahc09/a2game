@@ -1,0 +1,206 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-hex-pass",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.hex-pass",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/cost",
+          "equals": 2
+        }
+      ]
+    },
+    {
+      "id": "reject-and-preserve",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ap",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "mountain-path-reachable-next-round",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ap",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/cost",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cost",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/round",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,589 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.tidal-fork",
+  "revision": 1,
+  "meta": {
+    "title": "潮路取舍",
+    "description": "在安全渡口与潮洞之间选路，带足补给走到终点。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "position": {
+      "type": "int",
+      "initial": 0
+    },
+    "supplies": {
+      "type": "int",
+      "initial": 2
+    },
+    "health": {
+      "type": "int",
+      "initial": 3
+    },
+    "relic": {
+      "type": "int",
+      "initial": 0
+    },
+    "cleared": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "1 渡口保体力 · 2 潮洞取宝物"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "ferry",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cave",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "trade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "ferry",
+      "on": {
+        "type": "input.action",
+        "action": "ferry",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/position"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/position",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/supplies",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "安全到岸，余一份补给"
+        }
+      ]
+    },
+    {
+      "id": "cave",
+      "on": {
+        "type": "input.action",
+        "action": "cave",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/position"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/position",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/health",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/relic",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "取到宝物，可在中途换补给"
+        }
+      ]
+    },
+    {
+      "id": "trade",
+      "on": {
+        "type": "input.action",
+        "action": "trade",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/position"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/relic"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/relic",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/supplies",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已换得两份补给"
+        }
+      ]
+    },
+    {
+      "id": "continue",
+      "on": {
+        "type": "input.action",
+        "action": "exit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/position"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/supplies"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/supplies",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/cleared",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "完成远行"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "journey",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cleared"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "priority": 0
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-ferry",
+        "kind": "button",
+        "text": "1 安全渡口",
+        "bind": {
+          "action": "ferry"
+        }
+      },
+      {
+        "id": "ui-cave",
+        "kind": "button",
+        "text": "2 潮洞",
+        "bind": {
+          "action": "cave"
+        }
+      },
+      {
+        "id": "ui-trade",
+        "kind": "button",
+        "text": "3 用宝物换补给",
+        "bind": {
+          "action": "trade"
+        }
+      },
+      {
+        "id": "ui-exit",
+        "kind": "button",
+        "text": "4 继续前进",
+        "bind": {
+          "action": "exit"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "潮路取舍"
+          },
+          "fontSize": 0.59,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "panel-position",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.15
+          ],
+          "size": [
+            2.75,
+            1.32
+          ],
+          "fill": "#274B5D"
+        },
+        {
+          "id": "position-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.4
+          ],
+          "text": {
+            "literal": "路段"
+          },
+          "fontSize": 0.35,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "position",
+          "kind": "text",
+          "at": [
+            -3,
+            0.8499999999999999
+          ],
+          "text": {
+            "state": "/position"
+          },
+          "fontSize": 0.47,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "panel-supplies",
+          "kind": "rect",
+          "at": [
+            0,
+            1.15
+          ],
+          "size": [
+            2.75,
+            1.32
+          ],
+          "fill": "#274B5D"
+        },
+        {
+          "id": "supplies-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.4
+          ],
+          "text": {
+            "literal": "补给"
+          },
+          "fontSize": 0.35,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "supplies",
+          "kind": "text",
+          "at": [
+            0,
+            0.8499999999999999
+          ],
+          "text": {
+            "state": "/supplies"
+          },
+          "fontSize": 0.47,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "panel-health",
+          "kind": "rect",
+          "at": [
+            3,
+            1.15
+          ],
+          "size": [
+            2.75,
+            1.32
+          ],
+          "fill": "#274B5D"
+        },
+        {
+          "id": "health-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.4
+          ],
+          "text": {
+            "literal": "体力"
+          },
+          "fontSize": 0.35,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "health",
+          "kind": "text",
+          "at": [
+            3,
+            0.8499999999999999
+          ],
+          "text": {
+            "state": "/health"
+          },
+          "fontSize": 0.47,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "panel-relic",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.3500000000000001
+          ],
+          "size": [
+            2.75,
+            1.32
+          ],
+          "fill": "#274B5D"
+        },
+        {
+          "id": "relic-label",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.10000000000000009
+          ],
+          "text": {
+            "literal": "宝物"
+          },
+          "fontSize": 0.35,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "relic",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.6500000000000001
+          ],
+          "text": {
+            "state": "/relic"
+          },
+          "fontSize": 0.47,
+          "fill": "#F9DEAC"
+        },
+        {
+          "id": "notice",
+          "kind": "text",
+          "at": [
+            0,
+            -2.7
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.35,
+          "fill": "#F9DEAC"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

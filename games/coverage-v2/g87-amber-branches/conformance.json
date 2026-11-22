@@ -1,0 +1,120 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-amber-branches",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.amber-branches",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "mechanism-clears",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "base",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "base",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "advanced",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "advanced",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "mechanism-required",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "advanced",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "advanced",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/points",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

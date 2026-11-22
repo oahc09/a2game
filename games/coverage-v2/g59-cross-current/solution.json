@@ -1,0 +1,34 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 11
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "action": "aim-up",
+    "ticks": 1
+  },
+  {
+    "action": "fire",
+    "ticks": 22
+  }
+]

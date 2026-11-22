@@ -1,0 +1,61 @@
+[
+  {
+    "ticks": 59
+  },
+  {
+    "action": "a",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "s",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "d",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "f",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "d",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "a",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "f",
+    "ticks": 1
+  },
+  {
+    "ticks": 29
+  },
+  {
+    "action": "s",
+    "ticks": 1
+  },
+  {
+    "ticks": 10
+  }
+]

@@ -30,3 +30,8 @@ Canvas2D 预览明确拒绝 Stage，提示选择真实 Three.js/CocosAirJS。当
 ## 2026-10-27 正交范围适配
 
 显式 `camera.fitSize:[width,height]` 仅用于 orthographic，两个正数不超过 1000。宿主使用实际 viewport aspect，完整高度取 max(orthoHeight, fitSize[1], fitSize[0]/aspect)，Three.js 使用全高，CocosAirJS 使用一半为 orthoHeight。未声明时保留原固定高语义。H05 设为 scene2d 宽高，使图片和同一 HitTest 框在桌面、390px 及缩放下对齐；图片以各 SDK 的纹理方向上传并启用 alpha。输入宿主在 pointerdown 捕获阶段以 preventScroll 聚焦画布，避免窄屏首次按压使页面滚动、拖动终点偏离。此项为纯投影，不改变逻辑 Hash。
+## 相机数值绑定
+
+当 Stage 声明 `bindingProfile: "numeric-pointer-v1"` 且要求 `a2game.visual.bound-stage@0.1.0` 时，`camera.at`、`camera.target` 的各轴也可使用数值指针与可选 `scale` / `offset`。校验初始值、每帧解析后的范围和相机位置与目标不重合。共享表现层在交给 Adapter 前解析为数值向量。未启用该 Profile 的相机使用固定数值向量。
+
+G177 使用两个位置坐标和朝向生成相机位置及凝视点。墙体阻挡、转向和出口由 GameSpec 的共享 Tick 规则处理，双 SDK 读取相同的透视相机帧。[原型](../../../games/coverage-v2/g177-blue-rock-maze/game.json)

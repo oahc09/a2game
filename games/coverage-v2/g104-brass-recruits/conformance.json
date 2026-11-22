@@ -1,0 +1,176 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-brass-recruits",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.brass-recruits",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "bad-matchup",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recruit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "launch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/victories",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

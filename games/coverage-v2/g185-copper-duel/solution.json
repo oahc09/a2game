@@ -1,0 +1,18 @@
+[
+  {
+    "action": "aRight",
+    "ticks": 1
+  },
+  {
+    "action": "bLeft",
+    "ticks": 1
+  },
+  {
+    "action": "aAttack",
+    "ticks": 2
+  },
+  {
+    "action": "aAttack",
+    "ticks": 2
+  }
+]

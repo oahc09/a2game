@@ -1,0 +1,14 @@
+[
+  {
+    "action": "fire",
+    "ticks": 60
+  },
+  {
+    "action": "fire",
+    "ticks": 12
+  },
+  {
+    "action": "fire",
+    "ticks": 12
+  }
+]

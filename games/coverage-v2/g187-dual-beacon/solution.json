@@ -1,0 +1,26 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "ArrowRight"
+        }
+      }
+    ],
+    "ticks": 3
+  }
+]

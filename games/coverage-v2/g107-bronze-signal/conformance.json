@@ -1,0 +1,278 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-bronze-signal",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.bronze-signal",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "range-opens-fire-earlier",
+      "seed": 10710,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "range",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "range",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 420
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/specialization",
+          "equals": "range"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/hp",
+          "equals": 8
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "slow-changes-enemy-travel",
+      "seed": 10710,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "slow",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slow",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 420
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/hp",
+          "equals": 12
+        },
+        {
+          "op": "step",
+          "ticks": 27
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/specialization",
+          "equals": "slow"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/x",
+          "equals": 2115
+        },
+        {
+          "op": "step",
+          "ticks": 35
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "illegal-merge-preserves-assets",
+      "seed": 10710,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "range",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "range",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/0/id",
+          "equals": "tower_0"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/towers/1/id",
+          "equals": "tower_1"
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/weapons/0/nextFire",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/weapons/1/nextFire",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

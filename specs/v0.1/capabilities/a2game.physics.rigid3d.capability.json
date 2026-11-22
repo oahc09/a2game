@@ -189,6 +189,13 @@
               }
             }
           }
+        },
+        "repeatLaunch": {
+          "type": "boolean"
+        },
+        "launchVelocityPath": {
+          "type": "string",
+          "pattern": "^/"
         }
       }
     },

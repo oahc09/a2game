@@ -1,0 +1,317 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-copper-mine",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.copper-mine",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "ore-to-upgrade",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/bars",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/bars",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "cannot-smelt-empty",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/bars",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/grade",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/busy",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "busy-furnace-keeps-ore",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mine",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "smelt",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ore",
+          "equals": 2
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/state/bars",
+          "equals": 1
+        }
+      ]
+    }
+  ]
+}

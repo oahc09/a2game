@@ -49,7 +49,16 @@ export function simulateRigid3d(ctx:ModuleContext):ModuleResult{
  world.gravity.x+=s.axis[0]!*9.82;world.gravity.z+=s.axis[1]!*9.82;
  const native=new Map<number,Body>();
  for(const [i,b]of s.bodies.entries())if(b.active){const d=defs[i]!,mass=Number(d.mass),shape=d.shape==='sphere'?new Sphere(Number((d.size as number[])[0])/2):new Box(new Vec3(...(d.size as number[]).map(n=>n/2) as [number,number,number]));const body=new Body({mass,shape,position:new Vec3(...unpack(b.p) as [number,number,number]),velocity:new Vec3(...unpack(b.v) as [number,number,number]),quaternion:new Quaternion(...unpack(b.q) as [number,number,number,number]),angularVelocity:new Vec3(...unpack(b.w) as [number,number,number]),linearDamping:0.01,angularDamping:0.15,allowSleep:false});body.id=i;body.quaternion.normalize();world.addBody(body);native.set(i,body);}
- if(has('launchAction')&&!s.launched){const b=native.get(Number(c.actorIndex??1));if(b){b.velocity.set(...c.launchVelocity as [number,number,number]);s.launched=true;events.push({type:'rigid3d.launched',payload:{}});}}
+ if(has('launchAction')&&(!s.launched||c.repeatLaunch===true)){
+  const b=native.get(Number(c.actorIndex??1));
+  if(b&&!s.won&&!s.lost){
+   const velocity=c.launchVelocityPath===undefined?c.launchVelocity:readPointer(ctx.world.state,String(c.launchVelocityPath));
+   if(!vector(velocity,3,20))bad('Invalid bound rigid3d launch velocity');
+   b.velocity.set(...velocity as [number,number,number]);
+   s.launched=true;
+   events.push({type:'rigid3d.launched',payload:{}});
+  }
+ }
  const pairs=new Set<string>();for(let step=0;step<4;step++){world.step(1/ctx.tickHz/4);for(const contact of world.contacts){const ids=[String(defs[contact.bi.id]!.id),String(defs[contact.bj.id]!.id)].sort(stableCompare);pairs.add(ids.join('|'));}}
  for(const pair of [...pairs].sort(stableCompare))if(!s.contacts.includes(pair))events.push({type:'rigid3d.contact',payload:{pair}});s.contacts=[...pairs].sort(stableCompare);
  let stable=true;for(const [i,body]of native){const b=s.bodies[i]!;b.p=body.position.toArray().map(quantize);b.v=body.velocity.toArray().map(quantize);b.q=body.quaternion.toArray().map(quantize);b.w=body.angularVelocity.toArray().map(quantize);b.e=xyz(body.quaternion);b.renderY=b.p[1]!;

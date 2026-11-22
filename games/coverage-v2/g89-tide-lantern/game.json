@@ -1,0 +1,715 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.tide-lantern",
+  "revision": 1,
+  "meta": {
+    "title": "潮仓寻灯",
+    "description": "在旧仓找到灯壳与灯芯，组合成航灯，再前往码头点亮航标。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "room": {
+      "type": "int",
+      "initial": 0
+    },
+    "shell": {
+      "type": "int",
+      "initial": 0
+    },
+    "wick": {
+      "type": "int",
+      "initial": 0
+    },
+    "lantern": {
+      "type": "int",
+      "initial": 0
+    },
+    "done": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "点仓库内的木箱和挂钩"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "crate",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "hook",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "assemble",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "dock",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "light",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "return",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "shell",
+      "on": {
+        "type": "input.action",
+        "action": "crate",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/room"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/shell"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/lantern"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/shell",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "取得灯壳"
+        }
+      ]
+    },
+    {
+      "id": "wick",
+      "on": {
+        "type": "input.action",
+        "action": "hook",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/room"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/wick"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/lantern"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wick",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "取得灯芯"
+        }
+      ]
+    },
+    {
+      "id": "assemble",
+      "on": {
+        "type": "input.action",
+        "action": "assemble",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/shell"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/wick"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/shell",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/wick",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/lantern",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "航灯组装完成 · 前往码头"
+        }
+      ]
+    },
+    {
+      "id": "dock",
+      "on": {
+        "type": "input.action",
+        "action": "dock",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "码头航标需要一盏完整航灯"
+        }
+      ]
+    },
+    {
+      "id": "return",
+      "on": {
+        "type": "input.action",
+        "action": "return",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "返回旧仓"
+        }
+      ]
+    },
+    {
+      "id": "light",
+      "on": {
+        "type": "input.action",
+        "action": "light",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/room"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/lantern"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lantern",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "航标已点亮"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "cleared",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/done"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-crate",
+        "kind": "button",
+        "text": "1 打开木箱",
+        "bind": {
+          "action": "crate"
+        }
+      },
+      {
+        "id": "choice-hook",
+        "kind": "button",
+        "text": "2 检查挂钩",
+        "bind": {
+          "action": "hook"
+        }
+      },
+      {
+        "id": "choice-assemble",
+        "kind": "button",
+        "text": "3 组合航灯",
+        "bind": {
+          "action": "assemble"
+        }
+      },
+      {
+        "id": "choice-dock",
+        "kind": "button",
+        "text": "4 前往码头",
+        "bind": {
+          "action": "dock"
+        }
+      },
+      {
+        "id": "choice-light",
+        "kind": "button",
+        "text": "5 点亮航标",
+        "bind": {
+          "action": "light"
+        }
+      },
+      {
+        "id": "choice-return",
+        "kind": "button",
+        "text": "6 返回旧仓",
+        "bind": {
+          "action": "return"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "潮仓寻灯"
+          },
+          "fontSize": 0.62,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-room",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-room",
+          "kind": "text",
+          "at": [
+            -3,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "旧仓 0 · 码头 1"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "room",
+          "kind": "text",
+          "at": [
+            -3,
+            1.06
+          ],
+          "text": {
+            "state": "/room"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-shell",
+          "kind": "rect",
+          "at": [
+            0,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-shell",
+          "kind": "text",
+          "at": [
+            0,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "灯壳"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "shell",
+          "kind": "text",
+          "at": [
+            0,
+            1.06
+          ],
+          "text": {
+            "state": "/shell"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-wick",
+          "kind": "rect",
+          "at": [
+            3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-wick",
+          "kind": "text",
+          "at": [
+            3,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "灯芯"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "wick",
+          "kind": "text",
+          "at": [
+            3,
+            1.06
+          ],
+          "text": {
+            "state": "/wick"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-lantern",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.16999999999999993
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-lantern",
+          "kind": "text",
+          "at": [
+            -3,
+            0.2000000000000001
+          ],
+          "text": {
+            "literal": "航灯"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "lantern",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.3899999999999999
+          ],
+          "text": {
+            "state": "/lantern"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.73
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4E4BF"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

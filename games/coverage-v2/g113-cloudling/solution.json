@@ -1,0 +1,14 @@
+[
+  {
+    "action": "feed",
+    "ticks": 1
+  },
+  {
+    "action": "play",
+    "ticks": 1
+  },
+  {
+    "action": "feed",
+    "ticks": 1
+  }
+]

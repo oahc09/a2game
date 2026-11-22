@@ -1,0 +1,376 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-neon-backbeat",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.neon-backbeat",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "on-beat-full-combo",
+      "seed": 16122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 59
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/clock",
+          "equals": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/note0",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "f",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "f",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "f",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "f",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 29
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 8
+        },
+        {
+          "op": "assert",
+          "path": "/state/misses",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "early-late-and-miss-reset",
+      "seed": 16122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 55
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/note0",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 33
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 33
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "d",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/note2",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 156
+        },
+        {
+          "op": "assert",
+          "path": "/state/misses",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "inclusive-window",
+      "seed": 16122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "a",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/note0",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 35
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "s",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/note1",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

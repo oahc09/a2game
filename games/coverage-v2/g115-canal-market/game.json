@@ -1,0 +1,590 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.canal-market",
+  "revision": 1,
+  "meta": {
+    "title": "渠畔小铺 · 便利店",
+    "description": "进货花 2 枚，补货从后仓移到货架，收银出售一件货架商品。完成 4 笔交易后扩建。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "cash": {
+      "type": "int",
+      "initial": 4
+    },
+    "stock": {
+      "type": "int",
+      "initial": 0
+    },
+    "shelf": {
+      "type": "int",
+      "initial": 0
+    },
+    "sold": {
+      "type": "int",
+      "initial": 0
+    },
+    "expanded": {
+      "type": "bool",
+      "initial": false
+    },
+    "message": {
+      "type": "string",
+      "initial": "1 进货 · 2 上架 · 3 收银 · 4 扩建"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "order",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "display",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "checkout",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "expand",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "purchase",
+      "on": {
+        "type": "input.action",
+        "action": "order",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/cash"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/stock"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/cash",
+          "value": -2
+        },
+        {
+          "op": "state.add",
+          "path": "/stock",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "到货两件"
+        }
+      ]
+    },
+    {
+      "id": "stock-shelf",
+      "on": {
+        "type": "input.action",
+        "action": "display",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/stock"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/shelf"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/stock",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/shelf",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "货架补入一件"
+        }
+      ]
+    },
+    {
+      "id": "charge",
+      "on": {
+        "type": "input.action",
+        "action": "checkout",
+        "edge": "press"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/shelf"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/shelf",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/sold",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/cash",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "成交 · 收入 3 枚"
+        }
+      ]
+    },
+    {
+      "id": "grow",
+      "on": {
+        "type": "input.action",
+        "action": "expand",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/sold"
+              },
+              {
+                "const": 4
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/cash"
+              },
+              {
+                "const": 5
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/cash",
+          "value": -5
+        },
+        {
+          "op": "state.set",
+          "path": "/expanded",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "扩建完成"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "store-expanded",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/expanded"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "priority": 0
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-order",
+        "kind": "button",
+        "text": "1 进货",
+        "bind": {
+          "action": "order"
+        }
+      },
+      {
+        "id": "ui-display",
+        "kind": "button",
+        "text": "2 上架",
+        "bind": {
+          "action": "display"
+        }
+      },
+      {
+        "id": "ui-checkout",
+        "kind": "button",
+        "text": "3 收银",
+        "bind": {
+          "action": "checkout"
+        }
+      },
+      {
+        "id": "ui-expand",
+        "kind": "button",
+        "text": "4 扩建",
+        "bind": {
+          "action": "expand"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "渠畔小铺 · 便利店"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.32
+          ],
+          "size": [
+            9.1,
+            3.5
+          ],
+          "fill": "#254659"
+        },
+        {
+          "id": "cash-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "text": {
+            "literal": "现金"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "cash",
+          "kind": "text",
+          "at": [
+            -3,
+            0.93
+          ],
+          "text": {
+            "state": "/cash"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "stock-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "text": {
+            "literal": "后仓库存"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "stock",
+          "kind": "text",
+          "at": [
+            0,
+            0.93
+          ],
+          "text": {
+            "state": "/stock"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "shelf-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "text": {
+            "literal": "货架库存"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "shelf",
+          "kind": "text",
+          "at": [
+            3,
+            0.93
+          ],
+          "text": {
+            "state": "/shelf"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "sold-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "text": {
+            "literal": "成交笔数"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "sold",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.57
+          ],
+          "text": {
+            "state": "/sold"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.75
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#DAEDE5"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

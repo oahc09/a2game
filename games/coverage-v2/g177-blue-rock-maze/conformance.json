@@ -1,0 +1,290 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-blue-rock-maze",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.blue-rock-maze",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "bend-and-green-exit",
+      "seed": 17722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/x",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/state/z",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/lookX",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/state/lookZ",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "wall-blocked-first-person",
+      "seed": 17722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "forward",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/x",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/z",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/state/lookZ",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/message",
+          "equals": "岩壁挡住去路"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

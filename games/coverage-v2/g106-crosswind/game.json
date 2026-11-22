@@ -1,0 +1,774 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.crosswind-defense",
+  "revision": 1,
+  "meta": {
+    "title": "穿岚关 · 改道防守",
+    "description": "按 1、2、3 在中、上、下格建塔。敌军会沿还可通行的路线前进，建塔耗两枚资源。拦截两波敌军，守住唯一出口。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.cost",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.placement-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.range",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.reward",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-motif",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 10622,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "defense-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/defense",
+                "width": 5000,
+                "height": 3000,
+                "cost": 2,
+                "damage": 1,
+                "range": 1300,
+                "speed": 32,
+                "cooldownTicks": 12,
+                "maxTicks": 440,
+                "path": [
+                  {
+                    "x": 500,
+                    "y": 1500
+                  },
+                  {
+                    "x": 4500,
+                    "y": 1500
+                  }
+                ],
+                "cells": [
+                  {
+                    "x": 2500,
+                    "y": 1500
+                  },
+                  {
+                    "x": 2500,
+                    "y": 2500
+                  },
+                  {
+                    "x": 2500,
+                    "y": 500
+                  }
+                ],
+                "routeGrid": {
+                  "columns": 5,
+                  "rows": 3,
+                  "origin": {
+                    "x": 500,
+                    "y": 2500
+                  },
+                  "spacing": 1000
+                },
+                "waves": [
+                  {
+                    "tick": 90,
+                    "hp": 2,
+                    "reward": 1
+                  },
+                  {
+                    "tick": 155,
+                    "hp": 3,
+                    "reward": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "middle",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "upper",
+                    "kind": "place",
+                    "index": 1
+                  },
+                  {
+                    "action": "lower",
+                    "kind": "place",
+                    "index": 2
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "defense": {
+      "type": "object",
+      "initial": {
+        "wallet": 6,
+        "score": 0,
+        "lives": 1,
+        "nextId": 0,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false,
+        "route": [
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      }
+    },
+    "message": {
+      "type": "string",
+      "initial": "建塔改变敌人路线"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "middle",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "upper",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "lower",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "placed",
+      "on": {
+        "type": "defense.placed"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已建塔 · 通行路线重算"
+        }
+      ]
+    },
+    {
+      "id": "rejected",
+      "on": {
+        "type": "defense.invalid"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "放置被拒绝 · 资源未扣"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "breach",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "protected-exit",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "1 中格",
+        "bind": {
+          "action": "middle"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "2 上格",
+        "bind": {
+          "action": "upper"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "3 下格",
+        "bind": {
+          "action": "lower"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6,
+            4.1
+          ],
+          "fill": "#263F53"
+        },
+        {
+          "id": "cell-0",
+          "kind": "rect",
+          "at": [
+            -2,
+            1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-1",
+          "kind": "rect",
+          "at": [
+            -1,
+            1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-2",
+          "kind": "rect",
+          "at": [
+            0,
+            1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-3",
+          "kind": "rect",
+          "at": [
+            1,
+            1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-4",
+          "kind": "rect",
+          "at": [
+            2,
+            1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-5",
+          "kind": "rect",
+          "at": [
+            -2,
+            0
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-6",
+          "kind": "rect",
+          "at": [
+            -1,
+            0
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-7",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-8",
+          "kind": "rect",
+          "at": [
+            1,
+            0
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-9",
+          "kind": "rect",
+          "at": [
+            2,
+            0
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-10",
+          "kind": "rect",
+          "at": [
+            -2,
+            -1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-11",
+          "kind": "rect",
+          "at": [
+            -1,
+            -1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-12",
+          "kind": "rect",
+          "at": [
+            0,
+            -1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-13",
+          "kind": "rect",
+          "at": [
+            1,
+            -1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "cell-14",
+          "kind": "rect",
+          "at": [
+            2,
+            -1
+          ],
+          "size": [
+            0.94,
+            0.94
+          ],
+          "fill": "#355166"
+        },
+        {
+          "id": "gate",
+          "kind": "rect",
+          "at": [
+            -2,
+            0
+          ],
+          "size": [
+            0.85,
+            0.85
+          ],
+          "fill": "#6A6267"
+        },
+        {
+          "id": "exit",
+          "kind": "rect",
+          "at": [
+            2,
+            0
+          ],
+          "size": [
+            0.85,
+            0.85
+          ],
+          "fill": "#326E74"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.25
+          ],
+          "text": {
+            "literal": "穿岚关 · 改道防守"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFD497"
+        },
+        {
+          "id": "enter-label",
+          "kind": "text",
+          "at": [
+            -3.8,
+            0
+          ],
+          "text": {
+            "literal": "入口"
+          },
+          "fontSize": 0.39,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "exit-label",
+          "kind": "text",
+          "at": [
+            3.8,
+            0
+          ],
+          "text": {
+            "literal": "出口"
+          },
+          "fontSize": 0.39,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "wallet-label",
+          "kind": "text",
+          "at": [
+            -3.8,
+            1.55
+          ],
+          "text": {
+            "literal": "资源"
+          },
+          "fontSize": 0.34,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "wallet",
+          "kind": "text",
+          "at": [
+            -3.8,
+            0.99
+          ],
+          "text": {
+            "state": "/defense/wallet"
+          },
+          "fontSize": 0.46,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "lives-label",
+          "kind": "text",
+          "at": [
+            3.8,
+            1.55
+          ],
+          "text": {
+            "literal": "生命"
+          },
+          "fontSize": 0.34,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "lives",
+          "kind": "text",
+          "at": [
+            3.8,
+            0.99
+          ],
+          "text": {
+            "state": "/defense/lives"
+          },
+          "fontSize": 0.46,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.4,
+          "fill": "#FFE0A8"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.27
+          ],
+          "text": {
+            "literal": "1 中格  ·  2 上格  ·  3 下格"
+          },
+          "fontSize": 0.33,
+          "fill": "#AECDD9"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "route",
+          "source": {
+            "state": "/defense/route"
+          },
+          "columns": 5,
+          "origin": [
+            -2,
+            1
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "path",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.18,
+                0.18
+              ],
+              "fill": "#78CBB9"
+            }
+          ]
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -2.5,
+          -1.5
+        ],
+        "palette": {
+          "actor": "#FFCE82",
+          "target": "#F18A98",
+          "solid": "#344C66",
+          "projectile": "#FFDE86",
+          "pickup": "#8FD9C7"
+        },
+        "minValueBodySize": 0.43,
+        "showValues": true,
+        "minValueFontSize": 0.19,
+        "valuePalette": {
+          "2": "#EBC28D"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

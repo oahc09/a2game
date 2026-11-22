@@ -1,0 +1,588 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.rune-draw",
+  "revision": 1,
+  "meta": {
+    "title": "纹刃牌组",
+    "description": "1 拾取符文刃 · 2 装备 · 3 抽牌 · 4 出牌",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "loot": {
+      "type": "int",
+      "initial": 0
+    },
+    "affix": {
+      "type": "int",
+      "initial": 0
+    },
+    "hand": {
+      "type": "int",
+      "initial": 0
+    },
+    "energy": {
+      "type": "int",
+      "initial": 2
+    },
+    "hp": {
+      "type": "int",
+      "initial": 5
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "loot",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "equip",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "draw",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "play",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "loot",
+      "on": {
+        "type": "input.action",
+        "action": "loot",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/loot",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "equip",
+      "on": {
+        "type": "input.action",
+        "action": "equip",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/loot"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/affix",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "draw",
+      "on": {
+        "type": "input.action",
+        "action": "draw",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hand"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "play",
+      "on": {
+        "type": "input.action",
+        "action": "play",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hand"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/energy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/hp"
+                  },
+                  {
+                    "op": "add",
+                    "args": [
+                      {
+                        "const": 3
+                      },
+                      {
+                        "state": "/affix"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "clear",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-loot",
+        "kind": "button",
+        "text": "1 拾武器",
+        "bind": {
+          "action": "loot"
+        }
+      },
+      {
+        "id": "ui-equip",
+        "kind": "button",
+        "text": "2 装备",
+        "bind": {
+          "action": "equip"
+        }
+      },
+      {
+        "id": "ui-draw",
+        "kind": "button",
+        "text": "3 抽牌",
+        "bind": {
+          "action": "draw"
+        }
+      },
+      {
+        "id": "ui-play",
+        "kind": "button",
+        "text": "4 出牌",
+        "bind": {
+          "action": "play"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "纹刃牌组"
+          },
+          "fontSize": 0.62,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-loot",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "loot-title",
+          "kind": "text",
+          "at": [
+            -3,
+            1.52
+          ],
+          "text": {
+            "literal": "拾取武器"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "loot",
+          "kind": "text",
+          "at": [
+            -3,
+            0.99
+          ],
+          "text": {
+            "state": "/loot"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-affix",
+          "kind": "rect",
+          "at": [
+            0,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "affix-title",
+          "kind": "text",
+          "at": [
+            0,
+            1.52
+          ],
+          "text": {
+            "literal": "伤害词缀"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "affix",
+          "kind": "text",
+          "at": [
+            0,
+            0.99
+          ],
+          "text": {
+            "state": "/affix"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-hand",
+          "kind": "rect",
+          "at": [
+            3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "hand-title",
+          "kind": "text",
+          "at": [
+            3,
+            1.52
+          ],
+          "text": {
+            "literal": "手牌"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "hand",
+          "kind": "text",
+          "at": [
+            3,
+            0.99
+          ],
+          "text": {
+            "state": "/hand"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-energy",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "energy-title",
+          "kind": "text",
+          "at": [
+            -3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "能量"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "energy",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/energy"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-hp",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "hp-title",
+          "kind": "text",
+          "at": [
+            0,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "对手体力"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            0,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.72
+          ],
+          "text": {
+            "literal": "1 拾取符文刃 · 2 装备 · 3 抽牌 · 4 出牌"
+          },
+          "fontSize": 0.32,
+          "fill": "#F6DEAA"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

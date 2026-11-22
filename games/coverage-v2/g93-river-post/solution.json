@@ -1,0 +1,22 @@
+[
+  {
+    "action": "quest",
+    "ticks": 1
+  },
+  {
+    "action": "ferry",
+    "ticks": 1
+  },
+  {
+    "action": "hand",
+    "ticks": 1
+  },
+  {
+    "action": "gate",
+    "ticks": 1
+  },
+  {
+    "action": "final",
+    "ticks": 1
+  }
+]

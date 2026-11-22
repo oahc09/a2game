@@ -1,0 +1,114 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-bronze-parry",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.bronze-parry",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "defend-and-counter",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 21
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/guard",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "early-input-does-not-defend",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "parry",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

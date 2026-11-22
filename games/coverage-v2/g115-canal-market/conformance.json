@@ -1,0 +1,336 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-canal-market",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.canal-market",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "stock-to-checkout",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "expand",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "expand",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/sold",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/cash",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "empty-shelf-and-early-expand",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "checkout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "expand",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "expand",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cash",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/sold",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "full-shelf-keeps-backstock",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "display",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/stock",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/shelf",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/cash",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

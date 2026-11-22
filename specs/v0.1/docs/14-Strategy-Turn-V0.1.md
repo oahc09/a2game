@@ -1,5 +1,7 @@
 # Strategy / Economy / Turn Library 0.1.0
 
+格子战棋可用 `scoutAction` 声明一次侦察。首次侦察花费 1 行动点，之后 `visibleEnemy` 从空数组变为包含敌方格位的数组，供表现层绑定。侦察前的攻击保留行动点与手牌。
+
 本增量提供四个共享行为 Profile：`strategy.economy-loop`、`strategy.path-follow`、`turnbased.turn`、`turnbased.cards`。内部 service Manifest 描述成本、资源、库存、生产、收集、升级、解锁、商店、放置、路径、塔/范围、玩家顺序、合法落子、Deck/Hand 的消费关系；单独声明 service 不代表可以向 JSON 注入任意命令，也不代表完整 G21–G24 游戏通过。
 
 ## 经营与共享时间
@@ -27,3 +29,14 @@ H02 revision 3 将三消奖励、付费升级和真实角色攻击连接：T8 `s
 ## 2026-10-27 显式兼容增量
 
 G24 revision 3 将满盘 turn.draw 绑定到中立 stopped Outcome，胜者保持 0；HUD 明示和棋，终局不再接收落子。逐款附加场景覆盖竖向、两条斜线、满盘和棋，以及胜利与另一落子同 Tick 排队时忽略后续落子；基础正例继续覆盖横向。6×6 四连作者变体保持独立规则与第二位玩家获胜证据。
+
+`a2game.turnbased.turn` 可通过 `gravityDrop: true` 启用按列落子。`selectActions` 按从左到右的顺序为每列声明一个不同的动作，合法落子自动推进回合。被占用的列顶会拒绝落子，保留当前玩家和落子数。落子复用横、竖、双斜连线及和棋判定。省略 `gravityDrop` 时，`selectActions` 继续按格位解释。[G156 关卡与验收](../../../games/coverage-v2/g156-ember-connect/conformance.json)
+
+### 有界工厂产线
+
+`a2game.strategy.production-line` 连接有初始库存的供料机、有一种输入和一种输出的加工机，以及只接收物料的仓库。连线方向由机器索引决定，终点索引须大于起点索引；两端物料 ID 必须一致。每条连线由独立按钮切换。每隔 `intervalTicks`，共享 Tick 先按配置顺序为每条接通的连线转移最多一件现有库存，再由有空余出料容量的加工机完成一件一比一加工。满的接收缓冲区不会扣减上游库存。加工后的物料从下一次计划转移起可用。仓库以实际收货量达成目标，输入、输出及连线状态参与快照和 Hash。[G122 关卡与验收](../../../games/coverage-v2/g122-riverworks/conformance.json)
+## 格子战棋与夹击翻转
+
+`a2game.turnbased.grid-tactics@0.1.0` 在 2–12 行列的格网上维护双方位置、生命、行动点和回合。移动要求目标是相邻可通行空格；攻击要求敌人在相邻格，成功操作才消耗行动点。回合结束时邻格敌人反击，然后补足行动点。卡牌模式从共享 Deck/Hand 操作复用抽牌与弃牌，选择手牌后由方向 Action 指定目标，合法提交才移除手牌并扣除行动点。回合结束时最多补抽一张。[G97 正反例](../../../games/coverage-v2/g97-amber-crossing/conformance.json) · [H08 正反例](../../../games/coverage-v2/h08-wind-cards/conformance.json)
+
+`a2game.turnbased.disk-flip@0.1.0` 在 3–8 行列的棋盘检查八向夹击。只有能翻转至少一枚对手棋子的落子才更新棋盘与回合。对手无合法着法时自动跳过，双方均无着法时冻结盘面并按黑白计数结算，平局允许绑定 `stopped`。[G155 正反例](../../../games/coverage-v2/g155-monsoon-disks/conformance.json)

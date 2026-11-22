@@ -1,0 +1,948 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.tidal-kitchen",
+  "revision": 1,
+  "meta": {
+    "title": "潮湾小灶 · 午市",
+    "description": "按 O 接单、1 选蘑菇汤、2 选海盐饭、C 开煮、S 上菜。按单出餐，送错或超时扣口碑。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 11422,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "order": {
+      "type": "int",
+      "initial": 1
+    },
+    "stage": {
+      "type": "int",
+      "initial": 0
+    },
+    "recipe": {
+      "type": "int",
+      "initial": 0
+    },
+    "dish": {
+      "type": "int",
+      "initial": 0
+    },
+    "served": {
+      "type": "int",
+      "initial": 0
+    },
+    "reputation": {
+      "type": "int",
+      "initial": 2
+    },
+    "deadline": {
+      "type": "int",
+      "initial": 0
+    },
+    "readyAt": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "接单后开始计时"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "order",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyO",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "soup",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "rice",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "cook",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyC",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "serve",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "take-order",
+      "on": {
+        "type": "input.action",
+        "action": "order",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/stage"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/recipe",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/deadline",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 85
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已接单 · 点选食材"
+        }
+      ]
+    },
+    {
+      "id": "select-soup",
+      "on": {
+        "type": "input.action",
+        "action": "soup",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/recipe",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "选中蘑菇汤"
+        }
+      ]
+    },
+    {
+      "id": "select-rice",
+      "on": {
+        "type": "input.action",
+        "action": "rice",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/recipe",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "选中海盐饭"
+        }
+      ]
+    },
+    {
+      "id": "prepare",
+      "on": {
+        "type": "input.action",
+        "action": "cook",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/stage"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/deadline"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/recipe"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/dish",
+          "value": {
+            "state": "/recipe"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/readyAt",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 24
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "烹饪中 · 24 Tick"
+        }
+      ]
+    },
+    {
+      "id": "dish-ready",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/readyAt"
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "出锅 · 按 S 上菜"
+        }
+      ]
+    },
+    {
+      "id": "serve-order",
+      "on": {
+        "type": "input.action",
+        "action": "serve",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/stage"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/deadline"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/dish"
+              },
+              {
+                "state": "/order"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/served",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/served"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/order",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "送餐正确 · 口碑保留"
+        }
+      ]
+    },
+    {
+      "id": "serve-wrong",
+      "on": {
+        "type": "input.action",
+        "action": "serve",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/stage"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/deadline"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "ne",
+            "args": [
+              {
+                "state": "/dish"
+              },
+              {
+                "state": "/order"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/reputation",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/reputation"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "送错菜 · 口碑 −1"
+        }
+      ]
+    },
+    {
+      "id": "expired",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/reputation",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/reputation"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "订单超时 · 口碑 −1"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "closed",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/reputation"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "service-complete",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/served"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "O 接单",
+        "bind": {
+          "action": "order"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "1 蘑菇汤",
+        "bind": {
+          "action": "soup"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "2 海盐饭",
+        "bind": {
+          "action": "rice"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "C 烹饪",
+        "bind": {
+          "action": "cook"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "S 上菜",
+        "bind": {
+          "action": "serve"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "潮湾小灶 · 午市"
+          },
+          "fontSize": 0.58,
+          "fill": "#F7DEB1"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.2
+          ],
+          "size": [
+            8.9,
+            4.15
+          ],
+          "fill": "#284859"
+        },
+        {
+          "id": "order-label",
+          "kind": "text",
+          "at": [
+            -2.75,
+            1.22
+          ],
+          "text": {
+            "literal": "订单编号"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "order-readout",
+          "kind": "text",
+          "at": [
+            -2.75,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/order"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "served-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.22
+          ],
+          "text": {
+            "literal": "送餐完成"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "served-readout",
+          "kind": "text",
+          "at": [
+            0,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/served"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "reputation-label",
+          "kind": "text",
+          "at": [
+            2.75,
+            1.22
+          ],
+          "text": {
+            "literal": "剩余口碑"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "reputation-readout",
+          "kind": "text",
+          "at": [
+            2.75,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/reputation"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "menu",
+          "kind": "text",
+          "at": [
+            0,
+            -1
+          ],
+          "text": {
+            "literal": "1 蘑菇汤  ·  2 海盐饭"
+          },
+          "fontSize": 0.43,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.75
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DEAD"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,142 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-copper-gauntlet",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.copper-gauntlet",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "preserve-ammo-between-bosses",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/stage",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/ammo",
+          "equals": 2
+        },
+        {
+          "op": "step",
+          "ticks": 48
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ],
+      "seed": 73022
+    },
+    {
+      "id": "wasted-shot-prevents-clear",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "step",
+          "ticks": 36
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ],
+      "seed": 73022
+    }
+  ]
+}

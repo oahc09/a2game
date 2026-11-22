@@ -1,0 +1,255 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ash-bridge",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ash-bridge",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "wall-blocks-sight-then-exit",
+      "seed": 16922,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/state/alert",
+          "equals": false
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "guard-detects",
+      "seed": 16922,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell",
+          "equals": 9
+        },
+        {
+          "op": "assert",
+          "path": "/state/alert",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "patrol-follows-clock",
+      "seed": 16922,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 18
+        },
+        {
+          "op": "assert",
+          "path": "/state/guard",
+          "equals": 10
+        },
+        {
+          "op": "step",
+          "ticks": 18
+        },
+        {
+          "op": "assert",
+          "path": "/state/guard",
+          "equals": 11
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

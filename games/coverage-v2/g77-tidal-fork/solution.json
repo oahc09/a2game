@@ -1,0 +1,14 @@
+[
+  {
+    "action": "cave",
+    "ticks": 1
+  },
+  {
+    "action": "trade",
+    "ticks": 1
+  },
+  {
+    "action": "exit",
+    "ticks": 1
+  }
+]

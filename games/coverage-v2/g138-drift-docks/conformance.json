@@ -1,0 +1,388 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-drift-docks",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.drift-docks",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "two-laps-retain-best",
+      "seed": 13722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "ShiftLeft"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/driftScore",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 6
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "ShiftLeft"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 26
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 2
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 3
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/laps",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/best",
+          "equals": 166
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "injectAction",
+          "action": "next-lap",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "next-lap",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/best",
+          "equals": 166
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "ShiftLeft"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/driftScore",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/combo",
+          "equals": 6
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "ShiftLeft"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 26
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 2
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 3
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/laps",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/best",
+          "equals": 166
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "finish-shortcut-invalid",
+      "seed": 13722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/lap",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

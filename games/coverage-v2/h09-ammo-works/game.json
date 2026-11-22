@@ -1,0 +1,701 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.ammo-works",
+  "revision": 1,
+  "meta": {
+    "title": "潮铁前线 · 塔防供弹",
+    "description": "用 1、2 建塔，F 接通供料、S 接通出货。加工出的弹药进入前线仓，炮塔只有获得弹药才能开火。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.cost",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.placement-grid",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.range",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.reward",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower-defense",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.tower",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-motif",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.production-line",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 10710,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.tower-defense",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/defense",
+                "width": 5000,
+                "height": 3000,
+                "cost": 2,
+                "damage": 2,
+                "range": 3000,
+                "speed": 8,
+                "cooldownTicks": 8,
+                "maxTicks": 400,
+                "path": [
+                  {
+                    "x": 600,
+                    "y": 1500
+                  },
+                  {
+                    "x": 4600,
+                    "y": 1500
+                  }
+                ],
+                "cells": [
+                  {
+                    "x": 2300,
+                    "y": 2300
+                  },
+                  {
+                    "x": 2600,
+                    "y": 1800
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 32,
+                    "hp": 8,
+                    "reward": 2
+                  }
+                ],
+                "actions": [
+                  {
+                    "action": "left",
+                    "kind": "place",
+                    "index": 0
+                  },
+                  {
+                    "action": "right",
+                    "kind": "place",
+                    "index": 1
+                  }
+                ],
+                "ammo": {
+                  "linePath": "/line",
+                  "warehouse": 3
+                }
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.strategy.production-line",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/line",
+                "intervalTicks": 20,
+                "machines": [
+                  {
+                    "output": "ore",
+                    "capacity": 8
+                  },
+                  {
+                    "input": "ore",
+                    "output": "parts",
+                    "capacity": 2
+                  },
+                  {
+                    "input": "parts",
+                    "capacity": 8
+                  },
+                  {
+                    "input": "parts",
+                    "capacity": 5
+                  }
+                ],
+                "links": [
+                  {
+                    "from": 0,
+                    "to": 1,
+                    "action": "feed"
+                  },
+                  {
+                    "from": 1,
+                    "to": 3,
+                    "action": "ship"
+                  }
+                ],
+                "goalMachine": 2,
+                "goalUnits": 8
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "defense": {
+      "type": "object",
+      "initial": {
+        "wallet": 4,
+        "score": 0,
+        "lives": 1,
+        "nextId": 0,
+        "selected": -1,
+        "waveCursor": 0,
+        "towers": [],
+        "weapons": [],
+        "enemies": [],
+        "bodies": [],
+        "shots": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "line": {
+      "type": "object",
+      "initial": {
+        "inputs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "outputs": [
+          8,
+          0,
+          0,
+          0
+        ],
+        "connected": [
+          false,
+          false
+        ],
+        "won": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "feed",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "ship",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "breach",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "protected-exit",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/defense/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "1 建左塔",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "2 建右塔",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "feed",
+        "kind": "button",
+        "text": "F 供料",
+        "bind": {
+          "action": "feed"
+        }
+      },
+      {
+        "id": "ship",
+        "kind": "button",
+        "text": "S 出货",
+        "bind": {
+          "action": "ship"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#142331",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.33
+          ],
+          "text": {
+            "literal": "潮铁前线 · 塔防供弹"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            7.1,
+            3.6
+          ],
+          "fill": "#253D50"
+        },
+        {
+          "id": "path",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            4.5,
+            0.38
+          ],
+          "fill": "#486576"
+        },
+        {
+          "id": "site-1",
+          "kind": "rect",
+          "at": [
+            -0.2,
+            0.8
+          ],
+          "size": [
+            0.64,
+            0.62
+          ],
+          "fill": "#3C5B70"
+        },
+        {
+          "id": "site-2",
+          "kind": "rect",
+          "at": [
+            0.1,
+            0.3
+          ],
+          "size": [
+            0.64,
+            0.37
+          ],
+          "fill": "#3C5B70"
+        },
+        {
+          "id": "left-label",
+          "kind": "text",
+          "at": [
+            -0.2,
+            1.32
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "right-label",
+          "kind": "text",
+          "at": [
+            0.61,
+            0.34
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "entry",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "text": {
+            "literal": "入口"
+          },
+          "fontSize": 0.39,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "exit",
+          "kind": "text",
+          "at": [
+            3,
+            0
+          ],
+          "text": {
+            "literal": "关口"
+          },
+          "fontSize": 0.39,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "funds-label",
+          "kind": "text",
+          "at": [
+            -2.98,
+            2.24
+          ],
+          "text": {
+            "literal": "建造资源"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "wallet",
+          "kind": "text",
+          "at": [
+            -1.64,
+            2.24
+          ],
+          "text": {
+            "state": "/defense/wallet"
+          },
+          "fontSize": 0.44,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.2
+          ],
+          "text": {
+            "literal": "1、2 建塔 · F 供料 · S 出货"
+          },
+          "fontSize": 0.4,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "ore-label",
+          "kind": "text",
+          "at": [
+            -2.8,
+            -2.73
+          ],
+          "text": {
+            "literal": "原料"
+          },
+          "fontSize": 0.31,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "ore",
+          "kind": "text",
+          "at": [
+            -2.8,
+            -3.28
+          ],
+          "text": {
+            "state": "/line/outputs/0"
+          },
+          "fontSize": 0.42,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "factory-label",
+          "kind": "text",
+          "at": [
+            0,
+            -2.73
+          ],
+          "text": {
+            "literal": "加工缓冲"
+          },
+          "fontSize": 0.31,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "factory",
+          "kind": "text",
+          "at": [
+            0,
+            -3.28
+          ],
+          "text": {
+            "state": "/line/outputs/1"
+          },
+          "fontSize": 0.42,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "ammo-label",
+          "kind": "text",
+          "at": [
+            2.8,
+            -2.73
+          ],
+          "text": {
+            "literal": "前线弹药"
+          },
+          "fontSize": 0.31,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "ammo",
+          "kind": "text",
+          "at": [
+            2.8,
+            -3.28
+          ],
+          "text": {
+            "state": "/line/inputs/3"
+          },
+          "fontSize": 0.42,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "belt-feed",
+          "kind": "rect",
+          "at": [
+            -1.5,
+            -2.9
+          ],
+          "size": [
+            0.8,
+            0.14
+          ],
+          "fill": {
+            "from": {
+              "state": "/line/connected/0"
+            },
+            "map": {
+              "true": "#67DBB8",
+              "false": "#4C5764"
+            },
+            "fallback": "#4C5764"
+          }
+        },
+        {
+          "id": "belt-ship",
+          "kind": "rect",
+          "at": [
+            1.5,
+            -2.9
+          ],
+          "size": [
+            0.8,
+            0.14
+          ],
+          "fill": {
+            "from": {
+              "state": "/line/connected/1"
+            },
+            "map": {
+              "true": "#67DBB8",
+              "false": "#4C5764"
+            },
+            "fallback": "#4C5764"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/defense/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -2.5,
+          -1.5
+        ],
+        "palette": {
+          "actor": "#FFCE82",
+          "target": "#F18A98",
+          "solid": "#344C66",
+          "projectile": "#FFDE86",
+          "pickup": "#8FD9C7"
+        },
+        "minValueBodySize": 0.43,
+        "showValues": true,
+        "minValueFontSize": 0.19,
+        "valuePalette": {
+          "2": "#EBC28D"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

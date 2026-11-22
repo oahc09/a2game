@@ -61,14 +61,20 @@ export function simulatePath(ctx:ModuleContext):ModuleResult{
  return result;
 }
 function checkTurn(s:JsonRecord,c:Readonly<JsonRecord>):void{
- if(!integer(c.width,1,19)||!integer(c.height,1,19)||!integer(c.players,2,4)||!integer(c.winLength,2,19)||!numbers(s.board,361)||s.board.length!==Number(c.width)*Number(c.height)||s.board.some(n=>n>Number(c.players))||!integer(s.player,1,Number(c.players))||!integer(s.moves,0,1000000)||!integer(s.winner,0,Number(c.players))||typeof s.draw!=='boolean'||!Array.isArray(c.selectActions)||c.selectActions.length!==s.board.length)error('Invalid turn board/config');
+ if(!integer(c.width,1,19)||!integer(c.height,1,19)||!integer(c.players,2,4)||!integer(c.winLength,2,19)||!numbers(s.board,361)||s.board.length!==Number(c.width)*Number(c.height)||s.board.some(n=>n>Number(c.players))||!integer(s.player,1,Number(c.players))||!integer(s.moves,0,1000000)||!integer(s.winner,0,Number(c.players))||typeof s.draw!=='boolean'||!Array.isArray(c.selectActions)||c.selectActions.length!==(c.gravityDrop===true?c.width:s.board.length))error('Invalid turn board/config');
+ if(c.gravityDrop===true&&(c.endTurnAction!==undefined||new Set(c.selectActions).size!==c.width))error('Gravity drop requires distinct column actions and automatic turns');
+ const board=s.board;
+ if(c.gravityDrop===true&&board.some((piece,index)=>piece!==0&&board[index+Number(c.width)]===0))error('Gravity board contains an unsupported piece');
 }
 export function simulateTurn(ctx:ModuleContext):ModuleResult{
  const s=state(ctx),c=ctx.config;checkTurn(s,c);const board=s.board as number[],events:NonNullable<ModuleResult['events']>=[],width=Number(c.width),height=Number(c.height);
  for(const input of inputs(ctx)){
-  if(s.winner!==0||s.draw)break;const index=(c.selectActions as string[]).indexOf(input.action??'');
+  if(s.winner!==0||s.draw)break;const selection=(c.selectActions as string[]).indexOf(input.action??'');
   if(input.action===c.endTurnAction){s.player=Number(s.player)%Number(c.players)+1;events.push({type:'turn.changed',payload:{player:s.player}});continue;}
-  if(index<0)continue;if(board[index]!==0){events.push({type:'turn.invalid',payload:{index}});continue;}
+  if(selection<0)continue;
+  let index=selection;
+  if(board[index]!==0){events.push({type:'turn.invalid',payload:{index}});continue;}
+  if(c.gravityDrop===true)while(index+width<board.length&&board[index+width]===0)index+=width;
   board[index]=Number(s.player);s.moves=Number(s.moves)+1;
   for(const [dx,dy] of [[1,0],[0,1],[1,1],[1,-1]]){let count=1;for(const direction of [-1,1]){let x=index%width+dx!*direction,y=Math.floor(index/width)+dy!*direction;while(x>=0&&x<width&&y>=0&&y<height&&board[y*width+x]===s.player){count++;x+=dx!*direction;y+=dy!*direction;}}if(count>=Number(c.winLength))s.winner=s.player;}
   s.draw=s.winner===0&&board.every(n=>n!==0);if(s.winner===0&&!s.draw)s.player=Number(s.player)%Number(c.players)+1;
@@ -79,12 +85,22 @@ export function simulateTurn(ctx:ModuleContext):ModuleResult{
 function checkCards(s:JsonRecord,c:Readonly<JsonRecord>):void{
  if(!numbers(s.deck,128)||!numbers(s.hand,32)||!numbers(s.discard,128)||s.deck.length+s.hand.length+s.discard.length>128||!integer(c.maxHand,1,32)||s.hand.length>Number(c.maxHand)||!Array.isArray(c.playActions)||c.playActions.length<Number(c.maxHand)||typeof s.initialized!=='boolean'||!integer(s.score,0,1000000000)||typeof s.won!=='boolean')error('Invalid deck/hand state');
 }
+export function drawCard(deck:number[],hand:number[],maxHand:number):boolean{
+ if(hand.length>=maxHand||deck.length===0)return false;
+ hand.push(deck.shift()!);
+ return true;
+}
+export function discardCard(hand:number[],discard:number[],index:number):number{
+ const card=hand.splice(index,1)[0]!;
+ discard.push(card);
+ return card;
+}
 export function simulateCards(ctx:ModuleContext):ModuleResult{
  const s=state(ctx),c=ctx.config;checkCards(s,c);const deck=s.deck as number[],hand=s.hand as number[],discard=s.discard as number[],events:NonNullable<ModuleResult['events']>=[];
  if(!s.initialized){if(c.shuffle===true)for(let i=deck.length-1;i>0;i--){const j=ctx.rng.randomInt(0,i);[deck[i],deck[j]]=[deck[j]!,deck[i]!];}s.initialized=true;}
  for(const input of inputs(ctx)){
-  if(input.action===c.drawAction){if(hand.length<Number(c.maxHand)&&deck.length){hand.push(deck.shift()!);events.push({type:'cards.drawn',payload:{count:hand.length}});}continue;}
-  const index=(c.playActions as string[]).indexOf(input.action??'');if(index>=0&&index<hand.length){const card=hand.splice(index,1)[0]!;discard.push(card);s.score=Number(s.score)+card;events.push({type:'cards.played',payload:{card}});}
+  if(input.action===c.drawAction){if(drawCard(deck,hand,Number(c.maxHand)))events.push({type:'cards.drawn',payload:{count:hand.length}});continue;}
+  const index=(c.playActions as string[]).indexOf(input.action??'');if(index>=0&&index<hand.length){const card=discardCard(hand,discard,index);s.score=Number(s.score)+card;events.push({type:'cards.played',payload:{card}});}
  }
  s.won=c.goalScore!==undefined&&Number(s.score)>=Number(c.goalScore);checkCards(s,c);return output(ctx,s,events);
 }
@@ -99,6 +115,6 @@ export function validateStrategyDefinition(def:GameDefinition):void{
    const world=readPointer(initial,String(c.worldPath));if(!isRecord(world)||!Array.isArray(world.bodies)||!world.bodies.some(b=>isRecord(b)&&b.id===c.bodyId))error('Path binding references an unknown body');
   }
   const names=component.capability.id.endsWith('economy-loop')?(c.actions as JsonRecord[]).map(row=>row.action):component.capability.id.endsWith('path-follow')?[]:component.capability.id.endsWith('.cards')?[c.drawAction,...c.playActions as Json[]]:[...c.selectActions as Json[],...(c.endTurnAction?[c.endTurnAction]:[])];
-  if(names.some(name=>!def.inputs.actions.some(action=>action.id===name)))error('Unknown strategy action');
+  if(names.some(name=>!def.inputs.actions.some(action=>action.id===name&&(c.gravityDrop!==true||action.valueType==='button'))))error('Unknown strategy action');
  }
 }

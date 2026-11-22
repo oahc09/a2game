@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "kind": "presentation",
   "portability": "host-defined",
-  "description": "Capability-gated numeric-pointer-v1 bindings for nested numeric positions, rotations and size; affine scale/offset only, pure projection.",
+  "description": "Capability-gated numeric-pointer-v1 bindings for nested numeric node transforms, camera positions and targets; affine scale/offset only, pure projection.",
   "phase": "present",
   "dependencies": [
     {

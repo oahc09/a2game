@@ -1,0 +1,46 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 6
+  },
+  {
+    "action": "jump",
+    "ticks": 13
+  },
+  {
+    "action": "jump",
+    "ticks": 6
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 105
+  }
+]

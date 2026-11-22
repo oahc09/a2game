@@ -1,0 +1,658 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.copper-mine",
+  "revision": 1,
+  "meta": {
+    "title": "铜脉工坊",
+    "description": "1 采矿 · 2 冶炼 · 3 用两锭升级 · 再采一铲",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "ore": {
+      "type": "int",
+      "initial": 0
+    },
+    "bars": {
+      "type": "int",
+      "initial": 0
+    },
+    "grade": {
+      "type": "int",
+      "initial": 1
+    },
+    "ready": {
+      "type": "int",
+      "initial": 0
+    },
+    "busy": {
+      "type": "bool",
+      "initial": false
+    },
+    "goal": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "mine",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "smelt",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "mine-goal",
+      "on": {
+        "type": "input.action",
+        "action": "mine",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/grade"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/goal",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "extract",
+      "on": {
+        "type": "input.action",
+        "action": "mine",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/ore"
+          },
+          {
+            "const": 8
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": {
+            "state": "/grade"
+          }
+        }
+      ]
+    },
+    {
+      "id": "load-furnace",
+      "on": {
+        "type": "input.action",
+        "action": "smelt",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ore"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/busy"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ore",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/busy",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/ready",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "pour",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/busy"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/ready"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/busy",
+          "value": false
+        },
+        {
+          "op": "state.add",
+          "path": "/bars",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "fit-tools",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/grade"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/bars"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/bars",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/grade",
+          "value": 2
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "improved-yield",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/goal"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "priority": 0
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-mine",
+        "kind": "button",
+        "text": "1 采矿",
+        "bind": {
+          "action": "mine"
+        }
+      },
+      {
+        "id": "ui-smelt",
+        "kind": "button",
+        "text": "2 冶炼",
+        "bind": {
+          "action": "smelt"
+        }
+      },
+      {
+        "id": "ui-upgrade",
+        "kind": "button",
+        "text": "3 升级",
+        "bind": {
+          "action": "upgrade"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.2
+          ],
+          "text": {
+            "literal": "铜脉工坊"
+          },
+          "fontSize": 0.58,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-ore",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-ore",
+          "kind": "text",
+          "at": [
+            -3,
+            1.71
+          ],
+          "text": {
+            "literal": "矿石"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "ore",
+          "kind": "text",
+          "at": [
+            -3,
+            1.09
+          ],
+          "text": {
+            "state": "/ore"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-bars",
+          "kind": "rect",
+          "at": [
+            0,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-bars",
+          "kind": "text",
+          "at": [
+            0,
+            1.71
+          ],
+          "text": {
+            "literal": "铜锭"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "bars",
+          "kind": "text",
+          "at": [
+            0,
+            1.09
+          ],
+          "text": {
+            "state": "/bars"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-grade",
+          "kind": "rect",
+          "at": [
+            3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-grade",
+          "kind": "text",
+          "at": [
+            3,
+            1.71
+          ],
+          "text": {
+            "literal": "采矿等级"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "grade",
+          "kind": "text",
+          "at": [
+            3,
+            1.09
+          ],
+          "text": {
+            "state": "/grade"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-clock",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.27
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-clock",
+          "kind": "text",
+          "at": [
+            -3,
+            0.16
+          ],
+          "text": {
+            "literal": "当前 Tick"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.46
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-ready",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.27
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-ready",
+          "kind": "text",
+          "at": [
+            0,
+            0.16
+          ],
+          "text": {
+            "literal": "冶炼完成 Tick"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "ready",
+          "kind": "text",
+          "at": [
+            0,
+            -0.46
+          ],
+          "text": {
+            "state": "/ready"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -2.9
+          ],
+          "text": {
+            "literal": "1 采矿 · 2 冶炼 · 3 用两锭升级 · 再采一铲"
+          },
+          "fontSize": 0.32,
+          "fill": "#D5E8E4"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

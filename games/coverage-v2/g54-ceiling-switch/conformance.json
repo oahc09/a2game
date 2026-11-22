@@ -1,0 +1,68 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ceiling-switch",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ceiling-switch",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "ceiling-contact",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "switch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "switch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 85
+        },
+        {
+          "op": "assert",
+          "path": "/state/inverted",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "floor-cannot-complete",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/inverted",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

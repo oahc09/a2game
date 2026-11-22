@@ -1,0 +1,120 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-signal-workbench",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.signal-workbench",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "network-reaches-target",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "source",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "source",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "bridge",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bridge",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/driven",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "broken-network-does-not-actuate",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "interlock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "interlock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "source",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "source",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "bridge",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bridge",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/driven",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

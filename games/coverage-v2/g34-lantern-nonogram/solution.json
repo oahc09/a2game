@@ -1,0 +1,22 @@
+[
+  {
+    "action": "flip1",
+    "ticks": 1
+  },
+  {
+    "action": "flip3",
+    "ticks": 1
+  },
+  {
+    "action": "flip4",
+    "ticks": 1
+  },
+  {
+    "action": "flip5",
+    "ticks": 1
+  },
+  {
+    "action": "flip7",
+    "ticks": 1
+  }
+]

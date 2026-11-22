@@ -1,0 +1,317 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-lantern-minefield",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.lantern-minefield",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "protected-first-and-clear",
+      "seed": 35022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/tiles/0",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/revealed",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flag",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flag",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flag",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flag",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/tiles/7",
+          "equals": -1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell10",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell10",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/revealed",
+          "equals": 13
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "later-mine-trigger",
+      "seed": 35022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell5",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell5",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/tiles/5",
+          "equals": 9
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

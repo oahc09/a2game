@@ -12,7 +12,7 @@ export interface WorldBody {
 export interface IntegerWorld {
     bodies:WorldBody[]; score:number; charge:number; nextId:number;
     cooldowns:Record<string,number>; contacts:string[]; spawned:number[];
-    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number;
+    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number; airJumpUsed?:boolean;
 }
 function err(why:string):never { return fail('A2G_E_CAP_CONFIG',why); }
 const integer=(value:unknown,min:number,max:number):value is number=>safeInteger(value)&&value>=min&&value<=max;
@@ -51,6 +51,11 @@ function validateConfig(c:Readonly<JsonRecord>):void {
     for(const [key,[min,max]] of Object.entries(ranges))if(c[key]!==undefined&&!integer(c[key],min,max))err('Invalid world '+key);
     if(c.actions!==undefined&&!isRecord(c.actions))err('Invalid world actions');
     if(c.platformLanding!==undefined&&typeof c.platformLanding!=='boolean')err('Invalid platform landing mode');
+    if(c.projectileGate!==undefined){
+        const gate=c.projectileGate;
+        if(!isRecord(gate)||!integer(gate.minX,0,Number(c.width))||!integer(gate.maxX,1,Number(c.width))||
+            gate.minX>=gate.maxX||!integer(gate.y,16,Number(c.height)-16)||c.weapon!=='projectile')err('Invalid descending projectile gate');
+    }
     if(c.laneCenters!==undefined){
         if(!Array.isArray(c.laneCenters)||c.laneCenters.length<2||c.laneCenters.length>16||c.laneCenters.some((x,i,a)=>!integer(x,16,32000)||i>0&&Number(a[i-1])>=x))err('Invalid ordered lane centers');
         const laneActions=isRecord(c.actions)?c.actions:{};
@@ -73,7 +78,19 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const w=clone(validateWorldState(raw,c,admittedTargets)),events:NonNullable<ModuleResult['events']>=[],emit=(type:string,payload:JsonRecord)=>events.push({type,payload});
     const maximum=Number(c.maxObjects??128),actions=(c.actions??{}) as JsonRecord,actor=w.bodies.find(b=>b.kind==='actor'&&b.hp>0),dead=new Set<string>(),damageLedger=new Set<string>();
     const bound=(key:string)=>readPointer(ctx.world.state,String(c[key]));
+    const inverted=c.gravityFlipPath?bound('gravityFlipPath'):false;
+    if(typeof inverted!=='boolean')err('Invalid gravity flip binding');
+    const gravity=Number(c.gravity??0)*(inverted?-1:1);
+    if(isRecord(c.lift)){
+        const lift=c.lift, enabled=readPointer(ctx.world.state,String(lift.enabledPath));
+        const platform=w.bodies.find(body=>body.id===lift.body&&body.kind==='solid'&&body.fixed);
+        if(typeof enabled!=='boolean'||!platform||!integer(lift.restY,platform.hy,Number(c.height)-platform.hy)||!integer(lift.raisedY,platform.hy,Number(c.height)-platform.hy))err('Invalid lift binding');
+        platform.y=enabled?Number(lift.raisedY):Number(lift.restY);
+    }
     const bonus=c.damageBonusPath?bound('damageBonusPath'):0;if(!integer(bonus,0,1000))err('Invalid bound damage bonus');const damageValue=Math.min(1000,Number(c.damage??1)+bonus);
+    const speedBonus=c.moveSpeedBonusPath?bound('moveSpeedBonusPath'):0;
+    if(!integer(speedBonus,0,128))err('Invalid bound movement bonus');
+    const moveSpeed=Math.min(128,Number(c.moveSpeed??64)+speedBonus);
     const requested=c.fireRequestPath?bound('fireRequestPath'):false;if(typeof requested!=='boolean')err('Invalid fire request');
     const laneRequest=c.laneRequestPath?bound('laneRequestPath'):0;if(!integer(laneRequest,-1,1))err('Invalid lane request');
     const tilt=c.tiltGravityPath?bound('tiltGravityPath'):[0,0];if(!Array.isArray(tilt)||tilt.length!==2||!tilt.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=1))err('Invalid tilt gravity');
@@ -92,22 +109,47 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     }
     let selectedLane:number|undefined;const centers=c.laneCenters as number[]|undefined;
     if(actor){
-        if(c.heldMovement===true){actor.vx=0;actor.vy=0;
+        if(c.heldMovement===true){
+            const oldVx=actor.vx,oldVy=actor.vy;
             const active=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&(e.edge==='press'||e.edge==='hold'));
-            actor.vx=((active('right')?1:0)-(active('left')?1:0))*Number(c.moveSpeed??64);
-            actor.vy=((active('up')?1:0)-(active('down')?1:0))*Number(c.moveSpeed??64);
+            actor.vx=((active('right')?1:0)-(active('left')?1:0))*moveSpeed;
+            actor.vy=((active('up')?1:0)-(active('down')?1:0))*moveSpeed;
+            if(c.driftAction&&ctx.inputs.some(e=>e.type==='input.action'&&e.action===c.driftAction&&(e.edge==='press'||e.edge==='hold'))){
+                actor.vx=Math.trunc((oldVx*3+actor.vx)/4);
+                actor.vy=Math.trunc((oldVy*3+actor.vy)/4);
+                if(Math.abs(actor.vx)>=16&&Math.abs(actor.vy)>=16)emit('realtime.drift',{id:actor.id});
+            }
         }
-        if(c.heldMovement!==true){if(press('left'))actor.vx=-Number(c.moveSpeed??64);if(press('right'))actor.vx=Number(c.moveSpeed??64);}
-        if(ended('left')&&actor.vx<0||ended('right')&&actor.vx>0)actor.vx=0;
-        if(c.heldMovement!==true){if(press('up'))actor.vy=Number(c.moveSpeed??64);if(press('down'))actor.vy=-Number(c.moveSpeed??64);}
-        if(ended('up')&&actor.vy>0||ended('down')&&actor.vy<0)actor.vy=0;
+        if(c.heldMovement!==true){if(press('left'))actor.vx=-moveSpeed;if(press('right'))actor.vx=moveSpeed;}
+        if(!c.driftAction&&(ended('left')&&actor.vx<0||ended('right')&&actor.vx>0))actor.vx=0;
+        if(c.heldMovement!==true){if(press('up'))actor.vy=moveSpeed;if(press('down'))actor.vy=-moveSpeed;}
+        if(!c.driftAction&&(ended('up')&&actor.vy>0||ended('down')&&actor.vy<0))actor.vy=0;
         const lane=clamp((press('laneRight')?1:0)-(press('laneLeft')?1:0)+laneRequest,-1,1);
         if(centers){const nearest=centers.reduce((best,x,i)=>Math.abs(x-actor.x)<Math.abs(centers[best]!-actor.x)?i:best,0);selectedLane=clamp(nearest+lane,0,centers.length-1);actor.x=centers[selectedLane]!;actor.vx=0;}
         else if(lane)actor.x=clamp(actor.x+lane*Number(c.laneWidth??1000),actor.hx,Number(c.width)-actor.hx);
         if(press('charge')||ctx.inputs.some(e=>e.action===actions.charge&&e.edge==='hold'))w.charge=Math.min(Number(c.maxCharge??60),w.charge+1);
         if(cancel('charge'))w.charge=0;
-        if((press('jump')||release('charge'))&&(c.allowAirJump===true||w.grounded.includes(actor.id))){
+        const onGround=w.grounded.includes(actor.id);
+        const wall=(c.wallJump===true||actions.climb!==undefined)&&!onGround&&w.bodies.find(body=>body.kind==='solid'&&body.fixed&&
+            Math.abs(actor.x-body.x)===actor.hx+body.hx&&Math.abs(actor.y-body.y)<actor.hy+body.hy);
+        if(c.airJumpOnce===true&&onGround)w.airJumpUsed=false;
+        const extraJump=c.airJumpOnce===true&&!w.airJumpUsed&&!onGround&&press('jump');
+        if((press('jump')||release('charge'))&&(c.allowAirJump===true||onGround||extraJump)){
+            if(c.airJumpOnce===true&&!onGround)w.airJumpUsed=true;
             actor.vy=Math.min(128,Number(c.jumpSpeed??96)+w.charge);if(c.jumpHorizontalSpeed!==undefined)actor.vx=Math.min(128,Number(c.jumpHorizontalSpeed)+Math.floor(w.charge/4));w.charge=0;emit('realtime.jumped',{id:actor.id});
+        }
+        if(c.airJumpOnce===true&&press('dash')&&!onGround&&!w.airJumpUsed&&actor.vx!==0){
+            w.airJumpUsed=true;
+            actor.vx=Math.sign(actor.vx)*128;
+        }
+        if(wall&&c.wallJump===true&&press('jump')){
+            actor.vx=Math.sign(actor.x-wall.x)*moveSpeed;
+            actor.vy=Number(c.jumpSpeed??96);
+            emit('realtime.jumped',{id:actor.id});
+        }
+        if(wall&&!press('jump')&&ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions.climb&&(e.edge==='press'||e.edge==='hold'))){
+            actor.vx=0;
+            actor.vy=48;
         }
         const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y)<=Number(c.weaponRange??32000)).sort((a,b)=>(Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y))-(Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y))||stableCompare(a.id,b.id));
         if((press('fire')||c.autoFire===true||requested)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
@@ -139,25 +181,38 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     w.bodies.sort((a,b)=>stableCompare(a.id,b.id));
     const previousGrounded=new Set(w.grounded),grounded=new Set<string>(),contacts=new Set<string>(),landings=new Map<string,JsonRecord>();
     for(const b of w.bodies)if(!b.fixed&&(b.kind!=='projectile'||c.projectileGravity===true)){
-        b.vx=clamp(b.vx+Math.round(Number(tilt[0])*16),-128,128);b.vy=clamp(b.vy+Number(c.gravity??0)-Math.round(Number(tilt[1])*16),-128,128);
+        b.vx=clamp(b.vx+Math.round(Number(tilt[0])*16),-128,128);b.vy=clamp(b.vy+gravity-Math.round(Number(tilt[1])*16),-128,128);
         if(actor&&b.kind==='target'&&Number(c.seekSpeed??0)>0)b.vx=Math.sign(actor.x-b.x)*Number(c.seekSpeed);
         if(b.kind==='target')b.vx=clamp(b.vx+Number(c.scrollSpeed??0),-128,128);
     }
     // Integral remainder distribution prevents rounding drift across substeps.
     const substeps=Math.max(1,Math.ceil(Math.max(0,...w.bodies.flatMap(b=>[Math.abs(b.vx),Math.abs(b.vy)]))/16));
+    const gate=c.projectileGate as {minX:number;maxX:number;y:number}|undefined;
     for(let step=0;step<substeps;step++){
         for(const b of w.bodies){
             if(b.fixed||dead.has(b.id))continue;
             const dx=Math.trunc(b.vx*(step+1)/substeps)-Math.trunc(b.vx*step/substeps),dy=Math.trunc(b.vy*(step+1)/substeps)-Math.trunc(b.vy*step/substeps);
+            const prevX=b.x,prevY=b.y;
             b.x+=dx;b.y+=dy;
             if(b.x<b.hx||b.x>Number(c.width)-b.hx){if(b.kind==='projectile')dead.add(b.id);b.x=clamp(b.x,b.hx,Number(c.width)-b.hx);b.vx=-Math.trunc(b.vx*Number(c.restitution??0)/1000);}
             if(b.y<b.hy||b.y>Number(c.height)-b.hy){if(b.kind==='projectile')dead.add(b.id);if(b.y<b.hy)grounded.add(b.id);b.y=clamp(b.y,b.hy,Number(c.height)-b.hy);b.vy=-Math.trunc(b.vy*Number(c.restitution??0)/1000);}
+            if(gate&&b.kind==='projectile'&&!dead.has(b.id)&&prevY>gate.y&&b.y<=gate.y){
+                const fall=prevY-b.y,crossX=prevX*fall+(b.x-prevX)*(prevY-gate.y);
+                if(crossX>=gate.minX*fall&&crossX<=gate.maxX*fall){
+                    dead.add(b.id);
+                    w.score++;
+                    emit('realtime.projectile-scored',{id:b.id});
+                }
+            }
         }
         for(let i=0;i<w.bodies.length;i++)for(let j=i+1;j<w.bodies.length;j++){
             const a=w.bodies[i]!,b=w.bodies[j]!;if(dead.has(a.id)||dead.has(b.id)||!overlaps(a,b))continue;
             contacts.add(contactKey(a.id,b.id));
             const shot=a.kind==='projectile'?a:b.kind==='projectile'?b:undefined,target=shot===a?b:a;
-            if(shot){if(target.kind==='solid'){dead.add(shot.id);continue;}if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id);dead.add(shot.id);}continue;}
+            if(shot){if(target.kind==='solid'){
+                if(c.breakableSolids===true&&target.team!==0&&target.team!==shot.team)damage(target,shot.value,shot.owner??shot.id);
+                dead.add(shot.id);continue;
+            }if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id);dead.add(shot.id);}continue;}
             if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){w.score+=pickup.value;dead.add(pickup.id);emit('realtime.trigger',{id:pickup.id,actor:other.id});}continue;}
             if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);w.score+=a.value;emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
             if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
@@ -202,12 +257,19 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
     const state=Object.fromEntries(Object.entries(def.state).map(([key,field])=>[key,field.initial]));
     for(const entity of [...def.scenes.flatMap(s=>s.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.realtime.world'){
         const c=component.config;validateConfig(c);const w=validateIntegerWorld(readPointer(state,String(c.statePath)),c);
+        if(c.driftAction!==undefined&&(c.heldMovement!==true||!def.inputs.actions.some(a=>a.id===c.driftAction&&a.valueType==='button')))err('Drift requires held movement and a button action');
+        if(c.gravityFlipPath!==undefined&&typeof readPointer(state,String(c.gravityFlipPath))!=='boolean')err('Invalid initial gravity flip binding');
+        if(c.lift!==undefined){
+            if(!isRecord(c.lift))err('Invalid lift config');
+            const lift=c.lift, platform=w.bodies.find(body=>body.id===lift.body&&body.kind==='solid'&&body.fixed);
+            if(!platform||typeof readPointer(state,String(lift.enabledPath))!=='boolean'||!integer(lift.restY,platform.hy,Number(c.height)-platform.hy)||!integer(lift.raisedY,platform.hy,Number(c.height)-platform.hy)||Number(lift.raisedY)<=Number(lift.restY))err('Invalid initial lift binding');
+        }
         if(Array.isArray(c.laneCenters)){const actor=w.bodies.find(b=>b.kind==='actor');if(!actor||actor.vx!==0||!c.laneCenters.includes(actor.x)||c.laneCenters.some(x=>Number(x)<actor.hx||Number(x)>Number(c.width)-actor.hx))err('Lane actor and centers must fit the world');}
         for(const name of Object.values((c.actions??{}) as JsonRecord))if(!def.inputs.actions.some(a=>a.id===name))err('Unknown realtime action');
-        for(const key of ['aimPath','fireRequestPath','powerPath','damageBonusPath','laneRequestPath','tiltGravityPath'])if(c[key]!==undefined){
+        for(const key of ['aimPath','fireRequestPath','powerPath','damageBonusPath','moveSpeedBonusPath','laneRequestPath','tiltGravityPath'])if(c[key]!==undefined){
             const value=readPointer(state,String(c[key]));
-            const valid=key==='aimPath'||key==='tiltGravityPath'?Array.isArray(value)&&value.length===2&&value.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=(key==='tiltGravityPath'?1:32000)):key==='fireRequestPath'?typeof value==='boolean':key==='powerPath'?typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1:key==='laneRequestPath'?integer(value,-1,1):integer(value,0,1000);
-            if(!valid)err('Invalid initial bound weapon field '+key);
+            const valid=key==='aimPath'||key==='tiltGravityPath'?Array.isArray(value)&&value.length===2&&value.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=(key==='tiltGravityPath'?1:32000)):key==='fireRequestPath'?typeof value==='boolean':key==='powerPath'?typeof value==='number'&&Number.isFinite(value)&&value>=0&&value<=1:key==='laneRequestPath'?integer(value,-1,1):integer(value,0,key==='moveSpeedBonusPath'?128:1000);
+            if(!valid)err('Invalid initial bound realtime field '+key);
             if(['fireRequestPath','laneRequestPath'].includes(key)&&String(c[key]).startsWith(String(c.statePath)+'/'))err('Requests must use independent controller state');
         }
         for(const entry of (c.waves??[]) as JsonRecord[]){if(!integer(entry.tick,0,1000000))err('Invalid wave tick');validateWorldBody(entry.body,c);}

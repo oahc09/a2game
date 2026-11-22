@@ -1,0 +1,177 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-barrage",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.barrage",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "dodge-and-break-core",
+      "seed": 5822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 19
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 69
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 55
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 19
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 66
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 85
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/bossHp",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "center-lane-hit",
+      "seed": 5822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "Space"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 45
+        },
+        {
+          "op": "assert",
+          "path": "/state/arena/nextId",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 60
+        },
+        {
+          "op": "assert",
+          "path": "/state/incomingHits",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

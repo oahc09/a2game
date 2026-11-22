@@ -146,6 +146,11 @@
           "type": "string",
           "pattern": "^/"
         },
+        "moveSpeedBonusPath": {
+          "type": "string",
+          "pattern": "^/",
+          "description": "Pointer to a 0-128 integer movement bonus. The resulting directional speed is capped at 128 units per Tick."
+        },
         "fireDirection": {
           "enum": [
             "left",
@@ -325,6 +330,12 @@
             "down": {
               "type": "string",
               "minLength": 1
+            },
+            "dash": {
+              "type": "string"
+            },
+            "climb": {
+              "type": "string"
             }
           },
           "required": [],
@@ -511,6 +522,32 @@
           "minimum": 16,
           "maximum": 128
         },
+        "projectileGate": {
+          "type": "object",
+          "properties": {
+            "minX": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32000
+            },
+            "maxX": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32000
+            },
+            "y": {
+              "type": "integer",
+              "minimum": 16,
+              "maximum": 31984
+            }
+          },
+          "required": [
+            "minX",
+            "maxX",
+            "y"
+          ],
+          "additionalProperties": false
+        },
         "platformLanding": {
           "type": "boolean",
           "default": false
@@ -524,6 +561,49 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 120
+        },
+        "lift": {
+          "type": "object",
+          "properties": {
+            "body": {
+              "type": "string"
+            },
+            "enabledPath": {
+              "type": "string",
+              "pattern": "^/"
+            },
+            "restY": {
+              "type": "integer"
+            },
+            "raisedY": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "body",
+            "enabledPath",
+            "restY",
+            "raisedY"
+          ],
+          "additionalProperties": false
+        },
+        "airJumpOnce": {
+          "type": "boolean"
+        },
+        "wallJump": {
+          "type": "boolean"
+        },
+        "gravityFlipPath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "breakableSolids": {
+          "type": "boolean"
+        },
+        "driftAction": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
         }
       },
       "required": [
@@ -770,6 +850,12 @@
         }
       },
       {
+        "name": "realtime.projectile-scored",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
         "name": "combat.fired",
         "payloadSchema": {
           "type": "object"
@@ -789,6 +875,12 @@
       },
       {
         "name": "realtime.failed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "realtime.drift",
         "payloadSchema": {
           "type": "object"
         }

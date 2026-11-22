@@ -1,0 +1,139 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-echo-sequence",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.echo-sequence",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "start",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "start",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "chain",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "chain",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "finish",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "finish",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/skills",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "invalid-timing",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "start",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "start",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 16
+        },
+        {
+          "op": "injectAction",
+          "action": "chain",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "chain",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "finish",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "finish",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/stage",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/skills",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

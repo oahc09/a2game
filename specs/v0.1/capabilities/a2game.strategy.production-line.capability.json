@@ -1,0 +1,182 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.strategy.production-line",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "phase": "simulate",
+  "description": "Toggle typed links between finite sources, one-to-one processors and warehouses. Bounded buffers backpressure the line.",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.production",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.strategy.inventory",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "machines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "input": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,31}$"
+              },
+              "output": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]{0,31}$"
+              },
+              "capacity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              }
+            },
+            "required": [
+              "capacity"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 2,
+          "maxItems": 12
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 11
+              },
+              "to": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 11
+              },
+              "action": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "action"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 24
+        },
+        "intervalTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 600
+        },
+        "goalMachine": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 11
+        },
+        "goalUnits": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000
+        }
+      },
+      "required": [
+        "statePath",
+        "machines",
+        "links",
+        "intervalTicks",
+        "goalMachine",
+        "goalUnits"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 2,
+          "maxItems": 12
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "minItems": 2,
+          "maxItems": 12
+        },
+        "connected": {
+          "type": "array",
+          "items": {
+            "type": "boolean"
+          },
+          "minItems": 1,
+          "maxItems": 24
+        },
+        "won": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "inputs",
+        "outputs",
+        "connected",
+        "won"
+      ],
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxMachines": 12,
+    "maxLinks": 24,
+    "maxBuffer": 1000,
+    "clock": "shared Tick; transfer existing stock before processing"
+  },
+  "testSuites": [
+    "local-coverage-v2-riverworks"
+  ]
+}

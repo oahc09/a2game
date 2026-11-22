@@ -1,0 +1,22 @@
+[
+  {
+    "action": "crate",
+    "ticks": 1
+  },
+  {
+    "action": "hook",
+    "ticks": 1
+  },
+  {
+    "action": "assemble",
+    "ticks": 1
+  },
+  {
+    "action": "dock",
+    "ticks": 1
+  },
+  {
+    "action": "light",
+    "ticks": 1
+  }
+]

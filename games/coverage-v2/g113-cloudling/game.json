@@ -1,0 +1,830 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.cloudling",
+  "revision": 1,
+  "meta": {
+    "title": "云羽幼兽",
+    "description": "云羽幼兽的饱腹和心情会随时间降低。F 喂食补饱腹，P 互动补心情但会消耗体力。完成三次有效照料，让幼兽长出第一片云羽。",
+    "genres": [
+      "simulation"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 11322,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "satiety": {
+      "type": "int",
+      "initial": 5
+    },
+    "joy": {
+      "type": "int",
+      "initial": 5
+    },
+    "food": {
+      "type": "int",
+      "initial": 2
+    },
+    "growth": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "等你照料"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "feed",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "play",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyP",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "feed-when-hungry",
+      "on": {
+        "type": "input.action",
+        "action": "feed",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/satiety"
+              },
+              {
+                "const": 6
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/food"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/food",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/satiety",
+          "value": 6
+        },
+        {
+          "op": "state.add",
+          "path": "/growth",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "饱腹恢复 · 收获一点成长"
+        }
+      ]
+    },
+    {
+      "id": "play-when-lonely",
+      "on": {
+        "type": "input.action",
+        "action": "play",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/joy"
+              },
+              {
+                "const": 6
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/satiety"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/joy",
+          "value": 6
+        },
+        {
+          "op": "state.add",
+          "path": "/satiety",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/growth",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "心情恢复 · 收获一点成长"
+        }
+      ]
+    },
+    {
+      "id": "hungry",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 90
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 180
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 270
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 360
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 450
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 540
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 630
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/satiety",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/joy",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "notice-hunger",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 90
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "肚子和心情开始变化"
+        }
+      ]
+    },
+    {
+      "id": "show-grown",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/growth"
+              },
+              {
+                "const": 3
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/satiety"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/joy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "成长完成 · 获得第一片云羽"
+        }
+      ],
+      "priority": 40
+    },
+    {
+      "id": "show-weak",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/satiety"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/joy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "状态恶化 · 再试一次"
+        }
+      ],
+      "priority": 50
+    },
+    {
+      "id": "show-timeout",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 720
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "照料时间结束"
+        }
+      ],
+      "priority": 30
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "needs-unmet",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "or",
+        "args": [
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/satiety"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/joy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 720
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "grown",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/growth"
+          },
+          {
+            "const": 3
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "F 喂食",
+        "bind": {
+          "action": "feed"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "P 互动",
+        "bind": {
+          "action": "play"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#192634",
+      "nodes": [
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.1
+          ],
+          "size": [
+            8.9,
+            6.85
+          ],
+          "fill": "#263A4F"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.96
+          ],
+          "text": {
+            "literal": "云羽幼兽"
+          },
+          "fontSize": 0.61,
+          "fill": "#FFDBAE"
+        },
+        {
+          "id": "body",
+          "kind": "circle",
+          "at": [
+            0,
+            0.6
+          ],
+          "radius": 1.08,
+          "fill": "#9BD7D7"
+        },
+        {
+          "id": "cheek-left",
+          "kind": "circle",
+          "at": [
+            -0.55,
+            0.45
+          ],
+          "radius": 0.13,
+          "fill": "#FFCABC"
+        },
+        {
+          "id": "cheek-right",
+          "kind": "circle",
+          "at": [
+            0.55,
+            0.45
+          ],
+          "radius": 0.13,
+          "fill": "#FFCABC"
+        },
+        {
+          "id": "eye-left",
+          "kind": "circle",
+          "at": [
+            -0.35,
+            0.73
+          ],
+          "radius": 0.095,
+          "fill": "#183449"
+        },
+        {
+          "id": "eye-right",
+          "kind": "circle",
+          "at": [
+            0.35,
+            0.73
+          ],
+          "radius": 0.095,
+          "fill": "#183449"
+        },
+        {
+          "id": "feather",
+          "kind": "circle",
+          "at": [
+            0,
+            1.58
+          ],
+          "radius": 0.23,
+          "fill": "#F7D590"
+        },
+        {
+          "id": "satiety-label",
+          "kind": "text",
+          "at": [
+            -2.9,
+            -0.95
+          ],
+          "text": {
+            "literal": "饱腹"
+          },
+          "fontSize": 0.37,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "joy-label",
+          "kind": "text",
+          "at": [
+            -1,
+            -0.95
+          ],
+          "text": {
+            "literal": "心情"
+          },
+          "fontSize": 0.37,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "food-label",
+          "kind": "text",
+          "at": [
+            1,
+            -0.95
+          ],
+          "text": {
+            "literal": "食物"
+          },
+          "fontSize": 0.37,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "growth-label",
+          "kind": "text",
+          "at": [
+            2.9,
+            -0.95
+          ],
+          "text": {
+            "literal": "成长"
+          },
+          "fontSize": 0.37,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "satiety",
+          "kind": "text",
+          "at": [
+            -2.9,
+            -1.52
+          ],
+          "text": {
+            "state": "/satiety"
+          },
+          "fontSize": 0.62,
+          "fill": "#FFCF96"
+        },
+        {
+          "id": "joy",
+          "kind": "text",
+          "at": [
+            -1,
+            -1.52
+          ],
+          "text": {
+            "state": "/joy"
+          },
+          "fontSize": 0.62,
+          "fill": "#8FE5C7"
+        },
+        {
+          "id": "food",
+          "kind": "text",
+          "at": [
+            1,
+            -1.52
+          ],
+          "text": {
+            "state": "/food"
+          },
+          "fontSize": 0.62,
+          "fill": "#FDDEA7"
+        },
+        {
+          "id": "growth",
+          "kind": "text",
+          "at": [
+            2.9,
+            -1.52
+          ],
+          "text": {
+            "state": "/growth"
+          },
+          "fontSize": 0.62,
+          "fill": "#CEF2F8"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.55
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.39,
+          "fill": "#FFE3BD"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.18
+          ],
+          "text": {
+            "literal": "F 喂食  ·  P 互动  ·  成长目标 3"
+          },
+          "fontSize": 0.3,
+          "fill": "#B9D5E3"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

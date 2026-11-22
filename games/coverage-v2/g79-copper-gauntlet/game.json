@@ -1,0 +1,603 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.copper-gauntlet",
+  "revision": 1,
+  "meta": {
+    "title": "铜湾连战",
+    "description": "J 发射，弹药跨战斗继承。击退两名守卫，提前空打会耗尽弹药。",
+    "genres": [
+      "shooter"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 73022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "survival",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "heldMovement": true,
+                "moveSpeed": 103,
+                "seekSpeed": 0,
+                "invulnerabilityTicks": 10,
+                "weapon": "hitscan",
+                "autoTarget": true,
+                "projectileSpeed": 125,
+                "projectileHalfSize": 64,
+                "damage": 1,
+                "weaponRange": 3000,
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "up": "up",
+                  "down": "down"
+                },
+                "waves": [
+                  {
+                    "tick": 55,
+                    "body": {
+                      "id": "silver",
+                      "kind": "target",
+                      "x": 5500,
+                      "y": 3150,
+                      "hx": 160,
+                      "hy": 160,
+                      "vx": 0,
+                      "vy": 0,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": true
+                    }
+                  }
+                ],
+                "fireRequestPath": "/request"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 3900,
+            "y": 3150,
+            "hx": 180,
+            "hy": 180,
+            "vx": 0,
+            "vy": 0,
+            "hp": 2,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "bronze",
+            "kind": "target",
+            "x": 4900,
+            "y": 3150,
+            "hx": 160,
+            "hy": 160,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "ammo": {
+      "type": "int",
+      "initial": 3
+    },
+    "request": {
+      "type": "bool",
+      "initial": false
+    },
+    "stage": {
+      "type": "int",
+      "initial": 1
+    },
+    "message": {
+      "type": "string",
+      "initial": "第一场 · 余弹跨场保留"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "request-a-shot",
+      "on": {
+        "type": "input.action",
+        "action": "fire",
+        "edge": "press"
+      },
+      "if": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/ammo"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "clear-request",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/request"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "consume-on-fire",
+      "on": {
+        "type": "combat.fired"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ammo",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "enter-next-battle",
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "bronze"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "第二场 · 留两发等待守卫出现"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "bosses-cleared",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/score"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "empty-ammo",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/ammo"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "W 上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "S 下",
+        "bind": {
+          "action": "down"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "J 开火",
+        "bind": {
+          "action": "fire"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "arena",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            8.02,
+            5.28
+          ],
+          "fill": "#244453"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.22
+          ],
+          "text": {
+            "literal": "铜湾连战"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDA98"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -4.27,
+            1.1
+          ],
+          "text": {
+            "literal": "生存 Tick"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "clock-value",
+          "kind": "text",
+          "at": [
+            -4.27,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "choice-label",
+          "kind": "text",
+          "at": [
+            4.24,
+            1.1
+          ],
+          "text": {
+            "literal": "升级选择"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "choice-value",
+          "kind": "text",
+          "at": [
+            4.24,
+            0.5700000000000001
+          ],
+          "text": {
+            "literal": ""
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.13
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.35,
+          "fill": "#E9D6AA"
+        },
+        {
+          "id": "ammo-count",
+          "kind": "text",
+          "at": [
+            -3,
+            2
+          ],
+          "text": {
+            "state": "/ammo"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DA9B"
+        },
+        {
+          "id": "ammo-label",
+          "kind": "text",
+          "at": [
+            -3,
+            2.6
+          ],
+          "text": {
+            "literal": "剩余弹药"
+          },
+          "fontSize": 0.34,
+          "fill": "#F9DA9B"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#91E5CC",
+          "target": "#F19494",
+          "solid": "#436C7C",
+          "projectile": "#FAD38D",
+          "pickup": "#99C47E"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

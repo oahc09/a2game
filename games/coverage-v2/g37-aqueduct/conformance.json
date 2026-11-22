@@ -1,0 +1,221 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-aqueduct",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.aqueduct",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "repair-all-pipes",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "bend",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bend",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "south",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "south",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/wet3",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "downstream-alone-stays-dry",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/wet3",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "water-stops-at-gap",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "north",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/wet0",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/wet1",
+          "equals": false
+        }
+      ]
+    }
+  ]
+}

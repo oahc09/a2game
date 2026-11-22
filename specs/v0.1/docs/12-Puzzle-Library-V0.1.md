@@ -25,3 +25,7 @@
 ## 2026-10-27 完整滑动对局
 
 `puzzle.slide` 与 `grid-slide-merge` 可选 `stalledPath` 指向独立 bool：棋盘满且横/纵无同值邻居时为 true。空位、合法合并和无效方向均按同一共享算法判定；无效移动不消耗随机。可撤销 Profile 同时保存该字段与棋盘、best、RNG，不改变旧配置。G02 revision 3 从两个 2 开局，种子 42 的作者搜索回放分别 957/1872 步到 2048/4096，182 步达无路失败；作者搜索不计独立 G3。回放原始动作在 project/full-2048-traces.json。
+
+## 扫雷棋盘
+
+`a2game.puzzle.mine-board@0.1.0` 支持 3–8 列、3–8 行。每格对应一个 button Action，`flagAction` 切换揭格和插旗。状态中的 `mines` 存格号，`tiles` 按行优先保存覆盖（−2）、旗标（−1）、已揭邻雷数（0–8）或触雷（9）。表现只投影 `tiles`。首揭若原位置有雷，用共享 RNG 将该雷迁到另一空位；旗标与重复揭格不消耗这次保护。后续触雷立即判负，揭完全部安全格判胜。[G35 正反例](../../../games/coverage-v2/g35-lantern-minefield/conformance.json)

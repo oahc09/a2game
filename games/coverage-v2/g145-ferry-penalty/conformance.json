@@ -1,0 +1,120 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ferry-penalty",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ferry-penalty",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "score",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shoot",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shoot",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "saved-or-missed",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "power",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "shoot",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "shoot",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/miss",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

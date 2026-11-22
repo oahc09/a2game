@@ -1,0 +1,1540 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.ember-connect",
+  "revision": 1,
+  "meta": {
+    "title": "火种港 · 四连棋",
+    "description": "本地双人轮流按 1 至 7 选列，先连成横、竖或斜向四子的一方获胜。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.turn",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 15610,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.turn",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/board",
+                "width": 7,
+                "height": 6,
+                "players": 2,
+                "winLength": 4,
+                "gravityDrop": true,
+                "selectActions": [
+                  "col1",
+                  "col2",
+                  "col3",
+                  "col4",
+                  "col5",
+                  "col6",
+                  "col7"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "board": {
+      "type": "object",
+      "initial": {
+        "board": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "player": 1,
+        "winner": 0,
+        "moves": 0,
+        "draw": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "col1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "col7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit7",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "amber-wins",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/board/winner"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "teal-wins",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/board/winner"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "draw",
+      "status": "stopped",
+      "priority": 2,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/board/draw"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "第 1 列",
+        "bind": {
+          "action": "col1"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "第 2 列",
+        "bind": {
+          "action": "col2"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "第 3 列",
+        "bind": {
+          "action": "col3"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "第 4 列",
+        "bind": {
+          "action": "col4"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "第 5 列",
+        "bind": {
+          "action": "col5"
+        }
+      },
+      {
+        "id": "choice-5",
+        "kind": "button",
+        "text": "第 6 列",
+        "bind": {
+          "action": "col6"
+        }
+      },
+      {
+        "id": "choice-6",
+        "kind": "button",
+        "text": "第 7 列",
+        "bind": {
+          "action": "col7"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#142331",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.33
+          ],
+          "text": {
+            "literal": "火种港 · 四连棋"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "board",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.03
+          ],
+          "size": [
+            5.8,
+            4.72
+          ],
+          "fill": "#253D50"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.16
+          ],
+          "text": {
+            "literal": "1–7 选列 · 横、竖、斜四子获胜"
+          },
+          "fontSize": 0.43,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-0",
+          "kind": "text",
+          "at": [
+            -2.4000000000000004,
+            2.64
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-1",
+          "kind": "text",
+          "at": [
+            -1.6,
+            2.64
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-2",
+          "kind": "text",
+          "at": [
+            -0.8,
+            2.64
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-3",
+          "kind": "text",
+          "at": [
+            0,
+            2.64
+          ],
+          "text": {
+            "literal": "4"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-4",
+          "kind": "text",
+          "at": [
+            0.8,
+            2.64
+          ],
+          "text": {
+            "literal": "5"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-5",
+          "kind": "text",
+          "at": [
+            1.6,
+            2.64
+          ],
+          "text": {
+            "literal": "6"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "column-6",
+          "kind": "text",
+          "at": [
+            2.4000000000000004,
+            2.64
+          ],
+          "text": {
+            "literal": "7"
+          },
+          "fontSize": 0.33,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "slot-0",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/0"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-1",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/1"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-2",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/2"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-3",
+          "kind": "rect",
+          "at": [
+            0,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/3"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-4",
+          "kind": "rect",
+          "at": [
+            0.8,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/4"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-5",
+          "kind": "rect",
+          "at": [
+            1.6,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/5"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-6",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            1.9
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/6"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-7",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/7"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-8",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/8"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-9",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/9"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-10",
+          "kind": "rect",
+          "at": [
+            0,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/10"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-11",
+          "kind": "rect",
+          "at": [
+            0.8,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/11"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-12",
+          "kind": "rect",
+          "at": [
+            1.6,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/12"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-13",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            1.1199999999999999
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/13"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-14",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/14"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-15",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/15"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-16",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/16"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-17",
+          "kind": "rect",
+          "at": [
+            0,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/17"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-18",
+          "kind": "rect",
+          "at": [
+            0.8,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/18"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-19",
+          "kind": "rect",
+          "at": [
+            1.6,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/19"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-20",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            0.33999999999999986
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/20"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-21",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/21"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-22",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/22"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-23",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/23"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-24",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/24"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-25",
+          "kind": "rect",
+          "at": [
+            0.8,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/25"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-26",
+          "kind": "rect",
+          "at": [
+            1.6,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/26"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-27",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            -0.43999999999999995
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/27"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-28",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/28"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-29",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/29"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-30",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/30"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-31",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/31"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-32",
+          "kind": "rect",
+          "at": [
+            0.8,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/32"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-33",
+          "kind": "rect",
+          "at": [
+            1.6,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/33"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-34",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            -1.2200000000000002
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/34"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-35",
+          "kind": "rect",
+          "at": [
+            -2.4000000000000004,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/35"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-36",
+          "kind": "rect",
+          "at": [
+            -1.6,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/36"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-37",
+          "kind": "rect",
+          "at": [
+            -0.8,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/37"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-38",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/38"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-39",
+          "kind": "rect",
+          "at": [
+            0.8,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/39"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-40",
+          "kind": "rect",
+          "at": [
+            1.6,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/40"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "slot-41",
+          "kind": "rect",
+          "at": [
+            2.4000000000000004,
+            -2.0000000000000004
+          ],
+          "size": [
+            0.63,
+            0.63
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/board/41"
+            },
+            "map": {
+              "0": "#162634",
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "turn-label",
+          "kind": "text",
+          "at": [
+            3.9,
+            0.8
+          ],
+          "text": {
+            "literal": "当前玩家"
+          },
+          "fontSize": 0.35,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "turn",
+          "kind": "rect",
+          "at": [
+            3.9,
+            0.15
+          ],
+          "size": [
+            0.64,
+            0.64
+          ],
+          "fill": {
+            "from": {
+              "state": "/board/player"
+            },
+            "map": {
+              "1": "#FFBD58",
+              "2": "#4AD1BA"
+            },
+            "fallback": "#162634"
+          }
+        },
+        {
+          "id": "turn-player",
+          "kind": "text",
+          "at": [
+            3.9,
+            -0.55
+          ],
+          "text": {
+            "state": "/board/player"
+          },
+          "fontSize": 0.43,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "amber",
+          "kind": "text",
+          "at": [
+            -3.9,
+            0.7
+          ],
+          "text": {
+            "literal": "1 琥珀"
+          },
+          "fontSize": 0.35,
+          "fill": "#FFBD58"
+        },
+        {
+          "id": "teal",
+          "kind": "text",
+          "at": [
+            -3.9,
+            0.14
+          ],
+          "text": {
+            "literal": "2 青绿"
+          },
+          "fontSize": 0.35,
+          "fill": "#4AD1BA"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

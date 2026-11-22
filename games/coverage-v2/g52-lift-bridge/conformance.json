@@ -1,0 +1,133 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-lift-bridge",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.lift-bridge",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "raise-bridge-then-exit",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "assert",
+          "path": "/state/checkpoint",
+          "equals": true
+        },
+        {
+          "op": "injectAction",
+          "action": "switch",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "switch",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "bridge-not-authorized",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 65
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

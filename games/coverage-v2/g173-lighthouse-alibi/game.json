@@ -1,0 +1,614 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.lighthouse-alibi",
+  "revision": 1,
+  "meta": {
+    "title": "雾港证词",
+    "description": "询问两名值守人并检查潮桥登记，再据证词矛盾指认。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "keeper": {
+      "type": "int",
+      "initial": 0
+    },
+    "porter": {
+      "type": "int",
+      "initial": 0
+    },
+    "ledger": {
+      "type": "int",
+      "initial": 0
+    },
+    "contradiction": {
+      "type": "int",
+      "initial": 0
+    },
+    "done": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "询问值守人并翻查登记"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "keeper",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "porter",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "ledger",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "compare",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "accuse-k",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "accuse-p",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit6",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "ask-k",
+      "on": {
+        "type": "input.action",
+        "action": "keeper",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/keeper",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "守灯人：我进过潮桥"
+        }
+      ]
+    },
+    {
+      "id": "ask-p",
+      "on": {
+        "type": "input.action",
+        "action": "porter",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/porter",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "搬运工：我也进过潮桥"
+        }
+      ]
+    },
+    {
+      "id": "scan",
+      "on": {
+        "type": "input.action",
+        "action": "ledger",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ledger",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "登记仅收录搬运工"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "on": {
+        "type": "input.action",
+        "action": "compare",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/keeper"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/porter"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ledger"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/contradiction",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "守灯人的证词与登记矛盾"
+        }
+      ]
+    },
+    {
+      "id": "correct",
+      "on": {
+        "type": "input.action",
+        "action": "accuse-k",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/contradiction"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "指认成立"
+        }
+      ]
+    },
+    {
+      "id": "wrong",
+      "on": {
+        "type": "input.action",
+        "action": "accuse-p",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "登记支持搬运工证词"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "success",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/done"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-keeper",
+        "kind": "button",
+        "text": "1 询问守灯人",
+        "bind": {
+          "action": "keeper"
+        }
+      },
+      {
+        "id": "button-porter",
+        "kind": "button",
+        "text": "2 询问搬运工",
+        "bind": {
+          "action": "porter"
+        }
+      },
+      {
+        "id": "button-ledger",
+        "kind": "button",
+        "text": "3 查登记",
+        "bind": {
+          "action": "ledger"
+        }
+      },
+      {
+        "id": "button-compare",
+        "kind": "button",
+        "text": "4 核对矛盾",
+        "bind": {
+          "action": "compare"
+        }
+      },
+      {
+        "id": "button-accuse-k",
+        "kind": "button",
+        "text": "5 指认守灯人",
+        "bind": {
+          "action": "accuse-k"
+        }
+      },
+      {
+        "id": "button-accuse-p",
+        "kind": "button",
+        "text": "6 指认搬运工",
+        "bind": {
+          "action": "accuse-p"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "fill": "#F9D792",
+          "fontSize": 0.58,
+          "text": {
+            "literal": "雾港证词"
+          }
+        },
+        {
+          "id": "panel-keeper",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "keeper-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "守灯人声称过桥"
+          }
+        },
+        {
+          "id": "keeper",
+          "kind": "text",
+          "at": [
+            -3,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/keeper"
+          }
+        },
+        {
+          "id": "panel-porter",
+          "kind": "rect",
+          "at": [
+            0,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "porter-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "搬运工声称过桥"
+          }
+        },
+        {
+          "id": "porter",
+          "kind": "text",
+          "at": [
+            0,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/porter"
+          }
+        },
+        {
+          "id": "panel-ledger",
+          "kind": "rect",
+          "at": [
+            3,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "ledger-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "唯一入桥登记"
+          }
+        },
+        {
+          "id": "ledger",
+          "kind": "text",
+          "at": [
+            3,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/ledger"
+          }
+        },
+        {
+          "id": "panel-contradiction",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.28
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "contradiction-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "矛盾证词编号"
+          }
+        },
+        {
+          "id": "contradiction",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.52
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/contradiction"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.8
+          ],
+          "fill": "#E9EBDC",
+          "fontSize": 0.34,
+          "text": {
+            "state": "/message"
+          }
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

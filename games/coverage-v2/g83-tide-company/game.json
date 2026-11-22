@@ -1,0 +1,621 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.tide-company",
+  "revision": 1,
+  "meta": {
+    "title": "潮线小队",
+    "description": "1 调整先锋 · 2 出战 · 3 把战斗经验投入训练",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "front": {
+      "type": "int",
+      "initial": 0
+    },
+    "life": {
+      "type": "int",
+      "initial": 2
+    },
+    "xp": {
+      "type": "int",
+      "initial": 0
+    },
+    "trained": {
+      "type": "int",
+      "initial": 0
+    },
+    "hp": {
+      "type": "int",
+      "initial": 6
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "swap",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "fight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "train",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "swap",
+      "on": {
+        "type": "input.action",
+        "action": "swap",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/front",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/front"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "shield",
+      "on": {
+        "type": "input.action",
+        "action": "fight",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/front"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/hp"
+                  },
+                  {
+                    "op": "add",
+                    "args": [
+                      {
+                        "const": 2
+                      },
+                      {
+                        "state": "/trained"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/xp",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "ranger",
+      "on": {
+        "type": "input.action",
+        "action": "fight",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/front"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/life"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/hp"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/life",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/xp",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "train",
+      "on": {
+        "type": "input.action",
+        "action": "train",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/xp"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/trained"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/xp",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/trained",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "clear",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-swap",
+        "kind": "button",
+        "text": "1 换先锋",
+        "bind": {
+          "action": "swap"
+        }
+      },
+      {
+        "id": "ui-fight",
+        "kind": "button",
+        "text": "2 出战",
+        "bind": {
+          "action": "fight"
+        }
+      },
+      {
+        "id": "ui-train",
+        "kind": "button",
+        "text": "3 训练",
+        "bind": {
+          "action": "train"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "潮线小队"
+          },
+          "fontSize": 0.62,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-front",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "front-title",
+          "kind": "text",
+          "at": [
+            -3,
+            1.52
+          ],
+          "text": {
+            "literal": "先锋 0游侠 1盾卫"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "front",
+          "kind": "text",
+          "at": [
+            -3,
+            0.99
+          ],
+          "text": {
+            "state": "/front"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-life",
+          "kind": "rect",
+          "at": [
+            0,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "life-title",
+          "kind": "text",
+          "at": [
+            0,
+            1.52
+          ],
+          "text": {
+            "literal": "小队体力"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "life",
+          "kind": "text",
+          "at": [
+            0,
+            0.99
+          ],
+          "text": {
+            "state": "/life"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-xp",
+          "kind": "rect",
+          "at": [
+            3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "xp-title",
+          "kind": "text",
+          "at": [
+            3,
+            1.52
+          ],
+          "text": {
+            "literal": "经验"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "xp",
+          "kind": "text",
+          "at": [
+            3,
+            0.99
+          ],
+          "text": {
+            "state": "/xp"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-trained",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "trained-title",
+          "kind": "text",
+          "at": [
+            -3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "训练级"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "trained",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/trained"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-hp",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "hp-title",
+          "kind": "text",
+          "at": [
+            0,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "对手体力"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            0,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.72
+          ],
+          "text": {
+            "literal": "1 调整先锋 · 2 出战 · 3 把战斗经验投入训练"
+          },
+          "fontSize": 0.32,
+          "fill": "#F6DEAA"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

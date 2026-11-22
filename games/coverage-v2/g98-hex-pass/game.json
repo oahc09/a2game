@@ -1,0 +1,594 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.hex-pass",
+  "revision": 2,
+  "meta": {
+    "title": "六角关隘",
+    "description": "1、2 选择相邻六角格。山地消耗 2 点，平原消耗 1 点，3 结束回合恢复。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "cell": {
+      "type": "int",
+      "initial": 0
+    },
+    "ap": {
+      "type": "int",
+      "initial": 2
+    },
+    "round": {
+      "type": "int",
+      "initial": 1
+    },
+    "cost": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "upper",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "lower",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "end",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "enter-upper",
+      "on": {
+        "type": "input.action",
+        "action": "upper",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ap"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/ap",
+          "value": -2
+        },
+        {
+          "op": "state.add",
+          "path": "/cost",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "enter-lower",
+      "on": {
+        "type": "input.action",
+        "action": "lower",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ap"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/ap",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/cost",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "upper-to-pass",
+      "on": {
+        "type": "input.action",
+        "action": "lower",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ap"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 3
+        },
+        {
+          "op": "state.add",
+          "path": "/ap",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/cost",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "lower-to-pass",
+      "on": {
+        "type": "input.action",
+        "action": "upper",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ap"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 3
+        },
+        {
+          "op": "state.add",
+          "path": "/ap",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/cost",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "next-round",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ap",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/round",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "pass",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 3
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "upper",
+        "kind": "button",
+        "text": "1 北侧山地",
+        "bind": {
+          "action": "upper"
+        }
+      },
+      {
+        "id": "lower",
+        "kind": "button",
+        "text": "2 南侧平原",
+        "bind": {
+          "action": "lower"
+        }
+      },
+      {
+        "id": "end",
+        "kind": "button",
+        "text": "3 恢复行动点",
+        "bind": {
+          "action": "end"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "六角关隘"
+          },
+          "fontSize": 0.61,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-cell",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "cell-title",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "text": {
+            "literal": "所在格"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "cell",
+          "kind": "text",
+          "at": [
+            -3,
+            0.97
+          ],
+          "text": {
+            "state": "/cell"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-ap",
+          "kind": "rect",
+          "at": [
+            0,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "ap-title",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "text": {
+            "literal": "行动点"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "ap",
+          "kind": "text",
+          "at": [
+            0,
+            0.97
+          ],
+          "text": {
+            "state": "/ap"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-round",
+          "kind": "rect",
+          "at": [
+            3,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "round-title",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "text": {
+            "literal": "回合"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "round",
+          "kind": "text",
+          "at": [
+            3,
+            0.97
+          ],
+          "text": {
+            "state": "/round"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.64
+          ],
+          "text": {
+            "literal": "入口 0 → 山地 1 或平原 2 → 关隘 3"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "cost-label",
+          "kind": "text",
+          "at": [
+            0,
+            -0.4
+          ],
+          "text": {
+            "literal": "累计地形成本"
+          },
+          "fontSize": 0.36,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "cost-value",
+          "kind": "text",
+          "at": [
+            0,
+            -0.95
+          ],
+          "text": {
+            "state": "/cost"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

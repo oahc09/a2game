@@ -1,0 +1,857 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.ferry-penalty",
+  "revision": 1,
+  "meta": {
+    "title": "渡湾点球",
+    "description": "1、2 选择角度，3 切换力度，空格射门。观察守门员移动。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "lane": {
+      "type": "int",
+      "initial": -1
+    },
+    "power": {
+      "type": "int",
+      "initial": 1
+    },
+    "keeper": {
+      "type": "int",
+      "initial": -1
+    },
+    "flight": {
+      "type": "int",
+      "initial": 0
+    },
+    "arrival": {
+      "type": "int",
+      "initial": 0
+    },
+    "shotLane": {
+      "type": "int",
+      "initial": 0
+    },
+    "shotPower": {
+      "type": "int",
+      "initial": 0
+    },
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "miss": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "power",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "shoot",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lane",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lane",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "on": {
+        "type": "input.action",
+        "action": "power",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/power",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 3
+              },
+              {
+                "state": "/power"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "keeper-right",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 18
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/keeper",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "keeper-left",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 34
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/keeper",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "shoot",
+      "on": {
+        "type": "input.action",
+        "action": "shoot",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/flight"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/shotLane",
+          "value": {
+            "state": "/lane"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/shotPower",
+          "value": {
+            "state": "/power"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/arrival",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "const": 18
+                  },
+                  {
+                    "op": "mul",
+                    "args": [
+                      {
+                        "state": "/power"
+                      },
+                      {
+                        "const": 6
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "goal",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/flight"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/arrival"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/shotPower"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/shotLane"
+                  },
+                  {
+                    "state": "/keeper"
+                  }
+                ]
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "save",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/flight"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/arrival"
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/shotPower"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/shotLane"
+                  },
+                  {
+                    "state": "/keeper"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/miss",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/miss"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "left",
+        "kind": "button",
+        "text": "左角",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "right",
+        "kind": "button",
+        "text": "右角",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "power",
+        "kind": "button",
+        "text": "切换力度",
+        "bind": {
+          "action": "power"
+        }
+      },
+      {
+        "id": "shoot",
+        "kind": "button",
+        "text": "射门",
+        "bind": {
+          "action": "shoot"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "渡湾点球"
+          },
+          "fontSize": 0.6,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-lane",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "lane-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.6
+          ],
+          "text": {
+            "literal": "角度"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "lane",
+          "kind": "text",
+          "at": [
+            -3,
+            1.07
+          ],
+          "text": {
+            "state": "/lane"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-keeper",
+          "kind": "rect",
+          "at": [
+            0,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "keeper-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.6
+          ],
+          "text": {
+            "literal": "守门方位"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "keeper",
+          "kind": "text",
+          "at": [
+            0,
+            1.07
+          ],
+          "text": {
+            "state": "/keeper"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-power",
+          "kind": "rect",
+          "at": [
+            3,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "power-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.6
+          ],
+          "text": {
+            "literal": "力度"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "power",
+          "kind": "text",
+          "at": [
+            3,
+            1.07
+          ],
+          "text": {
+            "state": "/power"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-clock",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "当前 Tick"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-score",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "score-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "进球"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/score"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-miss",
+          "kind": "rect",
+          "at": [
+            3,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "miss-label",
+          "kind": "text",
+          "at": [
+            3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "扑救和踢偏"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "miss",
+          "kind": "text",
+          "at": [
+            3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/miss"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.67
+          ],
+          "text": {
+            "literal": "1、2 选择角度，3 切换力度，空格射门。观察守门员移动。"
+          },
+          "fontSize": 0.32,
+          "fill": "#F6DCAD"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,176 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ferry-trace",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ferry-trace",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "all-edges-once",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "edge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "edge2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "edge3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "edge4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "repeated-edge-rejected",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/count",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "disconnected-edge-rejected",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "edge1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/at",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/count",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

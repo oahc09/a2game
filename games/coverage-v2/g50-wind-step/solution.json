@@ -1,0 +1,22 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 6
+  },
+  {
+    "action": "jump",
+    "ticks": 13
+  },
+  {
+    "action": "jump",
+    "ticks": 76
+  }
+]

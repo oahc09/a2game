@@ -1,0 +1,1040 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.seed-vault",
+  "revision": 3,
+  "meta": {
+    "title": "种子地窖",
+    "description": "种子决定第一局布局。通关后按 5 进入另一种房间布局，闯过两局完成挑战。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.cards",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "layout",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.cards",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/cards",
+                "shuffle": true,
+                "maxHand": 1,
+                "drawAction": "layout-reserved",
+                "playActions": [
+                  "layout-unused"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "cards": {
+      "type": "object",
+      "initial": {
+        "deck": [
+          1,
+          2
+        ],
+        "hand": [],
+        "discard": [],
+        "initialized": false,
+        "score": 0,
+        "won": false
+      }
+    },
+    "key": {
+      "type": "int",
+      "initial": 0
+    },
+    "room": {
+      "type": "int",
+      "initial": 0
+    },
+    "done": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "1 左门 · 2 右门 · 3 出口 · 4 返回入口"
+    },
+    "layout": {
+      "type": "int",
+      "initial": 0
+    },
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "completed": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "back",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "layout-reserved",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "F11",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "layout-unused",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "F12",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "next-layout",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "bind-layout",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/layout"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/layout",
+          "value": {
+            "state": "/cards/deck/0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "left-1",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/key",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "取得钥匙 · 左房可直接到出口"
+        }
+      ]
+    },
+    {
+      "id": "right-1",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "右房是死路 · 返回入口"
+        }
+      ]
+    },
+    {
+      "id": "left-2",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "左房是中转 · 右门通向钥匙房"
+        }
+      ]
+    },
+    {
+      "id": "right-2",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/key",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "取得钥匙 · 右房可到出口"
+        }
+      ]
+    },
+    {
+      "id": "return",
+      "on": {
+        "type": "input.action",
+        "action": "back",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/room"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "回到入口"
+        }
+      ]
+    },
+    {
+      "id": "exit-1",
+      "on": {
+        "type": "input.action",
+        "action": "exit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/key"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "地窖出口已打开"
+        },
+        {
+          "op": "state.add",
+          "path": "/completed",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "本局通过 · 按 5 进入下一种布局"
+        }
+      ]
+    },
+    {
+      "id": "exit-2",
+      "on": {
+        "type": "input.action",
+        "action": "exit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/layout"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/room"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/key"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "地窖出口已打开"
+        },
+        {
+          "op": "state.add",
+          "path": "/completed",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "本局通过 · 按 5 进入下一种布局"
+        }
+      ]
+    },
+    {
+      "id": "new-layout",
+      "on": {
+        "type": "input.action",
+        "action": "next-layout",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/done"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/completed"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/layout",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 3
+              },
+              {
+                "state": "/layout"
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/room",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/key",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "新布局 · 从入口重新探索"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "escaped",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/completed"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "left",
+        "kind": "button",
+        "text": "1 左房",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "right",
+        "kind": "button",
+        "text": "2 右房",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "exit",
+        "kind": "button",
+        "text": "3 出口",
+        "bind": {
+          "action": "exit"
+        }
+      },
+      {
+        "id": "back",
+        "kind": "button",
+        "text": "4 返回入口",
+        "bind": {
+          "action": "back"
+        }
+      },
+      {
+        "id": "next-layout",
+        "kind": "button",
+        "text": "5 下一布局",
+        "bind": {
+          "action": "next-layout"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "种子地窖"
+          },
+          "fontSize": 0.6,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "left-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "literal": "左房 1"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "exit-label",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "literal": "出口 3"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "right-label",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "literal": "右房 2"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "room-label",
+          "kind": "text",
+          "at": [
+            -2,
+            -0.6
+          ],
+          "text": {
+            "literal": "所处房间"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "room",
+          "kind": "text",
+          "at": [
+            -2,
+            -1.1
+          ],
+          "text": {
+            "state": "/room"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "key-label",
+          "kind": "text",
+          "at": [
+            2,
+            -0.6
+          ],
+          "text": {
+            "literal": "携带钥匙"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "key",
+          "kind": "text",
+          "at": [
+            2,
+            -1.1
+          ],
+          "text": {
+            "state": "/key"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.4
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DAA7"
+        },
+        {
+          "id": "layout-number",
+          "kind": "text",
+          "at": [
+            0,
+            2.2
+          ],
+          "text": {
+            "state": "/layout"
+          },
+          "fontSize": 0.42,
+          "fill": "#F6DAA7"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

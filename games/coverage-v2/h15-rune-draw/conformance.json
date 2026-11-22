@@ -1,0 +1,153 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-rune-draw",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.rune-draw",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "mechanism-clears",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "loot",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "loot",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "equip",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "equip",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "mechanism-required",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "equip",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "equip",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "play",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/affix",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/energy",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

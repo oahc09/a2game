@@ -1,0 +1,105 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.realtime.grid-trail",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "Fixed Tick grid movement, ordered body growth, deterministic food placement and collision.",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "statePath": {
+          "type": "string",
+          "pattern": "^/"
+        },
+        "columns": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "rows": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "intervalTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "goalFood": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 142
+        },
+        "actions": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          }
+        }
+      },
+      "required": [
+        "statePath",
+        "columns",
+        "rows",
+        "intervalTicks",
+        "goalFood",
+        "actions"
+      ]
+    },
+    "stateSchema": {
+      "type": "object"
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "grid-trail.ate",
+        "payloadSchema": {
+          "type": "object"
+        }
+      },
+      {
+        "name": "grid-trail.crashed",
+        "payloadSchema": {
+          "type": "object"
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "pause",
+      "resume",
+      "reset",
+      "dispose"
+    ]
+  },
+  "limits": {
+    "maxRows": 12,
+    "maxColumns": 12,
+    "maxBody": 144,
+    "clock": "shared Tick"
+  },
+  "testSuites": [
+    "local-coverage-v2-moss-trail"
+  ]
+}

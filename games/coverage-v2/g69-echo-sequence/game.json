@@ -1,0 +1,611 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.echo-sequence",
+  "revision": 1,
+  "meta": {
+    "title": "回响连招",
+    "description": "按 J、K、L 依次连招。后一击需在前一击后的 12 Tick 内输入。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "hp": {
+      "type": "int",
+      "initial": 4
+    },
+    "rival": {
+      "type": "int",
+      "initial": 3
+    },
+    "stage": {
+      "type": "int",
+      "initial": 0
+    },
+    "deadline": {
+      "type": "int",
+      "initial": 0
+    },
+    "skills": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "起手 J · 接续 K · 终结 L"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "start",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "chain",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "finish",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "start",
+      "on": {
+        "type": "input.action",
+        "action": "start",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/stage"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/deadline",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "起手命中 · 接 K"
+        }
+      ]
+    },
+    {
+      "id": "chain",
+      "on": {
+        "type": "input.action",
+        "action": "chain",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/deadline",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "接续命中 · 按 L"
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "on": {
+        "type": "input.action",
+        "action": "finish",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/skills",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/rival",
+          "value": -3
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "派生招式命中"
+        }
+      ]
+    },
+    {
+      "id": "timeout",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "连招中断"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/rival"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-start",
+        "kind": "button",
+        "text": "J 起手",
+        "bind": {
+          "action": "start"
+        }
+      },
+      {
+        "id": "ui-chain",
+        "kind": "button",
+        "text": "K 接续",
+        "bind": {
+          "action": "chain"
+        }
+      },
+      {
+        "id": "ui-finish",
+        "kind": "button",
+        "text": "L 终结",
+        "bind": {
+          "action": "finish"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "回响连招"
+          },
+          "fontSize": 0.62,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.54
+          ],
+          "text": {
+            "literal": "时钟"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "stage-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.54
+          ],
+          "text": {
+            "literal": "连招阶段"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "stage",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/stage"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "deadline-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.54
+          ],
+          "text": {
+            "literal": "接续截止"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "deadline",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/deadline"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "rival-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "木人耐久"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "rival",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/rival"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "skills-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "派生技能次数"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "skills",
+          "kind": "text",
+          "at": [
+            0,
+            -0.48
+          ],
+          "text": {
+            "state": "/skills"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "notice",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,202 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-crosswind-defense",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.crosswind-defense",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "detour-seal-and-defend",
+      "seed": 10622,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "middle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "middle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/route",
+          "equals": [
+            5,
+            6,
+            1,
+            2,
+            3,
+            4,
+            9
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/route",
+          "equals": [
+            5,
+            6,
+            11,
+            12,
+            13,
+            14,
+            9
+          ]
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "lower",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/wallet",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/nextId",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/message",
+          "equals": "放置被拒绝 · 资源未扣"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 380
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "direct-route-breach",
+      "seed": 10622,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 240
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/lives",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "in-flight-reroute",
+      "seed": 10622,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 98
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/toCell",
+          "equals": 6
+        },
+        {
+          "op": "injectAction",
+          "action": "middle",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "middle",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/toCell",
+          "equals": 6
+        },
+        {
+          "op": "step",
+          "ticks": 23
+        },
+        {
+          "op": "assert",
+          "path": "/state/defense/enemies/0/toCell",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

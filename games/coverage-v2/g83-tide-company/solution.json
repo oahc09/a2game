@@ -1,0 +1,22 @@
+[
+  {
+    "action": "swap",
+    "ticks": 1
+  },
+  {
+    "action": "fight",
+    "ticks": 1
+  },
+  {
+    "action": "train",
+    "ticks": 1
+  },
+  {
+    "action": "fight",
+    "ticks": 1
+  },
+  {
+    "action": "fight",
+    "ticks": 1
+  }
+]

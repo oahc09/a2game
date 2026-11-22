@@ -1,0 +1,26 @@
+[
+  {
+    "action": "serve",
+    "ticks": 14
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "return",
+    "ticks": 13
+  },
+  {
+    "action": "serve",
+    "ticks": 14
+  },
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "return",
+    "ticks": 13
+  }
+]

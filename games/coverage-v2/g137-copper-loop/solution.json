@@ -1,0 +1,71 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyW"
+        }
+      }
+    ],
+    "ticks": 32
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyW"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyA"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "ticks": 30
+  }
+]

@@ -1,0 +1,4533 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.blue-rock-maze",
+  "revision": 1,
+  "meta": {
+    "title": "蓝岩通廊 · 第一人称迷宫",
+    "description": "↑ 前进一格，←／→ 原地转向。岩壁会挡路，从一号通道绕至右端绿色出口。视角随角色状态移动。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.bound-stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 17722,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "x": {
+      "type": "int",
+      "initial": 1
+    },
+    "z": {
+      "type": "int",
+      "initial": 5
+    },
+    "lookX": {
+      "type": "int",
+      "initial": 1
+    },
+    "lookZ": {
+      "type": "int",
+      "initial": 4
+    },
+    "heading": {
+      "type": "int",
+      "initial": 0
+    },
+    "intent": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "寻找绿色出口"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "forward",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "queue-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/intent",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "queue-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/intent",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "queue-forward",
+      "on": {
+        "type": "input.action",
+        "action": "forward",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/intent",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "move-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/x",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/z",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": -2
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "沿蓝岩通道前进"
+        }
+      ]
+    },
+    {
+      "id": "wall-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "岩壁挡住去路"
+        }
+      ]
+    },
+    {
+      "id": "turn-0-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "turn-0-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "move-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/x",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/z",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "沿蓝岩通道前进"
+        }
+      ]
+    },
+    {
+      "id": "wall-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "岩壁挡住去路"
+        }
+      ]
+    },
+    {
+      "id": "turn-1-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "turn-1-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "move-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/x",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/z",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "沿蓝岩通道前进"
+        }
+      ]
+    },
+    {
+      "id": "wall-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "岩壁挡住去路"
+        }
+      ]
+    },
+    {
+      "id": "turn-2-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "turn-2-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "move-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "or",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 1
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 2
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 3
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 4
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/x"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      },
+                      {
+                        "op": "eq",
+                        "args": [
+                          {
+                            "state": "/z"
+                          },
+                          {
+                            "const": 5
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/x",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/z",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": -2
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "沿蓝岩通道前进"
+        }
+      ]
+    },
+    {
+      "id": "wall-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/intent"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/heading"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "not",
+            "args": [
+              {
+                "op": "or",
+                "args": [
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 1
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "or",
+                    "args": [
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 2
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 3
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 4
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "and",
+                        "args": [
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/x"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          },
+                          {
+                            "op": "eq",
+                            "args": [
+                              {
+                                "state": "/z"
+                              },
+                              {
+                                "const": 5
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "岩壁挡住去路"
+        }
+      ]
+    },
+    {
+      "id": "turn-3-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "turn-3-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/intent"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/heading"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/lookX",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/lookZ",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已转身 · 向前探索"
+        }
+      ]
+    },
+    {
+      "id": "clear",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/intent"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/intent",
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "found",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/x"
+              },
+              {
+                "const": 5
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/z"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "← 左转",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "→ 右转",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "↑ 前进",
+        "bind": {
+          "action": "forward"
+        }
+      },
+      {
+        "id": "message",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "{0}",
+            "args": [
+              {
+                "state": "/message"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": []
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          {
+            "state": "/x"
+          },
+          1.08,
+          {
+            "state": "/z"
+          }
+        ],
+        "target": [
+          {
+            "state": "/lookX"
+          },
+          1.08,
+          {
+            "state": "/lookZ"
+          }
+        ],
+        "near": 0.06,
+        "far": 25,
+        "fov": 74,
+        "orthoHeight": 7
+      },
+      "nodes": [
+        {
+          "id": "floor",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            -0.08,
+            3
+          ],
+          "size": [
+            7,
+            0.16,
+            7
+          ],
+          "color": "#233B4E",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-1-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-2-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-3-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-4-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-5-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            0
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            1
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            1
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            2
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-2-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            1.05,
+            2
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-3-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            1.05,
+            2
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-4-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            1.05,
+            2
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            2
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            3
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-2-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            1.05,
+            3
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            3
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            4
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-2-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            1.05,
+            4
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-4-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            1.05,
+            4
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-5-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            1.05,
+            4
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            4
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            5
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            5
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-0-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-1-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-2-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-3-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-4-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-5-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#3E637C",
+          "material": "unlit"
+        },
+        {
+          "id": "wall-6-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            6,
+            1.05,
+            6
+          ],
+          "size": [
+            1,
+            2.1,
+            1
+          ],
+          "color": "#608198",
+          "material": "unlit"
+        },
+        {
+          "id": "door",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            1.09,
+            3.448
+          ],
+          "size": [
+            0.44,
+            0.46,
+            0.04
+          ],
+          "color": "#69D5A3",
+          "material": "unlit"
+        },
+        {
+          "id": "door-light",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            1.425,
+            3.429
+          ],
+          "size": [
+            0.3,
+            0.075,
+            0.045
+          ],
+          "color": "#CFF2AA",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-1-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            0.007,
+            1
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-2-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            0.007,
+            1
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-3-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            0.007,
+            1
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-4-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            0.007,
+            1
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-5-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            0.007,
+            1
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-1-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            0.007,
+            2
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-5-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            0.007,
+            2
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-1-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            0.007,
+            3
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-3-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            0.007,
+            3
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-4-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            0.007,
+            3
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-5-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            0.007,
+            3
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-1-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            0.007,
+            4
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-3-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            0.007,
+            4
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-1-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            1,
+            0.007,
+            5
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-2-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2,
+            0.007,
+            5
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-3-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            3,
+            0.007,
+            5
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-4-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            4,
+            0.007,
+            5
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#29485C",
+          "material": "unlit"
+        },
+        {
+          "id": "tile-5-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            5,
+            0.007,
+            5
+          ],
+          "size": [
+            0.95,
+            0.014,
+            0.95
+          ],
+          "color": "#304E63",
+          "material": "unlit"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,88 @@
+[
+  {
+    "ticks": 30
+  },
+  {
+    "action": "power",
+    "ticks": 8
+  },
+  {
+    "action": "fire",
+    "ticks": 44
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 20
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "ticks": 18
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 20
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "ticks": 72
+  }
+]

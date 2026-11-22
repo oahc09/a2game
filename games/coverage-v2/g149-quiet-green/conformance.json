@@ -1,0 +1,229 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-quiet-green",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.quiet-green",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "physics-finishes",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 150
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/won",
+          "equals": true
+        },
+        {
+          "op": "injectAction",
+          "action": "next",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "next",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/hole",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "no-shot-no-score",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "two-strokes-counted",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 150
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/rigid/won",
+          "equals": true
+        },
+        {
+          "op": "injectAction",
+          "action": "next",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "next",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/hole",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    }
+  ]
+}

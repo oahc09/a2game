@@ -1,0 +1,10 @@
+[
+  {
+    "action": "mirrorA",
+    "ticks": 2
+  },
+  {
+    "action": "mirrorB",
+    "ticks": 2
+  }
+]

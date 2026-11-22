@@ -1,0 +1,231 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-clear-bay-hoop",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.clear-bay-hoop",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "descending-score-only-once",
+      "seed": 14622,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.45,
+              "v": 0.21,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.66,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.66,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 92
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 32
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.45,
+              "v": 0.21,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.66,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.66,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 92
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "low-shot-misses",
+      "seed": 14622,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.45,
+              "v": 0.21,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.3,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.25,
+              "v": 0.3,
+              "viewportAspect": 1.25
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 130
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/nextId",
+          "equals": 1
+        },
+        {
+          "op": "step",
+          "ticks": 580
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

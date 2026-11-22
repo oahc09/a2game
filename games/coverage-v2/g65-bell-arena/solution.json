@@ -1,0 +1,21 @@
+[
+  {
+    "ticks": 18
+  },
+  {
+    "action": "guard",
+    "ticks": 5
+  },
+  {
+    "action": "attack",
+    "ticks": 35
+  },
+  {
+    "action": "guard",
+    "ticks": 5
+  },
+  {
+    "action": "attack",
+    "ticks": 1
+  }
+]

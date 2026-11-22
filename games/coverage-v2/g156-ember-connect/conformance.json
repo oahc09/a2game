@@ -1,0 +1,400 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ember-connect",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ember-connect",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "gravity-and-four",
+      "seed": 15610,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/board/35",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/winner",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "full-column-keeps-turn",
+      "seed": 15610,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/board/6",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/moves",
+          "equals": 6
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/player",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    },
+    {
+      "id": "terminal-stays-frozen",
+      "seed": 15610,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "col4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "col4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "press"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "col1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/board/moves",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    }
+  ]
+}

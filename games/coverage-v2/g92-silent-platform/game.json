@@ -1,0 +1,541 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.silent-platform",
+  "revision": 1,
+  "meta": {
+    "title": "无声站台 · 线索板",
+    "description": "A 查看慢了 12 分钟的站钟，B 检查印有实际发车时间的车票。按 L 将两份证据关联，按 K 提交。按 X 可尝试错误关联。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 92022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clockFound": {
+      "type": "bool",
+      "initial": false
+    },
+    "ticketFound": {
+      "type": "bool",
+      "initial": false
+    },
+    "linked": {
+      "type": "bool",
+      "initial": false
+    },
+    "resolved": {
+      "type": "bool",
+      "initial": false
+    },
+    "clockClue": {
+      "type": "string",
+      "initial": "站钟：待调查"
+    },
+    "ticketClue": {
+      "type": "string",
+      "initial": "车票：待调查"
+    },
+    "message": {
+      "type": "string",
+      "initial": "查明为何目击时间对不上"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "clock",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "ticket",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "link",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "wrong",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyX",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "submit",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "read-clock",
+      "on": {
+        "type": "input.action",
+        "action": "clock",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/clockFound",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/clockClue",
+          "value": "站钟：慢了 12 分钟"
+        }
+      ]
+    },
+    {
+      "id": "read-ticket",
+      "on": {
+        "type": "input.action",
+        "action": "ticket",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ticketFound",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/ticketClue",
+          "value": "车票：实际发车 21:12"
+        }
+      ]
+    },
+    {
+      "id": "connect-times",
+      "on": {
+        "type": "input.action",
+        "action": "link",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clockFound"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ticketFound"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/linked",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "21:00 的站钟指向 21:12 发车"
+        }
+      ]
+    },
+    {
+      "id": "need-evidence",
+      "on": {
+        "type": "input.action",
+        "action": "link",
+        "edge": "press"
+      },
+      "if": {
+        "op": "not",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/clockFound"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ticketFound"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "线索未齐 · 继续调查"
+        }
+      ]
+    },
+    {
+      "id": "wrong-match",
+      "on": {
+        "type": "input.action",
+        "action": "wrong",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/linked",
+          "value": false
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "印刷字形无法解释时间差"
+        }
+      ]
+    },
+    {
+      "id": "submit-valid",
+      "on": {
+        "type": "input.action",
+        "action": "submit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/linked"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/resolved",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "推理成立 · 两人目击的是同一班车"
+        }
+      ]
+    },
+    {
+      "id": "submit-unlinked",
+      "on": {
+        "type": "input.action",
+        "action": "submit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/linked"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "先在证据板上建立有效关联"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "explained",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/resolved"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 查站钟",
+        "bind": {
+          "action": "clock"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "B 查车票",
+        "bind": {
+          "action": "ticket"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "L 对照时间",
+        "bind": {
+          "action": "link"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "X 检查字形",
+        "bind": {
+          "action": "wrong"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "K 提交推理",
+        "bind": {
+          "action": "submit"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "无声站台 · 线索板"
+          },
+          "fontSize": 0.58,
+          "fill": "#F7DEB1"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.2
+          ],
+          "size": [
+            8.9,
+            4.15
+          ],
+          "fill": "#284859"
+        },
+        {
+          "id": "clock-card",
+          "kind": "rect",
+          "at": [
+            0,
+            1.15
+          ],
+          "size": [
+            7.4,
+            0.85
+          ],
+          "fill": "#3D5F70"
+        },
+        {
+          "id": "ticket-card",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.3
+          ],
+          "size": [
+            7.4,
+            0.85
+          ],
+          "fill": "#3D5F70"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            0,
+            1.15
+          ],
+          "text": {
+            "state": "/clockClue"
+          },
+          "fontSize": 0.45,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "ticket",
+          "kind": "text",
+          "at": [
+            0,
+            -0.3
+          ],
+          "text": {
+            "state": "/ticketClue"
+          },
+          "fontSize": 0.45,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.75
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DEAD"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

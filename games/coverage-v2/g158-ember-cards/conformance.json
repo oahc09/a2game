@@ -1,0 +1,171 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-ember-cards",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.ember-cards",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "recover",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "recover",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "resource-or-reward-matters",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "draw",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "strike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/opponent",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

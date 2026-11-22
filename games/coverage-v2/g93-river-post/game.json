@@ -1,0 +1,657 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.river-post",
+  "revision": 1,
+  "meta": {
+    "title": "河邮联络线",
+    "description": "在驿站接取邮袋，送至渡口换通行印，再进入山门交付印信。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "zone": {
+      "type": "int",
+      "initial": 0
+    },
+    "job": {
+      "type": "int",
+      "initial": 0
+    },
+    "bag": {
+      "type": "int",
+      "initial": 0
+    },
+    "permit": {
+      "type": "int",
+      "initial": 0
+    },
+    "done": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "先在驿站接取邮袋"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "quest",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "ferry",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "hand",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "gate",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "final",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "accept",
+      "on": {
+        "type": "input.action",
+        "action": "quest",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/zone"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/job"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/job",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/bag",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "携带邮袋前往渡口"
+        }
+      ]
+    },
+    {
+      "id": "walk-river",
+      "on": {
+        "type": "input.action",
+        "action": "ferry",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/job"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/zone",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "渡口收件人等候邮袋"
+        }
+      ]
+    },
+    {
+      "id": "deliver-bag",
+      "on": {
+        "type": "input.action",
+        "action": "hand",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/zone"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bag"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bag",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/job",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/permit",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "交货成功 · 获得通行印"
+        }
+      ]
+    },
+    {
+      "id": "open-pass",
+      "on": {
+        "type": "input.action",
+        "action": "gate",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/permit"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/zone",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "持印进入山门"
+        }
+      ]
+    },
+    {
+      "id": "deliver-seal",
+      "on": {
+        "type": "input.action",
+        "action": "final",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/zone"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/permit"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/permit",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/job",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "任务完成"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "success",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/done"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-quest",
+        "kind": "button",
+        "text": "1 接任务",
+        "bind": {
+          "action": "quest"
+        }
+      },
+      {
+        "id": "button-ferry",
+        "kind": "button",
+        "text": "2 前往渡口",
+        "bind": {
+          "action": "ferry"
+        }
+      },
+      {
+        "id": "button-hand",
+        "kind": "button",
+        "text": "3 交邮袋",
+        "bind": {
+          "action": "hand"
+        }
+      },
+      {
+        "id": "button-gate",
+        "kind": "button",
+        "text": "4 进入山门",
+        "bind": {
+          "action": "gate"
+        }
+      },
+      {
+        "id": "button-final",
+        "kind": "button",
+        "text": "5 交印信",
+        "bind": {
+          "action": "final"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "fill": "#F9D792",
+          "fontSize": 0.58,
+          "text": {
+            "literal": "河邮联络线"
+          }
+        },
+        {
+          "id": "panel-zone",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "zone-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "地点 0驿站 1渡口 2山门"
+          }
+        },
+        {
+          "id": "zone",
+          "kind": "text",
+          "at": [
+            -3,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/zone"
+          }
+        },
+        {
+          "id": "panel-job",
+          "kind": "rect",
+          "at": [
+            0,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "job-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "任务阶段"
+          }
+        },
+        {
+          "id": "job",
+          "kind": "text",
+          "at": [
+            0,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/job"
+          }
+        },
+        {
+          "id": "panel-bag",
+          "kind": "rect",
+          "at": [
+            3,
+            1.22
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "bag-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "邮袋"
+          }
+        },
+        {
+          "id": "bag",
+          "kind": "text",
+          "at": [
+            3,
+            0.98
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/bag"
+          }
+        },
+        {
+          "id": "panel-permit",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.28
+          ],
+          "size": [
+            2.8,
+            1.3
+          ],
+          "fill": "#284B5D"
+        },
+        {
+          "id": "permit-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "fill": "#D2E8E6",
+          "fontSize": 0.32,
+          "text": {
+            "literal": "通行印"
+          }
+        },
+        {
+          "id": "permit",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.52
+          ],
+          "fill": "#FFE1A5",
+          "fontSize": 0.44,
+          "text": {
+            "state": "/permit"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.8
+          ],
+          "fill": "#E9EBDC",
+          "fontSize": 0.34,
+          "text": {
+            "state": "/message"
+          }
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

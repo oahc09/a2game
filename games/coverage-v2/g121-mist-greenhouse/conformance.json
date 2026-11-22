@@ -1,0 +1,129 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-mist-greenhouse",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.mist-greenhouse",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "expand-and-earn",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 3
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/level",
+          "equals": 2
+        },
+        {
+          "op": "step",
+          "ticks": 28
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 6
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 12
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "insufficient-funds",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "upgrade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/level",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/rate",
+          "equals": 3
+        },
+        {
+          "op": "step",
+          "ticks": 28
+        },
+        {
+          "op": "assert",
+          "path": "/state/wallet",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

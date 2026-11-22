@@ -1,0 +1,18 @@
+[
+  {
+    "action": "spell",
+    "ticks": 3
+  },
+  {
+    "action": "spell",
+    "ticks": 3
+  },
+  {
+    "action": "slash",
+    "ticks": 3
+  },
+  {
+    "action": "slash",
+    "ticks": 2
+  }
+]

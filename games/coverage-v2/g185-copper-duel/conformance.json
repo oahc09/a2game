@@ -1,0 +1,214 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-copper-duel",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.copper-duel",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "simultaneous-movement-and-attacks",
+      "seed": 18522,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "aRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aRight",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "bLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/aCell",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/bCell",
+          "equals": 4
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "bAttack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bAttack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/aPoints",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/bPoints",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/aPoints",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/bPoints",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "range-and-guard",
+      "seed": 18522,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/aPoints",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "aRight",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aRight",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "bLeft",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bLeft",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aAttack",
+          "phase": "release"
+        },
+        {
+          "op": "injectAction",
+          "action": "bGuard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bGuard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/aPoints",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/bPoints",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/bGuard",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

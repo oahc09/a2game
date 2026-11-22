@@ -1,0 +1,123 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-beat-crossing",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.beat-crossing",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "jump-land-checkpoint-exit",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "step",
+          "ticks": 35
+        },
+        {
+          "op": "assert",
+          "path": "/state/checkpoint",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/landings",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "off-beat-cannot-clear",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 13
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "step",
+          "ticks": 35
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

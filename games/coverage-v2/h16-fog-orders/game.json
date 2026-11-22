@@ -1,0 +1,813 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.fog-orders",
+  "revision": 1,
+  "meta": {
+    "title": "雾幕战令",
+    "description": "按 Q 花费一点行动点侦察，揭示敌人，并解锁相邻攻击。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.turnbased.grid-tactics",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 822,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "battle",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.turnbased.grid-tactics",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/battle",
+                "columns": 5,
+                "rows": 3,
+                "walls": [
+                  1,
+                  11,
+                  13
+                ],
+                "maxAP": 3,
+                "damage": 1,
+                "enemyDamage": 1,
+                "moveActions": [
+                  "left",
+                  "right",
+                  "up",
+                  "down"
+                ],
+                "endAction": "end",
+                "cardActions": [
+                  "card1",
+                  "card2"
+                ],
+                "scoutAction": "scout"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "battle": {
+      "type": "object",
+      "initial": {
+        "player": 7,
+        "enemy": 8,
+        "health": 3,
+        "enemyHealth": 1,
+        "ap": 3,
+        "round": 1,
+        "selected": -1,
+        "deck": [
+          2
+        ],
+        "hand": [
+          2
+        ],
+        "discard": [],
+        "scouted": false,
+        "visibleEnemy": []
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "end",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "card1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "card2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "scout",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyQ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "victory",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/battle/enemyHealth"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "defeat",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/battle/health"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "← 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "→ 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "↑ 上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "↓ 下",
+        "bind": {
+          "action": "down"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "E 回合结束",
+        "bind": {
+          "action": "end"
+        }
+      },
+      {
+        "id": "choice-5",
+        "kind": "button",
+        "text": "1 第一张",
+        "bind": {
+          "action": "card1"
+        }
+      },
+      {
+        "id": "choice-6",
+        "kind": "button",
+        "text": "2 第二张",
+        "bind": {
+          "action": "card2"
+        }
+      },
+      {
+        "id": "scout",
+        "kind": "button",
+        "text": "Q 侦察",
+        "bind": {
+          "action": "scout"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.5
+          ],
+          "size": [
+            6.1,
+            3.07
+          ],
+          "fill": "#345267"
+        },
+        {
+          "id": "tile-0",
+          "kind": "rect",
+          "at": [
+            -2.24,
+            1.4
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-1",
+          "kind": "rect",
+          "at": [
+            -1.12,
+            1.4
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#213649"
+        },
+        {
+          "id": "tile-2",
+          "kind": "rect",
+          "at": [
+            0,
+            1.4
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-3",
+          "kind": "rect",
+          "at": [
+            1.12,
+            1.4
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-4",
+          "kind": "rect",
+          "at": [
+            2.24,
+            1.4
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-5",
+          "kind": "rect",
+          "at": [
+            -2.24,
+            0.4999999999999999
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-6",
+          "kind": "rect",
+          "at": [
+            -1.12,
+            0.4999999999999999
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-7",
+          "kind": "rect",
+          "at": [
+            0,
+            0.4999999999999999
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-8",
+          "kind": "rect",
+          "at": [
+            1.12,
+            0.4999999999999999
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-9",
+          "kind": "rect",
+          "at": [
+            2.24,
+            0.4999999999999999
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-10",
+          "kind": "rect",
+          "at": [
+            -2.24,
+            -0.40000000000000013
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-11",
+          "kind": "rect",
+          "at": [
+            -1.12,
+            -0.40000000000000013
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#213649"
+        },
+        {
+          "id": "tile-12",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.40000000000000013
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "tile-13",
+          "kind": "rect",
+          "at": [
+            1.12,
+            -0.40000000000000013
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#213649"
+        },
+        {
+          "id": "tile-14",
+          "kind": "rect",
+          "at": [
+            2.24,
+            -0.40000000000000013
+          ],
+          "size": [
+            1.07,
+            0.84
+          ],
+          "fill": "#4C6C80"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.3
+          ],
+          "text": {
+            "literal": "雾幕战令"
+          },
+          "fontSize": 0.53,
+          "fill": "#FFDA9A"
+        },
+        {
+          "id": "ap-label",
+          "kind": "text",
+          "at": [
+            -4.03,
+            1.42
+          ],
+          "text": {
+            "literal": "行动点"
+          },
+          "fontSize": 0.29,
+          "fill": "#B9D7E2"
+        },
+        {
+          "id": "ap-value",
+          "kind": "text",
+          "at": [
+            -4.03,
+            1
+          ],
+          "text": {
+            "state": "/battle/ap"
+          },
+          "fontSize": 0.46,
+          "fill": "#FFE2A4"
+        },
+        {
+          "id": "round-label",
+          "kind": "text",
+          "at": [
+            -4.03,
+            -0.05
+          ],
+          "text": {
+            "literal": "回合"
+          },
+          "fontSize": 0.29,
+          "fill": "#B9D7E2"
+        },
+        {
+          "id": "round-value",
+          "kind": "text",
+          "at": [
+            -4.03,
+            -0.47
+          ],
+          "text": {
+            "state": "/battle/round"
+          },
+          "fontSize": 0.46,
+          "fill": "#FFE2A4"
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            4.04,
+            1.42
+          ],
+          "text": {
+            "literal": "我方生命"
+          },
+          "fontSize": 0.29,
+          "fill": "#B9D7E2"
+        },
+        {
+          "id": "hp-value",
+          "kind": "text",
+          "at": [
+            4.04,
+            1
+          ],
+          "text": {
+            "state": "/battle/health"
+          },
+          "fontSize": 0.46,
+          "fill": "#FFE2A4"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.3
+          ],
+          "text": {
+            "literal": "移动后 Q 侦察 · 1 选攻击牌 · 方向键瞄向敌人"
+          },
+          "fontSize": 0.33,
+          "fill": "#C2D9E0"
+        },
+        {
+          "id": "hand-title",
+          "kind": "text",
+          "at": [
+            0,
+            -1.47
+          ],
+          "text": {
+            "literal": "手牌  ·  1 移动 / 2 攻击"
+          },
+          "fontSize": 0.31,
+          "fill": "#D9F6F4"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "hero",
+          "source": {
+            "state": "/battle/player"
+          },
+          "columns": 5,
+          "origin": [
+            -2.24,
+            1.4
+          ],
+          "step": [
+            1.12,
+            0.9
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#8DE0BE"
+            },
+            {
+              "id": "name",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "literal": "我"
+              },
+              "fontSize": 0.32,
+              "fill": "#10352D"
+            }
+          ]
+        },
+        {
+          "id": "rival",
+          "source": {
+            "state": "/battle/visibleEnemy"
+          },
+          "columns": 5,
+          "origin": [
+            -2.24,
+            1.4
+          ],
+          "step": [
+            1.12,
+            0.9
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#EF958C"
+            },
+            {
+              "id": "name",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "literal": "敌"
+              },
+              "fontSize": 0.32,
+              "fill": "#491C26"
+            }
+          ]
+        },
+        {
+          "id": "hand",
+          "source": {
+            "state": "/battle/hand"
+          },
+          "columns": 2,
+          "origin": [
+            -1,
+            -2.17
+          ],
+          "step": [
+            2,
+            1
+          ],
+          "template": [
+            {
+              "id": "card",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.45,
+                0.76
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "1": "#8DE0BE",
+                  "2": "#EF958C"
+                },
+                "fallback": "#DCE4EB"
+              }
+            },
+            {
+              "id": "number",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 0.39,
+              "fill": "#172935"
+            }
+          ],
+          "indexMode": "array"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

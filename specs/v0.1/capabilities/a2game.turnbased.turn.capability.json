@@ -70,6 +70,10 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 64
+        },
+        "gravityDrop": {
+          "type": "boolean",
+          "description": "When true, selectActions map one-to-one to columns in left-to-right order. Valid drops trigger automatic turn rotation."
         }
       },
       "required": [

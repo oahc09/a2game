@@ -1,0 +1,666 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.brass-recruits",
+  "revision": 1,
+  "meta": {
+    "title": "铜旗招募",
+    "description": "招募单位，再派遣。战斗自动结算，奖励可供下一轮招募。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "stage": {
+      "type": "int",
+      "initial": 1
+    },
+    "formation": {
+      "type": "int",
+      "initial": 0
+    },
+    "enemy": {
+      "type": "int",
+      "initial": 2
+    },
+    "hp": {
+      "type": "int",
+      "initial": 3
+    },
+    "victories": {
+      "type": "int",
+      "initial": 0
+    },
+    "gold": {
+      "type": "int",
+      "initial": 3
+    },
+    "units": {
+      "type": "int",
+      "initial": 0
+    },
+    "resolveAt": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "recruit",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "launch",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "recruit",
+      "on": {
+        "type": "input.action",
+        "action": "recruit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/gold"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/resolveAt"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/units"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/gold",
+          "value": -1
+        },
+        {
+          "op": "state.add",
+          "path": "/units",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "launch",
+      "on": {
+        "type": "input.action",
+        "action": "launch",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/units"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/resolveAt"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/resolveAt",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "win-round",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/resolveAt"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/resolveAt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/units"
+              },
+              {
+                "state": "/stage"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/resolveAt",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/units",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/victories",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/gold",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/stage",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "lose-round",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/resolveAt"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/resolveAt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/units"
+              },
+              {
+                "state": "/stage"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/resolveAt",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/units",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/victories"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-recruit",
+        "kind": "button",
+        "text": "1 招募",
+        "bind": {
+          "action": "recruit"
+        }
+      },
+      {
+        "id": "ui-launch",
+        "kind": "button",
+        "text": "2 派遣",
+        "bind": {
+          "action": "launch"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "铜旗招募"
+          },
+          "fontSize": 0.6,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "gold-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.54
+          ],
+          "text": {
+            "literal": "金币"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "gold",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/gold"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "units-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.54
+          ],
+          "text": {
+            "literal": "兵力"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "units",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/units"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "victories-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.54
+          ],
+          "text": {
+            "literal": "胜场"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "victories",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/victories"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "resolveAt-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "结算 Tick"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "resolveAt",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/resolveAt"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "时钟"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            0,
+            -0.48
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "营地生命"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            3,
+            -0.48
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.6
+          ],
+          "text": {
+            "literal": "1 花 1 金招募 · 2 派遣后自动结算"
+          },
+          "fontSize": 0.4,
+          "fill": "#F5DEAE"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

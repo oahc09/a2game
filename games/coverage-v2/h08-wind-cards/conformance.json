@@ -1,0 +1,274 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-wind-cards",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.wind-cards",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "target-then-commit",
+      "seed": 822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/hand",
+          "equals": [
+            1,
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/hand",
+          "equals": [
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/discard",
+          "equals": [
+            1,
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/deck",
+          "equals": [
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/discard",
+          "equals": [
+            1,
+            2,
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "wrong-target-keeps-card",
+      "seed": 822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "card2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/hand",
+          "equals": [
+            1,
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/deck",
+          "equals": [
+            2,
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/discard",
+          "equals": []
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

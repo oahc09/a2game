@@ -1,0 +1,710 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.red-gorge",
+  "revision": 1,
+  "meta": {
+    "title": "红峡 · 横版清关",
+    "description": "A / D 跑动、空格跳跃、J 瞄准最近敌人开火。越过峡谷，收取检查点并击破警戒机，才能触达出口。",
+    "genres": [
+      "shooter"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 57022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "world",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 9000,
+                "height": 5700,
+                "gravity": -6,
+                "moveSpeed": 96,
+                "jumpSpeed": 118,
+                "killBelowY": 420,
+                "maxTicks": 360,
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "jump": "jump",
+                  "fire": "fire"
+                },
+                "weapon": "projectile",
+                "autoTarget": true,
+                "projectileSpeed": 128,
+                "projectileHalfSize": 72,
+                "damage": 1,
+                "weaponRange": 3200,
+                "cooldownTicks": 12
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 1400,
+            "y": 880,
+            "hx": 180,
+            "hy": 180,
+            "vx": 0,
+            "vy": 0,
+            "hp": 3,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          },
+          {
+            "id": "ledge-a",
+            "kind": "solid",
+            "x": 1200,
+            "y": 560,
+            "hx": 1200,
+            "hy": 140,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "ledge-b",
+            "kind": "solid",
+            "x": 4900,
+            "y": 560,
+            "hx": 1500,
+            "hy": 140,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "ledge-c",
+            "kind": "solid",
+            "x": 7650,
+            "y": 560,
+            "hx": 1250,
+            "hy": 140,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "checkpoint",
+            "kind": "pickup",
+            "x": 6250,
+            "y": 900,
+            "hx": 220,
+            "hy": 250,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "gate",
+            "kind": "solid",
+            "x": 8550,
+            "y": 1550,
+            "hx": 120,
+            "hy": 850,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "watcher",
+            "kind": "target",
+            "x": 7140,
+            "y": 1450,
+            "hx": 190,
+            "hy": 210,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "checkpoint": {
+      "type": "bool",
+      "initial": false
+    },
+    "enemyDown": {
+      "type": "bool",
+      "initial": false
+    },
+    "finished": {
+      "type": "bool",
+      "initial": false
+    },
+    "landings": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "跳过峡谷并经过琥珀检查点"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "jump",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "checked",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "checkpoint"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/checkpoint",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "检查点已记录 · 击退警戒机"
+        }
+      ]
+    },
+    {
+      "id": "landed",
+      "on": {
+        "type": "realtime.landed"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "hero"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/landings",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "cleared",
+      "on": {
+        "type": "combat.death"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "watcher"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/enemyDown",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "警戒机已击破 · 前往出口"
+        }
+      ]
+    },
+    {
+      "id": "blocked",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/pair"
+              },
+              {
+                "const": "gate|hero"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemyDown"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "出口关闭 · 必须击破警戒机"
+        }
+      ]
+    },
+    {
+      "id": "exit-begin",
+      "on": {
+        "type": "contact.begin"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/pair"
+              },
+              {
+                "const": "gate|hero"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/checkpoint"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemyDown"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/finished",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "抵达峡谷出口"
+        }
+      ]
+    },
+    {
+      "id": "exit-stay",
+      "on": {
+        "type": "contact.stay"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/pair"
+              },
+              {
+                "const": "gate|hero"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/checkpoint"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemyDown"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/finished",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "抵达峡谷出口"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "fall",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "exit",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/finished"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "空格 跳",
+        "bind": {
+          "action": "jump"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "J 开火",
+        "bind": {
+          "action": "fire"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.28
+          ],
+          "text": {
+            "literal": "红峡 · 横版清关"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFE2A2"
+        },
+        {
+          "id": "canyon",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.39
+          ],
+          "size": [
+            9.1,
+            3.01
+          ],
+          "fill": "#243F53"
+        },
+        {
+          "id": "mist",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.69
+          ],
+          "size": [
+            9.1,
+            0.38
+          ],
+          "fill": "#315768"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            2.57
+          ],
+          "text": {
+            "literal": "A / D 跑动  ·  空格跳跃  ·  J 开火"
+          },
+          "fontSize": 0.36,
+          "fill": "#C1DCE4"
+        },
+        {
+          "id": "exit",
+          "kind": "text",
+          "at": [
+            4.05,
+            1.19
+          ],
+          "text": {
+            "literal": "出口"
+          },
+          "fontSize": 0.31,
+          "fill": "#F8DDAA"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.26
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.36,
+          "fill": "#F6CF8F"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4.5,
+          -2.87
+        ],
+        "palette": {
+          "actor": "#6DE0BF",
+          "target": "#F1908F",
+          "solid": "#4C7A89",
+          "projectile": "#FFD48A",
+          "pickup": "#F4B75C"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

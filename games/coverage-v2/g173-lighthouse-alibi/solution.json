@@ -1,0 +1,22 @@
+[
+  {
+    "action": "keeper",
+    "ticks": 1
+  },
+  {
+    "action": "porter",
+    "ticks": 1
+  },
+  {
+    "action": "ledger",
+    "ticks": 1
+  },
+  {
+    "action": "compare",
+    "ticks": 1
+  },
+  {
+    "action": "accuse-k",
+    "ticks": 1
+  }
+]

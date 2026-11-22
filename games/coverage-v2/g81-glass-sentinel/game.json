@@ -1,0 +1,951 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.glass-sentinel",
+  "revision": 1,
+  "meta": {
+    "title": "镜砂守卫 · 小队回合战",
+    "description": "小队轮流行动。A 小队普攻造成 1 点，S 法师技能耗 1 星能造成 2 点，D 防守抵挡当回合反击。星能耗尽后仍可普攻。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 81022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "stage": {
+      "type": "int",
+      "initial": 0
+    },
+    "round": {
+      "type": "int",
+      "initial": 1
+    },
+    "front": {
+      "type": "int",
+      "initial": 3
+    },
+    "mage": {
+      "type": "int",
+      "initial": 2
+    },
+    "mana": {
+      "type": "int",
+      "initial": 2
+    },
+    "enemy": {
+      "type": "int",
+      "initial": 6
+    },
+    "guard": {
+      "type": "bool",
+      "initial": false
+    },
+    "request": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "先打破守卫外壳"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "slash",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "spell",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "guard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "request-slash",
+      "on": {
+        "type": "input.action",
+        "action": "slash",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/stage"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "request-spell",
+      "on": {
+        "type": "input.action",
+        "action": "spell",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/stage"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "request-guard",
+      "on": {
+        "type": "input.action",
+        "action": "guard",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/stage"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "slash",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/enemy",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "小队普攻造成 1 点"
+        }
+      ]
+    },
+    {
+      "id": "cast",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/mana"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/enemy",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "星砂法术造成 2 点"
+        },
+        {
+          "op": "state.add",
+          "path": "/mana",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "depleted",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mana"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "星能耗尽 · 本回合未消耗"
+        }
+      ]
+    },
+    {
+      "id": "guard",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/guard",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "队伍共同防守"
+        }
+      ]
+    },
+    {
+      "id": "clear",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "front-hit",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/guard"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/front"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/front",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "back-hit",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/guard"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/front"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/mage",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "next-turn",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/stage",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/guard",
+          "value": false
+        },
+        {
+          "op": "state.add",
+          "path": "/round",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "defeat",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/front"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mage"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "victory",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "lte",
+        "args": [
+          {
+            "state": "/enemy"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 小队普攻",
+        "bind": {
+          "action": "slash"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "S 星砂法术",
+        "bind": {
+          "action": "spell"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "D 小队防守",
+        "bind": {
+          "action": "guard"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.22
+          ],
+          "text": {
+            "literal": "镜砂守卫 · 小队回合战"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDA98"
+        },
+        {
+          "id": "battlefield",
+          "kind": "rect",
+          "at": [
+            0,
+            0.26
+          ],
+          "size": [
+            8.9,
+            4.72
+          ],
+          "fill": "#2F4658"
+        },
+        {
+          "id": "front-label",
+          "kind": "text",
+          "at": [
+            -3.27,
+            1.1
+          ],
+          "text": {
+            "literal": "领队生命"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "front-value",
+          "kind": "text",
+          "at": [
+            -3.27,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/front"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "mage-label",
+          "kind": "text",
+          "at": [
+            -1.13,
+            1.1
+          ],
+          "text": {
+            "literal": "法师生命"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "mage-value",
+          "kind": "text",
+          "at": [
+            -1.13,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/mage"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "mana-label",
+          "kind": "text",
+          "at": [
+            1.11,
+            1.1
+          ],
+          "text": {
+            "literal": "星能"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "mana-value",
+          "kind": "text",
+          "at": [
+            1.11,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/mana"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "enemy-label",
+          "kind": "text",
+          "at": [
+            3.23,
+            1.1
+          ],
+          "text": {
+            "literal": "守卫生命"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "enemy-value",
+          "kind": "text",
+          "at": [
+            3.23,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/enemy"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "round-label",
+          "kind": "text",
+          "at": [
+            0,
+            -0.82
+          ],
+          "text": {
+            "literal": "回合"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "round-value",
+          "kind": "text",
+          "at": [
+            0,
+            -1.35
+          ],
+          "text": {
+            "state": "/round"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.13
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.35,
+          "fill": "#E9D6AA"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

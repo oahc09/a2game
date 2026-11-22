@@ -1,0 +1,26 @@
+[
+  {
+    "action": "right",
+    "ticks": 2
+  },
+  {
+    "action": "up",
+    "ticks": 2
+  },
+  {
+    "action": "right",
+    "ticks": 2
+  },
+  {
+    "action": "right",
+    "ticks": 2
+  },
+  {
+    "action": "right",
+    "ticks": 2
+  },
+  {
+    "action": "right",
+    "ticks": 2
+  }
+]

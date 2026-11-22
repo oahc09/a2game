@@ -1,0 +1,40 @@
+[
+  {
+    "action": "order",
+    "ticks": 1
+  },
+  {
+    "action": "soup",
+    "ticks": 1
+  },
+  {
+    "action": "cook",
+    "ticks": 1
+  },
+  {
+    "ticks": 24
+  },
+  {
+    "action": "serve",
+    "ticks": 1
+  },
+  {
+    "action": "order",
+    "ticks": 1
+  },
+  {
+    "action": "rice",
+    "ticks": 1
+  },
+  {
+    "action": "cook",
+    "ticks": 1
+  },
+  {
+    "ticks": 24
+  },
+  {
+    "action": "serve",
+    "ticks": 1
+  }
+]

@@ -1,0 +1,663 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.bell-arena",
+  "revision": 1,
+  "meta": {
+    "title": "双铃格斗场",
+    "description": "按 K 防守两轮攻势，趁对手恢复时按 J。受击后有 8 Tick 硬直。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "hp": {
+      "type": "int",
+      "initial": 2
+    },
+    "rival": {
+      "type": "int",
+      "initial": 2
+    },
+    "blockUntil": {
+      "type": "int",
+      "initial": 0
+    },
+    "stunUntil": {
+      "type": "int",
+      "initial": 0
+    },
+    "attackUntil": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "第 20、60 Tick 来袭"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "guard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "attack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "brace",
+      "on": {
+        "type": "input.action",
+        "action": "guard",
+        "edge": "press"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "state": "/stunUntil"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/blockUntil",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 7
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "举手防守"
+        }
+      ]
+    },
+    {
+      "id": "blocked-20",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/blockUntil"
+              },
+              {
+                "state": "/clock"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/attackUntil",
+          "value": 31
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "格挡成功 · 对手露出空档"
+        }
+      ]
+    },
+    {
+      "id": "hurt-20",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/blockUntil"
+              },
+              {
+                "state": "/clock"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/stunUntil",
+          "value": 28
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "受击硬直"
+        }
+      ]
+    },
+    {
+      "id": "blocked-60",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/blockUntil"
+              },
+              {
+                "state": "/clock"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/attackUntil",
+          "value": 71
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "格挡成功 · 对手露出空档"
+        }
+      ]
+    },
+    {
+      "id": "hurt-60",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/blockUntil"
+              },
+              {
+                "state": "/clock"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/stunUntil",
+          "value": 68
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "受击硬直"
+        }
+      ]
+    },
+    {
+      "id": "punish",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/stunUntil"
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/attackUntil"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/rival",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/attackUntil",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "反击命中"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/rival"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-guard",
+        "kind": "button",
+        "text": "K 防守",
+        "bind": {
+          "action": "guard"
+        }
+      },
+      {
+        "id": "ui-attack",
+        "kind": "button",
+        "text": "J 攻击",
+        "bind": {
+          "action": "attack"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "双铃格斗场"
+          },
+          "fontSize": 0.62,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.54
+          ],
+          "text": {
+            "literal": "时钟"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.54
+          ],
+          "text": {
+            "literal": "体力"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "rival-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.54
+          ],
+          "text": {
+            "literal": "对手体力"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "rival",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/rival"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "blockUntil-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "防守截止"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "blockUntil",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/blockUntil"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "stunUntil-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "硬直截止"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "stunUntil",
+          "kind": "text",
+          "at": [
+            0,
+            -0.48
+          ],
+          "text": {
+            "state": "/stunUntil"
+          },
+          "fontSize": 0.5,
+          "fill": "#FAE0B5"
+        },
+        {
+          "id": "notice",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#FAE0B5"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

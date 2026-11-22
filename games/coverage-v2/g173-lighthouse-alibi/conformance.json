@@ -1,0 +1,185 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-lighthouse-alibi",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.lighthouse-alibi",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "keeper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "keeper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "porter",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "porter",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ledger",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ledger",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "compare",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "compare",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-k",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-k",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "prerequisite-missing",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "keeper",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "keeper",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ledger",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ledger",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "compare",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "compare",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-k",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-k",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-p",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "accuse-p",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/contradiction",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

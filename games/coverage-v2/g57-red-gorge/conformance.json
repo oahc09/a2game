@@ -1,0 +1,148 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-red-gorge",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.red-gorge",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "jump-shoot-and-exit",
+      "seed": 57022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "step",
+          "ticks": 20
+        },
+        {
+          "op": "assert",
+          "path": "/state/checkpoint",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "required-enemy-blocks-exit",
+      "seed": 57022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 10
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "jump",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 40
+        },
+        {
+          "op": "step",
+          "ticks": 38
+        },
+        {
+          "op": "assert",
+          "path": "/state/checkpoint",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemyDown",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/finished",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/message",
+          "equals": "出口关闭 · 必须击破警戒机"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

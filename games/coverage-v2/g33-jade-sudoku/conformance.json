@@ -1,0 +1,157 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-jade-sudoku",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.jade-sudoku",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "solve",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "digit4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "digit4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "select3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "select3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "digit1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "invalid-or-incomplete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "digit2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell0",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "action": "upper",
+    "ticks": 1
+  },
+  {
+    "action": "lower",
+    "ticks": 1
+  },
+  {
+    "action": "end",
+    "ticks": 1
+  },
+  {
+    "action": "end",
+    "ticks": 1
+  }
+]

@@ -1,0 +1,10 @@
+[
+  {
+    "action": "urgent",
+    "ticks": 3
+  },
+  {
+    "action": "regular",
+    "ticks": 90
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "action": "col1",
+    "ticks": 1
+  },
+  {
+    "action": "col1",
+    "ticks": 1
+  },
+  {
+    "action": "col2",
+    "ticks": 1
+  },
+  {
+    "action": "col2",
+    "ticks": 1
+  },
+  {
+    "action": "col3",
+    "ticks": 1
+  },
+  {
+    "action": "col3",
+    "ticks": 1
+  },
+  {
+    "action": "col4",
+    "ticks": 1
+  }
+]

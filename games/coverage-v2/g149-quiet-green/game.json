@@ -1,0 +1,1174 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.quiet-green",
+  "revision": 5,
+  "meta": {
+    "title": "静湾果岭",
+    "description": "空格击球，1 直击、2 右斜强击、3 轻击。第一洞进洞后按 N，第二洞由左侧起杆，累计杆数。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.bound-stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.physics.rigid3d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.rigid-body",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.constraint",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.trigger-zone",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 42,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.physics.rigid3d",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/rigid",
+                "bodies": [
+                  {
+                    "id": "table",
+                    "shape": "box",
+                    "size": [
+                      4,
+                      0.4,
+                      6
+                    ],
+                    "position": [
+                      0,
+                      -0.2,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "ball",
+                    "shape": "sphere",
+                    "size": [
+                      0.36,
+                      0.36,
+                      0.36
+                    ],
+                    "position": [
+                      0,
+                      0.2,
+                      -2
+                    ],
+                    "mass": 1,
+                    "active": true
+                  },
+                  {
+                    "id": "left",
+                    "shape": "box",
+                    "size": [
+                      0.2,
+                      0.7,
+                      6.4
+                    ],
+                    "position": [
+                      -2.1,
+                      0.35,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "right",
+                    "shape": "box",
+                    "size": [
+                      0.2,
+                      0.7,
+                      6.4
+                    ],
+                    "position": [
+                      2.1,
+                      0.35,
+                      0
+                    ],
+                    "mass": 0,
+                    "active": true
+                  },
+                  {
+                    "id": "back",
+                    "shape": "box",
+                    "size": [
+                      4.4,
+                      0.7,
+                      0.2
+                    ],
+                    "position": [
+                      0,
+                      0.35,
+                      3.1
+                    ],
+                    "mass": 0,
+                    "active": true
+                  }
+                ],
+                "gravity": [
+                  0,
+                  -9.82,
+                  0
+                ],
+                "maxTicks": 480,
+                "failBelow": -3,
+                "restitution": 0.15,
+                "launchAction": "kick",
+                "actorIndex": 1,
+                "launchVelocity": [
+                  0,
+                  0,
+                  3
+                ],
+                "triggers": [
+                  {
+                    "id": "cup",
+                    "min": [
+                      -0.28,
+                      0,
+                      0.8
+                    ],
+                    "max": [
+                      0.28,
+                      0.5,
+                      1.17
+                    ]
+                  }
+                ],
+                "repeatLaunch": true,
+                "launchVelocityPath": "/velocity"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "rigid": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "active": true,
+            "p": [
+              0,
+              -200000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": -200000
+          },
+          {
+            "active": true,
+            "p": [
+              0,
+              200000,
+              -2000000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 200000
+          },
+          {
+            "active": true,
+            "p": [
+              -2100000,
+              350000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              2100000,
+              350000,
+              0
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          },
+          {
+            "active": true,
+            "p": [
+              0,
+              350000,
+              3100000
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1000000
+            ],
+            "w": [
+              0,
+              0,
+              0
+            ],
+            "e": [
+              0,
+              0,
+              0
+            ],
+            "renderY": 350000
+          }
+        ],
+        "contacts": [],
+        "hitIds": [],
+        "axis": [
+          0,
+          0
+        ],
+        "axisSource": "",
+        "score": 0,
+        "stableTicks": 0,
+        "placed": 0,
+        "spawnX": 0,
+        "spawnZ": 0,
+        "launched": false,
+        "won": false,
+        "lost": false
+      }
+    },
+    "result": {
+      "type": "int",
+      "initial": 0
+    },
+    "velocity": {
+      "type": "array",
+      "initial": [
+        0,
+        0,
+        3
+      ]
+    },
+    "hole": {
+      "type": "int",
+      "initial": 1
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "kick",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space"
+            }
+          }
+        ]
+      },
+      {
+        "id": "straight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "soft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "next",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyN",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "stroke",
+      "on": {
+        "type": "rigid3d.launched"
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/result",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "straight",
+      "on": {
+        "type": "input.action",
+        "action": "straight",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/velocity",
+          "value": [
+            0,
+            0,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/velocity",
+          "value": [
+            0.65,
+            0,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soft",
+      "on": {
+        "type": "input.action",
+        "action": "soft",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/velocity",
+          "value": [
+            0,
+            0,
+            1.5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "next",
+      "on": {
+        "type": "input.action",
+        "action": "next",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hole"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/rigid/won"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hole",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/rigid",
+          "value": {
+            "bodies": [
+              {
+                "active": true,
+                "p": [
+                  0,
+                  -200000,
+                  0
+                ],
+                "v": [
+                  0,
+                  0,
+                  0
+                ],
+                "q": [
+                  0,
+                  0,
+                  0,
+                  1000000
+                ],
+                "w": [
+                  0,
+                  0,
+                  0
+                ],
+                "e": [
+                  0,
+                  0,
+                  0
+                ],
+                "renderY": -200000
+              },
+              {
+                "active": true,
+                "p": [
+                  -500000,
+                  200000,
+                  -2000000
+                ],
+                "v": [
+                  0,
+                  0,
+                  0
+                ],
+                "q": [
+                  0,
+                  0,
+                  0,
+                  1000000
+                ],
+                "w": [
+                  0,
+                  0,
+                  0
+                ],
+                "e": [
+                  0,
+                  0,
+                  0
+                ],
+                "renderY": 200000
+              },
+              {
+                "active": true,
+                "p": [
+                  -2100000,
+                  350000,
+                  0
+                ],
+                "v": [
+                  0,
+                  0,
+                  0
+                ],
+                "q": [
+                  0,
+                  0,
+                  0,
+                  1000000
+                ],
+                "w": [
+                  0,
+                  0,
+                  0
+                ],
+                "e": [
+                  0,
+                  0,
+                  0
+                ],
+                "renderY": 350000
+              },
+              {
+                "active": true,
+                "p": [
+                  2100000,
+                  350000,
+                  0
+                ],
+                "v": [
+                  0,
+                  0,
+                  0
+                ],
+                "q": [
+                  0,
+                  0,
+                  0,
+                  1000000
+                ],
+                "w": [
+                  0,
+                  0,
+                  0
+                ],
+                "e": [
+                  0,
+                  0,
+                  0
+                ],
+                "renderY": 350000
+              },
+              {
+                "active": true,
+                "p": [
+                  0,
+                  350000,
+                  3100000
+                ],
+                "v": [
+                  0,
+                  0,
+                  0
+                ],
+                "q": [
+                  0,
+                  0,
+                  0,
+                  1000000
+                ],
+                "w": [
+                  0,
+                  0,
+                  0
+                ],
+                "e": [
+                  0,
+                  0,
+                  0
+                ],
+                "renderY": 350000
+              }
+            ],
+            "contacts": [],
+            "hitIds": [],
+            "axis": [
+              0,
+              0
+            ],
+            "axisSource": "",
+            "score": 0,
+            "stableTicks": 0,
+            "placed": 0,
+            "spawnX": 0,
+            "spawnZ": 0,
+            "launched": false,
+            "won": false,
+            "lost": false
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/velocity",
+          "value": [
+            0,
+            0,
+            3
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hole"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/rigid/won"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "timeout",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/rigid/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "shoot",
+        "kind": "button",
+        "text": "空格 击球",
+        "bind": {
+          "action": "kick"
+        }
+      },
+      {
+        "id": "score",
+        "kind": "text",
+        "text": "杆数",
+        "bind": {
+          "state": "/result"
+        }
+      },
+      {
+        "id": "straight",
+        "kind": "button",
+        "text": "1 直击",
+        "bind": {
+          "action": "straight"
+        }
+      },
+      {
+        "id": "right",
+        "kind": "button",
+        "text": "2 右斜强击",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "soft",
+        "kind": "button",
+        "text": "3 轻击",
+        "bind": {
+          "action": "soft"
+        }
+      },
+      {
+        "id": "next",
+        "kind": "button",
+        "text": "N 下一洞",
+        "bind": {
+          "action": "next"
+        }
+      },
+      {
+        "id": "hole",
+        "kind": "text",
+        "text": "球洞",
+        "bind": {
+          "state": "/hole"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#0d1729",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.6
+          ],
+          "fontSize": 0.26,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "G15 弹球"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.65
+          ],
+          "fontSize": 0.14,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "Space 或点击发射真实三维弹球，沿边界反弹，先通过远端触发区，再回到近端触发区。"
+          }
+        }
+      ]
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "perspective",
+        "at": [
+          6,
+          8,
+          9
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "near": 0.1,
+        "far": 50,
+        "fov": 45,
+        "orthoHeight": 10
+      },
+      "nodes": [
+        {
+          "id": "table",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/0/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            4,
+            0.4,
+            6
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/0/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/0/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#466476",
+          "material": "standard"
+        },
+        {
+          "id": "ball",
+          "kind": "mesh",
+          "geometry": "sphere",
+          "at": [
+            {
+              "state": "/rigid/bodies/1/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.36,
+            0.36,
+            0.36
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/1/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/1/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#59D6C4",
+          "material": "standard"
+        },
+        {
+          "id": "left",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/2/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.2,
+            0.7,
+            6.4
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/2/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/2/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#466476",
+          "material": "standard"
+        },
+        {
+          "id": "right",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/3/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            0.2,
+            0.7,
+            6.4
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/3/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/3/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#466476",
+          "material": "standard"
+        },
+        {
+          "id": "back",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            {
+              "state": "/rigid/bodies/4/p/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/renderY",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/p/2",
+              "scale": 0.000001
+            }
+          ],
+          "size": [
+            4.4,
+            0.7,
+            0.2
+          ],
+          "rotation": [
+            {
+              "state": "/rigid/bodies/4/e/0",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/1",
+              "scale": 0.000001
+            },
+            {
+              "state": "/rigid/bodies/4/e/2",
+              "scale": 0.000001
+            }
+          ],
+          "color": "#466476",
+          "material": "standard"
+        },
+        {
+          "id": "cup",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0,
+            0.011,
+            1
+          ],
+          "size": [
+            0.57,
+            0.02,
+            0.42
+          ],
+          "color": "#FFE5A6",
+          "material": "standard"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "ticks": 21
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyJ"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyJ"
+        }
+      }
+    ],
+    "ticks": 40
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyJ"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyJ"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyK"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyK"
+        }
+      }
+    ],
+    "ticks": 3
+  }
+]

@@ -1,0 +1,570 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.amber-branches",
+  "revision": 1,
+  "meta": {
+    "title": "琥珀技艺",
+    "description": "1 解锁基础 · 2 学习烈击 · 3 测试伤害",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "points": {
+      "type": "int",
+      "initial": 3
+    },
+    "base": {
+      "type": "int",
+      "initial": 0
+    },
+    "advanced": {
+      "type": "int",
+      "initial": 0
+    },
+    "hp": {
+      "type": "int",
+      "initial": 4
+    },
+    "damage": {
+      "type": "int",
+      "initial": 1
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "base",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "advanced",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "attack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "base",
+      "on": {
+        "type": "input.action",
+        "action": "base",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/base"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/points"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/points",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/base",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/damage",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "on": {
+        "type": "input.action",
+        "action": "advanced",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/base"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/advanced"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/points"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/points",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/advanced",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/damage",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "attack",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/hp"
+                  },
+                  {
+                    "state": "/damage"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "clear",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-base",
+        "kind": "button",
+        "text": "1 基础",
+        "bind": {
+          "action": "base"
+        }
+      },
+      {
+        "id": "ui-advanced",
+        "kind": "button",
+        "text": "2 烈击",
+        "bind": {
+          "action": "advanced"
+        }
+      },
+      {
+        "id": "ui-attack",
+        "kind": "button",
+        "text": "3 攻击",
+        "bind": {
+          "action": "attack"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "琥珀技艺"
+          },
+          "fontSize": 0.62,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-points",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "points-title",
+          "kind": "text",
+          "at": [
+            -3,
+            1.52
+          ],
+          "text": {
+            "literal": "技能点"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "points",
+          "kind": "text",
+          "at": [
+            -3,
+            0.99
+          ],
+          "text": {
+            "state": "/points"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-base",
+          "kind": "rect",
+          "at": [
+            0,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "base-title",
+          "kind": "text",
+          "at": [
+            0,
+            1.52
+          ],
+          "text": {
+            "literal": "基础技能"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "base",
+          "kind": "text",
+          "at": [
+            0,
+            0.99
+          ],
+          "text": {
+            "state": "/base"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-advanced",
+          "kind": "rect",
+          "at": [
+            3,
+            1.27
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "advanced-title",
+          "kind": "text",
+          "at": [
+            3,
+            1.52
+          ],
+          "text": {
+            "literal": "烈击"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "advanced",
+          "kind": "text",
+          "at": [
+            3,
+            0.99
+          ],
+          "text": {
+            "state": "/advanced"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-hp",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "hp-title",
+          "kind": "text",
+          "at": [
+            -3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "靶体力"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "panel-damage",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.17999999999999994
+          ],
+          "size": [
+            2.76,
+            1.36
+          ],
+          "fill": "#24485A"
+        },
+        {
+          "id": "damage-title",
+          "kind": "text",
+          "at": [
+            0,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "实际攻击"
+          },
+          "fontSize": 0.37,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "damage",
+          "kind": "text",
+          "at": [
+            0,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/damage"
+          },
+          "fontSize": 0.49,
+          "fill": "#F6DEAA"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.72
+          ],
+          "text": {
+            "literal": "1 解锁基础 · 2 学习烈击 · 3 测试伤害"
+          },
+          "fontSize": 0.32,
+          "fill": "#F6DEAA"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

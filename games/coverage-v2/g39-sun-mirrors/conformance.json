@@ -1,0 +1,92 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-sun-mirrors",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.sun-mirrors",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "network-reaches-target",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorA",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorA",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/hit",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "broken-network-does-not-actuate",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorB",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "mirrorB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/hit",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

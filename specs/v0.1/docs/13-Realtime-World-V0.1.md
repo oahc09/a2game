@@ -1,5 +1,15 @@
 # Realtime World / aabb-int-v1
 
+可选 `actions.climb` 绑定持续按钮。离地且与固定固体侧面相切时，按住按钮将水平速度置零、竖直速度设为 48，之后照常施加重力和碰撞。跳跃优先于攀爬。松开或脱离墙面后恢复普通运动。
+
+持续方向输入可通过可选 `driftAction` 绑定侧滑键。按住侧滑键时，每轴速度取上一 Tick 速度的四分之三与当前方向目标速度的四分之一，结果向零取整。两轴速度绝对值都达到 16 时发布 `realtime.drift`，作品可按连续 Tick 计分。松开侧滑键即恢复即时方向响应。
+
+`breakableSolids: true` 允许弹丸伤害非中立且敌对的 `solid`，耐久耗尽后从世界移除。中立和友方固体继续阻挡弹丸。
+
+`airJumpOnce` 启用一次额外空中行动。空中再次按跳跃，或绑定 `dash` 后沿当前水平速度方向冲刺，都会消耗该次数。地面接触后恢复。`wallJump` 允许离地角色在固定实体侧面相切时向反方向跳跃。`gravityFlipPath` 绑定布尔状态，开启时反转该世界配置的基础重力，接触及物体位置由共享世界继续计算。
+
+可选 `lift` 使用 `body` 指定初始固定实体，`enabledPath` 读取布尔状态，并在物理 Tick 前选择 `restY` 或 `raisedY`。实体须为固定的 `solid`，两个高度都须在世界边界内，升起位置须高于初始位置。碰撞和 BodyLayer 同步使用更新后的高度。[G52 用例](../../../games/coverage-v2/g52-lift-bridge/conformance.json)
+
 `a2game.realtime.world@0.1.0` 是共享 Runtime 的有界 2D 整数物理与战斗 Profile。不是任意三维刚体求解器；G11–G21/G30/G31 完整玩法仍独立验收。Host 不参与积分、碰撞或伤害计算。
 
 ## Tick 与可复现性
@@ -41,3 +51,10 @@ G13/H03 基础 revision 3 使用三中心 [2000,4000,6000]、三段向下障碍�
 G18 revision 3 加入真正 solid 墙，直线 hitscan 被阻挡，WASD 绕行与拖动瞄准分离。G19 revision 3 用既有 GameSpec 规则、计时器和 damageBonusPath 组合三波追踪、一次技能及升级：技能消耗一次充能，40 Tick 后恢复当前升级伤害；T5 消费上一规则阶段提交的增伤，无 Adapter 玩法分支。
 
 2026-10-27 G25 revision 3 使用已有整数重力驱动水果，落地未切中经 GameSpec 规则失败；低采样轨迹与炸弹仍在共享 input-control 中求交、去重。G30 显式 `cancelClearsPower:true` 时取消拉弓将 power 归零，多指中断与单次释放沿既有 fireRequest 事务；未启用时保持旧取消状态。HUD 只投影拉力/发射计数，不参与玩法。
+## 定步身体与投射物得分
+
+`a2game.realtime.grid-trail@0.1.0` 的 3–12 行列格网按左、右、上、下绑定四个 button Action。每隔 `intervalTicks` 移动一格，每格接受第一个有效转向，拒绝反向。未吃食时本步会移走的尾格可进入；撞到其余身体或边墙结束。吃食保留尾格并由共享 RNG 从未占格号中选下个食物；达到 `goalFood` 或填满格网完成。状态保存身体顺序、已排队转向和食物，Host 使用普通 `scene2d` 网格投影。[G41 正反例](../../../games/coverage-v2/g41-moss-trail/conformance.json)
+
+`realtime.world` 可选 `projectileGate`，配置投射物计分横线 `y` 和有效的 `minX/maxX`。模块在整数子步中对从严格上方到等于或低于横线的轨迹插值，横坐标落入闭区间才加一分、移除投射物，并发出 `realtime.projectile-scored`。每颗投射物至多贡献一次此类得分。[G146 正反例](../../../games/coverage-v2/g146-clear-bay-hoop/conformance.json)
+
+`moveSpeedBonusPath` 可指向独立的 0–128 整数状态；下一 Tick 的方向移动使用 `min(128, moveSpeed + bonus)`。G73 用它实现移速与火力二选一。[G73 正反例](../../../games/coverage-v2/g73-frost-watch/conformance.json)

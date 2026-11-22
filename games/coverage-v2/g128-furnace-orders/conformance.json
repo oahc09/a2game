@@ -1,0 +1,239 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-furnace-orders",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.furnace-orders",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "priority-delivers",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 90
+        },
+        {
+          "op": "assert",
+          "path": "/state/urgent",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/regular",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "regular-blocks-urgent",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 80
+        },
+        {
+          "op": "assert",
+          "path": "/state/urgent",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "queue-is-bounded",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "urgent",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "regular",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/first",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/last",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/active",
+          "equals": 2
+        }
+      ]
+    }
+  ]
+}

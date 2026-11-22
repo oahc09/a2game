@@ -1,0 +1,474 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.cross-current",
+  "revision": 1,
+  "meta": {
+    "title": "横流双向射击",
+    "description": "A/D 移动，I/J/K/L 独立选瞄准方向，F 射击。向上射击可命中高处标靶。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 49022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "world",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 9000,
+                "height": 5700,
+                "gravity": 0,
+                "moveSpeed": 96,
+                "jumpSpeed": 118,
+                "maxTicks": 250,
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "fire": "fire"
+                },
+                "weapon": "projectile",
+                "projectileSpeed": 120,
+                "damage": 1,
+                "cooldownTicks": 10,
+                "goalScore": 1,
+                "breakableSolids": false,
+                "aimPath": "/aim"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 1000,
+            "y": 1800,
+            "hx": 180,
+            "hy": 180,
+            "vx": 0,
+            "vy": 0,
+            "hp": 3,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          },
+          {
+            "id": "target",
+            "kind": "target",
+            "x": 2056,
+            "y": 3500,
+            "hx": 190,
+            "hy": 190,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "aim": {
+      "type": "array",
+      "initial": [
+        1,
+        0
+      ]
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aim-up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyI",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aim-left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aim-down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aim-right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "aim-up",
+      "on": {
+        "type": "input.action",
+        "action": "aim-up",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aim",
+          "value": [
+            0,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aim-left",
+      "on": {
+        "type": "input.action",
+        "action": "aim-left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aim",
+          "value": [
+            -1,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aim-down",
+      "on": {
+        "type": "input.action",
+        "action": "aim-down",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aim",
+          "value": [
+            0,
+            -1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "aim-right",
+      "on": {
+        "type": "input.action",
+        "action": "aim-right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aim",
+          "value": [
+            1,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "victory",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "timeout",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "fire",
+        "kind": "button",
+        "text": "F 射击",
+        "bind": {
+          "action": "fire"
+        }
+      },
+      {
+        "id": "aim-up",
+        "kind": "button",
+        "text": "I 向上",
+        "bind": {
+          "action": "aim-up"
+        }
+      },
+      {
+        "id": "aim-left",
+        "kind": "button",
+        "text": "J 向左",
+        "bind": {
+          "action": "aim-left"
+        }
+      },
+      {
+        "id": "aim-down",
+        "kind": "button",
+        "text": "K 向下",
+        "bind": {
+          "action": "aim-down"
+        }
+      },
+      {
+        "id": "aim-right",
+        "kind": "button",
+        "text": "L 向右",
+        "bind": {
+          "action": "aim-right"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "横流双向射击"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFE1A0"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3
+          ],
+          "text": {
+            "literal": "A/D 移动，I/J/K/L 独立选瞄准方向，F 射击。向上射击可命中高处标靶。"
+          },
+          "fontSize": 0.3,
+          "fill": "#D1E8E4"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4.5,
+          -2.87
+        ],
+        "palette": {
+          "actor": "#6DE0BF",
+          "target": "#F1908F",
+          "solid": "#4C7A89",
+          "projectile": "#FFD48A",
+          "pickup": "#F4B75C"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,575 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.signal-workbench",
+  "revision": 1,
+  "meta": {
+    "title": "银桥电路台",
+    "description": "1 电源 · 2 接合继电器 · 3 切换安全断路器",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "source": {
+      "type": "bool",
+      "initial": false
+    },
+    "bridge": {
+      "type": "bool",
+      "initial": false
+    },
+    "interlock": {
+      "type": "bool",
+      "initial": false
+    },
+    "live": {
+      "type": "bool",
+      "initial": false
+    },
+    "relayed": {
+      "type": "bool",
+      "initial": false
+    },
+    "driven": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "source",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bridge",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "interlock",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "toggle-source",
+      "on": {
+        "type": "input.action",
+        "action": "source",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/source",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/source"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "toggle-bridge",
+      "on": {
+        "type": "input.action",
+        "action": "bridge",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bridge",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bridge"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "toggle-interlock",
+      "on": {
+        "type": "input.action",
+        "action": "interlock",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/interlock",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/interlock"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "evaluate-network",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/live",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/source"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/relayed",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/source"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/bridge"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/driven",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/source"
+                      },
+                      {
+                        "const": true
+                      }
+                    ]
+                  },
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/bridge"
+                      },
+                      {
+                        "const": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/interlock"
+                  },
+                  {
+                    "const": false
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "network-finished",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/driven"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "key-source",
+        "kind": "button",
+        "text": "1 电源",
+        "bind": {
+          "action": "source"
+        }
+      },
+      {
+        "id": "key-bridge",
+        "kind": "button",
+        "text": "2 继电器",
+        "bind": {
+          "action": "bridge"
+        }
+      },
+      {
+        "id": "key-interlock",
+        "kind": "button",
+        "text": "3 断路器",
+        "bind": {
+          "action": "interlock"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "银桥电路台"
+          },
+          "fontSize": 0.58,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "power",
+          "kind": "text",
+          "at": [
+            -3,
+            1.26
+          ],
+          "text": {
+            "literal": "电源"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "relay",
+          "kind": "text",
+          "at": [
+            -0.7,
+            1.26
+          ],
+          "text": {
+            "literal": "继电器"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "breaker",
+          "kind": "text",
+          "at": [
+            1.3,
+            1.26
+          ],
+          "text": {
+            "literal": "断路器"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "motor",
+          "kind": "text",
+          "at": [
+            3.44,
+            1.26
+          ],
+          "text": {
+            "literal": "电机"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "live-source",
+          "kind": "rect",
+          "at": [
+            -2.14,
+            0.55
+          ],
+          "size": [
+            1.4,
+            0.22
+          ],
+          "fill": {
+            "from": {
+              "state": "/live"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "live-relay",
+          "kind": "rect",
+          "at": [
+            0.29,
+            0.55
+          ],
+          "size": [
+            2.5,
+            0.22
+          ],
+          "fill": {
+            "from": {
+              "state": "/relayed"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "live-motor",
+          "kind": "rect",
+          "at": [
+            2.94,
+            0.55
+          ],
+          "size": [
+            1.76,
+            0.22
+          ],
+          "fill": {
+            "from": {
+              "state": "/driven"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "fault",
+          "kind": "text",
+          "at": [
+            0,
+            -0.9
+          ],
+          "text": {
+            "literal": "断路器已打开"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "fault-value",
+          "kind": "text",
+          "at": [
+            0,
+            -1.45
+          ],
+          "text": {
+            "state": "/interlock"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -3.05
+          ],
+          "text": {
+            "literal": "1 电源 · 2 接合继电器 · 3 切换安全断路器"
+          },
+          "fontSize": 0.36,
+          "fill": "#E1EDE0"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "ticks": 12
+  },
+  {
+    "action": "up",
+    "ticks": 12
+  },
+  {
+    "action": "left",
+    "ticks": 12
+  },
+  {
+    "ticks": 12
+  },
+  {
+    "ticks": 12
+  },
+  {
+    "ticks": 12
+  },
+  {
+    "ticks": 12
+  },
+  {
+    "action": "down",
+    "ticks": 12
+  }
+]

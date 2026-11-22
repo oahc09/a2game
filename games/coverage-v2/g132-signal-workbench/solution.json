@@ -1,0 +1,10 @@
+[
+  {
+    "action": "source",
+    "ticks": 2
+  },
+  {
+    "action": "bridge",
+    "ticks": 2
+  }
+]

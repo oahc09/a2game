@@ -1,0 +1,227 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-river-clock",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.river-clock",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "register",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "register",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "gauge",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "gauge",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "clear",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "clear",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "prerequisite-missing",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "register",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "register",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "gauge",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "gauge",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "bell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "stop",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/done",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

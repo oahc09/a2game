@@ -1,0 +1,29 @@
+[
+  {
+    "ticks": 2
+  },
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "exit",
+    "ticks": 1
+  },
+  {
+    "action": "next-layout",
+    "ticks": 1
+  },
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "exit",
+    "ticks": 1
+  }
+]

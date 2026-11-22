@@ -1,5 +1,75 @@
 # A2Game 当前进展
 
+## v2 交付与持续可玩性
+
+最新试玩反馈指出关卡衔接、持续游玩和交互仍有缺口。此前通过的是限定范围内的重开和第二局验证。完整游玩体验仍待开发与验收，具体交互问题需要按作品和输入设备复现。[下一阶段计划](PROJECT-PLAN.md#v2-完整游玩体验)
+
+P0–P3 工程收口完成。G74 在两局间切换房间连接并保留通关数，G138 重置车辆、检查点和起始计时并保留最佳圈速，G149 以不同起球位置衔接两洞并累计杆数。三款通过 14 个双引擎场景、6 个第二局流程及 3 份内容包导入。84 款的 192 个 Headless 场景全部通过，试玩展刷新至 21 款与 88 个场景。[当前试玩索引](reports/coverage-v2-gallery-current-1795353341321.json) · [集中 Headless 回执](reports/coverage-v2-p3-headless-1795353303870.json)
+
+G53 加入定时下落的障碍，延迟 12 Tick 后按同一路线通行会被击中。G98 补验同一关隘的两条六角路线，平原路线消耗 2 点，山地路线消耗 3 点并须恢复行动点。两款均通过 CLI、双引擎重开及内容包导入。[G53 回执](reports/coverage-v2-browser-1795352844235/summary.json) · [G98 回执](reports/coverage-v2-browser-1795352885318/summary.json)
+
+G74 的种子现在决定房间连通关系。两种种子布局均通过出口可达性与入口不可跳关的 Headless 检查。默认种子通过双引擎重开及内容包导入。P2 的局间换种子待补。[种子拓扑回执](reports/coverage-v2-g74-topology-1795353009078.json) · [浏览器回执](reports/coverage-v2-browser-1795352994605/summary.json)
+
+G51 已补独立攀爬，按住 W 贴墙上行，释放后恢复普通运动。新版通过 CLI、双引擎和内容包导入。[攀爬回执](reports/coverage-v2-browser-1795352753554/summary.json)
+
+第 1–40 批累计交付 84 款可玩参考原型，189 个 Headless 场景通过。第 31–40 批的 20 款已核对 82 个真实双引擎场景和 20 份内容包导入。试玩展支持按作品、批次和引擎筛选，试玩等待玩家点击开始。[复审与阻塞清单](games/coverage-v2/REVIEW.md) · [双引擎交付索引](reports/coverage-v2-batches31-40-1795351528350.json)
+
+试玩展 20 款在两套真实引擎中均通过「结算 → 点击重开 → 第二局实际输入 → 再次结算」。40 个组合的初始状态均恢复，第二局终态 Hash 与同路线第一局一致。作品终局按单局规则停止接收玩法输入，固定关卡重开后重复同一内容。下一步是补齐任务书机制并为代表作品增加连续游玩流程。[重开回执](reports/coverage-v2-browser-1795352640980/summary.json) · [下一步计划](PROJECT-PLAN.md#v2-持续可玩性收口)
+
+v2 批次复审重跑 84 款的 189 个 Headless 场景，全部通过。试玩展改为等待玩家点击开始，并增加逐案回执校验。G51、G53、G74、G98 的玩法缺口已记录。[批次复审](games/coverage-v2/REVIEW.md)
+
+v2 第 31–40 批共 20 款参考原型完成工程交付。最终核对 82 个真实双引擎场景，逐款验证游戏摘要、测试套件摘要、跨引擎 Hash 和接收端导入。G147 增加逐 Tick 球路、拍位接触和回球后计分，G149 增加重复击球与实际杆数验证。G98 采用预置相邻六角路线验证地形成本。[交付索引](reports/coverage-v2-batches31-40-1795351528350.json)
+
+v2 第 38、40 批交付港湾双鼓、节拍渡峡、双手点灯和双人分水闸。共 16 个真实双 SDK 场景和四份接收端导入通过。[节奏回执](reports/coverage-v2-browser-1795351083932/summary.json) · [协作回执](reports/coverage-v2-browser-1795350986556/summary.json)
+
+v2 第 36 批交付铜港侧滑及铜环追影。两款通过 8 个双 SDK 场景和两份内容包导入。追影使用同一赛道的真实 Headless 输入回放，每六 Tick 采样位置。[双引擎回执](reports/coverage-v2-browser-1795350918556/summary.json)
+
+v2 第 35 批交付交锋阵型和铜旗招募，验证阵型克制、费用扣减、派遣后的定时自动结算与奖励。8 个真实双 SDK 场景、两份内容包导入通过。[浏览器回执](reports/coverage-v2-browser-1795350719394/summary.json)
+
+v2 第 31–34 批八款通过 CLI、32 个双 SDK 场景和八份内容包接收端导入，覆盖技能前置、装备词缀、编队训练、侦察和区域计分。G98 为固定相邻六角路线的地形成本参考。
+
+v2 第 30 批交付 G158 余烬对牌与 G76 灰塔卡组，覆盖能量支付及奖励牌进入下一层战斗。8 个双 SDK 场景及两份内容包接收端复验通过。[回执](reports/coverage-v2-browser-1795349979586/summary.json)
+
+v2 第 28–29 批四款已通过完整准入、20 个双 SDK 场景和四份内容包导入。G74 验证种子影响钥匙所在支路，房间拓扑变化仍待补齐。[第 28 批回执](reports/coverage-v2-browser-1795349815779/summary.json) · [第 29 批回执](reports/coverage-v2-browser-1795349913805/summary.json)
+
+v2 第 25–27 批交付 G59、G64、G70、G71、G65、G69 六款参考原型，覆盖独立瞄准、墙体破坏、闪避反击、弹反破防、格挡硬直和限时连招。24 个真实双 SDK 场景及六份内容包接收端复验通过。
+
+v2 第 24 批 G53 钟摆渡桥与 G54 反重力天井通过 8 个真实双 SDK 场景和两份内容包接收端复验。[双引擎回执](reports/coverage-v2-browser-1795348046287/summary.json)
+
+v2 第 23 批 G50 风阶复跳与 G51 石壁回跳通过 8 个真实双 SDK 场景和两份内容包接收端复验。[双引擎回执](reports/coverage-v2-browser-1795347938716/summary.json)
+
+v2 第 22 批交付巡灯机关和回声巡廊。8 个真实双 SDK 场景通过，两份重新导出的内容包通过导入。[双引擎回执](reports/coverage-v2-browser-1795347705925/summary.json)
+
+v2 第 20–21 批交付河邮联络线、浮岸送信、潮站时间线和雾港证词。16 个真实双引擎场景及四份内容包导入通过。[浏览器回执](reports/coverage-v2-browser-1795347627133/summary.json)
+
+v2 第 19 批交付 G89 潮仓寻灯和 G94 钟楼档案室。8 个真实双引擎场景与两份内容包导入通过。[浏览器回执](reports/coverage-v2-browser-1795347545852/summary.json)
+
+v2 第 18 批交付 G33 玉格数独和 G34 灯影数织。8 个双引擎场景及两份内容包导入通过。[第 18 批回执](reports/coverage-v2-browser-1795347344107/summary.json)
+
+v2 第 17 批 G36 一笔画与 G38 多格滑块完成工程交付。12 个真实双引擎场景及两份内容包导入通过。[浏览器回执](reports/coverage-v2-browser-1795347260954/summary.json)
+
+v2 第 16 批交付 G52 升桥与 H07 日石门锁，双 SDK 共 8 个场景与两份内容包导入通过。[浏览器回执](reports/coverage-v2-browser-1795347144569/summary.json)
+
+v2 第 15 批完成 G132 电路机关和 G39 两级镜面反射，累计 34 款参考原型。两款通过 CLI 准入、8 个真实双引擎场景与内容包导入复验。[第 15 批回执](reports/coverage-v2-browser-1795346792522/summary.json)
+
+v2 第 13–14 批完成 G128 订单排产、G126 矿场循环、G37 水道接通和 G47 颜色分拣。四款均通过完整准入、双 SDK 共 24 个场景及接收端导入。[双引擎回执](reports/coverage-v2-browser-1795346705679/summary.json)
+
+v2 第 12 批完成 G123 物流配送调度与 G115 便利店经营，累计 28 款工程参考原型。现有规则和共享 Tick 驱动派单、截止时间、进货、上架与结账。两款通过 CLI、12 个双 SDK 场景及接收端导入。[浏览器回执](reports/coverage-v2-browser-1795346037867/summary.json)
+
+v2 第 11–40 批已排入任务书，选定 59 个目录目标。第 11 批 H09 已完成作者工程交付，累计 26 款。双真实 SDK 共 6 个场景通过，库存守恒、快照重放和内容包接收端导入通过。[H09 回执](reports/coverage-v2-browser-1795335853743/summary.json)
+
+v2 第 10 批完成接收端验收补验。G156、G122、G107 三份内容包均在独立接收环境通过导入，并匹配浏览器回执中的游戏及测试套件摘要。补验了四连棋竖线与双斜线、产线库存守恒及快照重放，以及合成塔首发 Tick 与实际减速位移。[接收端回执](output/coverage-v2-batch10-receiver-1795334855099/index.json) · [补充 Headless 回执](reports/coverage-v2-batch10-reference-1795334709686/additional-checks-1795334882797.json)
+
+2026-11-22：v2 第 10 批完成 G156 四连棋、G122 工厂产线和 G107 进阶合成塔防，累计 25 款工程参考原型。共享库新增按列落子选项、带缓冲反压的产线和合成塔分支。3 款通过 CLI 准入和正反例，真实 Three.js、CocosAirJS 合计 18 个浏览器场景均通过 Headless Hash 对照，3 份内容包已导出，接收端通过 G122 导入复验。现有策略、塔防和迁移定向回归 13 项通过。H09 排为下一候选。[试玩指南](games/coverage-v2/README.md) · [参考回执](reports/coverage-v2-batch10-reference-1795334709686/index.json) · [内容包](output/coverage-v2-batch10-1795334691176/index.json)
+
+2026-11-22：v2 九批共 22 款可玩原型已完成 CLI 准入、真实双引擎验证与本机内容包导出。第 2 至 9 批新增 20 款，两端 90 个浏览器场景的精确 Hash 均与 Headless 一致。90 份 CoverageResult 均通过 Schema 校验。G161 在默认时钟下每个引擎的 8 次浏览器原生播放调用均发生在对应判线 Tick。[v2 原型、回执和内容包](games/coverage-v2/README.md)
+
+集中工程回归已收口。首轮 Node 通过 347 项，3 项因平台条件跳过，两项协议迁移断言失败。更新当前 Manifest 摘要及数量后，迁移测试 4 项全部通过。静态规范、367 份 Schema 文档、204 个 Conformance 场景及 113 项目录构建均通过。接收端抽检 G161、G177、G58 均通过，G177 首次校验超时后串行复验通过。正式 G3、设备与独立人工质量仍待验。[首轮回归日志](reports/coverage-v2-engineering-1795332410547/verify.log) · [补验结果](reports/coverage-v2-engineering-1795332410547/followup-result.json)
+
+2026-11-22：v2 首批交付两个可玩原型。G90《潮汐灯塔》新增交互小说类型，四个结局经过 Headless 验证。G58《引潮核心 · 弹幕战》衍生自 G17，加入可预判的弹幕和反击窗口。两款复用现有共享 Runtime 与 Player，在真实 Three.js 和 CocosAirJS 中完成作者工程验证并导出本地内容包。正式验收仍按原台账跟踪。[玩法与试玩入口](games/coverage-v2/README.md)
+
+Three.js 和 CocosAirJS 均通过透视与正交 Stage 浏览器回归，以及独立 SDK 的签名版本切换、回退、坏包拒绝与释放检查。打包后的自定义 Adapter 在 Chromium 中验证了初始化字段、受信音频资源、逐帧调用和释放。正式 G2 仍为 PARTIAL。[透视回执](reports/visual-stage-2026-11-22T02-25-05-862Z-54020/summary.json) · [正交回执](reports/visual-stage-2026-11-22T02-27-34-069Z-13148/summary.json) · [SDK 交付回执](reports/delivery-1795314236563/summary.json)
+
 2026-11-21：主播放器与独立 SDK 共用引擎注册接口，Three.js、CocosAirJS 和主播放器 Canvas2D Preview 沿用各自入口。宿主可为独立 SDK 注册自定义 Adapter。真实浏览器已通过两种内置引擎的签名切换、回退和失败保留检查，自定义 Adapter 已通过打包后绘制、暂停、重开和释放检查。12 份交付 SDK 已按新接口重建并通过准入，共核对 3,179 个清单文件。
 
 2026-11-21：按交付清单重建 12 份 SDK。逐份核对 GameSpec ID、版本及共 3,167 个清单文件摘要，整批通过本机交付服务准入。交付清单与本机启动配置已指向新构建，Android 仍使用历史包。

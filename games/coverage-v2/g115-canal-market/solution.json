@@ -1,0 +1,46 @@
+[
+  {
+    "action": "order",
+    "ticks": 1
+  },
+  {
+    "action": "display",
+    "ticks": 1
+  },
+  {
+    "action": "checkout",
+    "ticks": 1
+  },
+  {
+    "action": "display",
+    "ticks": 1
+  },
+  {
+    "action": "checkout",
+    "ticks": 1
+  },
+  {
+    "action": "order",
+    "ticks": 1
+  },
+  {
+    "action": "display",
+    "ticks": 1
+  },
+  {
+    "action": "checkout",
+    "ticks": 1
+  },
+  {
+    "action": "display",
+    "ticks": 1
+  },
+  {
+    "action": "checkout",
+    "ticks": 1
+  },
+  {
+    "action": "expand",
+    "ticks": 1
+  }
+]

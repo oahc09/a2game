@@ -1,0 +1,139 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-fog-orders",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.fog-orders",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "scout-reveals-and-enables-attack",
+      "seed": 822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "scout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "scout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/visibleEnemy",
+          "equals": [
+            8
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "unseen-target-rejects-attack",
+      "seed": 822,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "card1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/visibleEnemy",
+          "equals": []
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/enemyHealth",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/hand",
+          "equals": [
+            2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

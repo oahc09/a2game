@@ -1,0 +1,778 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.watchfire-waves",
+  "revision": 1,
+  "meta": {
+    "title": "烽火换装",
+    "description": "第一波到来后，按 1 提升火力或按 2 提升移速。J 开火，WASD 躲避，存活至结算。",
+    "genres": [
+      "shooter"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 73022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "survival",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 6000,
+                "heldMovement": true,
+                "moveSpeed": 103,
+                "seekSpeed": 39,
+                "invulnerabilityTicks": 10,
+                "weapon": "hitscan",
+                "autoTarget": true,
+                "projectileSpeed": 125,
+                "projectileHalfSize": 64,
+                "damage": 1,
+                "damageBonusPath": "/damage",
+                "weaponRange": 3000,
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "up": "up",
+                  "down": "down",
+                  "fire": "fire"
+                },
+                "waves": [
+                  {
+                    "tick": 30,
+                    "body": {
+                      "id": "south",
+                      "kind": "target",
+                      "x": 4700,
+                      "y": 900,
+                      "hx": 160,
+                      "hy": 160,
+                      "vx": 0,
+                      "vy": 43,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 70,
+                    "body": {
+                      "id": "north",
+                      "kind": "target",
+                      "x": 3200,
+                      "y": 5650,
+                      "hx": 160,
+                      "hy": 160,
+                      "vx": 0,
+                      "vy": -58,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 110,
+                    "body": {
+                      "id": "east",
+                      "kind": "target",
+                      "x": 7500,
+                      "y": 3150,
+                      "hx": 160,
+                      "hy": 160,
+                      "vx": 0,
+                      "vy": 0,
+                      "hp": 3,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 144,
+                    "body": {
+                      "id": "southeast",
+                      "kind": "target",
+                      "x": 6500,
+                      "y": 1200,
+                      "hx": 170,
+                      "hy": 170,
+                      "vx": 0,
+                      "vy": 26,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 1,
+                      "fixed": false
+                    }
+                  }
+                ],
+                "moveSpeedBonusPath": "/speedBonus"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 3900,
+            "y": 3150,
+            "hx": 180,
+            "hy": 180,
+            "vx": 0,
+            "vy": 0,
+            "hp": 2,
+            "team": 1,
+            "value": 1,
+            "fixed": false
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "upgradeRequested": {
+      "type": "int",
+      "initial": 0
+    },
+    "choice": {
+      "type": "int",
+      "initial": 0
+    },
+    "damage": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "第 30 Tick 解锁一次升级"
+    },
+    "speedBonus": {
+      "type": "int",
+      "initial": 0
+    },
+    "waveReady": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyJ",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "power",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "swift",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "power-request",
+      "on": {
+        "type": "input.action",
+        "action": "power",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/choice"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/waveReady"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/upgradeRequested",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "repair-request",
+      "on": {
+        "type": "input.action",
+        "action": "swift",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/choice"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/waveReady"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/upgradeRequested",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "power",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/choice"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/upgradeRequested"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/choice",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/damage",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "锋刃生效 · 射击伤害 3"
+        }
+      ]
+    },
+    {
+      "id": "repair",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/choice"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/upgradeRequested"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/choice",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/speedBonus",
+          "value": 25
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "轻装生效 · 移速提高"
+        }
+      ]
+    },
+    {
+      "id": "wave-unlocks-upgrade",
+      "on": {
+        "type": "realtime.spawned"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "south"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/waveReady",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "dead",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "survived",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 210
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "W 上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "S 下",
+        "bind": {
+          "action": "down"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "J 开火",
+        "bind": {
+          "action": "fire"
+        }
+      },
+      {
+        "id": "choice-5",
+        "kind": "button",
+        "text": "1 锋刃",
+        "bind": {
+          "action": "power"
+        }
+      },
+      {
+        "id": "choice-6",
+        "kind": "button",
+        "text": "2 移速",
+        "bind": {
+          "action": "swift"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "arena",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            8.02,
+            5.28
+          ],
+          "fill": "#244453"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.22
+          ],
+          "text": {
+            "literal": "霜林守夜 · 生存试炼"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDA98"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -4.27,
+            1.1
+          ],
+          "text": {
+            "literal": "生存 Tick"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "clock-value",
+          "kind": "text",
+          "at": [
+            -4.27,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "choice-label",
+          "kind": "text",
+          "at": [
+            4.24,
+            1.1
+          ],
+          "text": {
+            "literal": "升级选择"
+          },
+          "fontSize": 0.32,
+          "fill": "#B8D5E4"
+        },
+        {
+          "id": "choice-value",
+          "kind": "text",
+          "at": [
+            4.24,
+            0.5700000000000001
+          ],
+          "text": {
+            "state": "/choice"
+          },
+          "fontSize": 0.54,
+          "fill": "#FFDB9D"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.13
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.35,
+          "fill": "#E9D6AA"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -3
+        ],
+        "palette": {
+          "actor": "#91E5CC",
+          "target": "#F19494",
+          "solid": "#436C7C",
+          "projectile": "#FAD38D",
+          "pickup": "#99C47E"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

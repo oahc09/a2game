@@ -1,0 +1,26 @@
+[
+  {
+    "action": "north",
+    "ticks": 1
+  },
+  {
+    "action": "north",
+    "ticks": 1
+  },
+  {
+    "action": "north",
+    "ticks": 1
+  },
+  {
+    "action": "bend",
+    "ticks": 1
+  },
+  {
+    "action": "south",
+    "ticks": 1
+  },
+  {
+    "action": "exit",
+    "ticks": 3
+  }
+]

@@ -1,0 +1,3202 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.bay-paddle",
+  "revision": 2,
+  "meta": {
+    "title": "海湾乒乓",
+    "description": "1、2 选回球线路，空格发球，F 在来球窗口内反弹得分。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "lane": {
+      "type": "int",
+      "initial": 0
+    },
+    "ball": {
+      "type": "int",
+      "initial": 0
+    },
+    "phase": {
+      "type": "int",
+      "initial": 0
+    },
+    "arrival": {
+      "type": "int",
+      "initial": 0
+    },
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "miss": {
+      "type": "int",
+      "initial": 0
+    },
+    "ballY": {
+      "type": "int",
+      "initial": 0
+    },
+    "rebounded": {
+      "type": "bool",
+      "initial": false
+    },
+    "returnAt": {
+      "type": "int",
+      "initial": 0
+    },
+    "flight0": {
+      "type": "array",
+      "initial": []
+    },
+    "flight1": {
+      "type": "array",
+      "initial": []
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "serve",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "return",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lane",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lane",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "serve",
+      "on": {
+        "type": "input.action",
+        "action": "serve",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/phase"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/ball",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "const": 2
+                  },
+                  {
+                    "state": "/score"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/arrival",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/ballY",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/rebounded",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "return",
+      "on": {
+        "type": "input.action",
+        "action": "return",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/lane"
+              },
+              {
+                "state": "/ball"
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/arrival"
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "state": "/arrival"
+                  },
+                  {
+                    "const": 4
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 10
+              }
+            ]
+          },
+          {
+            "op": "lte",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 15
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/rebounded",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/returnAt",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 10
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "miss",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "op": "add",
+                "args": [
+                  {
+                    "state": "/arrival"
+                  },
+                  {
+                    "const": 4
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/miss",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/ballY",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "flight",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/phase"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ballY",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "rebound",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/phase"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/ballY",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "score-rebound",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/returnAt"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/ballY",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/score",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "hide-flight0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "hide-flight1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": []
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 5
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 6
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 7
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-8",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 8
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-9",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 9
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-10",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 10
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-11",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 11
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-12",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-13",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 13
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            13
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-14",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 14
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            14
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-15",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 15
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            15
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-16",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 16
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            16
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight0-17",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": -1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 17
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight0",
+          "value": [
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 4
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 5
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            5
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 6
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 7
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-8",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 8
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-9",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 9
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-10",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 10
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            10
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-11",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 11
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-12",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-13",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 13
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            13
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-14",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 14
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            14
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-15",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 15
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            15
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-16",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 16
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            16
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-flight1-17",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/ball"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gt",
+                "args": [
+                  {
+                    "state": "/phase"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/ballY"
+              },
+              {
+                "const": 17
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/flight1",
+          "value": [
+            17
+          ]
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/score"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/miss"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "left",
+        "kind": "button",
+        "text": "左路",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "right",
+        "kind": "button",
+        "text": "右路",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "serve",
+        "kind": "button",
+        "text": "发球",
+        "bind": {
+          "action": "serve"
+        }
+      },
+      {
+        "id": "return",
+        "kind": "button",
+        "text": "回球",
+        "bind": {
+          "action": "return"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "海湾乒乓"
+          },
+          "fontSize": 0.6,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-lane",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "lane-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.6
+          ],
+          "text": {
+            "literal": "拍位"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "lane",
+          "kind": "text",
+          "at": [
+            -3,
+            1.07
+          ],
+          "text": {
+            "state": "/lane"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-ball",
+          "kind": "rect",
+          "at": [
+            0,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "ball-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.6
+          ],
+          "text": {
+            "literal": "来球线路"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "ball",
+          "kind": "text",
+          "at": [
+            0,
+            1.07
+          ],
+          "text": {
+            "state": "/ball"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-arrival",
+          "kind": "rect",
+          "at": [
+            3,
+            1.32
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "arrival-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.6
+          ],
+          "text": {
+            "literal": "触拍 Tick"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "arrival",
+          "kind": "text",
+          "at": [
+            3,
+            1.07
+          ],
+          "text": {
+            "state": "/arrival"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-clock",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "当前 Tick"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-score",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "score-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "回球分"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/score"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "panel-miss",
+          "kind": "rect",
+          "at": [
+            3,
+            -0.20999999999999996
+          ],
+          "size": [
+            2.8,
+            1.36
+          ],
+          "fill": "#25465D"
+        },
+        {
+          "id": "miss-label",
+          "kind": "text",
+          "at": [
+            3,
+            0.07000000000000006
+          ],
+          "text": {
+            "literal": "失分"
+          },
+          "fontSize": 0.38,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "miss",
+          "kind": "text",
+          "at": [
+            3,
+            -0.45999999999999996
+          ],
+          "text": {
+            "state": "/miss"
+          },
+          "fontSize": 0.48,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.67
+          ],
+          "text": {
+            "literal": "1、2 选回球线路，空格发球，F 在来球窗口内反弹得分。"
+          },
+          "fontSize": 0.32,
+          "fill": "#F6DCAD"
+        },
+        {
+          "id": "paddle-0",
+          "kind": "rect",
+          "at": [
+            -0.55,
+            -0.51
+          ],
+          "size": [
+            0.43,
+            0.14
+          ],
+          "fill": {
+            "from": {
+              "state": "/lane"
+            },
+            "map": {
+              "-1": "#FFBF76"
+            },
+            "fallback": "#28465C"
+          }
+        },
+        {
+          "id": "paddle-1",
+          "kind": "rect",
+          "at": [
+            0.55,
+            -0.51
+          ],
+          "size": [
+            0.43,
+            0.14
+          ],
+          "fill": {
+            "from": {
+              "state": "/lane"
+            },
+            "map": {
+              "1": "#FFBF76"
+            },
+            "fallback": "#28465C"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "ball-lane-0",
+          "source": {
+            "state": "/flight0"
+          },
+          "indexMode": "cell",
+          "columns": 1,
+          "origin": [
+            -0.55,
+            1.19
+          ],
+          "step": [
+            1,
+            0.13
+          ],
+          "template": [
+            {
+              "id": "ball",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.15,
+              "fill": "#8EE3DB"
+            }
+          ]
+        },
+        {
+          "id": "ball-lane-1",
+          "source": {
+            "state": "/flight1"
+          },
+          "indexMode": "cell",
+          "columns": 1,
+          "origin": [
+            0.55,
+            1.19
+          ],
+          "step": [
+            1,
+            0.13
+          ],
+          "template": [
+            {
+              "id": "ball",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.15,
+              "fill": "#8EE3DB"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

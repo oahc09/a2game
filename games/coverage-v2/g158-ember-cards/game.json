@@ -1,0 +1,769 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.ember-cards",
+  "revision": 1,
+  "meta": {
+    "title": "余烬对牌",
+    "description": "抽取牌，支付能量攻击。用休整回能，击败对手。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "energy": {
+      "type": "int",
+      "initial": 2
+    },
+    "opponent": {
+      "type": "int",
+      "initial": 3
+    },
+    "hand": {
+      "type": "int",
+      "initial": 0
+    },
+    "deck": {
+      "type": "int",
+      "initial": 2
+    },
+    "stage": {
+      "type": "int",
+      "initial": 1
+    },
+    "reward": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "先按 1 抽牌"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "draw",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "strike",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "recover",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "draw",
+      "on": {
+        "type": "input.action",
+        "action": "draw",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hand"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/deck"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/opponent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/deck",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/reward"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "手牌就绪"
+        }
+      ]
+    },
+    {
+      "id": "recover",
+      "on": {
+        "type": "input.action",
+        "action": "recover",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/energy"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/energy",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "能量回到 2"
+        }
+      ]
+    },
+    {
+      "id": "play-1",
+      "on": {
+        "type": "input.action",
+        "action": "strike",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hand"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/energy"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/opponent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/opponent",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/opponent"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "支付能量 · 卡牌命中"
+        }
+      ]
+    },
+    {
+      "id": "play-2",
+      "on": {
+        "type": "input.action",
+        "action": "strike",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hand"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/energy"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/opponent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -2
+        },
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/opponent",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/opponent"
+                  },
+                  {
+                    "const": 4
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "支付能量 · 卡牌命中"
+        }
+      ]
+    },
+    {
+      "id": "play-3",
+      "on": {
+        "type": "input.action",
+        "action": "strike",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/hand"
+              },
+              {
+                "const": 3
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/energy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/opponent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/energy",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/hand",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/opponent",
+          "value": {
+            "op": "max",
+            "args": [
+              {
+                "const": 0
+              },
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/opponent"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "支付能量 · 卡牌命中"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/stage"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/opponent"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-draw",
+        "kind": "button",
+        "text": "1 抽牌",
+        "bind": {
+          "action": "draw"
+        }
+      },
+      {
+        "id": "ui-strike",
+        "kind": "button",
+        "text": "2 打牌",
+        "bind": {
+          "action": "strike"
+        }
+      },
+      {
+        "id": "ui-recover",
+        "kind": "button",
+        "text": "3 回能",
+        "bind": {
+          "action": "recover"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "余烬对牌"
+          },
+          "fontSize": 0.6,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-energy",
+          "kind": "text",
+          "at": [
+            -3,
+            1.55
+          ],
+          "text": {
+            "literal": "能量"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "energy",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/energy"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-opponent",
+          "kind": "text",
+          "at": [
+            0,
+            1.55
+          ],
+          "text": {
+            "literal": "对手体力"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "opponent",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/opponent"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-hand",
+          "kind": "text",
+          "at": [
+            3,
+            1.55
+          ],
+          "text": {
+            "literal": "手牌编号"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "hand",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/hand"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-deck",
+          "kind": "text",
+          "at": [
+            -3,
+            0.15000000000000013
+          ],
+          "text": {
+            "literal": "剩余抽牌"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "deck",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.3999999999999999
+          ],
+          "text": {
+            "state": "/deck"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-stage",
+          "kind": "text",
+          "at": [
+            0,
+            0.15000000000000013
+          ],
+          "text": {
+            "literal": "楼层"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "stage",
+          "kind": "text",
+          "at": [
+            0,
+            -0.3999999999999999
+          ],
+          "text": {
+            "state": "/stage"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "label-reward",
+          "kind": "text",
+          "at": [
+            3,
+            0.15000000000000013
+          ],
+          "text": {
+            "literal": "奖励牌"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "reward",
+          "kind": "text",
+          "at": [
+            3,
+            -0.3999999999999999
+          ],
+          "text": {
+            "state": "/reward"
+          },
+          "fontSize": 0.5,
+          "fill": "#F9DCA9"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.65
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#F9DCA9"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "action": "draw",
+    "ticks": 1
+  },
+  {
+    "action": "strike",
+    "ticks": 1
+  },
+  {
+    "action": "recover",
+    "ticks": 1
+  },
+  {
+    "action": "draw",
+    "ticks": 1
+  },
+  {
+    "action": "strike",
+    "ticks": 1
+  }
+]

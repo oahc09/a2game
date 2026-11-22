@@ -1,0 +1,239 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-amber-crossing",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.amber-crossing",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "legal-strike-and-no-ap",
+      "seed": 97022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/enemyHealth",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/enemyHealth",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/round",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/health",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "blocked-and-retaliated",
+      "seed": 97022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/ap",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/player",
+          "equals": 6
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "end",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/battle/health",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

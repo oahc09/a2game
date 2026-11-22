@@ -1,0 +1,205 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-seed-vault",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.seed-vault",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "seed-route-reaches-exit",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/layout",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/completed",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "injectAction",
+          "action": "next-layout",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "next-layout",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/layout",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/key",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/room",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/completed",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "no-shortcut-from-entrance",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/room",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/done",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

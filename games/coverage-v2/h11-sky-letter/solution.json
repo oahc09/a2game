@@ -1,0 +1,22 @@
+[
+  {
+    "action": "accept",
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 10
+  },
+  {
+    "action": "jump",
+    "ticks": 71
+  }
+]

@@ -1,0 +1,712 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.harbor-dispatch",
+  "revision": 1,
+  "meta": {
+    "title": "潮港派送 · 物流调度",
+    "description": "两张订单各限 65 Tick。1 派快车，2 派慢车。车辆在途时不能重复派单。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "cargo": {
+      "type": "int",
+      "initial": 0
+    },
+    "arrive": {
+      "type": "int",
+      "initial": 0
+    },
+    "deadline": {
+      "type": "int",
+      "initial": 0
+    },
+    "delivered": {
+      "type": "int",
+      "initial": 0
+    },
+    "expired": {
+      "type": "bool",
+      "initial": false
+    },
+    "message": {
+      "type": "string",
+      "initial": "1 快车 40 Tick · 2 慢车 85 Tick"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "express",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "standard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "express-route",
+      "on": {
+        "type": "input.action",
+        "action": "express",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cargo"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/delivered"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cargo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/delivered"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/arrive",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 40
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/deadline",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 65
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "车辆已出发"
+        }
+      ]
+    },
+    {
+      "id": "standard-route",
+      "on": {
+        "type": "input.action",
+        "action": "standard",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cargo"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/delivered"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cargo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/delivered"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/arrive",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 85
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/deadline",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 65
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "车辆已出发"
+        }
+      ]
+    },
+    {
+      "id": "late",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/cargo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gt",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/deadline"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/expired",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "超时 · 配送失败"
+        }
+      ]
+    },
+    {
+      "id": "first-delivery",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cargo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/arrive"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cargo",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/delivered",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已按时配送"
+        }
+      ]
+    },
+    {
+      "id": "second-delivery",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cargo"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/arrive"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cargo",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/delivered",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已按时配送"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "late",
+      "status": "lost",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/expired"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "priority": 0
+    },
+    {
+      "id": "orders-done",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/delivered"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "priority": 1
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-express",
+        "kind": "button",
+        "text": "1 快车",
+        "bind": {
+          "action": "express"
+        }
+      },
+      {
+        "id": "ui-standard",
+        "kind": "button",
+        "text": "2 慢车",
+        "bind": {
+          "action": "standard"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "潮港派送 · 物流调度"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.32
+          ],
+          "size": [
+            9.1,
+            3.5
+          ],
+          "fill": "#254659"
+        },
+        {
+          "id": "cargo-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "text": {
+            "literal": "在途订单"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "cargo",
+          "kind": "text",
+          "at": [
+            -3,
+            0.93
+          ],
+          "text": {
+            "state": "/cargo"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "arrive-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "text": {
+            "literal": "预计到达 Tick"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "arrive",
+          "kind": "text",
+          "at": [
+            0,
+            0.93
+          ],
+          "text": {
+            "state": "/arrive"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "deadline-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "text": {
+            "literal": "最迟到达 Tick"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "deadline",
+          "kind": "text",
+          "at": [
+            3,
+            0.93
+          ],
+          "text": {
+            "state": "/deadline"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "clock-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0
+          ],
+          "text": {
+            "literal": "当前 Tick"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.57
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "delivered-label",
+          "kind": "text",
+          "at": [
+            0,
+            0
+          ],
+          "text": {
+            "literal": "完成订单"
+          },
+          "fontSize": 0.34,
+          "fill": "#BDDDE1"
+        },
+        {
+          "id": "delivered",
+          "kind": "text",
+          "at": [
+            0,
+            -0.57
+          ],
+          "text": {
+            "state": "/delivered"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.75
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#DAEDE5"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

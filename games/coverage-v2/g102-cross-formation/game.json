@@ -1,0 +1,591 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.cross-formation",
+  "revision": 1,
+  "meta": {
+    "title": "交锋阵型",
+    "description": "选择能克制眼前敌阵的阵型，两轮战斗后结算。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "stage": {
+      "type": "int",
+      "initial": 1
+    },
+    "formation": {
+      "type": "int",
+      "initial": 0
+    },
+    "enemy": {
+      "type": "int",
+      "initial": 2
+    },
+    "hp": {
+      "type": "int",
+      "initial": 3
+    },
+    "victories": {
+      "type": "int",
+      "initial": 0
+    },
+    "gold": {
+      "type": "int",
+      "initial": 3
+    },
+    "units": {
+      "type": "int",
+      "initial": 0
+    },
+    "resolveAt": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "pike",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "guard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "attack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "pike",
+      "on": {
+        "type": "input.action",
+        "action": "pike",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/formation",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "guard",
+      "on": {
+        "type": "input.action",
+        "action": "guard",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/formation",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "counter-1",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/formation"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/victories",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/enemy",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "bad-1",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/formation"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        }
+      ]
+    },
+    {
+      "id": "counter-2",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/formation"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/victories",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/enemy",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "bad-2",
+      "on": {
+        "type": "input.action",
+        "action": "attack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/formation"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/enemy"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/hp",
+          "value": -1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/victories"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hp"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-pike",
+        "kind": "button",
+        "text": "1 矛阵",
+        "bind": {
+          "action": "pike"
+        }
+      },
+      {
+        "id": "ui-guard",
+        "kind": "button",
+        "text": "2 盾阵",
+        "bind": {
+          "action": "guard"
+        }
+      },
+      {
+        "id": "ui-attack",
+        "kind": "button",
+        "text": "3 交锋",
+        "bind": {
+          "action": "attack"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.12
+          ],
+          "text": {
+            "literal": "交锋阵型"
+          },
+          "fontSize": 0.6,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "formation-label",
+          "kind": "text",
+          "at": [
+            -3,
+            1.54
+          ],
+          "text": {
+            "literal": "我方 1矛 2盾"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "formation",
+          "kind": "text",
+          "at": [
+            -3,
+            1
+          ],
+          "text": {
+            "state": "/formation"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "enemy-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.54
+          ],
+          "text": {
+            "literal": "敌阵编号"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "enemy",
+          "kind": "text",
+          "at": [
+            0,
+            1
+          ],
+          "text": {
+            "state": "/enemy"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "victories-label",
+          "kind": "text",
+          "at": [
+            3,
+            1.54
+          ],
+          "text": {
+            "literal": "胜场"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "victories",
+          "kind": "text",
+          "at": [
+            3,
+            1
+          ],
+          "text": {
+            "state": "/victories"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hp-label",
+          "kind": "text",
+          "at": [
+            -3,
+            0.06000000000000005
+          ],
+          "text": {
+            "literal": "生命"
+          },
+          "fontSize": 0.37,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.5,
+          "fill": "#F5DEAE"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -2.6
+          ],
+          "text": {
+            "literal": "矛克敌阵 2 · 盾克敌阵 1"
+          },
+          "fontSize": 0.4,
+          "fill": "#F5DEAE"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

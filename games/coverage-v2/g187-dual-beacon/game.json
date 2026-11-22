@@ -1,0 +1,399 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.dual-beacon",
+  "revision": 1,
+  "meta": {
+    "title": "双手点灯",
+    "description": "一号持续按 A，二号持续按右键，两座信标须同时点亮。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "left": {
+      "type": "bool",
+      "initial": false
+    },
+    "right": {
+      "type": "bool",
+      "initial": false
+    },
+    "done": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "down-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/left",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "up-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "release"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/left",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "cancel-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "cancel"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/left",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "down-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/right",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "up-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "release"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/right",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "cancel-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "cancel"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/right",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "synchronized",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/left"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/right"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "open",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/done"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "双手点灯"
+          },
+          "fontSize": 0.63,
+          "fill": "#F6DFAC"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.7
+          ],
+          "text": {
+            "literal": "一号持续按 A，二号持续按右键，两座信标须同时点亮。"
+          },
+          "fontSize": 0.36,
+          "fill": "#F6DFAC"
+        },
+        {
+          "id": "left",
+          "kind": "circle",
+          "at": [
+            -2.4,
+            0.65
+          ],
+          "radius": 0.74,
+          "fill": {
+            "from": {
+              "state": "/left"
+            },
+            "map": {
+              "true": "#8FE1BB",
+              "false": "#35516A"
+            },
+            "fallback": "#35516A"
+          }
+        },
+        {
+          "id": "label-left",
+          "kind": "text",
+          "at": [
+            -2.4,
+            -0.55
+          ],
+          "text": {
+            "literal": "玩家一 · A"
+          },
+          "fontSize": 0.43,
+          "fill": "#F6DFAC"
+        },
+        {
+          "id": "right",
+          "kind": "circle",
+          "at": [
+            2.4,
+            0.65
+          ],
+          "radius": 0.74,
+          "fill": {
+            "from": {
+              "state": "/right"
+            },
+            "map": {
+              "true": "#8FE1BB",
+              "false": "#35516A"
+            },
+            "fallback": "#35516A"
+          }
+        },
+        {
+          "id": "label-right",
+          "kind": "text",
+          "at": [
+            2.4,
+            -0.55
+          ],
+          "text": {
+            "literal": "玩家二 · →"
+          },
+          "fontSize": 0.43,
+          "fill": "#F6DFAC"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

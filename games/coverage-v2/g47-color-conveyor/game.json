@@ -1,0 +1,1084 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.color-conveyor",
+  "revision": 1,
+  "meta": {
+    "title": "双色分拣站",
+    "description": "1 红道 · 2 蓝道 · 3 清箱 · 4 启停传送带",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "mode": {
+      "type": "int",
+      "initial": 0
+    },
+    "remaining": {
+      "type": "int",
+      "initial": 6
+    },
+    "color": {
+      "type": "int",
+      "initial": 1
+    },
+    "red": {
+      "type": "int",
+      "initial": 0
+    },
+    "blue": {
+      "type": "int",
+      "initial": 0
+    },
+    "packed": {
+      "type": "int",
+      "initial": 0
+    },
+    "misses": {
+      "type": "int",
+      "initial": 0
+    },
+    "next": {
+      "type": "int",
+      "initial": 21
+    },
+    "running": {
+      "type": "bool",
+      "initial": false
+    },
+    "wantEmpty": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "red",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "blue",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "pack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "toggle",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "route-red",
+      "on": {
+        "type": "input.action",
+        "action": "red",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/mode",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "route-blue",
+      "on": {
+        "type": "input.action",
+        "action": "blue",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/mode",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "empty",
+      "on": {
+        "type": "input.action",
+        "action": "pack",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/running"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wantEmpty",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "pack",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/wantEmpty"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/packed",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/red"
+              },
+              {
+                "state": "/blue"
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/red",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/blue",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/wantEmpty",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "run",
+      "on": {
+        "type": "input.action",
+        "action": "toggle",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/running"
+          },
+          {
+            "const": false
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/running",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/next",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 20
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "stop",
+      "on": {
+        "type": "input.action",
+        "action": "toggle",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/running"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/running",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "correct-red",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/running"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/remaining"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/color"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/next"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/red"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/red",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/remaining",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/color",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/next",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "wrong-red",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/running"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/remaining"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/color"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/next"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/misses",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/remaining",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/color",
+          "value": 2
+        },
+        {
+          "op": "state.add",
+          "path": "/next",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "correct-blue",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/running"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/remaining"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/color"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/next"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/blue"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/blue",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/remaining",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/color",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/next",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "wrong-blue",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/running"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/remaining"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/color"
+                  },
+                  {
+                    "const": 2
+                  }
+                ]
+              },
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "state": "/next"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/mode"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/misses",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/remaining",
+          "value": -1
+        },
+        {
+          "op": "state.set",
+          "path": "/color",
+          "value": 1
+        },
+        {
+          "op": "state.add",
+          "path": "/next",
+          "value": 20
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "goal",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/packed"
+          },
+          {
+            "const": 6
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-red",
+        "kind": "button",
+        "text": "1 红道",
+        "bind": {
+          "action": "red"
+        }
+      },
+      {
+        "id": "ui-blue",
+        "kind": "button",
+        "text": "2 蓝道",
+        "bind": {
+          "action": "blue"
+        }
+      },
+      {
+        "id": "ui-pack",
+        "kind": "button",
+        "text": "3 清箱",
+        "bind": {
+          "action": "pack"
+        }
+      },
+      {
+        "id": "ui-toggle",
+        "kind": "button",
+        "text": "4 启停",
+        "bind": {
+          "action": "toggle"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "双色分拣站"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "box-color",
+          "kind": "rect",
+          "at": [
+            -3.35,
+            0.55
+          ],
+          "size": [
+            2.05,
+            1.75
+          ],
+          "fill": "#294A5B"
+        },
+        {
+          "id": "label-color",
+          "kind": "text",
+          "at": [
+            -3.35,
+            0.9
+          ],
+          "text": {
+            "literal": "来料 1红 2蓝"
+          },
+          "fontSize": 0.34,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "color",
+          "kind": "text",
+          "at": [
+            -3.35,
+            0.22
+          ],
+          "text": {
+            "state": "/color"
+          },
+          "fontSize": 0.52,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "box-red",
+          "kind": "rect",
+          "at": [
+            -1.1,
+            0.55
+          ],
+          "size": [
+            2.05,
+            1.75
+          ],
+          "fill": "#294A5B"
+        },
+        {
+          "id": "label-red",
+          "kind": "text",
+          "at": [
+            -1.1,
+            0.9
+          ],
+          "text": {
+            "literal": "红箱  容量2"
+          },
+          "fontSize": 0.34,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "red",
+          "kind": "text",
+          "at": [
+            -1.1,
+            0.22
+          ],
+          "text": {
+            "state": "/red"
+          },
+          "fontSize": 0.52,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "box-blue",
+          "kind": "rect",
+          "at": [
+            1.1,
+            0.55
+          ],
+          "size": [
+            2.05,
+            1.75
+          ],
+          "fill": "#294A5B"
+        },
+        {
+          "id": "label-blue",
+          "kind": "text",
+          "at": [
+            1.1,
+            0.9
+          ],
+          "text": {
+            "literal": "蓝箱  容量2"
+          },
+          "fontSize": 0.34,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "blue",
+          "kind": "text",
+          "at": [
+            1.1,
+            0.22
+          ],
+          "text": {
+            "state": "/blue"
+          },
+          "fontSize": 0.52,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "box-packed",
+          "kind": "rect",
+          "at": [
+            3.35,
+            0.55
+          ],
+          "size": [
+            2.05,
+            1.75
+          ],
+          "fill": "#294A5B"
+        },
+        {
+          "id": "label-packed",
+          "kind": "text",
+          "at": [
+            3.35,
+            0.9
+          ],
+          "text": {
+            "literal": "已清箱件数"
+          },
+          "fontSize": 0.34,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "packed",
+          "kind": "text",
+          "at": [
+            3.35,
+            0.22
+          ],
+          "text": {
+            "state": "/packed"
+          },
+          "fontSize": 0.52,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "miss-label",
+          "kind": "text",
+          "at": [
+            0,
+            -1
+          ],
+          "text": {
+            "literal": "错分件数"
+          },
+          "fontSize": 0.37,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "misses",
+          "kind": "text",
+          "at": [
+            0,
+            -1.55
+          ],
+          "text": {
+            "state": "/misses"
+          },
+          "fontSize": 0.37,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "route",
+          "kind": "rect",
+          "at": [
+            -3.35,
+            -0.95
+          ],
+          "size": [
+            1.1,
+            0.25
+          ],
+          "fill": {
+            "from": {
+              "state": "/mode"
+            },
+            "map": {
+              "1": "#E48780",
+              "2": "#6FBDD9"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.92
+          ],
+          "text": {
+            "literal": "1 红道 · 2 蓝道 · 3 清箱 · 4 启停传送带"
+          },
+          "fontSize": 0.32,
+          "fill": "#CFEBE4"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

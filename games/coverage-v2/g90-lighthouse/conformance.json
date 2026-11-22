@@ -1,0 +1,156 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-lighthouse",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.lighthouse",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "outside-rescue",
+      "seed": 9022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseA",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/heading",
+          "equals": "外海 · 断掉的航标"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseA",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseA",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ending",
+          "equals": "outside-rescue"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "expectError",
+          "code": "A2G_E_FLOW"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseB",
+          "phase": "press"
+        }
+      ]
+    },
+    {
+      "id": "bay-harbor",
+      "seed": 9022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseB",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/heading",
+          "equals": "湾内 · 退潮的窄口"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseB",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseB",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/ending",
+          "equals": "bay-harbor"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "single-choice-does-not-complete-story",
+      "seed": 9022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "chooseB",
+          "phase": "press"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/chapter",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/ending",
+          "equals": ""
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

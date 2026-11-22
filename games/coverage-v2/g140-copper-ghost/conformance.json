@@ -1,0 +1,180 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-copper-ghost",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.copper-ghost",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "ordered-checkpoints-timed",
+      "seed": 13722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/ghostAt",
+          "equals": 54
+        },
+        {
+          "op": "assert",
+          "path": "/state/ghostCell",
+          "equals": 935
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 32
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 2
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 56
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 3
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyA"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyS"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/lap",
+          "equals": 168
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "finish-shortcut-invalid",
+      "seed": 13722,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyW"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/gate",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/lap",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

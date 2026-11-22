@@ -1,0 +1,4341 @@
+{
+  "format": "a2game-ultimate-game-coverage-target",
+  "targetVersion": "2.0.0-target",
+  "asOf": "2026-11-22",
+  "sourceRepository": "https://github.com/oahc09/a2game",
+  "sourceCommit": "13c64dc07c0e6dde3816f100216bad9565bb1ed0",
+  "purpose": "Future planning and Agent task decomposition; not a runtime GameSpec and not a verified coverage report",
+  "baseline": {
+    "frozenGameIds": "G01-G32",
+    "frozenHybridIds": "H01-H05",
+    "protocolVersion": "0.1.0",
+    "originalCoverageUnchanged": true
+  },
+  "counts": {
+    "base": 32,
+    "additional": 160,
+    "gameTotal": 192,
+    "originalHybrids": 5,
+    "additionalHybrids": 27,
+    "hybridTotal": 32,
+    "all": 224,
+    "groups": 20,
+    "conceptualCapabilityFamilies": 20,
+    "conceptualCapabilityItems": 363
+  },
+  "vocabularyNote": "mechanics in this file are conceptual design keywords, NOT registered a2game capability ids. Resolve names and versions against the actual Runtime Registry before implementation.",
+  "statuses": [
+    "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+    "ORIGINAL_HYBRID_PLANNED_FORMAL",
+    "TARGET_PROPOSED"
+  ],
+  "groups": [
+    {
+      "id": "T01",
+      "title": "逻辑推理与空间益智",
+      "english": "Puzzle & Logic",
+      "idRange": "G33–G40",
+      "wave": "A",
+      "count": 8
+    },
+    {
+      "id": "T02",
+      "title": "休闲街机与微型游戏",
+      "english": "Casual & Arcade",
+      "idRange": "G41–G48",
+      "wave": "A",
+      "count": 8
+    },
+    {
+      "id": "T03",
+      "title": "平台跳跃与跑酷",
+      "english": "Platformer & Runner",
+      "idRange": "G49–G56",
+      "wave": "A",
+      "count": 8
+    },
+    {
+      "id": "T04",
+      "title": "射击、弹幕与载具战斗",
+      "english": "Shooter & Combat",
+      "idRange": "G57–G64",
+      "wave": "A",
+      "count": 8
+    },
+    {
+      "id": "T05",
+      "title": "格斗、近战与动作",
+      "english": "Fighting & Brawler",
+      "idRange": "G65–G72",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T06",
+      "title": "肉鸽、生存与闯关",
+      "english": "Roguelike & Survival",
+      "idRange": "G73–G80",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T07",
+      "title": "角色扮演与地牢",
+      "english": "RPG & Dungeon",
+      "idRange": "G81–G88",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T08",
+      "title": "剧情、冒险与解谜叙事",
+      "english": "Adventure & Narrative",
+      "idRange": "G89–G96",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T09",
+      "title": "战略、战术与回合博弈",
+      "english": "Strategy & Tactics",
+      "idRange": "G97–G104",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T10",
+      "title": "塔防、自动战斗与阵地",
+      "english": "Tower Defense & Auto Battle",
+      "idRange": "G105–G112",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T11",
+      "title": "生活、角色与生态模拟",
+      "english": "Life & Simulation",
+      "idRange": "G113–G120",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T12",
+      "title": "经济、物流、放置与管理",
+      "english": "Economy & Idle",
+      "idRange": "G121–G128",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T13",
+      "title": "建造、沙盒与创造",
+      "english": "Building & Sandbox",
+      "idRange": "G129–G136",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T14",
+      "title": "赛车、驾驶与交通",
+      "english": "Racing & Driving",
+      "idRange": "G137–G144",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T15",
+      "title": "体育、技巧与派对",
+      "english": "Sports & Party",
+      "idRange": "G145–G152",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T16",
+      "title": "棋类、卡牌与桌面规则",
+      "english": "Board, Card & Tabletop",
+      "idRange": "G153–G160",
+      "wave": "B",
+      "count": 8
+    },
+    {
+      "id": "T17",
+      "title": "音乐、节奏与声音交互",
+      "english": "Rhythm & Music",
+      "idRange": "G161–G168",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T18",
+      "title": "恐怖、潜行与调查",
+      "english": "Horror, Stealth & Detective",
+      "idRange": "G169–G176",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T19",
+      "title": "3D 空间、物理与探索",
+      "english": "3D Spatial & Physics",
+      "idRange": "G177–G184",
+      "wave": "C",
+      "count": 8
+    },
+    {
+      "id": "T20",
+      "title": "多人、合作与 UGC",
+      "english": "Multiplayer, Co-op & UGC",
+      "idRange": "G185–G192",
+      "wave": "D",
+      "count": 8
+    }
+  ],
+  "games": [
+    {
+      "id": "G01",
+      "title": "推箱子",
+      "loop": "网格移位→推箱→所有目标到位",
+      "mechanics": [
+        "Grid",
+        "Push",
+        "Goal",
+        "Undo"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G02",
+      "title": "2048",
+      "loop": "滑动→单次合并→随机补位",
+      "mechanics": [
+        "Slide",
+        "Merge",
+        "RNG",
+        "Score"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G03",
+      "title": "三消",
+      "loop": "交换→匹配→连锁→目标结算",
+      "mechanics": [
+        "Swap",
+        "MatchN",
+        "Cascade",
+        "GravityFill"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G04",
+      "title": "堆叠三消",
+      "loop": "解除遮挡→取牌入槽→匹配",
+      "mechanics": [
+        "LayeredStack",
+        "Tray",
+        "Capacity",
+        "MatchN"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G05",
+      "title": "麻将叠牌配对",
+      "loop": "寻找可见牌→两两消除",
+      "mechanics": [
+        "Occlusion",
+        "PairMatch"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G06",
+      "title": "箭头迷宫消除",
+      "loop": "观察方向→判断遮挡→移除",
+      "mechanics": [
+        "Direction",
+        "Occupancy",
+        "Goal"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G07",
+      "title": "翻牌配对",
+      "loop": "翻牌记忆→配对→计时",
+      "mechanics": [
+        "Reveal",
+        "PairMatch",
+        "Timer"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G08",
+      "title": "Block Puzzle",
+      "loop": "拖放拼块→整行清除",
+      "mechanics": [
+        "Polyomino",
+        "Placement",
+        "LineClear"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G09",
+      "title": "俄罗斯方块",
+      "loop": "下落→旋转→锁定→消行",
+      "mechanics": [
+        "FallingPiece",
+        "RotatePiece",
+        "LineClear"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G10",
+      "title": "找物整理",
+      "loop": "选择物品→拖拽归位→完成",
+      "mechanics": [
+        "Select",
+        "Placement",
+        "Goal"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "冒险/休闲",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G11",
+      "title": "跳一跳",
+      "loop": "长按蓄力→跳跃→落点计分",
+      "mechanics": [
+        "Charge",
+        "Jump",
+        "Landing"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "平台/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G12",
+      "title": "Flappy",
+      "loop": "点击上升→躲避障碍→积分",
+      "mechanics": [
+        "Velocity",
+        "TriggerZone",
+        "Score"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "平台/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G13",
+      "title": "换道跑酷",
+      "loop": "滑动换道→躲避→通关",
+      "mechanics": [
+        "LaneMove",
+        "AutoScroll",
+        "Spawner"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "平台/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G14",
+      "title": "打砖块",
+      "loop": "控制挡板→碰撞反弹→消灭砖块",
+      "mechanics": [
+        "Collider",
+        "Bounce",
+        "Health"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "平台/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G15",
+      "title": "弹球",
+      "loop": "触发弹板→物理碰撞→得分",
+      "mechanics": [
+        "RigidBody",
+        "Constraint",
+        "TriggerZone"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "物理/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G16",
+      "title": "物理合成",
+      "loop": "掉落→物理接触→合并升级",
+      "mechanics": [
+        "RigidBody",
+        "Contact",
+        "Merge"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "物理/街机",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G17",
+      "title": "纵版飞机",
+      "loop": "移动→开火→波次敌人→胜负",
+      "mechanics": [
+        "Weapon",
+        "Projectile",
+        "Wave"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "射击/战斗",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G18",
+      "title": "俯视射击",
+      "loop": "移动瞄准→攻击→生存",
+      "mechanics": [
+        "Aim",
+        "Health",
+        "Damage"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "射击/战斗",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G19",
+      "title": "僵尸生存",
+      "loop": "移动→自动索敌→升级→生存",
+      "mechanics": [
+        "AutoTarget",
+        "Horde",
+        "Upgrade"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "生存/Roguelite",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G20",
+      "title": "泡泡龙弹射",
+      "loop": "瞄准弹射→碰撞→连通匹配",
+      "mechanics": [
+        "Aim",
+        "Bounce",
+        "ConnectedMatch"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "益智/逻辑",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G21",
+      "title": "塔防",
+      "loop": "布塔→路径敌人→攻击→守卫",
+      "mechanics": [
+        "Placement",
+        "PathFollow",
+        "Weapon",
+        "Wave"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "策略/防守",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G22",
+      "title": "农场",
+      "loop": "播种→等待→采集→循环",
+      "mechanics": [
+        "Production",
+        "Timer",
+        "Collect"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "模拟/生活",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G23",
+      "title": "合成经营",
+      "loop": "合成→生产→回收资源",
+      "mechanics": [
+        "Merge",
+        "Production",
+        "EconomyLoop"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "经营/经济",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G24",
+      "title": "五子棋",
+      "loop": "轮流落子→合法性→胜负",
+      "mechanics": [
+        "Turn",
+        "LegalMove",
+        "Goal"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "桌游/回合",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G25",
+      "title": "水果切割",
+      "loop": "轨迹划过→切割→计分",
+      "mechanics": [
+        "TouchPath",
+        "Intersection",
+        "Score"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G26",
+      "title": "双指旋转拼图",
+      "loop": "双指旋转→放置→拼合",
+      "mechanics": [
+        "MultiTouch",
+        "Rotate",
+        "Placement"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G27",
+      "title": "重力迷宫",
+      "loop": "倾斜设备→碰撞→到达目标",
+      "mechanics": [
+        "IMUTilt",
+        "Collision",
+        "Goal"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G28",
+      "title": "平衡堆叠",
+      "loop": "设备倾斜→调平→叠放",
+      "mechanics": [
+        "IMUTilt",
+        "Balance",
+        "Placement"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G29",
+      "title": "摇一摇机关",
+      "loop": "摇晃→解除机关→计时目标",
+      "mechanics": [
+        "IMUShake",
+        "Timer",
+        "Unlock"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G30",
+      "title": "弹弓打靶",
+      "loop": "拖拽蓄力→释放→命中",
+      "mechanics": [
+        "Drag",
+        "Charge",
+        "Projectile"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "射击/战斗",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G31",
+      "title": "姿态打靶",
+      "loop": "姿态瞄准→击中目标",
+      "mechanics": [
+        "IMUOrientation",
+        "Aim",
+        "Hitscan"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G32",
+      "title": "多指机关",
+      "loop": "多点同时触发→机关解锁",
+      "mechanics": [
+        "MultiHold",
+        "Timer",
+        "Goal"
+      ],
+      "dimension": "2D",
+      "group": "BASELINE",
+      "category": "移动/体感",
+      "baseline": true,
+      "status": "ORIGINAL_REGISTRY_PLANNED_FORMAL",
+      "complexity": "BASELINE"
+    },
+    {
+      "id": "G33",
+      "title": "数独",
+      "loop": "填数→约束检查→完成棋盘",
+      "mechanics": [
+        "ConstraintGrid",
+        "CandidateNotes",
+        "LogicSolver"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G34",
+      "title": "数织 Nonogram",
+      "loop": "阅读行列线索→填格→还原图案",
+      "mechanics": [
+        "RowColumnClues",
+        "GridMarks",
+        "Hint"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G35",
+      "title": "扫雷",
+      "loop": "揭格/插旗→推断雷区→清空安全格",
+      "mechanics": [
+        "NeighborCount",
+        "HiddenCell",
+        "SafeFirstClick"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G36",
+      "title": "一笔画路径",
+      "loop": "连通边→不重复通过→完成图形",
+      "mechanics": [
+        "GraphEdge",
+        "PathVisit",
+        "WinCheck"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G37",
+      "title": "水管接通",
+      "loop": "旋转管道→连通流路→点亮出口",
+      "mechanics": [
+        "RotatePiece",
+        "Connectivity",
+        "FlowPropagation"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G38",
+      "title": "华容道滑块",
+      "loop": "拖动块体→碰撞阻挡→主块出界",
+      "mechanics": [
+        "SlidingBlock",
+        "GridOccupancy",
+        "ExitGoal"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G39",
+      "title": "镜面激光机关",
+      "loop": "调整镜子→光线反射→激活开关",
+      "mechanics": [
+        "GridRaycast",
+        "Mirror",
+        "SwitchGraph"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G40",
+      "title": "连锁机关密室",
+      "loop": "组合钥匙与机关→解锁→逃脱",
+      "mechanics": [
+        "TriggerGraph",
+        "ItemFlags",
+        "Interaction"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T01",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G41",
+      "title": "贪吃蛇",
+      "loop": "转向→吃食物→增长与避碰",
+      "mechanics": [
+        "GridMovement",
+        "BodyTrail",
+        "SpawnFood"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G42",
+      "title": "打地鼠",
+      "loop": "目标随机出现→点击→计时计分",
+      "mechanics": [
+        "TimedSpawn",
+        "HitWindow",
+        "ScoreCombo"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G43",
+      "title": "弹幕闪避",
+      "loop": "移动避弹→存活→统计分数",
+      "mechanics": [
+        "ProjectilePattern",
+        "Hitbox",
+        "SurvivalTimer"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G44",
+      "title": "接落物",
+      "loop": "移动容器→分类接取→错误扣分",
+      "mechanics": [
+        "FallingItems",
+        "Collector",
+        "ScoreRule"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G45",
+      "title": "飞刀转盘",
+      "loop": "把握转动时机→投掷→避免命中旧刀",
+      "mechanics": [
+        "AngularMotion",
+        "Collision",
+        "ThrowTiming"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G46",
+      "title": "知识问答闯关",
+      "loop": "题目挑战→限时作答→计分晋级",
+      "mechanics": [
+        "QuizBank",
+        "AnswerJudge",
+        "TimeLimit"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G47",
+      "title": "颜色分拣流水线",
+      "loop": "搬运彩色物品→分道→计件",
+      "mechanics": [
+        "Conveyor",
+        "ColorRouting",
+        "Capacity"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G48",
+      "title": "街机捕鱼",
+      "loop": "瞄准射出→击中目标→资源返还",
+      "mechanics": [
+        "Aim",
+        "Projectile",
+        "TargetValue",
+        "Economy"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T02",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G49",
+      "title": "2D 横版平台闯关",
+      "loop": "跑跳→平台落地→抵达终点",
+      "mechanics": [
+        "Kinematic2D",
+        "Grounding",
+        "Checkpoint"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G50",
+      "title": "二段跳与空中冲刺",
+      "loop": "腾空→复跳/冲刺→通关",
+      "mechanics": [
+        "AirJump",
+        "Dash",
+        "ResourceRecharge"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G51",
+      "title": "墙跳与攀爬",
+      "loop": "贴墙→攀爬→反弹越障",
+      "mechanics": [
+        "WallContact",
+        "Climb",
+        "WallJump"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G52",
+      "title": "机关横版闯关",
+      "loop": "触发按钮→门/升降台变更→通关",
+      "mechanics": [
+        "MovingPlatform",
+        "TriggerGraph",
+        "Gate"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G53",
+      "title": "精确平台解谜",
+      "loop": "控制时序→激活装置→到达出口",
+      "mechanics": [
+        "MovingHazard",
+        "Checkpoint",
+        "TimedSwitch"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G54",
+      "title": "重力翻转平台",
+      "loop": "切换重力→落到新表面→解谜",
+      "mechanics": [
+        "GravityDirection",
+        "Collision",
+        "StateSwitch"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G55",
+      "title": "等距视角跑酷",
+      "loop": "三轴观感→移动跳跃→障碍通关",
+      "mechanics": [
+        "IsometricProjection",
+        "LaneMove",
+        "CameraFollow"
+      ],
+      "dimension": "2.5D",
+      "complexity": "M",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G56",
+      "title": "3D 平台跳跃",
+      "loop": "移动视角→跳跃→拾取目标",
+      "mechanics": [
+        "CharacterController3D",
+        "Camera3D",
+        "Grounding"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T03",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G57",
+      "title": "横版清关射击",
+      "loop": "跑跳射击→清理敌人→完成关卡",
+      "mechanics": [
+        "PlatformMove",
+        "Weapon",
+        "EnemyWave"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G58",
+      "title": "弹幕 Boss 战",
+      "loop": "观察弹道→躲避→输出→换阶段",
+      "mechanics": [
+        "PatternEmitter",
+        "Hitbox",
+        "BossPhase"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G59",
+      "title": "双摇杆射击",
+      "loop": "独立移动/瞄准→开火→存活",
+      "mechanics": [
+        "TwinStick",
+        "Weapon",
+        "Targeting"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G60",
+      "title": "狙击解谜射击",
+      "loop": "观察标靶→瞄准→命中弱点",
+      "mechanics": [
+        "AimZoom",
+        "Raycast",
+        "WeakPoint"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G61",
+      "title": "第一人称迷宫射击",
+      "loop": "FPS移动→对准→射击→解锁",
+      "mechanics": [
+        "CharacterController3D",
+        "Hitscan",
+        "CameraFPS"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G62",
+      "title": "第三人称竞技场",
+      "loop": "角色机动→锁敌→火力对战",
+      "mechanics": [
+        "CharacterController3D",
+        "CameraTPS",
+        "Projectile"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G63",
+      "title": "阵地炮台射击",
+      "loop": "转动火炮→应对潮汐敌群→守卫",
+      "mechanics": [
+        "TurretAim",
+        "Wave",
+        "AmmoEconomy"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G64",
+      "title": "坦克大战",
+      "loop": "驾驶移动→开炮→墙体/敌人碰撞",
+      "mechanics": [
+        "Vehicle2D",
+        "Projectile",
+        "Destructible"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T04",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G65",
+      "title": "2D 一对一格斗",
+      "loop": "防守→招式→命中与受击",
+      "mechanics": [
+        "FightingFSM",
+        "HitHurtBox",
+        "RoundTimer"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G66",
+      "title": "横版清版格斗",
+      "loop": "移动→近战连击→清敌",
+      "mechanics": [
+        "BeatEmUpMove",
+        "Combo",
+        "Knockback"
+      ],
+      "dimension": "2.5D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G67",
+      "title": "武器对决",
+      "loop": "格挡/突刺→武器碰撞→判胜",
+      "mechanics": [
+        "WeaponReach",
+        "Parry",
+        "Stamina"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G68",
+      "title": "竞技场乱斗",
+      "loop": "多对象攻防→击退出界→胜利",
+      "mechanics": [
+        "ArenaBoundary",
+        "Knockback",
+        "MultiActor"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G69",
+      "title": "技能连招挑战",
+      "loop": "输入串→派生技能→冷却",
+      "mechanics": [
+        "InputCombo",
+        "CancelWindow",
+        "Cooldown"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G70",
+      "title": "拳击读招",
+      "loop": "预测预告→闪避/格挡→反击",
+      "mechanics": [
+        "Telegraph",
+        "GuardDodge",
+        "HitTiming"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G71",
+      "title": "弹反 Boss 战",
+      "loop": "节奏时机→弹反→破防输出",
+      "mechanics": [
+        "ParryWindow",
+        "Poise",
+        "BossPhase"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G72",
+      "title": "3D 锁定近战",
+      "loop": "镜头锁敌→移动→攻击/闪避",
+      "mechanics": [
+        "LockOn3D",
+        "AnimationState",
+        "HitVolume"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T05",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G73",
+      "title": "俯视生存肉鸽",
+      "loop": "探索战斗→拾取升级→坚持生存",
+      "mechanics": [
+        "ProceduralRooms",
+        "Loot",
+        "SkillChoice"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G74",
+      "title": "随机地牢走格",
+      "loop": "随机房间→战斗/机关→出口",
+      "mechanics": [
+        "DungeonGen",
+        "Encounter",
+        "Permadeath"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G75",
+      "title": "波次幸存者升级",
+      "loop": "移动避群→自动攻击→升级构筑",
+      "mechanics": [
+        "EnemyDirector",
+        "AutoWeapon",
+        "UpgradeDraft"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G76",
+      "title": "肉鸽卡牌爬塔",
+      "loop": "构筑牌组→战斗→事件路线",
+      "mechanics": [
+        "DeckBuilder",
+        "TurnCombat",
+        "RewardDraft"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G77",
+      "title": "分支风险事件",
+      "loop": "选择路径→获取资源/遭遇风险→结算",
+      "mechanics": [
+        "EventGraph",
+        "RiskReward",
+        "RunMeta"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G78",
+      "title": "饥饿与采集生存",
+      "loop": "搜集→消耗体力食物→避险",
+      "mechanics": [
+        "NeedsMeters",
+        "Gathering",
+        "DayNight"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G79",
+      "title": "Boss 连战",
+      "loop": "战斗→保存资源→连续阶段",
+      "mechanics": [
+        "BossSequence",
+        "RunLoadout",
+        "Checkpoint"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G80",
+      "title": "限区撤离生存 Lite",
+      "loop": "搜索战利品→遭遇→到时撤离",
+      "mechanics": [
+        "ExtractionZone",
+        "InventoryRisk",
+        "AIAlert"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T06",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G81",
+      "title": "JRPG 回合战斗",
+      "loop": "选技能→回合结算→队伍成长",
+      "mechanics": [
+        "TurnOrder",
+        "SkillEffect",
+        "PartyStats"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G82",
+      "title": "实时动作 RPG",
+      "loop": "探索→释放技能→掉落装备",
+      "mechanics": [
+        "CharacterStats",
+        "ActionSkills",
+        "Loot"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G83",
+      "title": "队伍养成战斗",
+      "loop": "角色编队→战斗→经验升级",
+      "mechanics": [
+        "PartyFormation",
+        "XPLevel",
+        "Equipment"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G84",
+      "title": "网格 SRPG",
+      "loop": "移动布阵→技能行动→结束回合",
+      "mechanics": [
+        "TileMove",
+        "ActionPoints",
+        "RangeTarget"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G85",
+      "title": "词缀装备构筑",
+      "loop": "收集装备→比较词缀→形成流派",
+      "mechanics": [
+        "ItemAffixes",
+        "StatModifiers",
+        "BuildRule"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G86",
+      "title": "地城任务副本",
+      "loop": "接取任务→地牢战斗→领取奖励",
+      "mechanics": [
+        "QuestFlags",
+        "Combat",
+        "RewardClaim"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G87",
+      "title": "技能树养成",
+      "loop": "获取点数→解锁分支→产生实际强化",
+      "mechanics": [
+        "SkillTree",
+        "Prerequisite",
+        "StatEffect"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G88",
+      "title": "3D 地牢探索",
+      "loop": "第一人称探索→寻宝与机关→返回",
+      "mechanics": [
+        "Navigation3D",
+        "Interaction",
+        "Inventory"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T07",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G89",
+      "title": "点触冒险",
+      "loop": "探索场景→拾取→组合使用",
+      "mechanics": [
+        "PointClick",
+        "InventoryCombine",
+        "SceneTransition"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G90",
+      "title": "交互小说",
+      "loop": "阅读→选项→状态分支",
+      "mechanics": [
+        "DialogueGraph",
+        "Variables",
+        "Branching"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G91",
+      "title": "视觉小说多结局",
+      "loop": "剧情选择→关系变化→结局",
+      "mechanics": [
+        "DialogueUI",
+        "Affinity",
+        "MultipleEndings"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G92",
+      "title": "侦探证据板",
+      "loop": "收集线索→关联→推理结论",
+      "mechanics": [
+        "ClueGraph",
+        "EvidenceLink",
+        "Deduction"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G93",
+      "title": "连锁任务冒险",
+      "loop": "触发任务→完成目标→开放区域",
+      "mechanics": [
+        "QuestChain",
+        "WorldFlags",
+        "Unlock"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G94",
+      "title": "剧情密室逃脱",
+      "loop": "查找道具→机关推理→逃离",
+      "mechanics": [
+        "InventoryPuzzle",
+        "TriggerGraph",
+        "ExitFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G95",
+      "title": "NPC 关系经营",
+      "loop": "对话互动→信任变化→新事件",
+      "mechanics": [
+        "NPCDialogue",
+        "Relationship",
+        "EventFlags"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G96",
+      "title": "地图探索冒险",
+      "loop": "探索迷雾→发现地标→完成任务",
+      "mechanics": [
+        "MapReveal",
+        "POI",
+        "QuestTracking"
+      ],
+      "dimension": "2.5D",
+      "complexity": "H",
+      "group": "T08",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G97",
+      "title": "回合制格子战棋",
+      "loop": "行动点移动→攻击→回合结算",
+      "mechanics": [
+        "GridTactics",
+        "TurnAP",
+        "Cover"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G98",
+      "title": "六边形战术",
+      "loop": "六角寻路→控制要地→胜负",
+      "mechanics": [
+        "HexGrid",
+        "PathCost",
+        "ZoneControl"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G99",
+      "title": "小队实时 RTS",
+      "loop": "选中单位→下达命令→占领",
+      "mechanics": [
+        "UnitSelection",
+        "Formation",
+        "RTSOrders"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G100",
+      "title": "4X 微型星图",
+      "loop": "探索→扩张→开发→竞争",
+      "mechanics": [
+        "FogExploration",
+        "TechTree",
+        "Diplomacy"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G101",
+      "title": "战争迷雾侦察",
+      "loop": "派兵探路→视野变化→伏击",
+      "mechanics": [
+        "FogOfWar",
+        "LineOfSight",
+        "Ambush"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G102",
+      "title": "兵种阵型克制",
+      "loop": "布置阵型→自动交战→统计",
+      "mechanics": [
+        "Formation",
+        "CounterMatrix",
+        "AutoCombat"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G103",
+      "title": "资源点争夺",
+      "loop": "抢占资源→支援前线→占领胜利",
+      "mechanics": [
+        "CapturePoint",
+        "ResourceFlow",
+        "UnitSpawn"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G104",
+      "title": "自动对战战棋",
+      "loop": "棋盘放置→回合自动战斗→升级",
+      "mechanics": [
+        "AutoBattler",
+        "Shop",
+        "RoundFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T09",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G105",
+      "title": "多岔路塔防",
+      "loop": "选布塔位→预测路径→守关",
+      "mechanics": [
+        "RouteGraph",
+        "TowerRange",
+        "Wave"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G106",
+      "title": "自由路线塔防",
+      "loop": "搭建塔路→路径重算→进攻",
+      "mechanics": [
+        "BuildablePath",
+        "Pathfinding",
+        "Tower"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G107",
+      "title": "合成进阶塔防",
+      "loop": "合成塔级→改变射程/效果→闯关",
+      "mechanics": [
+        "MergeBuilding",
+        "TowerStats",
+        "Wave"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G108",
+      "title": "元素连锁塔防",
+      "loop": "配元素塔→触发反应→减速击敌",
+      "mechanics": [
+        "ElementStatus",
+        "ReactionRule",
+        "Tower"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G109",
+      "title": "迷宫路径塔防",
+      "loop": "放置墙塔→引导怪物→防守",
+      "mechanics": [
+        "MazeRouting",
+        "PathValidity",
+        "Placement"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G110",
+      "title": "自走棋排兵",
+      "loop": "招募→羁绊搭配→自动战斗",
+      "mechanics": [
+        "AutoBattler",
+        "UnitSynergy",
+        "Shop"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G111",
+      "title": "卡牌指令塔防",
+      "loop": "抽牌建塔→支付费用→应对波次",
+      "mechanics": [
+        "CardDeck",
+        "Economy",
+        "Tower"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G112",
+      "title": "弹幕基地防守",
+      "loop": "放置护盾→密集弹幕→修复基地",
+      "mechanics": [
+        "PatternEmitter",
+        "BaseHealth",
+        "Repair"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T10",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G113",
+      "title": "虚拟宠物养成",
+      "loop": "喂食互动→需求变化→成长",
+      "mechanics": [
+        "PetNeeds",
+        "Relationship",
+        "DailyEvent"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G114",
+      "title": "餐厅经营",
+      "loop": "接单→制作菜品→上菜评价",
+      "mechanics": [
+        "OrderQueue",
+        "Recipe",
+        "ServiceTimer"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G115",
+      "title": "便利店经营",
+      "loop": "进货→陈列→收银→升级",
+      "mechanics": [
+        "Stocking",
+        "CustomerAI",
+        "Checkout"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G116",
+      "title": "小屋生活模拟",
+      "loop": "布置家具→作息→生活事件",
+      "mechanics": [
+        "DailySchedule",
+        "HomeDecor",
+        "Needs"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G117",
+      "title": "微型城市交通",
+      "loop": "规划路口→车辆流动→优化拥堵",
+      "mechanics": [
+        "TrafficGraph",
+        "SignalFSM",
+        "VehicleFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G118",
+      "title": "动物园生态管理",
+      "loop": "栖息地布局→照顾动物→游客反馈",
+      "mechanics": [
+        "HabitatNeeds",
+        "Population",
+        "VisitorAI"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G119",
+      "title": "四季农场",
+      "loop": "作物生长→季节更替→加工",
+      "mechanics": [
+        "SeasonCycle",
+        "CropGrowth",
+        "Processing"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G120",
+      "title": "太空殖民舱",
+      "loop": "调配氧气/能源→处理事件→存活",
+      "mechanics": [
+        "LifeSupport",
+        "ResourceNetwork",
+        "Incident"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T11",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G121",
+      "title": "放置增量经营",
+      "loop": "产出→投资升级→增加产率",
+      "mechanics": [
+        "Incremental",
+        "Automation",
+        "Prestige"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G122",
+      "title": "工厂生产线",
+      "loop": "连接机器→加工→库存",
+      "mechanics": [
+        "ProductionGraph",
+        "Conveyor",
+        "Recipe"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G123",
+      "title": "物流配送调度",
+      "loop": "接单→分配车辆→准时配送",
+      "mechanics": [
+        "Dispatch",
+        "RoutePlanning",
+        "Deadline"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G124",
+      "title": "商店定价模拟",
+      "loop": "进货→定价→满足顾客→盈亏",
+      "mechanics": [
+        "SupplyDemand",
+        "PricePolicy",
+        "CustomerFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G125",
+      "title": "虚构市场博弈",
+      "loop": "观察随机需求→生产交易→经营积分",
+      "mechanics": [
+        "SyntheticMarket",
+        "TradingRule",
+        "RiskMeter"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G126",
+      "title": "矿场资源循环",
+      "loop": "采矿→冶炼→建设采矿设施",
+      "mechanics": [
+        "Gathering",
+        "Processing",
+        "Upgrade"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G127",
+      "title": "多货币科技发展",
+      "loop": "运营→研发→解锁新链",
+      "mechanics": [
+        "MultipleCurrency",
+        "TechTree",
+        "Unlock"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G128",
+      "title": "订单排产经营",
+      "loop": "计划工序→管理队列→按时交付",
+      "mechanics": [
+        "JobQueue",
+        "Capacity",
+        "ProductionSchedule"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T12",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G129",
+      "title": "方块自由建造",
+      "loop": "放置/挖掘→保存造物→试玩",
+      "mechanics": [
+        "VoxelBlocks",
+        "BuildRules",
+        "WorldSave"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G130",
+      "title": "桥梁结构搭建",
+      "loop": "布设梁柱→受力模拟→车辆通过",
+      "mechanics": [
+        "StructureConstraints",
+        "LoadTest",
+        "Physics"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G131",
+      "title": "关卡编辑与试玩",
+      "loop": "摆放规则组件→验证→分享关卡",
+      "mechanics": [
+        "LevelEditor",
+        "DataBinding",
+        "UGCPackage"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G132",
+      "title": "逻辑电路沙盒",
+      "loop": "连接开关/门→信号传播→装置动作",
+      "mechanics": [
+        "CircuitGraph",
+        "SignalFlow",
+        "Actuator"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G133",
+      "title": "管道流体工厂",
+      "loop": "布置输送管网→分配流量→完成目标",
+      "mechanics": [
+        "PipeNetwork",
+        "CapacityFlow",
+        "FlowRule"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G134",
+      "title": "生态造景沙盒",
+      "loop": "放置植物动物→生态变化→观察",
+      "mechanics": [
+        "BiomeRule",
+        "Population",
+        "SeasonCycle"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G135",
+      "title": "积木车辆拼装",
+      "loop": "组合部件→驾驶测试→优化",
+      "mechanics": [
+        "AssemblyGraph",
+        "VehiclePhysics",
+        "Parts"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G136",
+      "title": "小型体素世界",
+      "loop": "生成地形→开采与搭建→保存",
+      "mechanics": [
+        "VoxelTerrain",
+        "ChunkLoading",
+        "Persistence"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T13",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G137",
+      "title": "俯视街机赛车",
+      "loop": "转向加减速→圈速→排名",
+      "mechanics": [
+        "Vehicle2D",
+        "TrackLap",
+        "Checkpoint"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G138",
+      "title": "漂移竞速",
+      "loop": "控制侧滑→积累漂移分→完赛",
+      "mechanics": [
+        "DriftModel",
+        "Traction",
+        "ComboScore"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G139",
+      "title": "卡丁车道具赛",
+      "loop": "追逐竞速→使用道具→名次变化",
+      "mechanics": [
+        "KartPhysics",
+        "Pickup",
+        "Ranking"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G140",
+      "title": "计时挑战赛",
+      "loop": "穿越计时门→冲线→重播Ghost",
+      "mechanics": [
+        "LapTimer",
+        "TimeTrial",
+        "GhostReplay"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G141",
+      "title": "交通穿行",
+      "loop": "变道超车→躲车→完成距离",
+      "mechanics": [
+        "TrafficSpawner",
+        "LaneMove",
+        "Collision"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G142",
+      "title": "越野障碍驾驶",
+      "loop": "爬坡→轮胎抓地→越过障碍",
+      "mechanics": [
+        "VehicleSuspension",
+        "TerrainContact",
+        "Checkpoint"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G143",
+      "title": "3D 高速追逐",
+      "loop": "驾驶→转弯→躲避追踪",
+      "mechanics": [
+        "Vehicle3D",
+        "CameraChase",
+        "AIChase"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G144",
+      "title": "低空飞行竞速",
+      "loop": "控制俯仰/偏航→穿越航点",
+      "mechanics": [
+        "FlightController",
+        "Waypoint",
+        "Timer"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T14",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G145",
+      "title": "足球点球",
+      "loop": "控制角度与力度→射门/扑救",
+      "mechanics": [
+        "BallTrajectory",
+        "GoalkeeperAI",
+        "Score"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G146",
+      "title": "篮球投篮",
+      "loop": "拖拽控制投篮→碰撞入筐",
+      "mechanics": [
+        "ThrowArc",
+        "BallCollision",
+        "Score"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G147",
+      "title": "乒乓球",
+      "loop": "击球反弹→比分与回合",
+      "mechanics": [
+        "PaddleControl",
+        "BallSpin",
+        "MatchRules"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G148",
+      "title": "保龄球",
+      "loop": "投球→物理碰撞→倒瓶计分",
+      "mechanics": [
+        "RigidBody3D",
+        "PinCollision",
+        "BowlingScore"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G149",
+      "title": "迷你高尔夫",
+      "loop": "选择方向/力度→克服障碍→入洞",
+      "mechanics": [
+        "BallPhysics",
+        "StrokeCounter",
+        "CupTrigger"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G150",
+      "title": "网球对打",
+      "loop": "移动→击球→回合计分",
+      "mechanics": [
+        "CourtBounds",
+        "Serve",
+        "ScoreRules"
+      ],
+      "dimension": "2.5D",
+      "complexity": "H",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G151",
+      "title": "小游戏运动会",
+      "loop": "多项目挑战→成绩统计→奖杯",
+      "mechanics": [
+        "MiniGameFlow",
+        "Scoreboard",
+        "TimeTrial"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G152",
+      "title": "本地派对小游戏",
+      "loop": "交替/同步输入→短回合→积分",
+      "mechanics": [
+        "LocalMultiplayer",
+        "GameRounds",
+        "InputPartition"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T15",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G153",
+      "title": "国际象棋",
+      "loop": "合法走子→将军/将死→和棋",
+      "mechanics": [
+        "ChessMoves",
+        "CheckState",
+        "TurnClock"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G154",
+      "title": "中国象棋",
+      "loop": "棋子路径→将军→胜负",
+      "mechanics": [
+        "XiangqiRules",
+        "PieceMove",
+        "Turn"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G155",
+      "title": "黑白棋",
+      "loop": "合法落子→夹击翻转→结算",
+      "mechanics": [
+        "ReversiFlip",
+        "LegalMove",
+        "Turn"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G156",
+      "title": "四连棋",
+      "loop": "落子占格→连线判胜",
+      "mechanics": [
+        "ConnectN",
+        "GravityDrop",
+        "Turn"
+      ],
+      "dimension": "2D",
+      "complexity": "S",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G157",
+      "title": "斗地主规则单局",
+      "loop": "叫牌→合法出牌→压制/过牌→结算",
+      "mechanics": [
+        "CardTrick",
+        "TrickCompare",
+        "Turn"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G158",
+      "title": "轻量对战式卡牌",
+      "loop": "组牌→抽牌→支付→攻防",
+      "mechanics": [
+        "DeckBuilder",
+        "CardEffect",
+        "EnergyCost"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G159",
+      "title": "骰子资源桌游",
+      "loop": "掷骰→行动路线→资源转移",
+      "mechanics": [
+        "DiceRNG",
+        "BoardTrack",
+        "Resource"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G160",
+      "title": "区域控制桌游",
+      "loop": "布置棋子→争夺区域→回合得分",
+      "mechanics": [
+        "ZoneControl",
+        "ActionPoints",
+        "Scoring"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T16",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G161",
+      "title": "四轨下落节奏",
+      "loop": "节拍判定→连击→评分",
+      "mechanics": [
+        "BeatTimeline",
+        "HitWindow",
+        "Judgement"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G162",
+      "title": "鼓点节奏",
+      "loop": "单/双击鼓点→判定→连击",
+      "mechanics": [
+        "RhythmNotes",
+        "InputJudge",
+        "Combo"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G163",
+      "title": "舞蹈按键",
+      "loop": "节拍方向输入→时机得分",
+      "mechanics": [
+        "ArrowNotes",
+        "TimingCalibration",
+        "Accuracy"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G164",
+      "title": "虚拟鼓组",
+      "loop": "选择鼓件→演奏→记录节拍",
+      "mechanics": [
+        "InstrumentPad",
+        "AudioScheduler",
+        "LoopRecorder"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G165",
+      "title": "音准跟唱",
+      "loop": "麦克风音高→与目标比较→得分",
+      "mechanics": [
+        "MicrophonePermission",
+        "PitchDetect",
+        "NoteJudge"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G166",
+      "title": "节奏跑酷",
+      "loop": "按节拍跳/滑→躲障→通关",
+      "mechanics": [
+        "BeatTimeline",
+        "RunnerMove",
+        "SyncObstacle"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G167",
+      "title": "MIDI 键盘练习",
+      "loop": "MIDI输入→谱面判定→训练反馈",
+      "mechanics": [
+        "MIDIBinding",
+        "NoteChart",
+        "TimingJudge"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G168",
+      "title": "本地合奏",
+      "loop": "多用户分轨演奏→节拍对齐→评分",
+      "mechanics": [
+        "LocalPlayers",
+        "MusicSync",
+        "SessionScore"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T17",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G169",
+      "title": "潜行巡逻",
+      "loop": "观察守卫→躲避视野→抵达目标",
+      "mechanics": [
+        "GuardAI",
+        "VisionCone",
+        "StealthState"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G170",
+      "title": "动态视锥迷宫",
+      "loop": "避开探照灯→关闭机关→过关",
+      "mechanics": [
+        "VisionCone",
+        "AlertMeter",
+        "SwitchGraph"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G171",
+      "title": "暗室手电恐怖解谜",
+      "loop": "探索暗区→光源揭示→解锁",
+      "mechanics": [
+        "LightVisibility",
+        "Atmosphere",
+        "InventoryPuzzle"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G172",
+      "title": "证物现场调查",
+      "loop": "搜寻证物→验证时间线→结案",
+      "mechanics": [
+        "ClueCollection",
+        "TimelineGraph",
+        "Resolution"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G173",
+      "title": "多嫌疑人推理",
+      "loop": "询问→对照矛盾→得出结论",
+      "mechanics": [
+        "DialogueGraph",
+        "EvidenceLink",
+        "Deduction"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G174",
+      "title": "巡逻追逐逃生",
+      "loop": "噪声吸引→追逐→隐藏脱离",
+      "mechanics": [
+        "NoisePropagation",
+        "EnemyAlert",
+        "HideSpot"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G175",
+      "title": "限时逃脱",
+      "loop": "在倒计时内联动多个机关→逃脱",
+      "mechanics": [
+        "Timer",
+        "TriggerGraph",
+        "FailureFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G176",
+      "title": "生存恐怖资源管理",
+      "loop": "省弹药→探索→躲避危险",
+      "mechanics": [
+        "ScarceAmmo",
+        "FearFeedback",
+        "Inventory"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T18",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G177",
+      "title": "第一人称 3D 迷宫",
+      "loop": "自由视角→探索→找出口",
+      "mechanics": [
+        "CameraFPS",
+        "Navigation3D",
+        "Collision3D"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G178",
+      "title": "3D 刚体叠塔",
+      "loop": "拾取方块→堆叠→保持稳定",
+      "mechanics": [
+        "RigidBody3D",
+        "GrabJoint",
+        "StableScore"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G179",
+      "title": "3D 台球",
+      "loop": "瞄准击球→碰撞→进袋计分",
+      "mechanics": [
+        "BallPhysics3D",
+        "CueAim",
+        "Rules"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G180",
+      "title": "3D 弹珠机关",
+      "loop": "启动球→轨道碰撞→触发开关",
+      "mechanics": [
+        "RigidBody3D",
+        "TriggerChain",
+        "Constraint"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G181",
+      "title": "3D 物理桥梁",
+      "loop": "拼装结构→负载穿越→评分",
+      "mechanics": [
+        "StructureGraph",
+        "Constraint3D",
+        "VehicleLoad"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G182",
+      "title": "潜航水体探险",
+      "loop": "推进游动→浮力/阻力→采集",
+      "mechanics": [
+        "Buoyancy",
+        "UnderwaterNav",
+        "Collect"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G183",
+      "title": "轻量飞行模拟",
+      "loop": "控制姿态→动力→穿越航线",
+      "mechanics": [
+        "FlightModel",
+        "ControlAxis",
+        "Waypoint"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G184",
+      "title": "3D 场景探索收集",
+      "loop": "镜头导航→寻物交互→完成",
+      "mechanics": [
+        "SceneTraversal",
+        "RayPicking",
+        "QuestState"
+      ],
+      "dimension": "3D",
+      "complexity": "H",
+      "group": "T19",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G185",
+      "title": "同屏双人对战",
+      "loop": "不同输入源→交替攻防→比分",
+      "mechanics": [
+        "LocalMultiplayer",
+        "InputPartition",
+        "MatchFlow"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G186",
+      "title": "局域网贪吃蛇对战",
+      "loop": "同步移动→抢食→碰撞胜负",
+      "mechanics": [
+        "NetInputSync",
+        "ServerTick",
+        "ConflictRule"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G187",
+      "title": "双人合作机关",
+      "loop": "分工按按钮→同步解谜→出口",
+      "mechanics": [
+        "CoopRoles",
+        "MultiPlayerTrigger",
+        "SharedGoal"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G188",
+      "title": "多人协作闯关",
+      "loop": "多角色配合→解锁关卡→共享奖励",
+      "mechanics": [
+        "CoopSession",
+        "TeamState",
+        "Checkpoint"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G189",
+      "title": "权威小队竞技",
+      "loop": "移动战斗→服务器裁定→赛果",
+      "mechanics": [
+        "ServerAuthority",
+        "StateReplication",
+        "AntiCheat"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G190",
+      "title": "异步棋类对局",
+      "loop": "轮到玩家→提交回合→同步进度",
+      "mechanics": [
+        "AsyncTurn",
+        "ServerValidate",
+        "ConflictHandling"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G191",
+      "title": "排行榜挑战赛",
+      "loop": "完成独立单局→可信比分→排名",
+      "mechanics": [
+        "ScoreSubmission",
+        "ReplayAudit",
+        "Leaderboard"
+      ],
+      "dimension": "2D",
+      "complexity": "M",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "G192",
+      "title": "轻量 UGC 地图社区",
+      "loop": "创作关卡→审核发布→他人游玩",
+      "mechanics": [
+        "UGCManifest",
+        "Moderation",
+        "VersionedLoad"
+      ],
+      "dimension": "2D",
+      "complexity": "H",
+      "group": "T20",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    }
+  ],
+  "hybrids": [
+    {
+      "id": "H01",
+      "title": "合成炮台保卫战",
+      "composition": "Merge + TowerDefense + Economy",
+      "contract": "炮台替换后旧武器停止攻击，按 Tick 结算经济",
+      "stage": "B",
+      "baseline": true,
+      "status": "ORIGINAL_HYBRID_PLANNED_FORMAL"
+    },
+    {
+      "id": "H02",
+      "title": "三消 + 角色升级",
+      "composition": "Match / Cascade + Upgrade + Combat",
+      "contract": "消除奖励真实改写战斗伤害",
+      "stage": "B",
+      "baseline": true,
+      "status": "ORIGINAL_HYBRID_PLANNED_FORMAL"
+    },
+    {
+      "id": "H03",
+      "title": "跑酷 + 射击",
+      "composition": "Runner + Weapon + Shared Tick",
+      "contract": "移动与开火并发输入，弹丸回收",
+      "stage": "B",
+      "baseline": true,
+      "status": "ORIGINAL_HYBRID_PLANNED_FORMAL"
+    },
+    {
+      "id": "H04",
+      "title": "物理合成 + IMU 倾斜",
+      "composition": "Physics + IMU + Merge",
+      "contract": "传感器校准回退、物理合并去重",
+      "stage": "C",
+      "baseline": true,
+      "status": "ORIGINAL_HYBRID_PLANNED_FORMAL"
+    },
+    {
+      "id": "H05",
+      "title": "找物 + 限时关卡",
+      "composition": "Placement + Timer + Goal",
+      "contract": "HitTest 与倒计时终局一致",
+      "stage": "A",
+      "baseline": true,
+      "status": "ORIGINAL_HYBRID_PLANNED_FORMAL"
+    },
+    {
+      "id": "H06",
+      "title": "肉鸽射击升级",
+      "composition": "Shooter + Roguelite + Upgrade",
+      "contract": "波次升级真正改变武器与生存能力",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H07",
+      "title": "平台跳跃机关解谜",
+      "composition": "Platformer + TriggerGraph + Puzzle",
+      "contract": "玩家移动、机关、闸门因果闭环",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H08",
+      "title": "卡牌战棋",
+      "composition": "Deck + GridTactics + TurnAP",
+      "contract": "卡牌效果决定单位位置和攻击",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H09",
+      "title": "塔防物流供给",
+      "composition": "Factory + TowerDefense + Inventory",
+      "contract": "弹药由真实产线供应并消耗",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H10",
+      "title": "动作格斗肉鸽",
+      "composition": "Brawler + Roguelite + SkillTree",
+      "contract": "连招与关卡间构筑有真实数值效果",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H11",
+      "title": "剧情平台冒险",
+      "composition": "Platformer + Dialogue + Quest",
+      "contract": "任务选择实际改变地图机关",
+      "stage": "A",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H12",
+      "title": "种田烹饪经营",
+      "composition": "Farming + Recipe + CustomerAI",
+      "contract": "收成进入真实配方并完成订单",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H13",
+      "title": "城市交通经济",
+      "composition": "CityBuilder + Traffic + Economy",
+      "contract": "交通吞吐影响税收和人口满意度",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H14",
+      "title": "机甲组件射击",
+      "composition": "Shooter + Assembly + Damage",
+      "contract": "装配组件实际改变弹丸/护甲",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H15",
+      "title": "RPG 卡组构筑",
+      "composition": "RPGStats + DeckBuilder + Loot",
+      "contract": "装备词缀实际作用于卡牌伤害",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H16",
+      "title": "战争迷雾潜行战棋",
+      "composition": "TurnTactics + FogOfWar + Stealth",
+      "contract": "可见性影响合法攻击和潜伏",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H17",
+      "title": "4X 回合外交",
+      "composition": "4X + Diplomacy + Turn",
+      "contract": "外交状态真实限制交易和行动",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H18",
+      "title": "ARPG 采集锻造",
+      "composition": "ActionRPG + Craft + Loot",
+      "contract": "采集材料→锻造装备→增加战力",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H19",
+      "title": "节奏近战 Boss",
+      "composition": "Rhythm + Parry + BossPhase",
+      "contract": "节拍判定影响弹反伤害与阶段",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H20",
+      "title": "载具战斗竞速",
+      "composition": "Racing + Weapon + VehicleDamage",
+      "contract": "碰撞、道具和路线共同影响成绩",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H21",
+      "title": "体育战术卡牌",
+      "composition": "Sports + Deck + Turn",
+      "contract": "卡牌策略影响回合进攻与得分",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H22",
+      "title": "棋盘技能对战",
+      "composition": "BoardGame + Skill + Cooldown",
+      "contract": "合法走棋与技能争夺统一结算",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H23",
+      "title": "天气与解谜冒险",
+      "composition": "Weather + Puzzle + Quest",
+      "contract": "环境变化实际改变道路可用性",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H24",
+      "title": "钓鱼与市场经营",
+      "composition": "Fishing + Economy + Inventory",
+      "contract": "捕获物品真实入库出售与升级",
+      "stage": "B",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H25",
+      "title": "3D 物理机械建造",
+      "composition": "RigidBody3D + Assembly + Goal",
+      "contract": "造物能承载负载并完成目标",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H26",
+      "title": "3D 叙事探索",
+      "composition": "Scene3D + Dialogue + Inventory",
+      "contract": "探索取得物品触发真实叙事分支",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H27",
+      "title": "3D 幽灵竞速",
+      "composition": "Racing3D + GhostReplay + TimeTrial",
+      "contract": "同地图Ghost轨迹与计时可回放",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H28",
+      "title": "协作双人解谜",
+      "composition": "Coop + Puzzle + SharedGoal",
+      "contract": "两人同时或顺序操作真正解锁",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H29",
+      "title": "多人权威塔防",
+      "composition": "TowerDefense + ServerAuthority + Coop",
+      "contract": "多用户放塔与资源冲突由权威端裁定",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H30",
+      "title": "多人派对回合赛",
+      "composition": "PartyGame + Matchmaking + TurnSync",
+      "contract": "断线/重连仍保留真实局面",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H31",
+      "title": "3D UGC 共创世界",
+      "composition": "VoxelWorld + UGC + Moderation",
+      "contract": "受控地图资源/权限/版本可安全加载",
+      "stage": "D",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    },
+    {
+      "id": "H32",
+      "title": "生存建造昼夜循环",
+      "composition": "Survival + Crafting + DayNight",
+      "contract": "夜间危险/建设防护对资源产生真实影响",
+      "stage": "C",
+      "baseline": false,
+      "status": "TARGET_PROPOSED"
+    }
+  ],
+  "capabilityFamilies": [
+    {
+      "id": "C01",
+      "title": "Game Core / 生命周期与规则",
+      "existingSource": "已有 core/rules",
+      "concepts": [
+        "Entity",
+        "Component",
+        "StateSchema",
+        "RuleGraph",
+        "EventBus",
+        "TickScheduler",
+        "Timer",
+        "RNG",
+        "Transaction",
+        "Priority",
+        "FlowFSM",
+        "GoalFailure",
+        "Score",
+        "Snapshot",
+        "ExactHash",
+        "Replay",
+        "ErrorAttribution"
+      ],
+      "boundary": "全玩法基本规则；必须保留现有 Tick/Hash 与禁止任意脚本"
+    },
+    {
+      "id": "C02",
+      "title": "空间、坐标与地图",
+      "existingSource": "部分已有 visual/physics",
+      "concepts": [
+        "Scene2D",
+        "Scene3D",
+        "TileMap",
+        "HexGrid",
+        "IsometricGrid",
+        "NavGraph",
+        "Region",
+        "SpatialQuery",
+        "GridRaycast",
+        "RayPicking",
+        "WorldOrigin",
+        "Portal",
+        "CameraSpace",
+        "WorldChunk",
+        "LOD",
+        "SceneTransition"
+      ],
+      "boundary": "地图多维；不允许地图坐标参与宿主差异规则"
+    },
+    {
+      "id": "C03",
+      "title": "输入与玩家控制",
+      "existingSource": "已有 touch/keyboard/gamepad/IMU 子集",
+      "concepts": [
+        "KeyEdge",
+        "KeyHold",
+        "PointerTap",
+        "PointerDrag",
+        "PointerPath",
+        "MultiTouch",
+        "PinchRotate",
+        "GamepadAxis",
+        "GamepadButton",
+        "IMUTilt",
+        "IMUShake",
+        "Orientation",
+        "VirtualJoystick",
+        "TwinStick",
+        "ContextAction",
+        "InputMapping",
+        "InputRebind",
+        "InputTrace",
+        "CancelOnBlur"
+      ],
+      "boundary": "低延迟与权限降级；真实设备单独验证"
+    },
+    {
+      "id": "C04",
+      "title": "逻辑益智与棋盘",
+      "existingSource": "已有 puzzle 子集",
+      "concepts": [
+        "GridOccupancy",
+        "MovePush",
+        "SlidingTile",
+        "Swap",
+        "Merge",
+        "MatchN",
+        "Cascade",
+        "GravityFill",
+        "Polyomino",
+        "RotatePiece",
+        "LineClear",
+        "PairMatch",
+        "Occlusion",
+        "LogicConstraint",
+        "GraphConnectivity",
+        "PathVisit",
+        "LaserReflection",
+        "MinesweeperReveal",
+        "SudokuRule",
+        "NonogramClue",
+        "WordPuzzle",
+        "TriviaQuiz",
+        "QuizBank",
+        "AnswerJudge",
+        "Undo"
+      ],
+      "boundary": "先复用已有 puzzle；新增规则要通用与可参数化"
+    },
+    {
+      "id": "C05",
+      "title": "动作与移动控制",
+      "existingSource": "已有 realtime 子集",
+      "concepts": [
+        "KinematicBody",
+        "Velocity",
+        "Acceleration",
+        "Jump",
+        "CoyoteTime",
+        "JumpBuffer",
+        "AirDash",
+        "WallJump",
+        "Climb",
+        "MovingPlatform",
+        "LaneMove",
+        "AutoScroll",
+        "FollowPath",
+        "Chase",
+        "KnockbackMotion",
+        "CharacterController3D",
+        "FlightControl"
+      ],
+      "boundary": "定时、边缘输入和镜头责任明确"
+    },
+    {
+      "id": "C06",
+      "title": "物理与碰撞",
+      "existingSource": "已有 bounded realtime + rigid3d Profile",
+      "concepts": [
+        "AABB",
+        "CircleCollision",
+        "Trigger",
+        "ContinuousCollision",
+        "Contact",
+        "Bounce",
+        "Friction",
+        "Restitution",
+        "RigidBody2D",
+        "RigidBody3D",
+        "Joint",
+        "Constraint",
+        "Ragdoll",
+        "Buoyancy",
+        "VehicleSuspension",
+        "Rope",
+        "SoftBody",
+        "Breakable",
+        "SleepWake"
+      ],
+      "boundary": "确定性逻辑/声明容差物理 Profile 分离"
+    },
+    {
+      "id": "C07",
+      "title": "武器与伤害战斗",
+      "existingSource": "已有 combat 子集",
+      "concepts": [
+        "Health",
+        "Shield",
+        "Team",
+        "DamageType",
+        "Resistance",
+        "Armor",
+        "Invulnerability",
+        "Weapon",
+        "Projectile",
+        "Hitscan",
+        "Beam",
+        "Explosion",
+        "AreaDamage",
+        "Knockback",
+        "StatusEffect",
+        "Cooldown",
+        "Ammo",
+        "PatternEmitter",
+        "BossPhase",
+        "DeathDrop",
+        "HitDedup"
+      ],
+      "boundary": "击中/效果/奖励时序与对象所有权可追溯"
+    },
+    {
+      "id": "C08",
+      "title": "NPC、敌人和策略 AI",
+      "existingSource": "已有部分 auto-target/path",
+      "concepts": [
+        "FiniteStateMachine",
+        "BehaviorTreeProfile",
+        "Patrol",
+        "Perception",
+        "VisionCone",
+        "Hearing",
+        "TargetSelect",
+        "Navigation",
+        "Steering",
+        "Threat",
+        "Cover",
+        "FormationAI",
+        "Flee",
+        "BossTelegraph",
+        "EnemyDirector",
+        "DifficultyDirector",
+        "CompanionAI",
+        "FactionRelation"
+      ],
+      "boundary": "运行时使用可信规则型 NPC AI；不是每 Tick 调 LLM"
+    },
+    {
+      "id": "C09",
+      "title": "回合、棋类与博弈",
+      "existingSource": "已有 turnbased 子集",
+      "concepts": [
+        "TurnOwner",
+        "LegalMove",
+        "PlayerOrder",
+        "ActionPoints",
+        "TurnClock",
+        "BoardPiece",
+        "CheckState",
+        "MoveGenerator",
+        "ZoneControl",
+        "CaptureRule",
+        "FogState",
+        "SimultaneousPlan",
+        "WinDraw",
+        "RoundFlow",
+        "AsynchronousTurn",
+        "UndoPolicy"
+      ],
+      "boundary": "复杂棋类需专门可信规则模块，不允许模型自定义脚本"
+    },
+    {
+      "id": "C10",
+      "title": "卡牌、牌堆与骰子",
+      "existingSource": "已有 deck/hand/cards",
+      "concepts": [
+        "Deck",
+        "Hand",
+        "Draw",
+        "Discard",
+        "Shuffle",
+        "CardEffect",
+        "CardTarget",
+        "EnergyCost",
+        "CardUpgrade",
+        "CardTag",
+        "Combo",
+        "TrickTaking",
+        "CardCompare",
+        "DiceRNG",
+        "DiceModifier",
+        "HiddenInfo",
+        "DeckDraft",
+        "Exhaust",
+        "Retain"
+      ],
+      "boundary": "隐藏信息权威端校验，客户端不泄露牌面"
+    },
+    {
+      "id": "C11",
+      "title": "RPG 成长与角色",
+      "existingSource": "已有 upgrade/health 等子集",
+      "concepts": [
+        "CharacterStats",
+        "XP",
+        "Level",
+        "SkillTree",
+        "Talent",
+        "Equipment",
+        "ItemAffix",
+        "BuffStack",
+        "Debuff",
+        "Stamina",
+        "Mana",
+        "Party",
+        "Class",
+        "LootTable",
+        "QuestReward",
+        "ProgressionCurve",
+        "DifficultyScale",
+        "Respawn"
+      ],
+      "boundary": "真实数值效果而非仅界面显示等级"
+    },
+    {
+      "id": "C12",
+      "title": "库存、经济和商业规则",
+      "existingSource": "已有 strategy 子集",
+      "concepts": [
+        "Inventory",
+        "Wallet",
+        "Resource",
+        "Cost",
+        "Reward",
+        "Shop",
+        "Price",
+        "SupplyDemand",
+        "Exchange",
+        "DebtPolicy",
+        "Production",
+        "Collection",
+        "CraftRecipe",
+        "Trade",
+        "MarketSimulation",
+        "OrderQueue",
+        "Budget",
+        "ResourceTransaction",
+        "CurrencyConversion"
+      ],
+      "boundary": "必须是虚构游戏内经济，默认无真钱交易"
+    },
+    {
+      "id": "C13",
+      "title": "建设、生产与自动化",
+      "existingSource": "已有 tower/placement/production 子集",
+      "concepts": [
+        "BuildGrid",
+        "BuildValidity",
+        "BuildingStats",
+        "ProductionGraph",
+        "Recipe",
+        "Conveyor",
+        "PipeNetwork",
+        "ElectricityGrid",
+        "RoadNetwork",
+        "Storage",
+        "Capacity",
+        "Workforce",
+        "Maintenance",
+        "Upgrade",
+        "Demolish",
+        "Assembly",
+        "StructuralLoad",
+        "Settlement"
+      ],
+      "boundary": "地图建造与生产网络可声明，边界预算可控"
+    },
+    {
+      "id": "C14",
+      "title": "战术、RTS 与防守",
+      "existingSource": "已有 tower-defense/path 子集",
+      "concepts": [
+        "Pathfinding",
+        "RouteGraph",
+        "Tower",
+        "TowerRange",
+        "Wave",
+        "SpawnBudget",
+        "UnitControl",
+        "CommandQueue",
+        "FogOfWar",
+        "LineOfSight",
+        "Formation",
+        "CounterMatrix",
+        "TacticalGrid",
+        "HexMap",
+        "CapturePoint",
+        "AutoBattler",
+        "UnitSynergy",
+        "TechTree",
+        "Diplomacy"
+      ],
+      "boundary": "由可复用策略规则组合，不在 Adapter 写战斗"
+    },
+    {
+      "id": "C15",
+      "title": "剧情、对话和任务",
+      "existingSource": "新增提案为主",
+      "concepts": [
+        "DialogueGraph",
+        "Choice",
+        "DialogueCondition",
+        "QuestGraph",
+        "Objective",
+        "WorldFlag",
+        "ItemUsage",
+        "Evidence",
+        "Timeline",
+        "Relationship",
+        "Reputation",
+        "BranchEnding",
+        "NarrativeEvent",
+        "SceneUnlock",
+        "CutsceneTimeline",
+        "Subtitle",
+        "Localization"
+      ],
+      "boundary": "叙事文本为内容数据，不可注入脚本或命令"
+    },
+    {
+      "id": "C16",
+      "title": "生存、肉鸽与世界事件",
+      "existingSource": "已有 Spawn/Upgrade 可复用",
+      "concepts": [
+        "Needs",
+        "Hunger",
+        "Thirst",
+        "Fatigue",
+        "DayNight",
+        "Season",
+        "Weather",
+        "SurvivalHazard",
+        "LootDraft",
+        "Permadeath",
+        "MetaProgress",
+        "RunSeed",
+        "Encounter",
+        "EventRisk",
+        "Extraction",
+        "SafeZone",
+        "ResourceDecay",
+        "ProceduralRoom"
+      ],
+      "boundary": "随机种子可回放，持久成长与单局状态隔离"
+    },
+    {
+      "id": "C17",
+      "title": "音乐节拍与音频玩法",
+      "existingSource": "新增提案为主",
+      "concepts": [
+        "BeatTimeline",
+        "BPMClock",
+        "AudioLatency",
+        "HitWindow",
+        "Judgement",
+        "ComboScore",
+        "LongNote",
+        "SlideNote",
+        "NoteChart",
+        "MusicSync",
+        "InstrumentPad",
+        "AudioScheduler",
+        "MidiInput",
+        "MicPermission",
+        "PitchDetection",
+        "InputCalibration"
+      ],
+      "boundary": "音画时钟与 Tick 不可混用；音频输入有权限边界"
+    },
+    {
+      "id": "C18",
+      "title": "竞速、体育与技巧",
+      "existingSource": "新增提案为主",
+      "concepts": [
+        "Vehicle2D",
+        "Vehicle3D",
+        "Steering",
+        "AccelerationCurve",
+        "Drift",
+        "Traction",
+        "Suspension",
+        "Track",
+        "Lap",
+        "Checkpoint",
+        "TimeTrial",
+        "GhostReplay",
+        "Ranking",
+        "BallFlight",
+        "Spin",
+        "CourtRules",
+        "GoalScore",
+        "MatchTimer"
+      ],
+      "boundary": "物理与评分规则分开，可 replay"
+    },
+    {
+      "id": "C19",
+      "title": "程序化内容与 UGC",
+      "existingSource": "已有 RNG/Stage/发布子集",
+      "concepts": [
+        "SeededGenerator",
+        "LayoutConstraint",
+        "GrammarRule",
+        "BiomeGen",
+        "DungeonGen",
+        "LootGen",
+        "EncounterGen",
+        "LevelEditor",
+        "VersionedLevel",
+        "UGCManifest",
+        "ContentModeration",
+        "AssetWhitelist",
+        "RuntimeBudget",
+        "AssetLicense",
+        "DiffPatch"
+      ],
+      "boundary": "生成是受控数据/规则，不接受脚本与任意资源 URL"
+    },
+    {
+      "id": "C20",
+      "title": "多人协作与联网",
+      "existingSource": "已有 loopback turn-room 参考",
+      "concepts": [
+        "LocalPlayers",
+        "InputPartition",
+        "NetSession",
+        "ServerAuthority",
+        "InputPrediction",
+        "StateReplication",
+        "Reconciliation",
+        "SnapshotDelta",
+        "AsyncTurn",
+        "Matchmaking",
+        "Room",
+        "Spectator",
+        "Reconnect",
+        "PlayerRole",
+        "CoopGoal",
+        "Leaderboard",
+        "AuditReplay",
+        "AntiCheat"
+      ],
+      "boundary": "服务端权威 Profile 独立，避免把浏览器 local Host 当服务器权威"
+    }
+  ],
+  "capabilityGapDirections": [
+    {
+      "family": "C01",
+      "existingReference": "core.state / rules.state-set / core.flow",
+      "proposedGaps": "复杂全局任务图、跨场景状态",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C02",
+      "existingReference": "visual.scene2d / visual.stage",
+      "proposedGaps": "HexGrid、导航世界、体素与大地图",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C03",
+      "existingReference": "input.touch.drag / input.gamepad.axis2",
+      "proposedGaps": "Mic/MIDI、精细设备回退、可重绑输入",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C04",
+      "existingReference": "puzzle.grid / puzzle.match-n / puzzle.undo",
+      "proposedGaps": "数独/数织/扫雷/连通与推理约束",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C05",
+      "existingReference": "realtime.jump / realtime.lane-move",
+      "proposedGaps": "完整平台动作、墙跳/冲刺/3D角色控制",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C06",
+      "existingReference": "physics.rigid3d / realtime.collider",
+      "proposedGaps": "车辆、布料/绳索、连续碰撞和浮力",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C07",
+      "existingReference": "combat.weapon / combat.wave",
+      "proposedGaps": "复杂Boss、多阶段技能及元素协同",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C08",
+      "existingReference": "combat.auto-target / strategy.path",
+      "proposedGaps": "可信NPC决策、感知、队伍/守卫AI",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C09",
+      "existingReference": "turnbased.turn / turnbased.legal-move",
+      "proposedGaps": "完整国际象棋/中国象棋与战棋规则",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C10",
+      "existingReference": "turnbased.deck / turnbased.cards",
+      "proposedGaps": "高级CardEffect/目标/资源结算",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C11",
+      "existingReference": "strategy.upgrade / combat.health",
+      "proposedGaps": "RPG经验、职业、属性和装备掉落",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C12",
+      "existingReference": "strategy.economy / strategy.shop",
+      "proposedGaps": "订单/市场/多货币经济与调度",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C13",
+      "existingReference": "strategy.production / strategy.placement-grid",
+      "proposedGaps": "工厂生产图、道路/管线/结构装配",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C14",
+      "existingReference": "strategy.tower-defense / strategy.path-follow",
+      "proposedGaps": "RTS指令、迷雾/视野/协同兵种",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C15",
+      "existingReference": "core.rules / core.flow（通用底层）",
+      "proposedGaps": "任务/对话/关系/剧情分支独立规则",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C16",
+      "existingReference": "core.rng / realtime.spawner",
+      "proposedGaps": "局内Meta、随机地牢、昼夜和生存需求",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C17",
+      "existingReference": "visual.stage（事件音频）",
+      "proposedGaps": "节奏判定、延迟校准、Mic/MIDI",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C18",
+      "existingReference": "realtime.velocity / physics.rigid3d",
+      "proposedGaps": "赛车与运动专用模型和计分规则",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C19",
+      "existingReference": "core.rng / 受控内容发布链路",
+      "proposedGaps": "受信地牢/地形生成和UGC审核机制",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    },
+    {
+      "family": "C20",
+      "existingReference": "turnbased.turn / 本地turn-room参考服务",
+      "proposedGaps": "权威服务器、复制/重连/反作弊",
+      "verification": "REQUIRES_CODE_AND_MANIFEST_REVIEW"
+    }
+  ],
+  "platformDomains": [
+    {
+      "id": "P01",
+      "title": "二维视觉与动画",
+      "concepts": [
+        "Sprite",
+        "Atlas",
+        "Tilemap",
+        "Particle",
+        "Trail",
+        "Tween",
+        "ScreenShake",
+        "2DLighting",
+        "HUD",
+        "Text",
+        "Mask"
+      ]
+    },
+    {
+      "id": "P02",
+      "title": "三维表现与特效",
+      "concepts": [
+        "Mesh",
+        "Material",
+        "PBR",
+        "Lighting",
+        "Shadow",
+        "Camera3D",
+        "Skeleton",
+        "Animation",
+        "PostFX",
+        "Instancing",
+        "LOD"
+      ]
+    },
+    {
+      "id": "P03",
+      "title": "素材生成与版权追踪",
+      "concepts": [
+        "PresetLibrary",
+        "AssetManifest",
+        "License",
+        "Source",
+        "Hash",
+        "Package",
+        "Texture",
+        "Audio",
+        "Model",
+        "Font",
+        "Fallback"
+      ]
+    },
+    {
+      "id": "P04",
+      "title": "多设备与可访问性",
+      "concepts": [
+        "Web",
+        "WebView",
+        "Desktop",
+        "Touch",
+        "Keyboard",
+        "Gamepad",
+        "IMU",
+        "WebXR",
+        "Resize",
+        "DPR",
+        "Language",
+        "Accessibility"
+      ]
+    },
+    {
+      "id": "P05",
+      "title": "交付、存档与可信分发",
+      "concepts": [
+        "Save",
+        "Migration",
+        "Versioning",
+        "Rollback",
+        "Integrity",
+        "Cache",
+        "Import",
+        "Export",
+        "Update",
+        "Permission",
+        "Audit"
+      ]
+    },
+    {
+      "id": "P06",
+      "title": "性能、稳定性与安全",
+      "concepts": [
+        "Budget",
+        "CPU/GPUProfile",
+        "Memory",
+        "GC",
+        "Pool",
+        "ContextLoss",
+        "ErrorBoundary",
+        "ResourceRelease",
+        "NoScripts",
+        "FailClosed"
+      ]
+    }
+  ],
+  "agentTooling": [
+    {
+      "id": "A01",
+      "title": "Agent Skill",
+      "summary": "需求→玩法设计→Capability检索→GameSpec→本机测试→修复→作品交付"
+    },
+    {
+      "id": "A02",
+      "title": "MCP工具",
+      "summary": "list/get/resource→validate/test→inspect/preview→export；默认0次内部模型调用"
+    },
+    {
+      "id": "A03",
+      "title": "本地Generator/CLI",
+      "summary": "仅显式使用模型Provider；可接受已有模型JSON直接准入"
+    },
+    {
+      "id": "A04",
+      "title": "审查与可追溯",
+      "summary": "录制关键输入、保存原始生成/版本/截图与来源，不重复铺设大型测试框架"
+    },
+    {
+      "id": "A05",
+      "title": "Benchmark与学习反馈",
+      "summary": "真实缺陷聚类→Skill/Manifest/Runtime归因→保留集验证；不靠累计数字代替质量"
+    }
+  ]
+}

@@ -1,0 +1,1447 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.watchlight",
+  "revision": 1,
+  "meta": {
+    "title": "巡灯机关",
+    "description": "方向键移动。灯光在上下走廊交替扫过，用 E 关闭探照灯后走向出口。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 16922,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "cell": {
+      "type": "int",
+      "initial": 0
+    },
+    "phase": {
+      "type": "int",
+      "initial": 0
+    },
+    "next": {
+      "type": "int",
+      "initial": 20
+    },
+    "alarm": {
+      "type": "int",
+      "initial": 0
+    },
+    "disabled": {
+      "type": "bool",
+      "initial": false
+    },
+    "noise": {
+      "type": "bool",
+      "initial": false
+    },
+    "guard": {
+      "type": "int",
+      "initial": 7
+    },
+    "safe": {
+      "type": "bool",
+      "initial": false
+    },
+    "won": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "switch",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyE",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "move-0-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "move-0-down",
+      "on": {
+        "type": "input.action",
+        "action": "down",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "move-1-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "move-1-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "move-1-down",
+      "on": {
+        "type": "input.action",
+        "action": "down",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "move-2-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "move-2-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "move-2-down",
+      "on": {
+        "type": "input.action",
+        "action": "down",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "move-3-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "move-3-down",
+      "on": {
+        "type": "input.action",
+        "action": "down",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": "move-4-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 4
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "move-4-up",
+      "on": {
+        "type": "input.action",
+        "action": "up",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 4
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "move-5-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 5
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "move-5-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 5
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "move-5-up",
+      "on": {
+        "type": "input.action",
+        "action": "up",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 5
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "move-6-right",
+      "on": {
+        "type": "input.action",
+        "action": "right",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 6
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 7
+        }
+      ]
+    },
+    {
+      "id": "move-6-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 6
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "move-6-up",
+      "on": {
+        "type": "input.action",
+        "action": "up",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 6
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "move-7-left",
+      "on": {
+        "type": "input.action",
+        "action": "left",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 7
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "move-7-up",
+      "on": {
+        "type": "input.action",
+        "action": "up",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 7
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/cell",
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "rotate",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "state": "/next"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1
+              },
+              {
+                "state": "/phase"
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/next",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "disable",
+      "on": {
+        "type": "input.action",
+        "action": "switch",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/cell"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/disabled",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "watch-upper",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/disabled"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/alarm",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "watch-lower",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/disabled"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/phase"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 6
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/alarm",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "escape",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/disabled"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/cell"
+              },
+              {
+                "const": 7
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/won",
+          "value": true
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "escape",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "caught",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/alarm"
+          },
+          {
+            "const": 4
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-right",
+        "kind": "button",
+        "text": "右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "ui-left",
+        "kind": "button",
+        "text": "左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "ui-down",
+        "kind": "button",
+        "text": "下",
+        "bind": {
+          "action": "down"
+        }
+      },
+      {
+        "id": "ui-up",
+        "kind": "button",
+        "text": "上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "ui-switch",
+        "kind": "button",
+        "text": "E 关灯",
+        "bind": {
+          "action": "switch"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "巡灯机关"
+          },
+          "fontSize": 0.59,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.05
+          ],
+          "text": {
+            "literal": "E 在 2号格关灯 · 8号格出口"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-0",
+          "kind": "rect",
+          "at": [
+            -2.0999999999999996,
+            0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "0": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-0",
+          "kind": "text",
+          "at": [
+            -2.0999999999999996,
+            0.7
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-1",
+          "kind": "rect",
+          "at": [
+            -0.7,
+            0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "1": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-1",
+          "kind": "text",
+          "at": [
+            -0.7,
+            0.7
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-2",
+          "kind": "rect",
+          "at": [
+            0.7,
+            0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "2": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-2",
+          "kind": "text",
+          "at": [
+            0.7,
+            0.7
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-3",
+          "kind": "rect",
+          "at": [
+            2.0999999999999996,
+            0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "3": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-3",
+          "kind": "text",
+          "at": [
+            2.0999999999999996,
+            0.7
+          ],
+          "text": {
+            "literal": "4"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-4",
+          "kind": "rect",
+          "at": [
+            -2.0999999999999996,
+            -0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "4": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-4",
+          "kind": "text",
+          "at": [
+            -2.0999999999999996,
+            -0.7
+          ],
+          "text": {
+            "literal": "5"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-5",
+          "kind": "rect",
+          "at": [
+            -0.7,
+            -0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "5": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-5",
+          "kind": "text",
+          "at": [
+            -0.7,
+            -0.7
+          ],
+          "text": {
+            "literal": "6"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-6",
+          "kind": "rect",
+          "at": [
+            0.7,
+            -0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "6": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-6",
+          "kind": "text",
+          "at": [
+            0.7,
+            -0.7
+          ],
+          "text": {
+            "literal": "7"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "cell-7",
+          "kind": "rect",
+          "at": [
+            2.0999999999999996,
+            -0.7
+          ],
+          "size": [
+            1.32,
+            1.32
+          ],
+          "fill": {
+            "from": {
+              "state": "/cell"
+            },
+            "map": {
+              "7": "#578B77"
+            },
+            "fallback": "#2A4657"
+          }
+        },
+        {
+          "id": "index-7",
+          "kind": "text",
+          "at": [
+            2.0999999999999996,
+            -0.7
+          ],
+          "text": {
+            "literal": "8"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "status-label",
+          "kind": "text",
+          "at": [
+            -2.7,
+            -1.62
+          ],
+          "text": {
+            "literal": "照明走廊 0–1"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "status",
+          "kind": "text",
+          "at": [
+            -2.7,
+            -2.21
+          ],
+          "text": {
+            "state": "/phase"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "alarm-label",
+          "kind": "text",
+          "at": [
+            2,
+            -1.62
+          ],
+          "text": {
+            "literal": "警戒"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        },
+        {
+          "id": "alarm",
+          "kind": "text",
+          "at": [
+            2,
+            -2.21
+          ],
+          "text": {
+            "state": "/alarm"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3DC9C"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "guard",
+          "source": {
+            "state": "/guard"
+          },
+          "columns": 6,
+          "origin": [
+            -2.925,
+            1.68
+          ],
+          "step": [
+            1.17,
+            0.97
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.27,
+              "fill": "#F98E94"
+            },
+            {
+              "id": "facing",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "literal": "←"
+              },
+              "fontSize": 0.28,
+              "fill": "#541F31"
+            }
+          ]
+        },
+        {
+          "id": "hero",
+          "source": {
+            "state": "/cell"
+          },
+          "columns": 6,
+          "origin": [
+            -2.925,
+            1.68
+          ],
+          "step": [
+            1.17,
+            0.97
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.27,
+              "fill": "#90E1C6"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

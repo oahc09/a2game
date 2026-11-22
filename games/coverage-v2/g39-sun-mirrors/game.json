@@ -1,0 +1,545 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.sun-mirrors",
+  "revision": 1,
+  "meta": {
+    "title": "折光机关",
+    "description": "1 转动下镜 · 2 转动上镜 · 两次反射点亮右侧机关",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "mirrorA": {
+      "type": "bool",
+      "initial": false
+    },
+    "mirrorB": {
+      "type": "bool",
+      "initial": false
+    },
+    "reflected": {
+      "type": "bool",
+      "initial": false
+    },
+    "hit": {
+      "type": "bool",
+      "initial": false
+    },
+    "missA": {
+      "type": "bool",
+      "initial": false
+    },
+    "missB": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "mirrorA",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "mirrorB",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "toggle-mirrorA",
+      "on": {
+        "type": "input.action",
+        "action": "mirrorA",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/mirrorA",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mirrorA"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "toggle-mirrorB",
+      "on": {
+        "type": "input.action",
+        "action": "mirrorB",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/mirrorB",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mirrorB"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "evaluate-network",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/reflected",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/mirrorA"
+              },
+              {
+                "const": true
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/hit",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/mirrorA"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/mirrorB"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/missA",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/mirrorA"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/missB",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/mirrorA"
+                  },
+                  {
+                    "const": true
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/mirrorB"
+                  },
+                  {
+                    "const": false
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "network-finished",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/hit"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "key-mirrorA",
+        "kind": "button",
+        "text": "1 转下镜",
+        "bind": {
+          "action": "mirrorA"
+        }
+      },
+      {
+        "id": "key-mirrorB",
+        "kind": "button",
+        "text": "2 转上镜",
+        "bind": {
+          "action": "mirrorB"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "折光机关"
+          },
+          "fontSize": 0.58,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "source",
+          "kind": "text",
+          "at": [
+            -3,
+            -1
+          ],
+          "text": {
+            "literal": "光源"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "mirror-a",
+          "kind": "text",
+          "at": [
+            -0.9,
+            -1.68
+          ],
+          "text": {
+            "literal": "下镜 1"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "mirror-b",
+          "kind": "text",
+          "at": [
+            -0.9,
+            1.72
+          ],
+          "text": {
+            "literal": "上镜 2"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "receiver",
+          "kind": "text",
+          "at": [
+            3,
+            1.12
+          ],
+          "text": {
+            "literal": "光敏机关"
+          },
+          "fontSize": 0.4,
+          "fill": "#E1EDE0"
+        },
+        {
+          "id": "fixed-beam",
+          "kind": "rect",
+          "at": [
+            -1.85,
+            -1
+          ],
+          "size": [
+            1.8,
+            0.16
+          ],
+          "fill": "#ECDA80"
+        },
+        {
+          "id": "north-beam",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            0.04
+          ],
+          "size": [
+            0.15,
+            2.08
+          ],
+          "fill": {
+            "from": {
+              "state": "/reflected"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "east-beam",
+          "kind": "rect",
+          "at": [
+            0.99,
+            1.08
+          ],
+          "size": [
+            3.78,
+            0.15
+          ],
+          "fill": {
+            "from": {
+              "state": "/hit"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "south-beam",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            -1.8
+          ],
+          "size": [
+            0.13,
+            1.25
+          ],
+          "fill": {
+            "from": {
+              "state": "/missA"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "west-beam",
+          "kind": "rect",
+          "at": [
+            -2.07,
+            1.08
+          ],
+          "size": [
+            2.3,
+            0.15
+          ],
+          "fill": {
+            "from": {
+              "state": "/missB"
+            },
+            "map": {
+              "true": "#ECDA80",
+              "false": "#31475D"
+            },
+            "fallback": "#31475D"
+          }
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -3.05
+          ],
+          "text": {
+            "literal": "1 转动下镜 · 2 转动上镜 · 两次反射点亮右侧机关"
+          },
+          "fontSize": 0.36,
+          "fill": "#E1EDE0"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

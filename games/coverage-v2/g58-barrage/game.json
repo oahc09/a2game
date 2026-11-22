@@ -1,0 +1,1689 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.barrage",
+  "revision": 1,
+  "meta": {
+    "title": "引潮核心 · 弹幕战",
+    "description": "核心会交替预告中线和两翼弹幕。按 WASD 躲避，看到「反击窗口」后按住 Space 连射。被弹幕命中即失去护盾，十秒内击毁核心。",
+    "genres": [
+      "shooting",
+      "action"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.combat.aim",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.auto-target",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.health",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.hitscan",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.horde",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.projectile",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.status",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.weapon",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.acceleration",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.auto-scroll",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.bounce",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.charge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.collider",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.constraint",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.contact",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.follow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.jump",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.landing",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.lane-move",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.object-pool",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.rigid-body",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.spawner",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.trigger-zone",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.velocity",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-motif",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 5822,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "scenes": [
+    {
+      "id": "patrol",
+      "entities": [
+        {
+          "id": "clock-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "arena-system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/arena",
+                "width": 3600,
+                "height": 6000,
+                "gravity": 0,
+                "moveSpeed": 48,
+                "heldMovement": true,
+                "restitution": 0,
+                "maxObjects": 64,
+                "projectileSpeed": 128,
+                "projectileHalfSize": 128,
+                "weaponRange": 10000,
+                "damage": 1,
+                "fireRequestPath": "/fireRequest",
+                "cooldownTicks": 10,
+                "invulnerabilityTicks": 0,
+                "weapon": "projectile",
+                "autoTarget": true,
+                "seekSpeed": 0,
+                "maxTicks": 600,
+                "goalScore": 1,
+                "actions": {
+                  "left": "pilotLeft",
+                  "right": "pilotRight",
+                  "up": "pilotUp",
+                  "down": "pilotDown"
+                },
+                "constraints": [
+                  {
+                    "body": "A_pilot",
+                    "minX": 0,
+                    "maxX": 3600,
+                    "minY": 0,
+                    "maxY": 6000
+                  }
+                ],
+                "waves": [
+                  {
+                    "tick": 48,
+                    "body": {
+                      "id": "bullet_48_0",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": 0,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  },
+                  {
+                    "tick": 188,
+                    "body": {
+                      "id": "bullet_188_0",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": -31,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  },
+                  {
+                    "tick": 188,
+                    "body": {
+                      "id": "bullet_188_1",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": 31,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  },
+                  {
+                    "tick": 328,
+                    "body": {
+                      "id": "bullet_328_0",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": 0,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  },
+                  {
+                    "tick": 468,
+                    "body": {
+                      "id": "bullet_468_0",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": -31,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  },
+                  {
+                    "tick": 468,
+                    "body": {
+                      "id": "bullet_468_1",
+                      "kind": "projectile",
+                      "x": 1800,
+                      "y": 4920,
+                      "vx": 31,
+                      "vy": -104,
+                      "hx": 116,
+                      "hy": 116,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 2,
+                      "fixed": false,
+                      "ttl": 70,
+                      "owner": "B_core",
+                      "hits": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "patrol",
+  "state": {
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "arena": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "A_pilot",
+            "kind": "actor",
+            "x": 1800,
+            "y": 900,
+            "vx": 0,
+            "vy": 0,
+            "hx": 240,
+            "hy": 240,
+            "hp": 2,
+            "team": 1,
+            "value": 0,
+            "fixed": false,
+            "invulnerableUntil": 0
+          },
+          {
+            "id": "B_core",
+            "kind": "target",
+            "x": 1800,
+            "y": 5400,
+            "vx": 0,
+            "vy": 0,
+            "hx": 450,
+            "hy": 450,
+            "hp": 9,
+            "team": 2,
+            "value": 1,
+            "fixed": true,
+            "invulnerableUntil": 0
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "fireRequest": {
+      "type": "bool",
+      "initial": false
+    },
+    "hp": {
+      "type": "int",
+      "initial": 2
+    },
+    "bossHp": {
+      "type": "int",
+      "initial": 9
+    },
+    "phase": {
+      "type": "string",
+      "initial": "中线蓄能 · 向两侧错开"
+    },
+    "incomingHits": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "pilotUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "pilotRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "shootHeld",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Space",
+              "hold": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "fire-press",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": true
+        }
+      ],
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 87
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 137
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 227
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 277
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 367
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 417
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 507
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 557
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fire-hold",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "hold"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": true
+        }
+      ],
+      "if": {
+        "op": "or",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 87
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 137
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 227
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 277
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 367
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 417
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 507
+                  }
+                ]
+              },
+              {
+                "op": "lt",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 557
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "fire-release",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "release"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "fire-cancel",
+      "on": {
+        "type": "input.action",
+        "action": "shootHeld",
+        "edge": "cancel"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/fireRequest",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "pilot-impact",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "A_pilot"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/hp",
+          "value": {
+            "event": "/hp"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/incomingHits",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "boss-impact",
+      "on": {
+        "type": "combat.hit"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "event": "/id"
+          },
+          {
+            "const": "B_core"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bossHp",
+          "value": {
+            "event": "/hp"
+          }
+        }
+      ]
+    },
+    {
+      "id": "warning-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "中线蓄能 · 向两侧错开"
+        }
+      ]
+    },
+    {
+      "id": "burst-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 49
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "弹幕在途 · 保持避让"
+        }
+      ]
+    },
+    {
+      "id": "opening-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 87
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "反击窗口 · Space 连射"
+        }
+      ]
+    },
+    {
+      "id": "closing-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 137
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "核心闭合 · 等下一轮"
+        }
+      ]
+    },
+    {
+      "id": "warning-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 143
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "两翼蓄能 · 回到中线"
+        }
+      ]
+    },
+    {
+      "id": "burst-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 189
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "弹幕在途 · 保持避让"
+        }
+      ]
+    },
+    {
+      "id": "opening-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 227
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "反击窗口 · Space 连射"
+        }
+      ]
+    },
+    {
+      "id": "closing-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 277
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "核心闭合 · 等下一轮"
+        }
+      ]
+    },
+    {
+      "id": "warning-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 283
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "中线蓄能 · 向两侧错开"
+        }
+      ]
+    },
+    {
+      "id": "burst-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 329
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "弹幕在途 · 保持避让"
+        }
+      ]
+    },
+    {
+      "id": "opening-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 367
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "反击窗口 · Space 连射"
+        }
+      ]
+    },
+    {
+      "id": "closing-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 417
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "核心闭合 · 等下一轮"
+        }
+      ]
+    },
+    {
+      "id": "warning-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 423
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "两翼蓄能 · 回到中线"
+        }
+      ]
+    },
+    {
+      "id": "burst-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 469
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "弹幕在途 · 保持避让"
+        }
+      ]
+    },
+    {
+      "id": "opening-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 507
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "反击窗口 · Space 连射"
+        }
+      ]
+    },
+    {
+      "id": "closing-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 557
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "核心闭合 · 等下一轮"
+        }
+      ]
+    },
+    {
+      "id": "victory-text",
+      "priority": 100,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "核心击破 · 航道恢复"
+        }
+      ]
+    },
+    {
+      "id": "failure-text",
+      "priority": 110,
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/phase",
+          "value": "行动失败 · 重新部署"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "pilot-lost",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "patrol-cleared",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/arena/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "button-pilotUp",
+        "kind": "button",
+        "text": "W ↑",
+        "bind": {
+          "action": "pilotUp"
+        }
+      },
+      {
+        "id": "button-pilotDown",
+        "kind": "button",
+        "text": "S ↓",
+        "bind": {
+          "action": "pilotDown"
+        }
+      },
+      {
+        "id": "button-pilotLeft",
+        "kind": "button",
+        "text": "A ←",
+        "bind": {
+          "action": "pilotLeft"
+        }
+      },
+      {
+        "id": "button-pilotRight",
+        "kind": "button",
+        "text": "D →",
+        "bind": {
+          "action": "pilotRight"
+        }
+      },
+      {
+        "id": "button-shootHeld",
+        "kind": "button",
+        "text": "Space 连射",
+        "bind": {
+          "action": "shootHeld"
+        }
+      },
+      {
+        "id": "phase-label",
+        "kind": "text",
+        "bind": {
+          "state": "/phase"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 6.6,
+      "height": 8,
+      "background": "#101A2B",
+      "nodes": [
+        {
+          "id": "arena-frame",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.32
+          ],
+          "size": [
+            4.02,
+            6.38
+          ],
+          "fill": "#26475B"
+        },
+        {
+          "id": "arena-floor",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.32
+          ],
+          "size": [
+            3.6,
+            6
+          ],
+          "fill": "#142B3D"
+        },
+        {
+          "id": "track-center",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.32
+          ],
+          "size": [
+            0.028,
+            5.92
+          ],
+          "fill": "#2B5264"
+        },
+        {
+          "id": "track-left",
+          "kind": "rect",
+          "at": [
+            -1.1,
+            -0.32
+          ],
+          "size": [
+            0.028,
+            5.92
+          ],
+          "fill": "#243E53"
+        },
+        {
+          "id": "track-right",
+          "kind": "rect",
+          "at": [
+            1.1,
+            -0.32
+          ],
+          "size": [
+            0.028,
+            5.92
+          ],
+          "fill": "#243E53"
+        },
+        {
+          "id": "phase",
+          "kind": "text",
+          "at": [
+            0,
+            3.58
+          ],
+          "text": {
+            "state": "/phase"
+          },
+          "fontSize": 0.39,
+          "fill": "#FFDCA0"
+        },
+        {
+          "id": "pilot-hp-label",
+          "kind": "text",
+          "at": [
+            -2.65,
+            1.55
+          ],
+          "text": {
+            "literal": "护盾"
+          },
+          "fontSize": 0.37,
+          "fill": "#7DEBDD"
+        },
+        {
+          "id": "pilot-hp",
+          "kind": "text",
+          "at": [
+            -2.65,
+            0.98
+          ],
+          "text": {
+            "state": "/hp"
+          },
+          "fontSize": 0.55,
+          "fill": "#B4F7E8"
+        },
+        {
+          "id": "boss-hp-label",
+          "kind": "text",
+          "at": [
+            2.65,
+            1.55
+          ],
+          "text": {
+            "literal": "核心"
+          },
+          "fontSize": 0.37,
+          "fill": "#FFA7B2"
+        },
+        {
+          "id": "boss-hp",
+          "kind": "text",
+          "at": [
+            2.65,
+            0.98
+          ],
+          "text": {
+            "state": "/bossHp"
+          },
+          "fontSize": 0.55,
+          "fill": "#FFD1DA"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.73
+          ],
+          "text": {
+            "literal": "WASD 避让  ·  Space 反击"
+          },
+          "fontSize": 0.3,
+          "fill": "#BCDBE4"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/arena/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -1.8,
+          -3.34
+        ],
+        "palette": {
+          "actor": "#5FE9D7",
+          "solid": "#40596D",
+          "target": "#F07492",
+          "projectile": "#FFE18C",
+          "pickup": "#8FF0BA"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile"
+        ],
+        "valuePalette": {
+          "1": "#FFE18C",
+          "2": "#FF5375"
+        },
+        "showValues": false,
+        "motifs": {
+          "actor": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.55
+              ],
+              "fill": "#4DD6E4"
+            },
+            {
+              "id": "fuselage",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.46,
+                1.7
+              ],
+              "fill": "#D8FAFF"
+            },
+            {
+              "id": "nose",
+              "kind": "rect",
+              "at": [
+                0,
+                0.65
+              ],
+              "size": [
+                0.25,
+                0.48
+              ],
+              "fill": "#FFE08A"
+            },
+            {
+              "id": "cockpit",
+              "kind": "circle",
+              "at": [
+                0,
+                0.05
+              ],
+              "radius": 0.18,
+              "fill": "#286F91"
+            }
+          ],
+          "target": [
+            {
+              "id": "wing",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.7,
+                0.6
+              ],
+              "fill": "#C75579"
+            },
+            {
+              "id": "keel",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.7,
+                1.55
+              ],
+              "fill": "#F77B99"
+            },
+            {
+              "id": "core",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.35,
+              "fill": "#FFD49B"
+            },
+            {
+              "id": "eye",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.12,
+              "fill": "#743F6B"
+            }
+          ],
+          "projectile": [
+            {
+              "id": "bolt",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                2,
+                2
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "2": "#FF5375"
+                },
+                "fallback": "#FFE18C"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ]
+}

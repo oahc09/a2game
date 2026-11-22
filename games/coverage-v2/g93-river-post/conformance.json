@@ -1,0 +1,157 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-river-post",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.river-post",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "quest",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "quest",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ferry",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ferry",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "hand",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "hand",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "gate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "gate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "final",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "final",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "prerequisite-missing",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "gate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "gate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "final",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "final",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "hand",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "hand",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/zone",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

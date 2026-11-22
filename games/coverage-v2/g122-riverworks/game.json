@@ -1,0 +1,562 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.riverworks",
+  "revision": 1,
+  "meta": {
+    "title": "潮渠工房 · 工厂产线",
+    "description": "接通供料和出货线路，在出货仓交付 5 个成品。可将成品转入容量有限的备料仓，观察断线和堵塞时的库存。",
+    "genres": [
+      "simulation"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.strategy.production-line",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12210,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "system",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.strategy.production-line",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/line",
+                "intervalTicks": 30,
+                "machines": [
+                  {
+                    "output": "ore",
+                    "capacity": 8
+                  },
+                  {
+                    "input": "ore",
+                    "output": "parts",
+                    "capacity": 2
+                  },
+                  {
+                    "input": "parts",
+                    "capacity": 2
+                  },
+                  {
+                    "input": "parts",
+                    "capacity": 5
+                  }
+                ],
+                "links": [
+                  {
+                    "from": 0,
+                    "to": 1,
+                    "action": "feed"
+                  },
+                  {
+                    "from": 1,
+                    "to": 2,
+                    "action": "reserve"
+                  },
+                  {
+                    "from": 1,
+                    "to": 3,
+                    "action": "ship"
+                  }
+                ],
+                "goalMachine": 3,
+                "goalUnits": 5
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "line": {
+      "type": "object",
+      "initial": {
+        "inputs": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "outputs": [
+          8,
+          0,
+          0,
+          0
+        ],
+        "connected": [
+          false,
+          false,
+          false
+        ],
+        "won": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "feed",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "reserve",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "ship",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "order-filled",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/line/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "1 原料带",
+        "bind": {
+          "action": "feed"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "2 备料带",
+        "bind": {
+          "action": "reserve"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "3 出货带",
+        "bind": {
+          "action": "ship"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#142331",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.33
+          ],
+          "text": {
+            "literal": "潮渠工房 · 工厂产线"
+          },
+          "fontSize": 0.57,
+          "fill": "#FFDF99"
+        },
+        {
+          "id": "supply",
+          "kind": "rect",
+          "at": [
+            -3.48,
+            0.25
+          ],
+          "size": [
+            2.17,
+            1.8
+          ],
+          "fill": "#254559"
+        },
+        {
+          "id": "supply-label",
+          "kind": "text",
+          "at": [
+            -3.48,
+            0.73
+          ],
+          "text": {
+            "literal": "供料站"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "supply-stock",
+          "kind": "text",
+          "at": [
+            -3.48,
+            0.07
+          ],
+          "text": {
+            "state": "/line/outputs/0"
+          },
+          "fontSize": 0.55,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "press",
+          "kind": "rect",
+          "at": [
+            0,
+            0.25
+          ],
+          "size": [
+            2.17,
+            1.8
+          ],
+          "fill": "#254559"
+        },
+        {
+          "id": "press-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.73
+          ],
+          "text": {
+            "literal": "冲压机"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "press-stock",
+          "kind": "text",
+          "at": [
+            0,
+            0.07
+          ],
+          "text": {
+            "state": "/line/outputs/1"
+          },
+          "fontSize": 0.55,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "reserve",
+          "kind": "rect",
+          "at": [
+            3.46,
+            -1.24
+          ],
+          "size": [
+            2.17,
+            1.8
+          ],
+          "fill": "#254559"
+        },
+        {
+          "id": "reserve-label",
+          "kind": "text",
+          "at": [
+            3.46,
+            -0.76
+          ],
+          "text": {
+            "literal": "备料仓"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "reserve-stock",
+          "kind": "text",
+          "at": [
+            3.46,
+            -1.42
+          ],
+          "text": {
+            "state": "/line/inputs/2"
+          },
+          "fontSize": 0.55,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "ship",
+          "kind": "rect",
+          "at": [
+            3.46,
+            1.46
+          ],
+          "size": [
+            2.17,
+            1.8
+          ],
+          "fill": "#254559"
+        },
+        {
+          "id": "ship-label",
+          "kind": "text",
+          "at": [
+            3.46,
+            1.94
+          ],
+          "text": {
+            "literal": "出货仓"
+          },
+          "fontSize": 0.37,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "ship-stock",
+          "kind": "text",
+          "at": [
+            3.46,
+            1.28
+          ],
+          "text": {
+            "state": "/line/inputs/3"
+          },
+          "fontSize": 0.55,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "link-0",
+          "kind": "rect",
+          "at": [
+            -1.73,
+            0.25
+          ],
+          "size": [
+            1.25,
+            0.2
+          ],
+          "fill": {
+            "from": {
+              "state": "/line/connected/0"
+            },
+            "map": {
+              "true": "#67DBB8",
+              "false": "#4C5764"
+            },
+            "fallback": "#4C5764"
+          }
+        },
+        {
+          "id": "key-0",
+          "kind": "text",
+          "at": [
+            -1.73,
+            0.52
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.32,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "link-1",
+          "kind": "rect",
+          "at": [
+            1.73,
+            -0.7
+          ],
+          "size": [
+            1.25,
+            0.2
+          ],
+          "fill": {
+            "from": {
+              "state": "/line/connected/1"
+            },
+            "map": {
+              "true": "#67DBB8",
+              "false": "#4C5764"
+            },
+            "fallback": "#4C5764"
+          }
+        },
+        {
+          "id": "key-1",
+          "kind": "text",
+          "at": [
+            1.73,
+            -0.42999999999999994
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.32,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "link-2",
+          "kind": "rect",
+          "at": [
+            1.73,
+            1.04
+          ],
+          "size": [
+            1.25,
+            0.2
+          ],
+          "fill": {
+            "from": {
+              "state": "/line/connected/2"
+            },
+            "map": {
+              "true": "#67DBB8",
+              "false": "#4C5764"
+            },
+            "fallback": "#4C5764"
+          }
+        },
+        {
+          "id": "key-2",
+          "kind": "text",
+          "at": [
+            1.73,
+            1.31
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.32,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "input-label",
+          "kind": "text",
+          "at": [
+            -0.36,
+            -1.2
+          ],
+          "text": {
+            "literal": "待加工"
+          },
+          "fontSize": 0.31,
+          "fill": "#DCE9E7"
+        },
+        {
+          "id": "input",
+          "kind": "text",
+          "at": [
+            0.59,
+            -1.2
+          ],
+          "text": {
+            "state": "/line/inputs/1"
+          },
+          "fontSize": 0.33,
+          "fill": "#FFE2A9"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.15
+          ],
+          "text": {
+            "literal": "目标  出货仓 5 件 · 亮线已接通"
+          },
+          "fontSize": 0.42,
+          "fill": "#DCE9E7"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "ticks": 30
+  },
+  {
+    "action": "upgrade",
+    "ticks": 1
+  },
+  {
+    "ticks": 60
+  }
+]

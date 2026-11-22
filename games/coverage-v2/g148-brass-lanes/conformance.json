@@ -1,0 +1,68 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-brass-lanes",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.brass-lanes",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "physics-finishes",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "kick",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 150
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "no-shot-no-score",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/result",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

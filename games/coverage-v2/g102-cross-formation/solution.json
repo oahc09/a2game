@@ -1,0 +1,18 @@
+[
+  {
+    "action": "pike",
+    "ticks": 1
+  },
+  {
+    "action": "attack",
+    "ticks": 1
+  },
+  {
+    "action": "guard",
+    "ticks": 1
+  },
+  {
+    "action": "attack",
+    "ticks": 1
+  }
+]

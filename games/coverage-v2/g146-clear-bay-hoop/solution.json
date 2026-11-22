@@ -1,0 +1,92 @@
+[
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "down",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.45,
+          "v": 0.21,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "move",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.25,
+          "v": 0.66,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "up",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.25,
+          "v": 0.66,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 92
+  },
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "down",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.45,
+          "v": 0.21,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "move",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.25,
+          "v": 0.66,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "pointer",
+        "kind": "up",
+        "payload": {
+          "pointerId": 1,
+          "u": 0.25,
+          "v": 0.66,
+          "viewportAspect": 1.25
+        }
+      }
+    ],
+    "ticks": 92
+  }
+]

@@ -1,0 +1,162 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-bay-paddle",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.bay-paddle",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "score",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 14
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "right",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "return",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "return",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/phase",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 14
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "return",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "return",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 13
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "saved-or-missed",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 19
+        },
+        {
+          "op": "assert",
+          "path": "/state/miss",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

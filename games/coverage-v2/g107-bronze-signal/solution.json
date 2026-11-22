@@ -1,0 +1,18 @@
+[
+  {
+    "action": "left",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "select",
+    "ticks": 1
+  },
+  {
+    "action": "range",
+    "ticks": 460
+  }
+]

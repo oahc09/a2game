@@ -1,0 +1,250 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-riverworks",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.riverworks",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "connect-and-deliver",
+      "seed": 12210,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 190
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/3",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "backpressure-and-recovery",
+      "seed": 12210,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 149
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/1",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/outputs/1",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/outputs/0",
+          "equals": 4
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/3",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 170
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/3",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "redirect-and-disconnect",
+      "seed": 12210,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "reserve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "reserve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 70
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/2",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/3",
+          "equals": 0
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "feed",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "reserve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "reserve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ship",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 100
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/inputs/3",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/line/outputs/0",
+          "equals": 5
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

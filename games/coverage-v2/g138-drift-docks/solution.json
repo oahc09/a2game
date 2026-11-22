@@ -1,0 +1,191 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyW"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "ShiftLeft"
+        }
+      }
+    ],
+    "ticks": 6
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "ShiftLeft"
+        }
+      }
+    ],
+    "ticks": 26
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyW"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyA"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "ticks": 30
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "action": "next-lap",
+    "ticks": 1
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyW"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "ShiftLeft"
+        }
+      }
+    ],
+    "ticks": 6
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "ShiftLeft"
+        }
+      }
+    ],
+    "ticks": 26
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyW"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 56
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyA"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyS"
+        }
+      }
+    ],
+    "ticks": 30
+  }
+]

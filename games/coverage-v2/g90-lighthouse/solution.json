@@ -1,0 +1,10 @@
+[
+  {
+    "action": "chooseA",
+    "ticks": 2
+  },
+  {
+    "action": "chooseA",
+    "ticks": 1
+  }
+]

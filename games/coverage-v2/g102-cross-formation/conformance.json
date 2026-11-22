@@ -1,0 +1,134 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-cross-formation",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.cross-formation",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "pike",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "pike",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "guard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "guard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "bad-matchup",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "guard",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "guard",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "attack",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/hp",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/victories",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

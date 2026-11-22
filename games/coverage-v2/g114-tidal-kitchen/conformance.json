@@ -1,0 +1,268 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-tidal-kitchen",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.tidal-kitchen",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "two-correct-orders",
+      "seed": 11422,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "soup",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "soup",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/served",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/reputation",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "rice",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "rice",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/served",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "wrong-and-late",
+      "seed": 11422,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "rice",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "rice",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cook",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "serve",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/served",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/reputation",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "order",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 86
+        },
+        {
+          "op": "assert",
+          "path": "/state/reputation",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}

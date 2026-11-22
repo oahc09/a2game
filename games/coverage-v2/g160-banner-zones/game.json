@@ -1,0 +1,671 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.banner-zones",
+  "revision": 1,
+  "meta": {
+    "title": "双旗领地",
+    "description": "1、2 在区域部署旗帜，3 结算回合。已占区域不能被重复占领。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "north": {
+      "type": "int",
+      "initial": 0
+    },
+    "south": {
+      "type": "int",
+      "initial": 0
+    },
+    "player": {
+      "type": "int",
+      "initial": 1
+    },
+    "red": {
+      "type": "int",
+      "initial": 0
+    },
+    "blue": {
+      "type": "int",
+      "initial": 0
+    },
+    "turns": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "upper",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "lower",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "end",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "capture-north",
+      "on": {
+        "type": "input.action",
+        "action": "upper",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/north"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/north",
+          "value": {
+            "state": "/player"
+          }
+        }
+      ]
+    },
+    {
+      "id": "capture-south",
+      "on": {
+        "type": "input.action",
+        "action": "lower",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/south"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/south",
+          "value": {
+            "state": "/player"
+          }
+        }
+      ]
+    },
+    {
+      "id": "score-north-1",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/north"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/red",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "score-south-1",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/south"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/red",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "score-north-2",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/north"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/blue",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "score-south-2",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/south"
+          },
+          {
+            "const": 2
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/blue",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "turn",
+      "on": {
+        "type": "input.action",
+        "action": "end",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/player",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 3
+              },
+              {
+                "state": "/player"
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.add",
+          "path": "/turns",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "win",
+      "priority": 0,
+      "status": "won",
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/red"
+          },
+          {
+            "const": 4
+          }
+        ]
+      }
+    },
+    {
+      "id": "lose",
+      "priority": 1,
+      "status": "lost",
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/blue"
+          },
+          {
+            "const": 4
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "upper",
+        "kind": "button",
+        "text": "1 北区部署",
+        "bind": {
+          "action": "upper"
+        }
+      },
+      {
+        "id": "lower",
+        "kind": "button",
+        "text": "2 南区部署",
+        "bind": {
+          "action": "lower"
+        }
+      },
+      {
+        "id": "end",
+        "kind": "button",
+        "text": "3 结算回合",
+        "bind": {
+          "action": "end"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "双旗领地"
+          },
+          "fontSize": 0.61,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-north",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "north-title",
+          "kind": "text",
+          "at": [
+            -3,
+            1.5
+          ],
+          "text": {
+            "literal": "北区归属"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "north",
+          "kind": "text",
+          "at": [
+            -3,
+            0.97
+          ],
+          "text": {
+            "state": "/north"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-south",
+          "kind": "rect",
+          "at": [
+            0,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "south-title",
+          "kind": "text",
+          "at": [
+            0,
+            1.5
+          ],
+          "text": {
+            "literal": "南区归属"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "south",
+          "kind": "text",
+          "at": [
+            0,
+            0.97
+          ],
+          "text": {
+            "state": "/south"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-player",
+          "kind": "rect",
+          "at": [
+            3,
+            1.26
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "player-title",
+          "kind": "text",
+          "at": [
+            3,
+            1.5
+          ],
+          "text": {
+            "literal": "当前方"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "player",
+          "kind": "text",
+          "at": [
+            3,
+            0.97
+          ],
+          "text": {
+            "state": "/player"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-red",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.18999999999999995
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "red-title",
+          "kind": "text",
+          "at": [
+            -3,
+            0.050000000000000044
+          ],
+          "text": {
+            "literal": "红方累计"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "red",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.48
+          ],
+          "text": {
+            "state": "/red"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-blue",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.18999999999999995
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "blue-title",
+          "kind": "text",
+          "at": [
+            0,
+            0.050000000000000044
+          ],
+          "text": {
+            "literal": "蓝方累计"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "blue",
+          "kind": "text",
+          "at": [
+            0,
+            -0.48
+          ],
+          "text": {
+            "state": "/blue"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "panel-turns",
+          "kind": "rect",
+          "at": [
+            3,
+            -0.18999999999999995
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#27485A"
+        },
+        {
+          "id": "turns-title",
+          "kind": "text",
+          "at": [
+            3,
+            0.050000000000000044
+          ],
+          "text": {
+            "literal": "已结算回合"
+          },
+          "fontSize": 0.35,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "turns",
+          "kind": "text",
+          "at": [
+            3,
+            -0.48
+          ],
+          "text": {
+            "state": "/turns"
+          },
+          "fontSize": 0.48,
+          "fill": "#F3D89F"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.64
+          ],
+          "text": {
+            "literal": "占领后按 3 结算 · 红 1 / 蓝 2"
+          },
+          "fontSize": 0.38,
+          "fill": "#F3D89F"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

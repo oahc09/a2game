@@ -1,0 +1,135 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-cross-current",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.cross-current",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "move-right-and-fire-up",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 11
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectAction",
+          "action": "aim-up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "aim-up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 22
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "horizontal-shot-misses",
+      "seed": 49022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 11
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyD"
+            }
+          }
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "fire",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 30
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

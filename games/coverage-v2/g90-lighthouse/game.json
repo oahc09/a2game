@@ -1,0 +1,677 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.lighthouse",
+  "revision": 1,
+  "meta": {
+    "title": "潮汐灯塔",
+    "description": "风暴中接掌最后一盏灯。先决定把灯照向哪里，再选择如何帮助船队。读完一段后按 A 或 B，也可点击下方选项按钮。",
+    "genres": [
+      "adventure",
+      "narrative"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 9022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "lighthouse",
+      "entities": []
+    }
+  ],
+  "entryScene": "lighthouse",
+  "state": {
+    "chapter": {
+      "type": "int",
+      "initial": 0
+    },
+    "ending": {
+      "type": "string",
+      "initial": ""
+    },
+    "heading": {
+      "type": "string",
+      "initial": "风暴前的最后一盏灯"
+    },
+    "line1": {
+      "type": "string",
+      "initial": "潮水越过旧堤。无线电里，"
+    },
+    "line2": {
+      "type": "string",
+      "initial": "外海货轮和湾内渔艇同时求援。"
+    },
+    "choiceA": {
+      "type": "string",
+      "initial": "A · 照向外海航标"
+    },
+    "choiceB": {
+      "type": "string",
+      "initial": "B · 照向湾内浅滩"
+    },
+    "tag": {
+      "type": "string",
+      "initial": "01 / 03 · 风暴将至"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "chooseA",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "chooseB",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyB",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "chapter-0-A",
+      "on": {
+        "type": "input.action",
+        "action": "chooseA",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "外海 · 断掉的航标"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "货轮看见了灯，却被浪推向礁脊。"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "留存的电池只够维持一束强光。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "A · 连发三次短闪"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": "B · 调亮一侧引航"
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "02 / 03 · 外海"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "chapter-0-B",
+      "on": {
+        "type": "input.action",
+        "action": "chooseB",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "湾内 · 退潮的窄口"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "渔艇顺着灯到达湾口，"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "船尾的拖绳缠住了防波桩。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "A · 把灯打向撤离栈桥"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": "B · 引向背风码头"
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "02 / 03 · 湾内"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "chapter-1-A",
+      "on": {
+        "type": "input.action",
+        "action": "chooseA",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "结局 · 货轮脱险"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "短闪让货轮读懂了转向信号。"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "船尾越过礁脊，回了一声长笛。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "从头再玩可探索另一条航线"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": ""
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "03 / 03 · 外海回声"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": "outside-rescue"
+        }
+      ]
+    },
+    {
+      "id": "chapter-1-B",
+      "on": {
+        "type": "input.action",
+        "action": "chooseB",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "结局 · 引航员接手"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "高亮光束照清浪尖和深水标，"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "引航艇迎了上去，带船绕过礁脊。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "从头再玩可探索另一条航线"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": ""
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "03 / 03 · 引航灯"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": "pilot-route"
+        }
+      ]
+    },
+    {
+      "id": "chapter-3-A",
+      "on": {
+        "type": "input.action",
+        "action": "chooseA",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "结局 · 守住栈桥"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "最后一束灯照亮栈桥边缘。"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "船员割断拖绳，从桥边撤离。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "从头再玩可探索另一条航线"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": ""
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "03 / 03 · 栈桥余光"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": "pier-evacuation"
+        }
+      ]
+    },
+    {
+      "id": "chapter-3-B",
+      "on": {
+        "type": "input.action",
+        "action": "chooseB",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/chapter",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/heading",
+          "value": "结局 · 湾内靠岸"
+        },
+        {
+          "op": "state.set",
+          "path": "/line1",
+          "value": "渔艇沿光走进背风码头。"
+        },
+        {
+          "op": "state.set",
+          "path": "/line2",
+          "value": "守夜人接住缆绳，灯塔收到谢意。"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceA",
+          "value": "从头再玩可探索另一条航线"
+        },
+        {
+          "op": "state.set",
+          "path": "/choiceB",
+          "value": ""
+        },
+        {
+          "op": "state.set",
+          "path": "/tag",
+          "value": "03 / 03 · 湾内灯火"
+        },
+        {
+          "op": "state.set",
+          "path": "/ending",
+          "value": "bay-harbor"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "story-complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/chapter"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "option-a",
+        "kind": "button",
+        "text": "选择 A",
+        "bind": {
+          "action": "chooseA"
+        }
+      },
+      {
+        "id": "option-b",
+        "kind": "button",
+        "text": "选择 B",
+        "bind": {
+          "action": "chooseB"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#101E2A",
+      "nodes": [
+        {
+          "id": "paper",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            9.4,
+            7.4
+          ],
+          "fill": "#192F3B"
+        },
+        {
+          "id": "edge",
+          "kind": "rect",
+          "at": [
+            0,
+            3.66
+          ],
+          "size": [
+            9.4,
+            0.08
+          ],
+          "fill": "#F5C27F"
+        },
+        {
+          "id": "tag",
+          "kind": "text",
+          "at": [
+            0,
+            3.05
+          ],
+          "text": {
+            "state": "/tag"
+          },
+          "fontSize": 0.36,
+          "fill": "#8ECFC8"
+        },
+        {
+          "id": "heading",
+          "kind": "text",
+          "at": [
+            0,
+            1.95
+          ],
+          "text": {
+            "state": "/heading"
+          },
+          "fontSize": 0.65,
+          "fill": "#FFF1DD"
+        },
+        {
+          "id": "line-one",
+          "kind": "text",
+          "at": [
+            0,
+            0.68
+          ],
+          "text": {
+            "state": "/line1"
+          },
+          "fontSize": 0.47,
+          "fill": "#E9F5FA"
+        },
+        {
+          "id": "line-two",
+          "kind": "text",
+          "at": [
+            0,
+            -0.06
+          ],
+          "text": {
+            "state": "/line2"
+          },
+          "fontSize": 0.47,
+          "fill": "#E9F5FA"
+        },
+        {
+          "id": "option-panel-a",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.48
+          ],
+          "size": [
+            8.65,
+            0.78
+          ],
+          "fill": "#214854"
+        },
+        {
+          "id": "option-panel-b",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.52
+          ],
+          "size": [
+            8.65,
+            0.78
+          ],
+          "fill": "#214854"
+        },
+        {
+          "id": "choice-a",
+          "kind": "text",
+          "at": [
+            0,
+            -1.46
+          ],
+          "text": {
+            "state": "/choiceA"
+          },
+          "fontSize": 0.43,
+          "fill": "#F8DBA4"
+        },
+        {
+          "id": "choice-b",
+          "kind": "text",
+          "at": [
+            0,
+            -2.5
+          ],
+          "text": {
+            "state": "/choiceB"
+          },
+          "fontSize": 0.43,
+          "fill": "#A7E4DC"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

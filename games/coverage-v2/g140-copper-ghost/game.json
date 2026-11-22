@@ -1,0 +1,1613 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.copper-ghost",
+  "revision": 1,
+  "meta": {
+    "title": "铜环追影",
+    "description": "WASD 驾驶。沿检查点跑一圈，与同赛道输入回放生成的幽灵比较。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 13722,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        },
+        {
+          "id": "track",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 5600,
+                "heldMovement": true,
+                "moveSpeed": 100,
+                "maxTicks": 600,
+                "actions": {
+                  "right": "right",
+                  "left": "left",
+                  "up": "up",
+                  "down": "down"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "car",
+            "kind": "actor",
+            "x": 1200,
+            "y": 1200,
+            "hx": 140,
+            "hy": 140,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          },
+          {
+            "id": "island",
+            "kind": "solid",
+            "x": 4000,
+            "y": 2800,
+            "hx": 1620,
+            "hy": 1050,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "first",
+            "kind": "pickup",
+            "x": 4400,
+            "y": 1200,
+            "hx": 170,
+            "hy": 210,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "second",
+            "kind": "pickup",
+            "x": 6800,
+            "y": 3200,
+            "hx": 210,
+            "hy": 170,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "third",
+            "kind": "pickup",
+            "x": 3800,
+            "y": 4400,
+            "hx": 170,
+            "hy": 210,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "finish",
+            "kind": "pickup",
+            "x": 1200,
+            "y": 1740,
+            "hx": 230,
+            "hy": 150,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "gate": {
+      "type": "int",
+      "initial": 0
+    },
+    "lap": {
+      "type": "int",
+      "initial": 0
+    },
+    "invalid": {
+      "type": "bool",
+      "initial": false
+    },
+    "message": {
+      "type": "string",
+      "initial": "依次通过 1 → 2 → 3 再过终点"
+    },
+    "ghostCell": {
+      "type": "int",
+      "initial": 908
+    },
+    "ghostAt": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "take-first",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "first"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/gate"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/gate",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已通过检查点 1"
+        }
+      ]
+    },
+    {
+      "id": "take-second",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "second"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/gate"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/gate",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已通过检查点 2"
+        }
+      ]
+    },
+    {
+      "id": "take-third",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "third"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/gate"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/gate",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已通过检查点 3"
+        }
+      ]
+    },
+    {
+      "id": "finish-valid",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "finish"
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/gate"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lap",
+          "value": {
+            "state": "/clock"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "有效圈速已记录"
+        }
+      ]
+    },
+    {
+      "id": "finish-invalid",
+      "on": {
+        "type": "realtime.trigger"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "event": "/id"
+              },
+              {
+                "const": "finish"
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/gate"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/invalid",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏过检查点 · 圈速无效"
+        }
+      ]
+    },
+    {
+      "id": "ghost-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 6
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 911
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "ghost-12",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 12
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 914
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 12
+        }
+      ]
+    },
+    {
+      "id": "ghost-18",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 18
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 917
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 18
+        }
+      ]
+    },
+    {
+      "id": "ghost-24",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 24
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 920
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 24
+        }
+      ]
+    },
+    {
+      "id": "ghost-30",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 30
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 923
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 30
+        }
+      ]
+    },
+    {
+      "id": "ghost-36",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 36
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 926
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 36
+        }
+      ]
+    },
+    {
+      "id": "ghost-42",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 42
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 929
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 42
+        }
+      ]
+    },
+    {
+      "id": "ghost-48",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 48
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 932
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 48
+        }
+      ]
+    },
+    {
+      "id": "ghost-54",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 54
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 935
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 54
+        }
+      ]
+    },
+    {
+      "id": "ghost-60",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 60
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 854
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "id": "ghost-66",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 66
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 731
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 66
+        }
+      ]
+    },
+    {
+      "id": "ghost-72",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 72
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 608
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 72
+        }
+      ]
+    },
+    {
+      "id": "ghost-78",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 78
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 485
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 78
+        }
+      ]
+    },
+    {
+      "id": "ghost-84",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 84
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 362
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 84
+        }
+      ]
+    },
+    {
+      "id": "ghost-90",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 90
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 279
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 90
+        }
+      ]
+    },
+    {
+      "id": "ghost-96",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 96
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 276
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 96
+        }
+      ]
+    },
+    {
+      "id": "ghost-102",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 102
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 273
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 102
+        }
+      ]
+    },
+    {
+      "id": "ghost-108",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 108
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 270
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 108
+        }
+      ]
+    },
+    {
+      "id": "ghost-114",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 114
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 267
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 114
+        }
+      ]
+    },
+    {
+      "id": "ghost-120",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 120
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 264
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 120
+        }
+      ]
+    },
+    {
+      "id": "ghost-126",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 126
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 261
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 126
+        }
+      ]
+    },
+    {
+      "id": "ghost-132",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 132
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 258
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 132
+        }
+      ]
+    },
+    {
+      "id": "ghost-138",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 138
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 255
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 138
+        }
+      ]
+    },
+    {
+      "id": "ghost-144",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 144
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 252
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 144
+        }
+      ]
+    },
+    {
+      "id": "ghost-150",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 150
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 375
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 150
+        }
+      ]
+    },
+    {
+      "id": "ghost-156",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 156
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 498
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 156
+        }
+      ]
+    },
+    {
+      "id": "ghost-162",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 162
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 621
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 162
+        }
+      ]
+    },
+    {
+      "id": "ghost-168",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 168
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/ghostCell",
+          "value": 744
+        },
+        {
+          "op": "state.set",
+          "path": "/ghostAt",
+          "value": 168
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "invalid",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/invalid"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "lap",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/lap"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "time-limit",
+      "status": "lost",
+      "priority": 2,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "W 上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "S 下",
+        "bind": {
+          "action": "down"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "ground",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            8.03,
+            5.64
+          ],
+          "fill": "#303F4E"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.35
+          ],
+          "text": {
+            "literal": "铜环追影"
+          },
+          "fontSize": 0.59,
+          "fill": "#F2D495"
+        },
+        {
+          "id": "first-label",
+          "kind": "text",
+          "at": [
+            0.4,
+            -2.12
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.31,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "second-label",
+          "kind": "text",
+          "at": [
+            3.33,
+            0.4
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.31,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "third-label",
+          "kind": "text",
+          "at": [
+            -0.2,
+            2.1
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.31,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "finish-label",
+          "kind": "text",
+          "at": [
+            -3.59,
+            -1.06
+          ],
+          "text": {
+            "literal": "终点"
+          },
+          "fontSize": 0.3,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "laps-label",
+          "kind": "text",
+          "at": [
+            0,
+            0.46
+          ],
+          "text": {
+            "literal": "计时 Tick"
+          },
+          "fontSize": 0.45,
+          "fill": "#E2C68F"
+        },
+        {
+          "id": "time",
+          "kind": "text",
+          "at": [
+            0,
+            -0.22
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.62,
+          "fill": "#9BD9D2"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.36
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.36,
+          "fill": "#F0D29C"
+        },
+        {
+          "id": "mode",
+          "kind": "text",
+          "at": [
+            0,
+            -3.45
+          ],
+          "text": {
+            "literal": "浅蓝圆点为参考回放"
+          },
+          "fontSize": 0.35,
+          "fill": "#CDE7EA"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -2.8
+        ],
+        "palette": {
+          "actor": "#6DE0BF",
+          "target": "#F1908F",
+          "solid": "#4C7A89",
+          "projectile": "#FFD48A",
+          "pickup": "#F4B75C"
+        }
+      },
+      "repeat": [
+        {
+          "id": "ghost",
+          "source": {
+            "state": "/ghostCell"
+          },
+          "indexMode": "cell",
+          "columns": 41,
+          "origin": [
+            -4,
+            2.8
+          ],
+          "step": [
+            0.2,
+            0.2
+          ],
+          "template": [
+            {
+              "id": "marker",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.13,
+              "fill": "#8EDAFA"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

@@ -1,0 +1,200 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-silent-platform",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.silent-platform",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "correlate-and-explain",
+      "seed": 92022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "ticket",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ticket",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "link",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "link",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/linked",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "unsupported-theory",
+      "seed": 92022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "link",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "link",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/linked",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "injectAction",
+          "action": "ticket",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ticket",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "wrong",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "wrong",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "submit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/resolved",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

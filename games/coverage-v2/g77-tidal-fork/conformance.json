@@ -1,0 +1,139 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-tidal-fork",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.tidal-fork",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "cave-trade-reaches-end",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cave",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cave",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/health",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "trade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "trade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "ferry-preserves-health-but-lacks-food",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "ferry",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "ferry",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "trade",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "trade",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "exit",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/health",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/supplies",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

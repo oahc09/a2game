@@ -1,0 +1,1137 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.copper-duel",
+  "revision": 1,
+  "meta": {
+    "title": "铜台对阵 · 双人同屏",
+    "description": "同屏双人。1P 用 A/D 移动，F 攻击，G 防守。2P 用 ←/→ 移动，K 攻击，L 防守。各在半场移动，相邻时攻击有效；防守持续到移动或出招。先得两分获胜。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 18522,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "aCell": {
+      "type": "int",
+      "initial": 2
+    },
+    "bCell": {
+      "type": "int",
+      "initial": 5
+    },
+    "aGuard": {
+      "type": "bool",
+      "initial": false
+    },
+    "bGuard": {
+      "type": "bool",
+      "initial": false
+    },
+    "aRequest": {
+      "type": "bool",
+      "initial": false
+    },
+    "bRequest": {
+      "type": "bool",
+      "initial": false
+    },
+    "aPoints": {
+      "type": "int",
+      "initial": 0
+    },
+    "bPoints": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "aLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aAttack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "aGuard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyG",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bAttack",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyK",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bGuard",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyL",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "a-Left",
+      "on": {
+        "type": "input.action",
+        "action": "aLeft",
+        "edge": "press"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/aCell"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aCell",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/aCell"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/aGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "a-Right",
+      "on": {
+        "type": "input.action",
+        "action": "aRight",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/aCell"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aCell",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/aCell"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/aGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "a-blocks",
+      "on": {
+        "type": "input.action",
+        "action": "aGuard",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aGuard",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "a-winds",
+      "on": {
+        "type": "input.action",
+        "action": "aAttack",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aRequest",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/aGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "a-scores",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/aRequest"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bGuard"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/bCell"
+                  },
+                  {
+                    "state": "/aCell"
+                  }
+                ]
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aPoints",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/aPoints"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "a-clears",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/aRequest"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/aRequest",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "b-Left",
+      "on": {
+        "type": "input.action",
+        "action": "bLeft",
+        "edge": "press"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/bCell"
+          },
+          {
+            "const": 5
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bCell",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/bCell"
+              },
+              {
+                "const": -1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/bGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "b-Right",
+      "on": {
+        "type": "input.action",
+        "action": "bRight",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/bCell"
+          },
+          {
+            "const": 7
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bCell",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/bCell"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/bGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "b-blocks",
+      "on": {
+        "type": "input.action",
+        "action": "bGuard",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bGuard",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "b-winds",
+      "on": {
+        "type": "input.action",
+        "action": "bAttack",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bRequest",
+          "value": true
+        },
+        {
+          "op": "state.set",
+          "path": "/bGuard",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "b-scores",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bRequest"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/aGuard"
+              },
+              {
+                "const": false
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "op": "sub",
+                "args": [
+                  {
+                    "state": "/bCell"
+                  },
+                  {
+                    "state": "/aCell"
+                  }
+                ]
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bPoints",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/bPoints"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "b-clears",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/bRequest"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bRequest",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "draw",
+      "status": "stopped",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/aPoints"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/bPoints"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "first-player",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/aPoints"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "second-player",
+      "status": "lost",
+      "priority": 2,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/bPoints"
+          },
+          {
+            "const": 2
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 一方左移",
+        "bind": {
+          "action": "aLeft"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 一方右移",
+        "bind": {
+          "action": "aRight"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "F 一方攻击",
+        "bind": {
+          "action": "aAttack"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "G 一方防守",
+        "bind": {
+          "action": "aGuard"
+        }
+      },
+      {
+        "id": "choice-4",
+        "kind": "button",
+        "text": "← 二方左移",
+        "bind": {
+          "action": "bLeft"
+        }
+      },
+      {
+        "id": "choice-5",
+        "kind": "button",
+        "text": "→ 二方右移",
+        "bind": {
+          "action": "bRight"
+        }
+      },
+      {
+        "id": "choice-6",
+        "kind": "button",
+        "text": "K 二方攻击",
+        "bind": {
+          "action": "bAttack"
+        }
+      },
+      {
+        "id": "choice-7",
+        "kind": "button",
+        "text": "L 二方防守",
+        "bind": {
+          "action": "bGuard"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.25
+          ],
+          "text": {
+            "literal": "铜台对阵 · 双人同屏"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFD68E"
+        },
+        {
+          "id": "floor",
+          "kind": "rect",
+          "at": [
+            0,
+            0.2
+          ],
+          "size": [
+            8.47,
+            1.51
+          ],
+          "fill": "#456675"
+        },
+        {
+          "id": "lane-0",
+          "kind": "rect",
+          "at": [
+            -3.64,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#3B736A"
+        },
+        {
+          "id": "lane-1",
+          "kind": "rect",
+          "at": [
+            -2.6,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#3B736A"
+        },
+        {
+          "id": "lane-2",
+          "kind": "rect",
+          "at": [
+            -1.56,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#3B736A"
+        },
+        {
+          "id": "lane-3",
+          "kind": "rect",
+          "at": [
+            -0.52,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#3B736A"
+        },
+        {
+          "id": "lane-4",
+          "kind": "rect",
+          "at": [
+            0.52,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#885B61"
+        },
+        {
+          "id": "lane-5",
+          "kind": "rect",
+          "at": [
+            1.56,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#885B61"
+        },
+        {
+          "id": "lane-6",
+          "kind": "rect",
+          "at": [
+            2.6,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#885B61"
+        },
+        {
+          "id": "lane-7",
+          "kind": "rect",
+          "at": [
+            3.64,
+            0.2
+          ],
+          "size": [
+            1,
+            1.35
+          ],
+          "fill": "#885B61"
+        },
+        {
+          "id": "score-a-label",
+          "kind": "text",
+          "at": [
+            -2.55,
+            2.05
+          ],
+          "text": {
+            "literal": "一方得分"
+          },
+          "fontSize": 0.38,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "score-a",
+          "kind": "text",
+          "at": [
+            -2.55,
+            1.45
+          ],
+          "text": {
+            "state": "/aPoints"
+          },
+          "fontSize": 0.62,
+          "fill": "#A3E9CB"
+        },
+        {
+          "id": "score-b-label",
+          "kind": "text",
+          "at": [
+            2.55,
+            2.05
+          ],
+          "text": {
+            "literal": "二方得分"
+          },
+          "fontSize": 0.38,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "score-b",
+          "kind": "text",
+          "at": [
+            2.55,
+            1.45
+          ],
+          "text": {
+            "state": "/bPoints"
+          },
+          "fontSize": 0.62,
+          "fill": "#FFD1CA"
+        },
+        {
+          "id": "guard-a",
+          "kind": "text",
+          "at": [
+            -2.55,
+            -0.99
+          ],
+          "text": {
+            "literal": "一方防守"
+          },
+          "fontSize": 0.29,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "guard-a-value",
+          "kind": "text",
+          "at": [
+            -2.55,
+            -1.41
+          ],
+          "text": {
+            "state": "/aGuard"
+          },
+          "fontSize": 0.39,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "guard-b",
+          "kind": "text",
+          "at": [
+            2.55,
+            -0.99
+          ],
+          "text": {
+            "literal": "二方防守"
+          },
+          "fontSize": 0.29,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "guard-b-value",
+          "kind": "text",
+          "at": [
+            2.55,
+            -1.41
+          ],
+          "text": {
+            "state": "/bGuard"
+          },
+          "fontSize": 0.39,
+          "fill": "#EEF6F4"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.86
+          ],
+          "text": {
+            "literal": "站在中线相邻格才能攻击  ·  先得两分"
+          },
+          "fontSize": 0.39,
+          "fill": "#C8DCE2"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "first",
+          "source": {
+            "state": "/aCell"
+          },
+          "columns": 8,
+          "origin": [
+            -3.64,
+            0.2
+          ],
+          "step": [
+            1.04,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.37,
+              "fill": "#98E7C6"
+            },
+            {
+              "id": "number",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "literal": "1"
+              },
+              "fontSize": 0.36,
+              "fill": "#224235"
+            }
+          ]
+        },
+        {
+          "id": "second",
+          "source": {
+            "state": "/bCell"
+          },
+          "columns": 8,
+          "origin": [
+            -3.64,
+            0.2
+          ],
+          "step": [
+            1.04,
+            1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "token",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.37,
+              "fill": "#FFABAA"
+            },
+            {
+              "id": "number",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "literal": "2"
+              },
+              "fontSize": 0.36,
+              "fill": "#542835"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

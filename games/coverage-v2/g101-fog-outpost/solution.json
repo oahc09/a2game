@@ -1,0 +1,14 @@
+[
+  {
+    "action": "right",
+    "ticks": 1
+  },
+  {
+    "action": "scout",
+    "ticks": 1
+  },
+  {
+    "action": "attack",
+    "ticks": 1
+  }
+]

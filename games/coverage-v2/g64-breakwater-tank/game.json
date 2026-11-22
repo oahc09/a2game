@@ -1,0 +1,323 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.breakwater-tank",
+  "revision": 1,
+  "meta": {
+    "title": "破堤战车",
+    "description": "D 前进，F 射击。击碎拦路墙，再击毁后方标靶。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 49022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "world",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 9000,
+                "height": 5700,
+                "gravity": 0,
+                "moveSpeed": 96,
+                "jumpSpeed": 118,
+                "maxTicks": 250,
+                "actions": {
+                  "left": "left",
+                  "right": "right",
+                  "fire": "fire"
+                },
+                "weapon": "projectile",
+                "projectileSpeed": 120,
+                "damage": 1,
+                "cooldownTicks": 10,
+                "goalScore": 1,
+                "breakableSolids": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 1000,
+            "y": 1800,
+            "hx": 180,
+            "hy": 180,
+            "vx": 0,
+            "vy": 0,
+            "hp": 3,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          },
+          {
+            "id": "target",
+            "kind": "target",
+            "x": 5100,
+            "y": 1800,
+            "hx": 190,
+            "hy": 190,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 2,
+            "value": 1,
+            "fixed": true
+          },
+          {
+            "id": "wall",
+            "kind": "solid",
+            "x": 2700,
+            "y": 1800,
+            "hx": 130,
+            "hy": 1100,
+            "vx": 0,
+            "vy": 0,
+            "hp": 2,
+            "team": 2,
+            "value": 0,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "fire",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "victory",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "timeout",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "D 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "fire",
+        "kind": "button",
+        "text": "F 射击",
+        "bind": {
+          "action": "fire"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3
+          ],
+          "text": {
+            "literal": "破堤战车"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFE1A0"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3
+          ],
+          "text": {
+            "literal": "D 前进，F 射击。击碎拦路墙，再击毁后方标靶。"
+          },
+          "fontSize": 0.3,
+          "fill": "#D1E8E4"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4.5,
+          -2.87
+        ],
+        "palette": {
+          "actor": "#6DE0BF",
+          "target": "#F1908F",
+          "solid": "#4C7A89",
+          "projectile": "#FFD48A",
+          "pickup": "#F4B75C"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

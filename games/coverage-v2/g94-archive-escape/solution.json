@@ -1,0 +1,22 @@
+[
+  {
+    "action": "desk",
+    "ticks": 1
+  },
+  {
+    "action": "clock",
+    "ticks": 1
+  },
+  {
+    "action": "three",
+    "ticks": 1
+  },
+  {
+    "action": "five",
+    "ticks": 1
+  },
+  {
+    "action": "door",
+    "ticks": 1
+  }
+]

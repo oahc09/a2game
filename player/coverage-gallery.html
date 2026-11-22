@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A2Game · 双引擎试玩展</title>
+<link rel="stylesheet" href="./coverage-gallery.css">
+<script type="module" src="./coverage-gallery.mjs"></script>
+</head>
+<body>
+<header><div class="wrap"><p class="brand">A2GAME / COVERAGE V2</p><h1>双引擎试玩展</h1><p id="gallery-total"></p></div></header>
+<main class="wrap">
+<section class="filters" aria-label="筛选场景">
+<label>搜索作品或场景<input id="search" type="search" placeholder="名称、编号或场景 ID"></label>
+<label>批次<select id="batch"><option value="">全部批次</option></select></label>
+<label>引擎<select id="engine"><option value="">全部引擎</option><option value="three">Three.js</option><option value="air">CocosAirJS</option></select></label>
+</section>
+<p id="count" role="status"></p>
+<div id="games"></div>
+</main>
+<dialog id="evidence"><form method="dialog"><button aria-label="关闭截图">关闭 ×</button></form><h2></h2><img alt=""><a target="_blank" rel="noopener">查看输入轨迹 JSON ↗</a><p class="hash"></p></dialog>
+</body></html>

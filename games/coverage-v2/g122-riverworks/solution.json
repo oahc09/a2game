@@ -1,0 +1,10 @@
+[
+  {
+    "action": "feed",
+    "ticks": 1
+  },
+  {
+    "action": "ship",
+    "ticks": 190
+  }
+]

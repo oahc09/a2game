@@ -1,0 +1,178 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-glass-sentinel",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.glass-sentinel",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "skills-and-team-finish",
+      "seed": 81022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/mana",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/front",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemy",
+          "equals": 2
+        },
+        {
+          "op": "injectAction",
+          "action": "slash",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slash",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "injectAction",
+          "action": "slash",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "slash",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemy",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "exhausted-skill-keeps-turn",
+      "seed": 81022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "spell",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/mana",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/round",
+          "equals": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/enemy",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/message",
+          "equals": "星能耗尽 · 本回合未消耗"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

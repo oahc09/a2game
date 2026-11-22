@@ -1,0 +1,551 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.archive-escape",
+  "revision": 1,
+  "meta": {
+    "title": "钟楼档案室",
+    "description": "找到摇柄启动钟钟机关，读钟盘数字，从两个候选中选择门锁密码。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "crank": {
+      "type": "int",
+      "initial": 0
+    },
+    "clockface": {
+      "type": "int",
+      "initial": 0
+    },
+    "lock": {
+      "type": "int",
+      "initial": 0
+    },
+    "done": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "先搜索抽屉，检查停摆的钟"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "desk",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "clock",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "three",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "five",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "door",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "desk",
+      "on": {
+        "type": "input.action",
+        "action": "desk",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/crank"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clockface"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/crank",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "找到摇柄"
+        }
+      ]
+    },
+    {
+      "id": "clock",
+      "on": {
+        "type": "input.action",
+        "action": "clock",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/crank"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/crank",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/clockface",
+          "value": 5
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "钟盘最终停在 5"
+        }
+      ]
+    },
+    {
+      "id": "wrong",
+      "on": {
+        "type": "input.action",
+        "action": "three",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lock",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "密码错误 · 门锁保持关闭"
+        }
+      ]
+    },
+    {
+      "id": "code",
+      "on": {
+        "type": "input.action",
+        "action": "five",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clockface"
+          },
+          {
+            "const": 5
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/lock",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "门锁打开 · 可以离开"
+        }
+      ]
+    },
+    {
+      "id": "door",
+      "on": {
+        "type": "input.action",
+        "action": "door",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/lock"
+          },
+          {
+            "const": 1
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/done",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已走出档案室"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "cleared",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/done"
+          },
+          {
+            "const": 1
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-desk",
+        "kind": "button",
+        "text": "1 搜抽屉",
+        "bind": {
+          "action": "desk"
+        }
+      },
+      {
+        "id": "choice-clock",
+        "kind": "button",
+        "text": "2 转动钟柄",
+        "bind": {
+          "action": "clock"
+        }
+      },
+      {
+        "id": "choice-three",
+        "kind": "button",
+        "text": "3 密码 3",
+        "bind": {
+          "action": "three"
+        }
+      },
+      {
+        "id": "choice-five",
+        "kind": "button",
+        "text": "4 密码 5",
+        "bind": {
+          "action": "five"
+        }
+      },
+      {
+        "id": "choice-door",
+        "kind": "button",
+        "text": "5 打开房门",
+        "bind": {
+          "action": "door"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "钟楼档案室"
+          },
+          "fontSize": 0.62,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-crank",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-crank",
+          "kind": "text",
+          "at": [
+            -3,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "摇柄"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "crank",
+          "kind": "text",
+          "at": [
+            -3,
+            1.06
+          ],
+          "text": {
+            "state": "/crank"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-clockface",
+          "kind": "rect",
+          "at": [
+            0,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-clockface",
+          "kind": "text",
+          "at": [
+            0,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "钟盘读数"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "clockface",
+          "kind": "text",
+          "at": [
+            0,
+            1.06
+          ],
+          "text": {
+            "state": "/clockface"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "card-lock",
+          "kind": "rect",
+          "at": [
+            3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.35
+          ],
+          "fill": "#2D4D60"
+        },
+        {
+          "id": "label-lock",
+          "kind": "text",
+          "at": [
+            3,
+            1.6500000000000001
+          ],
+          "text": {
+            "literal": "门锁"
+          },
+          "fontSize": 0.32,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "lock",
+          "kind": "text",
+          "at": [
+            3,
+            1.06
+          ],
+          "text": {
+            "state": "/lock"
+          },
+          "fontSize": 0.43,
+          "fill": "#F4E4BF"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.73
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.38,
+          "fill": "#F4E4BF"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

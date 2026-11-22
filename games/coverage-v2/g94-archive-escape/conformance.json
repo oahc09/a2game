@@ -1,0 +1,204 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-archive-escape",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.archive-escape",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "desk",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "desk",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "three",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "three",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "five",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "five",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/done",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "missing-prerequisite",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "five",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "five",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "desk",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "desk",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "clock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "three",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "three",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "door",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/lock",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

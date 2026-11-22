@@ -1,0 +1,1050 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.furnace-orders",
+  "revision": 1,
+  "meta": {
+    "title": "铜炉排程",
+    "description": "先排急单再排常单 · 同一工位按入队顺序加工",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "first": {
+      "type": "int",
+      "initial": 0
+    },
+    "last": {
+      "type": "int",
+      "initial": 0
+    },
+    "active": {
+      "type": "int",
+      "initial": 0
+    },
+    "due": {
+      "type": "int",
+      "initial": 0
+    },
+    "urgent": {
+      "type": "int",
+      "initial": 0
+    },
+    "regular": {
+      "type": "int",
+      "initial": 0
+    },
+    "request": {
+      "type": "int",
+      "initial": 0
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "urgent",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "regular",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "finish-urgent",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/active"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/due"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/active",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/urgent",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "finish-regular",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/active"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "state": "/due"
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/active",
+          "value": 0
+        },
+        {
+          "op": "state.add",
+          "path": "/regular",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "start-urgent",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/active"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/first"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/active",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/due",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 25
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/first",
+          "value": {
+            "state": "/last"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/last",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "start-regular",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/active"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/first"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/active",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/due",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 48
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/first",
+          "value": {
+            "state": "/last"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/last",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "request-urgent",
+      "on": {
+        "type": "input.action",
+        "action": "urgent",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 1
+        }
+      ],
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/request"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "request-regular",
+      "on": {
+        "type": "input.action",
+        "action": "regular",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 2
+        }
+      ],
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/request"
+          },
+          {
+            "const": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "queue-urgent-tail",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/first"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/last"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/last",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "queue-urgent-head",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/first"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/first",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "queue-regular-tail",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/first"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/last"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/last",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "queue-regular-head",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/first"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": 2
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/first",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "clear-request",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gt",
+        "args": [
+          {
+            "state": "/request"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "deadline",
+      "status": "lost",
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 60
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/urgent"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        ]
+      },
+      "priority": 0
+    },
+    {
+      "id": "shipped",
+      "status": "won",
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/urgent"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/regular"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        ]
+      },
+      "priority": 1
+    },
+    {
+      "id": "shift-ended",
+      "status": "lost",
+      "when": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 140
+          }
+        ]
+      },
+      "priority": 2
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-urgent",
+        "kind": "button",
+        "text": "1 急单",
+        "bind": {
+          "action": "urgent"
+        }
+      },
+      {
+        "id": "ui-regular",
+        "kind": "button",
+        "text": "2 常单",
+        "bind": {
+          "action": "regular"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.2
+          ],
+          "text": {
+            "literal": "铜炉排程"
+          },
+          "fontSize": 0.58,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-clock",
+          "kind": "rect",
+          "at": [
+            -3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-clock",
+          "kind": "text",
+          "at": [
+            -3,
+            1.71
+          ],
+          "text": {
+            "literal": "时间"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "clock",
+          "kind": "text",
+          "at": [
+            -3,
+            1.09
+          ],
+          "text": {
+            "state": "/clock"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-active",
+          "kind": "rect",
+          "at": [
+            0,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-active",
+          "kind": "text",
+          "at": [
+            0,
+            1.71
+          ],
+          "text": {
+            "literal": "加工中 1急 2常"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "active",
+          "kind": "text",
+          "at": [
+            0,
+            1.09
+          ],
+          "text": {
+            "state": "/active"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-first",
+          "kind": "rect",
+          "at": [
+            3,
+            1.28
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-first",
+          "kind": "text",
+          "at": [
+            3,
+            1.71
+          ],
+          "text": {
+            "literal": "排队首单"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "first",
+          "kind": "text",
+          "at": [
+            3,
+            1.09
+          ],
+          "text": {
+            "state": "/first"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-last",
+          "kind": "rect",
+          "at": [
+            -3,
+            -0.27
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-last",
+          "kind": "text",
+          "at": [
+            -3,
+            0.16
+          ],
+          "text": {
+            "literal": "排队次单"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "last",
+          "kind": "text",
+          "at": [
+            -3,
+            -0.46
+          ],
+          "text": {
+            "state": "/last"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-urgent",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.27
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-urgent",
+          "kind": "text",
+          "at": [
+            0,
+            0.16
+          ],
+          "text": {
+            "literal": "已交急单"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "urgent",
+          "kind": "text",
+          "at": [
+            0,
+            -0.46
+          ],
+          "text": {
+            "state": "/urgent"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "tile-regular",
+          "kind": "rect",
+          "at": [
+            3,
+            -0.27
+          ],
+          "size": [
+            2.8,
+            1.4
+          ],
+          "fill": "#284A5D"
+        },
+        {
+          "id": "label-regular",
+          "kind": "text",
+          "at": [
+            3,
+            0.16
+          ],
+          "text": {
+            "literal": "已交常单"
+          },
+          "fontSize": 0.35,
+          "fill": "#C7E2DF"
+        },
+        {
+          "id": "regular",
+          "kind": "text",
+          "at": [
+            3,
+            -0.46
+          ],
+          "text": {
+            "state": "/regular"
+          },
+          "fontSize": 0.48,
+          "fill": "#F9D792"
+        },
+        {
+          "id": "help",
+          "kind": "text",
+          "at": [
+            0,
+            -2.9
+          ],
+          "text": {
+            "literal": "先排急单再排常单 · 同一工位按入队顺序加工"
+          },
+          "fontSize": 0.32,
+          "fill": "#D5E8E4"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

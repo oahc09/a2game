@@ -1,0 +1,464 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.clear-bay-hoop",
+  "revision": 1,
+  "meta": {
+    "title": "澄湾球场 · 定点投篮",
+    "description": "在球场内按住并向左下拖动，松开发球。拖动距离决定力度，方向取反。球从上方落入篮筐才得分，投入两球通关。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.input-control",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.charge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.projectile",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 14622,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "court",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 8000,
+                "height": 5400,
+                "weapon": "projectile",
+                "projectileSpeed": 128,
+                "projectileHalfSize": 118,
+                "projectileGravity": true,
+                "gravity": -2,
+                "aimPath": "/control/aim",
+                "powerPath": "/control/power",
+                "fireRequestPath": "/control/fireRequest",
+                "projectileGate": {
+                  "minX": 4100,
+                  "maxX": 4580,
+                  "y": 2000
+                },
+                "goalScore": 2,
+                "maxTicks": 680
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.realtime.input-control",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/control",
+                "worldPath": "/world",
+                "width": 8000,
+                "height": 5400,
+                "sceneWidth": 10,
+                "sceneHeight": 8,
+                "origin": [
+                  -4,
+                  -2.8
+                ],
+                "rawAction": "pull",
+                "slingshot": true,
+                "cancelClearsPower": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "shooter",
+            "kind": "actor",
+            "x": 1700,
+            "y": 850,
+            "hx": 185,
+            "hy": 185,
+            "vx": 0,
+            "vy": 0,
+            "hp": 1,
+            "team": 1,
+            "value": 0,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "control": {
+      "type": "object",
+      "initial": {
+        "angle": 0,
+        "scale": 1,
+        "axis": [
+          0,
+          0
+        ],
+        "aim": [
+          1,
+          0
+        ],
+        "power": 0,
+        "score": 0,
+        "won": false,
+        "lost": false,
+        "cutIds": [],
+        "spawned": 0,
+        "grabbing": false,
+        "grab": [
+          0.5,
+          0.5
+        ],
+        "target": [
+          0,
+          0
+        ],
+        "hasTarget": false,
+        "rotateSource": "",
+        "pinchSource": "",
+        "angleBase": 0,
+        "scaleBase": 1,
+        "balanceTicks": 0,
+        "fireRequest": false,
+        "usedInput": false,
+        "laneSignal": 0
+      }
+    },
+    "message": {
+      "type": "string",
+      "initial": "向左下拉动，松手出球"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "pull",
+        "valueType": "pose",
+        "bindings": [
+          {
+            "source": "touch.raw",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "basket",
+      "on": {
+        "type": "realtime.projectile-scored"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "已从篮筐上方入球"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "end",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "scored",
+      "status": "won",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/world/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.23
+          ],
+          "text": {
+            "literal": "澄湾球场 · 定点投篮"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFD4A1"
+        },
+        {
+          "id": "sky",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.06
+          ],
+          "size": [
+            8.06,
+            5.32
+          ],
+          "fill": "#234859"
+        },
+        {
+          "id": "ground",
+          "kind": "rect",
+          "at": [
+            0,
+            -2.63
+          ],
+          "size": [
+            8.05,
+            0.27
+          ],
+          "fill": "#5C8290"
+        },
+        {
+          "id": "hoop-support",
+          "kind": "rect",
+          "at": [
+            0.73,
+            -1.58
+          ],
+          "size": [
+            0.09,
+            2.25
+          ],
+          "fill": "#668C94"
+        },
+        {
+          "id": "backboard",
+          "kind": "rect",
+          "at": [
+            0.63,
+            -0.51
+          ],
+          "size": [
+            0.12,
+            0.87
+          ],
+          "fill": "#AAD7D6"
+        },
+        {
+          "id": "rim",
+          "kind": "rect",
+          "at": [
+            0.34,
+            -0.8
+          ],
+          "size": [
+            0.48,
+            0.055
+          ],
+          "fill": "#FFAB80"
+        },
+        {
+          "id": "shots-note",
+          "kind": "text",
+          "at": [
+            2.74,
+            1.6
+          ],
+          "text": {
+            "literal": "进球 / 2"
+          },
+          "fontSize": 0.37,
+          "fill": "#B3D8E0"
+        },
+        {
+          "id": "shots",
+          "kind": "text",
+          "at": [
+            2.74,
+            0.95
+          ],
+          "text": {
+            "state": "/world/score"
+          },
+          "fontSize": 0.66,
+          "fill": "#FFE1AE"
+        },
+        {
+          "id": "power-note",
+          "kind": "text",
+          "at": [
+            -2.71,
+            1.6
+          ],
+          "text": {
+            "literal": "拉力"
+          },
+          "fontSize": 0.37,
+          "fill": "#B3D8E0"
+        },
+        {
+          "id": "power",
+          "kind": "text",
+          "at": [
+            -2.71,
+            0.95
+          ],
+          "text": {
+            "state": "/control/power"
+          },
+          "fontSize": 0.48,
+          "fill": "#FFE1AE"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -3.25
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.36,
+          "fill": "#EEDCB6"
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -4,
+          -2.8
+        ],
+        "circleKinds": [
+          "actor",
+          "projectile"
+        ],
+        "palette": {
+          "actor": "#DDB271",
+          "target": "#E17A81",
+          "solid": "#557D9E",
+          "projectile": "#FFBE78",
+          "pickup": "#A4D2B8"
+        }
+      }
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

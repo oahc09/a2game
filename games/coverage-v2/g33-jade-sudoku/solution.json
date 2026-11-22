@@ -1,0 +1,30 @@
+[
+  {
+    "action": "digit1",
+    "ticks": 1
+  },
+  {
+    "action": "select1",
+    "ticks": 1
+  },
+  {
+    "action": "digit4",
+    "ticks": 1
+  },
+  {
+    "action": "select2",
+    "ticks": 1
+  },
+  {
+    "action": "digit4",
+    "ticks": 1
+  },
+  {
+    "action": "select3",
+    "ticks": 1
+  },
+  {
+    "action": "digit1",
+    "ticks": 1
+  }
+]

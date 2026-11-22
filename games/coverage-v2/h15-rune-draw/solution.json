@@ -1,0 +1,18 @@
+[
+  {
+    "action": "loot",
+    "ticks": 1
+  },
+  {
+    "action": "equip",
+    "ticks": 1
+  },
+  {
+    "action": "draw",
+    "ticks": 1
+  },
+  {
+    "action": "play",
+    "ticks": 1
+  }
+]

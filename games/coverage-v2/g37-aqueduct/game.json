@@ -1,0 +1,1225 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.aqueduct",
+  "revision": 1,
+  "meta": {
+    "title": "青石水道",
+    "description": "1–4 旋转管段 · 从左侧入水口接到右侧",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "north": {
+      "type": "int",
+      "initial": 1
+    },
+    "bend": {
+      "type": "int",
+      "initial": 2
+    },
+    "south": {
+      "type": "int",
+      "initial": 3
+    },
+    "exit": {
+      "type": "int",
+      "initial": 0
+    },
+    "wet0": {
+      "type": "bool",
+      "initial": false
+    },
+    "wet1": {
+      "type": "bool",
+      "initial": false
+    },
+    "wet2": {
+      "type": "bool",
+      "initial": false
+    },
+    "wet3": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "north",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "bend",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "south",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "exit",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "rotate-north",
+      "on": {
+        "type": "input.action",
+        "action": "north",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/north"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/north",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "wrap-north",
+      "on": {
+        "type": "input.action",
+        "action": "north",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/north"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/north",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "rotate-bend",
+      "on": {
+        "type": "input.action",
+        "action": "bend",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/bend"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/bend",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "wrap-bend",
+      "on": {
+        "type": "input.action",
+        "action": "bend",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/bend"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/bend",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "rotate-south",
+      "on": {
+        "type": "input.action",
+        "action": "south",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/south"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/south",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "wrap-south",
+      "on": {
+        "type": "input.action",
+        "action": "south",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/south"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/south",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "rotate-exit",
+      "on": {
+        "type": "input.action",
+        "action": "exit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "lt",
+        "args": [
+          {
+            "state": "/exit"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/exit",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "wrap-exit",
+      "on": {
+        "type": "input.action",
+        "action": "exit",
+        "edge": "press"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/exit"
+          },
+          {
+            "const": 3
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/exit",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "id": "flow-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wet0",
+          "value": {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/north"
+              },
+              {
+                "const": 0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flow-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wet1",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/north"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/bend"
+                  },
+                  {
+                    "const": 3
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flow-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wet2",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/north"
+                      },
+                      {
+                        "const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/bend"
+                      },
+                      {
+                        "const": 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/south"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "flow-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/wet3",
+          "value": {
+            "op": "and",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/north"
+                      },
+                      {
+                        "const": 0
+                      }
+                    ]
+                  },
+                  {
+                    "op": "eq",
+                    "args": [
+                      {
+                        "state": "/bend"
+                      },
+                      {
+                        "const": 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/south"
+                  },
+                  {
+                    "const": 0
+                  }
+                ]
+              },
+              {
+                "op": "eq",
+                "args": [
+                  {
+                    "state": "/exit"
+                  },
+                  {
+                    "const": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "goal",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/wet3"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "ui-north",
+        "kind": "button",
+        "text": "旋转 1",
+        "bind": {
+          "action": "north"
+        }
+      },
+      {
+        "id": "ui-bend",
+        "kind": "button",
+        "text": "旋转 2",
+        "bind": {
+          "action": "bend"
+        }
+      },
+      {
+        "id": "ui-south",
+        "kind": "button",
+        "text": "旋转 3",
+        "bind": {
+          "action": "south"
+        }
+      },
+      {
+        "id": "ui-exit",
+        "kind": "button",
+        "text": "旋转 4",
+        "bind": {
+          "action": "exit"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "青石水道"
+          },
+          "fontSize": 0.58,
+          "fill": "#FFD989"
+        },
+        {
+          "id": "source",
+          "kind": "text",
+          "at": [
+            -3,
+            0.8
+          ],
+          "text": {
+            "literal": "入水口"
+          },
+          "fontSize": 0.37,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "sink",
+          "kind": "text",
+          "at": [
+            3,
+            -2.18
+          ],
+          "text": {
+            "literal": "出水口"
+          },
+          "fontSize": 0.37,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "panel-north",
+          "kind": "rect",
+          "at": [
+            -1,
+            0.8
+          ],
+          "size": [
+            1.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/wet0"
+            },
+            "map": {
+              "true": "#285C61",
+              "false": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "key-north",
+          "kind": "text",
+          "at": [
+            -1.6400000000000001,
+            1.4500000000000002
+          ],
+          "text": {
+            "literal": "1"
+          },
+          "fontSize": 0.25,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "port-north-0",
+          "kind": "rect",
+          "at": [
+            -1,
+            1.28
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/north"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#294252",
+              "2": "#9CE2D6",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-north-1",
+          "kind": "rect",
+          "at": [
+            -0.52,
+            0.8
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/north"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#294252",
+              "2": "#294252",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-north-2",
+          "kind": "rect",
+          "at": [
+            -1,
+            0.32000000000000006
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/north"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#9CE2D6",
+              "2": "#9CE2D6",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-north-3",
+          "kind": "rect",
+          "at": [
+            -1.48,
+            0.8
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/north"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#9CE2D6",
+              "2": "#294252",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "panel-bend",
+          "kind": "rect",
+          "at": [
+            1,
+            0.8
+          ],
+          "size": [
+            1.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/wet1"
+            },
+            "map": {
+              "true": "#285C61",
+              "false": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "key-bend",
+          "kind": "text",
+          "at": [
+            0.36,
+            1.4500000000000002
+          ],
+          "text": {
+            "literal": "2"
+          },
+          "fontSize": 0.25,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "port-bend-0",
+          "kind": "rect",
+          "at": [
+            1,
+            1.28
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/bend"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#9CE2D6",
+              "2": "#294252",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-bend-1",
+          "kind": "rect",
+          "at": [
+            1.48,
+            0.8
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/bend"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#9CE2D6",
+              "2": "#9CE2D6",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-bend-2",
+          "kind": "rect",
+          "at": [
+            1,
+            0.32000000000000006
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/bend"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#294252",
+              "2": "#9CE2D6",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-bend-3",
+          "kind": "rect",
+          "at": [
+            0.52,
+            0.8
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/bend"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#294252",
+              "2": "#294252",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "panel-south",
+          "kind": "rect",
+          "at": [
+            1,
+            -1.2
+          ],
+          "size": [
+            1.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/wet2"
+            },
+            "map": {
+              "true": "#285C61",
+              "false": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "key-south",
+          "kind": "text",
+          "at": [
+            0.36,
+            -0.5499999999999999
+          ],
+          "text": {
+            "literal": "3"
+          },
+          "fontSize": 0.25,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "port-south-0",
+          "kind": "rect",
+          "at": [
+            1,
+            -0.72
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/south"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#294252",
+              "2": "#294252",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-south-1",
+          "kind": "rect",
+          "at": [
+            1.48,
+            -1.2
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/south"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#9CE2D6",
+              "2": "#294252",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-south-2",
+          "kind": "rect",
+          "at": [
+            1,
+            -1.68
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/south"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#9CE2D6",
+              "2": "#9CE2D6",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-south-3",
+          "kind": "rect",
+          "at": [
+            0.52,
+            -1.2
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/south"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#294252",
+              "2": "#9CE2D6",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "panel-exit",
+          "kind": "rect",
+          "at": [
+            3,
+            -1.2
+          ],
+          "size": [
+            1.8,
+            1.8
+          ],
+          "fill": {
+            "from": {
+              "state": "/wet3"
+            },
+            "map": {
+              "true": "#285C61",
+              "false": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "key-exit",
+          "kind": "text",
+          "at": [
+            2.36,
+            -0.5499999999999999
+          ],
+          "text": {
+            "literal": "4"
+          },
+          "fontSize": 0.25,
+          "fill": "#CFEBE4"
+        },
+        {
+          "id": "port-exit-0",
+          "kind": "rect",
+          "at": [
+            3,
+            -0.72
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/exit"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#294252",
+              "2": "#9CE2D6",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-exit-1",
+          "kind": "rect",
+          "at": [
+            3.48,
+            -1.2
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/exit"
+            },
+            "map": {
+              "0": "#294252",
+              "1": "#9CE2D6",
+              "2": "#9CE2D6",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-exit-2",
+          "kind": "rect",
+          "at": [
+            3,
+            -1.68
+          ],
+          "size": [
+            0.19,
+            0.99
+          ],
+          "fill": {
+            "from": {
+              "state": "/exit"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#294252",
+              "2": "#294252",
+              "3": "#9CE2D6"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "port-exit-3",
+          "kind": "rect",
+          "at": [
+            2.52,
+            -1.2
+          ],
+          "size": [
+            0.99,
+            0.19
+          ],
+          "fill": {
+            "from": {
+              "state": "/exit"
+            },
+            "map": {
+              "0": "#9CE2D6",
+              "1": "#9CE2D6",
+              "2": "#294252",
+              "3": "#294252"
+            },
+            "fallback": "#203846"
+          }
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -2.92
+          ],
+          "text": {
+            "literal": "1–4 旋转管段 · 从左侧入水口接到右侧"
+          },
+          "fontSize": 0.32,
+          "fill": "#CFEBE4"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

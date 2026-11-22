@@ -1,0 +1,530 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.mist-greenhouse",
+  "revision": 1,
+  "meta": {
+    "title": "晨雾温室 · 放置经营",
+    "description": "每 30 Tick 收获一批露水。储满 3 枚后按 U 扩建；下批产量由 3 提升到 6。积累 12 枚并扩建成功即可结算。",
+    "genres": [
+      "strategy"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "wallet": {
+      "type": "int",
+      "initial": 0
+    },
+    "level": {
+      "type": "int",
+      "initial": 1
+    },
+    "rate": {
+      "type": "int",
+      "initial": 3
+    },
+    "nextAt": {
+      "type": "int",
+      "initial": 30
+    },
+    "request": {
+      "type": "bool",
+      "initial": false
+    },
+    "message": {
+      "type": "string",
+      "initial": "等待第一批露水"
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "upgrade",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyU",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "queue",
+      "on": {
+        "type": "input.action",
+        "action": "upgrade",
+        "edge": "press"
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "spacing",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "gte",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "state": "/nextAt"
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/wallet",
+          "value": {
+            "state": "/rate"
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/nextAt",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/nextAt"
+              },
+              {
+                "const": 30
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/level"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/wallet"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.add",
+          "path": "/wallet",
+          "value": -3
+        },
+        {
+          "op": "state.set",
+          "path": "/level",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/rate",
+          "value": 6
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "扩建完成 · 下批产量 6"
+        }
+      ]
+    },
+    {
+      "id": "need-funds",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/request"
+              },
+              {
+                "const": true
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/level"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/wallet"
+              },
+              {
+                "const": 3
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "余额不足 · 扩建需要 3 枚"
+        }
+      ]
+    },
+    {
+      "id": "clear-request",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/request"
+          },
+          {
+            "const": true
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/request",
+          "value": false
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "greenhouse-established",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/level"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/wallet"
+              },
+              {
+                "const": 12
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "U 扩建",
+        "bind": {
+          "action": "upgrade"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.15
+          ],
+          "text": {
+            "literal": "晨雾温室 · 放置经营"
+          },
+          "fontSize": 0.58,
+          "fill": "#F7DEB1"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            0.2
+          ],
+          "size": [
+            8.9,
+            4.15
+          ],
+          "fill": "#284859"
+        },
+        {
+          "id": "wallet-label",
+          "kind": "text",
+          "at": [
+            -2.75,
+            1.22
+          ],
+          "text": {
+            "literal": "露水余额"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "wallet-readout",
+          "kind": "text",
+          "at": [
+            -2.75,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/wallet"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "level-label",
+          "kind": "text",
+          "at": [
+            0,
+            1.22
+          ],
+          "text": {
+            "literal": "温室等级"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "level-readout",
+          "kind": "text",
+          "at": [
+            0,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/level"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "rate-label",
+          "kind": "text",
+          "at": [
+            2.75,
+            1.22
+          ],
+          "text": {
+            "literal": "每批产量"
+          },
+          "fontSize": 0.36,
+          "fill": "#B9D5D8"
+        },
+        {
+          "id": "rate-readout",
+          "kind": "text",
+          "at": [
+            2.75,
+            0.5499999999999999
+          ],
+          "text": {
+            "state": "/rate"
+          },
+          "fontSize": 0.7,
+          "fill": "#FFD599"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -1.22
+          ],
+          "text": {
+            "literal": "每 30 Tick 产出一批  ·  扩建成本 3"
+          },
+          "fontSize": 0.39,
+          "fill": "#ABD5D6"
+        },
+        {
+          "id": "message",
+          "kind": "text",
+          "at": [
+            0,
+            -2.75
+          ],
+          "text": {
+            "state": "/message"
+          },
+          "fontSize": 0.4,
+          "fill": "#F6DEAD"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

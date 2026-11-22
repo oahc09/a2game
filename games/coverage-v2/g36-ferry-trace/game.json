@@ -1,0 +1,1011 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.ferry-trace",
+  "revision": 1,
+  "meta": {
+    "title": "渡口一笔画",
+    "description": "从 A 出发，用 1–5 选择边。每条边只能走一次，且必须连接当前位置。",
+    "genres": [
+      "puzzle"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-add",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 12122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": []
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "at": {
+      "type": "int",
+      "initial": 1
+    },
+    "count": {
+      "type": "int",
+      "initial": 0
+    },
+    "used0": {
+      "type": "bool",
+      "initial": false
+    },
+    "used1": {
+      "type": "bool",
+      "initial": false
+    },
+    "used2": {
+      "type": "bool",
+      "initial": false
+    },
+    "used3": {
+      "type": "bool",
+      "initial": false
+    },
+    "used4": {
+      "type": "bool",
+      "initial": false
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "edge0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit1",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "edge1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit2",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "edge2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit3",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "edge3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit4",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "edge4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "Digit5",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "walk-0-1",
+      "on": {
+        "type": "input.action",
+        "action": "edge0",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used0"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/used0",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-0-2",
+      "on": {
+        "type": "input.action",
+        "action": "edge0",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used0"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/used0",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-1-2",
+      "on": {
+        "type": "input.action",
+        "action": "edge1",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used1"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/used1",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-1-3",
+      "on": {
+        "type": "input.action",
+        "action": "edge1",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 3
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used1"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/used1",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-2-3",
+      "on": {
+        "type": "input.action",
+        "action": "edge2",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 3
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used2"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/used2",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-2-1",
+      "on": {
+        "type": "input.action",
+        "action": "edge2",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used2"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 3
+        },
+        {
+          "op": "state.set",
+          "path": "/used2",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-3-1",
+      "on": {
+        "type": "input.action",
+        "action": "edge3",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 1
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used3"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 4
+        },
+        {
+          "op": "state.set",
+          "path": "/used3",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-3-4",
+      "on": {
+        "type": "input.action",
+        "action": "edge3",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 4
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used3"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/used3",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-4-4",
+      "on": {
+        "type": "input.action",
+        "action": "edge4",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 4
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used4"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/used4",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "walk-4-2",
+      "on": {
+        "type": "input.action",
+        "action": "edge4",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/at"
+              },
+              {
+                "const": 2
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/used4"
+              },
+              {
+                "const": false
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/at",
+          "value": 4
+        },
+        {
+          "op": "state.set",
+          "path": "/used4",
+          "value": true
+        },
+        {
+          "op": "state.add",
+          "path": "/count",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/count"
+          },
+          {
+            "const": 5
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choose-0",
+        "kind": "button",
+        "text": "1 A—B",
+        "bind": {
+          "action": "edge0"
+        }
+      },
+      {
+        "id": "choose-1",
+        "kind": "button",
+        "text": "2 B—C",
+        "bind": {
+          "action": "edge1"
+        }
+      },
+      {
+        "id": "choose-2",
+        "kind": "button",
+        "text": "3 C—A",
+        "bind": {
+          "action": "edge2"
+        }
+      },
+      {
+        "id": "choose-3",
+        "kind": "button",
+        "text": "4 A—D",
+        "bind": {
+          "action": "edge3"
+        }
+      },
+      {
+        "id": "choose-4",
+        "kind": "button",
+        "text": "5 D—B",
+        "bind": {
+          "action": "edge4"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.1
+          ],
+          "text": {
+            "literal": "渡口一笔画"
+          },
+          "fontSize": 0.62,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -3.1
+          ],
+          "text": {
+            "literal": "从 A 出发 · 每条边仅可走一次"
+          },
+          "fontSize": 0.4,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "edge-0",
+          "kind": "rect",
+          "at": [
+            -3.6,
+            0.8
+          ],
+          "size": [
+            1.6,
+            1.4
+          ],
+          "fill": {
+            "from": {
+              "state": "/used0"
+            },
+            "map": {
+              "true": "#4B7E65",
+              "false": "#294252"
+            },
+            "fallback": "#294252"
+          }
+        },
+        {
+          "id": "edge-label-0",
+          "kind": "text",
+          "at": [
+            -3.6,
+            0.8
+          ],
+          "text": {
+            "literal": "1 A–B"
+          },
+          "fontSize": 0.3,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "edge-1",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            0.8
+          ],
+          "size": [
+            1.6,
+            1.4
+          ],
+          "fill": {
+            "from": {
+              "state": "/used1"
+            },
+            "map": {
+              "true": "#4B7E65",
+              "false": "#294252"
+            },
+            "fallback": "#294252"
+          }
+        },
+        {
+          "id": "edge-label-1",
+          "kind": "text",
+          "at": [
+            -1.8,
+            0.8
+          ],
+          "text": {
+            "literal": "2 B–C"
+          },
+          "fontSize": 0.3,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "edge-2",
+          "kind": "rect",
+          "at": [
+            0,
+            0.8
+          ],
+          "size": [
+            1.6,
+            1.4
+          ],
+          "fill": {
+            "from": {
+              "state": "/used2"
+            },
+            "map": {
+              "true": "#4B7E65",
+              "false": "#294252"
+            },
+            "fallback": "#294252"
+          }
+        },
+        {
+          "id": "edge-label-2",
+          "kind": "text",
+          "at": [
+            0,
+            0.8
+          ],
+          "text": {
+            "literal": "3 C–A"
+          },
+          "fontSize": 0.3,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "edge-3",
+          "kind": "rect",
+          "at": [
+            1.8,
+            0.8
+          ],
+          "size": [
+            1.6,
+            1.4
+          ],
+          "fill": {
+            "from": {
+              "state": "/used3"
+            },
+            "map": {
+              "true": "#4B7E65",
+              "false": "#294252"
+            },
+            "fallback": "#294252"
+          }
+        },
+        {
+          "id": "edge-label-3",
+          "kind": "text",
+          "at": [
+            1.8,
+            0.8
+          ],
+          "text": {
+            "literal": "4 A–D"
+          },
+          "fontSize": 0.3,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "edge-4",
+          "kind": "rect",
+          "at": [
+            3.6,
+            0.8
+          ],
+          "size": [
+            1.6,
+            1.4
+          ],
+          "fill": {
+            "from": {
+              "state": "/used4"
+            },
+            "map": {
+              "true": "#4B7E65",
+              "false": "#294252"
+            },
+            "fallback": "#294252"
+          }
+        },
+        {
+          "id": "edge-label-4",
+          "kind": "text",
+          "at": [
+            3.6,
+            0.8
+          ],
+          "text": {
+            "literal": "5 D–B"
+          },
+          "fontSize": 0.3,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "position-label",
+          "kind": "text",
+          "at": [
+            -1,
+            -1.05
+          ],
+          "text": {
+            "literal": "所在节点"
+          },
+          "fontSize": 0.4,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "position",
+          "kind": "text",
+          "at": [
+            1,
+            -1.05
+          ],
+          "text": {
+            "state": "/at"
+          },
+          "fontSize": 0.4,
+          "fill": "#E8EBD3"
+        },
+        {
+          "id": "legend",
+          "kind": "text",
+          "at": [
+            0,
+            -1.85
+          ],
+          "text": {
+            "literal": "A=1   B=2   C=3   D=4"
+          },
+          "fontSize": 0.32,
+          "fill": "#E8EBD3"
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

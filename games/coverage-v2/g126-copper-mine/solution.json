@@ -1,0 +1,34 @@
+[
+  {
+    "action": "mine",
+    "ticks": 1
+  },
+  {
+    "action": "mine",
+    "ticks": 1
+  },
+  {
+    "action": "smelt",
+    "ticks": 24
+  },
+  {
+    "action": "mine",
+    "ticks": 1
+  },
+  {
+    "action": "mine",
+    "ticks": 1
+  },
+  {
+    "action": "smelt",
+    "ticks": 24
+  },
+  {
+    "action": "upgrade",
+    "ticks": 1
+  },
+  {
+    "action": "mine",
+    "ticks": 1
+  }
+]

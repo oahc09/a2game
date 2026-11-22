@@ -1,4 +1,383 @@
 {
+  "coverageV2GalleryReceipt": "reports/coverage-v2-gallery-current-1795353341321.json",
+  "coverageV2FullPlayExperience": {
+    "status": "OPEN",
+    "feedback": ["关卡不连续", "不能一直玩", "交互方式有缺陷"],
+    "pilotGames": ["G74", "G149", "G138"],
+    "plan": "PROJECT-PLAN.md#v2-完整游玩体验"
+  },
+  "coverageV2ReplayFollowUp": {
+    "status": "PASS_REFERENCE",
+    "priorities": {"P0": "PASS", "P1": "PASS", "P2": "PASS", "P3": "PASS"},
+    "headlessReceipt": "reports/coverage-v2-p3-headless-1795353303870.json",
+    "headlessCases": 192,
+    "continuousPlayBrowser": "reports/coverage-v2-browser-1795353212141/summary.json",
+    "continuousPlayPackageDirectory": "output/coverage-v2-p2-1795353233384",
+    "continuousPlayReceiverImportsPassed": 3,
+    "userPlaytestFeedback": {
+      "scope": "P2 continuous-play gallery follow-up",
+      "status": "NO_ISSUES_REPORTED",
+      "feedback": "试玩ok没问题"
+    }
+  },
+  "coverageV2Review": {
+    "guide": "games/coverage-v2/REVIEW.md",
+    "headlessReceipt": "reports/coverage-v2-review-1795352165833.json",
+    "headlessGames": 84,
+    "headlessCases": 189,
+    "gameplayGaps": [],
+    "seedTopologyReceipt": "reports/coverage-v2-g74-topology-1795353009078.json",
+    "seedTopologyBrowser": "reports/coverage-v2-browser-1795352994605/summary.json",
+    "seedTopologyReceiver": "output/coverage-v2-seed-topology-1795353002195/receiver/generation-report.json",
+    "movingHazardReceipt": "reports/coverage-v2-browser-1795352844235/summary.json",
+    "movingHazardReceiver": "output/coverage-v2-sweeper-1795352851672/receiver/generation-report.json",
+    "hexRoutesReceipt": "reports/coverage-v2-browser-1795352885318/summary.json",
+    "hexRoutesReceiver": "output/coverage-v2-hex-routes-1795352891192/receiver/generation-report.json",
+    "climbReceipt": "reports/coverage-v2-browser-1795352753554/summary.json",
+    "climbReceiver": "output/coverage-v2-climb-1795352760479/receiver/generation-report.json",
+    "replayFeedback": "PASS_TARGETED_REFERENCE",
+    "restartReceipt": "reports/coverage-v2-browser-1795352640980/summary.json",
+    "restartSecondSessionsPassed": 40,
+    "followUpPlan": "PROJECT-PLAN.md#v2-持续可玩性收口"
+  },
+  "coverageV2Batches31To40Run": {
+    "status": "PASS_REFERENCE",
+    "scope": "Ten batches of playable reference prototypes",
+    "targets": 20,
+    "browserCases": 82,
+    "receiverImportsPassed": 20,
+    "receipt": "reports/coverage-v2-batches31-40-1795351528350.json",
+    "formalG3": "NOT_RUN"
+  },
+  "coverageV2Batches37And39Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {"37": ["G145", "G147"], "39": ["G148", "G149"]},
+    "browserCases": 16,
+    "browserReceipt": "reports/coverage-v2-browser-1795351219750/summary.json",
+    "packageDirectory": "output/coverage-v2-batches37-39-1795351238920",
+    "receiverImportsPassed": 4,
+    "supersedingReceipt": "reports/coverage-v2-batches31-40-1795351528350.json"
+  },
+  "coverageV2Batches38And40Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {
+      "38": {"targets": ["G162", "G166"], "browserReceipt": "reports/coverage-v2-browser-1795351083932/summary.json", "packageDirectory": "output/coverage-v2-batch38-1795351095922"},
+      "40": {"targets": ["G187", "H28"], "browserReceipt": "reports/coverage-v2-browser-1795350986556/summary.json", "packageDirectory": "output/coverage-v2-batch40-1795350995891"}
+    },
+    "browserCases": 16,
+    "receiverImportsPassed": 4
+  },
+  "coverageV2Batch36Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G138", "G140"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795350918556/summary.json",
+    "packageDirectory": "output/coverage-v2-batch36-1795350931058",
+    "receiverImportsPassed": 2
+  },
+  "coverageV2Batch35Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G102", "G104"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795350719394/summary.json",
+    "packageDirectory": "output/coverage-v2-batch35-1795350752374",
+    "receiverImportsPassed": 2
+  },
+  "coverageV2Batches31To34Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {
+      "31": {
+        "targets": [
+          "G87",
+          "G85"
+        ],
+        "browserReceipt": "reports/coverage-v2-browser-1795350551031/summary.json",
+        "packageDirectory": "output/coverage-v2-batches31-33-1795350582872"
+      },
+      "32": {
+        "targets": [
+          "G83",
+          "H15"
+        ],
+        "browserReceipt": "reports/coverage-v2-browser-1795350551031/summary.json",
+        "packageDirectory": "output/coverage-v2-batches31-33-1795350582872"
+      },
+      "33": {
+        "targets": [
+          "G101",
+          "H16"
+        ],
+        "browserReceipt": "reports/coverage-v2-browser-1795350551031/summary.json",
+        "packageDirectory": "output/coverage-v2-batches31-33-1795350582872"
+      },
+      "34": {
+        "targets": [
+          "G98",
+          "G160"
+        ],
+        "browserReceipt": "reports/coverage-v2-browser-1795350639335/summary.json",
+        "packageDirectory": "output/coverage-v2-batch34-1795350662427"
+      }
+    },
+    "browserCases": 32,
+    "receiverImportsPassed": 8
+  },
+  "coverageV2Batch30Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G158", "G76"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795349979586/summary.json",
+    "packageDirectory": "output/coverage-v2-batch30-1795349990554",
+    "receiverImportsPassed": 2,
+    "nextBatch": 31
+  },
+  "coverageV2Batches28To29Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {
+      "28": {"targets": ["G75", "G79"], "browserCases": 12, "browserReceipt": "reports/coverage-v2-browser-1795349815779/summary.json", "packageDirectory": "output/coverage-v2-batch28-1795349830327"},
+      "29": {"targets": ["G74", "G77"], "browserCases": 8, "browserReceipt": "reports/coverage-v2-browser-1795349913805/summary.json", "packageDirectory": "output/coverage-v2-batch29-1795349924701"}
+    },
+    "remainingScope": "G74 randomized room topology",
+    "receiverImportsPassed": 4,
+    "nextBatch": 30
+  },
+  "coverageV2Batches25To27Run": {
+    "status": "PASS_REFERENCE",
+    "nextBatch": 28,
+    "batches": {
+      "25": {
+        "targets": [
+          "G59",
+          "G64"
+        ],
+        "status": "PASS_REFERENCE",
+        "browserCases": 8,
+        "browserReceipt": "reports/coverage-v2-browser-1795349341842/summary.json",
+        "packageDirectory": "output/coverage-v2-batch25-1795349383828",
+        "receiverImportsPassed": 2
+      },
+      "26": {
+        "targets": [
+          "G70",
+          "G71"
+        ],
+        "status": "PASS_REFERENCE",
+        "browserCases": 8,
+        "browserReceipt": "reports/coverage-v2-browser-1795349400414/summary.json",
+        "packageDirectory": "output/coverage-v2-batch26-1795349419639",
+        "receiverImportsPassed": 2
+      },
+      "27": {
+        "targets": [
+          "G65",
+          "G69"
+        ],
+        "status": "PASS_REFERENCE",
+        "browserCases": 8,
+        "browserReceipt": "reports/coverage-v2-browser-1795349465780/summary.json",
+        "packageDirectory": "output/coverage-v2-batch27-1795349502772",
+        "receiverImportsPassed": 2
+      }
+    }
+  },
+  "coverageV2Batch24Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G53", "G54"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795348046287/summary.json",
+    "packageDirectory": "output/coverage-v2-batch24-1795348056454",
+    "receiverImportsPassed": 2,
+    "nextBatch": 25
+  },
+  "coverageV2Batch23Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G50", "G51"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795347938716/summary.json",
+    "packageDirectory": "output/coverage-v2-batch23-1795347949204",
+    "receiverImportsPassed": 2,
+    "nextBatch": 24
+  },
+  "coverageV2Batch22Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G170", "G174"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795347705925/summary.json",
+    "packageDirectory": "output/coverage-v2-batch22-1795347724944",
+    "receiverImportsPassed": 2,
+    "nextBatch": 23
+  },
+  "coverageV2Batches20To21Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {"20": ["G93", "H11"], "21": ["G172", "G173"]},
+    "browserCases": 16,
+    "browserReceipt": "reports/coverage-v2-browser-1795347627133/summary.json",
+    "packageDirectory": "output/coverage-v2-batches20-21-1795347646996",
+    "receiverImportsPassed": 4,
+    "nextBatch": 22
+  },
+  "coverageV2Batch19Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G89", "G94"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795347545852/summary.json",
+    "packageDirectory": "output/coverage-v2-batch19-1795347555148",
+    "receiverImportsPassed": 2,
+    "nextBatch": 20
+  },
+  "coverageV2Batch18Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G33", "G34"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795347344107/summary.json",
+    "packageDirectory": "output/coverage-v2-batch18-1795347353339",
+    "receiverImportsPassed": 2,
+    "nextBatch": 19
+  },
+  "coverageV2Batch17Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G36", "G38"],
+    "browserCases": 12,
+    "browserReceipt": "reports/coverage-v2-browser-1795347260954/summary.json",
+    "packageDirectory": "output/coverage-v2-batch17-1795347270696",
+    "receiverImportsPassed": 2,
+    "nextBatch": 18
+  },
+  "coverageV2Batch16Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G52", "H07"],
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795347144569/summary.json",
+    "packageDirectory": "output/coverage-v2-batch16-1795347154673",
+    "receiverImportsPassed": 2,
+    "nextBatch": 17
+  },
+  "coverageV2Batch15Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G132", "G39"],
+    "cumulativePrototypes": 34,
+    "browserCases": 8,
+    "browserReceipt": "reports/coverage-v2-browser-1795346792522/summary.json",
+    "packageDirectory": "output/coverage-v2-batch15-1795346806278",
+    "receiverImportsPassed": 2,
+    "nextBatch": 16
+  },
+  "coverageV2Batches13To14Run": {
+    "status": "PASS_REFERENCE",
+    "batches": {"13": ["G128", "G126"], "14": ["G37", "G47"]},
+    "cumulativePrototypes": 32,
+    "browserCases": 24,
+    "browserReceipt": "reports/coverage-v2-browser-1795346705679/summary.json",
+    "packageDirectory": "output/coverage-v2-batches13-14-1795346725941",
+    "receiverImportsPassed": 4,
+    "nextBatch": 15
+  },
+  "coverageV2Batch12Run": {
+    "status": "PASS_REFERENCE",
+    "targets": ["G123", "G115"],
+    "cumulativePrototypes": 28,
+    "browserCases": 12,
+    "browserReceipt": "reports/coverage-v2-browser-1795346037867/summary.json",
+    "packageDirectory": "output/coverage-v2-batch12-1795346078198",
+    "receiverImportsPassed": 2,
+    "nextBatch": 13
+  },
+  "coverageV2Batch11Run": {
+    "status": "PASS_REFERENCE",
+    "target": "H09",
+    "cumulativePrototypes": 26,
+    "browserCases": 6,
+    "browserReceipt": "reports/coverage-v2-browser-1795335853743/summary.json",
+    "coverageResults": "reports/coverage-v2-browser-1795335853743/coverage-results.json",
+    "stockReplay": "reports/coverage-v2-browser-1795335853743/headless-stock.json",
+    "package": "output/coverage-v2-h09-1795335860045/h09.package.json",
+    "receiver": "output/coverage-v2-h09-1795335860045/receiver/generation-report.json",
+    "nextBatch": 12,
+    "formalG3": "NOT_RUN"
+  },
+  "coverageV2Batch10Run": {
+    "date": "2026-11-22",
+    "status": "PASS_REFERENCE",
+    "targets": ["G156", "G122", "G107"],
+    "cumulativePrototypes": 25,
+    "cliAdmitted": 3,
+    "browserCases": 18,
+    "headlessHashParity": "PASS",
+    "targetedNodeTestsPassed": 13,
+    "browserIndex": "reports/coverage-v2-batch10-reference-1795334709686/index.json",
+    "coverageResults": "reports/coverage-v2-batch10-reference-1795334709686/coverage-results.json",
+    "localPackages": "output/coverage-v2-batch10-1795334691176/index.json",
+    "receiverImports": "output/coverage-v2-batch10-receiver-1795334855099/index.json",
+    "additionalHeadlessChecks": "reports/coverage-v2-batch10-reference-1795334709686/additional-checks-1795334882797.json",
+    "nextCandidate": "H09",
+    "formalG3": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "independentHumanQuality": "NOT_RUN",
+    "additionalModelCalls": 0
+  },
+  "coverageV2ExpansionRun": {
+    "date": "2026-11-22",
+    "status": "PASS_REFERENCE",
+    "guide": "games/coverage-v2/README.md",
+    "scope": "Nine batches of v2 author-built reference prototypes",
+    "prototypeCount": 22,
+    "cliAdmitted": 22,
+    "localPackages": "output/coverage-v2-content-packages-1795332355087/index.json",
+    "browserIndex": "reports/coverage-v2-reference-1795332355087/index.json",
+    "coverageResults": "reports/coverage-v2-reference-1795332355087/coverage-results.json",
+    "newPrototypes": {
+      "count": 20,
+      "realBackendRuns": 40,
+      "browserCases": 90,
+      "headlessHashParity": "PASS",
+      "rhythmDefaultClock": {"nativeAudioCallsPerBackend": 8, "maxObservedDriftTicks": 0}
+    },
+    "batches": {
+      "1": {"targets": ["G90", "G58"], "engineering": "PASS_REFERENCE"},
+      "2": {"targets": ["G113", "G106"], "engineering": "PASS_REFERENCE"},
+      "3": {"targets": ["G41", "G97", "H08"], "engineering": "PASS_REFERENCE"},
+      "4": {"targets": ["G35", "G155", "G121"], "engineering": "PASS_REFERENCE"},
+      "5": {"targets": ["G49", "G57", "G137"], "engineering": "PASS_REFERENCE"},
+      "6": {"targets": ["G114", "G73", "G81"], "engineering": "PASS_REFERENCE"},
+      "7": {"targets": ["G92", "G169"], "engineering": "PASS_REFERENCE"},
+      "8": {"targets": ["G146", "G161"], "engineering": "PASS_REFERENCE"},
+      "9": {"targets": ["G177", "G185"], "engineering": "PASS_REFERENCE"}
+    },
+    "workspaceVerification": {
+      "status": "PASS_WITH_TARGETED_RERUN",
+      "initialLog": "reports/coverage-v2-engineering-1795332410547/verify.log",
+      "initialNodeTests": {"passed": 347, "failed": 2, "platformSkipped": 3},
+      "targetedRerun": {"command": "node --test test/spec-layout.test.mjs", "passed": 4, "failed": 0},
+      "schemaDocuments": 367,
+      "conformanceSuites": 115,
+      "conformanceCases": 204,
+      "catalogEntries": 113,
+      "followUp": "reports/coverage-v2-engineering-1795332410547/followup-result.json"
+    },
+    "receiverImports": {
+      "G161": "output/coverage-v2-receiver-1795332683596/g161/generation-report.json",
+      "G177": "output/coverage-v2-receiver-1795333145763/g177/generation-report.json",
+      "G58": "output/coverage-v2-receiver-1795333145763/g58/generation-report.json"
+    },
+    "formalG3": "NOT_RUN",
+    "physicalDevice": "NOT_RUN",
+    "independentHumanQuality": "NOT_RUN",
+    "additionalModelCalls": 0
+  },
+  "coverageV2FirstPrototypeRun": {
+    "date": "2026-11-22",
+    "status": "PASS_TARGETED_REFERENCE",
+    "scope": "Author-built gameplay prototypes using the existing GameSpec 0.1.0 capabilities",
+    "guide": "games/coverage-v2/README.md",
+    "targets": {
+      "G90": "New type: interactive fiction with four reachable endings",
+      "G58": "Existing type extension: telegraphed enemy projectiles, dodge routes and firing windows, derived from G17 Phase 2 revision 5"
+    },
+    "validation": "Full admission, author solution and Conformance; real Three.js and CocosAirJS with DOM input, manual Tick and Headless hash parity; both prototypes also passed default Player clock flows on both SDKs; exported local content packages",
+    "additionalModelCalls": 0,
+    "formalG3": "NOT_RUN",
+    "physicalDevice": "NOT_RUN"
+  },
   "localDeliveryPlayerRun": {
     "date": "2026-11-14",
     "status": "PASS_TARGETED_REFERENCE",
@@ -466,7 +845,7 @@
     "hybridCases": 5,
     "verifiedHybridCases": 0,
     "referenceDemoGames": 113,
-    "referenceCapabilityManifests": 128
+    "referenceCapabilityManifests": 133
   },
   "blockingItems": [
     "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",

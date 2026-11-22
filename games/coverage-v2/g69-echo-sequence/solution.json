@@ -1,0 +1,14 @@
+[
+  {
+    "action": "start",
+    "ticks": 1
+  },
+  {
+    "action": "chain",
+    "ticks": 1
+  },
+  {
+    "action": "finish",
+    "ticks": 1
+  }
+]

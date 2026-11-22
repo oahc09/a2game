@@ -1,5 +1,7 @@
 # Locked 3D rigid-body profile
 
+`repeatLaunch: true` 允许尚未终局的活动球体在再次按下发射键时重设线速度，并再次发布 `rigid3d.launched`。作品可用该事件累计击球次数。当前 G149 参考果岭采用同一配置速度和方向验证多杆计数。
+
 `a2game.physics.rigid3d@0.1.0` 使用锁定的 cannon-es 0.20.0，来源、ESM/Node 文件 SHA 在 `project/sdk-lock.json`。官方来源为 https://github.com/pmndrs/cannon-es 和 https://pmndrs.github.io/cannon-es/docs/ 。Node 与浏览器消费同一组参数和量化状态；CocosAirJS/Three.js 只绘制只读 Stage，不各自推进物理。
 
 每 Tick 在 T5 重建至多 16 个可信 box/sphere Body，以固定的四个子步积分；NaiveBroadphase 与 16 次求解迭代、局部稳定 Body ID 固定接触顺序。完整位置、线速度、Quaternion、角速度按 1e6 量化；下一 Tick 从这些数值重建并归一化 Quaternion。缓存不跨 Tick 持有，因此 Snapshot/回放不依赖不可序列化的原生 World。Euler XYZ 仅为只读姿态投影，不代替 Quaternion 积分或接触力矩。

@@ -1,0 +1,176 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-tide-lantern",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.tide-lantern",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "complete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "crate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "crate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "hook",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "hook",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "assemble",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "assemble",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "dock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "dock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "light",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "light",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/done",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "missing-prerequisite",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "dock",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "dock",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "crate",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "crate",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "assemble",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "assemble",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "light",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "light",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/lantern",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

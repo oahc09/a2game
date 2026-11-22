@@ -1,0 +1,923 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.moss-trail",
+  "revision": 1,
+  "meta": {
+    "title": "苔径 · 林间寻食",
+    "description": "用方向键转弯，吃到两颗萤果。蛇每 12 Tick 前进一格，不能掉头，撞到身体或边墙会结束。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.grid-trail",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 41022,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "trail",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.grid-trail",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/trail",
+                "columns": 7,
+                "rows": 6,
+                "intervalTicks": 12,
+                "goalFood": 2,
+                "actions": [
+                  "left",
+                  "right",
+                  "up",
+                  "down"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "trail": {
+      "type": "object",
+      "initial": {
+        "body": [
+          18,
+          17,
+          16,
+          15
+        ],
+        "heading": 1,
+        "pending": -1,
+        "food": 19,
+        "eaten": 0,
+        "won": false,
+        "lost": false
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "harvest",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/trail/won"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "crashed",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/trail/lost"
+          },
+          {
+            "const": true
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "← 左",
+        "bind": {
+          "action": "left"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "→ 右",
+        "bind": {
+          "action": "right"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "↑ 上",
+        "bind": {
+          "action": "up"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "↓ 下",
+        "bind": {
+          "action": "down"
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": [
+        {
+          "id": "floor",
+          "kind": "rect",
+          "at": [
+            0,
+            0.27
+          ],
+          "size": [
+            6.49,
+            4.6
+          ],
+          "fill": "#29453C"
+        },
+        {
+          "id": "cell-0",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-1",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-2",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-3",
+          "kind": "rect",
+          "at": [
+            0,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-4",
+          "kind": "rect",
+          "at": [
+            0.9,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-5",
+          "kind": "rect",
+          "at": [
+            1.8,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-6",
+          "kind": "rect",
+          "at": [
+            2.7,
+            2.05
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-7",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-8",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-9",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-10",
+          "kind": "rect",
+          "at": [
+            0,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-11",
+          "kind": "rect",
+          "at": [
+            0.9,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-12",
+          "kind": "rect",
+          "at": [
+            1.8,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-13",
+          "kind": "rect",
+          "at": [
+            2.7,
+            1.3399999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-14",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-15",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-16",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-17",
+          "kind": "rect",
+          "at": [
+            0,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-18",
+          "kind": "rect",
+          "at": [
+            0.9,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-19",
+          "kind": "rect",
+          "at": [
+            1.8,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-20",
+          "kind": "rect",
+          "at": [
+            2.7,
+            0.6299999999999999
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-21",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-22",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-23",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-24",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-25",
+          "kind": "rect",
+          "at": [
+            0.9,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-26",
+          "kind": "rect",
+          "at": [
+            1.8,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-27",
+          "kind": "rect",
+          "at": [
+            2.7,
+            -0.08000000000000007
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-28",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-29",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-30",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-31",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-32",
+          "kind": "rect",
+          "at": [
+            0.9,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-33",
+          "kind": "rect",
+          "at": [
+            1.8,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-34",
+          "kind": "rect",
+          "at": [
+            2.7,
+            -0.79
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-35",
+          "kind": "rect",
+          "at": [
+            -2.7,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-36",
+          "kind": "rect",
+          "at": [
+            -1.8,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-37",
+          "kind": "rect",
+          "at": [
+            -0.9,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-38",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-39",
+          "kind": "rect",
+          "at": [
+            0.9,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "cell-40",
+          "kind": "rect",
+          "at": [
+            1.8,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#304B42"
+        },
+        {
+          "id": "cell-41",
+          "kind": "rect",
+          "at": [
+            2.7,
+            -1.5
+          ],
+          "size": [
+            0.86,
+            0.67
+          ],
+          "fill": "#365347"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            3.21
+          ],
+          "text": {
+            "literal": "苔径 · 林间寻食"
+          },
+          "fontSize": 0.57,
+          "fill": "#E9FFB5"
+        },
+        {
+          "id": "goal",
+          "kind": "text",
+          "at": [
+            -1,
+            -2.58
+          ],
+          "text": {
+            "literal": "萤果目标 2  ·  已收集"
+          },
+          "fontSize": 0.38,
+          "fill": "#D3FBB4"
+        },
+        {
+          "id": "count",
+          "kind": "text",
+          "at": [
+            1.18,
+            -2.58
+          ],
+          "text": {
+            "state": "/trail/eaten"
+          },
+          "fontSize": 0.46,
+          "fill": "#FAD179"
+        },
+        {
+          "id": "guide",
+          "kind": "text",
+          "at": [
+            0,
+            -3.12
+          ],
+          "text": {
+            "literal": "每 12 Tick 前进一格  ·  不能掉头"
+          },
+          "fontSize": 0.31,
+          "fill": "#A9C4A6"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "food",
+          "source": {
+            "state": "/trail/food"
+          },
+          "columns": 7,
+          "origin": [
+            -2.7,
+            2.05
+          ],
+          "step": [
+            0.9,
+            0.71
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "berry",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "radius": 0.26,
+              "fill": "#FFC75E"
+            }
+          ]
+        },
+        {
+          "id": "trail",
+          "source": {
+            "state": "/trail/body"
+          },
+          "columns": 7,
+          "origin": [
+            -2.7,
+            2.05
+          ],
+          "step": [
+            0.9,
+            0.71
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "segment",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.76,
+                0.56
+              ],
+              "fill": "#A8DD73"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

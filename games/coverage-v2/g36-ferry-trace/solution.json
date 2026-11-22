@@ -1,0 +1,22 @@
+[
+  {
+    "action": "edge0",
+    "ticks": 1
+  },
+  {
+    "action": "edge1",
+    "ticks": 1
+  },
+  {
+    "action": "edge2",
+    "ticks": 1
+  },
+  {
+    "action": "edge3",
+    "ticks": 1
+  },
+  {
+    "action": "edge4",
+    "ticks": 1
+  }
+]

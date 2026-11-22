@@ -1,0 +1,3025 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "local.coverage-v2.neon-backbeat",
+  "revision": 1,
+  "meta": {
+    "title": "霓雨回拍 · 四轨节奏",
+    "description": "四条轨道依次对应 A、S、D、F。音符在判线前后 3 Tick 内可以击中，漏拍会重置连击。八个音符命中至少六个通关，点击开始游戏可启用声音。",
+    "genres": [
+      "arcade"
+    ]
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.state-set",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.rules.event-emit",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.bound-stage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.bootstrap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.clock",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "3d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 16122,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {
+    "note-0": {
+      "uri": "assets/creation-kit/collect-chime.wav",
+      "type": "audio",
+      "integrity": "sha256-MOxFF4yNYSJ15OiJ10Xz4tb6Q7S8m+G2x76UWToQt7g="
+    },
+    "note-1": {
+      "uri": "assets/creation-kit/impact-soft.wav",
+      "type": "audio",
+      "integrity": "sha256-gHwpobcALuzI8f7CDGKmjzFBBiAFcyt7sr7UG2jAIZ0="
+    },
+    "note-2": {
+      "uri": "assets/creation-kit/merge-chord.wav",
+      "type": "audio",
+      "integrity": "sha256-UV8yFbXjum2NdE05oi/dowoPmt7xN21jhhVkkH3T0SA="
+    },
+    "note-3": {
+      "uri": "assets/tone.wav",
+      "type": "audio",
+      "integrity": "sha256-HFY/wPVI+NrfP8ouN2E9H38zTPn8a4DE2w3IqklLWzw="
+    }
+  },
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "clock",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.core.bootstrap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "startedPath": "/booted",
+                "tickPath": "/clock"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "clock": {
+      "type": "int",
+      "initial": 0
+    },
+    "booted": {
+      "type": "bool",
+      "initial": false
+    },
+    "score": {
+      "type": "int",
+      "initial": 0
+    },
+    "misses": {
+      "type": "int",
+      "initial": 0
+    },
+    "combo": {
+      "type": "int",
+      "initial": 0
+    },
+    "message": {
+      "type": "string",
+      "initial": "当音符抵达判线时按对应键"
+    },
+    "note0": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY0": {
+      "type": "int",
+      "initial": 900
+    },
+    "note1": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY1": {
+      "type": "int",
+      "initial": 900
+    },
+    "note2": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY2": {
+      "type": "int",
+      "initial": 900
+    },
+    "note3": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY3": {
+      "type": "int",
+      "initial": 900
+    },
+    "note4": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY4": {
+      "type": "int",
+      "initial": 900
+    },
+    "note5": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY5": {
+      "type": "int",
+      "initial": 900
+    },
+    "note6": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY6": {
+      "type": "int",
+      "initial": 900
+    },
+    "note7": {
+      "type": "int",
+      "initial": 0
+    },
+    "noteY7": {
+      "type": "int",
+      "initial": 900
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "a",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "s",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "d",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": false
+            }
+          }
+        ]
+      },
+      {
+        "id": "f",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyF",
+              "hold": false
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "cue-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 59
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-0",
+          "payload": {
+            "chartIndex": 0,
+            "beat": 60,
+            "lane": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note0"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 24
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 63
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY0",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 680
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note0"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY0",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-0",
+      "on": {
+        "type": "input.action",
+        "action": "a",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note0"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 57
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 63
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note0",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-0",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note0"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 64
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note0",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 89
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-1",
+          "payload": {
+            "chartIndex": 1,
+            "beat": 90,
+            "lane": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note1"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 54
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 93
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY1",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1130
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note1"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY1",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-1",
+      "on": {
+        "type": "input.action",
+        "action": "s",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note1"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 87
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 93
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note1",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-1",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note1"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 94
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note1",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 119
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-2",
+          "payload": {
+            "chartIndex": 2,
+            "beat": 120,
+            "lane": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note2"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 84
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 123
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY2",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 1580
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note2"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY2",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-2",
+      "on": {
+        "type": "input.action",
+        "action": "d",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note2"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 117
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 123
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note2",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-2",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note2"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 124
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note2",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 149
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-3",
+          "payload": {
+            "chartIndex": 3,
+            "beat": 150,
+            "lane": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note3"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 114
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 153
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY3",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 2030
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note3"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY3",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-3",
+      "on": {
+        "type": "input.action",
+        "action": "f",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note3"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 147
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 153
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note3",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-3",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note3"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 154
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note3",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 179
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-2",
+          "payload": {
+            "chartIndex": 4,
+            "beat": 180,
+            "lane": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note4"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 144
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 183
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY4",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 2480
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note4"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY4",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-4",
+      "on": {
+        "type": "input.action",
+        "action": "d",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note4"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 177
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 183
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note4",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-4",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note4"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 184
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note4",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 209
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-0",
+          "payload": {
+            "chartIndex": 5,
+            "beat": 210,
+            "lane": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note5"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 174
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 213
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY5",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 2930
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note5"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY5",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-5",
+      "on": {
+        "type": "input.action",
+        "action": "a",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note5"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 207
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 213
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note5",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-5",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note5"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 214
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note5",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 239
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-3",
+          "payload": {
+            "chartIndex": 6,
+            "beat": 240,
+            "lane": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note6"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 204
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 243
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY6",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 3380
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note6"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY6",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-6",
+      "on": {
+        "type": "input.action",
+        "action": "f",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note6"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 237
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 243
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note6",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-6",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note6"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 244
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note6",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    },
+    {
+      "id": "cue-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/clock"
+          },
+          {
+            "const": 269
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "event.emit",
+          "eventType": "rhythm.beat-1",
+          "payload": {
+            "chartIndex": 7,
+            "beat": 270,
+            "lane": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "fall-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note7"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 234
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 273
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY7",
+          "value": {
+            "op": "sub",
+            "args": [
+              {
+                "const": 3830
+              },
+              {
+                "op": "mul",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 15
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hide-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "ne",
+        "args": [
+          {
+            "state": "/note7"
+          },
+          {
+            "const": 0
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/noteY7",
+          "value": 900
+        }
+      ]
+    },
+    {
+      "id": "hit-7",
+      "on": {
+        "type": "input.action",
+        "action": "s",
+        "edge": "press"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note7"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "gte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 267
+                  }
+                ]
+              },
+              {
+                "op": "lte",
+                "args": [
+                  {
+                    "state": "/clock"
+                  },
+                  {
+                    "const": 273
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note7",
+          "value": 1
+        },
+        {
+          "op": "state.set",
+          "path": "/score",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/combo"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "击中 · 连击 +1"
+        }
+      ]
+    },
+    {
+      "id": "miss-7",
+      "on": {
+        "type": "level.tick"
+      },
+      "if": {
+        "op": "and",
+        "args": [
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/note7"
+              },
+              {
+                "const": 0
+              }
+            ]
+          },
+          {
+            "op": "eq",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 274
+              }
+            ]
+          }
+        ]
+      },
+      "do": [
+        {
+          "op": "state.set",
+          "path": "/note7",
+          "value": 2
+        },
+        {
+          "op": "state.set",
+          "path": "/misses",
+          "value": {
+            "op": "add",
+            "args": [
+              {
+                "state": "/misses"
+              },
+              {
+                "const": 1
+              }
+            ]
+          }
+        },
+        {
+          "op": "state.set",
+          "path": "/combo",
+          "value": 0
+        },
+        {
+          "op": "state.set",
+          "path": "/message",
+          "value": "漏拍 · 连击重置"
+        }
+      ]
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "track-complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 280
+              }
+            ]
+          },
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "track-missed",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "op": "and",
+        "args": [
+          {
+            "op": "gte",
+            "args": [
+              {
+                "state": "/clock"
+              },
+              {
+                "const": 280
+              }
+            ]
+          },
+          {
+            "op": "lt",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "const": 6
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "choice-0",
+        "kind": "button",
+        "text": "A 轨",
+        "bind": {
+          "action": "a"
+        }
+      },
+      {
+        "id": "choice-1",
+        "kind": "button",
+        "text": "S 轨",
+        "bind": {
+          "action": "s"
+        }
+      },
+      {
+        "id": "choice-2",
+        "kind": "button",
+        "text": "D 轨",
+        "bind": {
+          "action": "d"
+        }
+      },
+      {
+        "id": "choice-3",
+        "kind": "button",
+        "text": "F 轨",
+        "bind": {
+          "action": "f"
+        }
+      },
+      {
+        "id": "readout",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "击中 {0} · 漏拍 {1} · 连击 {2} · {3}",
+            "args": [
+              {
+                "state": "/score"
+              },
+              {
+                "state": "/misses"
+              },
+              {
+                "state": "/combo"
+              },
+              {
+                "state": "/message"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 8,
+      "background": "#122635",
+      "nodes": []
+    },
+    "stage": {
+      "bindingProfile": "numeric-pointer-v1",
+      "camera": {
+        "projection": "orthographic",
+        "at": [
+          0,
+          0,
+          16
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "near": 0.1,
+        "far": 50,
+        "fov": 48,
+        "orthoHeight": 8,
+        "fitSize": [
+          10,
+          8
+        ]
+      },
+      "nodes": [
+        {
+          "id": "lane-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -2.4,
+            0.48,
+            0
+          ],
+          "size": [
+            1.52,
+            5.9,
+            0.08
+          ],
+          "color": "#263448",
+          "material": "unlit"
+        },
+        {
+          "id": "target-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -2.4,
+            -2.2,
+            0.12
+          ],
+          "size": [
+            1.51,
+            0.18,
+            0.08
+          ],
+          "color": "#80E3C6",
+          "material": "unlit"
+        },
+        {
+          "id": "lane-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -0.8,
+            0.48,
+            0
+          ],
+          "size": [
+            1.52,
+            5.9,
+            0.08
+          ],
+          "color": "#243C52",
+          "material": "unlit"
+        },
+        {
+          "id": "target-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -0.8,
+            -2.2,
+            0.12
+          ],
+          "size": [
+            1.51,
+            0.18,
+            0.08
+          ],
+          "color": "#70C9F7",
+          "material": "unlit"
+        },
+        {
+          "id": "lane-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.8,
+            0.48,
+            0
+          ],
+          "size": [
+            1.52,
+            5.9,
+            0.08
+          ],
+          "color": "#263448",
+          "material": "unlit"
+        },
+        {
+          "id": "target-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.8,
+            -2.2,
+            0.12
+          ],
+          "size": [
+            1.51,
+            0.18,
+            0.08
+          ],
+          "color": "#CFA0F6",
+          "material": "unlit"
+        },
+        {
+          "id": "lane-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2.4,
+            0.48,
+            0
+          ],
+          "size": [
+            1.52,
+            5.9,
+            0.08
+          ],
+          "color": "#243C52",
+          "material": "unlit"
+        },
+        {
+          "id": "target-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2.4,
+            -2.2,
+            0.12
+          ],
+          "size": [
+            1.51,
+            0.18,
+            0.08
+          ],
+          "color": "#FFB88C",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-0",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -2.4,
+            {
+              "state": "/noteY0",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#80E3C6",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-1",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -0.8,
+            {
+              "state": "/noteY1",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#70C9F7",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-2",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.8,
+            {
+              "state": "/noteY2",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#CFA0F6",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-3",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2.4,
+            {
+              "state": "/noteY3",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#FFB88C",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-4",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            0.8,
+            {
+              "state": "/noteY4",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#CFA0F6",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-5",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -2.4,
+            {
+              "state": "/noteY5",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#80E3C6",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-6",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            2.4,
+            {
+              "state": "/noteY6",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#FFB88C",
+          "material": "unlit"
+        },
+        {
+          "id": "beat-7",
+          "kind": "mesh",
+          "geometry": "box",
+          "at": [
+            -0.8,
+            {
+              "state": "/noteY7",
+              "scale": 0.01
+            },
+            0.25
+          ],
+          "size": [
+            1.13,
+            0.34,
+            0.12
+          ],
+          "color": "#70C9F7",
+          "material": "unlit"
+        }
+      ],
+      "audio": [
+        {
+          "id": "beat-sound-0",
+          "asset": "note-0",
+          "event": "rhythm.beat-0",
+          "volume": 0.45
+        },
+        {
+          "id": "beat-sound-1",
+          "asset": "note-1",
+          "event": "rhythm.beat-1",
+          "volume": 0.45
+        },
+        {
+          "id": "beat-sound-2",
+          "asset": "note-2",
+          "event": "rhythm.beat-2",
+          "volume": 0.45
+        },
+        {
+          "id": "beat-sound-3",
+          "asset": "note-3",
+          "event": "rhythm.beat-3",
+          "volume": 0.45
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ],
+  "extensions": {}
+}

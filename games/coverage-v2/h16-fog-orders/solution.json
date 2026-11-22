@@ -1,0 +1,14 @@
+[
+  {
+    "action": "scout",
+    "ticks": 1
+  },
+  {
+    "action": "card1",
+    "ticks": 1
+  },
+  {
+    "action": "right",
+    "ticks": 1
+  }
+]

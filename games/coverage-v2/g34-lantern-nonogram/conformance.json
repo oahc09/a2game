@@ -1,0 +1,143 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-lantern-nonogram",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.lantern-nonogram",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "solve",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flip3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flip4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flip5",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip5",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flip7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "invalid-or-incomplete",
+      "seed": 12122,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flip0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flip0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/cell0",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

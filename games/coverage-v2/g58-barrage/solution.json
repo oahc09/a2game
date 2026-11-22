@@ -1,0 +1,81 @@
+[
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 19
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyD"
+        }
+      }
+    ],
+    "ticks": 69
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "Space"
+        }
+      }
+    ],
+    "ticks": 55
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "Space"
+        }
+      },
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 19
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "up",
+        "payload": {
+          "code": "KeyA"
+        }
+      }
+    ],
+    "ticks": 66
+  },
+  {
+    "raw": [
+      {
+        "source": "keyboard",
+        "kind": "down",
+        "payload": {
+          "code": "Space"
+        }
+      }
+    ],
+    "ticks": 85
+  }
+]

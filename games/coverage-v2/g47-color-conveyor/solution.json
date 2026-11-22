@@ -1,0 +1,50 @@
+[
+  {
+    "action": "red",
+    "ticks": 1
+  },
+  {
+    "action": "toggle",
+    "ticks": 24
+  },
+  {
+    "action": "blue",
+    "ticks": 20
+  },
+  {
+    "action": "red",
+    "ticks": 20
+  },
+  {
+    "action": "blue",
+    "ticks": 20
+  },
+  {
+    "action": "toggle",
+    "ticks": 1
+  },
+  {
+    "action": "pack",
+    "ticks": 3
+  },
+  {
+    "action": "red",
+    "ticks": 1
+  },
+  {
+    "action": "toggle",
+    "ticks": 24
+  },
+  {
+    "action": "blue",
+    "ticks": 20
+  },
+  {
+    "action": "toggle",
+    "ticks": 1
+  },
+  {
+    "action": "pack",
+    "ticks": 3
+  }
+]

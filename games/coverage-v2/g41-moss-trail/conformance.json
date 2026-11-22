@@ -1,0 +1,216 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "local-coverage-v2-moss-trail",
+  "subject": {
+    "type": "game",
+    "id": "local.coverage-v2.moss-trail",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "grow-and-forage",
+      "seed": 41022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/body",
+          "equals": [
+            19,
+            18,
+            17,
+            16,
+            15
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/eaten",
+          "equals": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/eaten",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        }
+      ]
+    },
+    {
+      "id": "self-intersection",
+      "seed": 41022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "up",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "down",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/lost",
+          "equals": true
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    },
+    {
+      "id": "reverse-rejected-then-wall",
+      "seed": 41022,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "left",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/heading",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/trail/body/0",
+          "equals": 19
+        },
+        {
+          "op": "step",
+          "ticks": 36
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        }
+      ]
+    }
+  ]
+}
