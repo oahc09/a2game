@@ -53,6 +53,7 @@
   "a2game.puzzle.line-clear",
   "a2game.puzzle.match-n",
   "a2game.puzzle.merge",
+  "a2game.puzzle.minesweeper",
   "a2game.puzzle.occlusion",
   "a2game.puzzle.occupancy",
   "a2game.puzzle.pair-match",

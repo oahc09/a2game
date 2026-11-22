@@ -1,0 +1,362 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g35-minesweeper",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g35-minesweeper",
+    "file": "../games/g35-minesweeper.game.json"
+  },
+  "cases": [
+    {
+      "id": "MINE-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/0",
+          "equals": -1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/mines",
+          "equals": []
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/0",
+          "equals": -1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/mines",
+          "equals": []
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "flagMode",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells",
+          "equals": [
+            0,
+            0,
+            0,
+            0,
+            1,
+            2,
+            1,
+            1,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/remainingSafe",
+          "equals": 5
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/remainingSafe",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "minesweeper.won",
+          "count": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/mines",
+          "equals": []
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells",
+          "equals": [
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MINE-002",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/8",
+          "equals": 9
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/10",
+          "equals": -2
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/15",
+          "equals": -2
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "minesweeper.lost",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

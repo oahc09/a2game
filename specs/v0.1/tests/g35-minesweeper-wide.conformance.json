@@ -1,0 +1,348 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g35-minesweeper-wide",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g35-minesweeper-wide",
+    "file": "../games/g35-minesweeper-wide.game.json"
+  },
+  "cases": [
+    {
+      "id": "MINE-WIDE-WIN",
+      "seed": 73,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells",
+          "equals": [
+            1,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2,
+            -2
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/remainingSafe",
+          "equals": 15
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell1",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell2",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell4",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell6",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell7",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell8",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell9",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell11",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell12",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell13",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell14",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell15",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell15",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell16",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell16",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell17",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell17",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell19",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell19",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/remainingSafe",
+          "equals": 0
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "minesweeper.won",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "id": "MINE-WIDE-LOSS",
+      "seed": 73,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell0",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "press"
+        },
+        {
+          "op": "injectAction",
+          "action": "cell3",
+          "phase": "release"
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/3",
+          "equals": 9
+        },
+        {
+          "op": "assert",
+          "path": "/state/minefield/cells/5",
+          "equals": -2
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "minesweeper.lost",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}
