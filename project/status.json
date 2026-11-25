@@ -4,7 +4,10 @@
     "status": "PASS_TARGETED_REFERENCE",
     "baseCommit": "13c64dc07c0e6dde3816f100216bad9565bb1ed0",
     "scope": "STANDALONE_PLAYER_SDK_AND_LOOPBACK_FIXTURE_RELEASE",
-    "nodeVersions": ["22.16.0", "24.22.3"],
+    "nodeVersions": [
+      "22.16.0",
+      "24.22.3"
+    ],
     "node24Before": "ERR_FS_CP_EEXIST",
     "verifiedInventoryFilesPerPackage": 264,
     "targetedTestsPassedPerVersion": 6,
@@ -476,8 +479,8 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 115,
-    "referenceCapabilityManifests": 129
+    "referenceDemoGames": 117,
+    "referenceCapabilityManifests": 130
   },
   "blockingItems": [
     "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
@@ -2166,5 +2169,14 @@
       "Historical Air incident has no captured dimensions; unique historical cause is not certified",
       "Old-source executable SDKs require fresh publication rather than silent migration"
     ]
+  },
+  "g41ExpansionRun": {
+    "status": "PASS_REFERENCE",
+    "scope": "R1 G41 only; actual WebKit browser with the two locked SDKs and independently validated local export inventories. No formal G3, physical or packaged browser execution claim. Frozen 32+5 unchanged.",
+    "specs": [
+      "specs/v0.1/games/g41-snake.game.json",
+      "specs/v0.1/games/g41-snake-wide.game.json"
+    ],
+    "evidence": "project/evidence/g41-webkit-reference.json"
   }
 }

@@ -94,7 +94,7 @@ test('HTTP exposes canonical game/capability URLs while keeping protocol tools a
   globalThis.fetch=(url,...args)=>originalFetch(new URL(url,origin+'/player/'),...args);
   const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,read('project/status.json').coverage.referenceDemoGames);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
   assert.ok(catalog.some(c=>c.path==='/specs/v0.1/games/body-motif.game.json'));
-  for(const slug of ['g35-minesweeper','g35-minesweeper-wide']){
+  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g41-snake','g41-snake-wide']){
    const id='org.a2game.games.'+slug;
    assert.ok(catalog.some(c=>c.id===id&&c.path==='/specs/v0.1/games/'+slug+'.game.json'));
    assert.equal((await loadBuiltinGame(slug)).id,id);

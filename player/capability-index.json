@@ -64,6 +64,7 @@
   "a2game.puzzle.rotate-piece",
   "a2game.puzzle.select",
   "a2game.puzzle.slide",
+  "a2game.puzzle.snake",
   "a2game.puzzle.sort",
   "a2game.puzzle.swap",
   "a2game.puzzle.tray",

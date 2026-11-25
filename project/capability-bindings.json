@@ -2,7 +2,7 @@
   "format": "a2game-capability-bindings",
   "version": 1,
   "specVersion": "0.1.0",
-  "count": 129,
+  "count": 130,
   "scope": "Current trusted bindings and test declarations; references are not per-capability execution receipts or formal platform approval.",
   "capabilities": [
     {
@@ -3495,6 +3495,81 @@
             {
               "file": "specs/v0.1/tests/puzzle-slide-undo.conformance.json",
               "suiteId": "puzzle-slide-undo"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
+      "id": "a2game.puzzle.snake",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.puzzle.snake.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.rng",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.core.rules",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.puzzle.snake",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "SNAKE-001",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g41-snake.conformance.json",
+              "suiteId": "g41-snake"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        },
+        {
+          "id": "SNAKE-002",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g41-snake.conformance.json",
+              "suiteId": "g41-snake"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        },
+        {
+          "id": "SNAKE-003",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g41-snake-wide.conformance.json",
+              "suiteId": "g41-snake-wide"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        },
+        {
+          "id": "SNAKE-004",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g41-snake-wide.conformance.json",
+              "suiteId": "g41-snake-wide"
             }
           ],
           "specification": null,

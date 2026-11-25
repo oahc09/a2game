@@ -1,0 +1,125 @@
+{
+  "scope": "SOFTWARE_BROWSER_REFERENCE_NOT_PHYSICAL",
+  "sdk": {
+    "cocosairjs": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "three": "0.186.1",
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "slug": "g41-snake",
+      "backend": "air",
+      "specSha256": "11bb475f8fb4d910161c64ccae2579357a8c3c8cf38acb0e4b868452d5a46172",
+      "changedPixels": 11233,
+      "checkpoints": [
+        "8285ee4b9830f1e1db75a0ea81826e7108f5aa8bfc070d7fa11c12a2780210b0",
+        "67e2a9335e732e8f3aabd47f4a24238503ed8850b928804c76a14b21e8c5e036",
+        "3d57e86f6874f96c34d72e7ae8fef088d8fce04c51426dcc104d827ecf107fa6",
+        "2850343eedbc6b3c829768d678d85808c1008e898143cdf7dbab176e0fc05665",
+        "2b34977cba4bcf931e850b17895299f5771c4bc0678ae2c0038e416772b1bd5a",
+        "8285ee4b9830f1e1db75a0ea81826e7108f5aa8bfc070d7fa11c12a2780210b0",
+        "7f9c72e40eba2a72ae4ecd98ceca355f463eea5f139247100cc7077ebd47a58a",
+        "e44bfff3fe8a9ae56d7bcae9bb3ebb0a9068890c21088d6072a465ae100fd65c"
+      ],
+      "inputSha256": "bf3d7ec2a866a5687bc049f90e0c5592ec67ccc0f441bc97641e222a160ec640",
+      "disposed": true
+    },
+    {
+      "slug": "g41-snake",
+      "backend": "three",
+      "specSha256": "11bb475f8fb4d910161c64ccae2579357a8c3c8cf38acb0e4b868452d5a46172",
+      "changedPixels": 11233,
+      "checkpoints": [
+        "8285ee4b9830f1e1db75a0ea81826e7108f5aa8bfc070d7fa11c12a2780210b0",
+        "67e2a9335e732e8f3aabd47f4a24238503ed8850b928804c76a14b21e8c5e036",
+        "3d57e86f6874f96c34d72e7ae8fef088d8fce04c51426dcc104d827ecf107fa6",
+        "2850343eedbc6b3c829768d678d85808c1008e898143cdf7dbab176e0fc05665",
+        "2b34977cba4bcf931e850b17895299f5771c4bc0678ae2c0038e416772b1bd5a",
+        "8285ee4b9830f1e1db75a0ea81826e7108f5aa8bfc070d7fa11c12a2780210b0",
+        "7f9c72e40eba2a72ae4ecd98ceca355f463eea5f139247100cc7077ebd47a58a",
+        "e44bfff3fe8a9ae56d7bcae9bb3ebb0a9068890c21088d6072a465ae100fd65c"
+      ],
+      "inputSha256": "bf3d7ec2a866a5687bc049f90e0c5592ec67ccc0f441bc97641e222a160ec640",
+      "disposed": true
+    },
+    {
+      "slug": "g41-snake-wide",
+      "backend": "air",
+      "specSha256": "016ea517cc580c2e363386382d110b6bfbc0c5806f2cf1cd4031eed5326bb901",
+      "changedPixels": 11233,
+      "checkpoints": [
+        "177e8d1ef163077fe71ba340f3ba82b887766f9804d3ec58b87f436c003d08d6",
+        "818031842756ec948b3474ad1e1bb0c650ce8399570d987209e3f2696b02ced7",
+        "0295fa8e4faa0e6fca4bab3f1fdddf8db73bf818a9215a527f0dd8726bce9594",
+        "46d28a9a2285a8e4d4247b13c58519c36699bb81541763942ae2aea4ee100dd5",
+        "d985da926d29a8bf9cc109c9ea4fbe3c5e0f740435c17aacda1d6c377cae5ef7",
+        "177e8d1ef163077fe71ba340f3ba82b887766f9804d3ec58b87f436c003d08d6",
+        "e4a6a5c7b51c437b6fd61c4b929be4a213a001754ec3f51a163db733b3f82472"
+      ],
+      "inputSha256": "bf3d7ec2a866a5687bc049f90e0c5592ec67ccc0f441bc97641e222a160ec640",
+      "disposed": true
+    },
+    {
+      "slug": "g41-snake-wide",
+      "backend": "three",
+      "specSha256": "016ea517cc580c2e363386382d110b6bfbc0c5806f2cf1cd4031eed5326bb901",
+      "changedPixels": 11233,
+      "checkpoints": [
+        "177e8d1ef163077fe71ba340f3ba82b887766f9804d3ec58b87f436c003d08d6",
+        "818031842756ec948b3474ad1e1bb0c650ce8399570d987209e3f2696b02ced7",
+        "0295fa8e4faa0e6fca4bab3f1fdddf8db73bf818a9215a527f0dd8726bce9594",
+        "46d28a9a2285a8e4d4247b13c58519c36699bb81541763942ae2aea4ee100dd5",
+        "d985da926d29a8bf9cc109c9ea4fbe3c5e0f740435c17aacda1d6c377cae5ef7",
+        "177e8d1ef163077fe71ba340f3ba82b887766f9804d3ec58b87f436c003d08d6",
+        "e4a6a5c7b51c437b6fd61c4b929be4a213a001754ec3f51a163db733b3f82472"
+      ],
+      "inputSha256": "bf3d7ec2a866a5687bc049f90e0c5592ec67ccc0f441bc97641e222a160ec640",
+      "disposed": true
+    }
+  ],
+  "webkit": "27.2",
+  "format": "a2game-g41-browser-reference",
+  "version": 1,
+  "harnessSha256": "ecd0bf0f3a9f3bfabdfb11f9f9e6c7097df25b1ef0e6b88554a395a99d934625",
+  "sourceSha256": {
+    "src/runtime.ts": "567881e2f3f9325bc151a1890e0139d97306df5bc67ef0649373860d7d1e9c20",
+    "src/modules/snake.ts": "15788887092211b4734321a83413d0e7d10da5f800c265366e35855faf1277a4",
+    "src/validator.ts": "4e4b64b0c1927f37eef4d5894b0ffa8e145e86822576a7011c5c2c1d8b833ddc",
+    "src/trusted-modules.ts": "3b04c0090bc13b11493bf45588e6c86a4580fce50438f0f51a3a3f57da6e4f7e",
+    "player/validated-games.json": "ca9ebb4970076b615e1dd9b340c2a5bc13459a12a8cdfb21def488a61afcb7eb",
+    "player/capability-index.json": "2c103182df8072ffad3636b8f2e8a843369c5315d1e05baab8bfd86bc01222d0",
+    "specs/v0.1/capabilities/a2game.puzzle.snake.capability.json": "53325b046ad4a515addf395e3b6f537a385e273f287bb39e1d62c3bf7d303076"
+  },
+  "exports": [
+    {
+      "slug": "g41-snake",
+      "bundleDigest": "add63dbf1c4e19b595deca301289af7cf4b71ad3b9a78527d72ab1d8c930afa9",
+      "inventorySha256": "17587d130e27da1cb3ecc940fdb1b7f4af68199ba03888270493a3e1497d29f7",
+      "files": 270,
+      "scope": "LOCAL_EXPORT_BYTE_INVENTORY"
+    },
+    {
+      "slug": "g41-snake-wide",
+      "bundleDigest": "cae9a324aaf99565d91e7847789cd5f1e02d099cd815f4269d4c847e6f6e33fc",
+      "inventorySha256": "5a68a3bc33e731c32e6c57515a3827887a25e5746d687c9607515a89170586c9",
+      "files": 270,
+      "scope": "LOCAL_EXPORT_BYTE_INVENTORY"
+    }
+  ]
+}

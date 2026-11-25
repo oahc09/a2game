@@ -1,0 +1,186 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g41-snake",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g41-snake",
+    "file": "../games/g41-snake.game.json"
+  },
+  "cases": [
+    {
+      "id": "SNAKE-001",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "timeUs": 0,
+            "seq": 1,
+            "tickIndex": 0,
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "touch",
+              "u": 0.5,
+              "v": 0.3
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "timeUs": 10,
+            "seq": 7,
+            "tickIndex": 0,
+            "payload": {
+              "pointerId": 1,
+              "pointerType": "touch",
+              "u": 0.5,
+              "v": 0.7
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "timeUs": 10,
+            "seq": 8,
+            "tickIndex": 0,
+            "payload": {
+              "code": "ArrowLeft"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/turns",
+          "equals": [
+            "down",
+            "left"
+          ]
+        },
+        {
+          "op": "pause"
+        },
+        {
+          "op": "step",
+          "ticks": 4
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 1
+        },
+        {
+          "op": "resume"
+        },
+        {
+          "op": "step",
+          "ticks": 11
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/body",
+          "equals": [
+            9,
+            5
+          ]
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/body",
+          "equals": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SNAKE-002",
+      "seed": 42,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 12
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/body",
+          "equals": [
+            6,
+            5,
+            4
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/eaten",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "step",
+          "ticks": 24
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "snake.lost",
+          "count": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/body",
+          "equals": [
+            5,
+            4
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/snake/food",
+          "equals": [
+            6
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/tickIndex",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}
