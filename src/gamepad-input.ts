@@ -6,7 +6,7 @@ const source=(index:number,button:number)=>`gamepad:${index}:button:${button}`;
 
 const axisQuantum = 10000;
 
-function radialAxes(x: number, y: number, deadZone: number): [number,number] {
+export function radialAxes(x: number, y: number, deadZone: number): [number,number] {
  const ix=Math.round(x*axisQuantum),iy=Math.round(y*axisQuantum);
  const radius=Math.sqrt(ix*ix+iy*iy)/axisQuantum;
  if(radius<=deadZone)return [0,0];

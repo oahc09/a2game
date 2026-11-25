@@ -20,6 +20,10 @@ const publicContractRevisions={
     "before": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2",
     "current": "2a80d45495c17aee1e6102c350a486cf3bd22a49f6e53e58e8d5743298e067dd"
   },
+  "specs/v0.1/capabilities/a2game.input.touch.drag.capability.json": {
+    "before": "897604edec9605cfa6554ecc4abeac00e0da951f77899991ad2940f7c7000147",
+    "current": "365d2effa12ea20da9acede6ce479e68cfb7da015c5b4c3a5467471672ccfaa1"
+  },
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
     "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"

@@ -2183,5 +2183,12 @@
     "browserInputSource": "SYNTHETIC_GAMEPAD",
     "dualTouch": "NOT_RUN",
     "physicalGamepad": "NOT_RUN"
+  },
+  "g59TouchStickPreparation": {
+    "status": "PARTIAL",
+    "input": "TWO_SYNTHETIC_DOM_POINTERS",
+    "ordinaryAndStandalone": "SUPPORTED",
+    "gameplay": "NOT_RUN",
+    "physicalTouch": "NOT_RUN"
   }
 }

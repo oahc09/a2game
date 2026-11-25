@@ -5,7 +5,7 @@ import {ResourceScope} from './resources.mjs';
 import {ThreeAdapter} from './adapters/three-adapter.mjs';
 import {CocosAirAdapter} from './adapters/cocosairjs-adapter.mjs';
 import {trustedBundleDigest} from './trusted-bundle.mjs';
-import {createPointerHost} from './pointer-host.mjs';
+import {createPointerHost,hasTouchStick} from './pointer-host.mjs';
 import {createMobileHost} from './mobile-host.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {actionLabel} from './input-labels.mjs';
@@ -26,7 +26,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
  const clearHeld=()=>{const count=held.size;held.clear();if(count)emit('inputs-reset');};
  const inputReady=()=>{assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before input');return runtime.status==='playing';};
  const render=()=>{const observation=runtime.observe();adapter.draw(projectPresentation(definition,observation));if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',{status:flow});}};
- const frame=now=>{if(disposed)return;try{if(!last)last=now;const delta=Math.max(0,(now-last)/1000);last=now;if(runtime.status==='playing'){carry+=delta;const hz=definition.world.clock.tickHz,steps=Math.floor(carry*hz+1e-7);if(steps>(definition.world.clock.maxCatchUpTicks??5)){runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();carry=0;emit('error',{message:'A2G_E_CLOCK_STALL'});}else{for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}}render();raf=requestAnimationFrame(frame);}catch(e){emit('error',{message:String(e.message??e)});void dispose();}};
+ const frame=now=>{if(disposed)return;try{if(!last)last=now;const delta=Math.max(0,(now-last)/1000);last=now;if(runtime.status==='playing'){carry+=delta;const hz=definition.world.clock.tickHz,steps=Math.floor(carry*hz+1e-7);if(steps>(definition.world.clock.maxCatchUpTicks??5)){runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();carry=0;emit('error',{message:'A2G_E_CLOCK_STALL'});}else{for(let i=0;i<steps;i++){pointerHost?.checkGeometry();gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}}render();raf=requestAnimationFrame(frame);}catch(e){emit('error',{message:String(e.message??e)});void dispose();}};
  function dispose(){if(disposal)return disposal;disposed=true;clearHeld();inputAbort.abort();gamepadHost?.dispose();if(raf)cancelAnimationFrame(raf);resources?.dispose();disposal=loadDone.then(()=>{runtime?.dispose();return adapter?.dispose();}).finally(()=>{resources?.dispose();host?.remove();closed=true;emit('disposed');});return disposal;}
  return Object.freeze({
   async load(bundle){assert();if(loading||runtime)throw Error('A2G_E_FLOW: load once per player');loading=true;let finishLoad;loadDone=new Promise(resolve=>{finishLoad=resolve;});let failure;
@@ -37,7 +37,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
     runtime=new HeadlessRuntime(definition,registry);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
     if(backend==='three'){const module=await import('three');assert();adapter=new ThreeAdapter(module,canvas,resources);await adapter.prepare(definition);}else{if(cocosDocumentClaimed)throw Error('A2G_E_COCOS_DOCUMENT: reload the page before another CocosAirJS instance');cocosDocumentClaimed=true;const module=await import('cocosair.js');assert();adapter=await CocosAirAdapter.create(module,canvas);assert();await adapter.prepare(definition,resources);}assert();
     const getRuntime=()=>disposed?undefined:runtime;
-    if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal});
+    if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal,geometrySensitive:hasTouchStick(definition)});
     if(hasBinding('imu.'))mobileHost=createMobileHost({getRuntime,inject:raw,onStatus:detail=>emit('sensor-status',detail),signal:inputAbort.signal});
     if(hasBinding('gamepad.'))gamepadHost=createGamepadHost({definition,inject:raw,onStatus:message=>emit('gamepad-status',{message})});
     render();assert();ready=true;emit('loaded',{id:definition.id});

@@ -11,3 +11,10 @@ export function profile(){
  g.rules.push({id:'read-right-stick',on:{type:'input.action',action:'aim',edge:'press'},do:[{op:'state.set',path:'/rightStick',value:{event:'/value'}}]});
  return g;
 }
+export function pairedProfile(){
+ const g=profile();
+ g.requires.all.push({id:'a2game.input.touch.drag',version:'0.1.0'});
+ for(const [action,zone] of [['look','left'],['aim','right']])
+  g.inputs.actions.find(a=>a.id===action).bindings.push({source:'touch.drag',config:{stick:{zone,radius:.10,deadZone:.12}}});
+ return g;
+}

@@ -1,4 +1,4 @@
-/** Software mapping acceptance, not physical Gamepad or playable G59 evidence. */
+/** Software gamepad/touch-stick acceptance, not physical-device or playable G59 evidence. */
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
@@ -10,11 +10,11 @@ import {webkit} from 'playwright';
 import {createContentService} from './content-service.mjs';
 import {createPlayerServer} from './serve.mjs';
 import {browserLaunchOptions,browserIdentity} from './browser-launch.mjs';
-import {profile,pos} from '../test/fixtures/g59-mapping-profile.mjs';
+import {pairedProfile,pos} from '../test/fixtures/g59-mapping-profile.mjs';
 const root=resolve(import.meta.dirname,'..');
 const out=join(root,'output','g59-mapping-browser-'+randomUUID());mkdirSync(out,{recursive:true});
 const sha=b=>createHash('sha256').update(b).digest('hex');
-const game=profile();game.id='org.a2game.synthetic.g59-mapping-browser';game.tests=[];
+const game=pairedProfile();game.id='org.a2game.synthetic.g59-mapping-browser';game.tests=[];
 game.world.clock.maxCatchUpTicks=30;
 const pred=(path,value)=>({op:'eq',args:[{state:path},{const:value}]});
 game.outcomes=[{id:'fixture-won',status:'won',when:{op:'and',args:[pred('/score',1),pred('/axis/0',.7071),pred('/axis/1',.7071),pred('/rightStick/0',.7071),pred('/rightStick/1',.7071)]}}];
@@ -39,8 +39,8 @@ const listen=async server=>{server.listen(0,'127.0.0.1');await once(server,'list
 const close=async server=>{if(server.listening){server.closeAllConnections();await new Promise(ok=>server.close(ok));}};
 const results=[];
 const run={
- scope:'synthetic navigator.getGamepads; real player/standalone and locked SDKs',gameSha256:sha(text),bundleDigest:pack.bundleDigest,
- sourceFiles:Object.fromEntries(['player/main.mjs','player/gamepad-host.mjs','src/gamepad-input.ts','packages/player-sdk/index.mjs','dist/gamepad-input.js'].map(path=>[path,sha(readFileSync(join(root,path)))])),
+ scope:'synthetic navigator.getGamepads and two DOM PointerEvent contacts; real player/standalone and locked SDKs',gameSha256:sha(text),bundleDigest:pack.bundleDigest,
+ sourceFiles:Object.fromEntries(['player/main.mjs','player/gamepad-host.mjs','src/gamepad-input.ts','src/mobile-input.ts','player/pointer-host.mjs','packages/player-sdk/index.mjs','dist/gamepad-input.js'].map(path=>[path,sha(readFileSync(join(root,path)))])),
  results
 };
 const options=browserLaunchOptions({A2GAME_BROWSER_EXECUTABLE:process.env.A2GAME_WEBKIT_EXECUTABLE});
@@ -51,7 +51,23 @@ try{
  for(const backend of ['three','cocosairjs'])for(const standalone of [false,true]){
   const context=await browser.newContext();
   try{
-   await context.addInitScript(()=>{window.testPads=[];Object.defineProperty(navigator,'getGamepads',{value:()=>window.testPads,configurable:true});});
+   await context.addInitScript(()=>{
+    window.testPads=[];Object.defineProperty(navigator,'getGamepads',{value:()=>window.testPads,configurable:true});
+    // Synthetic contacts do not exist in the browser's OS capture table. Only
+    // that native API is shimmed; normal PointerEvents, ResizeObserver and host
+    // dispatch code still run in the actual regular or standalone page.
+    const records=new WeakMap();
+    for(const [name,method] of Object.entries({
+     setPointerCapture:(s,id)=>s.add(id),hasPointerCapture:(s,id)=>s.has(id),releasePointerCapture:(s,id)=>s.delete(id)
+    })){
+     const native=Element.prototype[name];
+     Element.prototype[name]=function(id){
+      if(!(this instanceof HTMLCanvasElement)||id<101)return native.call(this,id);
+      if(!records.has(this))records.set(this,new Set());
+      return method(records.get(this),id);
+     };
+    }
+   });
    const page=await context.newPage(),errors=[];page.setDefaultTimeout(10000);page.on('pageerror',e=>errors.push(e.message));
    const id=backend==='cocosairjs'?'air':'three';
    await page.goto(standalone?staticOrigin+'/player/index.html?backend='+backend:
@@ -82,16 +98,56 @@ try{
    await setPad({mapping:''});await step();await waitDiag('samples',3);
    assert.equal((await diag()).trackedDevices,0);
    if(!standalone){const s=await state();assert.deepEqual([s.axis,s.rightStick],[[0,0],[0,0]]);}
-   await setPad({axes:[1,-1,1,-1],buttons:[{pressed:true,value:1}]});await step();
-   await page.waitForFunction(standalone?()=>window.examplePlayer.status()==='won':()=>window.__a2game.getState().flow.status==='won');
+   await page.evaluate(()=>{window.testPads=[];});await step();
    const canvas=page.locator(standalone?'#game canvas':'#GameCanvas');
+   const setCanvas=(w,h)=>canvas.evaluate((canvas,[w,h])=>{
+    canvas.style.setProperty('width',w+'px','important');canvas.style.setProperty('height',h+'px','important');
+   },[w,h]);
+   const shape=()=>canvas.evaluate(canvas=>{const {left,top,width,height}=canvas.getBoundingClientRect();return {left,top,width,height};});
+   const emit=(kind,pointerId,x,y)=>canvas.evaluate((canvas,{kind,pointerId,x,y})=>canvas.dispatchEvent(
+    new PointerEvent('pointer'+kind,{pointerId,clientX:x,clientY:y,pointerType:'touch',bubbles:true,buttons:kind==='up'?0:1})
+   ),{kind,pointerId,x,y});
+   const pointerDiag=()=>page.evaluate(standalone?()=>window.examplePlayer.diagnostics().pointer:()=>window.__a2game.diagnostics().pointer);
+   const waitPointers=value=>page.waitForFunction(({standalone,value})=>
+    (standalone?window.examplePlayer?.diagnostics():window.__a2game?.diagnostics())?.pointer?.activePointers===value,{standalone,value});
+   const pair=async()=>{
+    const box=await shape(),y=box.top+box.height*.5,x=box.left+box.width*.25,r=box.left+box.width*.75;
+    const send=(kind,which,dx=0,dy=0)=>emit(kind,which===0?101:102,(which===0?x:r)+dx,y+dy);
+    await send('down',0);await send('down',1);await send('move',0,30,-30);await send('move',1,-30,30);await step();
+    await waitPointers(2);return send;
+   };
+   const assertState=async expected=>{
+    if(standalone)return;
+    const s=await state();assert.deepEqual([s.axis,s.rightStick],expected);
+   };
+   const plus=[.7071,.7071],minus=[-.7071,-.7071],zero=[0,0];
+   for(const [w,h,first] of [[640,360,0],[360,640,1],[360,360,0]]){
+    await setCanvas(w,h);
+    const send=await pair();await assertState([plus,minus]);
+    await send('move',1,30,-30);await step();await assertState([plus,plus]);
+    await send('up',first);await step();await waitPointers(1);
+    await assertState(first===0?[zero,plus]:[plus,zero]);
+    await send('up',1-first);await step();await waitPointers(0);await assertState([zero,zero]);
+   }
+   await setCanvas(640,360);
+   const stale=await pair(),beforeResize=(await pointerDiag()).samples;
+   await setCanvas(480,270);await waitPointers(0);await step();
+   assert.equal((await pointerDiag()).samples,beforeResize+2);
+   await stale('move',0);await stale('move',1);await step();
+   assert.equal((await pointerDiag()).samples,beforeResize+2);await assertState([zero,zero]);
+   await setCanvas(640,360);
+   const fresh=await pair();await fresh('move',1,30,-30);await step();await assertState([plus,plus]);
+   if(standalone)await page.locator('#controls button[data-action=collect]').click();
+   else await page.locator('button[data-action=collect]:visible').first().click();
+   await step();
+   await page.waitForFunction(standalone?()=>window.examplePlayer.status()==='won':()=>window.__a2game.getState().flow.status==='won');
    const dimensions=await canvas.evaluate(e=>[e.width,e.height]);assert.ok(dimensions.every(n=>n>0));
    if(standalone){
     assert.ok(observed.has('/player/vendor/'+(backend==='three'?'three.module.js':'cocosair.js')));
     await page.evaluate(()=>window.examplePlayer.dispose());
    }else await page.evaluate(()=>window.__a2game.dispose());
    assert.deepEqual(errors,[]);
-   results.push({backend,standalone,dimensions,result:'REMAP_NEUTRALIZED_THEN_WON'});
+   results.push({backend,standalone,dimensions,result:'REMAP_AND_RESIZE_NEUTRALIZED_THEN_WON_VIA_TOUCH'});
   }finally{observed.clear();await context.close();}
  }
 } finally {
