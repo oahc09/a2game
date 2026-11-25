@@ -1,0 +1,73 @@
+{
+  "status": "PASS_REFERENCE",
+  "scope": "ordinary HTTP player with real SDK and browser keyboard; no physical device/G3",
+  "browser": "27.2",
+  "playerSha256": "e36ea26fe005576b278c8e8083038ed8a8bea2b92df4788a8efac79210b05808",
+  "harnessSha256": "5862819350bb86f9bcade55d9ac3a43e5037ea73a902aa7c89022e5a781f7ac6",
+  "sdk": {
+    "three": "0.186.1",
+    "cocosairjs": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "backend": "three",
+      "game": "g35-minesweeper",
+      "cases": [
+        "native-pause-space",
+        "native-resume-enter",
+        "native-toggle-space",
+        "gameplay-canvas-space"
+      ]
+    },
+    {
+      "backend": "three",
+      "game": "g11-candidate",
+      "cases": [
+        "held-release-across-focus",
+        "no-native-unmatched-release"
+      ]
+    },
+    {
+      "backend": "air",
+      "game": "g35-minesweeper",
+      "cases": [
+        "native-pause-space",
+        "native-resume-enter",
+        "native-toggle-space",
+        "gameplay-canvas-space"
+      ]
+    },
+    {
+      "backend": "air",
+      "game": "g11-candidate",
+      "cases": [
+        "held-release-across-focus",
+        "no-native-unmatched-release"
+      ]
+    }
+  ],
+  "before": {
+    "commit": "4f31b3624707d7e6f7e1adb6ef7c615795a1e7b2",
+    "status": "REPRODUCED",
+    "assertion": "Focused native Space must pause, not flag",
+    "actual": "playing",
+    "expected": "paused"
+  }
+}
