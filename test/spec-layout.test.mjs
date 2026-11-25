@@ -14,7 +14,7 @@ const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha25
 const publicContractRevisions={
   "specs/v0.1/capabilities/a2game.input.gamepad.axis2.capability.json": {
     "before": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39",
-    "current": "aed497dab5cd5ad28e3df4856b1b43ce38f8107127a0846ddef14c750c4dd8e7"
+    "current": "c8e5139bc4d0fb7257bfc223cd4a0912af95c44dd0ca59429bd023e3994bbf0d"
   },
   "specs/v0.1/capabilities/a2game.input.gamepad.button.capability.json": {
     "before": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2",
@@ -34,7 +34,7 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "0276f2777c2994c3238c51c652afbc7569f786c267ad5a49cc1ed800c5c78ede"
+    "current": "df5b938c237ec00538387737752e25c4d80beab8456fc2b89a8f21a702bab17f"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
@@ -106,7 +106,7 @@ test('HTTP exposes canonical game/capability URLs while keeping protocol tools a
   globalThis.fetch=(url,...args)=>originalFetch(new URL(url,origin+'/player/'),...args);
   const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,read('project/status.json').coverage.referenceDemoGames);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
   assert.ok(catalog.some(c=>c.path==='/specs/v0.1/games/body-motif.game.json'));
-  for(const slug of ['g35-minesweeper','g35-minesweeper-wide']){
+  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g59-neon-arena','g59-neon-arena-mirror']){
    const id='org.a2game.games.'+slug;
    assert.ok(catalog.some(c=>c.id===id&&c.path==='/specs/v0.1/games/'+slug+'.game.json'));
    assert.equal((await loadBuiltinGame(slug)).id,id);

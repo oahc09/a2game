@@ -332,6 +332,18 @@
             "down": {
               "type": "string",
               "minLength": 1
+            },
+            "aimLeft": {
+              "type": "string"
+            },
+            "aimRight": {
+              "type": "string"
+            },
+            "aimDown": {
+              "type": "string"
+            },
+            "aimUp": {
+              "type": "string"
             }
           },
           "required": [],
@@ -531,6 +543,29 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 120
+        },
+        "stickActions": {
+          "type": "object",
+          "description": "Opt-in live twin-stick arena input and reticle. Vec2 move/aim sampled at this Tick, never latched from game state; keyboard held actions are fallback.",
+          "properties": {
+            "move": {
+              "type": "string"
+            },
+            "aim": {
+              "type": "string"
+            },
+            "reticleStep": {
+              "type": "integer",
+              "minimum": 50,
+              "maximum": 1000
+            }
+          },
+          "required": [
+            "move",
+            "aim",
+            "reticleStep"
+          ],
+          "additionalProperties": false
         }
       },
       "required": [

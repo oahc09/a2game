@@ -12,7 +12,7 @@ export interface WorldBody {
 export interface IntegerWorld {
     bodies:WorldBody[]; score:number; charge:number; nextId:number;
     cooldowns:Record<string,number>; contacts:string[]; spawned:number[];
-    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number;
+    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number; crosshair?:number[]; health?:number; timeLeft?:number;
 }
 function err(why:string):never { return fail('A2G_E_CAP_CONFIG',why); }
 const integer=(value:unknown,min:number,max:number):value is number=>safeInteger(value)&&value>=min&&value<=max;
@@ -52,6 +52,15 @@ function validateConfig(c:Readonly<JsonRecord>):void {
     if(c.aimMetric!==undefined&&c.aimMetric!=='manhattan'&&c.aimMetric!=='euclidean')err('Invalid aim metric');
     if(c.aimMetric==='euclidean'&&c.weaponRange!==undefined&&!integer(c.weaponRange,1,32000))err('Invalid Euclidean weapon range');
     if(c.actions!==undefined&&!isRecord(c.actions))err('Invalid world actions');
+    if(c.stickActions!==undefined){
+        const input=c.stickActions;
+        if(!isRecord(input)||typeof input.move!=='string'||typeof input.aim!=='string'||input.move===input.aim||
+            !integer(input.reticleStep,50,1000)||!integer(c.maxTicks,1,1000000)||
+            (Math.floor(Number(c.width)/input.reticleStep)+1)*(Math.floor(Number(c.height)/input.reticleStep)+1)>4096||
+            c.heldMovement===true||c.laneCenters!==undefined||c.aimPath!==undefined||c.autoFire===true||
+            c.autoTarget===true||c.fireRequestPath!==undefined||c.aimMetric!=='euclidean')
+            err('Invalid live-stick combat profile');
+    }
     if(c.platformLanding!==undefined&&typeof c.platformLanding!=='boolean')err('Invalid platform landing mode');
     if(c.laneCenters!==undefined){
         if(!Array.isArray(c.laneCenters)||c.laneCenters.length<2||c.laneCenters.length>16||c.laneCenters.some((x,i,a)=>!integer(x,16,32000)||i>0&&Number(a[i-1])>=x))err('Invalid ordered lane centers');
@@ -84,6 +93,23 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const release=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&e.edge==='release');
     const cancel=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&e.edge==='cancel');
     const ended=(name:string)=>release(name)||cancel(name);
+    const sticks=isRecord(c.stickActions)?c.stickActions:undefined;
+    const round=(v:number)=>Math.sign(v)*Math.round(Math.abs(v))||0;
+    const active=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&(e.edge==='press'||e.edge==='hold'));
+    const fromKeys=(left:string,right:string,down:string,up:string):[number,number]=>{
+        const x=Number(active(right))-Number(active(left)),y=Number(active(up))-Number(active(down));
+        const len=Math.sqrt(x*x+y*y)||1;return [x/len,y/len];
+    };
+    const fromStick=(name:Json,keys:[number,number]):[number,number]=>{
+        const pressed=ctx.inputs.filter(e=>e.type==='input.action'&&e.action===name&&e.edge==='press');
+        const touch=pressed.filter(e=>e.sourceId?.startsWith('touch-stick:'));
+        const v=(touch.at(-1)??pressed.at(-1))?.payload.value;
+        if(!Array.isArray(v)||v.length!==2||!v.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=1))return keys;
+        const x=Number(v[0]),y=Number(v[1]);if(x===0&&y===0)return keys;
+        const len=Math.max(1,Math.sqrt(x*x+y*y));return [x/len,y/len];
+    };
+    const liveAim=sticks?fromStick(sticks.aim!,fromKeys('aimLeft','aimRight','aimDown','aimUp')):undefined;
+
     const spawn=(body:WorldBody):boolean=>{
         if(w.bodies.length>=maximum){emit('realtime.pool-full',{});return false;}
         if(w.bodies.some(b=>b.id===body.id))err('Spawn ID already alive');w.bodies.push(body);emit('realtime.spawned',{id:body.id});return true;
@@ -94,6 +120,10 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     }
     let selectedLane:number|undefined;const centers=c.laneCenters as number[]|undefined;
     if(actor){
+        if(sticks){
+            const v=fromStick(sticks.move!,fromKeys('left','right','down','up')),speed=Number(c.moveSpeed??64);
+            actor.vx=round(v[0]*speed);actor.vy=round(v[1]*speed);
+        }else{
         if(c.heldMovement===true){actor.vx=0;actor.vy=0;
             const active=(name:string)=>ctx.inputs.some(e=>e.type==='input.action'&&e.action===actions[name]&&(e.edge==='press'||e.edge==='hold'));
             actor.vx=((active('right')?1:0)-(active('left')?1:0))*Number(c.moveSpeed??64);
@@ -103,6 +133,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if(ended('left')&&actor.vx<0||ended('right')&&actor.vx>0)actor.vx=0;
         if(c.heldMovement!==true){if(press('up'))actor.vy=Number(c.moveSpeed??64);if(press('down'))actor.vy=-Number(c.moveSpeed??64);}
         if(ended('up')&&actor.vy>0||ended('down')&&actor.vy<0)actor.vy=0;
+        }
         const lane=clamp((press('laneRight')?1:0)-(press('laneLeft')?1:0)+laneRequest,-1,1);
         if(centers){const nearest=centers.reduce((best,x,i)=>Math.abs(x-actor.x)<Math.abs(centers[best]!-actor.x)?i:best,0);selectedLane=clamp(nearest+lane,0,centers.length-1);actor.x=centers[selectedLane]!;actor.vx=0;}
         else if(lane)actor.x=clamp(actor.x+lane*Number(c.laneWidth??1000),actor.hx,Number(c.width)-actor.hx);
@@ -119,10 +150,10 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         const limit=circular?range*range:range;
         const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&distance(b)<=limit)
             .sort((a,b)=>distance(a)-distance(b)||stableCompare(a.id,b.id));
-        if((press('fire')||c.autoFire===true||requested)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
+        if((liveAim?liveAim[0]!==0||liveAim[1]!==0:press('fire')||c.autoFire===true||requested)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
             const target=targets[0];let fired=false;
             const directions={right:[1,0],left:[-1,0],up:[0,1],down:[0,-1]},base=directions[String(c.fireDirection??'right') as keyof typeof directions]??[1,0];
-            const aim=c.aimPath?bound('aimPath'):target&&c.autoTarget===true?[target.x-actor.x,target.y-actor.y]:base;
+            const aim=liveAim??(c.aimPath?bound('aimPath'):target&&c.autoTarget===true?[target.x-actor.x,target.y-actor.y]:base);
             if(!Array.isArray(aim)||aim.length!==2||!aim.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=32000))err('Invalid bound aim vector');
             const x=Number(aim[0]),y=Number(aim[1]);
             const scale=Math.max(Math.abs(x),Math.abs(y));
@@ -156,7 +187,13 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const previousGrounded=new Set(w.grounded),grounded=new Set<string>(),contacts=new Set<string>(),landings=new Map<string,JsonRecord>();
     for(const b of w.bodies)if(!b.fixed&&(b.kind!=='projectile'||c.projectileGravity===true)){
         b.vx=clamp(b.vx+Math.round(Number(tilt[0])*16),-128,128);b.vy=clamp(b.vy+Number(c.gravity??0)-Math.round(Number(tilt[1])*16),-128,128);
-        if(actor&&b.kind==='target'&&Number(c.seekSpeed??0)>0)b.vx=Math.sign(actor.x-b.x)*Number(c.seekSpeed);
+        if(actor&&b.kind==='target'&&Number(c.seekSpeed??0)>0){
+            const speed=Number(c.seekSpeed);
+            if(sticks){
+                const x=actor.x-b.x,y=actor.y-b.y,len=Math.max(1,Math.sqrt(x*x+y*y));
+                b.vx=round(x/len*speed);b.vy=round(y/len*speed);
+            }else b.vx=Math.sign(actor.x-b.x)*speed;
+        }
         if(b.kind==='target')b.vx=clamp(b.vx+Number(c.scrollSpeed??0),-128,128);
     }
     // Integral remainder distribution prevents rounding drift across substeps.
@@ -210,6 +247,16 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     if(overflow)emit('realtime.failed',{reason:'overflow'});
     if(timedOut||below)emit('realtime.failed',{reason:timedOut?'timeout':'below-boundary'});
     w.lost=overflow||timedOut||below||Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
+    if(sticks){
+        w.health=actor?.hp??0;w.timeLeft=Math.max(0,Number(c.maxTicks)-ctx.tickIndex-1);w.crosshair=[];
+        if(actor&&actor.hp>0&&liveAim&&(liveAim[0]!==0||liveAim[1]!==0)){
+            const step=Number(sticks.reticleStep),cols=Math.floor(Number(c.width)/step)+1,rows=Math.floor(Number(c.height)/step)+1;
+            const len=Math.sqrt(liveAim[0]**2+liveAim[1]**2);
+            const x=clamp(Math.round((actor.x+liveAim[0]/len*650)/step),0,cols-1);
+            const y=clamp(Math.round((Number(c.height)-actor.y-liveAim[1]/len*650)/step),0,rows-1);
+            w.crosshair=[y*cols+x];
+        }
+    }
     validateWorldState(w,c,admittedTargets);
     return {proposals:[{kind:'state.set',path:String(c.statePath),value:w as unknown as Json},...(c.fireRequestPath?[{kind:'state.set' as const,path:String(c.fireRequestPath),value:false}]:[]),...(c.laneRequestPath?[{kind:'state.set' as const,path:String(c.laneRequestPath),value:0}]:[])],events};
 }
@@ -219,6 +266,12 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
     for(const entity of [...def.scenes.flatMap(s=>s.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.realtime.world'){
         const c=component.config;validateConfig(c);const w=validateIntegerWorld(readPointer(state,String(c.statePath)),c);
         if(Array.isArray(c.laneCenters)){const actor=w.bodies.find(b=>b.kind==='actor');if(!actor||actor.vx!==0||!c.laneCenters.includes(actor.x)||c.laneCenters.some(x=>Number(x)<actor.hx||Number(x)>Number(c.width)-actor.hx))err('Lane actor and centers must fit the world');}
+        if(isRecord(c.stickActions)){
+            for(const action of [c.stickActions.move,c.stickActions.aim])
+                if(!def.inputs.actions.some(a=>a.id===action&&a.valueType==='vec2'))err('Live-stick actions must be declared vec2 inputs');
+            if(w.bodies.filter(b=>b.kind==='actor').length!==1||w.bodies.some(b=>b.kind==='actor'&&(b.fixed||b.value!==0)))
+                err('Live-stick world needs one moving zero-score actor');
+        }
         for(const name of Object.values((c.actions??{}) as JsonRecord))if(!def.inputs.actions.some(a=>a.id===name))err('Unknown realtime action');
         for(const key of ['aimPath','fireRequestPath','powerPath','damageBonusPath','laneRequestPath','tiltGravityPath'])if(c[key]!==undefined){
             const value=readPointer(state,String(c[key]));

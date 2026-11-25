@@ -476,7 +476,7 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 115,
+    "referenceDemoGames": 117,
     "referenceCapabilityManifests": 129
   },
   "blockingItems": [
@@ -2190,5 +2190,14 @@
     "ordinaryAndStandalone": "SUPPORTED",
     "gameplay": "NOT_RUN",
     "physicalTouch": "NOT_RUN"
+  },
+  "g59ArenaReference": {
+    "status": "PARTIAL",
+    "layouts": ["g59-neon-arena", "g59-neon-arena-mirror"],
+    "settlement": "SCORE_QUOTA_OR_LOSS",
+    "crossInputFixture": "ENGINEERING_ONLY",
+    "personalBestPersistence": "NOT_IMPLEMENTED",
+    "playerClockExtendedSoak": "NOT_RUN",
+    "physicalTouchAndGamepad": "NOT_RUN"
   }
 }

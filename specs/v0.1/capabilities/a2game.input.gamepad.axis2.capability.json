@@ -47,6 +47,10 @@
         "invertY": {
           "type": "boolean",
           "description": "Optional Y sign inversion after dead-zone filtering. For standard sticks, true converts browser negative-up axes to world positive-up. Default false."
+        },
+        "repeat": {
+          "type": "boolean",
+          "description": "Opt in to one current vector at every fixed Tick while connected; neutral after a zero sample, no live vector on disconnect or resume until fresh input."
         }
       },
       "required": [

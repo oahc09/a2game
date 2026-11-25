@@ -1,0 +1,81 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "g59-neon-arena-mirror",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.games.g59-neon-arena-mirror",
+    "file": "../games/g59-neon-arena-mirror.game.json"
+  },
+  "cases": [
+    {
+      "id": "G59-QUOTA",
+      "seed": 592,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "gamepad",
+            "kind": "sample",
+            "payload": {
+              "index": 0,
+              "connected": true,
+              "buttons": [],
+              "axes": [
+                0,
+                0,
+                -1,
+                0
+              ]
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 205
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 30
+        }
+      ]
+    },
+    {
+      "id": "G59-NO-INPUT",
+      "seed": 592,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 700
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/health",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

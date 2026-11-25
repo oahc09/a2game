@@ -26,7 +26,7 @@ export function recognizeGamepadInput(stage:SessionSnapshot,batch:NormalizedRawI
   const key='~gamepad:'+p.index,previous=stage.activePointers[key],buttons=p.connected?p.buttons:[],axes=p.connected?p.axes.map(n=>Math.round(Number(n)*10000)/10000):[];
   for(const {action,binding,c} of bindings){if(Number(c.index??0)!==p.index)continue;
    if(binding.source==='gamepad.button'){const id=source(p.index,Number(c.button)),was=Boolean((previous?.buttons as boolean[]|undefined)?.[Number(c.button)]),pressed=Boolean(buttons[Number(c.button)]);if(pressed!==was)emit(action.id,pressed?'press':'release',id,undefined,sample.timeUs);}
-   else {
+   else if(c.repeat!==true){
     const dz=Number(c.deadZone??0.1),xi=Number(c.xAxis),yi=Number(c.yAxis),old=previous?.axes as number[]|undefined;
     const x=axes[xi]??0,y=axes[yi]??0;
     let value:[number,number],changed:boolean;
@@ -44,6 +44,16 @@ export function recognizeGamepadInput(stage:SessionSnapshot,batch:NormalizedRawI
   }
   if(p.connected)stage.activePointers[key]={buttons,axes} as JsonRecord;else delete stage.activePointers[key];
  }
+ // An opt-in live axis exports the last raw value at every Tick without polling extra in the host.
+ for(const {action,binding,c} of bindings)if(binding.source==='gamepad.axis2'&&c.repeat===true){
+  const index=Number(c.index??0),axes=stage.activePointers['~gamepad:'+index]?.axes as number[]|undefined;
+  if(!axes)continue;
+  const dz=Number(c.deadZone??.1),x=axes[Number(c.xAxis)]??0,y=axes[Number(c.yAxis)]??0;
+  const v=c.deadZoneMode==='radial'?radialAxes(x,y,dz):[Math.abs(x)<dz?0:x,Math.abs(y)<dz?0:y];
+  if(c.invertY===true&&v[1]!==0)v[1]=-v[1]!;
+  const id=`gamepad:${index}:axis:${action.id}`;
+  emit(action.id,'press',id,v);emit(action.id,'release',id);
+ }
  // Held buttons are part of shared checkpointed state, so replay needs no repeated hardware samples.
  for(const {action,binding,c} of bindings)if(binding.source==='gamepad.button'){const index=Number(c.index??0),button=Number(c.button),id=source(index,button);if((stage.activePointers['~gamepad:'+index]?.buttons as boolean[]|undefined)?.[button]&&stage.pressedSources[action.id]?.includes(id)&&!out.some(a=>a.sourceId===id))emit(action.id,'hold',id);}
  return out;
@@ -56,6 +66,7 @@ export function validateGamepadBindings(game:GameDefinition):void {
   if(action.valueType!==(axis?'vec2':'button'))fail('A2G_E_INPUT_ACTION','Gamepad binding has wrong value type');
   const c=binding.config??{},standard=c.mapping==='standard',index=Number(c.index??0);
   if(c.mapping!==undefined&&!standard)fail('A2G_E_INPUT_ACTION','Unknown Gamepad mapping');
+  if(c.repeat!==undefined&&(!axis||typeof c.repeat!=='boolean'))fail('A2G_E_INPUT_ACTION','Gamepad repeat requires an axis2 boolean');
   if(c.invertY!==undefined&&(!axis||typeof c.invertY!=='boolean'))
    fail('A2G_E_INPUT_ACTION','Gamepad invertY requires an axis2 boolean');
   if(standard&&((c.index!==undefined&&!safeInteger(c.index))||index<0||index>3

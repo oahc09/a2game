@@ -406,6 +406,18 @@
       "revision": 1,
       "sha256Jcs": "e44c1b1357d11f076ff20ce0ab8ed2f89359a5f3db076bda5c7eed5deb936917"
     },
+    "/specs/v0.1/games/g59-neon-arena-mirror.game.json": {
+      "id": "org.a2game.games.g59-neon-arena-mirror",
+      "title": "霓虹回路 · 镜像回廊",
+      "revision": 1,
+      "sha256Jcs": "be44b3e5f46bc5b0c2833b4fa3d6a9885a67f24c248df9666519d209168a25c3"
+    },
+    "/specs/v0.1/games/g59-neon-arena.game.json": {
+      "id": "org.a2game.games.g59-neon-arena",
+      "title": "霓虹回路 · 双摇杆试炼",
+      "revision": 1,
+      "sha256Jcs": "ddea18b51f377c897c575d10a680eb8feca9e8bee649e7a7069e80c8d6f66d9c"
+    },
     "/specs/v0.1/games/gamepad-lab.game.json": {
       "id": "org.a2game.samples.gamepad-lab",
       "title": "手柄扩展与键盘回退",
