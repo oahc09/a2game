@@ -2166,5 +2166,14 @@
       "Historical Air incident has no captured dimensions; unique historical cause is not certified",
       "Old-source executable SDKs require fresh publication rather than silent migration"
     ]
+  },
+  "g59AimGeometryPreparation": {
+    "status": "PARTIAL",
+    "default": "manhattan",
+    "optIn": "euclidean",
+    "verificationScope": "NODE_MECHANISM_ONLY",
+    "gameplay": "NOT_RUN",
+    "browser": "NOT_RUN",
+    "physicalGamepad": "NOT_RUN"
   }
 }

@@ -49,6 +49,8 @@ function validateConfig(c:Readonly<JsonRecord>):void {
     if(typeof c.statePath!=='string'||!c.statePath.startsWith('/')||!integer(c.width,256,32000)||!integer(c.height,256,32000))err('Invalid integer world config');
     const ranges:Record<string,[number,number]>={overflowTicks:[1,120],overflowY:[16,32000],gravity:[-16,16],moveSpeed:[0,128],jumpSpeed:[0,128],maxCharge:[1,120],restitution:[0,1000],maxObjects:[1,128],projectileSpeed:[1,128],projectileHalfSize:[16,128],damage:[1,1000],cooldownTicks:[1,600],invulnerabilityTicks:[0,600],goalScore:[1,1000000],seekSpeed:[0,128],scrollSpeed:[-128,128],laneWidth:[16,32000]};
     for(const [key,[min,max]] of Object.entries(ranges))if(c[key]!==undefined&&!integer(c[key],min,max))err('Invalid world '+key);
+    if(c.aimMetric!==undefined&&c.aimMetric!=='manhattan'&&c.aimMetric!=='euclidean')err('Invalid aim metric');
+    if(c.aimMetric==='euclidean'&&c.weaponRange!==undefined&&!integer(c.weaponRange,1,32000))err('Invalid Euclidean weapon range');
     if(c.actions!==undefined&&!isRecord(c.actions))err('Invalid world actions');
     if(c.platformLanding!==undefined&&typeof c.platformLanding!=='boolean')err('Invalid platform landing mode');
     if(c.laneCenters!==undefined){
@@ -109,21 +111,35 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if((press('jump')||release('charge'))&&(c.allowAirJump===true||w.grounded.includes(actor.id))){
             actor.vy=Math.min(128,Number(c.jumpSpeed??96)+w.charge);if(c.jumpHorizontalSpeed!==undefined)actor.vx=Math.min(128,Number(c.jumpHorizontalSpeed)+Math.floor(w.charge/4));w.charge=0;emit('realtime.jumped',{id:actor.id});
         }
-        const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y)<=Number(c.weaponRange??32000)).sort((a,b)=>(Math.abs(a.x-actor.x)+Math.abs(a.y-actor.y))-(Math.abs(b.x-actor.x)+Math.abs(b.y-actor.y))||stableCompare(a.id,b.id));
+        const circular=c.aimMetric==='euclidean',range=Number(c.weaponRange??32000);
+        const distance=(b:WorldBody)=>{
+            const x=b.x-actor.x,y=b.y-actor.y;
+            return circular?x*x+y*y:Math.abs(x)+Math.abs(y);
+        };
+        const limit=circular?range*range:range;
+        const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0&&distance(b)<=limit)
+            .sort((a,b)=>distance(a)-distance(b)||stableCompare(a.id,b.id));
         if((press('fire')||c.autoFire===true||requested)&&ctx.tickIndex>=(w.cooldowns[actor.id]??0)){
             const target=targets[0];let fired=false;
             const directions={right:[1,0],left:[-1,0],up:[0,1],down:[0,-1]},base=directions[String(c.fireDirection??'right') as keyof typeof directions]??[1,0];
             const aim=c.aimPath?bound('aimPath'):target&&c.autoTarget===true?[target.x-actor.x,target.y-actor.y]:base;
             if(!Array.isArray(aim)||aim.length!==2||!aim.every(n=>typeof n==='number'&&Number.isFinite(n)&&Math.abs(n)<=32000))err('Invalid bound aim vector');
-            const total=Math.abs(Number(aim[0]))+Math.abs(Number(aim[1])),direction=total>0?[Number(aim[0])/total,Number(aim[1])/total]:base;
+            const x=Number(aim[0]),y=Number(aim[1]);
+            const scale=Math.max(Math.abs(x),Math.abs(y));
+            // Scale before squaring to avoid underflow for an admitted tiny nonzero aim.
+            const dx=scale?x/scale:0,dy=scale?y/scale:0;
+            const total=Math.abs(x)+Math.abs(y),length=circular?Math.sqrt(dx*dx+dy*dy):total;
+            const direction=length>0?(circular?[dx/length,dy/length]:[x/length,y/length]):base;
             if(c.weapon==='hitscan'){
-                const range=Number(c.weaponRange??32000),end=[actor.x+direction[0]!*range,actor.y+direction[1]!*range];
+                const end=[actor.x+direction[0]!*range,actor.y+direction[1]!*range];
                 const hit=[...targets,...w.bodies.filter(b=>b.kind==='solid')].map(body=>({body,t:segmentAabb([actor.x,actor.y],end,body)})).filter(row=>row.t!==undefined).sort((a,b)=>a.t!-b.t!||stableCompare(a.body.id,b.body.id))[0]?.body;
                 if(hit?.kind==='target')damage(hit,damageValue,actor.id);fired=true;
             }else{
                 const speed=Math.max(1,Math.round(Number(c.projectileSpeed??128)*Math.max(0.1,power)));
+                // Symmetric nearest-integer rounding keeps a unit-speed diagonal moving.
+                const quantize=circular?(v:number)=>Math.sign(v)*Math.round(Math.abs(v))||0:Math.trunc;
                 const id=`shot_${w.nextId}`;
-                if(!w.bodies.some(b=>b.id===id)){const half=Number(c.projectileHalfSize??16);fired=spawn({id,kind:'projectile',x:actor.x,y:actor.y,vx:Math.trunc(direction[0]!*speed),vy:Math.trunc(direction[1]!*speed),hx:half,hy:half,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});}
+                if(!w.bodies.some(b=>b.id===id)){const half=Number(c.projectileHalfSize??16);fired=spawn({id,kind:'projectile',x:actor.x,y:actor.y,vx:quantize(direction[0]!*speed),vy:quantize(direction[1]!*speed),hx:half,hy:half,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});}
                 if(fired)w.nextId++;
             }
             if(fired){w.cooldowns[actor.id]=ctx.tickIndex+Number(c.cooldownTicks??10);emit('combat.fired',{id:actor.id});}

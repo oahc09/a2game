@@ -26,7 +26,7 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "3fd357b91c31f1f507a6936640a42d3d6c1eb45e3ef79bf580b7f259df1fa120"
+    "current": "0276f2777c2994c3238c51c652afbc7569f786c267ad5a49cc1ed800c5c78ede"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
