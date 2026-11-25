@@ -12,6 +12,10 @@ import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 // Explicit post-migration public-contract revisions; never qualify old evidence for new bytes.
 const publicContractRevisions={
+  "specs/v0.1/capabilities/a2game.input.gamepad.axis2.capability.json": {
+    "before": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39",
+    "current": "f800710756cef4b74c6780286917789f0cebb3e7dc21fd63268fbc831b9f8184"
+  },
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
     "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"

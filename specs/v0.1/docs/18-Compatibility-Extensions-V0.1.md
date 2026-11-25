@@ -44,6 +44,10 @@ npm run player:serve
 
 最多 4 设备、32 按钮、16 轴；轴范围 [-1,1]，量化 1e-4，绑定有死区。按钮 press/hold/release 及来源 OR 合并在共享 Runtime；保持状态参与 Snapshot/Hash，回放不依赖重复的硬件采样。断连释放按钮并中和轴，暂停清空缓存。越界或错误类型受控拒绝并回滚。
 
+`gamepad.axis2` 默认仍使用旧版逐分量死区，不改变现有 Gamepad Lab、Raw Trace 或已发布存档。仅在绑定为 `{ "xAxis": 0, "yAxis": 1, "deadZone": 0.2, "deadZoneMode": "radial" }` 时采用径向死区；两轴必须不同。对量化后的向量计算半径 `r`，`r ≤ deadZone` 输出中性，其余保留方向，将半径映射到 `(min(r, 1) − deadZone) / (1 − deadZone)`，最后以 1e-4 量化组件并保持长度不超过 1。仅在映射值变化时发出轴更新，回到中性及已跟踪设备断连发送零向量。不应将 `vec2` 更新使用的 press 边沿当射击按钮；玩法按非零瞄准值或独立射击动作决定。配置变更应作为新 GameSpec 修订，旧定义继续按原方式回放。
+
+两个径向绑定可以消费同一设备中独立的轴对；这不规定硬件轴编号或标准布局。G59 尚需实际设备映射准入、键鼠/触控回退、玩法与双 SDK 工程验收，不能因合成向量测试通过改写正式验收状态。
+
 `player/gamepad-host.mjs` 只在用户点“启用手柄”后，沿现有唯一逻辑 Tick 的边界调用原生 API；硬件采样不创建第二个游戏时钟。API 不可用/拒绝时说明回退；暂停、重开、录制重开、失焦及销毁停止采样。示例 `gamepad-lab` 用 Space/collect 与 ArrowRight/lookRight 提供无硬件回退。
 
 真实 SDK 验收中的临时 `navigator.getGamepads` 夹具是虚拟设备；它证明 Host 采样→识别→录制/存档→回放链，不是真实手柄或 Android Touch/IMU 证据。物理设备仍需独立设备/系统/浏览器、授权、采样和生命周期回执。

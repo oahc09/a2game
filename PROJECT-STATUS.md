@@ -1,5 +1,8 @@
 # A2Game 当前进展
 
+G59 输入前置：已添加可选径向摇杆映射及 Node 回归；旧 Gamepad Lab 不变。详见 [协议与边界](specs/v0.1/docs/18-Compatibility-Extensions-V0.1.md#新设备gamepad-按钮与双轴)。G59 玩法、标准/非标准硬件轴映射、浏览器和真机仍待验。
+
+
 2026-11-22 R1/G35：扫雷共享能力接入 4×4/3 雷与 5×4/4 雷两套布局，36 个首击位置和四条胜负一致性用例通过；WebKit 上以真实 CocosAirJS、Three.js 完成四组试玩和独立包验证。参考目录 115 份游戏、129 个能力，正式 32＋5、G3 和真机状态不变。[使用及复验](docs/g35-minesweeper.md) · [专项回执](project/evidence/g35-webkit-reference.json)。
 
 更新日期：2026-11-22。**项目仍在开发；当前优先功能与问题收口，随后进行实际验证与正式验收。**

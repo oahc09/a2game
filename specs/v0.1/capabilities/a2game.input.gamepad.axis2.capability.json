@@ -36,6 +36,9 @@
           "type": "number",
           "minimum": 0,
           "maximum": 0.9
+        },
+        "deadZoneMode": {
+          "const": "radial"
         }
       },
       "required": [
