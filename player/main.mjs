@@ -226,7 +226,7 @@ async function main(){
    runtime=new HeadlessRuntime(definition,registry);
    traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
-   gamepadHost=createGamepadHost({inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
+   gamepadHost=createGamepadHost({definition,inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
    if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source.startsWith('gamepad.')))){const control=document.createElement('button'),status=document.createElement('span');control.id='gamepadEnable';control.textContent='启用手柄';status.id='gamepadStatus';status.setAttribute('role','status');listen(control,'click',()=>gamepadHost.enable());document.getElementById('extraActions').append(control,status);}
    const imuDeclared=definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.'));
    document.getElementById('mobilePanel').hidden=!imuDeclared&&definition.inputs.traceRecording!=='user-opt-in';

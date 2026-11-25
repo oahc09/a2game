@@ -2175,5 +2175,13 @@
     "gameplay": "NOT_RUN",
     "browser": "NOT_RUN",
     "physicalGamepad": "NOT_RUN"
+  },
+  "g59NativeLayoutPreparation": {
+    "status": "PARTIAL",
+    "ordinaryPlayer": "SUPPORTED",
+    "standalonePlayer": "SUPPORTED",
+    "browserInputSource": "SYNTHETIC_GAMEPAD",
+    "dualTouch": "NOT_RUN",
+    "physicalGamepad": "NOT_RUN"
   }
 }

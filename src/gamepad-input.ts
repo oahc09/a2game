@@ -38,6 +38,7 @@ export function recognizeGamepadInput(stage:SessionSnapshot,batch:NormalizedRawI
      value=[Math.abs(x)<dz?0:x,Math.abs(y)<dz?0:y];
      changed=!previous||!p.connected||old?.[xi]!==axes[xi]||old?.[yi]!==axes[yi];
     }
+    if(c.invertY===true&&value[1]!==0)value[1]=-value[1];
     if(changed){const id=`gamepad:${p.index}:axis:${action.id}`;emit(action.id,'press',id,value,sample.timeUs);emit(action.id,'release',id,undefined,sample.timeUs);}
    }
   }
@@ -48,12 +49,23 @@ export function recognizeGamepadInput(stage:SessionSnapshot,batch:NormalizedRawI
  return out;
 }
 export function validateGamepadBindings(game:GameDefinition):void {
+ const mappingByIndex=new Map<number,boolean>();
  for(const action of game.inputs.actions)for(const binding of action.bindings){
   if(!(binding.source in gamepadInputSources))continue;
   const axis=binding.source==='gamepad.axis2';
   if(action.valueType!==(axis?'vec2':'button'))fail('A2G_E_INPUT_ACTION','Gamepad binding has wrong value type');
-  const c=binding.config;
-  if(c?.deadZoneMode===undefined)continue;
+  const c=binding.config??{},standard=c.mapping==='standard',index=Number(c.index??0);
+  if(c.mapping!==undefined&&!standard)fail('A2G_E_INPUT_ACTION','Unknown Gamepad mapping');
+  if(c.invertY!==undefined&&(!axis||typeof c.invertY!=='boolean'))
+   fail('A2G_E_INPUT_ACTION','Gamepad invertY requires an axis2 boolean');
+  if(standard&&((c.index!==undefined&&!safeInteger(c.index))||index<0||index>3
+    ||axis&&!((c.xAxis===0&&c.yAxis===1)||(c.xAxis===2&&c.yAxis===3))
+    ||!axis&&(!safeInteger(c.button)||c.button<0||c.button>16)))
+   fail('A2G_E_INPUT_ACTION','Standard Gamepad requires an index 0–3, matched axes 0/1 or 2/3, or a standard button 0–16');
+  const prior=mappingByIndex.get(index);
+  if(prior!==undefined&&prior!==standard)fail('A2G_E_INPUT_ACTION','All Gamepad bindings for a device index must agree on mapping');
+  mappingByIndex.set(index,standard);
+  if(c.deadZoneMode===undefined)continue;
   const validAxis=(value:unknown)=>safeInteger(value)&&value>=0&&value<=15;
   if(!axis||c.deadZoneMode!=='radial'||!validAxis(c.xAxis)||!validAxis(c.yAxis)||c.xAxis===c.yAxis
     ||(c.index!==undefined&&(!safeInteger(c.index)||c.index<0||c.index>3))

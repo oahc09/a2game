@@ -39,7 +39,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
     const getRuntime=()=>disposed?undefined:runtime;
     if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal});
     if(hasBinding('imu.'))mobileHost=createMobileHost({getRuntime,inject:raw,onStatus:detail=>emit('sensor-status',detail),signal:inputAbort.signal});
-    if(hasBinding('gamepad.'))gamepadHost=createGamepadHost({inject:raw,onStatus:message=>emit('gamepad-status',{message})});
+    if(hasBinding('gamepad.'))gamepadHost=createGamepadHost({definition,inject:raw,onStatus:message=>emit('gamepad-status',{message})});
     render();assert();ready=true;emit('loaded',{id:definition.id});
    }catch(error){failure=error;void dispose();}finally{loading=false;finishLoad();}
    if(failure){await disposal;throw failure;}

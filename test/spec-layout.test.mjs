@@ -14,7 +14,11 @@ const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha25
 const publicContractRevisions={
   "specs/v0.1/capabilities/a2game.input.gamepad.axis2.capability.json": {
     "before": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39",
-    "current": "f800710756cef4b74c6780286917789f0cebb3e7dc21fd63268fbc831b9f8184"
+    "current": "aed497dab5cd5ad28e3df4856b1b43ce38f8107127a0846ddef14c750c4dd8e7"
+  },
+  "specs/v0.1/capabilities/a2game.input.gamepad.button.capability.json": {
+    "before": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2",
+    "current": "2a80d45495c17aee1e6102c350a486cf3bd22a49f6e53e58e8d5743298e067dd"
   },
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
