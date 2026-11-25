@@ -2,8 +2,9 @@
   "status": "PASS_REFERENCE",
   "scope": "ordinary HTTP player with real SDK and browser keyboard; no physical device/G3",
   "browser": "27.2",
-  "playerSha256": "e36ea26fe005576b278c8e8083038ed8a8bea2b92df4788a8efac79210b05808",
-  "harnessSha256": "5862819350bb86f9bcade55d9ac3a43e5037ea73a902aa7c89022e5a781f7ac6",
+  "playerSha256": "0a3741d866792160ccd807e89864a69cf47875b94041cd77ec30d321ffe02493",
+  "harnessSha256": "3d8b0195fa4fab1f018d5e45dee2007933dca0804d9f04177aa177f0094cfd86",
+  "traceOptInFixture": "a1910ee337b2bad98699d61ffa44a3886e09570d4db43e32c28f1f3f1233afd3",
   "sdk": {
     "three": "0.186.1",
     "cocosairjs": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
@@ -41,7 +42,8 @@
       "game": "g11-candidate",
       "cases": [
         "held-release-across-focus",
-        "no-native-unmatched-release"
+        "no-native-unmatched-release",
+        "fresh-trace-clears-held-ownership"
       ]
     },
     {
@@ -59,7 +61,8 @@
       "game": "g11-candidate",
       "cases": [
         "held-release-across-focus",
-        "no-native-unmatched-release"
+        "no-native-unmatched-release",
+        "fresh-trace-clears-held-ownership"
       ]
     }
   ],
@@ -69,5 +72,13 @@
     "assertion": "Focused native Space must pause, not flag",
     "actual": "playing",
     "expected": "paused"
+  },
+  "aggregateVerify": {
+    "scope": "first keyboard-fix tree plus restored historical G3 plan and isolated MCP dependencies",
+    "governance": "PASS",
+    "nodePassed": 364,
+    "nodeFailed": 1,
+    "failure": "test/service-persistence.test.mjs fixture publication expected 201, received 400; aggregate stopped",
+    "standaloneStaticAndCatalog": "PASS"
   }
 }
