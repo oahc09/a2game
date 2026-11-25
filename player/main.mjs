@@ -3,6 +3,7 @@ import {createFrameMotion} from './frame-motion.mjs';
 import {createFeedbackAudio} from './feedback-audio.mjs';
 import {createEventFeedback} from './event-feedback.mjs';
 import {createPointerHost,hasTouchStick} from './pointer-host.mjs';
+import {createSurvivalScore} from './survival-score.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {HeadlessRuntime,projectPresentation,readPointer} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
@@ -35,7 +36,7 @@ const listeners=new AbortController();
 const listen=(target,type,callback,options={})=>target.addEventListener(type,callback,{...options,signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,resources,raf,resizeRaf,pointerHost,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+let runtime,records,adapter,definition,resources,raf,resizeRaf,pointerHost,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 function inputTimeUs(){const tick=runtime.tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
 function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
 function pauseSession(){feedbackAudio.silence();pointerHost?.stop();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
@@ -55,12 +56,18 @@ async function createAdapter(mode){
 }
 function observation(){return runtime?.observe();}
 function updateInfo(obs){
+ const localScore=records?.update(obs),settlement=localScore?.settlement;
  const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
  if(dom.status.dataset.flowStatus!==obs.flow.status){
    dom.status.dataset.flowStatus=obs.flow.status;
    document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';
    const result=({won:['已通关','目标已完成'],lost:['本局结束','目标未完成'],stopped:['对局已结束','可以重新开始']})[obs.flow.status];
+   if(settlement&&result){
+     result[0]='生存结束';
+     result[1]=`本局 ${settlement.score} 分 · ${settlement.newBest?'新纪录':'最高'} ${localScore.best} 分`;
+     document.getElementById('resultMessage').textContent=result[1]+'。点击「重新开始」再玩一局。';
+   }
    dom.stageResult.hidden=!result;
    if(result){dom.stageResultTitle.textContent=result[0];dom.stageResultDetail.textContent=result[1];dom.hint.textContent='';}
  }
@@ -80,6 +87,7 @@ function updateInfo(obs){
    }else if(typeof item.text==='string'&&item.text)hudLines.push(item.text);
  }
  dom.score.textContent=hudLines.length?hudLines.join('\n'):Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
+ if(localScore)dom.score.textContent+=`\n${localScore.available?'本机最高':'本页最高'}：${localScore.best}`;
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
@@ -229,6 +237,7 @@ async function main(){
    dom.instructions.textContent=definition.meta.description??(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
      ? '在画面内滑动 / 使用方向键' : '使用画面或右侧按钮操作');
    runtime=new HeadlessRuntime(definition,registry);
+   records=createSurvivalScore(definition,manualClock?{storage:()=>undefined}:undefined);
    traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
    gamepadHost=createGamepadHost({definition,inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});

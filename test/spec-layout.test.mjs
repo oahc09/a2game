@@ -34,7 +34,7 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "df5b938c237ec00538387737752e25c4d80beab8456fc2b89a8f21a702bab17f"
+    "current": "041b9531ea7e03aaa0c71625d675d3153a3bc64a9185c0d2fe81cc6f9e9e95cc"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
@@ -106,7 +106,7 @@ test('HTTP exposes canonical game/capability URLs while keeping protocol tools a
   globalThis.fetch=(url,...args)=>originalFetch(new URL(url,origin+'/player/'),...args);
   const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,read('project/status.json').coverage.referenceDemoGames);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
   assert.ok(catalog.some(c=>c.path==='/specs/v0.1/games/body-motif.game.json'));
-  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g59-neon-arena','g59-neon-arena-mirror']){
+  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g59-neon-arena','g59-neon-arena-mirror','g59-neon-survival']){
    const id='org.a2game.games.'+slug;
    assert.ok(catalog.some(c=>c.id===id&&c.path==='/specs/v0.1/games/'+slug+'.game.json'));
    assert.equal((await loadBuiltinGame(slug)).id,id);

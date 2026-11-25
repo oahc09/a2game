@@ -21,7 +21,9 @@ const player=createA2GamePlayer({backend:$('backend').value,container:$('game'),
  if(event.type==='status'){
   if(event.status!=='paused')lastError='';
   const text=({playing:'进行中',paused:'已暂停；继续后重新按住操作键',won:'挑战完成',lost:'本局结束，可重开',ready:'准备好后开始'})[event.status]??event.status;
-  $('status').textContent=lastError||text;update();
+  const score=event.score,settled=score?.settlement;
+  if(score){$('scoreRecord').hidden=false;$('scoreRecord').textContent=`${score.available?'本机最高':'本页最高'}：${score.best}`;}
+  $('status').textContent=lastError||(settled?`生存结束 · 本局 ${settled.score} 分${settled.newBest?' · 新纪录':''}，可重开`:text);update();
  }
  if(event.type==='error'){lastError=event.message==='A2G_E_CLOCK_STALL'?'运行追帧超限，已暂停；点击继续后重新按住操作键。':'运行失败：'+event.message;$('status').textContent=lastError;update();}
  if(event.type==='disposed'){clearBindings();$('status').textContent=lastError?lastError+'（实例已关闭）':'已销毁';update();}

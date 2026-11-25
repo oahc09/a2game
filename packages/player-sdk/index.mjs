@@ -8,13 +8,14 @@ import {trustedBundleDigest} from './trusted-bundle.mjs';
 import {createPointerHost,hasTouchStick} from './pointer-host.mjs';
 import {createMobileHost} from './mobile-host.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
+import {createSurvivalScore} from './survival-score.mjs';
 import {actionLabel} from './input-labels.mjs';
 
 // Experimental: the trust anchor is supplied by the build, never by the game package.
 let cocosDocumentClaimed=false;
 export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
  if(!['three','cocosairjs'].includes(backend)||!(container instanceof HTMLElement))throw Error('A2G_E_CONFIG: invalid backend or container');
- let runtime,adapter,resources,definition,host,canvas,raf,last=0,carry=0,sequence=0,disposed=false,closed=false,loading=false,ready=false,started=false,disposal,flow,loadDone=Promise.resolve();
+ let runtime,records,adapter,resources,definition,host,canvas,raf,last=0,carry=0,sequence=0,disposed=false,closed=false,loading=false,ready=false,started=false,disposal,flow,loadDone=Promise.resolve();
  const held=new Map();let holdSerial=0,pointerHost,mobileHost,gamepadHost;const inputAbort=new AbortController();
  const emit=(type,detail={})=>{try{onEvent(Object.freeze({type,...detail}));}catch(e){console.error('A2Game event handler',e);}};
  const assert=()=>{if(disposed)throw Error('A2G_E_DISPOSED');};
@@ -25,7 +26,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
  const resetSources=()=>{pointerHost?.stop();mobileHost?.stop();gamepadHost?.stop({release:true});emit('sources-reset');};
  const clearHeld=()=>{const count=held.size;held.clear();if(count)emit('inputs-reset');};
  const inputReady=()=>{assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before input');return runtime.status==='playing';};
- const render=()=>{const observation=runtime.observe();adapter.draw(projectPresentation(definition,observation));if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',{status:flow});}};
+ const render=()=>{const observation=runtime.observe(),score=records?.update(observation);adapter.draw(projectPresentation(definition,observation));if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',score?{status:flow,score}:{status:flow});}};
  const frame=now=>{if(disposed)return;try{if(!last)last=now;const delta=Math.max(0,(now-last)/1000);last=now;if(runtime.status==='playing'){carry+=delta;const hz=definition.world.clock.tickHz,steps=Math.floor(carry*hz+1e-7);if(steps>(definition.world.clock.maxCatchUpTicks??5)){runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();carry=0;emit('error',{message:'A2G_E_CLOCK_STALL'});}else{for(let i=0;i<steps;i++){pointerHost?.checkGeometry();gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}}render();raf=requestAnimationFrame(frame);}catch(e){emit('error',{message:String(e.message??e)});void dispose();}};
  function dispose(){if(disposal)return disposal;disposed=true;clearHeld();inputAbort.abort();gamepadHost?.dispose();if(raf)cancelAnimationFrame(raf);resources?.dispose();disposal=loadDone.then(()=>{runtime?.dispose();return adapter?.dispose();}).finally(()=>{resources?.dispose();host?.remove();closed=true;emit('disposed');});return disposal;}
  return Object.freeze({
@@ -34,7 +35,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
     if(!snapshot||snapshot.format!=='a2game-release-bundle'||snapshot.bundleVersion!==1||sha256Canonical(snapshot)!==trustedBundleDigest)throw Error('A2G_E_RELEASE_INTEGRITY: package not admitted by this build');
     const registry=await createBrowserRegistry();assert();definition=snapshot.definition;
     resources=new ResourceScope(snapshot.resources.map(record=>({...record,href:new URL('./assets/'+record.sha256,import.meta.url).href})));await resources.load();assert();
-    runtime=new HeadlessRuntime(definition,registry);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
+    runtime=new HeadlessRuntime(definition,registry);records=createSurvivalScore(definition);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
     if(backend==='three'){const module=await import('three');assert();adapter=new ThreeAdapter(module,canvas,resources);await adapter.prepare(definition);}else{if(cocosDocumentClaimed)throw Error('A2G_E_COCOS_DOCUMENT: reload the page before another CocosAirJS instance');cocosDocumentClaimed=true;const module=await import('cocosair.js');assert();adapter=await CocosAirAdapter.create(module,canvas);assert();await adapter.prepare(definition,resources);}assert();
     const getRuntime=()=>disposed?undefined:runtime;
     if(hasBinding('touch.'))pointerHost=createPointerHost({canvas,getRuntime,inject:raw,unlock:()=>adapter.unlockAudio?.(),signal:inputAbort.signal,geometrySensitive:hasTouchStick(definition)});
@@ -67,6 +68,7 @@ export function createA2GamePlayer({backend,container,onEvent=()=>{}}){
   enableGamepad(){assert();if(!ready||!gamepadHost)throw Error('A2G_E_CAP_DEPENDENCY: game has no gamepad bindings');gamepadHost.enable();},
   disableGamepad(){assert();gamepadHost?.stop({release:true});},
   getInfo(){assert();if(!ready)throw Error('A2G_E_FLOW: load before metadata');return {id:definition.id,title:definition.meta.title,description:definition.meta.description,inputSources:{touch:!!pointerHost,sensors:!!mobileHost,gamepad:!!gamepadHost},actions:definition.inputs.actions.filter(action=>action.valueType==='button').map(action=>({id:action.id,label:actionLabel(definition,action),hold:action.bindings.some(binding=>binding.source==='keyboard.button'&&binding.config?.hold===true),keys:action.bindings.filter(binding=>binding.source==='keyboard.button').map(binding=>binding.config.code)}))};},
+  getScoreSummary(){assert();if(!ready)throw Error('A2G_E_FLOW: load before score');return records?.summary()??null;},
   status(){return closed?'disposed':disposed?'disposing':loading?'loading':runtime?.status??'empty';},
   diagnostics(){return {disposed:closed,disposing:disposed&&!closed,heldSources:held.size,pointer:pointerHost?.diagnostics()??null,sensors:mobileHost?.diagnostics()??null,gamepad:gamepadHost?.diagnostics()??null,resources:resources?.diagnostics()??null,adapter:adapter?.diagnostics()??null};},
   dispose

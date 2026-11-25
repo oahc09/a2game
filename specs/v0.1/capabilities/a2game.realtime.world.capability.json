@@ -544,6 +544,140 @@
           "minimum": 1,
           "maximum": 120
         },
+        "survival": {
+          "type": "object",
+          "description": "Opt-in continuous live-stick score round. One deterministic recurring spawn per elapsed slot, capped active enemies; no deadline or score goal.",
+          "properties": {
+            "startTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            },
+            "intervalTicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 3600
+            },
+            "maxActive": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 32
+            },
+            "templates": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 16,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9_-]{1,48}$"
+                  },
+                  "kind": {
+                    "enum": [
+                      "actor",
+                      "solid",
+                      "target",
+                      "projectile",
+                      "pickup"
+                    ]
+                  },
+                  "x": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 32000
+                  },
+                  "y": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 32000
+                  },
+                  "vx": {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                  },
+                  "vy": {
+                    "type": "integer",
+                    "minimum": -128,
+                    "maximum": 128
+                  },
+                  "hx": {
+                    "type": "integer",
+                    "minimum": 16,
+                    "maximum": 2000
+                  },
+                  "hy": {
+                    "type": "integer",
+                    "minimum": 16,
+                    "maximum": 2000
+                  },
+                  "hp": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "team": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 8
+                  },
+                  "value": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "fixed": {
+                    "type": "boolean"
+                  },
+                  "ttl": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "invulnerableUntil": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000
+                  },
+                  "owner": {
+                    "type": "string"
+                  },
+                  "hits": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "maxItems": 128
+                  }
+                },
+                "required": [
+                  "id",
+                  "kind",
+                  "x",
+                  "y",
+                  "vx",
+                  "vy",
+                  "hx",
+                  "hy",
+                  "hp",
+                  "team",
+                  "value",
+                  "fixed"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "startTick",
+            "intervalTicks",
+            "maxActive",
+            "templates"
+          ],
+          "additionalProperties": false
+        },
         "stickActions": {
           "type": "object",
           "description": "Opt-in live twin-stick arena input and reticle. Vec2 move/aim sampled at this Tick, never latched from game state; keyboard held actions are fallback.",

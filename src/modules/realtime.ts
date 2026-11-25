@@ -12,7 +12,7 @@ export interface WorldBody {
 export interface IntegerWorld {
     bodies:WorldBody[]; score:number; charge:number; nextId:number;
     cooldowns:Record<string,number>; contacts:string[]; spawned:number[];
-    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number; crosshair?:number[]; health?:number; timeLeft?:number;
+    grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number; crosshair?:number[]; health?:number; timeLeft?:number; elapsedTicks?:number;
 }
 function err(why:string):never { return fail('A2G_E_CAP_CONFIG',why); }
 const integer=(value:unknown,min:number,max:number):value is number=>safeInteger(value)&&value>=min&&value<=max;
@@ -25,7 +25,7 @@ export const realtimeServiceIds=['velocity','acceleration','charge','jump','land
 function validateWorldBody(body:unknown,config:Readonly<JsonRecord>):WorldBody {
     if(!isRecord(body)||typeof body.id!=='string'||!/^[a-zA-Z0-9_-]{1,48}$/.test(body.id)||!['actor','solid','target','projectile','pickup'].includes(String(body.kind)))err('Invalid or duplicate world body');
     if(!integer(body.hx,16,2000)||!integer(body.hy,16,2000)||!integer(body.x,Number(body.hx),Number(config.width)-Number(body.hx))||!integer(body.y,Number(body.hy),Number(config.height)-Number(body.hy))||!integer(body.vx,-128,128)||!integer(body.vy,-128,128)||!integer(body.hp,0,1000000)||!integer(body.team,0,8)||!integer(body.value,0,1000000)||typeof body.fixed!=='boolean')err('Out-of-bounds integer body');
-    if(body.ttl!==undefined&&!integer(body.ttl,0,1000000)||body.invulnerableUntil!==undefined&&!integer(body.invulnerableUntil,0,1000000)||body.hits!==undefined&&(!Array.isArray(body.hits)||body.hits.length>128||body.hits.some(x=>typeof x!=='string')))err('Invalid body lifetime or hit ledger');
+    if(body.ttl!==undefined&&!integer(body.ttl,0,1000000)||body.invulnerableUntil!==undefined&&!integer(body.invulnerableUntil,0,config.survival===undefined?1000000:Number.MAX_SAFE_INTEGER)||body.hits!==undefined&&(!Array.isArray(body.hits)||body.hits.length>128||body.hits.some(x=>typeof x!=='string')))err('Invalid body lifetime or hit ledger');
     return body as unknown as WorldBody;
 }
 
@@ -33,9 +33,12 @@ function validateWorldBody(body:unknown,config:Readonly<JsonRecord>):WorldBody {
 export function validateIntegerWorld(raw:unknown,config:Readonly<JsonRecord>):IntegerWorld {
     return validateWorldState(raw,config);
 }
+const survivalId='survival_';
 function validateWorldState(raw:unknown,config:Readonly<JsonRecord>,admittedTargets:readonly string[]=[]):IntegerWorld {
-    if(!isRecord(raw)||!Array.isArray(raw.bodies)||raw.bodies.length>Number(config.maxObjects??128)||!integer(raw.score,0,100000000)||!integer(raw.charge,0,120)||!integer(raw.nextId,0,1000000)||typeof raw.won!=='boolean'||typeof raw.lost!=='boolean')err('Invalid integer world state');
-    if(!Array.isArray(raw.contacts)||raw.contacts.length>8128||raw.contacts.some(x=>typeof x!=='string')||!Array.isArray(raw.grounded)||raw.grounded.some(x=>typeof x!=='string')||!Array.isArray(raw.spawned)||raw.spawned.length>64||raw.spawned.some(x=>!integer(x,0,63))||!isRecord(raw.cooldowns)||Object.values(raw.cooldowns).some(x=>!integer(x,0,1000000)))err('Invalid world bookkeeping');
+    const serialLimit=config.survival===undefined?1000000:Number.MAX_SAFE_INTEGER;
+    if(!isRecord(raw)||!Array.isArray(raw.bodies)||raw.bodies.length>Number(config.maxObjects??128)||!integer(raw.score,0,100000000)||!integer(raw.charge,0,120)||!integer(raw.nextId,0,serialLimit)||typeof raw.won!=='boolean'||typeof raw.lost!=='boolean')err('Invalid integer world state');
+    if(!Array.isArray(raw.contacts)||raw.contacts.length>8128||raw.contacts.some(x=>typeof x!=='string')||!Array.isArray(raw.grounded)||raw.grounded.some(x=>typeof x!=='string')||!Array.isArray(raw.spawned)||raw.spawned.length>64||raw.spawned.some(x=>!integer(x,0,63))||!isRecord(raw.cooldowns)||Object.values(raw.cooldowns).some(x=>!integer(x,0,serialLimit)))err('Invalid world bookkeeping');
+    if(config.survival!==undefined&&(raw.timeLeft!==undefined||raw.won||raw.spawned.length!==0||!integer(raw.elapsedTicks,0,serialLimit)))err('Invalid survival bookkeeping');
     const ids=new Set<string>();
     if(raw.overflowTicks!==undefined&&!integer(raw.overflowTicks,0,1000000))err('Invalid overflow duration');
     for(const body of raw.bodies){
@@ -55,11 +58,20 @@ function validateConfig(c:Readonly<JsonRecord>):void {
     if(c.stickActions!==undefined){
         const input=c.stickActions;
         if(!isRecord(input)||typeof input.move!=='string'||typeof input.aim!=='string'||input.move===input.aim||
-            !integer(input.reticleStep,50,1000)||!integer(c.maxTicks,1,1000000)||
+            !integer(input.reticleStep,50,1000)||c.survival===undefined&&!integer(c.maxTicks,1,1000000)||
             (Math.floor(Number(c.width)/input.reticleStep)+1)*(Math.floor(Number(c.height)/input.reticleStep)+1)>4096||
             c.heldMovement===true||c.laneCenters!==undefined||c.aimPath!==undefined||c.autoFire===true||
             c.autoTarget===true||c.fireRequestPath!==undefined||c.aimMetric!=='euclidean')
             err('Invalid live-stick combat profile');
+    }
+    if(c.survival!==undefined){
+        const v=c.survival;
+        if(!isRecord(v)||Object.keys(v).some(k=>!['startTick','intervalTicks','maxActive','templates'].includes(k))||
+            c.stickActions===undefined||['goalScore','goalTick','maxTicks','waves','overflowY','killBelowY'].some(k=>c[k]!==undefined)||
+            !integer(v.startTick,0,3600)||!integer(v.intervalTicks,1,3600)||
+            !integer(v.maxActive,1,Math.min(32,Number(c.maxObjects??128)-2))||
+            !Array.isArray(v.templates)||v.templates.length<1||v.templates.length>16)
+            err('Invalid survival schedule');
     }
     if(c.platformLanding!==undefined&&typeof c.platformLanding!=='boolean')err('Invalid platform landing mode');
     if(c.laneCenters!==undefined){
@@ -117,6 +129,16 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     for(const [index,entry] of ((c.waves??[]) as JsonRecord[]).entries())if(ctx.tickIndex>=Number(entry.tick)&&!w.spawned.includes(index)){
         const b=clone(entry.body) as unknown as WorldBody;validateWorldBody(b,c);
         if(spawn(b))w.spawned.push(index);
+    }
+    const survival=isRecord(c.survival)?c.survival:undefined;
+    const award=(points:number)=>{w.score=survival?Math.min(100000000,w.score+points):w.score+points;};
+    if(survival&&actor&&!w.lost){
+        const elapsed=ctx.tickIndex-Number(survival.startTick),interval=Number(survival.intervalTicks);
+        // Skip a saturated slot. No catch-up burst, retries or growing one-shot ledger.
+        if(elapsed>=0&&elapsed%interval===0&&w.bodies.filter(b=>b.id.startsWith(survivalId)).length<Number(survival.maxActive)){
+            const sequence=elapsed/interval,templates=survival.templates as unknown as WorldBody[];
+            spawn({...clone(templates[sequence%templates.length]!),id:survivalId+sequence});
+        }
     }
     let selectedLane:number|undefined;const centers=c.laneCenters as number[]|undefined;
     if(actor){
@@ -181,7 +203,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if(dead.has(body.id)||body.hp<=0||damageLedger.has(key)||ctx.tickIndex<(body.invulnerableUntil??0))return;
         damageLedger.add(key);
         body.hp=Math.max(0,body.hp-amount);body.invulnerableUntil=ctx.tickIndex+Number(c.invulnerabilityTicks??0);emit('combat.hit',{id:body.id,source,amount,hp:body.hp});
-        if(body.hp===0){dead.add(body.id);w.score+=body.value;emit('combat.death',{id:body.id,source});}
+        if(body.hp===0){dead.add(body.id);award(body.value);emit('combat.death',{id:body.id,source});}
     }
     w.bodies.sort((a,b)=>stableCompare(a.id,b.id));
     const previousGrounded=new Set(w.grounded),grounded=new Set<string>(),contacts=new Set<string>(),landings=new Map<string,JsonRecord>();
@@ -211,8 +233,8 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
             contacts.add(contactKey(a.id,b.id));
             const shot=a.kind==='projectile'?a:b.kind==='projectile'?b:undefined,target=shot===a?b:a;
             if(shot){if(target.kind==='solid'){dead.add(shot.id);continue;}if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id);dead.add(shot.id);}continue;}
-            if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){w.score+=pickup.value;dead.add(pickup.id);emit('realtime.trigger',{id:pickup.id,actor:other.id});}continue;}
-            if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);w.score+=a.value;emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
+            if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){award(pickup.value);dead.add(pickup.id);emit('realtime.trigger',{id:pickup.id,actor:other.id});}continue;}
+            if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);award(a.value);emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
             if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
             if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target'){if(c.damageTargetsOnContact===true)damage(a,damageValue,b.id);else damage(b,1,a.id);}
             resolveContact(a,b);
@@ -246,9 +268,12 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     const overflow=c.overflowY!==undefined&&Number(w.overflowTicks)>=Number(c.overflowTicks??30);
     if(overflow)emit('realtime.failed',{reason:'overflow'});
     if(timedOut||below)emit('realtime.failed',{reason:timedOut?'timeout':'below-boundary'});
-    w.lost=overflow||timedOut||below||Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
+    w.lost=Boolean(survival&&!actor)||overflow||timedOut||below||Boolean(actor&&(actor.hp<=0||dead.has(actor.id)));
     if(sticks){
-        w.health=actor?.hp??0;w.timeLeft=Math.max(0,Number(c.maxTicks)-ctx.tickIndex-1);w.crosshair=[];
+        w.health=actor?.hp??0;
+        if(survival)w.elapsedTicks=ctx.tickIndex+1;
+        else w.timeLeft=Math.max(0,Number(c.maxTicks)-ctx.tickIndex-1);
+        w.crosshair=[];
         if(actor&&actor.hp>0&&liveAim&&(liveAim[0]!==0||liveAim[1]!==0)){
             const step=Number(sticks.reticleStep),cols=Math.floor(Number(c.width)/step)+1,rows=Math.floor(Number(c.height)/step)+1;
             const len=Math.sqrt(liveAim[0]**2+liveAim[1]**2);
@@ -271,6 +296,17 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
                 if(!def.inputs.actions.some(a=>a.id===action&&a.valueType==='vec2'))err('Live-stick actions must be declared vec2 inputs');
             if(w.bodies.filter(b=>b.kind==='actor').length!==1||w.bodies.some(b=>b.kind==='actor'&&(b.fixed||b.value!==0)))
                 err('Live-stick world needs one moving zero-score actor');
+        }
+        if(isRecord(c.survival)){
+            const actor=w.bodies.find(b=>b.kind==='actor')!;
+            if(actor.hp===0||actor.ttl!==undefined||w.lost||w.elapsedTicks!==0||w.score!==0||
+                w.bodies.some(b=>b.id.startsWith(survivalId)))
+                err('Survival needs a live pilot and unplayed initial state');
+            for(const entry of c.survival.templates as Json[]){
+                const b=validateWorldBody(entry,c);
+                if(b.kind!=='target'||b.fixed||b.hp===0||b.team===actor.team||b.value===0||!integer(b.ttl,1,3600))
+                    err('Survival templates must be hostile moving scoring targets with bounded TTL');
+            }
         }
         for(const name of Object.values((c.actions??{}) as JsonRecord))if(!def.inputs.actions.some(a=>a.id===name))err('Unknown realtime action');
         for(const key of ['aimPath','fireRequestPath','powerPath','damageBonusPath','laneRequestPath','tiltGravityPath'])if(c[key]!==undefined){

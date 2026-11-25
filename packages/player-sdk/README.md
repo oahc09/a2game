@@ -85,3 +85,11 @@ SDK来源见分发目录的`player/vendor/sdk-provenance.json`，共享物理库
 输入与关闭记录见本地`reports/phase2-sdk-held-air-20261108/fixed/browser-summary.json`；原失败保留在同目录上一级。较早的资源加载失败与在途初始化关闭记录见`reports/phase2-sdk-20261108-resources-f2c4/browser-summary.json`，只代表当时的代码版本。
 
 当前新增手势、IMU与手柄桥接已有双SDK虚拟/合成输入及Node回放Hash证据，物理设备仍未验。录制、参考播放器附加音效和动画不因此自动集成。自动追帧超限会暂停并报告`A2G_E_CLOCK_STALL`，用户可以选择继续。受管资源清理不代表引擎全局缓存或全部GPU资源归零，也不构成移动端或商业发布承诺。
+
+### 本机生存纪录
+
+若 GameSpec 声明显式双摇杆生存模式，`player.getScoreSummary()` 在加载后返回
+`{best, available, settlement}`；其它游戏返回 `null`。结算包括 `score` 和
+`newBest`，正在游玩或重开后为 `null`。状态事件也包含相同的 `score` 摘要。
+最高分按浏览器同源和完整 GameSpec 保存；存储被禁用时 `available` 为 false，
+本页游玩与重开不受影响。它不是可信排行榜数据。

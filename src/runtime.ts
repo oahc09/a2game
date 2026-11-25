@@ -49,6 +49,7 @@ export class HeadlessRuntime {
     private readonly opts: Required<Pick<HeadlessOptions,'maxEventsPerTick'|'maxEffectsPerTick'|'maxDeferredPerSession'|'maxEntities'|'maxRecordedEvents'>>;
     // Declaration identity, not instance/host identity. Immutable, per Runtime and outside snapshots/hash.
     readonly #realtimeConstraintBindings: readonly Readonly<{capabilityId:string;capabilityVersion:string;statePath:string;configKey:string;targetIds:readonly string[]}>[];
+    readonly #compactSurvivalEvents: boolean;
     private session: Stage;
     private lastError: A2GameError | null = null;
     private disposed = false;
@@ -68,6 +69,10 @@ export class HeadlessRuntime {
                 statePath:String(component.config.statePath),configKey:canonicalJson(component.config),
                 targetIds:Object.freeze(((component.config.constraints??[]) as JsonRecord[]).map(constraint=>String(constraint.body)))})));
 
+        // Survival has no fixed round length. Retain only recent telemetry by
+        // default; callers that explicitly set a hard budget retain that contract.
+        this.#compactSurvivalEvents=options.maxRecordedEvents===undefined&&this.plan.entrySceneEntities.some(entity=>
+            entity.components?.some(component=>component.capability.id==='a2game.realtime.world'&&component.config.survival!==undefined));
         registry.seal();
         this.opts = {
             maxEventsPerTick: options.maxEventsPerTick ?? 4096,
@@ -485,6 +490,11 @@ export class HeadlessRuntime {
                         break;
                     }
                 }
+            }
+            if(this.#compactSurvivalEvents){
+                // Keep all of this Tick's actual events, even during a busy death Tick.
+                // Rules already consumed the complete ordered batch. Old telemetry is not hashed.
+                working.events=working.events.slice(Math.max(0,working.events.length-Math.max(0,128-events.length)));
             }
             if (working.events.length + events.length > this.opts.maxRecordedEvents) fail('A2G_E_BUDGET_EXCEEDED','Recorded event limit exceeded');
             working.events.push(...events.map(eventView));

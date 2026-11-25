@@ -476,7 +476,7 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 117,
+    "referenceDemoGames": 118,
     "referenceCapabilityManifests": 129
   },
   "blockingItems": [
@@ -2199,5 +2199,15 @@
     "personalBestPersistence": "NOT_IMPLEMENTED",
     "playerClockExtendedSoak": "NOT_RUN",
     "physicalTouchAndGamepad": "NOT_RUN"
+  },
+  "g59SurvivalReference": {
+    "status": "PARTIAL",
+    "layout": "g59-neon-survival",
+    "settlement": "SCORE_ON_PILOT_LOSS_ONLY",
+    "schedule": "RECURRING_TICK_SLOTS_NO_BACKLOG",
+    "recordScope": "ORIGIN_AND_EXACT_GAMESPEC",
+    "playerClockExtendedSoak": "NOT_RUN",
+    "independentAuthoring": "NOT_RUN",
+    "physicalInput": "NOT_RUN"
   }
 }
