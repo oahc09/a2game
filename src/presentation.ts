@@ -24,6 +24,8 @@ export interface VisualRepeat {
     step: [number, number];
     /** array: each item uses its list index; cell: each item holds a flattened grid index. */
     indexMode: 'array' | 'cell';
+    positions?: [number,number][];
+    omitItems?: number[];
     template: VisualNode[];
 }
 export interface Scene2DSpec {
@@ -155,13 +157,18 @@ export function validatePresentation(def:GameDefinition):void {
     const ids=new Set((p.nodes as VisualNode[]).map(x=>x.id));
     for(const [i,repeat] of repeats.entries()){
         const path=`/presentation/scene2d/repeat/${i}`,r=record(repeat,path);
-        hasOnly(r,['id','source','columns','origin','step','indexMode','template'],path);
+        hasOnly(r,['id','source','columns','origin','step','indexMode','template','positions','omitItems'],path);
         if(typeof r.id!=='string'||!/^[_a-zA-Z][_a-zA-Z0-9-]*$/.test(r.id)||ids.has(r.id))fail('A2G_E_PRESENTATION','Duplicate/invalid repeat ID',{jsonPointer:path+'/id'});
         ids.add(r.id);
         if(!safeInteger(r.columns)||r.columns<1||r.columns>64)fail('A2G_E_PRESENTATION','Invalid column count',{jsonPointer:path+'/columns'});
         if(!['array','cell'].includes(String(r.indexMode)))fail('A2G_E_PRESENTATION','Invalid indexMode',{jsonPointer:path+'/indexMode'});
         checkBinding(r.source,states,path+'/source');coordinate(r.origin,path+'/origin');coordinate(r.step,path+'/step');
         if(r.step.some(x=>x<=0))fail('A2G_E_PRESENTATION','Grid step must be positive',{jsonPointer:path+'/step'});
+        if(r.positions!==undefined){
+            if(r.indexMode!=='array'||!Array.isArray(r.positions)||!r.positions.length||r.positions.length>256)fail('A2G_E_PRESENTATION','Invalid explicit repeat positions',{jsonPointer:path+'/positions'});
+            for(const [j,pos] of r.positions.entries())coordinate(pos,path+'/positions/'+j);
+        }
+        if(r.omitItems!==undefined&&(!Array.isArray(r.omitItems)||r.omitItems.length>16||!r.omitItems.every(safeInteger)))fail('A2G_E_PRESENTATION','Invalid repeat omissions',{jsonPointer:path+'/omitItems'});
         if(!Array.isArray(r.template)||r.template.length<1||r.template.length>8)fail('A2G_E_PRESENTATION','Invalid repeat template',{jsonPointer:path+'/template'});
         uniqueNodes(r.template,states,path+'/template');
     }
@@ -215,10 +222,12 @@ export function projectPresentation(def:GameDefinition,obs:SessionObservation):P
         const source=readBinding(repeat.source,obs);
         const items=Array.isArray(source)?source:[source];
         if(items.length>256)fail('A2G_E_BUDGET_EXCEEDED','Too many repeat items');
+        if(repeat.positions&&items.length!==repeat.positions.length)fail('A2G_E_PRESENTATION','Repeat source does not match explicit positions');
         for(const [i,item] of items.entries()){
+            if(typeof item==='number'&&repeat.omitItems?.includes(item))continue;
             const cell=repeat.indexMode==='cell'?item:i;
             if(!safeInteger(cell)||cell<0||cell>4095)fail('A2G_E_PRESENTATION','Repeat cell index invalid');
-            const pos:[number,number]=[repeat.origin[0]+(cell%repeat.columns)*repeat.step[0],repeat.origin[1]-Math.floor(cell/repeat.columns)*repeat.step[1]];
+            const pos=repeat.positions?.[i]??[repeat.origin[0]+(cell%repeat.columns)*repeat.step[0],repeat.origin[1]-Math.floor(cell/repeat.columns)*repeat.step[1]] as [number,number];
             for(const template of repeat.template)emit(template,`${repeat.id}[${i}].${template.id}`,pos,item);
         }
     }

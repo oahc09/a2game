@@ -1,0 +1,120 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "skyline-patrol-phased",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.skyline-patrol",
+    "file": "phased.game.json"
+  },
+  "cases": [
+    {
+      "id": "seeded-score-collision-restart",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.4777,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 160
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 100
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5249,
+              "v": 0.01,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 85
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 100
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "distinct-enemies-and-cadence",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 217
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "realtime.spawned",
+          "sinceTick": 216,
+          "count": 2
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        }
+      ]
+    }
+  ]
+}

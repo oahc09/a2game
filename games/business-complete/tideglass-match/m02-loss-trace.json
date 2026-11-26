@@ -1,0 +1,92 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.business.tideglass-match.m02",
+    "gameRevision": 1,
+    "tickHz": 60,
+    "seed": 6404,
+    "inputNormalizerVersion": "0.1.0",
+    "coordinateProfile": "viewport-top-left-v1"
+  },
+  "events": [
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.66125,
+        "v": 0.246,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 6,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8225,
+        "v": 0.246,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 7,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8225,
+        "v": 0.246,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 8,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.246,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 193,
+      "seq": 9,
+      "timeUs": 3216667
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.375,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 193,
+      "seq": 10,
+      "timeUs": 3216667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.375,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 193,
+      "seq": 11,
+      "timeUs": 3216667
+    }
+  ]
+}

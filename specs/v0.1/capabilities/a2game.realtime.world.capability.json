@@ -315,6 +315,7 @@
               "type": "string",
               "minLength": 1
             },
+            "bomb": {"type": "string", "minLength": 1},
             "laneLeft": {
               "type": "string",
               "minLength": 1
@@ -341,6 +342,40 @@
           "required": [],
           "additionalProperties": false
         },
+        "shooterSupplies": {
+          "type": "object",
+          "properties": {
+            "intervalTicks": {"type": "integer", "minimum": 1, "maximum": 36000},
+            "doubleShotTicks": {"type": "integer", "minimum": 1, "maximum": 36000},
+            "doubleShotOffset": {"type": "integer", "minimum": 1, "maximum": 1000},
+            "bombCapacity": {"type": "integer", "minimum": 1, "maximum": 16},
+            "fallSpeed": {"type": "integer", "minimum": 1, "maximum": 128},
+            "halfSize": {"type": "integer", "minimum": 16, "maximum": 10666}
+          },
+          "required": ["intervalTicks", "doubleShotTicks", "doubleShotOffset", "bombCapacity", "fallSpeed", "halfSize"],
+          "additionalProperties": false
+        },
+        "wavePhases": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "properties": {
+              "startTick": {"type": "integer", "minimum": 0, "maximum": 1000000},
+              "intervalTicks": {"type": "integer", "minimum": 1, "maximum": 36000},
+              "speedPermille": {"type": "integer", "minimum": 1000, "maximum": 2000},
+              "weights": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 8,
+                "items": {"type": "integer", "minimum": 0, "maximum": 1000}
+              }
+            },
+            "required": ["startTick", "intervalTicks", "speedPermille", "weights"],
+            "additionalProperties": false
+          }
+        },
         "waves": {
           "type": "array",
           "maxItems": 64,
@@ -351,6 +386,11 @@
                 "type": "integer",
                 "minimum": 0,
                 "maximum": 1000000
+              },
+              "repeatEveryTicks": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 36000
               },
               "body": {
                 "type": "object",
@@ -600,6 +640,10 @@
         "breakableSolids": {
           "type": "boolean"
         },
+        "independentProjectileHits": {
+          "type": "boolean",
+          "description": "Use each projectile ID for same-Tick damage deduplication while preserving its owner as the event source."
+        },
         "driftAction": {
           "type": "string",
           "minLength": 1,
@@ -776,7 +820,9 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 1000000
-        }
+        },
+        "bombs": {"type": "integer", "minimum": 0, "maximum": 16},
+        "doubleShotUntil": {"type": "integer", "minimum": 0, "maximum": 9007199254740991}
       },
       "required": [
         "bodies",
@@ -930,6 +976,7 @@
       "state": "No x/y player shortcuts: bodies holds body records; each requires id,kind,x,y,vx,vy,hx,hy,hp,team,value,fixed. Initialize all world bookkeeping explicitly. overflowTicks is optional. Body IDs unique; bounds x in [hx,width-hx], y in [hy,height-hy]. velocities are integer units per Tick; unitsPerMeter=1000.",
       "constraints": "config.constraints names body IDs present in the complete declared initial world, never a future-wave-only target. min<=max and max bounds fit width/height. A trusted Runtime binds the exact admitted component declaration (capability/version, full config and statePath) to those initial IDs. If such a body retires during execution, its constraint remains dormant while absent and applies again if that ID legitimately reappears; the config is not rewritten. Ordinary direct validation or simulation without this internal provenance remains strict. Bounds, body shape, duplicate live IDs and wave-body checks remain enforced; this is declaration provenance, not proof of a particular death cause or external identity.",
       "waves": "Optional waves is at most64 {tick,body} entries, tick integer0..1000000. Due unspawned indices are processed in array order when tickIndex>=tick; successful spawn records the index in spawned. Pool-full rejects that spawn without overwriting live objects; duplicate live IDs reject. No automatic 3-wave guarantee or authored route is provided.",
+      "wavePhases": "Optional increasing phases start at Tick zero. With wavePhases, waves lists descending target templates with tick zero. Each phase starts its own cadence, chooses a template by integer weight and a legal horizontal position using shared RNG, scales descent speed and expires targets at the bottom. A full pool skips the spawn for that Tick.",
       "input": "heldMovement=true consumes press/hold for continuous directions; keyboard bindings must enable hold. A solution action row press+release is not a held movement duration. Release/cancel clears matching direction; field-bound fire/lane requests must use independent controller state paths.",
       "presentation": "bodyLayer.statePath addresses the body array /<worldField>/bodies, read from global state (not Runtime /state prefix). Origin plus body coordinate/1000 projects centers; kind palettes include actor,solid,target,projectile,pickup. circleKinds/valuePalette/showValues additionally require a2game.visual.body-style; bodyLayer also requires a registered trusted producer.",
       "acceptance": "Published state and mechanism contracts are not generated game answers, independent gameplay checks, a real-device claim or a model identity attestation.",

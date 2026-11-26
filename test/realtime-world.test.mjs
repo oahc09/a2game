@@ -3,9 +3,89 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
+import {verifyScoreSession} from '../scripts/score-session.mjs';
 const game=name=>JSON.parse(readFileSync(`specs/v0.1/games/${name}.game.json`,'utf8'));
 const start=d=>{const r=new HeadlessRuntime(d,makeRegistry());r.start();return r;};
 const press=(r,action)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step();};
+
+function simultaneousShots(){
+ const d=game('g17-candidate'),cfg=d.scenes[0].entities[0].components[0].config;
+ delete cfg.waves;
+ delete cfg.goalScore;
+ const target={id:'enemy',kind:'target',x:2500,y:4500,vx:0,vy:0,hx:300,hy:300,hp:3,team:2,value:100,fixed:true};
+ const shot=(id,x)=>({...target,id,x,kind:'projectile',hx:16,hy:16,hp:1,team:1,value:1,fixed:false,owner:'hero',ttl:30,hits:[]});
+ d.state.world.initial.bodies.push(target,shot('shot-left',2450),shot('shot-right',2550));
+ return {d,cfg,target,shot};
+}
+
+test('SHT-08 scores independent same-owner projectile hits with stable owner attribution',()=>{
+ for(const independent of [undefined,true]){
+  const {d,cfg}=simultaneousShots();
+  if(independent)cfg.independentProjectileHits=true;
+  const runtime=start(d);
+  try{
+   runtime.step();
+   const {state,events}=runtime.observe();
+   assert.equal(state.world.bodies.find(body=>body.id==='enemy').hp,independent?1:2);
+   assert.equal(state.world.bodies.filter(body=>body.kind==='projectile').length,0);
+   assert.deepEqual(events.filter(e=>e.type==='combat.hit').map(e=>e.payload.source),independent?['hero','hero']:['hero']);
+  }finally{runtime.dispose();}
+ }
+});
+
+test('score-session accepts actual death with correct score and checks restart isolation',()=>{
+ const {d,cfg,target,shot}=simultaneousShots();
+ cfg.independentProjectileHits=true;
+ target.hp=2;
+ d.state.world.initial.bodies.find(body=>body.id==='hero').value=0;
+ d.state.world.initial.bodies.push({...shot('hostile-shot',4000),y:1000,team:2,owner:'enemy'});
+ const trace={format:'a2game-input-trace',traceVersion:'0.1.0',session:{
+  gameId:d.id,gameRevision:d.revision,tickHz:d.world.clock.tickHz,seed:d.world.clock.seed,
+  coordinateProfile:'viewport-top-left-v1',inputNormalizerVersion:'0.1.0'
+ },events:[]};
+ const expected={scorePath:'/world/score',expectedScore:100,actorId:'hero'};
+ const receipt=verifyScoreSession(d,trace,expected);
+ assert.equal(receipt.finalStatus,'lost');
+ assert.equal(receipt.score,100);
+ assert.throws(()=>verifyScoreSession(d,trace,{...expected,expectedScore:99}),/A2G_E_SCORE_SESSION/);
+ const timeout=structuredClone(d);
+ timeout.state.world.initial.bodies.pop();
+ timeout.scenes[0].entities[0].components[0].config.maxTicks=1;
+ assert.throws(()=>verifyScoreSession(timeout,trace,expected),/death=false/);
+});
+
+test('shooter supply refreshes dual fire, then expires in active Ticks and resets on restart',()=>{
+ const d=JSON.parse(readFileSync('games/business-complete/skyline-patrol/supplies.game.json','utf8'));
+ const cfg=d.scenes[0].entities[0].components[0].config;
+ delete cfg.wavePhases;
+ cfg.waves=[];
+ cfg.cooldownTicks=1;
+ cfg.shooterSupplies.doubleShotTicks=3;
+ const actor=d.state.world.initial.bodies[0];
+ const pickup={...actor,id:'double-early',kind:'pickup',supply:'double',hx:30,hy:30,hp:1,team:0,value:0};
+ d.state.world.initial.bodies.push(pickup);
+ cfg.waves.push({tick:2,body:{...pickup,id:'double-refresh'}});
+ const runtime=start(d);
+ const world=()=>runtime.observe().state.world;
+ try{
+  runtime.step();
+  assert.equal(world().nextId,1);
+  assert.equal(world().doubleShotUntil,4);
+  runtime.pause();runtime.step(90);assert.equal(runtime.observe().tickIndex,1);runtime.resume();
+  runtime.step();
+  assert.deepEqual(world().bodies.filter(b=>b.id==='shot_1'||b.id==='shot_2').map(b=>b.x),[actor.x-150,actor.x+150]);
+  runtime.step();
+  assert.equal(world().doubleShotUntil,6);
+  runtime.step(3);
+  assert.equal(world().nextId,11);
+  runtime.step();
+  assert.equal(world().nextId,12);
+  runtime.restart();
+  assert.equal(world().doubleShotUntil,0);
+  assert.equal(world().nextId,0);
+  assert.equal(world().bombs,1);
+ }finally{runtime.dispose();}
+});
 
 test('platform landing reports its actual support, stops drift and resets combo off center',()=>{
  const r=start(game('g11-candidate'));

@@ -2,7 +2,8 @@
 export const feedbackPresets=Object.freeze({
   move:Object.freeze([390]),push:Object.freeze([300,440]),undo:Object.freeze([260]),
   retry:Object.freeze([330]),success:Object.freeze([440,550,660]),
-  merge:Object.freeze([330,495,660]),hit:Object.freeze([160]),error:Object.freeze([140,110])
+  merge:Object.freeze([330,495,660]),hit:Object.freeze([160]),error:Object.freeze([140,110]),
+  blast:Object.freeze([190,95]),supply:Object.freeze([520,690])
 });
 
 export function createFeedbackAudio({contextFactory=()=>new AudioContext(),maxVoices=8}={}){

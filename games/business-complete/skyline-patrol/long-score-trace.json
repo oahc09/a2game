@@ -1,0 +1,334 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.business.skyline-patrol",
+    "gameRevision": 5,
+    "tickHz": 60,
+    "seed": 5629,
+    "coordinateProfile": "viewport-top-left-v1",
+    "inputNormalizerVersion": "0.1.0"
+  },
+  "events": [
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.9,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 0,
+      "timeUs": 0,
+      "seq": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 0,
+      "timeUs": 0,
+      "seq": 1
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.56,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 912,
+      "timeUs": 15200000,
+      "seq": 2
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.52,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 1584,
+      "timeUs": 26400000,
+      "seq": 3
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.0524,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 2568,
+      "timeUs": 42800000,
+      "seq": 4
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.023,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 5256,
+      "timeUs": 87600000,
+      "seq": 5
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 5652,
+      "timeUs": 94200000,
+      "seq": 6
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.6648,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 6168,
+      "timeUs": 102800000,
+      "seq": 7
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.68,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 6648,
+      "timeUs": 110800000,
+      "seq": 8
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.72,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 7320,
+      "timeUs": 122000000,
+      "seq": 9
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7389,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 7968,
+      "timeUs": 132800000,
+      "seq": 10
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.68,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 9624,
+      "timeUs": 160400000,
+      "seq": 11
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5989,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 9768,
+      "timeUs": 162800000,
+      "seq": 12
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.56,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 10764,
+      "timeUs": 179400000,
+      "seq": 13
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.6,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 11484,
+      "timeUs": 191400000,
+      "seq": 14
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.6008,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 11568,
+      "timeUs": 192800000,
+      "seq": 15
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.56,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 13776,
+      "timeUs": 229600000,
+      "seq": 16
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.6,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 13944,
+      "timeUs": 232400000,
+      "seq": 17
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.64,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 15024,
+      "timeUs": 250400000,
+      "seq": 18
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7412,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 15168,
+      "timeUs": 252800000,
+      "seq": 19
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.76,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 16308,
+      "timeUs": 271800000,
+      "seq": 20
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.1673,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 16968,
+      "timeUs": 282800000,
+      "seq": 21
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.28,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 17004,
+      "timeUs": 283400000,
+      "seq": 22
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.56,
+        "v": 0.925,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 17040,
+      "timeUs": 284000000,
+      "seq": 23
+    },
+    {
+      "source": "system",
+      "kind": "checkpoint",
+      "tickIndex": 17043,
+      "timeUs": 284050000,
+      "seq": 24,
+      "payload": {}
+    }
+  ]
+}

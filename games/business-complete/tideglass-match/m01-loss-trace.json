@@ -1,0 +1,53 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.business.tideglass-match.m01",
+    "gameRevision": 1,
+    "tickHz": 60,
+    "seed": 6400,
+    "inputNormalizerVersion": "0.1.0",
+    "coordinateProfile": "viewport-top-left-v1"
+  },
+  "events": [
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.33875,
+        "v": 0.633,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 3,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.633,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 4,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.633,
+        "viewportAspect": 0.8
+      },
+      "tickIndex": 0,
+      "seq": 5,
+      "timeUs": 0
+    }
+  ]
+}

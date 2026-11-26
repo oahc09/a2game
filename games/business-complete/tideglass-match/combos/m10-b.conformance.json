@@ -1,0 +1,79 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "tideglass-m10-b",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.tideglass-match.m10-b",
+    "file": "m10-b.game.json"
+  },
+  "cases": [
+    {
+      "id": "combine-on-final-move",
+      "seed": 7148,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.33875,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "puzzle.special-combined",
+          "count": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

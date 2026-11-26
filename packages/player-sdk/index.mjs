@@ -9,13 +9,20 @@ import {createPointerHost} from './pointer-host.mjs';
 import {createMobileHost} from './mobile-host.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {actionLabel} from './input-labels.mjs';
+import {createScoreRecord} from './score-record.mjs';
+import {projectHudText} from './hud-text.mjs';
+import {createFeedbackAudio} from './feedback-audio.mjs';
+import {createEventFeedback} from './event-feedback.mjs';
 
 // Experimental: the trust anchor is supplied by the build, never by the game package.
 const builtinEngines=createPlayerEngineRegistry();
-export function createA2GamePlayer({backend,container,engines=builtinEngines,onEvent=()=>{}}){
+export function createA2GamePlayer({backend,container,engines=builtinEngines,onEvent=()=>{},feedback=false}){
  if(typeof engines?.has!=='function'||typeof engines.create!=='function'||!engines.has(backend)||!(container instanceof HTMLElement))throw Error('A2G_E_CONFIG: invalid backend or container');
  let runtime,adapter,resources,definition,host,canvas,raf,last=0,carry=0,sequence=0,disposed=false,closed=false,loading=false,ready=false,started=false,disposal,flow,loadDone=Promise.resolve();
  const held=new Map();let holdSerial=0,pointerHost,mobileHost,gamepadHost;const inputAbort=new AbortController();
+ let scoreRecord,hudText='';
+ const feedbackAudio=feedback?createFeedbackAudio():null;
+ const eventFeedback=feedbackAudio?createEventFeedback({onSound:name=>feedbackAudio.play(name)}):null;
  const emit=(type,detail={})=>{try{onEvent(Object.freeze({type,...detail}));}catch(e){console.error('A2Game event handler',e);}};
  const assert=()=>{if(disposed)throw Error('A2G_E_DISPOSED');};
  const button=action=>definition?.inputs.actions.find(item=>item.id===action&&item.valueType==='button');
@@ -25,14 +32,24 @@ export function createA2GamePlayer({backend,container,engines=builtinEngines,onE
  const resetSources=()=>{pointerHost?.stop();mobileHost?.stop();gamepadHost?.stop({release:true});emit('sources-reset');};
  const clearHeld=()=>{const count=held.size;held.clear();if(count)emit('inputs-reset');};
  const inputReady=()=>{assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before input');return runtime.status==='playing';};
- const render=()=>{const observation=runtime.observe();adapter.draw(projectPresentation(definition,observation));if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',{status:flow});}};
+ const render=()=>{
+  const observation=runtime.observe({recentEvents:256});
+  const frame=projectPresentation(definition,observation);
+  eventFeedback?.capture(definition,observation);
+  adapter.draw(eventFeedback?eventFeedback.project(frame):frame);
+  const lines=projectHudText(definition,observation.state);
+  if(scoreRecord){scoreRecord.observe(observation);lines.push(scoreRecord.label());}
+  const text=lines.join('\n');
+  if(hudText!==text){hudText=text;emit('hud',{text});}
+  if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',{status:flow});}
+ };
  const frame=now=>{if(disposed)return;try{if(!last)last=now;const delta=Math.max(0,(now-last)/1000);last=now;if(runtime.status==='playing'){carry+=delta;const hz=definition.world.clock.tickHz,steps=Math.floor(carry*hz+1e-7);if(steps>(definition.world.clock.maxCatchUpTicks??5)){runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();carry=0;emit('error',{message:'A2G_E_CLOCK_STALL'});}else{for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);}carry-=steps/hz;}}render();raf=requestAnimationFrame(frame);}catch(e){emit('error',{message:String(e.message??e)});void dispose();}};
- function dispose(){if(disposal)return disposal;disposed=true;clearHeld();inputAbort.abort();gamepadHost?.dispose();if(raf)cancelAnimationFrame(raf);resources?.dispose();disposal=loadDone.then(()=>{runtime?.dispose();return adapter?.dispose();}).finally(()=>{resources?.dispose();host?.remove();closed=true;emit('disposed');});return disposal;}
+ function dispose(){if(disposal)return disposal;disposed=true;clearHeld();inputAbort.abort();gamepadHost?.dispose();if(raf)cancelAnimationFrame(raf);resources?.dispose();eventFeedback?.dispose();disposal=loadDone.then(()=>{runtime?.dispose();return adapter?.dispose();}).finally(async()=>{try{await feedbackAudio?.dispose();}finally{resources?.dispose();host?.remove();closed=true;emit('disposed');}});return disposal;}
  return Object.freeze({
   async load(bundle){assert();if(loading||runtime)throw Error('A2G_E_FLOW: load once per player');loading=true;let finishLoad;loadDone=new Promise(resolve=>{finishLoad=resolve;});let failure;
    try{let snapshot;try{const text=JSON.stringify(bundle);if(typeof text!=='string'||new TextEncoder().encode(text).byteLength>1024*1024)throw Error('invalid size');snapshot=JSON.parse(text);validateJsonTree(snapshot);}catch{throw Error('A2G_E_RELEASE_INTEGRITY: invalid JSON package');}
     if(!snapshot||snapshot.format!=='a2game-release-bundle'||snapshot.bundleVersion!==1||sha256Canonical(snapshot)!==trustedBundleDigest)throw Error('A2G_E_RELEASE_INTEGRITY: package not admitted by this build');
-    const registry=await createBrowserRegistry();assert();definition=snapshot.definition;
+    const registry=await createBrowserRegistry();assert();definition=snapshot.definition;scoreRecord=createScoreRecord(definition);
     resources=new ResourceScope(snapshot.resources.map(record=>({...record,href:new URL('./assets/'+record.sha256,import.meta.url).href})));await resources.load();assert();
     runtime=new HeadlessRuntime(definition,registry);host=document.createElement('div');host.className='stage';host.style.cssText='position:relative;width:100%;height:100%';canvas=document.createElement('canvas');canvas.tabIndex=0;canvas.setAttribute('aria-label',definition.meta.title);canvas.style.cssText='display:block;width:100%;height:100%;touch-action:none';host.append(canvas);container.append(host);
     adapter=await engines.create(backend,{canvas,renderSetup:projectRenderSetup(definition),resources,signal:inputAbort.signal});assert();
@@ -45,9 +62,10 @@ export function createA2GamePlayer({backend,container,engines=builtinEngines,onE
    if(failure){await disposal;throw failure;}
   },
   start(){assert();if(!ready||started)throw Error('A2G_E_FLOW: load before start');runtime.start();started=true;last=0;render();raf=requestAnimationFrame(frame);},
-  pause(){assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before pause');runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();carry=0;render();},
+  pause(){assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before pause');runtime.pause();clearHeld();resetSources();adapter.pauseAudio?.();feedbackAudio?.silence();carry=0;render();},
   resume(){assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before resume');runtime.resume();last=0;carry=0;render();},
-  restart(){assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before restart');resetSources();runtime.restart();clearHeld();holdSerial=0;last=0;carry=0;sequence=0;render();},
+  restart(){assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before restart');resetSources();runtime.restart();clearHeld();eventFeedback?.reset();feedbackAudio?.silence();holdSerial=0;last=0;carry=0;sequence=0;render();},
+  setFeedbackSound(enabled){assert();return feedbackAudio?.enable(enabled)??Promise.resolve(false);},
   action(action){if(!inputReady()||!button(action))return false;adapter.unlockAudio?.();const sourceId=`sdk:${action}:${runtime.tickIndex}`;input(action,'press',sourceId);input(action,'release',sourceId);return true;},
   press(action,source='primary'){
    if(!inputReady()||!button(action)||typeof source!=='string'||!source||source.length>64)return false;
@@ -68,7 +86,7 @@ export function createA2GamePlayer({backend,container,engines=builtinEngines,onE
   disableGamepad(){assert();gamepadHost?.stop({release:true});},
   getInfo(){assert();if(!ready)throw Error('A2G_E_FLOW: load before metadata');return {id:definition.id,title:definition.meta.title,description:definition.meta.description,inputSources:{touch:!!pointerHost,sensors:!!mobileHost,gamepad:!!gamepadHost},actions:definition.inputs.actions.filter(action=>action.valueType==='button').map(action=>({id:action.id,label:actionLabel(definition,action),hold:action.bindings.some(binding=>binding.source==='keyboard.button'&&binding.config?.hold===true),keys:action.bindings.filter(binding=>binding.source==='keyboard.button').map(binding=>binding.config.code)}))};},
   status(){return closed?'disposed':disposed?'disposing':loading?'loading':runtime?.status??'empty';},
-  diagnostics(){return {disposed:closed,disposing:disposed&&!closed,heldSources:held.size,pointer:pointerHost?.diagnostics()??null,sensors:mobileHost?.diagnostics()??null,gamepad:gamepadHost?.diagnostics()??null,resources:resources?.diagnostics()??null,adapter:adapter?.diagnostics()??null};},
+  diagnostics(){return {disposed:closed,disposing:disposed&&!closed,heldSources:held.size,pointer:pointerHost?.diagnostics()??null,sensors:mobileHost?.diagnostics()??null,gamepad:gamepadHost?.diagnostics()??null,resources:resources?.diagnostics()??null,adapter:adapter?.diagnostics()??null,feedbackAudio:feedbackAudio?.diagnostics()??null};},
   dispose
  });
 }

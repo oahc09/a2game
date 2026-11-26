@@ -18,7 +18,7 @@ export function createEventFeedback({onSound=()=>{},maxEffects=12,reducedMotion=
       for(const event of observation.events.slice(-256)){
         if(seen.has(event.eventId))continue;seen.add(event.eventId);
         const hit=event.type==='combat.hit'||event.type==='defense.fired',death=event.type==='combat.death'||event.type==='defense.reward',merge=event.type==='defense.merged';
-        const name=hit?'hit':death?'success':merge?'merge':event.type==='grid.box-pushed'?'push':event.type==='puzzle.undone'?'undo':event.type==='strategy.changed'&&event.payload.kind==='merge'?'merge':null;
+        const name=hit?'hit':event.type==='combat.death'||event.type==='combat.bomb'?'blast':death?'success':merge?'merge':event.type==='combat.supply-collected'?'supply':event.type==='grid.box-pushed'?'push':event.type==='puzzle.undone'?'undo':event.type==='strategy.changed'&&event.payload.kind==='merge'?'merge':null;
         if(!name)continue;onSound(name);
         const id=event.type==='defense.fired'?event.payload.target:merge?event.payload.replacement:event.payload.id;
         const at=current.get(id)??positions.get(id),from=event.type==='defense.fired'?(current.get(event.payload.owner)??positions.get(event.payload.owner)):undefined;

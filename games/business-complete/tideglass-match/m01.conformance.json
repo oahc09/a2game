@@ -1,0 +1,244 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "tideglass-m01",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.tideglass-match.m01",
+    "file": "m01.game.json"
+  },
+  "cases": [
+    {
+      "id": "goal-on-last-move",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/goalRemaining",
+          "equals": [
+            0
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 30
+        }
+      ],
+      "seed": 6400
+    },
+    {
+      "id": "move-limit-loss-and-retry",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.33875,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 0
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 1
+        }
+      ],
+      "seed": 6400
+    },
+    {
+      "id": "reject-non-adjacent-drag",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.1775,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/board",
+          "equals": [
+            3,
+            3,
+            1,
+            5,
+            1,
+            1,
+            4,
+            4,
+            3,
+            1,
+            3,
+            4,
+            1,
+            2,
+            5,
+            2,
+            1,
+            4,
+            1,
+            3,
+            5,
+            3,
+            5,
+            2,
+            1
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 1
+        }
+      ],
+      "seed": 6400
+    }
+  ]
+}

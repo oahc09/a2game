@@ -30,7 +30,10 @@ test('pointer cancellation, short displacement and multi-touch identity do not f
 test('invalid trace identity and out-of-order events fail before runtime start',()=>{
  const rt=new HeadlessRuntime(game(),makeRegistry());
  const wrong=trace();wrong.session.gameRevision=99;
- assert.throws(()=>replayNormalizedInputTrace(rt,wrong),e=>e instanceof A2GameError&&e.code==='A2G_E_INPUT_RAW');
+ assert.throws(()=>replayNormalizedInputTrace(rt,wrong),e=>e instanceof A2GameError&&e.code==='A2G_E_INPUT_RAW'&&e.info.jsonPointer==='/session/gameRevision');
+ const wrongProfile=trace();wrongProfile.session.coordinateProfile='scene2d-contain-v1';
+ assert.throws(()=>replayNormalizedInputTrace(rt,wrongProfile),e=>e.code==='A2G_E_INPUT_RAW'&&
+  e.info.jsonPointer==='/session/coordinateProfile'&&e.info.expected==='viewport-top-left-v1'&&e.info.actual==='scene2d-contain-v1');
  assert.equal(rt.status,'ready');
  const order=trace();order.events.reverse();
  assert.throws(()=>replayNormalizedInputTrace(rt,order),e=>e.code==='A2G_E_INPUT_RAW');
@@ -38,4 +41,16 @@ test('invalid trace identity and out-of-order events fail before runtime start',
  const wrongTime=trace();wrongTime.events[1].timeUs=17000;
  assert.throws(()=>replayNormalizedInputTrace(rt,wrongTime),e=>e.code==='A2G_E_INPUT_RAW');
  assert.equal(rt.status,'ready');
+ const boundary=trace();boundary.events=[{source:'system',kind:'checkpoint',tickIndex:14,seq:0,timeUs:233333,payload:{}}];
+ assert.equal(boundary.session.tickHz,60);
+ assert.throws(()=>replayNormalizedInputTrace(rt,boundary),e=>e.code==='A2G_E_INPUT_RAW'&&
+  e.info.jsonPointer==='/events/0/timeUs'&&e.info.expected.minTimeUs===233334&&e.info.actual===233333);
+ assert.equal(rt.status,'ready');
+ const wrongPointer=trace();
+ wrongPointer.events[0].payload={pointerId:1,x:0.5,y:0.75};
+ assert.throws(()=>replayNormalizedInputTrace(rt,wrongPointer),
+  e=>e.code==='A2G_E_INPUT_RAW'&&e.info.jsonPointer==='/events/0/payload'&&/u\/v/.test(e.message));
+ assert.equal(rt.status,'ready');
+ boundary.events[0].timeUs=233334;
+ assert.equal(replayNormalizedInputTrace(rt,boundary).advanced,14);
 });

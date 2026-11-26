@@ -1,0 +1,117 @@
+{
+  "format": "a2game-game-collection",
+  "version": 2,
+  "id": "tideglass-match",
+  "title": "潮纹消消",
+  "subtitle": "从交换和特殊块入门，挑战冰层、箱体、潮珠出口与特殊块组合。",
+  "levels": [
+    {
+      "id": "m01",
+      "title": "初识潮纹",
+      "hint": "琥珀 3 · 1 步",
+      "par": 1,
+      "game": "m01.game.json",
+      "sha256": "0b7399a9a421f12f79ca43a008d38e96973faef0226d85d440392a4294dfe466",
+      "baseScore": 15
+    },
+    {
+      "id": "m02",
+      "title": "双色潮汐",
+      "hint": "青玉 3、紫晶 3 · 2 步",
+      "par": 2,
+      "game": "m02.game.json",
+      "sha256": "5dcbef8928d1c6c950a154c260b243285450b2becdebf5ae5a7a3c526303e899",
+      "baseScore": 60
+    },
+    {
+      "id": "m03",
+      "title": "潮线",
+      "hint": "先四连生成直线块，再让它参与匹配。",
+      "game": "m03.game.json",
+      "par": 2,
+      "sha256": "39c244085ab14bd80d1244c2ce686f941e8027a5bfa4e0a02cf37e5d718ef356",
+      "baseScore": 65
+    },
+    {
+      "id": "m04",
+      "title": "潮心爆发",
+      "hint": "先组成 T 或 L 形，再激活爆炸块。",
+      "game": "m04.game.json",
+      "par": 2,
+      "sha256": "797fe5d3b93ee7253b6d15f6b50ac6a0d7385f0d9a2edee7ef0bad5e20e880da",
+      "baseScore": 75
+    },
+    {
+      "id": "m05",
+      "title": "虹潮",
+      "hint": "先连成五枚，再把颜色清除块与普通棋子交换。",
+      "game": "m05.game.json",
+      "par": 2,
+      "sha256": "d57fe690d1f56aea8e006d4d580f0423df6a5f3ee2770d2d25bdcf2d69bc9b33",
+      "baseScore": 80
+    },
+    {
+      "id": "m06",
+      "title": "冰封潮汐",
+      "hint": "消除覆冰位置的棋子，让两层冰逐层破开。",
+      "game": "m06.game.json",
+      "par": 2,
+      "sha256": "65686fe05e83a07dcdec461247629c29b0fc1ceec32acbbc195a0d34bd1fcbb2",
+      "baseScore": 65
+    },
+    {
+      "id": "m07",
+      "title": "沉箱水道",
+      "hint": "让相邻消除击破木箱，打开被阻挡的列。",
+      "game": "m07.game.json",
+      "par": 2,
+      "sha256": "68010361566ae0c07a69c211f0dbd056c9ff332a8b385d48ec2451b7ccfe487d",
+      "baseScore": 65
+    },
+    {
+      "id": "m08",
+      "title": "潮口运珠",
+      "hint": "消除出口上方的青玉，让金色珠子随重力落入出口。",
+      "par": 1,
+      "game": "m08.game.json",
+      "sha256": "9c1fb80118f512a553ba60f4aabe1e4be7ad891a052490984689d5878d95aae4",
+      "baseScore": 55
+    },
+    {
+      "id": "m09",
+      "title": "交叉潮线",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "combos/m09.game.json",
+      "sha256": "222efb9e3dfabd05298faa53a1972a58ba1ff66efed84c66221a88655f11c38d",
+      "baseScore": 45
+    },
+    {
+      "id": "m10",
+      "title": "交潮爆发",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "combos/m10.game.json",
+      "sha256": "8193e144e59f5313961c713ea02fe194c2ffe4221af939090fa846861a0d17d5",
+      "baseScore": 105
+    },
+    {
+      "id": "m11",
+      "title": "虹线齐鸣",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "combos/m11.game.json",
+      "sha256": "2f07bbe35d17486bcd368b7392efc875b130e230853b48e8703ede4150f7dff2",
+      "baseScore": 125
+    },
+    {
+      "id": "m12",
+      "title": "潮汇终章",
+      "hint": "两步内消除青玉和紫晶、破冰碎箱，并把潮珠送入出口。",
+      "par": 2,
+      "game": "m12.game.json",
+      "sha256": "676aeeee467d68097e0689b2057c4fc5e0a3bcca53677142f3e7bf0124713895",
+      "baseScore": 100
+    }
+  ]
+}

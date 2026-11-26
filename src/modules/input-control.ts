@@ -14,6 +14,7 @@ function checkState(s:JsonRecord):void{
  if(!safeFinite(s.angle)||Math.abs(s.angle)>10000||!safeFinite(s.scale)||s.scale<0.125||s.scale>8||!safeFinite(s.power)||s.power<0||s.power>1||!safeInteger(s.score)||s.score<0||s.score>100000000||!safeInteger(s.spawned)||s.spawned<0||s.spawned>1000000||!safeInteger(s.balanceTicks)||s.balanceTicks<0||!Array.isArray(s.cutIds)||s.cutIds.length>128||s.cutIds.some(id=>typeof id!=='string')||![s.won,s.lost,s.grabbing,s.hasTarget,s.fireRequest].every(value=>typeof value==='boolean'))error('Invalid control state');
  for(const key of ['axisSource','aimSource'])if(s[key]!==undefined&&(typeof s[key]!=='string'||String(s[key]).length>256))error('Invalid input source provenance');
  for(const key of ['axis','aim','grab','target']){const value=s[key];if(!Array.isArray(value)||value.length!==2||!value.every(safeFinite))error('Invalid control vector');}
+ if(s.dragPointer!==undefined&&(!safeInteger(s.dragPointer)||s.dragPointer<0||!Array.isArray(s.dragOffset)||s.dragOffset.length!==2||!s.dragOffset.every(safeFinite)))error('Invalid relative drag state');
 }
 export function simulateInputControl(ctx:ModuleContext):ModuleResult{
  const c=ctx.config,raw=readPointer(ctx.world.state,String(c.statePath));if(!isRecord(raw))error('Missing controller state');const s=clone(raw) as JsonRecord;checkState(s);
@@ -22,6 +23,8 @@ export function simulateInputControl(ctx:ModuleContext):ModuleResult{
  const point=(value:Json):[number,number]=>{if(!Array.isArray(value)||value.length!==2||!value.every(safeFinite))error('Expected normalized pointer point');return viewportToWorld(value[0] as number,value[1] as number,aspect,sceneWidth,sceneHeight,origin);};
  if(c.clearLostImu!==undefined&&typeof c.clearLostImu!=='boolean')error('Invalid IMU loss policy');
  let dragReceived=false;
+ const relative=c.moveMode==='relative-drag';
+ const clearDrag=()=>{delete s.dragPointer;delete s.dragOffset;s.hasTarget=false;};
  for(const input of ctx.inputs){
   if(input.type!=='input.action'||input.edge!=='press')continue;const value=input.payload.value,source=input.sourceId??String(input.payload.sourceId??'');
   aspect=typeof input.payload.viewportAspect==='number'?input.payload.viewportAspect:sceneWidth/sceneHeight;
@@ -31,6 +34,17 @@ export function simulateInputControl(ctx:ModuleContext):ModuleResult{
   if(input.action===c.rotateAction&&safeFinite(value)){if(s.rotateSource!==source){s.rotateSource=source;s.angleBase=s.angle;}s.angle=wrapAngle(Number(s.angleBase)+value);}
   if(input.action===c.pinchAction&&safeFinite(value)){if(s.pinchSource!==source){s.pinchSource=source;s.scaleBase=s.scale;}s.scale=quantize(clamp(Number(s.scaleBase)*value,0.125,8));}
   if(input.action===c.rawAction&&isRecord(value)&&safeFinite(value.u)&&safeFinite(value.v)){
+   if(relative&&body&&safeInteger(value.pointerId)&&value.pointerId>=0){
+    if(value.count!==1||((value.kind==='up'||value.kind==='cancel')&&s.dragPointer===value.pointerId))clearDrag();
+    else if(value.kind==='down'){
+     const [x,y]=point([value.u,value.v]);
+     s.dragPointer=value.pointerId;s.dragOffset=[body.x-x,body.y-y];s.hasTarget=false;
+    }else if(value.kind==='move'&&s.dragPointer===value.pointerId){
+     const [x,y]=point([value.u,value.v]),[dx,dy]=s.dragOffset as number[];
+     s.target=[x+dx!,y+dy!];s.hasTarget=true;s.usedInput=true;
+    }
+    continue;
+   }
    if(Number(value.count??1)>1){s.grabbing=false;s.power=0;continue;}
    if(value.kind==='down'){s.grabbing=true;s.grab=[value.u,value.v];s.power=0;}
    if(s.grabbing&&value.kind==='move'&&c.slingshot===true){const pull=[Number((s.grab as number[])[0])-value.u,value.v-Number((s.grab as number[])[1])],length=Math.hypot(...pull);s.power=quantize(clamp(length/0.5,0,1));if(length>0)s.aim=pull.map(v=>quantize(v/length));}
@@ -53,9 +67,11 @@ export function simulateInputControl(ctx:ModuleContext):ModuleResult{
  }
  if(c.clearLostImu===true){if(String(s.axisSource??'').startsWith('imu:')&&(!normalized['~imu']||!normalized['~imu:'+String(c.tiltAction)])){s.axis=[0,0];s.axisSource='';}if(String(s.aimSource??'').startsWith('imu:')&&(!normalized['~imu']||!normalized['~imu:'+String(c.orientationAction)])){s.aim=[0,0];s.aimSource='';}}
  const activePointer=Object.keys(normalized).some(key=>/^\d+$/.test(key));
+ if(relative&&(s.dragPointer===undefined||!normalized[String(s.dragPointer)]))clearDrag();
  if(c.axisFromDrag===true&&!activePointer&&!dragReceived&&!normalized['~imu'])s.axis=[0,0];
  if(body){
   if(c.moveMode==='drag'&&(dragReceived||activePointer)&&s.hasTarget){moveClipped(body,s.target as number[],Number(c.speed??128),w.bodies.filter(b=>b.fixed&&b.kind==='solid'));body.vx=body.vy=0;}
+  if(relative&&s.hasTarget){moveClipped(body,s.target as number[],Number(c.speed??128),w.bodies.filter(b=>b.fixed&&b.kind==='solid'));body.vx=body.vy=0;}
   if(c.moveMode==='tilt'&&!activePointer){const axis=normalized['~imu']?s.axis as number[]:[0,0];body.vx=Math.round(Number(c.speed??64)*axis[0]!);body.vy=Math.round(-Number(c.speed??64)*axis[1]!);}
   if(c.moveMode==='tilt'&&activePointer&&s.hasTarget){moveClipped(body,s.target as number[],Number(c.speed??128),w.bodies.filter(b=>b.fixed&&b.kind==='solid'));body.vx=body.vy=0;}
   body.x=clamp(body.x,body.hx,Number(c.width)-body.hx);body.y=clamp(body.y,body.hy,Number(c.height)-body.hy);
@@ -73,6 +89,7 @@ export function validateInputControlDefinition(def:GameDefinition):void{
   if(c.clearLostImu===true)for(const key of ['tiltAction','orientationAction']){
    const action=def.inputs.actions.find(a=>a.id===c[key]);if(action?.bindings.some(b=>['imu.tilt','imu.orientation'].includes(b.source)&&b.config?.trackSample!==true))error('IMU loss clearing requires tracked sample validity');
   }
+  if(c.moveMode==='relative-drag'&&(!c.bodyId||c.dragAction!==undefined||c.slingshot===true||!def.inputs.actions.some(action=>action.id===c.rawAction&&action.valueType==='pose'&&action.bindings.some(binding=>binding.source==='touch.raw'))))error('Relative drag requires a controlled body and a raw pointer action');
   const half=Number(c.spawnHalfSize??128),y=Number(c.spawnY??Number(c.height)-half);if(y<half||y>Number(c.height)-half||half*2>Number(c.width))error('Drop template exceeds world bounds');
   for(const [key,value] of Object.entries(c))if(key.endsWith('Action')&&!def.inputs.actions.some(action=>action.id===value))error('Unknown controller action');
  }

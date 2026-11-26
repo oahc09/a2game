@@ -76,3 +76,7 @@ npm run player:serve
 | `A2G_E_VALIDATOR_UNAVAILABLE` / `A2G_E_VALIDATOR_TIMEOUT` | 修复 Python/依赖或缩小输入后重试 |
 
 `npm run content:e2e` 在真实 Three.js、CocosAirJS 导入未列入内置白名单的变体，核对 Node/Host Hash、结构/能力负例、失败恢复与后端切换；随后退出并重新启动 HTTP 服务进程，在相同 URL 加载原回执并继续输入。独立目录保存回执、截图、Trace 和进程退出记录。原有样例/生命周期回归继续使用 `npm run g2:real`；两类证据分别统计，不替代 G3 或真机 Touch/IMU。
+
+## 计分作品的本地记录
+
+参考播放器支持受控的 `extensions["x-a2game-score-session"]`，只接受 `scorePath`，且必须指向非负整数初态。正常时钟下在 `lost` 结算时比较最高分，记录按 GameSpec 摘要和同源浏览器存储隔离。该记录属于播放器界面，不参与玩法状态、Trace Hash 或远端排行。

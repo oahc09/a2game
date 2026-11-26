@@ -1,0 +1,267 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "pattern-harbor-challenge",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.pattern-harbor.challenge",
+    "file": "challenge.game.json"
+  },
+  "cases": [
+    {
+      "id": "seven-distinct-tiles-fill-tray",
+      "seed": 8314,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.12388888888888894,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.12388888888888894,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2783333333333333,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2783333333333333,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.43277777777777776,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.43277777777777776,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5872222222222222,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5872222222222222,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7416666666666667,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7416666666666667,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8961111111111111,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8961111111111111,
+              "v": 0.1596153846153846,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.12388888888888894,
+              "v": 0.33192307692307693,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.12388888888888894,
+              "v": 0.33192307692307693,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 7
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/tray",
+          "equals": [
+            9,
+            10,
+            11,
+            12,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/tray",
+          "equals": []
+        }
+      ]
+    }
+  ]
+}

@@ -84,6 +84,8 @@ interface A2GameConformanceDriver {
 
 ### 2.3 证据回执与 InputTrace 的机器接口
 
+业务 `score-session` 可用 `scripts/score-session.mjs` 验证。它重放与准入 GameSpec 匹配的 InputTrace，要求声明角色收到 `combat.death`、最终状态为 `lost` 且指定状态路径的分数精确匹配。随后用相同种子重开并检查初态 Hash。该验收工具适用于得分后正常死亡的玩法，既有有限目标用例仍沿用其原通过条件。
+
 - `schemas/input-trace.schema.json`：定义采集/回放的标准封套，`examples/input-traces/touch-imu.input-trace.json` 给出含 pointer down/up 和 IMU 的**合成**样例；跨平台复现时必须声明转换/识别器版本。真实采样须经用户授权，不默认持久化。
 - `schemas/coverage-result.schema.json`：定义单个 `(gameId,testCaseId,adapterId,platformProfile,capabilitySetDigest,testRevision)` 的测试结果。`status=PASS` 必须带实际 `runId`、`eventTraceUri`；`BLOCKED/NOT_APPLICABLE` 必须带原因；不能只交一张截图。
 - `examples/coverage/not-run.receipt.json`：当前无实现、因此明确 `NOT_RUN` 的范例，不能用此示例作为 PASS 证据。

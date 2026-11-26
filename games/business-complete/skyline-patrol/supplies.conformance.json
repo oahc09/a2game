@@ -1,0 +1,106 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "skyline-patrol-supplies",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.skyline-patrol",
+    "file": "supplies.game.json"
+  },
+  "cases": [
+    {
+      "id": "bomb-stock-scoring-and-restart",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 73
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bombs",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 200
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "combat.bomb",
+          "count": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "combat.bomb",
+          "count": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bombs",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    }
+  ]
+}

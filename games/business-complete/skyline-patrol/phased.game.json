@@ -1,0 +1,395 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.business.skyline-patrol",
+  "revision": 2,
+  "meta": {
+    "title": "云线巡航",
+    "genres": [
+      "shooter"
+    ],
+    "description": "拖动飞机躲避敌机，火力自动发射。敌机类型、速度和生成频率随游玩时间变化。撞机后结算，可重开。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.input-control",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.weapon",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.projectile",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 5629,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 10000,
+                "height": 16000,
+                "weapon": "projectile",
+                "fireDirection": "up",
+                "projectileSpeed": 96,
+                "projectileHalfSize": 38,
+                "cooldownTicks": 6,
+                "autoFire": true,
+                "independentProjectileHits": true,
+                "maxObjects": 128,
+                "waves": [
+                  {
+                    "tick": 0,
+                    "body": {
+                      "id": "scout",
+                      "kind": "target",
+                      "x": 5000,
+                      "y": 15300,
+                      "vx": 0,
+                      "vy": -14,
+                      "hx": 160,
+                      "hy": 185,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 100,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 0,
+                    "body": {
+                      "id": "transport",
+                      "kind": "target",
+                      "x": 2600,
+                      "y": 15300,
+                      "vx": 0,
+                      "vy": -10,
+                      "hx": 240,
+                      "hy": 250,
+                      "hp": 4,
+                      "team": 2,
+                      "value": 400,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 0,
+                    "body": {
+                      "id": "carrier",
+                      "kind": "target",
+                      "x": 2600,
+                      "y": 15300,
+                      "vx": 0,
+                      "vy": -6,
+                      "hx": 340,
+                      "hy": 380,
+                      "hp": 10,
+                      "team": 2,
+                      "value": 1000,
+                      "fixed": false
+                    }
+                  }
+                ],
+                "wavePhases": [
+                  {
+                    "startTick": 0,
+                    "intervalTicks": 72,
+                    "speedPermille": 1000,
+                    "weights": [
+                      75,
+                      20,
+                      5
+                    ]
+                  },
+                  {
+                    "startTick": 3600,
+                    "intervalTicks": 48,
+                    "speedPermille": 1250,
+                    "weights": [
+                      65,
+                      25,
+                      10
+                    ]
+                  },
+                  {
+                    "startTick": 10800,
+                    "intervalTicks": 30,
+                    "speedPermille": 1500,
+                    "weights": [
+                      55,
+                      30,
+                      15
+                    ]
+                  }
+                ]
+              }
+            },
+            {
+              "capability": {
+                "id": "a2game.realtime.input-control",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/control",
+                "worldPath": "/world",
+                "width": 10000,
+                "height": 16000,
+                "sceneWidth": 10,
+                "sceneHeight": 16,
+                "origin": [
+                  -5,
+                  -8
+                ],
+                "bodyId": "hero",
+                "moveMode": "drag",
+                "dragAction": "drag",
+                "speed": 128
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "hero",
+            "kind": "actor",
+            "x": 5000,
+            "y": 1600,
+            "vx": 0,
+            "vy": 0,
+            "hx": 180,
+            "hy": 260,
+            "hp": 1,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false
+      }
+    },
+    "control": {
+      "type": "object",
+      "initial": {
+        "angle": 0,
+        "scale": 1,
+        "axis": [
+          0,
+          0
+        ],
+        "aim": [
+          1,
+          0
+        ],
+        "power": 0,
+        "score": 0,
+        "won": false,
+        "lost": false,
+        "cutIds": [],
+        "spawned": 0,
+        "grabbing": false,
+        "grab": [
+          0.5,
+          0.5
+        ],
+        "target": [
+          0,
+          0
+        ],
+        "hasTarget": false,
+        "rotateSource": "",
+        "pinchSource": "",
+        "angleBase": 0,
+        "scaleBase": 1,
+        "balanceTicks": 0,
+        "fireRequest": false,
+        "usedInput": false,
+        "laneSignal": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "drag",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "touch.drag",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "lost",
+      "status": "lost",
+      "priority": -1,
+      "when": {
+        "state": "/world/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "world-score",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "得分 {0}",
+            "args": [
+              {
+                "state": "/world/score"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 10,
+      "height": 16,
+      "background": "#11243b",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            7.48
+          ],
+          "fontSize": 0.38,
+          "fill": "#d7f2e8",
+          "text": {
+            "literal": "云线巡航"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -7.5
+          ],
+          "fontSize": 0.23,
+          "fill": "#c1d7e7",
+          "text": {
+            "literal": "拖动机身避险 · 自动射击"
+          }
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -5,
+          -8
+        ],
+        "palette": {
+          "actor": "#6ae2cc",
+          "solid": "#a8c5d9",
+          "target": "#f49566",
+          "projectile": "#fde0a6",
+          "pickup": "#bd86d9"
+        },
+        "circleKinds": [
+          "projectile"
+        ],
+        "showValues": false
+      }
+    }
+  },
+  "tests": [
+    "phased.conformance.json"
+  ],
+  "entryScene": "main",
+  "extensions": {}
+}

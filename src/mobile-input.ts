@@ -62,7 +62,8 @@ export function recognizeMobileInput(stage:SessionSnapshot,batch:readonly Normal
   const pointers=active();if(pointers.length>=2)for(const pointer of pointers)pointer.p.multi=true;
   for(const {action,binding,cfg} of bindings.filter(row=>row.binding.source==='touch.select')){
    const width=Number(cfg.sceneWidth),height=Number(cfg.sceneHeight),inside=(u:number,v:number)=>{const [x,y]=viewportToWorld(u,v,sampleAspect??width/height,width,height,[0,0]);return Math.abs(x/1000-Number(cfg.x))<=Number(cfg.hx)&&Math.abs(y/1000-Number(cfg.y))<=Number(cfg.hy);};
-   if(!p.multi&&inside(p.x,p.y)&&(cfg.mode==='drag-select'?sample.kind==='down'||sample.kind==='up'&&!inside(p.u,p.v):sample.kind==='up'&&p.distance<=Number(cfg.maxDistanceNorm??0.04)))pulse(action.id,undefined,'select:'+id,time);
+   if(!p.multi&&inside(p.x,p.y)&&(cfg.mode==='drag-select'?sample.kind==='down'||sample.kind==='up'&&!inside(p.u,p.v):sample.kind==='up'&&p.distance<=Number(cfg.maxDistanceNorm??0.04)))
+    pulse(action.id,cfg.gestureMetadata===true?{startedTick:p.tick}:undefined,'select:'+id,time);
   }
   for(const {action,binding} of bindings.filter(row=>row.binding.source==='touch.raw'))pulse(action.id,{pointerId:payload.pointerId,u:p.x,v:p.y,kind:sample.kind,count:pointers.length},'raw:'+id,time);
   if(sample.kind==='move'&&pointers.length===1){

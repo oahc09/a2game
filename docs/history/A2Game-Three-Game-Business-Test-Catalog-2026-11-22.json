@@ -1,0 +1,3338 @@
+{
+  "format": "a2game-complete-business-acceptance-plan@1",
+  "version": "1.1.0-design",
+  "asOf": "2026-11-23",
+  "sourceRepository": "oahc09/a2game",
+  "sourceCommit": "bab35b3b3422f5eb8adef02b4cdc4db7d00daee2",
+  "initialSourceCommit": "13c64dc07c0e6dde3816f100216bad9565bb1ed0",
+  "historicalEvidenceGap": {
+    "check": "npm run project:check",
+    "status": "MISSING_HISTORICAL_EVIDENCE",
+    "error": "ENOENT",
+    "path": "reports/g3-plan-2026-10-27T13-58-29-912Z-35480/plan.json",
+    "newGameCaseResultsEstablished": false
+  },
+  "artifactType": "TEST_DESIGN_NOT_GAMESPEC",
+  "executable": false,
+  "implementationPerformed": false,
+  "testsRun": false,
+  "additionalRealGeneratorProviderCalls": 0,
+  "description": "三款完整作品的业务测试计划。fixtures、关卡、seed、解路径和运行证据待实施；当前不得传给播放器当GameSpec。",
+  "counts": {
+    "scenarios": 3,
+    "shooterCases": 18,
+    "sheepCases": 18,
+    "match3Cases": 20,
+    "sharedCases": 12,
+    "agentTasks": 6,
+    "totalTrackedCases": 74
+  },
+  "scenarios": [
+    {
+      "id": "BIZ-01",
+      "key": "shooter",
+      "title": "经典微信打飞机型完整得分游戏",
+      "existingCoverageIds": [
+        "G17"
+      ],
+      "acceptanceProfile": "score-session",
+      "content": {
+        "modes": 1,
+        "enemyTypes": 3,
+        "difficultyStages": 3,
+        "powerups": 2,
+        "endlessAfterFinalStage": true
+      },
+      "designedGameProfile": {
+        "id": "B01-playable-v1",
+        "claim": "本轮完整作品设计参数，不声称原版精确数值；可直接开工，后续按reference-lock校准",
+        "tickHz": 60,
+        "visibleWorld": {
+          "width": 10000,
+          "height": 16000
+        },
+        "player": {
+          "lifeCount": 1,
+          "dragMode": "relative-with-pointer-down-offset",
+          "smoothing": 0,
+          "collisionHalfSize": [
+            180,
+            260
+          ]
+        },
+        "weapon": {
+          "cooldownTicks": 6,
+          "projectileSpeedPerTick": 96,
+          "damage": 1,
+          "doubleShotOffsetsX": [
+            -150,
+            150
+          ]
+        },
+        "enemyArchetypes": [
+          {
+            "id": "small",
+            "hp": 1,
+            "score": 100,
+            "speedPerTick": 14,
+            "collisionHalfSize": [
+              160,
+              200
+            ]
+          },
+          {
+            "id": "medium",
+            "hp": 4,
+            "score": 400,
+            "speedPerTick": 10,
+            "collisionHalfSize": [
+              280,
+              360
+            ]
+          },
+          {
+            "id": "large",
+            "hp": 10,
+            "score": 1000,
+            "speedPerTick": 6,
+            "collisionHalfSize": [
+              500,
+              600
+            ]
+          }
+        ],
+        "difficultyStages": [
+          {
+            "id": "intro",
+            "activeSeconds": [
+              0,
+              60
+            ],
+            "spawnEveryTicks": 72,
+            "weights": [
+              75,
+              20,
+              5
+            ],
+            "enemySpeedMultiplier": 1
+          },
+          {
+            "id": "steady",
+            "activeSeconds": [
+              60,
+              180
+            ],
+            "spawnEveryTicks": 48,
+            "weights": [
+              65,
+              25,
+              10
+            ],
+            "enemySpeedMultiplier": 1.25
+          },
+          {
+            "id": "challenge",
+            "activeSeconds": [
+              180,
+              null
+            ],
+            "spawnEveryTicks": 30,
+            "weights": [
+              55,
+              30,
+              15
+            ],
+            "enemySpeedMultiplier": 1.5
+          }
+        ],
+        "spawnPolicy": "每次生成按种子RNG选择模板及合法x；在可见区域外的上方出生；完整离开底部回收带后despawn；阶段3持续循环",
+        "powerups": {
+          "everyActiveTicks": 1800,
+          "weights": {
+            "doubleShot": 1,
+            "bomb": 1
+          },
+          "doubleShotDurationTicks": 720,
+          "doubleShotRepeat": "refresh",
+          "bombCapacity": 3,
+          "initialBombs": 1,
+          "bombActivation": "explicit-ui-action",
+          "bombTarget": "visible-enemies-only",
+          "bombStopsSpawner": false
+        },
+        "sameTickOrder": [
+          "powerup-action",
+          "projectile-hit",
+          "body-contact",
+          "death-cleanup-and-score",
+          "terminal"
+        ],
+        "initialObjectBudget": 128,
+        "budgetPolicy": "先对正式配置实测与修正生命周期；不得仅为避免测试失败任意抬高上限",
+        "terminal": "玩家死亡后结算本局分数，最高分持久化；无目标分数或时间通关；重开使用新种子，回放复现指定种子"
+      },
+      "rulesDocument": "casebooks/shooter.md",
+      "status": {
+        "functional": "NOT_RUN",
+        "presentation": "NOT_RUN",
+        "delivery": "NOT_RUN",
+        "agent": "NOT_RUN",
+        "physicalTouch": "NOT_RUN",
+        "referenceFidelity": "REFERENCE_CAPTURE_PENDING"
+      },
+      "officialParameterClaim": false
+    },
+    {
+      "id": "BIZ-02",
+      "key": "sheep",
+      "title": "羊了个羊型完整分层选牌游戏",
+      "existingCoverageIds": [
+        "G04"
+      ],
+      "acceptanceProfile": "finite-goal",
+      "content": {
+        "levels": 2,
+        "tutorial": {
+          "tiles": 18,
+          "symbols": 3,
+          "layers": 2
+        },
+        "challenge": {
+          "tiles": 144,
+          "symbols": 12,
+          "minimumLayers": 6
+        },
+        "trayCapacity": 7,
+        "matchCount": 3,
+        "tools": [
+          "reserve-three",
+          "undo-selection",
+          "shuffle"
+        ]
+      },
+      "toolPolicy": "每局各1次；撤销不返还工具额度；工具事务建立撤销屏障；洗牌若承诺可解须验证当前完整状态",
+      "rulesDocument": "casebooks/sheep.md",
+      "status": {
+        "functional": "NOT_RUN",
+        "presentation": "NOT_RUN",
+        "delivery": "NOT_RUN",
+        "agent": "NOT_RUN",
+        "physicalTouch": "NOT_RUN",
+        "referenceFidelity": "REFERENCE_CAPTURE_PENDING"
+      },
+      "officialParameterClaim": false
+    },
+    {
+      "id": "BIZ-03",
+      "key": "match3",
+      "title": "开心消消乐型完整交换消除游戏",
+      "existingCoverageIds": [
+        "G03"
+      ],
+      "acceptanceProfile": "finite-goal",
+      "content": {
+        "mainLevels": 12,
+        "playableVariants": 3,
+        "allLiveGameContentClaim": false,
+        "originalExactRulesVerified": false
+      },
+      "proposedScoringContract": {
+        "status": "DESIGN_VALUES_NOT_ORIGINAL_MEASUREMENTS",
+        "ordinaryTileCleared": 10,
+        "specialTileConsumed": 10,
+        "obstacleLayerRemoved": 20,
+        "collectibleExit": 50,
+        "conversionOrCreation": 0,
+        "cascadeMultiplier": 1,
+        "remainingMovesBonus": 0,
+        "perEntityDedup": true
+      },
+      "proposedStarContract": {
+        "baseScore": "Positive integer B declared by each actual level",
+        "displayThresholds": [
+          "B",
+          "ceil(1.5*B)",
+          "2*B"
+        ],
+        "result": "If not won, 0; else if score >= 2*B, 3; else if score >= ceil(1.5*B), 2; else 1",
+        "scoreDoesNotSubstituteObjectives": true,
+        "highStarReachability": "Must be witnessed per actual authored level before claiming attainable; no boards or witnesses verified in this design pass."
+      },
+      "rulesDocument": "casebooks/match3.md",
+      "status": {
+        "functional": "NOT_RUN",
+        "presentation": "NOT_RUN",
+        "delivery": "NOT_RUN",
+        "agent": "NOT_RUN",
+        "physicalTouch": "NOT_RUN",
+        "referenceFidelity": "REFERENCE_CAPTURE_PENDING"
+      },
+      "officialParameterClaim": false
+    }
+  ],
+  "cases": [
+    {
+      "id": "SHT-01",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "从入口开始一局并重开",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "正式游戏包通过完整准入；使用全新游戏记录；声音由一次用户手势解锁"
+      ],
+      "steps": [
+        "打开入口，查看操作说明和最高分",
+        "点击开始，完成移动和一次击毁",
+        "死亡后点击重开"
+      ],
+      "expected": [
+        "标题/说明状态不推进玩法时钟，不发射/生成敌机",
+        "每次开始仅创建一个会话；首个可操作画面具备玩家、HUD和控制提示",
+        "重开后分数、武器、生成器阶段、输入缓存与临时对象按合同重置；最高分不被清零"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "入口→游戏→结算→重开录像",
+        "会话生命周期与初始状态摘要"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-02",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "拖动、屏幕映射和取消输入",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "冻结绝对或相对拖动方式、按下偏移、最大跟随速度、玩家可移动区域",
+        "同一段归一化拖动轨迹，目标窗口比例为9:16、9:19.5、桌面窄窗"
+      ],
+      "steps": [
+        "在飞机偏侧位置按下并拖动",
+        "拖出四边后释放",
+        "按下后注入pointercancel，再次按下拖动"
+      ],
+      "expected": [
+        "移动轨迹符合被冻结控制函数，控制逻辑不随DPR或适配留白变化",
+        "玩家碰撞区域始终在允许区域内；按下是否瞬移严格符合冻结规则",
+        "取消后不继续追旧目标；下一次拖动没有旧指针偏移或残留输入"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "归一化输入、每Tick玩家位置",
+        "各比例实画面及至少一台物理触控设备的操作录像"
+      ],
+      "fixtures": [
+        "S-INPUT"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-03",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "自动开火与时间语义",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "夹具射击间隔K=6 Tick、伤害1；K为测试设计值，非微信原版参数",
+        "已冻结首发时机及暂停时钟规则"
+      ],
+      "steps": [
+        "无射击按钮输入，连续推进至少5K Tick",
+        "在两个发射时刻中间暂停，再恢复"
+      ],
+      "expected": [
+        "按首发时机表恰好在t0+nK生成子弹，帧率变化不改变发射数",
+        "子弹从当前机头发射位置生成，飞行方向和速度符合配置",
+        "暂停期间不发射；恢复后不补发离线时间中的子弹"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "发射事件Tick序列",
+        "机头/子弹位置记录及画面"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-04",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "循环生成与难度变化",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "生成器使用锁定种子及具名敌机模板",
+        "冻结难度分段、生成分布、对象预算与池满策略"
+      ],
+      "steps": [
+        "用公开输入持续游玩或重放，使单局累计生成数超过64",
+        "跨越每个配置的难度分段边界",
+        "重开同种子，重放相同输入"
+      ],
+      "expected": [
+        "超过64次后仍按配置生成，不因为一次性列表用完而结束",
+        "难度边界的频率/模板/速度变化符合表，已有对象是否受影响也按合同",
+        "同种子同输入产生相同的生成序列和最终玩法状态；不能仅比较总分"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "生成事件与难度分段快照",
+        "同种子对照Hash和对象预算曲线"
+      ],
+      "fixtures": [
+        "S-SPAWNER"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-05",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "屏幕外出生、离屏回收和玩家边界",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "模拟区域包含可见区域外的生成带与回收带",
+        "玩家clamp、敌机despawn、子弹despawn分别冻结"
+      ],
+      "steps": [
+        "从画面上方生成敌机并让其穿过画面",
+        "让敌机飞出下边界，让子弹飞出上边界",
+        "将玩家拖向边缘"
+      ],
+      "expected": [
+        "敌机从外部自然进入，不在顶部突然跳位",
+        "完全离开约定回收带的对象被移除，不被夹在边缘，不计击毁分",
+        "玩家仍受移动边界限制；可见区域和模拟边界不混用"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "出生/离屏/回收事件与对象计数",
+        "上下边界录像"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-06",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "不同敌机的伤害和击毁得分",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "正式敌机模板数量及HP/分数/速度已按参考冻结",
+        "测试夹具提供HP=1/3/5、分数100/300/500三类敌机，数值仅供规则校验"
+      ],
+      "steps": [
+        "分别用单发damage=1子弹逐次命中三类敌机",
+        "检查每次命中、最后一次命中及其后两个Tick"
+      ],
+      "expected": [
+        "非致命命中按次扣血且不提前加击毁分",
+        "分别在第1/3/5次有效命中死亡，只增加对应分值一次",
+        "死亡后的目标不再被射击/碰撞命中，受击和爆炸事件各按合同发出"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "HP变化、击毁事件、计分明细",
+        "三类敌机外观与反馈画面"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-07",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "碰撞层与非阻挡接触",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "冻结玩家/敌机/子弹/道具的碰撞矩阵与碰撞形状；外观尺寸与判定尺寸分开"
+      ],
+      "steps": [
+        "两架敌机重叠穿行",
+        "玩家子弹穿过玩家并命中敌机",
+        "让玩家外观边缘擦过敌机，再让实际判定区域重叠"
+      ],
+      "expected": [
+        "被合同禁用的敌机间碰撞不推挤、反弹或造成伤害",
+        "友方子弹不伤害玩家；命中只作用于允许目标",
+        "视觉擦边不等于碰撞，判定结果与冻结的碰撞几何一致；双后端结果一致"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "碰撞对/命中事件日志",
+        "可切换诊断碰撞轮廓的录制；正式界面无诊断覆盖"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-08",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "独立子弹去重与同Tick多命中",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "无敌时间设为0的专用夹具；敌机HP=3",
+        "一颗子弹可能在多个物理子步覆盖敌机；另有同owner不同projectileId的两颗子弹"
+      ],
+      "steps": [
+        "分别运行同一子弹多子步接触与两颗独立子弹同Tick命中两种情形"
+      ],
+      "expected": [
+        "同一子弹只扣1血，HP=2",
+        "若合同声明两颗独立子弹都有效，则同Tick扣2血，HP=1；不能因owner相同合并为一击",
+        "击毁和计分仍按目标死亡唯一计数"
+      ],
+      "layers": [
+        "headless"
+      ],
+      "evidence": [
+        "每个projectileId/targetId的命中账本",
+        "逐Tick HP和分数"
+      ],
+      "fixtures": [
+        "S-MULTIHIT"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-09",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "同Tick击毁与接触的结算顺序",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "本轮设计顺序：道具请求→弹丸命中→机体接触→死亡清理/计分→终局；原版精确顺序另行参考校准",
+        "夹具在同Tick安排目标被子弹击毁与玩家接触该目标"
+      ],
+      "steps": [
+        "按相同输入重复运行，并在双后端重放"
+      ],
+      "expected": [
+        "该夹具中敌机先被子弹击毁，因此不再对玩家造成接触伤害，目标分数仅增加一次",
+        "结果不能随实体ID、数组排列、渲染帧或后端改变；无致命子弹的对照夹具中玩家按接触规则死亡",
+        "如死亡成立，分数结算只包含约定截至点的事件，结算屏显示值与权威状态相同"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "具名顺序合同",
+        "目标事件序列与双后端最终状态"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-10",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "无尽得分局的正常结束语义",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "正式玩法为score-session；已冻结生命规则和死亡判据"
+      ],
+      "steps": [
+        "越过旧样例的目标分数/时间边界而不死亡",
+        "随后通过公开输入触发一次真实死亡"
+      ],
+      "expected": [
+        "不会为了测试通过而自动won或刷完固定波次后停住",
+        "死亡后的本局结算可以被业务验收判为PASS；游戏结果与测试结果分开",
+        "生成器、射击和输入按结束状态停止，结算数据完整"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "score-session验收回执",
+        "跨边界与真实死亡轨迹"
+      ],
+      "fixtures": [
+        "S-SESSION"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-11",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "死亡、重复输入与重开隔离",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "玩家只剩最后一次有效生存机会；已有飞行子弹与击毁动画"
+      ],
+      "steps": [
+        "触发死亡，并连续点击/拖动/重复点击重开",
+        "在新局首Tick检查状态"
+      ],
+      "expected": [
+        "死亡结算只执行一次，死亡动画/音效不重复触发",
+        "结束状态拒绝玩法输入；一个重开只产生一个新局",
+        "上局弹丸、事件、计时器、动画回调、按压状态不污染新局"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "生命周期事件与会话ID",
+        "死亡重开录像及对象释放诊断"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-12",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "最高分持久记录",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "持久记录为空；测试局分别得到S1=100、S2=80、S3=120，数值为夹具"
+      ],
+      "steps": [
+        "依次完成三局，在每局结算后关闭并重新打开播放器"
+      ],
+      "expected": [
+        "最高分依次为100、100、120，本局分数每次从0开始",
+        "重复提交同一局结果不会产生额外奖励或重复记录",
+        "存储不可用时明确提示记录未保存，本局仍可完成，不伪造永久保存成功"
+      ],
+      "layers": [
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "每局结算与重开后的记录",
+        "存储失败分支诊断"
+      ],
+      "fixtures": [
+        "S-PROGRESS"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-13",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "暂停、隐藏与恢复",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "游戏处于射击和敌机生成中，按住拖动；存在冷却/道具倒计时（若适用）"
+      ],
+      "steps": [
+        "主动暂停后等待10秒，恢复",
+        "切后台或隐藏再恢复；取消原按压后再次拖动"
+      ],
+      "expected": [
+        "暂停期间玩法时间、位置、生成计时和倒计时不推进；音频按合同暂停",
+        "恢复不把后台时间追算成突然移动/死亡/补发",
+        "旧按压与指针缓存清理，恢复后的首次操作没有跳位；适配器与内容均正常"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "暂停前后逻辑快照",
+        "真实浏览器可见性事件与恢复录像"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-14",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "双发强化与范围炸弹的完整状态",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "本轮设计固定包含两种可配置道具：双发720 Tick与最多3枚炸弹；这些是验收设计值，不代表原版精确参数",
+        "双发重复拾取刷新时长，不增加层数；炸弹初始1枚、无库存上限之外的补偿"
+      ],
+      "steps": [
+        "拾取双发，覆盖重复拾取、到期、暂停恢复、死亡重开",
+        "炸弹库存为0/1/3时分别尝试使用和拾取；同屏包含多种敌机、补给和玩家",
+        "运行同owner独立弹丸多命中与范围击毁唯一计分检查"
+      ],
+      "expected": [
+        "双发从下次合法开火开始产生两个独立projectileId，间距按配置；不立即额外补发，720个活动Tick后恢复单发；重复拾取把剩余时间刷新到720",
+        "炸弹一次消耗1枚，清除可见区域内所有敌机并逐目标计分一次；不伤害玩家、不移除补给、不停止未来生成；0枚点击无效果",
+        "拾取炸弹最多到3；暂停不消耗强化时间，死亡重开清除强化并回到初始炸弹1枚",
+        "道具由普通JSON与可信通用机制表达，无游戏ID专门分支；原版忠实度升级须另外校准这些参数"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "本轮设计参数表与后续原版参考差异表",
+        "道具状态和效果日志、实际画面"
+      ],
+      "fixtures": [
+        "S-REFERENCE-PROPS"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-15",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "完整资源、动画与正式交付一致",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "使用准备交付的JSON及资源清单，关闭开发预览的额外装饰层"
+      ],
+      "steps": [
+        "从独立游戏包进入，完成拖动、击毁、死亡和重开",
+        "检查不同敌机、滚动背景、受击/爆炸、音效、分数和按钮",
+        "模拟一次资源缺失或摘要不符"
+      ],
+      "expected": [
+        "不同敌机实例绑定正确的图像和动画，不只是按kind绘制同一个方块",
+        "所有必需反馈随包交付，动画不改变权威玩法状态或重复计分",
+        "UI无遮挡、窄屏可读、按钮可点；缺资源时给出准确诊断，不展示空白却报成功"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "正式包SHA与资源来源/摘要",
+        "完整流程录像和关键截图",
+        "资源错误诊断"
+      ],
+      "fixtures": [
+        "S-DELIVERY"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-16",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "持续游玩、压力与释放",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "冻结目标设备/浏览器、刷新率、对象预算、帧时间和内存预算；预算为项目约定而非原版指标",
+        "CocosAirJS真实时钟30分钟、Three.js真实时钟10分钟，复用30分钟轨迹的前10分钟；连续多局且至少一局跨全部难度段",
+        "Headless可快速运行相同Tick序列检查状态，但不计入真实时钟时长或FPS证据；优先保持现有128对象预算，先测并调生成/回收"
+      ],
+      "steps": [
+        "持续记录生成/回收、Tick与绘制耗时、活对象与资源计数",
+        "完成至少10次死亡重开，并结束销毁播放器"
+      ],
+      "expected": [
+        "没有因固定生成列表、累计事件、对象或ID预算用尽而异常停止",
+        "正式负载不触发池满丢失关键玩法；池满负例另按明确策略处理",
+        "性能满足事先冻结的设备预算；多次重开后资源数量回到稳定范围，销毁后声明的监听器/RAF/音源/渲染资源释放"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "带设备信息的性能时间序列",
+        "重开/销毁资源诊断",
+        "异常为零或逐项失败记录"
+      ],
+      "fixtures": [
+        "S-SOAK"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-17",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "同一JSON的双后端业务一致",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "同一游戏JSON、资产摘要、能力版本、随机种子与归一化输入",
+        "CocosAirJS和Three.js均为真实SDK；禁止用Mock代替"
+      ],
+      "steps": [
+        "分别加载正式包并重放同一段含拖动、击毁、死亡和重开的输入",
+        "逐关键Tick对比状态和事件；分别进行一次人工试玩"
+      ],
+      "expected": [
+        "同输入下关键玩法状态、生成序列、命中和分数一致；差异定位到输入/Runtime/Adapter，不仅比较最终总分",
+        "画面需符合共同表现合同，允许已声明的渲染差异；不要求跨渲染器逐像素相同",
+        "触控手感以物理设备验收，虚拟输入通过不自动升级真机状态"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "两端内容/SDK摘要",
+        "事件与逻辑Hash对照",
+        "两端录像及设备实测记录"
+      ],
+      "fixtures": [
+        "S-F01"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHT-18",
+      "scope": [
+        "BIZ-01"
+      ],
+      "title": "JSON创作与规则变体验收",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "共享Runtime和能力目录版本冻结；Agent仅得到公开说明、参考规则和已准入素材",
+        "额外真实Provider调用遵守当前会话明确预算与模型路由，不能复用历史已用尽额度"
+      ],
+      "steps": [
+        "Agent生成基础游戏JSON、资源引用和自测轨迹",
+        "通过正常工具诊断修正",
+        "再要求一个不同生成节奏/计分/主题的变体，保持Runtime源码不变"
+      ],
+      "expected": [
+        "两份内容均完成要求的业务流程，JSON通过结构/语义/资源准入；不存在任意脚本或按gameId分派另一套玩法",
+        "记录首次输出、修复次数和最终结果；不以作者手写样例替代Agent产物",
+        "变体确实改变指定规则且保留其余要求；若缺能力，明确报告而不编造字段",
+        "此业务验证回执独立记录，不自动升级原32+5正式verified或独立G3"
+      ],
+      "layers": [
+        "agent-generation",
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "生成提示、原始JSON、诊断和修复记录",
+        "能力/内容摘要及双方正式包运行结果",
+        "源码差异检查"
+      ],
+      "fixtures": [
+        "S-AGENT"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_NOT_ORIGINAL_NUMERIC_CLAIM",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/shooter.md"
+    },
+    {
+      "id": "SHEEP-01",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "新玩家教学到主挑战完整流程",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "干净用户状态；正式内容包已准入；教学18张牌、3图案、2层；主挑战144张牌、12图案、至少6层；两关各有经运行验证的解路径"
+      ],
+      "steps": [
+        "从主页开始；根据可关闭的教学完成第一关；进入主挑战；暂停返回主页后继续"
+      ],
+      "expected": [
+        "教学能解释遮挡、7槽、3消和失败；完成后主挑战可进入；教学完成只记一次；继续精确恢复主挑战；无需调试页、开发按钮或外部说明才能完成流程"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "正式包入口录屏",
+        "关卡进入/完成/恢复事件",
+        "进度状态快照"
+      ],
+      "fixtures": [
+        "tutorial-18",
+        "challenge-144"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-02",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "遮挡拓扑决定可选牌且拒绝循环图",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "fixture COVER-9：a为A且blockedBy=[b,c]；b为B、c为C；另A、B、C各两张均自由；层级与几何重叠一致"
+      ],
+      "steps": [
+        "点击a；再点击b；再次点击a；点击c；再次点击a；另外准入一份a被b、b被a遮挡的错误内容"
+      ],
+      "expected": [
+        "前两次点击a不移动、不记步、不消耗工具、不创建撤销点；移走b仍不能选a；移走c后a可选；循环遮挡在准入时拒绝且指向错误tileId"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "每次命令前后状态diff",
+        "可点击牌集合",
+        "错误诊断"
+      ],
+      "fixtures": [
+        "COVER-9",
+        "CYCLE-2-negative"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-03",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "槽内同类归组及三张消除守恒",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "槽为空；A/B/C牌可选；约定新牌插在槽中最后一张同类型后，没有同类型则追加"
+      ],
+      "steps": [
+        "按A、B、A、C、A顺序选牌"
+      ],
+      "expected": [
+        "槽依次为[A]、[A,B]、[A,A,B]、[A,A,B,C]、[B,C]；最后一次恰好消除3张A；牌ID不重复；棋盘+槽+保留区+已消除的每种牌总量恒定"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "完整牌ID事件序列",
+        "总量守恒检查",
+        "归组/消除动画录屏"
+      ],
+      "fixtures": [
+        "TRAY-GROUP"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-04",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "第七张形成三消时先消除再判失败",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "槽为[A,A,B,C,D,E]；可选A；槽容量7"
+      ],
+      "steps": [
+        "选择A；快速再次点击同一牌"
+      ],
+      "expected": [
+        "原子结算后槽为[B,C,D,E]、长度4且仍在游戏中；不出现一帧失败弹窗；重复点击已移动牌无效；只产生一次有效选牌/消除记录"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "结算顺序事件",
+        "无失败事件断言",
+        "连续帧录屏"
+      ],
+      "fixtures": [
+        "SEVENTH-CLEARS"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-05",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "第七张未形成三消时准确失败并可重试",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "槽为[A,B,C,D,E,F]；可选G；所有道具已耗尽或本次未使用"
+      ],
+      "steps": [
+        "选择G；失败后再点棋盘；点击重试同一关"
+      ],
+      "expected": [
+        "槽满且无三消后只结算一次失败；失败时输入不再改变棋盘；重试生成相同关卡版本和种子初局、清空本局槽与保留区、恢复本局工具额度；历史完成进度不丢失"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "失败/重试事件",
+        "初局hash比较",
+        "失败弹窗与按钮录屏"
+      ],
+      "fixtures": [
+        "SEVENTH-FAILS"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-06",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "移出道具把三张牌保留而非删除",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "槽为[A,A,B,C,D,E]；保留区为空；移出额度1；约定移出槽最左侧3张，保留区容量3"
+      ],
+      "steps": [
+        "使用移出；重新选择保留区一张A；再试使用移出"
+      ],
+      "expected": [
+        "第一次槽=[C,D,E]、保留区=[A,A,B]、额度0；保留区三张牌仍必须参与后续清空；选保留区A后槽按规则插入、原位置移除；第二次不能重复使用；未产生3消不增加消除数"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "牌ID位置账本",
+        "额度状态",
+        "保留区交互录屏"
+      ],
+      "fixtures": [
+        "RESERVE-3"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-07",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "撤回恢复完整选择事务且不返还工具额度",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "槽有两个A；可选第三张A；撤回额度1；约定只能撤回最近一次选择事务，不能跨洗牌或移出事务"
+      ],
+      "steps": [
+        "选择A触发三消；使用撤回；再次使用撤回；在另一个状态先洗牌再尝试撤回洗牌前的选择"
+      ],
+      "expected": [
+        "第一次撤回精确恢复该次选择前的棋盘、槽、保留区、步数、消除计数及其状态依赖；消除过的两张A回槽，刚选A回棋盘；撤回额度变0不会被恢复；重复/跨道具撤回无效且不改变状态"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "事务前后快照",
+        "工具额度日志",
+        "RNG状态"
+      ],
+      "fixtures": [
+        "UNDO-TRIPLE",
+        "UNDO-BARRIER"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-08",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "洗牌保持规则并验证可达后继",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "主挑战中途；洗牌额度1；记录牌ID、位置、遮挡图、棋盘牌面多重集、槽与保留区；洗牌策略只重排棋盘剩余牌面"
+      ],
+      "steps": [
+        "使用洗牌；以同一状态和RNG在另一后端重放；另用故意极小求解预算触发候选搜索未完成"
+      ],
+      "expected": [
+        "接受的洗牌保持棋盘牌面计数、位置和遮挡图，槽/保留区不变；产生一条从当前全状态可执行的到达胜利路径且由Runtime复验；两后端结果一致；预算耗尽是UNKNOWN/未找到候选，不宣称无解、不扣额度、不发布未经证实的候选"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "随机状态和候选hash",
+        "求解路径及运行回执",
+        "预算耗尽诊断"
+      ],
+      "fixtures": [
+        "SHUFFLE-REACHABLE",
+        "SHUFFLE-BUDGET"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-09",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "不能仅凭牌数整除判定可解",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "教学与主挑战的实际成品布局；另有全数可被3整除但卡槽约束使之无解的反例；三者版本和种子固定"
+      ],
+      "steps": [
+        "对成品布局求解并把路径交给独立Runtime执行；对反例运行同一准入/作者验收流程"
+      ],
+      "expected": [
+        "每个正式布局有从入口开始、不超槽容量、仅选可选牌的实际通关路径；数量整除只作必要静态检查；反例不得仅因数量正确而通过；求解超时与证明无解分别记录"
+      ],
+      "layers": [
+        "headless"
+      ],
+      "evidence": [
+        "动作级可达解",
+        "独立执行回执",
+        "反例拒绝原因"
+      ],
+      "fixtures": [
+        "tutorial-18",
+        "challenge-144",
+        "DIVISIBLE-BUT-UNSOLVABLE"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-10",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "正式挑战不泄露答案且确有选择压力",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "主挑战存在有解路线和一条合法但最终槽满的错误路线；解路径只存于作者/测试证据，不进入玩家可访问UI接口"
+      ],
+      "steps": [
+        "普通玩家进入挑战；分别走正确和错误路线；检查正式包和可见观察接口"
+      ],
+      "expected": [
+        "正确路线通关、错误路线失败；游戏不自动替用户选择安全牌；受遮挡牌面是否可见遵守视觉规则；作者解不出现在玩家界面/调试入口；测试不要求复制官方极低通关率"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "双路线回执",
+        "正式玩家界面录屏",
+        "玩家观察字段清单"
+      ],
+      "fixtures": [
+        "challenge-144"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-11",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "清空判定包括保留区和槽",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "状态A棋盘清空但保留区/槽仍有牌；状态B执行最后一次合法三消后全部区域为空"
+      ],
+      "steps": [
+        "检查状态A；在状态B完成最后一次选择"
+      ],
+      "expected": [
+        "A不算胜利；B消除事务完成后只发一次胜利事件并只记一次进度；获胜弹窗出现后继续点击不重复奖励或改变牌状态"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "区域计数",
+        "胜利事件计数",
+        "进度写入计数"
+      ],
+      "fixtures": [
+        "EMPTY-BOARD-NOT-WON",
+        "FINAL-TRIPLE"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-12",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "动画期间连续点击不重复选牌或穿透层",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "主挑战多层牌重叠；牌移动与消除动画开启；存在上层牌覆盖下层牌"
+      ],
+      "steps": [
+        "快速连点同牌与重叠区域；在消除动画期间点下一张；测试pointer cancel"
+      ],
+      "expected": [
+        "约定结算期间输入拒绝并给轻提示，或仅进入有上限队列；本Profile选择拒绝；一次手势只选择最上层合法牌；被覆盖层不穿透；展示顺序与遮挡图一致；状态提交不依赖动画回调"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "指针轨迹",
+        "动作接收/拒绝日志",
+        "逐帧录屏"
+      ],
+      "fixtures": [
+        "OVERLAP-INPUT"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-13",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "退出和恢复保留牌局与工具状态",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "主挑战中途，已使用移出和洗牌，槽与保留区非空；存档记录内容摘要、levelId、seed、牌ID/面/区域、工具额度、RNG、可撤回事务"
+      ],
+      "steps": [
+        "暂停退出；关闭播放器；重新打开继续；另以错误内容版本恢复该存档"
+      ],
+      "expected": [
+        "正确版本恢复后可选集合、所有牌分布、工具额度、步数和RNG完全一致，下一动作结果与不中断分支一致；错误内容版本明确提示不兼容/可迁移处理，不静默重置或错误套用"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "save版本及hash",
+        "恢复后状态比较",
+        "继续流程录屏"
+      ],
+      "fixtures": [
+        "MIDGAME-SAVE"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-14",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "双后端相同内容及输入产生相同逻辑结果",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "同一准入内容包、能力版本、seed和规范化输入；分别使用CocosAirJS与Three.js"
+      ],
+      "steps": [
+        "执行教学获胜、主挑战获胜/失败、移出、撤回、洗牌和恢复代表路径"
+      ],
+      "expected": [
+        "每个事务边界的逻辑状态hash、牌ID账本、工具额度、胜负和RNG一致；不同渲染帧率不改变规则；两端都实际看得清层次、槽位和道具状态"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "逐事务双端差异报告",
+        "两端视频",
+        "内容包摘要"
+      ],
+      "fixtures": [
+        "CANONICAL-REPLAY-SET"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-15",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "替换关卡与主题无需修改播放器代码",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "冻结Runtime版本；独立作者编写不同遮挡布局与不同图案主题；另改一个只影响难度的参数如图案种类/层数但容量仍7"
+      ],
+      "steps": [
+        "通过公开JSON合同导入新内容；运行和打包；检查构建来源"
+      ],
+      "expected": [
+        "只改变内容JSON及合法资源引用；没有gameId分支、额外专属JS或预先脚本化答案；新关卡仍通过同一可解性、遮挡、工具和流程验收；原作品回归保留"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "artifact"
+      ],
+      "evidence": [
+        "JSON差异",
+        "源码未改证明",
+        "生成与验收回执"
+      ],
+      "fixtures": [
+        "INDEPENDENT-LAYOUT",
+        "ALT-THEME"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-16",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "完整画面可用且表现随包交付",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "正式包离线资源已准备；至少窄屏与常规手机比例，桌面窗口；中文文本与原创/已准入图案"
+      ],
+      "steps": [
+        "游玩教学和主挑战；显示全部工具/保留区/结算；切后台恢复；关闭音效后重开"
+      ],
+      "expected": [
+        "每种牌容易区分；可选/受挡有明确状态；槽7格始终可见；主挑战144牌布局不会遮住操作区；音效偏好保留；背景、移动/三消动画、音效都来自正式包，预览与交付功能一致；无调试cell按钮"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "设备尺寸记录",
+        "完整局录屏",
+        "资源摘要与加载记录"
+      ],
+      "fixtures": [
+        "FORMAL-SDK-PACKAGE"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-17",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "多局资源和时间表现稳定",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "固定目标设备/浏览器、Runtime内容版本及相同操作脚本；基线采样已建立"
+      ],
+      "steps": [
+        "连续完成/失败/重试10局；其中至少一局反复暂停恢复；记录heap、节点和监听器数量"
+      ],
+      "expected": [
+        "没有随局数单调增长的活动牌节点/监听器；退出后资源回到已定义容差；卡顿和内存指标满足冻结设备预算；失败不通过隐藏日志或关闭动画来规避"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "性能采样",
+        "结束资源计数",
+        "异常日志"
+      ],
+      "fixtures": [
+        "TEN-SESSION-LOOP"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "SHEEP-18",
+      "scope": [
+        "BIZ-02"
+      ],
+      "title": "Agent从公开能力和内容要求生成完整作品变体",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "Runtime和能力目录已冻结；作者Agent只获得公开Skill/MCP、规则Profile和批准素材目录；不得读取该用例解路径"
+      ],
+      "steps": [
+        "提出一张新的主挑战布局与主题要求；Agent生成JSON、运行检查、根据诊断修复、导出；审核者用公开玩家入口试玩"
+      ],
+      "expected": [
+        "最终产出为通过准入的游戏JSON及资源引用和测试证据；无新增专属代码；规则和完整流程全部保留；生成失败时明确记录缺能力/内容不可解/体验问题，不能把原样例改名当完成"
+      ],
+      "layers": [
+        "agent",
+        "artifact",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "提示与修复记录",
+        "最终内容摘要",
+        "审核试玩与未知缺陷清单"
+      ],
+      "fixtures": [
+        "AGENT-HOLDOUT"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "proposed-acceptance-contract; exact original parity pending reference freeze",
+      "ruleReferences": [],
+      "rulesDocument": "casebooks/sheep.md"
+    },
+    {
+      "id": "M3-01",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "首次进入、教学和完整胜利流程",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "干净本地进度；M01正式关卡与资源已打包；无隐藏通关开关"
+      ],
+      "steps": [
+        "从主页进入M01",
+        "按教学实际拖动并完成目标",
+        "查看结算后继续M02，再返回地图"
+      ],
+      "expected": [
+        "教学要求的输入确实改变棋盘；步骤不可由后台直接完成",
+        "目标/步数/HUD与运行状态一致",
+        "胜利仅结算一次，M02解锁且可进入；M03仍按正常规则锁定"
+      ],
+      "layers": [
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "m01-authored-content",
+        "m01-winning-input"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01",
+        "MR02",
+        "MR08",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-02",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "无效交换完整回退",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "稳定棋盘；相邻无匹配、非相邻、不可移动格各有固定夹具；记录board/score/moves/RNG/库存"
+      ],
+      "steps": [
+        "分别拖动三种非法目标",
+        "取消一次拖动，再重复点击原格"
+      ],
+      "expected": [
+        "三种非法操作均不改变棋盘、目标、分数、步数、RNG、道具库存",
+        "允许选择状态/拒绝事件变化；真实画面回弹且不残留错位",
+        "输入期间不能出现“先扣步数再退回漏恢复”的状态"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "invalid-nonadjacent",
+        "invalid-no-match",
+        "invalid-blocked-cell"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-03",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "横竖三消与交叉匹配去重",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "单横匹配、单竖匹配、交叉匹配三夹具；有效操作剩余步数均为5；补充流已固定"
+      ],
+      "steps": [
+        "执行各夹具指定的一次交换"
+      ],
+      "expected": [
+        "每次接受交换后剩余步数为4",
+        "删除棋子ID集合等于独立预先审核的并集；交叉格不得删除/计分两次",
+        "最终棋盘和消耗RNG与固定预期完全相同",
+        "普通棋子清除按唯一ID每个10分，交叉匹配格只计一次；不把新特殊块生成格计入清除分；精确分数按MR13公式验算"
+      ],
+      "layers": [
+        "headless"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt"
+      ],
+      "fixtures": [
+        "match-horizontal",
+        "match-vertical",
+        "match-cross-union"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01",
+        "MR02",
+        "MR03",
+        "MR05",
+        "MR13"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-04",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "四连、T/L、五连与特殊块生成优先级",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "各模式与重叠模式夹具；生成锚点、保留格、预期类型由独立规则表预先确定"
+      ],
+      "steps": [
+        "各执行一次有效交换；再在独立自动连锁夹具触发生成"
+      ],
+      "expected": [
+        "四连、TL、五连分别生成合同规定特殊块",
+        "颜色清除>爆炸>直线；每个匹配分量最多生成一个",
+        "玩家交换目标格/源格/行优先后备和自动连锁行优先锚点均符合MR04",
+        "保留特殊块不当作已消除普通块重复计分",
+        "特殊生成锚点只能选普通棋子格，不能覆盖待激活的既有特殊块；无候选格时不生成",
+        "相交匹配先合并，同格同波最多一项生成；旧棋子转化不计清除/收集，新特殊块使用新ID",
+        "新特殊块在生成波被其他效果覆盖仍不消费/激活；下一波若匹配或受击可激活一次；底层障碍仍按MR07结算"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "special-four-h",
+        "special-four-v",
+        "special-t",
+        "special-l",
+        "special-five",
+        "special-overlap-priority",
+        "special-cascade-anchor",
+        "special-no-normal-anchor",
+        "special-created-wave-protection",
+        "special-created-next-wave-activation"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR03",
+        "MR04",
+        "MR05",
+        "MR07",
+        "MR13"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-05",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "普通匹配与特效命中的链式激活、消费和去重",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "两条效果在同一波命中同一特殊块；再使激活效果覆盖另一特殊块；独立预先列出事件和删除集合",
+        "普通三消包含已有着色特殊块；另设无配对颜色的颜色清除块被命中夹具；全部激活位置和计分由独立oracle预列"
+      ],
+      "steps": [
+        "触发第一处特效",
+        "执行包含已有特殊块的普通匹配",
+        "用另一特殊效果击中颜色清除块，覆盖颜色数量并列与无着色棋子两种边界"
+      ],
+      "expected": [
+        "每个特殊块在该次结算仅激活一次",
+        "链式触发继续到稳定但无无限重复；目标和分数按唯一对象统计",
+        "视觉爆炸与命中事件对应，无重复音效或多次HUD扣数",
+        "普通匹配中的旧特殊块同样激活；入队即标记消费，按消费前位置执行，清除提交时删除",
+        "每个实例在整次玩家动作含全部连锁中最多激活一次；本波创建的新实例按MR04保护",
+        "无配对颜色的颜色清除块按本波快照最大颜色计数选择，并列最小颜色ID；空集合只消费自身",
+        "普通块10/特殊消费10/障碍层20/出口物50按MR13独立记账，链式重复命中不加分"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "special-chain-dedup",
+        "ordinary-match-includes-special",
+        "hit-color-block-most-common-tie",
+        "hit-color-block-no-color"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR05",
+        "MR06",
+        "MR03",
+        "MR04",
+        "MR13"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-06",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "六类特殊组合完整语义",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "六组合对应独立可玩夹具；已冻结传播、转换、激活顺序和目标足迹"
+      ],
+      "steps": [
+        "分别交换直线+直线、直线+爆炸、爆炸+爆炸、颜色清除+直线、颜色清除+爆炸、双颜色清除"
+      ],
+      "expected": [
+        "六项效果足迹分别等于MR06预定集合",
+        "转换前后棋子身份、颜色、特效类型和激活顺序可追溯",
+        "每次仅耗1步；障碍/目标/分数去重；不以“有大爆炸动画”替代实际结果",
+        "组合两参与实例先被消费，各仅记一次10分和一次组合事件，不再触发各自单体效果或普通匹配生成",
+        "其他特殊块仍可被组合效果链式激活；其激活/计分遵守动作内唯一实例规则",
+        "颜色转换保留ID且不计分；旧着色特殊块转换后只执行新类型；已消费/本波保护对象不转换；直线方向继承配对块"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "combo-line-line",
+        "combo-line-bomb",
+        "combo-bomb-bomb",
+        "combo-color-line",
+        "combo-color-bomb",
+        "combo-color-color",
+        "combo-no-double-single-activation",
+        "combo-convert-existing-special",
+        "combo-protected-created-special"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR02",
+        "MR05",
+        "MR06",
+        "MR07",
+        "MR04",
+        "MR13"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-07",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "多轮连锁、可观察阶段与原子结果",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "可发生至少2轮连锁的真实关卡夹具；固定seed/补充策略；初始步数5"
+      ],
+      "steps": [
+        "执行一次交换",
+        "分别在完整动画和减少动画两种设置下重放"
+      ],
+      "expected": [
+        "最终剩余步数4；后续连锁不再扣步",
+        "完整有序结算事件/动画计划能区分交换、匹配、激活、清除、下落、补充和下一轮",
+        "两种设置的最终逻辑状态、事件顺序、RNG一致",
+        "若采用同Tick原子求解，仍保留中间结果/稳定ID轨迹用于表现；不能只展示最后棋盘"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "cascade-at-least-two",
+        "cascade-expected-stages"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR02",
+        "MR05",
+        "MR11"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-08",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "两类障碍扣层、占格与去重",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "两层冰、两耐久箱体；同一波受两个特效同时覆盖；另有第二波命中"
+      ],
+      "steps": [
+        "执行重叠攻击波",
+        "继续第二波结算"
+      ],
+      "expected": [
+        "第一波每个障碍只减1层/耐久，不因重叠效果减2",
+        "第二波可再减1，降到0才移除；目标计数按定义在最终清除时更新",
+        "冰保留底层关系；箱体不允许交换或被补充棋子覆盖；直线按MR07穿过并命中",
+        "普通邻消伤箱、棋子清除伤冰与特效伤害路径均有独立对照"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "ice-overlap-wave",
+        "crate-overlap-wave",
+        "obstacle-gravity-blocking"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR05",
+        "MR07"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-09",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "非矩形棋盘、下落补充和出口收集",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "含洞、分隔障碍、显式重力路径、出口和收集物的M08夹具；预先列出合法目的格"
+      ],
+      "steps": [
+        "消除收集物下方支撑",
+        "观察下落直到稳定"
+      ],
+      "expected": [
+        "棋子只沿规定可用路径下落；不得落入洞/越过仍存在箱体",
+        "每个收集物到正确出口后只计1次并移除，错误边界不收集",
+        "补充只从合法入口生成，最终无重叠/丢失/悬空且RNG结果可重放"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "m08-gravity-mask",
+        "m08-collect-exit"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR07",
+        "MR08"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-10",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "最后一步经连锁达成全部目标优先胜利",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "剩余1步；两个目标分别差1和2；最后交换会在不同连锁波达成全部目标"
+      ],
+      "steps": [
+        "执行该交换并等待全部连锁稳定"
+      ],
+      "expected": [
+        "先扣至0步但不立即判败",
+        "全部连锁和目标记账完成后判胜；won与lost不得同时为真",
+        "结算、奖励、解锁各只发生一次；不得要求再点一步",
+        "成功后按MR14授星，低于B仍至少1星；分数门槛不得替代目标；剩余步奖励为0"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "last-step-win-mixed-targets"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR02",
+        "MR08",
+        "MR12",
+        "MR13",
+        "MR14"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-11",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "步数耗尽但目标未完正确失败和重试",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "剩余1步；固定预期为合法操作后仍差一个目标；存在其他已完成目标",
+        "另设高分失败夹具：稳定结算score>=2×baseScore，但仍缺一个目标且步数归零"
+      ],
+      "steps": [
+        "执行最后交换",
+        "结算后点击重试",
+        "重放高分失败夹具"
+      ],
+      "expected": [
+        "只在稳定后判败，展示未完成目标；不能因总分高或部分目标完成而判胜",
+        "失败不发通关奖励、不解锁下一关",
+        "重试恢复关卡初始状态、道具和指定seed策略，旧事件/特效不泄漏",
+        "高分失败仍为0星、不解锁、不发通关奖励；不得因超过三星门槛改判成功"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "last-step-lose",
+        "retry-level-reset",
+        "high-score-target-incomplete-loss"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR08",
+        "MR12",
+        "MR13",
+        "MR14"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-12",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "关卡启动稳定且初始可操作",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "正式关卡、存在启动即匹配的非法内容、没有可行动作的内容各一份；内容声明是否允许开场自动结算"
+      ],
+      "steps": [
+        "通过真实准入加载三类内容"
+      ],
+      "expected": [
+        "正式关卡按声明达到稳定状态并存在合法动作，教学有实际可执行步骤",
+        "未声明的初始自动匹配不能偷偷增加目标/分数；必须拒绝或按冻结的开场规则处理",
+        "无动作的初始局面不能直接发布为可玩关卡；返回可定位问题",
+        "能行动不作为能通关的证明"
+      ],
+      "layers": [
+        "headless"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt"
+      ],
+      "fixtures": [
+        "level-start-valid",
+        "level-start-unsettled",
+        "level-start-dead"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01",
+        "MR08",
+        "MR09"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-13",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "死盘确定性洗牌、预算与无法恢复",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "稳定无合法交换；目标未达成且步数>0；可洗牌和受约束必失败两夹具"
+      ],
+      "steps": [
+        "触发无合法步处理",
+        "重放相同seed；用第二夹具耗尽洗牌预算"
+      ],
+      "expected": [
+        "洗牌保留棋子多重集、障碍、目标、步数和库存，不直接得分",
+        "找到稳定且有合法步的布局才恢复操作；同seed结果一致",
+        "最多64候选；无解时显示deadlock原因并可重试，不挂起/空转",
+        "此检查不宣称后续目标必可达"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "deadboard-reshuffle-success",
+        "deadboard-reshuffle-exhausted"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR09"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-14",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "12主关与3变体真实可达通关",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "全部实际内容已完成；每关有固定随机策略/seed及规范化玩家输入见证；见证不调用隐藏接口",
+        "每个实际发布关卡公开baseScore和星级阈值；高星可达见证与普通通关见证分开记录，现均待制作验证"
+      ],
+      "steps": [
+        "在正式Runtime逐个重放通关见证",
+        "实际画面复验各新机制首次出现和M12综合关"
+      ],
+      "expected": [
+        "每个见证在声明步数内完成全部目标，不增步/改RNG/改棋盘",
+        "12主关和3变体都有完整内容、目标、资源及可追溯结果",
+        "随机生成若宣称支持多个seed，必须按声明范围验证或运行准入检查，不拿一个seed泛化",
+        "失败/重试路径另由M3-11证明，通关见证不代替完整流程",
+        "实际内容发布前，公布的高星阈值须有使用正式计分且无隐藏加分的合法输入见证；不把默认公式当成12关均可三星的证明",
+        "若阈值不可达，调整实际关卡或公开baseScore后重新冻结；禁止仅绕过判定器或在结算赠送未声明分数"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "m01-to-m12-solutions",
+        "m10-alternate-combo",
+        "m11-two-alternate-combos",
+        "per-level-published-star-thresholds",
+        "per-level-high-star-reachability-witnesses"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01",
+        "MR02",
+        "MR06",
+        "MR08",
+        "MR13",
+        "MR14"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-15",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "锤子、强制交换、洗牌道具与扣费事务",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "三种道具各1个；合法/非法/取消输入；目标、棋盘、RNG和库存已记录"
+      ],
+      "steps": [
+        "分别使用每种道具",
+        "取消一次选择并使用非法目标",
+        "库存为0时再尝试使用"
+      ],
+      "expected": [
+        "有效操作每次只扣1对应道具，无效/取消/库存0不得扣或改变游戏状态",
+        "效果执行与库存扣减同一提交事务，保存恢复不得复制库存",
+        "目标、障碍和计分复用同一去重规则；普通步数按本关声明不因道具变化",
+        "不依赖真实广告/支付才能完成核心验收"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "booster-hammer",
+        "booster-force-swap",
+        "booster-shuffle",
+        "booster-cancel-invalid"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR05",
+        "MR07",
+        "MR10",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-16",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "结算时输入屏障、暂停与恢复",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "一次操作正在交换/特效/掉落阶段；当前共享会话标为resolving；记录预期逻辑提交"
+      ],
+      "steps": [
+        "连续拖动第二次、触碰其他格",
+        "中途暂停并等待，再恢复",
+        "在两个后端及不同动画速度重放"
+      ],
+      "expected": [
+        "新的棋盘动作被共享输入屏障拒绝/丢弃，不缓存为下一次偷走的步数；有明确忙碌反馈",
+        "暂停期间逻辑与表现按定义冻结；恢复不重扣步、不重放效果伤害",
+        "adapter不得自行决定逻辑接受动作；相同规范化输入与阶段标记结果一致",
+        "暂停/退出入口仍能使用，避免界面无响应"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "resolving-input-barrier",
+        "pause-during-resolution"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR02",
+        "MR11",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-17",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "保存恢复与恰好一次结算",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "稳定中局、逻辑已提交但动画未播完、胜利提交临界点三种情况；存档版本/内容摘要匹配"
+      ],
+      "steps": [
+        "分别关闭后重新加载",
+        "在胜利结算阶段重复恢复两次"
+      ],
+      "expected": [
+        "恢复棋盘、步数、目标、道具、RNG一致；处理中按MR12选定策略恢复",
+        "不重复得分、不重复扣道具/步数、不重复解锁或发奖",
+        "不兼容内容版本返回可理解的迁移/重开提示，不能悄悄读错布局"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "save-stable",
+        "save-postcommit-animation",
+        "save-win-once"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR11",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-18",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "计分公式、星级边界、关卡进度与最好成绩",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "M01-M12关卡图与星级阈值已冻结；先获得一关较高星级，再低星重过/失败",
+        "计分夹具含3个普通棋子清除、1个特殊消费、2层障碍消除、1个出口收集物，预期增加130分；生成/转换/下落/洗牌/剩余步不另加分",
+        "B=101的判定边界夹具：门槛[101,152,202]；分别覆盖成功score=100/101/151/152/201/202，以及失败高分202；它们是结算函数边界状态，非实际可玩关卡可达性证据"
+      ],
+      "steps": [
+        "完成12关流程",
+        "重新打开游戏并重打旧关",
+        "验证计分记账事件并计算130分增量",
+        "提交B=101的全部成功/失败边界状态；使用正式判定函数，不直接设置星级或解锁结果"
+      ],
+      "expected": [
+        "正常解锁顺序、下一关/返回地图、最终完成页可用",
+        "星级由已公开阈值计算，最好成绩和星级不会被差成绩覆盖",
+        "失败不清除已获得进度；保存内容能识别关卡版本",
+        "增量精确为3×10+1×10+2×20+1×50=130，重放/恢复不会重复记分",
+        "成功score=100/101/151均1星，152/201为2星，202为3星；相等门槛晋级、差1分不晋级",
+        "失败高分202仍0星且不解锁；显示门槛不作为额外隐含胜利条件",
+        "整数比较和ceil规则稳定，正常玩家关卡最高星可达性另由M3-14实证"
+      ],
+      "layers": [
+        "real-sdk-cocosair",
+        "real-sdk-three",
+        "headless"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "campaign-progression",
+        "stars-thresholds",
+        "best-progress-retention",
+        "score-ledger-130",
+        "star-threshold-equality-minus-one",
+        "star-high-score-failure"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR08",
+        "MR12",
+        "MR13",
+        "MR14"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-19",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "真实画面、触控和反馈随SDK交付",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "同一正式内容包在CocosAirJS与Three加载；最小/常用视口与目标设备已声明"
+      ],
+      "steps": [
+        "实际拖动普通消除、特殊组合、道具、失败和胜利",
+        "静音/减少动画/切后台恢复"
+      ],
+      "expected": [
+        "棋子、障碍层、目标和步数可辨，点击区域与画面一致；安全区不遮按钮",
+        "事件对应的消除/下落/爆炸可见，音效不重复；两后端语义一致",
+        "正式SDK具有预览承诺的资源和反馈；静音/减少动画不改变游戏规则",
+        "以冻结设备/布局指标留存视频和日志，Headless PASS不能代替本项"
+      ],
+      "layers": [
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "visual-reference-package",
+        "viewport-input-matrix",
+        "sdk-assets-feedback"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR05",
+        "MR07",
+        "MR11",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "M3-20",
+      "scope": [
+        "BIZ-03"
+      ],
+      "title": "Agent独立生成关卡变体与跨后端重放",
+      "required": true,
+      "status": "NOT_RUN",
+      "preconditions": [
+        "冻结通用Runtime与公开能力文档；Agent只获得需求、素材目录、公开机制，未提供预制答案棋盘"
+      ],
+      "steps": [
+        "生成一个新的目标/障碍布局关卡及另一视觉主题",
+        "仅通过JSON和资源引用导出",
+        "用规范化seed+输入在两后端重放"
+      ],
+      "expected": [
+        "无自定义JS、无按gameId特判、无隐藏修改分数/胜负；缺能力时明确诊断",
+        "新内容过结构/语义检查，并有真实可达通关及失败见证",
+        "两后端关键逻辑状态和事件一致，体验通过M3-19；只换皮且棋盘完全复制不能证明新布局生成",
+        "记录初次结果和修复过程，不把一次成功泛化为所有三消都能生成"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-cocosair",
+        "real-sdk-three"
+      ],
+      "evidence": [
+        "fixture-and-content-digests",
+        "normalized-input-trace",
+        "state-and-event-receipt",
+        "video-or-timestamped-browser-capture"
+      ],
+      "fixtures": [
+        "heldout-level-brief",
+        "heldout-style-brief",
+        "cross-adapter-traces"
+      ],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "PROPOSED_REFERENCE_PROFILE_NOT_VERIFIED_ORIGINAL",
+      "ruleReferences": [
+        "MR01",
+        "MR08",
+        "MR11",
+        "MR12"
+      ],
+      "rulesDocument": "casebooks/match3.md"
+    },
+    {
+      "id": "COM-01",
+      "title": "从交付入口独立启动完整游戏",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "已构建正式内容包和真实播放器SDK；使用干净浏览器上下文"
+      ],
+      "steps": [
+        "从包的公开入口加载游戏",
+        "观察加载、首页和玩法说明",
+        "通过实际按钮开始，再返回首页"
+      ],
+      "expected": [
+        "JSON、能力和资源完成准入后才进入可玩状态",
+        "开始前逻辑不偷偷推进；加载失败可明确重试",
+        "游戏说明、声音设置、开始/返回可操作，页面没有开发调试步骤"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "visual-review"
+      ],
+      "evidence": [
+        "package-digests",
+        "entry-to-play-video",
+        "console-log"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-02",
+      "title": "暂停、失焦与恢复不产生幽灵输入",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "游戏进行中，记录逻辑状态及持有输入"
+      ],
+      "steps": [
+        "在拖动或消除过程中暂停/切后台",
+        "等待10秒并松开原触点",
+        "恢复前台，再进行一次新输入"
+      ],
+      "expected": [
+        "暂停期间游戏计时、刷敌、道具期限或结算进度按冻结策略停止",
+        "恢复清理旧触点和未提交输入，不额外移动/选牌/交换",
+        "恢复后只消费新输入；不会追赶后台时间导致瞬间死亡或跳过动画"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "physical-touch"
+      ],
+      "evidence": [
+        "before-after-state",
+        "input-trace",
+        "resume-video"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-03",
+      "title": "跨重开与跨启动的持久进度正确",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "BIZ-01已有最高分；BIZ-02有主挑战检查点和道具消耗；BIZ-03已有通关星级及一局稳定棋盘"
+      ],
+      "steps": [
+        "保存并销毁播放器",
+        "重新从相同内容版本加载",
+        "继续游戏或开始下一局",
+        "重复加载同一结算记录"
+      ],
+      "expected": [
+        "BIZ-01保留最高分和设置，退出中的对局按约定结束，不把新局误当续局",
+        "BIZ-02恢复牌ID、遮挡、槽位、保留区、已消除集合、道具额度、随机数状态",
+        "BIZ-03恢复关卡解锁/最佳星级及稳定检查点；中途结算仅恢复最后稳定点或完整待提交事务，策略需冻结",
+        "所有奖励/解锁只提交一次，加载不能返还已消费道具"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "packaged-delivery"
+      ],
+      "evidence": [
+        "versioned-save-record",
+        "reload-video",
+        "reward-ledger"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-04",
+      "title": "同一内容在两个真实后端运行",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "锁定同一JSON、资源、能力版本、seed和规范化输入trace；准备真实CocosAirJS及Three.js SDK"
+      ],
+      "steps": [
+        "在两个真实后端分别运行完整业务路径",
+        "在约定Tick/稳定事务点采样逻辑状态",
+        "比较关键事件和得分/终局；查看两端实际画面"
+      ],
+      "expected": [
+        "游戏权威状态与关键事件一致，不比较GPU对象ID或像素作为逻辑hash",
+        "两端均可实际操作且能到达同一预期结局",
+        "截图相近不能替代状态一致；Headless/Canvas mock不能替代真实SDK证据"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser",
+        "visual-review"
+      ],
+      "evidence": [
+        "sdk-provenance",
+        "paired-state-digests",
+        "paired-video"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-05",
+      "title": "窄屏、DPR和实际触控命中一致",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "建议视口320×720、390×844、1100×760；竖屏游戏在桌面保持约定有效区域"
+      ],
+      "steps": [
+        "用实际DOM pointer完成拖动/选牌/交换",
+        "运行期间调整尺寸及DPR",
+        "在可用的目标手机上重走核心输入路径"
+      ],
+      "expected": [
+        "画面位置与命中区域一致，边缘不裁切目标/HUD",
+        "菜单按钮不小于44 CSS px；棋盘和叠牌的有效区域可辨识且没有穿透点击",
+        "状态不因尺寸变化改变，归一化输入正确映射",
+        "CDP触控只记模拟输入；手机结果单独记录机型/浏览器/系统"
+      ],
+      "layers": [
+        "real-sdk-browser",
+        "physical-touch",
+        "visual-review"
+      ],
+      "evidence": [
+        "viewport-matrix",
+        "touch-video",
+        "device-record"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-06",
+      "title": "正式交付包带齐画面和声音",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "已打包游戏、受信运行依赖、资源清单及全部使用的图片/音频"
+      ],
+      "steps": [
+        "在另一干净目录启动静态服务",
+        "断开外部网络后游玩已完整取得的包",
+        "触发爆炸/三消/特殊块/胜败音效",
+        "设置静音并重新打开"
+      ],
+      "expected": [
+        "不依赖作者开发目录、未声明CDN或预览页专属脚本",
+        "玩法反馈、动画和音频随包可用，首次音频解锁符合宿主行为",
+        "静音设置持久；素材缺失有可诊断错误，不空白运行",
+        "本例验证本地完整包，不冒称已实现离线缓存更新服务"
+      ],
+      "layers": [
+        "packaged-delivery",
+        "real-sdk-browser",
+        "visual-review"
+      ],
+      "evidence": [
+        "asset-inventory",
+        "network-log",
+        "delivery-video"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-07",
+      "title": "内容更新和不兼容存档有明确结果",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "存在同版有效存档与一个明确不兼容的内容版本；迁移成功分支仅在产品声明支持时适用"
+      ],
+      "steps": [
+        "加载同版存档，再用明确不兼容的版本尝试恢复",
+        "若声明支持迁移，再执行对应迁移成功分支",
+        "尝试损坏或摘要不匹配的内容"
+      ],
+      "expected": [
+        "同版恢复正确；不兼容时保留旧存档并提供明确的新开局选择，不静默误读",
+        "仅在声明支持迁移时要求受信迁移保持进度与消耗，记录源/目标版本",
+        "摘要或能力不符在准入阶段被拒绝；不执行JSON提供的任意迁移脚本"
+      ],
+      "layers": [
+        "headless",
+        "packaged-delivery"
+      ],
+      "evidence": [
+        "same-version-restore",
+        "incompatibility-diagnostics",
+        "preserved-save-digest",
+        "migration-receipt-if-supported"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-08",
+      "title": "重复结算与连续重开不重复奖励或泄漏对象",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "即将终局的设计夹具与新局基线"
+      ],
+      "steps": [
+        "快速重复点击结算/重开按钮",
+        "完整执行10次开始→结束→重开",
+        "销毁播放器并重建"
+      ],
+      "expected": [
+        "每局只有一个终局提交，最高分/解锁/奖励按幂等规则处理",
+        "新局不保留上一局敌机、选中牌、随机数游标或残留事件",
+        "dispose后本游戏拥有的输入监听、计时器、音频源及场景对象释放；允许明确登记的引擎共享缓存达到稳定平台"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "session-ledger",
+        "resource-counters",
+        "restart-trace"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-09",
+      "title": "玩法完全由共享能力和JSON决定",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "源码与构建产物可审查，三款游戏都可通过公共加载入口进入"
+      ],
+      "steps": [
+        "审查Adapter和宿主是否按游戏ID分支运行玩法",
+        "检查JSON不含可执行JS/表达式字符串注入",
+        "仅替换JSON中的规则参数或内容布局，再加载"
+      ],
+      "expected": [
+        "新增机制注册为版本化可信能力，适配器只绘制/声音/输入桥接",
+        "没有隐藏gameId专用状态机或调用游戏专属脚本",
+        "在声明能力范围内修改内容不改Runtime代码即可生效；超出能力明确拒绝"
+      ],
+      "layers": [
+        "source-review",
+        "admission",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "capability-mapping",
+        "source-review",
+        "variant-content-diff"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-10",
+      "title": "结算过程与输入屏障可重放",
+      "scope": [
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "即将触发三张消除或多波连锁的夹具"
+      ],
+      "steps": [
+        "触发结算并在动画期间连续输入",
+        "在中途暂停，再恢复",
+        "以相同输入trace在Headless和真实后端重放"
+      ],
+      "expected": [
+        "是否接收输入由共享会话规则决定，不依赖哪个渲染器动画先结束",
+        "可以采用分阶段逻辑，也可一次算完并输出完整有序结算/动画计划",
+        "忽略或排队的输入策略固定，且不会在新棋盘误用旧目标",
+        "不会因动画重复播放而重复消除、计分、扣步或消耗随机数"
+      ],
+      "layers": [
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "resolution-event-log",
+        "input-barrier-trace",
+        "pause-video"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-11",
+      "title": "参考版本与本次设计规则可以逐项追溯",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "完成reference-lock记录与本次确定规则Profile；reference-lock允许明确列出未确认原版项"
+      ],
+      "steps": [
+        "逐条比对核心规则、关键数值和完整流程",
+        "对照参考录像或可操作版本校准输入/表现",
+        "登记仍未知或主动改变的规则"
+      ],
+      "expected": [
+        "官方事实、参考实测、本次设计约定、未确认参数分别标注",
+        "本轮功能Profile满足可记对应业务功能通过；原版未知项不阻断该功能结论，但referenceFidelity保持PENDING，不能标原版完全一致",
+        "不把第三方克隆的参数和当前星球/运营活动当经典版既定规则"
+      ],
+      "layers": [
+        "reference-review",
+        "visual-review"
+      ],
+      "evidence": [
+        "reference-lock",
+        "rule-comparison",
+        "known-deviations"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "COM-12",
+      "title": "当前证据绑定实际交付版本且不改变旧覆盖口径",
+      "scope": [
+        "BIZ-01",
+        "BIZ-02",
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "功能冻结，已有受影响回归和三款业务证据"
+      ],
+      "steps": [
+        "归档源码、SDK、JSON、资源版本及必要证据",
+        "核对每条必需用例状态",
+        "修改一个受影响能力后检查相关结果失效行为"
+      ],
+      "expected": [
+        "PASS必须对应当前交付指纹；未运行和阻塞保留真实原因",
+        "三个业务场景独立记账，不直接升级旧G03/G04/G17的正式verified或G3",
+        "仅重跑受影响检查与必需门禁，不扩成无依据的设备/随机种子全乘积",
+        "旧失败和历史结果保留，不能以新报告覆盖旧事实"
+      ],
+      "layers": [
+        "evidence-review"
+      ],
+      "evidence": [
+        "business-receipt",
+        "source-sdk-content-digests",
+        "affected-regression"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-01",
+      "title": "公开能力生成完整飞机作品",
+      "scope": [
+        "BIZ-01"
+      ],
+      "preconditions": [
+        "能力及素材目录已完整，使用当前授权宿主与模型路由；不提供本作品作者JSON/解法"
+      ],
+      "steps": [
+        "给出飞机业务需求及规则Profile",
+        "允许Agent查询公开能力、生成JSON并按诊断修复",
+        "加载最终原始输出对应的内容包"
+      ],
+      "expected": [
+        "自动射击/持续生成/死亡计分/重开等必需规则齐全",
+        "生成JSON通过本作品必需业务用例及双后端实际运行",
+        "首轮、修复次数、失败输出和人工修改量如实记录；模型自报不算通过"
+      ],
+      "layers": [
+        "agent-generation",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "public-context",
+        "raw-outputs",
+        "repair-history",
+        "business-results"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-02",
+      "title": "公开能力生成完整叠牌作品",
+      "scope": [
+        "BIZ-02"
+      ],
+      "preconditions": [
+        "能力和素材目录完整，提供规则Profile但不提供作者关卡答案"
+      ],
+      "steps": [
+        "要求生成教学关及有完整遮挡关系的主挑战",
+        "运行关卡可达解检查及槽满/撤销用例",
+        "从玩家入口通关并复验失败路径"
+      ],
+      "expected": [
+        "所有牌都有稳定ID和合法遮挡关系，视觉/命中与逻辑一致",
+        "每个交付的固定布局都有实际合法解证据，超时不能伪装成有解",
+        "道具和重开流程完整，不能退化为无层级的六张牌演示"
+      ],
+      "layers": [
+        "agent-generation",
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "raw-outputs",
+        "solution-witness",
+        "business-results"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-03",
+      "title": "公开能力生成完整交换消除作品",
+      "scope": [
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "公开能力支持本轮目标、障碍、特殊块及组合；提供关卡目标表"
+      ],
+      "steps": [
+        "要求生成12关内容包及完整关卡流程",
+        "逐关验证目标可达和步数预算",
+        "在真实播放器完成代表关与失败重试"
+      ],
+      "expected": [
+        "包含规定的12关及机制覆盖，不能用12份换色相同棋盘凑数",
+        "每关有可复验的目标达成路线，合法步检测不能冒充可通关证据",
+        "特殊块、障碍和连锁由共享机制执行，逻辑/表现/进度完整"
+      ],
+      "layers": [
+        "agent-generation",
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "raw-outputs",
+        "level-matrix",
+        "solution-witnesses",
+        "business-results"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-04",
+      "title": "飞机规则变体只改内容",
+      "scope": [
+        "BIZ-01"
+      ],
+      "preconditions": [
+        "原飞机作品通过；提供同一能力支持的新敌机配比、速度曲线与主题资源"
+      ],
+      "steps": [
+        "让Agent生成新JSON",
+        "保持Runtime和Adapter指纹不变",
+        "重复关键运行用例"
+      ],
+      "expected": [
+        "配置差异真实改变难度/外观",
+        "持续生成、计分和边界行为仍正确",
+        "需要新代码时记录能力缺口，不能声称本次变体通过"
+      ],
+      "layers": [
+        "agent-generation",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "json-diff",
+        "unchanged-runtime-digest",
+        "variant-run"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-05",
+      "title": "叠牌拓扑变体只改内容",
+      "scope": [
+        "BIZ-02"
+      ],
+      "preconditions": [
+        "原作品通过；要求新遮挡图和不同牌分布，保留7槽/3消规则"
+      ],
+      "steps": [
+        "让Agent创建新的主挑战布局",
+        "验证DAG、牌守恒、可达解",
+        "真实点击检查被遮挡牌禁选"
+      ],
+      "expected": [
+        "不是仅换图标，拓扑确实变化",
+        "合法解经过完整状态重放而非只检查数量能被3整除",
+        "无需修改共享实现即可运行"
+      ],
+      "layers": [
+        "agent-generation",
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "layout-diff",
+        "solution-witness",
+        "variant-video"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    },
+    {
+      "id": "AI-06",
+      "title": "三消目标变体只改内容",
+      "scope": [
+        "BIZ-03"
+      ],
+      "preconditions": [
+        "原作品通过；新关卡使用已支持的棋盘形状、障碍和双目标组合"
+      ],
+      "steps": [
+        "让Agent生成新关卡与说明",
+        "保留Runtime/Adapter不变",
+        "验证无效交换、连锁、最后一步达标与失败"
+      ],
+      "expected": [
+        "关卡目标和可玩路径成立，步数预算明确",
+        "表现正确展示目标进度和组合效果",
+        "变体通过不能自动推断其他未测目标类型都支持"
+      ],
+      "layers": [
+        "agent-generation",
+        "headless",
+        "real-sdk-browser"
+      ],
+      "evidence": [
+        "level-diff",
+        "solution-witness",
+        "variant-results"
+      ],
+      "required": true,
+      "status": "NOT_RUN",
+      "fixtures": [],
+      "fixtureStatus": "SPECIFIED_NOT_MATERIALIZED",
+      "ruleOrigin": "DESIGNED_ACCEPTANCE_PROFILE",
+      "rulesDocument": "A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md"
+    }
+  ],
+  "sources": [
+    {
+      "id": "SRC-REPO",
+      "url": "https://github.com/oahc09/a2game/tree/13c64dc07c0e6dde3816f100216bad9565bb1ed0",
+      "kind": "source-code"
+    },
+    {
+      "id": "SRC-TENCENT",
+      "url": "https://static.www.tencent.com/uploads/2019/12/18/d4636c200fa8b9ba2eaafddd5f421b0b.pdf",
+      "kind": "official-report",
+      "supports": "经典飞机大战及社交分数背景，不提供全部规则数值"
+    },
+    {
+      "id": "SRC-SHEEP",
+      "url": "https://easygame2021.com/index.php?a=index&c=Lists&m=home&tid=4",
+      "kind": "official-product",
+      "supports": "简游产品与消除闯关定位"
+    },
+    {
+      "id": "SRC-SHEEP-APP",
+      "url": "https://apps.apple.com/cn/app/%E7%BE%8A%E4%BA%86%E4%B8%AA%E7%BE%8A-%E6%98%9F%E7%90%83/id1644374326",
+      "kind": "developer-store-listing",
+      "supports": "当前产品已演进为星球版，不能混作经典版"
+    },
+    {
+      "id": "SRC-MATCH3",
+      "url": "https://apps.apple.com/cn/app/%E5%BC%80%E5%BF%83%E6%B6%88%E6%B6%88%E4%B9%90/id791532221",
+      "kind": "developer-store-listing",
+      "supports": "横竖至少三消及指定目标过关"
+    },
+    {
+      "id": "SRC-MATCH3-BIRD",
+      "url": "https://www.taptap.cn/moment/317353022915086154",
+      "kind": "official-game-announcement",
+      "supports": "魔力鸟与动物交换，未提供完整特效组合公式"
+    }
+  ],
+  "referencePolicy": {
+    "functionProfileMayPassBeforeExactOriginalParity": true,
+    "unknownOriginalParametersRemainExplicit": true,
+    "allLiveProductContentClaim": false,
+    "originalFormalDenominatorUnchanged": "32+5",
+    "newFormalVerifiedClaim": false
+  },
+  "executionPolicy": {
+    "existingModelRoutePreserved": true,
+    "historicalExhaustedBudgetsNotReused": true,
+    "realProviderExecutionNeedsExistingValidBudget": true,
+    "maxAttemptsPerTaskSuggested": 3,
+    "noGameIdSpecificLogic": true,
+    "noArbitraryJsonScript": true,
+    "reuseEvidenceAcrossOverlappingCases": true,
+    "browserProcessConcurrencyMax": 2
+  },
+  "implementationStages": [
+    {"stage": 0, "goal": "冻结合规入口、关卡目录、摘要、保存、终态和输入生命周期合同，验证两个最小关卡切换、重试、恢复和摘要拒绝。"},
+    {"stage": 1, "goal": "先复现 SHT-08，再完成 BIZ-01 从自动射击、持续刷敌到死亡结算、重开和最高分的闭环，随后补难度与道具。"},
+    {"stage": 2, "goal": "BIZ-02 先教学与事务恢复，再交付 144 牌挑战；BIZ-03 先双关衔接与恢复，再交付 12 主关与 3 个变体。正式关卡提供可复验解路径。"},
+    {"stage": 3, "goal": "作者版通过 functional、presentation 和 delivery。使用真实双引擎、正常时钟和干净目录独立包，按冻结的环境记录长局和资源释放。"},
+    {"stage": 4, "goal": "冻结公开能力和交付指纹后执行 AI-01–06；physicalTouch 与 referenceFidelity 各自取证。"}
+  ],
+  "saveScope": {
+    "BIZ-01": "终局保存最高分并持久化设置；长局不要求局中恢复。",
+    "BIZ-02": "完整事务提交后保存；恢复棋盘、槽、保留区、工具、随机状态和可撤回事务。",
+    "BIZ-03": "成功结算保存解锁、最佳分和星级并持久化设置；不要求恢复局内棋盘。"
+  },
+  "profilePassCriteria": {
+    "score-session": "真实输入达到预期分数，正常死亡结算正确，重开状态隔离，无需获胜。",
+    "finite-goal": "从正式初态达成声明目标，关键失败路径符合预期。"
+  },
+  "coverageScope": {
+    "existingV2Prototypes": 84,
+    "existingV2ReviewSeparate": true,
+    "frozenFormalDenominatorUnchanged": "32+5",
+    "originalNamesAssetsInterfacesAndLevels": true
+  },
+  "evidenceReuseExamples": [
+    {
+      "caseIds": [
+        "SHT-17",
+        "COM-04"
+      ],
+      "note": "同一份双后端飞机流程可同时支撑"
+    },
+    {
+      "caseIds": [
+        "SHEEP-14",
+        "COM-04"
+      ],
+      "note": "同一份叠牌双后端逻辑/画面证据可复用"
+    },
+    {
+      "caseIds": [
+        "SHT-18",
+        "AI-01",
+        "AI-04"
+      ],
+      "note": "基础生成与变体任务可作为同一组飞机创作证据"
+    },
+    {
+      "caseIds": [
+        "SHEEP-18",
+        "AI-02",
+        "AI-05"
+      ],
+      "note": "基础与新拓扑生成复用原始输出及验证结果"
+    },
+    {
+      "caseIds": [
+        "M3-20",
+        "AI-03",
+        "AI-06"
+      ],
+      "note": "基础与新目标关卡生成复用创作证据"
+    }
+  ],
+  "proposedPerformanceTargets": {
+    "status": "PROPOSED_NOT_MEASURED",
+    "targetDeviceMustBeRecorded": true,
+    "nominalRefreshHz": 60,
+    "warmupSeconds": 20,
+    "windowSeconds": 60,
+    "frameIntervalP95MaxMs": 25,
+    "frameIntervalP99MaxMs": 50,
+    "inputToVisibleP95MaxMs": 100,
+    "shooterRealClockMinutes": {
+      "cocosair": 30,
+      "three": 10
+    },
+    "restartCycles": 10
+  },
+  "sourceRecheckCorrection": "input-control.ts已有moveMode=drag与moveClipped；缺口为作品校准/实测，不能笼统说没有角色拖动",
+  "pendingOutputs": [
+    "three-complete-game-content-packages",
+    "actual-level-layouts-and-seeds",
+    "approved-assets",
+    "independent-oracles-and-solution-witnesses",
+    "executable-test-fixtures",
+    "real-sdk-and-device-evidence",
+    "agent-generation-evidence"
+  ]
+}

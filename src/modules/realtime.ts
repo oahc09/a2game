@@ -8,11 +8,13 @@ export interface WorldBody {
     x:number; y:number; vx:number; vy:number; hx:number; hy:number;
     hp:number; team:number; value:number; fixed:boolean;
     ttl?:number; invulnerableUntil?:number; owner?:string; hits?:string[];
+    supply?:'double'|'bomb';
 }
 export interface IntegerWorld {
     bodies:WorldBody[]; score:number; charge:number; nextId:number;
     cooldowns:Record<string,number>; contacts:string[]; spawned:number[];
     grounded:string[]; won:boolean; lost:boolean; overflowTicks?:number; airJumpUsed?:boolean;
+    bombs?:number; doubleShotUntil?:number;
 }
 function err(why:string):never { return fail('A2G_E_CAP_CONFIG',why); }
 const integer=(value:unknown,min:number,max:number):value is number=>safeInteger(value)&&value>=min&&value<=max;
@@ -26,6 +28,7 @@ function validateWorldBody(body:unknown,config:Readonly<JsonRecord>):WorldBody {
     if(!isRecord(body)||typeof body.id!=='string'||!/^[a-zA-Z0-9_-]{1,48}$/.test(body.id)||!['actor','solid','target','projectile','pickup'].includes(String(body.kind)))err('Invalid or duplicate world body');
     if(!integer(body.hx,16,2000)||!integer(body.hy,16,2000)||!integer(body.x,Number(body.hx),Number(config.width)-Number(body.hx))||!integer(body.y,Number(body.hy),Number(config.height)-Number(body.hy))||!integer(body.vx,-128,128)||!integer(body.vy,-128,128)||!integer(body.hp,0,1000000)||!integer(body.team,0,8)||!integer(body.value,0,1000000)||typeof body.fixed!=='boolean')err('Out-of-bounds integer body');
     if(body.ttl!==undefined&&!integer(body.ttl,0,1000000)||body.invulnerableUntil!==undefined&&!integer(body.invulnerableUntil,0,1000000)||body.hits!==undefined&&(!Array.isArray(body.hits)||body.hits.length>128||body.hits.some(x=>typeof x!=='string')))err('Invalid body lifetime or hit ledger');
+    if(body.supply!==undefined&&(body.kind!=='pickup'||!['double','bomb'].includes(String(body.supply))||body.value!==0))err('Invalid supply body');
     return body as unknown as WorldBody;
 }
 
@@ -62,6 +65,33 @@ function validateConfig(c:Readonly<JsonRecord>):void {
         if(c.heldMovement===true||laneActions.left!==undefined||laneActions.right!==undefined||Number(c.jumpHorizontalSpeed??0)!==0)err('Fixed lanes require lane-only horizontal movement');
     }
     if(c.waves!==undefined&&(!Array.isArray(c.waves)||c.waves.length>64))err('Invalid waves');
+    if(c.shooterSupplies!==undefined){
+        const s=c.shooterSupplies;
+        if(!isRecord(s)||c.weapon!=='projectile'||c.fireDirection!=='up'||c.autoTarget===true||c.aimPath!==undefined||
+           !integer(s.intervalTicks,1,36000)||!integer(s.doubleShotTicks,1,36000)||!integer(s.doubleShotOffset,1,1000)||
+           !integer(s.bombCapacity,1,16)||!integer(s.fallSpeed,1,128)||!integer(s.halfSize,16,Math.floor(Math.min(Number(c.width),Number(c.height))/3)))err('Invalid shooter supply configuration');
+    }
+}
+
+function spawnPhaseWave(ctx:ModuleContext,spawn:(body:WorldBody)=>boolean):void {
+    const {config:c,tickIndex}=ctx;
+    const phases=c.wavePhases as JsonRecord[];
+    let phase=phases[0]!;
+    for(const candidate of phases){
+        if(Number(candidate.startTick)>tickIndex)break;
+        phase=candidate;
+    }
+    if((tickIndex-Number(phase.startTick))%Number(phase.intervalTicks)!==0)return;
+    const weights=phase.weights as number[];
+    let roll=ctx.rng.randomInt(1,weights.reduce((total,weight)=>total+weight,0));
+    const index=weights.findIndex(weight=>(roll-=weight)<=0);
+    const body=clone((c.waves as JsonRecord[])[index]!.body) as unknown as WorldBody;
+    const scale=Number(phase.speedPermille);
+    body.id+=`--${index}-${tickIndex}`;
+    body.x=ctx.rng.randomInt(body.hx,Number(c.width)-body.hx);
+    body.vy=Math.trunc(body.vy*scale/1000);
+    body.ttl=Math.ceil((body.y-body.hy)/-body.vy);
+    spawn(body);
 }
 
 /** A tick-bound checkpointable service; integers are world units, velocities units per tick. */
@@ -103,9 +133,28 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         if(w.bodies.length>=maximum){emit('realtime.pool-full',{});return false;}
         if(w.bodies.some(b=>b.id===body.id))err('Spawn ID already alive');w.bodies.push(body);emit('realtime.spawned',{id:body.id});return true;
     };
-    for(const [index,entry] of ((c.waves??[]) as JsonRecord[]).entries())if(ctx.tickIndex>=Number(entry.tick)&&!w.spawned.includes(index)){
+    const supplies=c.shooterSupplies as {intervalTicks:number;doubleShotTicks:number;doubleShotOffset:number;bombCapacity:number;fallSpeed:number;halfSize:number}|undefined;
+    if(supplies&&(!integer(w.bombs,0,supplies.bombCapacity)||!integer(w.doubleShotUntil,0,Number.MAX_SAFE_INTEGER)))err('Invalid shooter supply state');
+    if(supplies&&actor&&ctx.tickIndex>0&&ctx.tickIndex%supplies.intervalTicks===0){
+        const half=supplies.halfSize,y=Number(c.height)-half;
+        const supply=ctx.rng.randomInt(0,1)===0?'double':'bomb';
+        const x=ctx.rng.randomInt(half,Number(c.width)-half);
+        spawn({id:`supply--${ctx.tickIndex}`,kind:'pickup',x,y,vx:0,vy:-supplies.fallSpeed,hx:half,hy:half,hp:1,team:0,value:0,fixed:false,
+            ttl:Math.ceil((y-half)/supplies.fallSpeed),supply});
+    }
+    if(supplies&&actor&&press('bomb')&&w.bombs!>0){
+        w.bombs=w.bombs!-1;
+        const targets=w.bodies.filter(b=>b.kind==='target'&&b.team!==actor.team&&b.hp>0).sort((a,b)=>stableCompare(a.id,b.id));
+        emit('combat.bomb',{id:actor.id,remaining:w.bombs,targets:targets.length});
+        for(const target of targets)damage(target,target.hp,actor.id,actor.id,true);
+    }
+    if(c.wavePhases!==undefined)spawnPhaseWave(ctx,spawn);
+    else for(const [index,entry] of ((c.waves??[]) as JsonRecord[]).entries()){
+        const elapsed=ctx.tickIndex-Number(entry.tick),repeat=entry.repeatEveryTicks;
+        if(elapsed<0||(repeat===undefined?w.spawned.includes(index):elapsed%Number(repeat)!==0))continue;
         const b=clone(entry.body) as unknown as WorldBody;validateWorldBody(b,c);
-        if(spawn(b))w.spawned.push(index);
+        if(repeat!==undefined)b.id+=`--${index}-${ctx.tickIndex}`;
+        if(spawn(b)&&repeat===undefined)w.spawned.push(index);
     }
     let selectedLane:number|undefined;const centers=c.laneCenters as number[]|undefined;
     if(actor){
@@ -164,16 +213,24 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
                 if(hit?.kind==='target')damage(hit,damageValue,actor.id);fired=true;
             }else{
                 const speed=Math.max(1,Math.round(Number(c.projectileSpeed??128)*Math.max(0.1,power)));
-                const id=`shot_${w.nextId}`;
-                if(!w.bodies.some(b=>b.id===id)){const half=Number(c.projectileHalfSize??16);fired=spawn({id,kind:'projectile',x:actor.x,y:actor.y,vx:Math.trunc(direction[0]!*speed),vy:Math.trunc(direction[1]!*speed),hx:half,hy:half,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});}
-                if(fired)w.nextId++;
+                const offsets=supplies&&ctx.tickIndex < w.doubleShotUntil! ? [-supplies.doubleShotOffset,supplies.doubleShotOffset] : [0];
+                const shots=offsets.map((offset,i)=>({id:`shot_${w.nextId+i}`,offset}));
+                if(!shots.some(({id})=>w.bodies.some(b=>b.id===id))){
+                    if(w.bodies.length+shots.length>maximum)emit('realtime.pool-full',{});
+                    else for(const {id,offset} of shots){
+                        const half=Number(c.projectileHalfSize??16);
+                        spawn({id,kind:'projectile',x:offset===0?actor.x:clamp(actor.x+offset,half,Number(c.width)-half),y:actor.y,
+                            vx:Math.trunc(direction[0]!*speed),vy:Math.trunc(direction[1]!*speed),hx:half,hy:half,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});
+                        fired=true;w.nextId++;
+                    }
+                }
             }
             if(fired){w.cooldowns[actor.id]=ctx.tickIndex+Number(c.cooldownTicks??10);emit('combat.fired',{id:actor.id});}
         }
     }
-    function damage(body:WorldBody,amount:number,source:string):void {
-        const key=contactKey(body.id,source);
-        if(dead.has(body.id)||body.hp<=0||damageLedger.has(key)||ctx.tickIndex<(body.invulnerableUntil??0))return;
+    function damage(body:WorldBody,amount:number,source:string,hitId=source,ignoreInvulnerability=false):void {
+        const key=contactKey(body.id,hitId);
+        if(dead.has(body.id)||body.hp<=0||damageLedger.has(key)||!ignoreInvulnerability&&ctx.tickIndex<(body.invulnerableUntil??0))return;
         damageLedger.add(key);
         body.hp=Math.max(0,body.hp-amount);body.invulnerableUntil=ctx.tickIndex+Number(c.invulnerabilityTicks??0);emit('combat.hit',{id:body.id,source,amount,hp:body.hp});
         if(body.hp===0){dead.add(body.id);w.score+=body.value;emit('combat.death',{id:body.id,source});}
@@ -210,10 +267,19 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
             contacts.add(contactKey(a.id,b.id));
             const shot=a.kind==='projectile'?a:b.kind==='projectile'?b:undefined,target=shot===a?b:a;
             if(shot){if(target.kind==='solid'){
-                if(c.breakableSolids===true&&target.team!==0&&target.team!==shot.team)damage(target,shot.value,shot.owner??shot.id);
+                if(c.breakableSolids===true&&target.team!==0&&target.team!==shot.team)damage(target,shot.value,shot.owner??shot.id,c.independentProjectileHits===true?shot.id:undefined);
                 dead.add(shot.id);continue;
-            }if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id);dead.add(shot.id);}continue;}
-            if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){w.score+=pickup.value;dead.add(pickup.id);emit('realtime.trigger',{id:pickup.id,actor:other.id});}continue;}
+            }if(target.team!==shot.team&&['target','actor'].includes(target.kind)&&!shot.hits?.includes(target.id)){(shot.hits??=[]).push(target.id);damage(target,shot.value,shot.owner??shot.id,c.independentProjectileHits===true?shot.id:undefined);dead.add(shot.id);}continue;}
+            if(a.kind==='pickup'||b.kind==='pickup'){const pickup=a.kind==='pickup'?a:b,other=pickup===a?b:a;if(other.kind==='actor'){
+                w.score+=pickup.value;dead.add(pickup.id);
+                if(supplies&&pickup.supply){
+                    if(pickup.supply==='double')w.doubleShotUntil=ctx.tickIndex+1+supplies.doubleShotTicks;
+                    else w.bombs=Math.min(supplies.bombCapacity,w.bombs!+1);
+                    emit('combat.supply-collected',{id:pickup.id,supply:pickup.supply});
+                }
+                emit('realtime.trigger',{id:pickup.id,actor:other.id});
+            }continue;}
+            if(c.wavePhases!==undefined&&a.kind==='target'&&b.kind==='target')continue;
             if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);w.score+=a.value;emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
             if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
             if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target'){if(c.damageTargetsOnContact===true)damage(a,damageValue,b.id);else damage(b,1,a.id);}
@@ -257,6 +323,11 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
     const state=Object.fromEntries(Object.entries(def.state).map(([key,field])=>[key,field.initial]));
     for(const entity of [...def.scenes.flatMap(s=>s.entities),...Object.values(def.prototypes??{})])for(const component of entity.components??[])if(component.capability.id==='a2game.realtime.world'){
         const c=component.config;validateConfig(c);const w=validateIntegerWorld(readPointer(state,String(c.statePath)),c);
+        if(isRecord(c.shooterSupplies)){
+            const bombAction=(c.actions as JsonRecord|undefined)?.bomb;
+            if(!integer(w.bombs,0,Number(c.shooterSupplies.bombCapacity))||w.doubleShotUntil!==0||
+               !def.inputs.actions.some(action=>action.id===bombAction&&action.valueType==='button'))err('Shooter supplies require initial inventory and a bomb button');
+        }
         if(c.driftAction!==undefined&&(c.heldMovement!==true||!def.inputs.actions.some(a=>a.id===c.driftAction&&a.valueType==='button')))err('Drift requires held movement and a button action');
         if(c.gravityFlipPath!==undefined&&typeof readPointer(state,String(c.gravityFlipPath))!=='boolean')err('Invalid initial gravity flip binding');
         if(c.lift!==undefined){
@@ -272,6 +343,27 @@ export function validateRealtimeDefinition(def:GameDefinition):void {
             if(!valid)err('Invalid initial bound realtime field '+key);
             if(['fireRequestPath','laneRequestPath'].includes(key)&&String(c[key]).startsWith(String(c.statePath)+'/'))err('Requests must use independent controller state');
         }
-        for(const entry of (c.waves??[]) as JsonRecord[]){if(!integer(entry.tick,0,1000000))err('Invalid wave tick');validateWorldBody(entry.body,c);}
+        for(const entry of (c.waves??[]) as JsonRecord[]){
+            if(!integer(entry.tick,0,1000000))err('Invalid wave tick');
+            const body=validateWorldBody(entry.body,c);
+            if(entry.repeatEveryTicks!==undefined&&(!integer(entry.repeatEveryTicks,1,36000)||body.id.length>26||body.ttl===undefined||body.ttl<1||body.kind!=='target'||body.fixed||body.vx===0&&body.vy===0))err('Repeating waves require a moving target template with bounded lifetime');
+        }
+        if(c.wavePhases!==undefined){
+            const waves=(c.waves??[]) as JsonRecord[];
+            if(!Array.isArray(c.wavePhases)||c.wavePhases.length<1||c.wavePhases.length>8||waves.length<1||waves.length>8)err('Invalid phased wave configuration');
+            for(const entry of waves){
+                const body=entry.body as unknown as WorldBody;
+                if(entry.tick!==0||entry.repeatEveryTicks!==undefined||body.id.length>26||body.kind!=='target'||body.fixed||body.vx!==0||body.vy>=0||body.y<=body.hy||body.hp<1)err('Phased waves require descending target templates');
+            }
+            if(Number(c.gravity??0)!==0||Number(c.seekSpeed??0)!==0||Number(c.scrollSpeed??0)!==0||c.tiltGravityPath!==undefined)err('Phased waves require constant downward velocity');
+            let previous=-1;
+            for(const phase of c.wavePhases){
+                if(!isRecord(phase)||!integer(phase.startTick,0,1000000)||(previous===-1?phase.startTick!==0:Number(phase.startTick)<=previous)||
+                   !integer(phase.intervalTicks,1,36000)||!integer(phase.speedPermille,1000,2000)||!Array.isArray(phase.weights)||phase.weights.length!==waves.length||
+                   phase.weights.some(weight=>!integer(weight,0,1000))||!phase.weights.some(weight=>Number(weight)>0)||
+                   waves.some(entry=>Math.trunc(Math.abs(Number((entry.body as JsonRecord).vy))*Number(phase.speedPermille)/1000)>128))err('Invalid phased wave stage');
+                previous=Number(phase.startTick);
+            }
+        }
     }
 }

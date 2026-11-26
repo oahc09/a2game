@@ -1,4 +1,308 @@
 {
+  "threeCompleteGamesBusinessRun": {
+    "status": "BLOCKED",
+    "stage": 4,
+    "authorDesktopAcceptance": "PASS_BROWSER_EVIDENCE",
+    "plan": "docs/history/A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md",
+    "progressiveCollection": {
+      "status": "PASS_REFERENCE",
+      "engines": ["three", "air"],
+      "receipt": "output/three-complete-games-stage0-1795391825615/receipt.json"
+    },
+    "shooterSameOwnerHit": {"caseId": "SHT-08", "status": "PASS_HEADLESS_REGRESSION", "legacyHp": 2, "independentHitHp": 1},
+    "scoreSession": {"status": "PASS_HEADLESS_FIXTURE", "verifier": "scripts/score-session.mjs", "formalPlaythrough": "NOT_RUN"},
+    "match3OpeningLevels": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "collection": "games/business-complete/tideglass-match/collection.json",
+      "levels": ["M01", "M02"],
+      "headlessCasesPassed": 7,
+      "winLossTracesPassed": 4,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/tideglass-m01-m02-1795394707306/receipt.json",
+      "standaloneDelivery": "PASS_TARGETED_REFERENCE"
+    },
+    "match3SpecialLevels": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "levels": ["M03", "M04", "M05"],
+      "headlessCasesAcrossFiveLevels": 10,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/tideglass-specials-1795395302379/receipt.json",
+      "standalonePackage": "output/player-sdk-2026-11-23T00-55-37-906Z-ac56468c",
+      "standaloneReceipt": "output/tideglass-specials-static-1795395353947/receipt.json"
+    },
+    "match3SpecialCombinations": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "collection": "games/business-complete/tideglass-match/combos/collection.json",
+      "baseLevels": ["M09", "M10", "M11"],
+      "variants": 3,
+      "headlessCasesPassed": 6,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/tideglass-combos-1795395527341/receipt.json",
+      "integratedIntoMainCollection": true
+    },
+    "match3ObstacleLevels": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "levels": ["M06", "M07"],
+      "headlessCasesAcrossSevenLevels": 13,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/tideglass-obstacles-1795395762947/receipt.json"
+    },
+    "match3MainCampaign": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "mainLevels": 12,
+      "headlessCasesPassed": 22,
+      "winLossTracesPassed": 15,
+      "normalClockBrowserEnginesPassed": 2,
+      "outletCollection": "PASS_TARGETED_REFERENCE",
+      "finalLevelResumeAndRetry": "PASS_TARGETED_REFERENCE",
+      "browserReceipt": "output/tideglass-main-1795396286215/receipt.json",
+      "fullStandaloneDelivery": "PASS_TARGETED_REFERENCE",
+      "standalonePackage": "output/player-sdk-2026-11-23T01-28-05-928Z-bb625ec8",
+      "rankedStandaloneReceipt": "output/tideglass-ranked-static-1795396677199/receipt.json",
+      "threeStarWitnessesPassed": 15,
+      "deadboardBrowserReceipt": "output/tideglass-deadboard-1795396727308/receipt.json",
+      "toolBrowserReceipt": "output/tideglass-tools-static-1795396975407/receipt.json",
+      "inputBarrier": "PASS_TARGETED_REFERENCE",
+      "settlementBrowserReceipt": "output/tideglass-settlement-static-1795397434737/receipt.json"
+    },
+    "layeredTrayTutorial": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/pattern-harbor/game.json",
+      "cards": 18,
+      "layers": 2,
+      "headlessCasesPassed": 2,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/pattern-harbor-tutorial-1795393558483/receipt.json"
+    },
+    "layeredTrayChallenge": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/pattern-harbor/challenge.game.json",
+      "collection": "games/business-complete/pattern-harbor/collection.json",
+      "cards": 144,
+      "patterns": 12,
+      "layers": 6,
+      "headlessReceipt": "output/pattern-harbor-challenge-1795393777570/headless.json",
+      "browserReceipt": "output/pattern-harbor-challenge-1795393777570/receipt.json",
+      "midGameResume": "NOT_RUN"
+    },
+    "layeredTrayTools": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/pattern-harbor/tools.game.json",
+      "headlessCasesPassed": 3,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/pattern-harbor-tools-1795394022206/receipt.json",
+      "replaySaveFixture": "PASS_HEADLESS",
+      "shuffle": "PASS_TARGETED_REFERENCE",
+      "midGameHostResume": "PASS_TARGETED_REFERENCE"
+    },
+    "layeredTrayShuffle": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/pattern-harbor/shuffle.game.json",
+      "headlessCasesPassed": 4,
+      "winningActionsAfterShuffle": 141,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/pattern-harbor-shuffle-1795394223015/receipt.json"
+    },
+    "layeredTrayResume": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/pattern-harbor/resume.game.json",
+      "collection": "games/business-complete/pattern-harbor/collection.json",
+      "normalClockBrowserEnginesPassed": 2,
+      "invalidSavePreserved": true,
+      "browserReceipt": "output/pattern-harbor-resume-1795394472821/receipt.json",
+      "standaloneDelivery": "PASS_TARGETED_REFERENCE"
+    },
+    "standaloneCollections": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "entry": "/player/collection.html",
+      "patternHarbor": {
+        "package": "output/player-sdk-2026-11-23T00-50-26-250Z-f2a0a91c",
+        "receipt": "output/pattern-harbor-static-1795395048940/receipt.json"
+      },
+      "tideglassMatch": {
+        "package": "output/player-sdk-2026-11-23T00-50-30-398Z-45482e41",
+        "receipt": "output/tideglass-static-1795395049560/receipt.json"
+      }
+    },
+    "shooterStandalone": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/skyline-patrol/delivery.game.json",
+      "headlessCasesPassed": 2,
+      "normalClockBrowserEnginesPassed": 2,
+      "inventoryFiles": 281,
+      "browserReceipt": "output/skyline-patrol-standalone-1795393296685/receipt.json",
+      "longClockBrowser": "NOT_RUN"
+    },
+    "shooterRelativeDragAndHighScore": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/skyline-patrol/relative.game.json",
+      "headlessCasesPassed": 2,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/skyline-patrol-relative-browser-1795392995253/receipt.json",
+      "standaloneDelivery": "NOT_RUN"
+    },
+    "shooterSupplies": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "game": "games/business-complete/skyline-patrol/supplies.game.json",
+      "doubleShotHeadless": "PASS",
+      "bombBrowser": "PASS",
+      "browserReceipt": "output/skyline-patrol-supplies-browser-1795392781795/receipt.json",
+      "liveDoubleShot": "PASS_TARGETED_REFERENCE",
+      "liveDoubleShotReceipt": "output/skyline-patrol-live-supply-1795398109938/receipt.json"
+    },
+    "shooterEndurance": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "runner": "scripts/skyline-patrol-endurance.mjs",
+      "receiptAudit": "scripts/check-three-games-browser-receipts.mjs",
+      "headlessRoute": "games/business-complete/skyline-patrol/long-score-trace.json",
+      "headlessRouteTicks": 17043,
+      "headlessRouteScore": 14900,
+      "normalClockBrowser": "PASS_TARGETED_REFERENCE",
+      "cocosAirReceipt": "output/skyline-patrol-endurance-air-1795398461194/receipt.json",
+      "cocosAirNormalClock": "PASS_TARGETED_REFERENCE",
+      "threeReceipt": "output/skyline-patrol-endurance-three-1795400822853/receipt.json",
+      "threeFailedAttempts": [{"receipt": "output/skyline-patrol-endurance-three-1795400313846/receipt.json", "reason": "CLOCK_STALL", "activeTick": 23010}],
+      "threeNormalClock": "PASS_TARGETED_REFERENCE",
+      "verifiedSharedTerminals": 11
+    },
+    "refreshedStandalonePackages": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "browserRunner": "scripts/three-games-delivery-browser.mjs",
+      "inventoryFilesVerified": 1167,
+      "contentReleaseEntriesVerified": 21,
+      "packagedHeadlessCasesPassed": 36,
+      "packagedHeadlessReceipt": "output/three-games-packaged-headless-1795401783242/receipt.json",
+      "desktopBrowserReceipt": "output/three-games-delivery-1795400710300/receipt.json",
+      "browserReceipt": "output/three-games-delivery-1795401762291/receipt.json",
+      "desktopBrowserCasesPassed": 8,
+      "integrityRejectionsPassed": 4,
+      "collectionSoundPreference": "PASS_TARGETED_REFERENCE",
+      "narrowViewportBrowser": "PASS_TOUCH_EMULATION",
+      "narrowViewportCasesPassed": 6,
+      "skylinePatrol": "output/player-sdk-2026-11-23T01-46-23-109Z-d917164f",
+      "layoutBeforeFixReceipt": "output/three-games-delivery-1795401441610/receipt.json",
+      "patternHarbor": "output/player-sdk-2026-11-23T02-41-28-074Z-0f8a1aa5",
+      "tideglassMatch": "output/player-sdk-2026-11-23T02-42-05-073Z-6a8a0ff1",
+      "tideglassCombos": "output/player-sdk-2026-11-23T02-42-24-640Z-3e1b5fc3"
+    },
+    "protocolRegression": {
+      "status": "PASS",
+      "schemaDocuments": 368,
+      "conformanceCases": 204,
+      "schemaReceipt": "output/three-games-protocol-1795401635075/reports/schema-preflight.json",
+      "conformanceReceipt": "output/three-games-protocol-1795401635075/conformance.json"
+    },
+    "workspaceProjectCheck": {
+      "status": "MISSING_HISTORICAL_EVIDENCE",
+      "missing": "reports/g3-plan-2026-10-27T13-58-29-912Z-35480/plan.json"
+    },
+    "workspaceNodeRegression": {
+      "status": "PASS",
+      "firstLog": "output/three-games-workspace-1795401522285/node-tests.log",
+      "firstCounts": {"pass": 359, "fail": 1, "skipped": 3},
+      "focusedRetestPassed": 6,
+      "retryLog": "output/three-games-workspace-1795402257647/node-tests.log",
+      "retryCounts": {"pass": 360, "fail": 0, "skipped": 3}
+    },
+    "independentAgentPreparation": {
+      "status": "PREPARED_NOT_RUN",
+      "taskCount": 6,
+      "providerCalls": 0,
+      "index": "output/three-games-agent-preparation-1795650558841/index.json",
+      "providerAuthorization": "REQUIRED_FOR_NEW_RUN"
+    },
+    "independentAgentAI01": {
+      "status": "FAIL_ADMISSION",
+      "provider": "host-selected-current-codex-cli",
+      "modelOverride": false,
+      "providerCalls": 3,
+      "authorizedMaxCalls": 3,
+      "summary": "output/business-ai01-1795619078045/summary.json",
+      "failureCode": "A2G_E_CAP_CONFIG",
+      "browser": "NOT_RUN",
+      "publicContractRepair": "PASS_LOCAL",
+      "repairProviderCalls": 0,
+      "repairSchemaReceipt": "output/ai01-contract-regression-1795619695688/reports/schema-preflight.json",
+      "rerun": {
+        "status": "FAIL_CONFORMANCE",
+        "providerCalls": 3,
+        "authorizedMaxCalls": 3,
+        "cumulativeProviderCalls": 6,
+        "manualEdits": 0,
+        "summary": "output/business-ai01-rerun-1795620383119/summary.json",
+        "admittedAttempt": 3,
+        "conformancePassed": 5,
+        "conformanceFailed": 1,
+        "traceFailureCode": "A2G_E_INPUT_RAW",
+        "browser": "NOT_RUN"
+      },
+      "strictTraceRerun": {
+        "status": "FAIL_SCORE_TRACE",
+        "providerCalls": 3,
+        "authorizedMaxCalls": 3,
+        "cumulativeProviderCalls": 9,
+        "manualEdits": 0,
+        "admittedAttempts": 3,
+        "conformancePassedAttempts": 2,
+        "browser": "NOT_RUN",
+        "summary": "output/business-ai01-rerun-1795649658076/summary.json",
+        "hostTimingDiagnostic": "output/business-ai01-rerun-1795649658076/host-timing-diagnostic.json"
+      },
+      "timingRepairRounds": {
+        "status": "PASS_REFERENCE",
+        "roundsPassed": 3,
+        "providerCalls": 3,
+        "authorizedMaxCalls": 3,
+        "cumulativeProviderCalls": 12,
+        "manualEdits": 0,
+        "browserRunsPassed": 6,
+        "summary": "output/business-ai01-rounds-1795650574037/summary.json"
+      },
+      "hostDiagnosticRepair": {
+        "status": "PASS_LOCAL",
+        "providerCalls": 0,
+        "conformancePassed": 6,
+        "score": 5,
+        "terminalTick": 57,
+        "summary": "output/business-ai01-host-repair-1795649459476/host-repair.json",
+        "browserReceipt": "output/business-ai01-host-repair-1795649459476/browser.json"
+      }
+    },
+    "independentAgentAI02To04": {
+      "status": "PASS_REFERENCE",
+      "providerCalls": 4,
+      "AI-02": {"attempt": 1, "admittedLevels": 2, "headlessCasesPassed": 7, "browserRunsPassed": 4, "mainWitness": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/main-witness-receipt.json", "mainBrowser": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-main-witness.json", "tutorialBrowser": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-tutorial-witness.json"},
+      "AI-03": {"attempt": 2, "admittedLevels": 15, "headlessCasesPassed": 31, "browserRunsPassed": 6, "admission": "output/business-ai02-06-run-1795700751295/AI-03/attempt-2/result.json", "browser": "output/business-ai02-06-run-1795700751295/AI-03/attempt-2/browser-representative.json"},
+      "AI-04": {"attempt": 1, "headlessCasesPassed": 4, "browserRunsPassed": 2, "browser": "output/business-ai02-06-run-1795700751295/AI-04/attempt-1/browser.json"}
+    },
+    "independentAgentAI05To06": {
+      "status": "PASS_REFERENCE",
+      "providerCalls": 3,
+      "AI-05": {"attempt": 1, "headlessCasesPassed": 4, "browserRunsPassed": 6, "witness": "output/business-ai05-06-run-1795702836880/AI-05/attempt-1/main-witness-receipt.json", "browserWin": "output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-main-witness.json", "browserNegative": "output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-negative.json"},
+      "AI-06": {"attempt": 2, "headlessCasesPassed": 4, "browserRunsPassed": 8, "browser": "output/business-ai05-06-run-1795702836880/AI-06/attempt-2/browser-representative.json"}
+    },
+    "physicalTouch": {
+      "status": "BLOCKED_DEVICE",
+      "deviceCheck": "adb devices -l",
+      "availableTargets": 0
+    },
+    "shooterPhasedWaves": {
+      "status": "PASS_REFERENCE",
+      "game": "games/business-complete/skyline-patrol/phased.game.json",
+      "headlessCasesPassed": 2,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/skyline-patrol-phased-browser-1795392537436/receipt.json",
+      "modulePressure": {"ticks": 18000, "spawnsByPhase": [50, 150, 240], "peakBodies": 65, "poolFullEvents": 0},
+      "longClockBrowser": "NOT_RUN"
+    },
+    "shooterSlice": {
+      "status": "PASS_REFERENCE",
+      "game": "games/business-complete/skyline-patrol/game.json",
+      "headlessCasesPassed": 2,
+      "normalClockBrowserEnginesPassed": 2,
+      "browserReceipt": "output/skyline-patrol-browser-1795392269696/receipt.json"
+    }
+  },
   "cliCapabilityRefresh": {
     "date": "2026-11-22",
     "scope": "Public catalog lookup and keyword plan selection for mine-board, grid-trail, production-line, disk-flip and grid-tactics",

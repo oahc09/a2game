@@ -1,0 +1,482 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.business.pattern-harbor.tutorial",
+    "gameRevision": 1,
+    "tickHz": 60,
+    "seed": 6297,
+    "coordinateProfile": "viewport-top-left-v1",
+    "inputNormalizerVersion": "0.1.0"
+  },
+  "events": [
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 0,
+      "seq": 0,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 0,
+      "seq": 1,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 1,
+      "seq": 2,
+      "timeUs": 16667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 1,
+      "seq": 3,
+      "timeUs": 16667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 2,
+      "seq": 4,
+      "timeUs": 33334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2466666666666667,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 2,
+      "seq": 5,
+      "timeUs": 33334
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 3,
+      "seq": 6,
+      "timeUs": 50000
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 3,
+      "seq": 7,
+      "timeUs": 50000
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 4,
+      "seq": 8,
+      "timeUs": 66667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 4,
+      "seq": 9,
+      "timeUs": 66667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 5,
+      "seq": 10,
+      "timeUs": 83334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5244444444444445,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 5,
+      "seq": 11,
+      "timeUs": 83334
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 6,
+      "seq": 12,
+      "timeUs": 100000
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.21153846153846156,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 6,
+      "seq": 13,
+      "timeUs": 100000
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 7,
+      "seq": 14,
+      "timeUs": 116667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.39615384615384613,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 7,
+      "seq": 15,
+      "timeUs": 116667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 8,
+      "seq": 16,
+      "timeUs": 133334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.8022222222222222,
+        "v": 0.5807692307692307,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 8,
+      "seq": 17,
+      "timeUs": 133334
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 9,
+      "seq": 18,
+      "timeUs": 150000
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 9,
+      "seq": 19,
+      "timeUs": 150000
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 10,
+      "seq": 20,
+      "timeUs": 166667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 10,
+      "seq": 21,
+      "timeUs": 166667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 11,
+      "seq": 22,
+      "timeUs": 183334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.2222222222222222,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 11,
+      "seq": 23,
+      "timeUs": 183334
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 12,
+      "seq": 24,
+      "timeUs": 200000
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 12,
+      "seq": 25,
+      "timeUs": 200000
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 13,
+      "seq": 26,
+      "timeUs": 216667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 13,
+      "seq": 27,
+      "timeUs": 216667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 14,
+      "seq": 28,
+      "timeUs": 233334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 14,
+      "seq": 29,
+      "timeUs": 233334
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 15,
+      "seq": 30,
+      "timeUs": 250000
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.23076923076923078,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 15,
+      "seq": 31,
+      "timeUs": 250000
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 16,
+      "seq": 32,
+      "timeUs": 266667
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.41538461538461535,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 16,
+      "seq": 33,
+      "timeUs": 266667
+    },
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 17,
+      "seq": 34,
+      "timeUs": 283334
+    },
+    {
+      "source": "pointer",
+      "kind": "up",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.7777777777777778,
+        "v": 0.6,
+        "viewportAspect": 0.6923076923076923
+      },
+      "tickIndex": 17,
+      "seq": 35,
+      "timeUs": 283334
+    }
+  ]
+}

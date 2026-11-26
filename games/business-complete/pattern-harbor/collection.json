@@ -1,0 +1,25 @@
+{
+  "format": "a2game-game-collection",
+  "version": 2,
+  "id": "pattern-harbor",
+  "title": "纹港叠牌",
+  "subtitle": "从双层教学到六层主挑战",
+  "levels": [
+    {
+      "id": "tutorial",
+      "title": "教学关",
+      "game": "game.json",
+      "hint": "先选露在上层的牌，三张同类自动消除。",
+      "par": 18,
+      "sha256": "f1e4cd46b5d984045ef0127dffcfdc874de886b2c6ef775310888d921b0ffb19"
+    },
+    {
+      "id": "challenge",
+      "title": "六层主挑战",
+      "game": "resume.game.json",
+      "hint": "移出、撤回和洗牌各一次。保留区里的牌要取回消除。",
+      "par": 144,
+      "sha256": "acecd9035d135fec59293c1155dc8bda39c06d0dfa4c0bbf080be3c21b5d5ef5"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "format": "a2game-input-trace",
+  "traceVersion": "0.1.0",
+  "session": {
+    "gameId": "org.a2game.business.skyline-patrol",
+    "gameRevision": 4,
+    "tickHz": 60,
+    "seed": 5629,
+    "coordinateProfile": "viewport-top-left-v1",
+    "inputNormalizerVersion": "0.1.0"
+  },
+  "events": [
+    {
+      "source": "pointer",
+      "kind": "down",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5,
+        "v": 0.9,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 0,
+      "seq": 0,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.4777,
+        "v": 0.9,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 0,
+      "seq": 1,
+      "timeUs": 0
+    },
+    {
+      "source": "pointer",
+      "kind": "move",
+      "payload": {
+        "pointerId": 1,
+        "u": 0.5249,
+        "v": 0.01,
+        "viewportAspect": 0.625
+      },
+      "tickIndex": 160,
+      "seq": 2,
+      "timeUs": 2666667
+    },
+    {
+      "source": "system",
+      "kind": "checkpoint",
+      "tickIndex": 245,
+      "seq": 3,
+      "timeUs": 4083334,
+      "payload": {}
+    }
+  ]
+}

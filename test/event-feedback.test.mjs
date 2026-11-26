@@ -12,7 +12,7 @@ test('event decorations deduplicate, preserve state, locate removed bodies and o
   const before=structuredClone(observation);feedback.capture(definition,observation,{now:10});feedback.capture(definition,observation,{now:10});
   const frame={commands:[],width:6,height:6};
   const decorated=feedback.project(frame,20);assert.equal(decorated.commands.length,8);assert.ok(decorated.commands[0].at[0]<0);
-  assert.deepEqual(sounds,['success']);assert.deepEqual(observation,before);assert.deepEqual(frame.commands,[]);
+  assert.deepEqual(sounds,['blast']);assert.deepEqual(observation,before);assert.deepEqual(frame.commands,[]);
   const full={...frame,commands:Array.from({length:640},(_,i)=>({id:String(i)}))};assert.equal(feedback.project(full,20).commands.length,640);
   assert.equal(feedback.project(frame,331),frame);
   feedback.reset();assert.deepEqual(feedback.diagnostics(),{effects:0,positions:0,seen:0});

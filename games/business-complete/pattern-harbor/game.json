@@ -1,0 +1,674 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.business.pattern-harbor.tutorial",
+  "revision": 1,
+  "meta": {
+    "title": "纹港叠牌 · 教学",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "点选露在上面且未被遮住的牌。相同纹样凑齐三张会消失。清空桌面和七格槽即完成教学。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.tray",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.layered-stack",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.match-n",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.tap",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 6297,
+      "maxCatchUpTicks": 8
+    }
+  },
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.tray",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/puzzle",
+                "width": 9,
+                "height": 2,
+                "selectActions": [],
+                "matchLength": 3,
+                "capacity": 7,
+                "blockers": [
+                  [
+                    9
+                  ],
+                  [
+                    10
+                  ],
+                  [
+                    11
+                  ],
+                  [
+                    12
+                  ],
+                  [
+                    13
+                  ],
+                  [
+                    14
+                  ],
+                  [
+                    15
+                  ],
+                  [
+                    16
+                  ],
+                  [
+                    17
+                  ],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  [],
+                  []
+                ],
+                "tilePointer": {
+                  "action": "selectTile",
+                  "centers": [
+                    [
+                      -2.5,
+                      3.5
+                    ],
+                    [
+                      0,
+                      3.5
+                    ],
+                    [
+                      2.5,
+                      3.5
+                    ],
+                    [
+                      -2.5,
+                      1.1
+                    ],
+                    [
+                      0,
+                      1.1
+                    ],
+                    [
+                      2.5,
+                      1.1
+                    ],
+                    [
+                      -2.5,
+                      -1.2999999999999998
+                    ],
+                    [
+                      0,
+                      -1.2999999999999998
+                    ],
+                    [
+                      2.5,
+                      -1.2999999999999998
+                    ],
+                    [
+                      -2.28,
+                      3.75
+                    ],
+                    [
+                      0.22,
+                      3.75
+                    ],
+                    [
+                      2.72,
+                      3.75
+                    ],
+                    [
+                      -2.28,
+                      1.35
+                    ],
+                    [
+                      0.22,
+                      1.35
+                    ],
+                    [
+                      2.72,
+                      1.35
+                    ],
+                    [
+                      -2.28,
+                      -1.0499999999999998
+                    ],
+                    [
+                      0.22,
+                      -1.0499999999999998
+                    ],
+                    [
+                      2.72,
+                      -1.0499999999999998
+                    ]
+                  ],
+                  "size": [
+                    1.82,
+                    1.62
+                  ],
+                  "scene": [
+                    9,
+                    13
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "puzzle": {
+      "type": "object",
+      "initial": {
+        "board": [
+          2,
+          3,
+          1,
+          2,
+          3,
+          1,
+          2,
+          3,
+          1,
+          1,
+          2,
+          3,
+          1,
+          2,
+          3,
+          1,
+          2,
+          3
+        ],
+        "display": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          3,
+          1,
+          2,
+          3,
+          1,
+          2,
+          3
+        ],
+        "preview": [],
+        "selected": [],
+        "removed": [],
+        "tray": [],
+        "tubes": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false,
+        "history": [],
+        "closeAt": -1,
+        "active": 0,
+        "anchor": 1,
+        "rotation": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "selectTile",
+        "valueType": "pose",
+        "bindings": [
+          {
+            "source": "touch.raw",
+            "config": {}
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "state": "/puzzle/won"
+      }
+    },
+    {
+      "id": "failed",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "state": "/puzzle/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "moves",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "已选 {0} 张",
+            "args": [
+              {
+                "state": "/puzzle/moves"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 9,
+      "height": 13,
+      "background": "#162d3a",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            5.65
+          ],
+          "text": {
+            "literal": "纹港叠牌"
+          },
+          "fontSize": 0.47,
+          "fill": "#f4e8cf"
+        },
+        {
+          "id": "tray-label",
+          "kind": "text",
+          "at": [
+            0,
+            -4.25
+          ],
+          "text": {
+            "literal": "七格暂存区"
+          },
+          "fontSize": 0.32,
+          "fill": "#c9ded8"
+        },
+        {
+          "id": "slot-0",
+          "kind": "rect",
+          "at": [
+            -3.3,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-1",
+          "kind": "rect",
+          "at": [
+            -2.1999999999999997,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-2",
+          "kind": "rect",
+          "at": [
+            -1.0999999999999996,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-3",
+          "kind": "rect",
+          "at": [
+            4.440892098500626e-16,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-4",
+          "kind": "rect",
+          "at": [
+            1.1000000000000005,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-5",
+          "kind": "rect",
+          "at": [
+            2.2,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        },
+        {
+          "id": "slot-6",
+          "kind": "rect",
+          "at": [
+            3.3000000000000007,
+            -5.05
+          ],
+          "size": [
+            1.01,
+            1.12
+          ],
+          "fill": "#263f4d"
+        }
+      ],
+      "repeat": [
+        {
+          "id": "cards",
+          "source": {
+            "state": "/puzzle/display"
+          },
+          "columns": 9,
+          "origin": [
+            0,
+            0
+          ],
+          "step": [
+            1,
+            1
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "border",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.82,
+                1.62
+              ],
+              "fill": "#0b1b28"
+            },
+            {
+              "id": "face",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.67,
+                1.48
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#354758",
+                  "1": "#e0aa64",
+                  "2": "#68bbaa",
+                  "3": "#c990b4"
+                },
+                "fallback": "#354758"
+              }
+            },
+            {
+              "id": "pattern",
+              "kind": "text",
+              "at": [
+                0,
+                0.02
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 0.65,
+              "fill": "#102837",
+              "omitWhen": [
+                0
+              ]
+            }
+          ],
+          "positions": [
+            [
+              -2.5,
+              3.5
+            ],
+            [
+              0,
+              3.5
+            ],
+            [
+              2.5,
+              3.5
+            ],
+            [
+              -2.5,
+              1.1
+            ],
+            [
+              0,
+              1.1
+            ],
+            [
+              2.5,
+              1.1
+            ],
+            [
+              -2.5,
+              -1.2999999999999998
+            ],
+            [
+              0,
+              -1.2999999999999998
+            ],
+            [
+              2.5,
+              -1.2999999999999998
+            ],
+            [
+              -2.28,
+              3.75
+            ],
+            [
+              0.22,
+              3.75
+            ],
+            [
+              2.72,
+              3.75
+            ],
+            [
+              -2.28,
+              1.35
+            ],
+            [
+              0.22,
+              1.35
+            ],
+            [
+              2.72,
+              1.35
+            ],
+            [
+              -2.28,
+              -1.0499999999999998
+            ],
+            [
+              0.22,
+              -1.0499999999999998
+            ],
+            [
+              2.72,
+              -1.0499999999999998
+            ]
+          ],
+          "omitItems": [
+            -1
+          ]
+        },
+        {
+          "id": "tray",
+          "source": {
+            "state": "/puzzle/tray"
+          },
+          "columns": 7,
+          "origin": [
+            -3.3,
+            -5.05
+          ],
+          "step": [
+            1.1,
+            1.1
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "card",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.9,
+                1
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#354758",
+                  "1": "#e0aa64",
+                  "2": "#68bbaa",
+                  "3": "#c990b4"
+                },
+                "fallback": "#354758"
+              }
+            },
+            {
+              "id": "number",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "text": {
+                "item": true
+              },
+              "fontSize": 0.34,
+              "fill": "#112332"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "conformance.json"
+  ]
+}

@@ -48,6 +48,8 @@ test('all existing reference initial states for the three mechanisms still fit t
 });
 test('actual MCP resource envelope exposes body-array path and conditional body-style dependency',()=>{
  const envelope=JSON.parse(readPublicResource('a2game://spec/0.1.0/host-profile.json').contents[0].text),bytes=Buffer.from(envelope.content),p=JSON.parse(envelope.content);
- assert.equal(envelope.sha256,createHash('sha256').update(bytes).digest('hex'));assert.equal(envelope.bytes,bytes.length);assert.deepEqual(p.mechanismContracts.ids,ids);assert.equal(p.presentation.scene2d.bodyLayer.statePath,'/<stateField>/bodies');assert.match(p.presentation.scene2d.bodyLayer.pathScope,/not \/state/);assert.match(p.presentation.scene2d.bodyLayer.conditionalDependencies['a2game.visual.body-style'],/showValues:false/);
+ assert.equal(envelope.sha256,createHash('sha256').update(bytes).digest('hex'));assert.equal(envelope.bytes,bytes.length);
+ for(const id of ids)assert.ok(p.mechanismContracts.ids.includes(id),`Missing public mechanism contract: ${id}`);
+ assert.equal(p.presentation.scene2d.bodyLayer.statePath,'/<stateField>/bodies');assert.match(p.presentation.scene2d.bodyLayer.pathScope,/not \/state/);assert.match(p.presentation.scene2d.bodyLayer.conditionalDependencies['a2game.visual.body-style'],/showValues:false/);
  assert.ok(!envelope.content.includes('/workspace/'));assert.ok(!envelope.content.includes('candidate/attempt'));assert.equal(p.specVersion,'0.1.0');
 });

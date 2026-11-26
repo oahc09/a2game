@@ -12,6 +12,9 @@ import {loadBuiltinCatalog,loadBuiltinGame} from '../player/content-loader.mjs';
 const read=p=>JSON.parse(readFileSync(resolve(root,p))),sha=b=>createHash('sha256').update(b).digest('hex');
 // Explicit post-migration public-contract revisions; never qualify old evidence for new bytes.
 const publicContractRevisions={
+  "specs/v0.1/capabilities/a2game.input.touch.select.capability.json": {before: "f455ce06a808b6149181d02356913f423d77498db0ebcc23f21215b25d6843a7", current: "38c79975d1531aee6f22ad9bdf0f5043178262390adb9f9f9aaf3eb354a1e522"},
+  "specs/v0.1/capabilities/a2game.puzzle.tray.capability.json": {before: "3a1f42b0a5f39cef09a495e49e14d5c0f3044c021aece78c7d3e5defe688156f", current: "e5b91053e76dae27b353af9d1593b4392c8e6f705bd38fadbc2156ac5f6b7884"},
+  "specs/v0.1/capabilities/a2game.realtime.input-control.capability.json": {before: "829fad8bc8992ba893b2e7504a0a064695555d1ae60827922487d085382aa87f", current: "b2fb0d80d46357e97debc2d079c58d5c9a89770150ccbb5c546e1492f6d25515"},
   "specs/v0.1/capabilities/a2game.physics.rigid3d.capability.json": {before: "27993268426195158afb371f4d28b4742f230f3b6930e40cb5da8962627afb13", current: "a39d165d329f48677cbf4a729a37b9204d3c11409ba366e8ceb3273076a91520"},
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
@@ -19,11 +22,11 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.puzzle.swap.capability.json": {
     "before": "b8854b33b62aa0f4244fe1bad17b18520ac1f0e1c829e36e000b99c998cb8d40",
-    "current": "bb4ac43c0fa679b86240e63ba49e994f1a6b7568c36ce652d4920a44ddd647cd"
+    "current": "70cb96cda4cbb9e2979d3be3d1021b0c5f45e3ea90ff998a9935553ccb6ed6e4"
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "49ddf501e06a4c9f74fbcab062f5527e2798ee855a0f0b6ea6e6c010af200827"
+    "current": "761394d2b06925a415d03567f19618cfcd5cbb629f872ab8b2b3c4fee1d00e8f"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",

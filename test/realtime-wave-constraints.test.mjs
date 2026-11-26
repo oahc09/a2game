@@ -62,3 +62,31 @@ test('existing no-wave constraint and unconstrained wave fixtures retain their s
  const next=state(simulate(unconstrained));assert.deepEqual(next.spawned,[0]);
  assert.deepEqual(next.bodies,[...unconstrained.world.bodies,unconstrained.config.waves[0].body]);
 });
+
+test('phased waves switch cadence and weighted descending templates at the declared Tick',()=>{
+ const f=fixture();
+ f.config.waves=[
+  {tick:0,body:{...body('scout','target',700,700),vy:-10}},
+  {tick:0,body:{...body('heavy','target',700,700),vy:-8,hp:4}}
+ ];
+ f.config.wavePhases=[
+  {startTick:0,intervalTicks:6,speedPermille:1000,weights:[1,0]},
+  {startTick:10,intervalTicks:3,speedPermille:1500,weights:[0,1]}
+ ];
+ assert.doesNotThrow(()=>validateRealtimeDefinition(definition(f)));
+ const at=tickIndex=>simulateIntegerWorld({config:f.config,world:{state:{world:f.world}},inputs:[],tickIndex,rng:{randomInt:min=>min}});
+ for(const tick of [0,6]){
+  const spawned=state(at(tick)).bodies.find(b=>b.id.startsWith('scout'));
+  assert.deepEqual([spawned.id,spawned.x,spawned.vy,spawned.ttl],[`scout--0-${tick}`,20,-10,67]);
+ }
+ assert.equal(state(at(9)).bodies.length,1);
+ for(const tick of [10,13]){
+  const spawned=state(at(tick)).bodies.find(b=>b.id.startsWith('heavy'));
+  assert.deepEqual([spawned.id,spawned.vy,spawned.hp,spawned.ttl],[`heavy--1-${tick}`,-12,4,56]);
+ }
+ assert.deepEqual(state(at(10)).spawned,[]);
+ for(const edit of [p=>p.startTick=0,p=>p.weights=[0,0],p=>p.weights=[1]]){
+  const broken=structuredClone(f);edit(broken.config.wavePhases[1]);
+  assert.throws(()=>validateRealtimeDefinition(definition(broken)),capError);
+ }
+});

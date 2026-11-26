@@ -1,0 +1,270 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "skyline-patrol-relative",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.skyline-patrol",
+    "file": "relative.game.json"
+  },
+  "cases": [
+    {
+      "id": "bomb-stock-scoring-and-restart",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 73
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bombs",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 200
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "combat.bomb",
+          "count": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "down",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "keyboard",
+            "kind": "up",
+            "payload": {
+              "code": "KeyB"
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assertEvent",
+          "eventType": "combat.bomb",
+          "count": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bombs",
+          "equals": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "off-center-relative-drag-cancel-and-reacquire",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.6,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/hasTarget",
+          "equals": false
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 5000
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.62,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 5200
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.8,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 5328
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "cancel",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.8,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 3
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 5328
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/hasTarget",
+          "equals": false
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.3,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.28,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/bodies/0/x",
+          "equals": 5128
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 4,
+              "u": 0.28,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/control/hasTarget",
+          "equals": false
+        }
+      ]
+    }
+  ]
+}

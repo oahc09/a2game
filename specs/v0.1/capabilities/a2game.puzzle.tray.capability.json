@@ -59,6 +59,34 @@
           "type": "string",
           "minLength": 1
         },
+        "tilePointer": {
+          "type": "object",
+          "properties": {
+            "action": {"type": "string", "minLength": 1},
+            "centers": {
+              "type": "array", "minItems": 1, "maxItems": 256,
+              "items": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}
+            },
+            "size": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+            "scene": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2}
+          },
+          "required": ["action", "centers", "size", "scene"],
+          "additionalProperties": false
+        },
+        "trayTools": {
+          "type": "object",
+          "properties": {
+            "moveOutAction": {"type": "string", "minLength": 1},
+            "shuffleAction": {"type": "string", "minLength": 1},
+            "returnActions": {
+              "type": "array", "minItems": 3, "maxItems": 3, "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            }
+          },
+          "required": ["moveOutAction", "returnActions"],
+          "additionalProperties": false
+        },
+        "journalActions": {"type": "boolean"},
         "targetScore": {
           "type": "integer",
           "minimum": 1,

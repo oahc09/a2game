@@ -1,0 +1,109 @@
+{
+  "witnesses": [
+    {
+      "id": "m01",
+      "game": "m01.game.json",
+      "trace": "m01-win-trace.json",
+      "stars": 3,
+      "score": 30
+    },
+    {
+      "id": "m02",
+      "game": "m02.game.json",
+      "trace": "m02-win-trace.json",
+      "stars": 3,
+      "score": 120
+    },
+    {
+      "id": "m03",
+      "game": "m03.game.json",
+      "trace": "m03-win-trace.json",
+      "stars": 3,
+      "score": 130
+    },
+    {
+      "id": "m04",
+      "game": "m04.game.json",
+      "trace": "m04-win-trace.json",
+      "stars": 3,
+      "score": 150
+    },
+    {
+      "id": "m05",
+      "game": "m05.game.json",
+      "trace": "m05-win-trace.json",
+      "stars": 3,
+      "score": 160
+    },
+    {
+      "id": "m06",
+      "game": "m06.game.json",
+      "trace": "m06-win-trace.json",
+      "stars": 3,
+      "score": 130
+    },
+    {
+      "id": "m07",
+      "game": "m07.game.json",
+      "trace": "m07-win-trace.json",
+      "stars": 3,
+      "score": 130
+    },
+    {
+      "id": "m08",
+      "game": "m08.game.json",
+      "trace": "m08-win-trace.json",
+      "stars": 3,
+      "score": 110
+    },
+    {
+      "id": "m09",
+      "game": "combos/m09.game.json",
+      "trace": "combos/m09-win-trace.json",
+      "stars": 3,
+      "score": 90
+    },
+    {
+      "id": "m10",
+      "game": "combos/m10.game.json",
+      "trace": "combos/m10-win-trace.json",
+      "stars": 3,
+      "score": 210
+    },
+    {
+      "id": "m11",
+      "game": "combos/m11.game.json",
+      "trace": "combos/m11-win-trace.json",
+      "stars": 3,
+      "score": 250
+    },
+    {
+      "id": "m12",
+      "game": "m12.game.json",
+      "trace": "m12-win-trace.json",
+      "stars": 3,
+      "score": 200
+    },
+    {
+      "id": "m10-b",
+      "game": "combos/m10-b.game.json",
+      "trace": "combos/m10-b-win-trace.json",
+      "stars": 3,
+      "score": 280
+    },
+    {
+      "id": "m11-b",
+      "game": "combos/m11-b.game.json",
+      "trace": "combos/m11-b-win-trace.json",
+      "stars": 3,
+      "score": 280
+    },
+    {
+      "id": "m11-c",
+      "game": "combos/m11-c.game.json",
+      "trace": "combos/m11-c-win-trace.json",
+      "stars": 3,
+      "score": 280
+    }
+  ]
+}

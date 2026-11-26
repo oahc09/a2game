@@ -47,6 +47,7 @@
             "drag-select"
           ]
         },
+        "gestureMetadata": {"type":"boolean"},
         "maxDistanceNorm": {
           "type": "number",
           "minimum": 0,

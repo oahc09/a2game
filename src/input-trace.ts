@@ -15,23 +15,43 @@ export function replayNormalizedInputTrace(runtime:HeadlessRuntime, raw:unknown)
     if(!isRecord(raw)||raw.format!=='a2game-input-trace'||raw.traceVersion!=='0.1.0'||!isRecord(raw.session)||!Array.isArray(raw.events))
         fail('A2G_E_INPUT_RAW','Invalid InputTrace envelope');
     const def=runtime.plan.definition,session=raw.session;
-    if(session.gameId!==def.id||session.gameRevision!==def.revision||session.tickHz!==def.world.clock.tickHz||session.seed!==def.world.clock.seed||session.coordinateProfile!=='viewport-top-left-v1')
-        fail('A2G_E_INPUT_RAW','InputTrace does not match GameSpec snapshot/profile');
-    if(!['0.1.0'].includes(String(session.inputNormalizerVersion)))fail('A2G_E_INPUT_RAW','Unsupported input normalizer version');
+    const expectedSession = {
+        gameId: def.id, gameRevision: def.revision, tickHz: def.world.clock.tickHz, seed: def.world.clock.seed,
+        coordinateProfile: 'viewport-top-left-v1', inputNormalizerVersion: '0.1.0'
+    };
+    for (const [field, expected] of Object.entries(expectedSession)) {
+        const actual = session[field];
+        if (actual !== expected) fail('A2G_E_INPUT_RAW', `InputTrace session ${field} must be ${JSON.stringify(expected)}`, {
+            jsonPointer: `/session/${field}`, expected, actual
+        });
+    }
     if(runtime.status!=='ready'||runtime.observe().tickIndex!==0)fail('A2G_E_FLOW','InputTrace replay requires an unstarted Session');
     if(raw.events.length>4096)fail('A2G_E_BUDGET_EXCEEDED','Trace event budget exceeded');
     let lastTick=0,lastSeq=-1;
     const inputs:NormalizedRawInput[]=[];
-    for(const event of raw.events){
+    for(const [index,event] of raw.events.entries()){
         if(!isRecord(event)||!safeInteger(event.tickIndex)||event.tickIndex<0||event.tickIndex>100000||
             !safeInteger(event.seq)||event.seq<0||!safeInteger(event.timeUs)||event.timeUs<0||
             !['pointer','keyboard','imu','gamepad','action','system'].includes(String(event.source))||typeof event.kind!=='string'||!isRecord(event.payload))
             fail('A2G_E_INPUT_RAW','Invalid InputTrace event');
         if(event.tickIndex<lastTick||(event.tickIndex===lastTick&&event.seq<=lastSeq))fail('A2G_E_INPUT_RAW','Trace tick/seq order must be strictly increasing');
-        const beginUs=event.tickIndex*1000000/def.world.clock.tickHz, endUs=(event.tickIndex+1)*1000000/def.world.clock.tickHz;
-        if(event.timeUs<beginUs || event.timeUs>=endUs)fail('A2G_E_INPUT_RAW','Trace event timeUs lies outside its assigned tick');
+        const minTimeUs = Math.ceil(event.tickIndex * 1000000 / def.world.clock.tickHz);
+        const maxTimeUs = Math.ceil((event.tickIndex + 1) * 1000000 / def.world.clock.tickHz) - 1;
+        if (event.timeUs < minTimeUs || event.timeUs > maxTimeUs) {
+            fail('A2G_E_INPUT_RAW', `Trace event ${index} at tick ${event.tickIndex} requires timeUs in [${minTimeUs}, ${maxTimeUs}]; received ${event.timeUs}`, {
+                jsonPointer: `/events/${index}/timeUs`, tickIndex: event.tickIndex,
+                expected: { minTimeUs, maxTimeUs }, actual: event.timeUs
+            });
+        }
         lastTick=event.tickIndex;lastSeq=event.seq;
         if(event.source==='system'&&!['pause','resume','checkpoint'].includes(event.kind))fail('A2G_E_INPUT_RAW','Unknown trace system control');
+        if(event.source==='pointer'){
+            const {pointerId,u,v,viewportAspect}=event.payload;
+            if(!['down','move','up','cancel'].includes(event.kind)||!safeInteger(pointerId)||!safeFinite(u)||!safeFinite(v))
+                fail('A2G_E_INPUT_RAW','Pointer trace requires pointerId and normalized u/v coordinates',{jsonPointer:`/events/${index}/payload`});
+            if(viewportAspect!==undefined&&(!safeFinite(viewportAspect)||viewportAspect<0.1||viewportAspect>10))
+                fail('A2G_E_INPUT_RAW','Pointer trace viewportAspect must be 0.1–10',{jsonPointer:`/events/${index}/payload/viewportAspect`});
+        }
         if(event.source==='action'){
             const payload=event.payload,action=def.inputs.actions.find(action=>action.id===payload.action);
             if(event.kind!=='input'||!action||!['press','hold','release','cancel'].includes(String(event.payload.phase))||action.valueType!=='button'&&['press','hold'].includes(String(event.payload.phase))&&event.payload.value===undefined)fail('A2G_E_INPUT_RAW','Malformed semantic trace action');

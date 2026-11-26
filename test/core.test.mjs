@@ -365,6 +365,26 @@ test('max recorded events also uses explicit controlled error path',()=>{
   assert.equal(rt.observe().tickIndex,0);
 });
 
+test('recent observation preserves the committed event history and a failed Tick appends nothing',()=>{
+  const g=sample();g.state.goal.initial=99;
+  const rt=new HeadlessRuntime(g,makeRegistry(),{maxRecordedEvents:2});
+  try {
+    rt.start();press(rt);rt.step();
+    const committed=rt.observe();
+    assert.equal(committed.events.length,2);
+    const recent=rt.observe({recentEvents:1});
+    assert.deepEqual(recent.events,committed.events.slice(-1));
+    assert.equal(recent.exactHash,committed.exactHash);
+    recent.events[0].payload.action='mutated';
+    assert.deepEqual(rt.observe({recentEvents:0}).events,[]);
+    press(rt);
+    errCode(()=>rt.step(),'A2G_E_BUDGET_EXCEEDED');
+    assert.deepEqual(rt.observe().events,committed.events);
+    assert.deepEqual(rt.snapshot().events,committed.events);
+    assert.equal(rt.tickIndex,1);
+  }finally{rt.dispose();}
+});
+
 test('grid slide-merge property: tile mass conserved without spawning across 4 directions',()=>{
   const game=readJson(resolve(spec,'games/grid-merge.game.json'));
   const generator=new GameRng(20261024);

@@ -1,0 +1,409 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "tideglass-m02",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.tideglass-match.m02",
+    "file": "m02.game.json"
+  },
+  "cases": [
+    {
+      "id": "goal-on-last-move",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 192
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.1775,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.33875,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.33875,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/goalRemaining",
+          "equals": [
+            0,
+            0
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 120
+        }
+      ],
+      "seed": 6404
+    },
+    {
+      "id": "move-limit-loss-and-retry",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.66125,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "step",
+          "ticks": 192
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.375,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.375,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 0
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 2
+        }
+      ],
+      "seed": 6404
+    },
+    {
+      "id": "reject-non-adjacent-drag",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.1775,
+              "v": 0.246,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8225,
+              "v": 0.762,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/board",
+          "equals": [
+            4,
+            2,
+            1,
+            5,
+            4,
+            1,
+            5,
+            4,
+            3,
+            5,
+            3,
+            1,
+            2,
+            4,
+            5,
+            2,
+            2,
+            1,
+            5,
+            4,
+            2,
+            3,
+            2,
+            2,
+            3
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 2
+        }
+      ],
+      "seed": 6404
+    },
+    {
+      "id": "one-of-two-goals-is-insufficient",
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.504,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.633,
+              "viewportAspect": 0.8
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/goalRemaining",
+          "equals": [
+            0,
+            3
+          ]
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/movesRemaining",
+          "equals": 1
+        }
+      ],
+      "seed": 6404
+    }
+  ]
+}

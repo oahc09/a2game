@@ -1,0 +1,63 @@
+{
+  "format": "a2game-game-collection",
+  "version": 2,
+  "id": "tideglass-combos",
+  "title": "潮纹消消 · 特殊块组合",
+  "subtitle": "六种组合体验关",
+  "levels": [
+    {
+      "id": "m09",
+      "title": "交叉潮线",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m09.game.json",
+      "sha256": "222efb9e3dfabd05298faa53a1972a58ba1ff66efed84c66221a88655f11c38d",
+      "baseScore": 45
+    },
+    {
+      "id": "m10",
+      "title": "交潮爆发",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m10.game.json",
+      "sha256": "8193e144e59f5313961c713ea02fe194c2ffe4221af939090fa846861a0d17d5",
+      "baseScore": 105
+    },
+    {
+      "id": "m10-b",
+      "title": "双核潮爆",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m10-b.game.json",
+      "sha256": "1196f86c30c6e853f8e0a96599ad705561d08cf1faa8943e5089ab329344ed05",
+      "baseScore": 140
+    },
+    {
+      "id": "m11",
+      "title": "虹线齐鸣",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m11.game.json",
+      "sha256": "2f07bbe35d17486bcd368b7392efc875b130e230853b48e8703ede4150f7dff2",
+      "baseScore": 125
+    },
+    {
+      "id": "m11-b",
+      "title": "虹潮爆发",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m11-b.game.json",
+      "sha256": "4445d56729ba1cc1f282718b6939a25ccbdf22035a638e60e12e75f523c17e9e",
+      "baseScore": 140
+    },
+    {
+      "id": "m11-c",
+      "title": "双虹归潮",
+      "hint": "将棋盘中央相邻的两个特殊块交换，触发组合并完成目标。",
+      "par": 1,
+      "game": "m11-c.game.json",
+      "sha256": "1a670699c9e361c4cd02d143fde6ef5cf8cf6bc9506ee6afb291cc1c2ac7632b",
+      "baseScore": 140
+    }
+  ]
+}

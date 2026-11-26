@@ -424,7 +424,9 @@ export class HeadlessRuntime {
     }
     private tick():void {
         const t=this.session.tickIndex;
-        const working:Stage = clone(this.session);
+        const history=this.session.events;
+        // The append-only history is outside staged effects and rule reads.
+        const working:Stage = clone({...this.session,events:[]});
         const tickRng=new GameRng(0);tickRng.restore(working.rng);
         try {
             // T1/T2: semantic actions + bounded normalized raw recognizers.
@@ -486,12 +488,14 @@ export class HeadlessRuntime {
                     }
                 }
             }
-            if (working.events.length + events.length > this.opts.maxRecordedEvents) fail('A2G_E_BUDGET_EXCEEDED','Recorded event limit exceeded');
-            working.events.push(...events.map(eventView));
+            if (history.length + events.length > this.opts.maxRecordedEvents) fail('A2G_E_BUDGET_EXCEEDED','Recorded event limit exceeded');
+            const recorded=events.map(eventView);
             working.tickIndex=t+1;
             working.rng=tickRng.state();
             this.rng.restore(working.rng);
             // T10: only now publish the complete staged state.
+            history.push(...recorded);
+            working.events=history;
             this.session=working;
         } catch (error) {
             this.session.status='error'; // preserve all other state from tick boundary
@@ -500,11 +504,14 @@ export class HeadlessRuntime {
             throw diag;
         }
     }
-    observe(): SessionObservation {
+    observe({recentEvents}: {recentEvents?:number}={}): SessionObservation {
         this.assertAlive();
         const s=this.session;
+        if(recentEvents!==undefined&&(!safeInteger(recentEvents)||recentEvents<0))
+            fail('A2G_E_BUDGET_EXCEEDED','Recent event limit must be a nonnegative integer');
+        const events=recentEvents===undefined?s.events:recentEvents?s.events.slice(-recentEvents):[];
         return {
-            tickIndex:s.tickIndex,flow:{status:s.status},state:clone(s.state),entities:clone(s.entities),events:clone(s.events),
+            tickIndex:s.tickIndex,flow:{status:s.status},state:clone(s.state),entities:clone(s.entities),events:clone(events),
             diagnostics:this.lastError ? [{code:this.lastError.code,message:this.lastError.message,tickIndex:this.lastError.info.tickIndex,jsonPointer:this.lastError.info.jsonPointer,ruleId:this.lastError.info.ruleId}]:[],
             exactHash:exactStateHash(s),exactHashVersion:1,
         };

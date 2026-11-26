@@ -51,12 +51,11 @@
           "maximum": 4294967295
         },
         "inputNormalizerVersion": {
-          "type": "string",
-          "minLength": 1
+          "const": "0.1.0"
         },
         "coordinateProfile": {
-          "type": "string",
-          "minLength": 1
+          "const": "viewport-top-left-v1",
+          "description": "Trace coordinate system before the input capability projects samples into the scene."
         },
         "recognizers": {
           "type": "object",
@@ -80,6 +79,21 @@
           "timeUs",
           "payload"
         ],
+        "if": {"properties": {"source": {"const": "pointer"}}},
+        "then": {
+          "properties": {
+            "kind": {"enum": ["down", "move", "up", "cancel"]},
+            "payload": {
+              "required": ["pointerId", "u", "v"],
+              "properties": {
+                "pointerId": {"type": "integer"},
+                "u": {"type": "number", "description": "Normalized horizontal coordinate, increasing right from the viewport's left edge."},
+                "v": {"type": "number", "description": "Normalized vertical coordinate, increasing down from the viewport's top edge."},
+                "viewportAspect": {"type": "number", "minimum": 0.1, "maximum": 10}
+              }
+            }
+          }
+        },
         "properties": {
           "tickIndex": {
             "type": "integer",

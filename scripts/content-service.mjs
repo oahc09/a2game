@@ -3,7 +3,7 @@ import {readFileSync,readdirSync,existsSync,mkdirSync,lstatSync,openSync,writeFi
 import {resolve} from 'node:path';
 import {spawn} from 'node:child_process';
 import {createHash,randomUUID} from 'node:crypto';
-import {HeadlessRuntime,compileGame,projectPresentation,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError,mobileInputSources,gamepadInputSources} from '../dist/index.js';
+import {HeadlessRuntime,compileGame,projectPresentation,readPointer,sha256Canonical,capabilityManifestDigest,verifyReleasedGame,CONTENT_PROFILE,CONTENT_MAX_BYTES,A2GameError,mobileInputSources,gamepadInputSources} from '../dist/index.js';
 import {validateJsonTree} from '../dist/utils.js';
 import {root,makeRegistry} from './registry.mjs';
 import {createAssetPolicy} from './asset-policy.mjs';
@@ -16,7 +16,15 @@ export class ContentError extends Error {
 }
 const reject=(code,message,pointer='')=>{throw new ContentError(code,message,422,'policy',[{pointer,message}]);};
 function assertProfile(game,effective){
-  if(Object.keys(game.extensions??{}).length)reject('A2G_E_HOST_PROFILE','当前宿主不支持自定义 extensions。','/extensions');
+  const extensions=game.extensions??{},scoreExtension='x-a2game-score-session';
+  if(Object.keys(extensions).some(key=>key!==scoreExtension))reject('A2G_E_HOST_PROFILE','当前宿主不支持此扩展。','/extensions');
+  if(Object.hasOwn(extensions,scoreExtension)){
+    const config=extensions[scoreExtension],path=config?.scorePath,pointer='/extensions/'+scoreExtension;
+    if(!config||Object.keys(config).length!==1||typeof path!=='string'||!path.startsWith('/')||path.length>256)reject('A2G_E_HOST_PROFILE','计分扩展必须指定一个状态路径。',pointer);
+    let initial;
+    try{initial=readPointer(Object.fromEntries(Object.entries(game.state).map(([key,field])=>[key,field.initial])),path);}catch{}
+    if(!Number.isSafeInteger(initial)||initial<0)reject('A2G_E_HOST_PROFILE','计分路径必须指向非负整数初态。',pointer+'/scorePath');
+  }
   if(!game.presentation.scene2d||game.scenes.length!==1||(game.world.dimension==='3d'&&!game.presentation.stage))
     reject('A2G_E_HOST_PROFILE','当前导入支持单场景 scene2d 或声明 visual.stage 的 3D 游戏。','/presentation/scene2d');
   const supported={'keyboard.button':'a2game.input.keyboard.button','touch.tap':'a2game.input.touch.tap','touch.swipe':'a2game.input.touch.swipe',...mobileInputSources,...gamepadInputSources};

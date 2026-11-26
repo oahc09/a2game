@@ -1,0 +1,1022 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.business.tideglass-match.m04",
+  "revision": 1,
+  "meta": {
+    "title": "潮纹消消 · 潮心爆发",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "先组成 T 或 L 形，再激活爆炸块。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.swap",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.select",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.raw",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.match-n",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.cascade",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 7113,
+      "maxCatchUpTicks": 8
+    }
+  },
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "controller",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.swap",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/puzzle",
+                "width": 5,
+                "height": 5,
+                "selectActions": [
+                  "cell0",
+                  "cell1",
+                  "cell2",
+                  "cell3",
+                  "cell4",
+                  "cell5",
+                  "cell6",
+                  "cell7",
+                  "cell8",
+                  "cell9",
+                  "cell10",
+                  "cell11",
+                  "cell12",
+                  "cell13",
+                  "cell14",
+                  "cell15",
+                  "cell16",
+                  "cell17",
+                  "cell18",
+                  "cell19",
+                  "cell20",
+                  "cell21",
+                  "cell22",
+                  "cell23",
+                  "cell24"
+                ],
+                "matchLength": 3,
+                "colorGoals": [
+                  {
+                    "color": 2,
+                    "count": 8
+                  }
+                ],
+                "moveLimit": 2,
+                "specialBlocks": true,
+                "deadboardShuffle": true,
+                "settleTicksPerWave": 12
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "puzzle": {
+      "type": "object",
+      "initial": {
+        "board": [
+          4,
+          3,
+          5,
+          4,
+          5,
+          3,
+          2,
+          2,
+          4,
+          2,
+          2,
+          5,
+          2,
+          3,
+          5,
+          2,
+          2,
+          3,
+          2,
+          3,
+          3,
+          3,
+          2,
+          5,
+          2
+        ],
+        "display": [
+          4,
+          3,
+          5,
+          4,
+          5,
+          3,
+          2,
+          2,
+          4,
+          2,
+          2,
+          5,
+          2,
+          3,
+          5,
+          2,
+          2,
+          3,
+          2,
+          3,
+          3,
+          3,
+          2,
+          5,
+          2
+        ],
+        "preview": [],
+        "selected": [],
+        "removed": [],
+        "tray": [],
+        "tubes": [],
+        "score": 0,
+        "moves": 0,
+        "won": false,
+        "lost": false,
+        "history": [],
+        "closeAt": -1,
+        "active": 0,
+        "anchor": 1,
+        "rotation": 0,
+        "goalRemaining": [
+          8
+        ],
+        "movesRemaining": 2,
+        "specials": [
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none",
+          "none"
+        ],
+        "pieceIds": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24
+        ],
+        "nextPieceId": 25,
+        "settleUntilTick": 0
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "cell0",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -2.58,
+              "y": 2.54,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell1",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -1.29,
+              "y": 2.54,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell2",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 0,
+              "y": 2.54,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell3",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 1.29,
+              "y": 2.54,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell4",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 2.58,
+              "y": 2.54,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell5",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -2.58,
+              "y": 1.25,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell6",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -1.29,
+              "y": 1.25,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell7",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 0,
+              "y": 1.25,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell8",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 1.29,
+              "y": 1.25,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell9",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 2.58,
+              "y": 1.25,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell10",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -2.58,
+              "y": -0.040000000000000036,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell11",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -1.29,
+              "y": -0.040000000000000036,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell12",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 0,
+              "y": -0.040000000000000036,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell13",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 1.29,
+              "y": -0.040000000000000036,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell14",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 2.58,
+              "y": -0.040000000000000036,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell15",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -2.58,
+              "y": -1.33,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell16",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -1.29,
+              "y": -1.33,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell17",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 0,
+              "y": -1.33,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell18",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 1.29,
+              "y": -1.33,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell19",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 2.58,
+              "y": -1.33,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell20",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -2.58,
+              "y": -2.62,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell21",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": -1.29,
+              "y": -2.62,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell22",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 0,
+              "y": -2.62,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell23",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 1.29,
+              "y": -2.62,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "cell24",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "touch.select",
+            "config": {
+              "sceneWidth": 8,
+              "sceneHeight": 10,
+              "x": 2.58,
+              "y": -2.62,
+              "hx": 0.58,
+              "hy": 0.58,
+              "mode": "drag-select",
+              "gestureMetadata": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "complete",
+      "status": "won",
+      "priority": 0,
+      "when": {
+        "state": "/puzzle/won"
+      }
+    },
+    {
+      "id": "failed",
+      "status": "lost",
+      "priority": 1,
+      "when": {
+        "state": "/puzzle/lost"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "moves",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "剩余步数 {0} · 得分 {1}",
+            "args": [
+              {
+                "state": "/puzzle/movesRemaining"
+              },
+              {
+                "state": "/puzzle/score"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "id": "goal0",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "青玉剩余 {0}",
+            "args": [
+              {
+                "state": "/puzzle/goalRemaining/0"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 10,
+      "background": "#152b35",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            4.25
+          ],
+          "fontSize": 0.4,
+          "fill": "#b5cee8",
+          "text": {
+            "literal": "潮心爆发"
+          }
+        },
+        {
+          "id": "hint",
+          "kind": "text",
+          "at": [
+            0,
+            -4.3
+          ],
+          "fontSize": 0.25,
+          "fill": "#9fb8d2",
+          "text": {
+            "literal": "先组成 T 或 L 形，再激活爆炸块。"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "board",
+          "source": {
+            "state": "/puzzle/display"
+          },
+          "columns": 5,
+          "origin": [
+            -2.58,
+            2.54
+          ],
+          "step": [
+            1.29,
+            1.29
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                1.16,
+                1.16
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "1": "#f1b665",
+                  "2": "#69c8af",
+                  "3": "#79aadb",
+                  "4": "#be95d8",
+                  "5": "#ef8c83",
+                  "14": "#8ae1f4",
+                  "15": "#6db8f0",
+                  "16": "#ff926c",
+                  "17": "#f6f0a2"
+                },
+                "fallback": "#a8c5d9"
+              }
+            },
+            {
+              "id": "value",
+              "kind": "text",
+              "at": [
+                0,
+                0
+              ],
+              "fontSize": 0.42,
+              "fill": "#172834",
+              "text": {
+                "item": true
+              },
+              "omitWhen": [
+                -1,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "id": "selection",
+          "source": {
+            "state": "/puzzle/selected"
+          },
+          "columns": 5,
+          "origin": [
+            -2.58,
+            2.54
+          ],
+          "step": [
+            1.29,
+            1.29
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "mark",
+              "kind": "circle",
+              "at": [
+                -0.255,
+                0.255
+              ],
+              "radius": 0.068,
+              "fill": "#f5d26f",
+              "size": [
+                1.2,
+                1.2
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tray",
+          "source": {
+            "state": "/puzzle/tray"
+          },
+          "columns": 5,
+          "origin": [
+            -2.58,
+            2.54
+          ],
+          "step": [
+            1.29,
+            1.29
+          ],
+          "indexMode": "array",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.4,
+                0.4
+              ],
+              "fill": {
+                "from": {
+                  "item": true
+                },
+                "map": {
+                  "0": "#35465e",
+                  "1": "#57d7c8",
+                  "2": "#ecb963",
+                  "3": "#4b9bd5",
+                  "4": "#bd86d9",
+                  "5": "#dc6d78",
+                  "6": "#a8c5d9",
+                  "7": "#f5d26f",
+                  "-1": "#0d1729"
+                },
+                "fallback": "#a8c5d9"
+              }
+            }
+          ]
+        },
+        {
+          "id": "preview",
+          "source": {
+            "state": "/puzzle/preview"
+          },
+          "columns": 5,
+          "origin": [
+            -2.58,
+            2.54
+          ],
+          "step": [
+            1.29,
+            1.29
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "cell",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.29,
+                0.29
+              ],
+              "fill": "#f5d26f"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "m04.conformance.json"
+  ]
+}

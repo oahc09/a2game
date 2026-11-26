@@ -58,3 +58,13 @@ G18 revision 3 加入真正 solid 墙，直线 hitscan 被阻挡，WASD 绕行�
 `realtime.world` 可选 `projectileGate`，配置投射物计分横线 `y` 和有效的 `minX/maxX`。模块在整数子步中对从严格上方到等于或低于横线的轨迹插值，横坐标落入闭区间才加一分、移除投射物，并发出 `realtime.projectile-scored`。每颗投射物至多贡献一次此类得分。[G146 正反例](../../../games/coverage-v2/g146-clear-bay-hoop/conformance.json)
 
 `moveSpeedBonusPath` 可指向独立的 0–128 整数状态；下一 Tick 的方向移动使用 `min(128, moveSpeed + bonus)`。G73 用它实现移速与火力二选一。[G73 正反例](../../../games/coverage-v2/g73-frost-watch/conformance.json)
+
+`independentProjectileHits:true` 使弹丸伤害按目标和弹丸 ID 去重，同一主人发出的多颗弹丸可在同一 Tick 分别命中。事件的 `source` 仍为主人 ID，目标的无敌窗口和已死亡判定仍适用。未启用时沿用目标与伤害来源的去重方式。
+
+波次可选 `repeatEveryTicks`（1–36,000）。重复波次用具有正 TTL 的移动目标模板，在起始 Tick 和每个周期发起一次生成，活跃 ID 由模板 ID、波次序号和 Tick 组成。对象池满时跳过该次，等待下一周期。重复波次不写入一次性波次的 `spawned` 账本。模板 ID 最长 26 字符。
+
+配置 `wavePhases` 时，`waves` 提供 1–8 个 `tick:0` 的下降目标模板。阶段按 `startTick` 严格递增，首段从 0 开始。各阶段从自己的起点按 `intervalTicks` 生成。共享 RNG 按 `weights` 选模板，随后在目标可容纳的水平区间选出生 X。纵向速度按 `speedPermille` 缩放并向零取整，TTL 按到下边界的距离和缩放后的速度计算。目标之间记录接触但不推挤。末段持续循环，满池跳过当次生成。暂停期间无 Tick 推进，因此不改变波次节奏。
+
+向上发射的投射物世界可配置 `shooterSupplies`。GameSpec 声明炸弹按钮、初始 `bombs` 和值为 0 的 `doubleShotUntil`。补给从首个正间隔起按 `intervalTicks` 生成，以共享 RNG 等概率选取双发或炸弹。收取双发从下一 Tick 起刷新有效期，不影响当前开火冷却；池内能放入两枚时才发出双发。收取炸弹按 `bombCapacity` 封顶。炸弹按下先于本 Tick 的敌机生成和碰撞，消耗一枚并按普通击毁计分清除当时在场的敌方目标，保留补给；库存为空时无效果。暂停冻结计时，重开恢复声明初态。
+
+输入控制器可用 `moveMode: "relative-drag"` 和 `rawAction` 绑定 `touch.raw`。按下保存受控物体与按点的世界坐标差，首次移动保持该偏移，每 Tick 遵守配置速度上限和现有碰撞裁剪。抬起、取消、多点介入或活动指针失效时停止跟随，下一次按下重新计算偏移。

@@ -1,5 +1,81 @@
 # A2Game 当前进展
 
+## 三款完整游戏业务开发
+
+AI-05、AI-06 均通过工程参考验收。AI-05 原稿的叠牌变体保留七槽三消，遮挡边从 360 增至 792，牌面安排有变化。原稿独立提交的 144 次点击见证已展开回放；双引擎通过通关、遮挡拒选和满槽失败。AI-06 第一次因缺少 `/p/selected` 初态未过准入，第二稿补齐后通过原稿准入、4 条 Conformance 和 8 条双引擎浏览器流程，覆盖异形棋盘、障碍、双目标、非法交换、连锁及最后一步胜负。本批模型调用 3 次，原稿未由宿主改写。AI-01 至 AI-06 均已有工程参考回执，完整业务验收仍按任务书核对。[AI-05 通关](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-main-witness.json) · [AI-05 拒选及失败](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-negative.json) · [AI-06 双引擎](output/business-ai05-06-run-1795702836880/AI-06/attempt-2/browser-representative.json)
+
+AI-02 至 AI-04 完成独立原稿的工程参考验证。AI-02 叠牌首稿通过两关准入，宿主从原稿独立见证展开 144 次点击并复验主挑战，教学关和主挑战均用真实浏览器点击通过双引擎。AI-03 的第二稿修复 15 关显示初态和末关收集路线，15 关准入、31 条 Conformance 和 6 条双引擎代表流程通过。AI-04 首稿改动敌机配比、速度曲线和主题，两个引擎均在第 33 Tick 以 5 分结算。三项累计模型调用 4 次，均保留原稿和失败历史。[AI-02 主挑战](output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-main-witness.json) · [AI-03 代表流程](output/business-ai02-06-run-1795700751295/AI-03/attempt-2/browser-representative.json) · [AI-04 浏览器回执](output/business-ai02-06-run-1795700751295/AI-04/attempt-1/browser.json)
+
+AI-01 的 Tick 时间戳边界已写入公开输入，回放错误会报告事件位置、合法区间和实际值。沿用本机 Codex CLI 完成三轮，第一轮修复原稿的时间戳，后两轮复核同一作品。每轮均通过准入、4 条 Conformance、计分回放及双引擎浏览器流程。六次浏览器运行均在第 33 Tick 以 5 分结算，Hash 与 Headless 一致。人工修改数为 0。本回执覆盖参考流程，完整业务验收与真机仍按任务书记录。[三轮汇总](output/business-ai01-rounds-1795650574037/summary.json)
+
+AI-01 使用新版 InputTrace 合同再次重跑，沿用本机 Codex CLI 路由，共 3 次。三稿均通过准入，第一、三稿各通过 4 条 Conformance，但各有一条轨迹时间戳比所在 Tick 的最小整数微秒值早 1 微秒。第二稿的敌机数组下标断言失败。仅在内存中修正第一、三稿的时间戳后，计分回放分别以 5 分和 10 分结算。原稿 SHA-256 已核对，双引擎独立验收仍待执行。[重跑回执](output/business-ai01-rerun-1795649658076/summary.json) · [时间戳诊断](output/business-ai01-rerun-1795649658076/host-timing-diagnostic.json)
+
+AI-01 本地诊断副本修正了波次断言的数组下标和计分轨迹的坐标 Profile，并追加终局检查点。原始 GameSpec 未改，6 条 Conformance 全部通过，Three.js 和 CocosAirJS 均在第 57 Tick 以 5 分结算，Hash 与 Headless 一致，重开和释放通过。InputTrace Schema 与回放诊断现已对齐。修复调用数为 0，独立验收状态仍由未修改的模型原稿决定。[本地双引擎回执](output/business-ai01-host-repair-1795649459476/browser.json) · [公开任务输入](output/three-games-agent-preparation-1795649487089/index.json)
+
+仓库外静态 HTTP 已验证三款主包和组合包的 8 条双引擎桌面流程、6 条 390 像素且 DPR 2 的模拟触控流程，四个篡改入口均拒绝加载。修复了窄屏关卡按钮逐字换行，终局截图在结果文案更新后采集。《纹港叠牌》和《潮纹消消》通过声音偏好刷新与首次操作启用。[最终离线浏览器回执](output/three-games-delivery-1795401762291/receipt.json)
+
+《云线巡航》通过 CocosAirJS 30 分钟与 Three.js 10 分钟正常时钟长局，分别记录 108,045 和 36,043 个活动 Tick。共同的 11 局结束 Tick、分数和 Hash 一致。首局跨越三段难度，以 14,900 分结束。两端最差 p95、p99 均为 16.8 ms，退出资源核查通过。Three.js 第一次追帧保护失败归档保留。[CocosAirJS 回执](output/skyline-patrol-endurance-air-1795398461194/receipt.json) · [Three.js 通过回执](output/skyline-patrol-endurance-three-1795400822853/receipt.json) · [Three.js 首次回执](output/skyline-patrol-endurance-three-1795400313846/receipt.json)
+
+三款包内的 15 份发布内容已核对定义摘要和能力目录摘要，被改动的版本均被准入校验拒绝。独立 Agent 六项任务的公开上下文已准备。[准备索引](output/three-games-agent-preparation-1795399044781/index.json)
+
+AI-01 已按授权使用本机 Codex CLI 现有路由调用 3 次。三份原始作品都因初始输入控制状态不符合 Runtime 合同收到 `A2G_E_CAP_CONFIG`，未进入双引擎验收。公开输入控制 Manifest 的 `stateSchema` 只声明对象，需明确必填字段和初态样例。宿主内存诊断使用共享初态工厂后，第二版通过两条 Conformance，但计分轨迹仍因指针字段不合规范被拒绝。宿主诊断不计独立生成通过。AI-02 至 AI-06 尚未调用。[AI-01 回执](output/business-ai01-1795619078045/summary.json)
+
+Android 真机验收暂时缺少设备，`adb devices -l` 列表为空。已通过的浏览器模拟触控作为桌面证据保留。
+
+AI-01 的公开合同已补齐。输入控制 Manifest 给出必填字段和共享初态样例，生成输入包含 InputTrace Schema 和指针样例，错误指针字段在 Runtime 启动前被拒绝。10 项定向测试和 368 份完整 Schema 文档通过。仅在内存中纠正第二次输出的初态和轨迹字段后，原轨迹可正常死亡并获得预期 15 分。该诊断未修改原稿，未计独立验收，修复阶段调用数为 0。[刷新后的公开输入](output/three-games-agent-preparation-1795619695688/index.json)
+
+AI-01 重跑使用现有 Codex CLI 路由调用 3 次，原稿均已保存。本批前两次最高分路径多了 `/state` 前缀，未通过准入。第三次通过完整准入，6 条 Conformance 通过 5 条。余下一条在第 121 Tick 将拦截机的数组下标写错，实际状态已生成 `interceptor--2-120`。原始计分轨迹的坐标 Profile 也未通过校验，双引擎验收仍待执行。新版公开输入已补最高分路径、轨迹会话、结束检查点和物体排序说明，准备阶段调用数为 0。[重跑汇总](output/business-ai01-rerun-1795620383119/summary.json) · [第三次原稿诊断](output/business-ai01-rerun-1795620383119/attempt-3/host-observation.json) · [新版公开输入](output/three-games-agent-preparation-1795621003575/index.json)
+
+《潮纹消消》的三个可玩组合变体已进入独立组合包，另含三个主线组合关供对照。三款主包和组合包累计校验 1,167 个文件及 21 条发布条目，包内 Runtime 通过 36 条 Headless 用例。[包内逻辑回执](output/three-games-packaged-headless-1795401783242/receipt.json)
+
+浏览器回执核查入口为 `node scripts/check-three-games-browser-receipts.mjs`，目前返回 `PASS_BROWSER_EVIDENCE`。全量协议校验通过 368 份 Schema 文档和 204 条 Conformance。项目总检仍缺少历史 G3 的 `plan.json`。[Schema 回执](output/three-games-protocol-1795401635075/reports/schema-preflight.json) · [Conformance 回执](output/three-games-protocol-1795401635075/conformance.json)
+
+全量 Node 重跑通过，360 通过、3 跳过、0 失败。首次唯一失败是 MCP 资源测试仍将公开机制目录限定为三个旧条目，已修正断言。[首次 Node 日志](output/three-games-workspace-1795401522285/node-tests.log) · [通过日志](output/three-games-workspace-1795402257647/node-tests.log)
+
+《云线巡航》最终定义在真实 Three.js 与 CocosAirJS 完成双发专项。两端均在第 7,990 Tick 拾取双发，第 7,992 Tick 生成两枚独立弹丸，暂停冻结强化倒计时，第 8,712 Tick 恢复单发。两次专项复测均未触发追帧暂停。共享 Runtime 已消除逐 Tick 复制累计事件的开销，Player 和 SDK 常规画面读取近期事件。长局的 14,900 分输入路线已从正式初态经过三段难度并复验正常死亡，真实 30/10 分钟与资源预算仍需完整回执。[双发回执](output/skyline-patrol-live-supply-1795398109938/receipt.json) · [长局输入](games/business-complete/skyline-patrol/long-score-trace.json)
+
+《潮纹消消》十二主关和三个变体启用共享连锁输入锁定。仓库外十二关静态包在 Three.js 与 CocosAirJS 通过整条主线。M12 验证结算期间的新拖动被丢弃、暂停冻结 Tick、恢复不补执行，演出中刷新从已提交的棋盘继续。减少动态效果与正常演出的终局棋盘、分数和 RNG 一致。Headless 另验证跨过解锁边界的旧拖动不会选中新格。[连锁及独立包回执](output/tideglass-settlement-static-1795397434737/receipt.json)
+
+《潮纹消消》M12 已接入锤子、强制交换和手动洗牌，开局各一次。道具通过实际点击验证取消、无效目标、库存为零、刷新恢复及重试。三种道具均用完后，普通步数保持 0，重排前后的分数保持 60。[道具及独立包回执](output/tideglass-tools-static-1795396975407/receipt.json)
+
+《潮纹消消》十二主关及三个变体均有三星输入见证。M02 从 120 分三星重打为 60 分一星后，刷新仍保留三星和最高分。M12 未完成目标时，即使拿到 200 分也只得零星。双引擎同时验证死局重排和 64 次候选均失败后的重试提示。[星级回执](output/tideglass-ranked-static-1795396677199/receipt.json) · [死局回执](output/tideglass-deadboard-1795396727308/receipt.json)
+
+《潮纹消消》M01–M12 主线已有 20 条 Headless 用例及 15 条胜败 Trace。M08 潮珠只在指定出口入账一次。M12 首步触发两波连锁，双引擎实测刷新恢复、失败、重试及 200 分通关。[十二关主线回执](output/tideglass-main-1795396286215/receipt.json)
+
+《潮纹消消》M06 冰层和 M07 箱体在双引擎验证两层各扣一次及 130 分结算。箱体阻隔下落和只从顶部补充另由单元用例验证。[障碍回执](output/tideglass-obstacles-1795395762947/receipt.json)
+
+《潮纹消消》六类特殊组合已通过双引擎独立体验流程，涵盖目的格足迹、双块只消耗一次和转换后的 ID 保留。三种组合在 M09–M11 主线可玩，另三种保留在独立组合目录中。[六组合回执](output/tideglass-combos-1795395527341/receipt.json)
+
+《潮纹消消》M03–M05 的四连直线、T/L 爆炸和五连颜色清除已在仓库外五关独立包中验证生成与激活。[五关包回执](output/tideglass-specials-static-1795395353947/receipt.json)
+
+打包入口现支持版本 2 的多关目录。《纹港叠牌》和《潮纹消消》当前两关版已从仓库外静态副本通过双引擎解锁、续关及重试，叠牌另验证局中恢复和恢复后撤回。每包核对 288 份文件，拒绝被修改的关卡目录或单关发布文件，试玩不访问动态 API 或外网。[叠牌回执](output/pattern-harbor-static-1795395048940/receipt.json) · [三消回执](output/tideglass-static-1795395049560/receipt.json)
+
+《潮纹消消》已交付 M01/M02 两关参考流程。共享交换消除增加颜色目标与步数预算，整次连锁只扣一步，最后一步达标优先判胜。真实 Three.js 与 CocosAirJS 均通过拖动失败、重试、解锁下一关、刷新续关及第二关 120 分通关。七条 Headless 用例及四条胜败 Trace 通过。特殊块、障碍、后续关卡与独立多关包待完成。[玩法说明](games/business-complete/tideglass-match/README.md) · [本机回执](output/tideglass-m01-m02-1795394707306/receipt.json)
+
+《纹港叠牌》第四版启用网页局中保存。Three.js 与 CocosAirJS 实测完成移出、洗牌和取回后刷新，恢复原牌局、两张保留牌和撤回点，刷新后仍可撤回且不返还额度。篡改摘要时拒绝存档并保留旧数据，明确重试后开启初始局。独立包仍待完成。[局中恢复回执](output/pattern-harbor-resume-1795394472821/receipt.json)
+
+《纹港叠牌》第三版实现有可达解的洗牌。满六张不同牌时验证拒绝操作并保留布局、额度及 RNG；移出三张后重新洗牌，再通过 141 次正常选牌和取回复验通关。Three.js 与 CocosAirJS 均通过关卡页点击洗牌、保留区牌 ID 和重试。网页自动存档仍待开发。[洗牌回执](output/pattern-harbor-shuffle-1795394223015/receipt.json)
+
+《纹港叠牌》主挑战第二版新增跨区域牌 ID、三格保留区及每局一次的移出和撤回。Headless 三条用例通过，仍可从同一布局 144 步通关或七步槽满失败。双引擎关卡页完成移出、取回、撤回、额度保留和重试。另以现有 Replay Save 在 Headless 重建带道具的局中状态，网页自动保存与洗牌待实现。[道具回执](output/pattern-harbor-tools-1795394022206/receipt.json)
+
+《纹港叠牌》主挑战已交付 144 张、12 类和六层遮挡。Three.js 与 CocosAirJS 均实测教学解锁、七张不同牌填满槽失败、重试后 144 张通关和刷新保留完成记录。修复了关卡页轮询写入晚于即时刷新造成的进度竞态。跨区域牌 ID、道具及局中恢复仍待开发。[主挑战回执](output/pattern-harbor-challenge-1795393777570/receipt.json)
+
+阶段 2《纹港叠牌》教学关已通过 18 张、3 类和双层遮挡的参考流程。Three.js 与 CocosAirJS 均通过画面输入拒绝遮挡牌、清空桌面和重开。主挑战、道具及局中恢复还在开发范围内。[玩法及用例](games/business-complete/pattern-harbor/README.md) · [本机回执](output/pattern-harbor-tutorial-1795393558483/receipt.json)
+
+《云线巡航》第五版增加原创程序化机体、弹丸、补给、事件视觉反馈和声音。独立包从仓库外静态目录启动，核对 281 份清单文件，真实 Three.js 与 CocosAirJS 均通过 100 分结算、重开、刷新最高分和声音偏好、销毁，未观察到外网请求。双发实际拾取、长局和真机仍待验。[独立包回执](output/skyline-patrol-standalone-1795393296685/receipt.json)
+
+《云线巡航》第四版加入相对拖动和参考播放器本地最高分。Headless 验证偏心按下、移动、取消和重新按下，计分 Trace 正常死亡得 100 分。真实 Three.js 与 CocosAirJS 均通过偏心按下不瞬移、拖动撞机、重开归零及同源刷新仍显示最高分 100。声音设置、正式资源、长局和独立包待推进。[本机浏览器回执](output/skyline-patrol-relative-browser-1795392995253/receipt.json)
+
+《云线巡航》第三版新增双发和炸弹补给。双发的拾取、刷新、暂停及过期通过 Headless 回归。正式内容的炸弹按钮在 Three.js 与 CocosAirJS 正常时钟均消耗 1 枚、击毁两架并得到 200 分，重开恢复初始库存。双发实际浏览器拾取、最高分持久化、相对拖动和独立包仍待验证或实现。[本机浏览器回执](output/skyline-patrol-supplies-browser-1795392781795/receipt.json)
+
+《云线巡航》第二版已实现三种敌机与三段加权难度，使用 72/48/30 Tick 节奏，末段持续循环。完整内容准入、两条规则用例及计分 Trace 通过。真实 Three.js 与 CocosAirJS 均以正常时钟拖动、100 分撞机结算和重开。18,000 Tick 的模块压力夹具关闭敌我碰撞以保持持续生成，观测三段 50/150/240 次敌机生成，活跃对象峰值 65，满池事件 0。真实长局仍待执行。[玩法与用例](games/business-complete/skyline-patrol/README.md) · [本机浏览器回执](output/skyline-patrol-phased-browser-1795392537436/receipt.json)
+
+阶段 1《云线巡航》首个可玩版本已完成内容准入。两种敌机按固定线路重复生成，玩家拖动且自动射击。Headless 两条规则用例通过，计分 Trace 在 Tick 256 以 200 分碰撞结束。真实 Three.js 与 CocosAirJS 的正常时钟操作均得到 200 分，并可重开至 0 分。最高分持久化、第三种敌机、难度和道具、正式资源与独立包待完成。[玩法及用例](games/business-complete/skyline-patrol/README.md) · [本机浏览器回执](output/skyline-patrol-browser-1795392269696/receipt.json)
+
+阶段 0 已验证一条双关工程流程。版本 2 关卡目录绑定原始 GameSpec SHA-256，复用完整内容准入，按通关解锁，并在同源刷新后定位首个未完成关卡。Three.js 与 CocosAirJS 均用既有推箱子关卡验证锁定、重试、通关切换及刷新恢复，坏摘要在发布前拒绝。[业务任务书](docs/history/A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md) · [本机工程回执](output/three-complete-games-stage0-1795391825615/receipt.json)
+
+飞机 SHT-08 的 Headless 回归通过。新配置 `independentProjectileHits` 让同主人两颗弹丸分别扣伤，保留事件主人归属；未配置时沿用旧判定。计分局验证可用规范化 Trace 核对死亡、精确分数和重开隔离，已验证拒绝错分和只有超时的结算。正式飞机业务流程、各作品存档及独立包仍待完成。
+
 2026-11-22：Generator CLI 目录读取当前 133 项公开能力。新增五种 v2 机制的玩法名检索与草案能力选择，详见 [Generator CLI](generator/README.md)。本轮范围为本地检索和规划，不计真实模型生成或正式验收。
 
 ## v2 交付与持续可玩性

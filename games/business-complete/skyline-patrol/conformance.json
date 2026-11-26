@@ -1,0 +1,106 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "skyline-patrol-reference",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.skyline-patrol",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "score-and-collision",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 170
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 200
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.9,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "move",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.26,
+              "v": 0.01,
+              "viewportAspect": 0.625
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 86
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "lost"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 200
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "automatic-repeat-and-score",
+      "seed": 5629,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "step",
+          "ticks": 1500
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "playing"
+        },
+        {
+          "op": "assert",
+          "path": "/state/world/score",
+          "equals": 1100
+        }
+      ]
+    }
+  ]
+}

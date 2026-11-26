@@ -19,16 +19,20 @@ node scripts/package-player-sdk.mjs games/phase2/sokoban/01-first-light/game.jso
 命令会打印一个新的`output/player-sdk-<时间>-<随机值>/`目录。之后：
 
 1. 复制整个目录到网页的静态文件服务中，保持目录结构。
-2. 通过HTTP访问`/player/index.html`，不要直接双击本地HTML文件。
+2. 通过 HTTP 打开打包命令返回的 `entry`（常规单款包为 `/player/index.html`）。
 3. 读取说明后点击开始，可以切换Three.js或CocosAirJS。
 
 静态服务需要返回正确的`Content-Length`（文件长度）。每份输出保留打包时的代码和内容；以后修改仓库，不会自动更新旧目录。
+
+也可传入带逐关 SHA-256 的版本 2 `a2game-game-collection`，例如 `games/business-complete/pattern-harbor/collection.json`。打包会逐关完整准入，将运行时、真实 SDK、关卡、已审核资源及摘要清单一起写入同一静态目录。通过 `/player/collection.html` 启动，无需动态内容服务。关卡解锁及支持的局中存档由同源浏览器保存。
 
 ## 3. 示例支持什么操作
 
 页面根据游戏声明生成标题、按钮和键盘绑定，支持点按、按住、松开、暂停、继续、重开和关闭。没有在游戏中声明的快捷键不会自动添加。
 
 暂停、重开和关闭会清除持续输入；继续后需要重新按住按键。声明`touch.*`时，画布原生Pointer由共享Runtime识别拖动、轨迹、双指旋转/缩放等手势。声明`imu.*`或`gamepad.*`时才显示设备按钮，必须显式启用；暂停/重开后需重新启用并校准。虚拟输入结果不代表真机通过。
+
+示例显示 GameSpec 声明的文字 HUD。计分扩展的本地最高分在结算时写入，刷新可读取。游戏内容摘要或网站来源改变时使用独立记录。示例的声音开关保存到同源浏览器存储，实际播放由用户手势启用。
 
 CocosAirJS在同一页面中只能初始化一次，包括关闭之后。需要新实例时，重新加载页面；示例切换引擎也通过重新加载完成。
 
@@ -69,6 +73,8 @@ await player.load(bundle);
 
 ### 播放控制
 
+SDK 在文字 HUD 变化时通过 `onEvent` 发出 `{ type: 'hud', text }`。宿主可用 `feedback: true` 启用事件粒子，再在用户手势中调用 `setFeedbackSound(enabled)` 启用或静音程序化反馈。反馈不写入 Runtime 状态。
+
 | 接口 | 用途 |
 | --- | --- |
 | `load(bundle)` | 加载该分发目录允许的游戏内容 |
@@ -97,7 +103,7 @@ await player.load(bundle);
 
 对于生成工具包，脚本只读取`files.content`里的运行内容，不验证或交付解法、来源声明、测试结果和GamePlan等其他信息。
 
-**换游戏或修改JSON后，必须重新完整检查并打包。** 当前SDK绑定一个确定的内容包，不能直接接收任意新JSON，也不是在线更新系统。保留旧输出目录，新版本生成到新目录。
+**换游戏、关卡或修改 JSON 后，必须重新完整检查并打包。** 每份 SDK 绑定打包时确定的作品或关卡目录。保留旧输出目录，新版本生成到新目录。
 
 若已使用本地版本管理，可运行 `node scripts/content-delivery.mjs build-player --root output/my-game`，从选中版本完整复验并构建，避免手工寻找包路径；也可用 `--version v1` 构建旧版。输出携带版本及包摘要，具体见[版本交付说明](../content-delivery/README.md)。
 

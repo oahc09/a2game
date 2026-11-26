@@ -1,0 +1,673 @@
+{
+  "format": "a2game-conformance",
+  "specVersion": "0.1.0",
+  "suiteId": "pattern-harbor-tutorial",
+  "subject": {
+    "type": "game",
+    "id": "org.a2game.business.pattern-harbor.tutorial",
+    "file": "game.json"
+  },
+  "cases": [
+    {
+      "id": "tap-top-card-and-reject-covered-edge",
+      "seed": 6297,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.13333333333333336,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.13333333333333336,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 0
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/board/0",
+          "equals": 2
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/board/9",
+          "equals": 0
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 1
+        },
+        {
+          "op": "restart"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/moves",
+          "equals": 0
+        }
+      ]
+    },
+    {
+      "id": "clear-eighteen-cards",
+      "seed": 6297,
+      "steps": [
+        {
+          "op": "start"
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2466666666666667,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5244444444444445,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.21153846153846156,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.39615384615384613,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.8022222222222222,
+              "v": 0.5807692307692307,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.2222222222222222,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.5,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.23076923076923078,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.41538461538461535,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "down",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "injectRaw",
+          "raw": {
+            "source": "pointer",
+            "kind": "up",
+            "payload": {
+              "pointerId": 1,
+              "u": 0.7777777777777778,
+              "v": 0.6,
+              "viewportAspect": 0.6923076923076923
+            }
+          }
+        },
+        {
+          "op": "step",
+          "ticks": 1
+        },
+        {
+          "op": "assert",
+          "path": "/flow/status",
+          "equals": "won"
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/score",
+          "equals": 18
+        },
+        {
+          "op": "assert",
+          "path": "/state/puzzle/tray",
+          "equals": []
+        }
+      ]
+    }
+  ]
+}

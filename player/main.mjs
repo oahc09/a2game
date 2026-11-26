@@ -1,9 +1,13 @@
 import {measureTextReadability} from './text-readability.mjs';
-import {createFrameMotion} from './frame-motion.mjs';
+import {createFrameMotion,projectPuzzleWaves} from './frame-motion.mjs';
 import {createFeedbackAudio} from './feedback-audio.mjs';
 import {createEventFeedback} from './event-feedback.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
-import {HeadlessRuntime,projectPresentation,projectRenderSetup,readPointer} from '../dist/index.js';
+import {createScoreRecord} from './score-record.mjs';
+import {createPuzzleSave} from './tray-save.mjs';
+import {projectHudText} from './hud-text.mjs';
+import {loadStaticRelease,staticDelivery} from './static-delivery.mjs';
+import {HeadlessRuntime,projectPresentation,projectRenderSetup} from '../dist/index.js';
 import {createBrowserRegistry} from './browser-registry.mjs';
 import {CanvasPreviewAdapter} from './adapters/canvas-preview.mjs';
 import {createPlayerEngineRegistry} from './engines.mjs';
@@ -18,6 +22,7 @@ if(params.get('embed')==='1')document.documentElement.classList.add('embedded');
 const frameMotion=params.get('motion')==='1'?createFrameMotion():null;
 const feedbackAudio=createFeedbackAudio(),eventFeedback=createEventFeedback({onSound:name=>feedbackAudio.play(name)});
 let waitingToStart=false;
+let scoreRecord,puzzleSave;
 let effectsEnabled=params.get('feedback')==='1';
 const effectsToggle=document.getElementById('effectsToggle'),effectsSound=document.getElementById('effectsSound');
 effectsToggle.setAttribute('aria-pressed',String(effectsEnabled));effectsToggle.textContent=`事件特效：${effectsEnabled?'开':'关'}`;
@@ -43,8 +48,9 @@ const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessa
 async function createAdapter(mode){
  return engines.create(mode==='air'?'cocosairjs':mode,{canvas:dom.GameCanvas,renderSetup:projectRenderSetup(definition),resources,signal:listeners.signal});
 }
-function observation(){return runtime?.observe();}
+function observation(){return runtime?.observe(puzzleSave?undefined:{recentEvents:256});}
 function updateInfo(obs){
+ puzzleSave?.observe(runtime,obs);
  const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
  if(dom.status.dataset.flowStatus!==obs.flow.status){
@@ -55,20 +61,8 @@ function updateInfo(obs){
    if(result){dom.stageResultTitle.textContent=result[0];dom.stageResultDetail.textContent=result[1];dom.hint.textContent='';}
  }
  dom.hash.textContent=obs.exactHash;
- const hudLines=[];
- for(const item of definition.presentation.hud??[]){
-   if(item.kind!=='text')continue;
-   const boundText=item.bind?.text;
-   if(boundText?.template&&Array.isArray(boundText.args)){
-     const args=boundText.args.map(x=>x.state?readPointer(obs.state,x.state):'?');
-     hudLines.push(boundText.template.replace(/\{(\d+)\}/g,(all,index)=>index<args.length?String(args[index]):all));
-   }else if(boundText&&Object.hasOwn(boundText,'literal'))hudLines.push(String(boundText.literal));
-   else if(boundText?.state)hudLines.push(String(readPointer(obs.state,boundText.state)));
-   else if(typeof item.bind?.state==='string'){
-     // HUD bindings are optional metadata; a bad pointer must not stop the game.
-     try{const value=readPointer(obs.state,item.bind.state);if(['string','number','boolean'].includes(typeof value)){const text=typeof value==='boolean'?(value?'是':'否'):String(value),ratio=typeof value==='number'&&typeof item.text==='string'?item.text.match(/^(.+?)\s*\/\s*(\d+)\s*$/):null;hudLines.push(ratio?`${ratio[1].trim()}：${text} / ${ratio[2]}`:item.text?`${item.text}：${text}`:text);}}catch{}
-   }else if(typeof item.text==='string'&&item.text)hudLines.push(item.text);
- }
+ const hudLines=projectHudText(definition,obs.state);
+ if(scoreRecord){scoreRecord.observe(obs);hudLines.push(scoreRecord.label());}
  dom.score.textContent=hudLines.length?hudLines.join('\n'):Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
@@ -77,7 +71,7 @@ function updateInfo(obs){
    el.disabled=!(definition.inputs.actions.some(x=>x.id===el.dataset.action)) || obs.flow.status!=='playing';
  }
 }
-function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(traceRecorder?.diagnostics().overflow){finishTrace=false;document.getElementById('traceStatus').textContent='录制超过 4096 个样本，已停止；请重开并缩短录制。';document.getElementById('traceExport').disabled=true;}if(finishTrace){const snapshot=runtime.snapshot();if(!snapshot.inputQueue.length&&!snapshot.rawQueue.length){traceRecorder.stop(snapshot.tickIndex);finishTrace=false;document.getElementById('traceStatus').textContent='录制已结束；数据仅保存在本页内存，可导出。';document.getElementById('traceExport').disabled=false;}}const o=observation();const target=projectPresentation(definition,o);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,o,{visual:effectsEnabled});const decorated=effectsEnabled?eventFeedback.project(target):target;adapter.draw(frameMotion?frameMotion.project(decorated):decorated);updateInfo(o);}
+function render(){if(!runtime||!adapter||adapter.disposed||disposal)return;if(traceRecorder?.diagnostics().overflow){finishTrace=false;document.getElementById('traceStatus').textContent='录制超过 4096 个样本，已停止；请重开并缩短录制。';document.getElementById('traceExport').disabled=true;}if(finishTrace){const snapshot=runtime.snapshot();if(!snapshot.inputQueue.length&&!snapshot.rawQueue.length){traceRecorder.stop(snapshot.tickIndex);finishTrace=false;document.getElementById('traceStatus').textContent='录制已结束；数据仅保存在本页内存，可导出。';document.getElementById('traceExport').disabled=false;}}const o=observation();const target=projectPresentation(definition,o);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,o,{visual:effectsEnabled});const decorated=effectsEnabled?eventFeedback.project(target):target;const frameTime=o.state.puzzle?.settleUntilTick===undefined?undefined:o.tickIndex*1000/definition.world.clock.tickHz;adapter.draw(frameMotion?projectPuzzleWaves(definition,o,frameMotion.project(decorated,frameTime)):decorated);updateInfo(o);}
 function sendAction(action){
  adapter?.unlockAudio?.();
  if(!runtime||runtime.status!=='playing'||!definition.inputs.actions.some(x=>x.id===action))return;
@@ -97,7 +91,7 @@ function animate(now){
    if(steps>max){
      // Explicit stall; never silently drop unprocessed simulation ticks.
      pauseSession();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
-   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe(),{visual:effectsEnabled});}carry-=steps/hz;}
+   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}carry-=steps/hz;}
  }
  // Manual-clock callers draw after each step/control; idle frames have no new presentation.
  if(contextState==='healthy'&&!manualClock)render();raf=requestAnimationFrame(animate);
@@ -155,7 +149,7 @@ function bindInputs(){
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
-   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
+   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
  listen(dom.stageRestart,'click',()=>{dom.restart.click();if(runtime.status==='playing')canvas.focus({preventScroll:true});});
  listen(document.getElementById('prepareRestart'),'click',()=>{if(contextState!=='healthy')return;dom.restart.click();if(runtime.status==='playing'){pauseSession();waitingToStart=true;carry=0;ts=0;document.getElementById('readyPanel').hidden=false;render();}});
@@ -202,19 +196,26 @@ function dispose(){
 async function main(){
  try{
    const registry=await createBrowserRegistry();
-   const catalog=await loadBuiltinCatalog(),groups=new Map();dom.game.replaceChildren();
+   const catalog=staticDelivery?[]:await loadBuiltinCatalog(),groups=new Map();dom.game.replaceChildren();
    for(const entry of catalog){const label=['tap-target','grid-merge','grid-merge-spawn','grid-push'].includes(entry.name)?'基础示例':/^[gh]\d\d-candidate$/.test(entry.name)?'Gxx / Hxx 参考玩法':/^[gh]\d\d-/.test(entry.name)?'作者编写的规则变体':'机制实验';let group=groups.get(label);if(!group){group=document.createElement('optgroup');group.label=label;groups.set(label,group);dom.game.appendChild(group);}const option=document.createElement('option');option.value=entry.name;option.textContent=entry.title;group.appendChild(option);}
    dom.game.value=gameName;
    if(releaseId){
-     const released=await loadReleasedGame(releaseId,registry);definition=released.definition;
+     const released=await (staticDelivery?loadStaticRelease:loadReleasedGame)(releaseId,registry);definition=released.definition;
      resources=new ResourceScope(released.resources);await resources.load();
      const option=document.createElement('option');option.value='imported';option.textContent=`导入：${definition.meta.title}`;
      dom.game.appendChild(option);dom.game.value='imported';
      document.getElementById('importStatus').textContent='已校验并加载；本地发布已保存。';
-   }else{definition=await loadBuiltinGame(gameName);resources=new ResourceScope(await loadBuiltinResources(definition,registry));await resources.load();}
+   }else{
+     if(staticDelivery)throw Error('独立关卡包请从关卡入口启动。');
+     definition=await loadBuiltinGame(gameName);resources=new ResourceScope(await loadBuiltinResources(definition,registry));await resources.load();
+   }
    dom.instructions.textContent=definition.meta.description??(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='touch.swipe'))
      ? '在画面内滑动 / 使用方向键' : '使用画面或右侧按钮操作');
-   runtime=new HeadlessRuntime(definition,registry);
+   if(!manualClock)puzzleSave=createPuzzleSave(definition,registry);
+   const restored=puzzleSave?.restore();
+   runtime=restored??new HeadlessRuntime(definition,registry);
+   if(puzzleSave?.status())dom.hint.textContent=puzzleSave.status();
+   if(!manualClock)scoreRecord=createScoreRecord(definition);
    traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
    gamepadHost=createGamepadHost({inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
@@ -228,24 +229,24 @@ async function main(){
    listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
    listen(document.getElementById('sensorStop'),'click',()=>{mobileHost.stop();});
    document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
-   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
+   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
    listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
    listen(document.getElementById('traceExport'),'click',()=>{try{const trace=traceRecorder.export(),url=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=definition.id+'.input-trace.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){document.getElementById('traceStatus').textContent=error.message;}});
    adapter=await createAdapter(backendName);
    // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
    render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-   runtime.start();bindInputs();if(params.get('ready')==='1'){pauseSession();waitingToStart=true;document.getElementById('readyPanel').hidden=false;}render();raf=requestAnimationFrame(animate);
+   if(!restored)runtime.start();bindInputs();if(params.get('ready')==='1'){pauseSession();waitingToStart=true;document.getElementById('readyPanel').hidden=false;}render();raf=requestAnimationFrame(animate);
    window.render_game_to_text=()=>JSON.stringify({coordinateSystem:'center origin, +X right, +Y up; pointer top-left',
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});
-   window.__a2game={runtime,definition,dispatch:sendAction,getState:()=>runtime.observe(),getHash:()=>runtime.observe().exactHash,
+   window.__a2game={runtime,definition,dispatch:sendAction,getState:options=>runtime.observe(options),getHash:()=>runtime.observe({recentEvents:0}).exactHash,getSaveStatus:()=>puzzleSave?.status()??'',
      getTextReadability:(options={})=>measureTextReadability(projectPresentation(definition,runtime.observe()),dom.GameCanvas,{referenceCssPx:options.referenceCssPx??16,backend:backendName,adapter}),
      backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,feedback:{visualEnabled:effectsEnabled,audio:feedbackAudio.diagnostics(),...eventFeedback.diagnostics()},gamepad:gamepadHost.diagnostics(),mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.injectRaw=injectRaw;
      window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
-     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe(),{visual:effectsEnabled});}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
+     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{
        if(!Number.isFinite(ms)||ms<0)throw Error('Invalid advanceTime');
@@ -257,7 +258,7 @@ async function main(){
  }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
 window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
-const exportButton=document.getElementById('exportGame');exportButton.disabled=!releaseId;
+const exportButton=document.getElementById('exportGame');exportButton.disabled=staticDelivery||!releaseId;
 exportButton.addEventListener('click',async()=>{
  try{
    const response=await fetch(`/api/releases/${releaseId}/bundle`);if(!response.ok)throw Error('无法导出内容包，请检查回执状态。');
@@ -265,7 +266,8 @@ exportButton.addEventListener('click',async()=>{
  }catch(error){document.getElementById('importStatus').textContent=`导出失败：${error.message}`;}
 });
 // Available even when a previous release expired or an SDK failed to start.
-document.getElementById('importGame').addEventListener('change',async event=>{
+const importInput=document.getElementById('importGame');importInput.disabled=staticDelivery;
+importInput.addEventListener('change',async event=>{
  const input=event.target,file=input.files?.[0],status=document.getElementById('importStatus');if(!file)return;
  input.disabled=true;status.textContent='正在校验游戏…';
  try{

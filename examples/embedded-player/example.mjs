@@ -1,6 +1,11 @@
 import {createA2GamePlayer} from './index-sdk.mjs';
 const $=id=>document.getElementById(id),keys=new Map(),pointers=new Map();
 let actions=[],lastError='';
+const soundKey='a2game.embedded.feedback-sound.v1';
+let sound=false;
+try{sound=localStorage.getItem(soundKey)==='on';}catch{}
+const showSound=()=>{$('sound').setAttribute('aria-pressed',String(sound));$('sound').textContent=sound?'声音：开':'声音：关';};
+showSound();
 const notifyParent=(type,detail={})=>{if(window.parent!==window)window.parent.postMessage({format:'a2game-embed-event',type,...detail},location.origin);};
 const selectedBackend=new URLSearchParams(location.search).get('backend');
 $('backend').value=['three','cocosairjs'].includes(selectedBackend)?selectedBackend:'three';
@@ -14,7 +19,8 @@ function update(){
  for(const button of $('controls').children)button.disabled=!playing;
  for(const button of $('deviceControls').querySelectorAll('button'))button.disabled=['disposing','disposed','loading','empty'].includes(state);
 }
-const player=createA2GamePlayer({backend:$('backend').value,container:$('game'),onEvent:event=>{
+const player=createA2GamePlayer({backend:$('backend').value,container:$('game'),feedback:true,onEvent:event=>{
+ if(event.type==='hud'){$('hud').textContent=event.text;$('hud').hidden=!event.text;}
  if(event.type==='inputs-reset')clearBindings();
  if(event.type==='sensor-status'||event.type==='gamepad-status')$('deviceStatus').textContent=event.message??'';
  if(event.type==='sources-reset')$('deviceStatus').textContent='持续设备采样已停止；需要时重新启用并校准。';
@@ -46,7 +52,12 @@ function buildControls(){
  }
  $('status').textContent='内容已校验加载。读完说明后点击开始，计时才会运行。';update();
 }
-$('start').onclick=()=>{player.start();focusCanvas();};
+$('sound').onclick=async()=>{
+ sound=!sound;showSound();
+ try{localStorage.setItem(soundKey,sound?'on':'off');}catch{}
+ if(!await player.setFeedbackSound(sound)&&sound)$('sound').textContent='声音：等待启用';
+};
+$('start').onclick=()=>{if(sound)void player.setFeedbackSound(true);player.start();focusCanvas();};
 $('pause').onclick=()=>{if(player.status()==='playing'){cancelInputs();player.pause();}else if(player.status()==='paused'){player.resume();focusCanvas();}};
 $('restart').onclick=()=>{cancelInputs();player.restart();focusCanvas();};
 $('dispose').onclick=()=>{cancelInputs();void player.dispose();};
