@@ -40,3 +40,10 @@ node scripts/g59-survival-soak.mjs air 1800 rounds
 ### 同输入跨后端一致性
 
 运行 `node scripts/g59-survival-trace.mjs 36000`，会重建一份固定输入序列并保留其摘要，以手动推进时钟逐批在普通播放器两个后端上回放。实际取证比较了 6,001 个带 Tick 的输入、121 个检查点；CocosAirJS、Three.js 和 Node 的状态 Hash、分数、机体值及终局事件一致。[回执](../project/evidence/g59-survival-fixed-trace.json)。此项不计实际运行时长，也不是不同输入设备的一致性验收。
+
+
+### 浏览器后退与恢复
+
+普通播放器和完整静态导出在 `pagehide.persisted` 时保留当前对局和画布，停用原输入采样并暂停正在玩的轮次。返回后必须先点击「继续」，再按住操作键；手柄等连续采样需重新启用。主动销毁、嵌入页宿主关闭和非缓存离开仍走清理路径。真正刷新是新页面和新一局；同源同版本的个人纪录不变。
+
+复验：先构建并准备锁定 SDK，再使用本地原生 WPE MiniBrowser 运行 `A2GAME_WPE_NATIVE_EXECUTABLE=/absolute/path/to/MiniBrowser node scripts/g59-history-browser.mjs`。用真实同源跳转和浏览历史验证 `persisted`，不以人工派发事件充数；两种模式各用实际 CocosAirJS 和 Three.js，对照真实 GL 提交、输入清空、同一画布、刷新后的记录和关闭清理。凭据、真机、部署和独立包长时运行均不在本回执的证明范围。

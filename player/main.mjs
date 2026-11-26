@@ -279,7 +279,17 @@ async function main(){
    }
  }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
-window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
+listen(window,'pagehide',event=>{
+ if(!event.persisted){void dispose().catch(e=>console.error(e));return;}
+ // Back/Forward restores this document, not a new boot. Keep the renderer and
+ // release alive, clear controls, and leave starting/resuming to the player.
+ carry=0;ts=0;
+ if(runtime?.status==='playing'){
+   pauseSession();adapter?.pauseAudio?.();record('pause');render();
+ }else{
+   pointerHost?.stop();gamepadHost?.stop();mobileHost?.stop();
+ }
+});
 const exportButton=document.getElementById('exportGame');exportButton.disabled=!releaseId;
 exportButton.addEventListener('click',async()=>{
  try{

@@ -1,0 +1,331 @@
+{
+  "mode": "fixed",
+  "scope": "native headless WPE oracles, actual Navigation history and GL draws; scripted game input, not device, deployed service, or soak",
+  "wpe": "WPE WebKit 2.53.3 (unknown)",
+  "sdk": {
+    "cocosairjs": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "three": "0.186.1"
+  },
+  "gameSha256": "c1c4e34a9a237d13fb99d28a209a03a2cfe24221c1ae1322304e38cbc270b289",
+  "inventory": 268,
+  "fingerprints": {
+    "probe": "2ef714012d5003ef7f263c81d27ce091f113e24624f32f52f0cde261e52f1c6b",
+    "ordinary": "521b6d45ab22aae1226ed1d8f7476667d705009e296300a9745d1b4336a4a6e8",
+    "standalone": "744a7ed5769c75dd8b556efc2873d30a4695d335e45b2a5c6f5dd67aee4fbf20"
+  },
+  "lanes": [
+    {
+      "standalone": true,
+      "backend": "three",
+      "phase": "reload",
+      "saved": 60,
+      "epoch": 1,
+      "held": 1,
+      "preErrors": [],
+      "hide": {
+        "persisted": true,
+        "epoch": 1,
+        "status": "playing"
+      },
+      "cycles": [
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        },
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        }
+      ],
+      "backErrors": [],
+      "reloadHide": {
+        "persisted": false,
+        "epoch": 1
+      },
+      "reload": {
+        "epoch": 2,
+        "persisted": false,
+        "nav": "reload",
+        "best": 60,
+        "status": "ready",
+        "canvas": 1
+      },
+      "cleanup": true,
+      "parentCleanup": true,
+      "errors": []
+    },
+    {
+      "standalone": true,
+      "backend": "cocosairjs",
+      "phase": "reload",
+      "saved": 60,
+      "epoch": 1,
+      "held": 1,
+      "preErrors": [],
+      "hide": {
+        "persisted": true,
+        "epoch": 1,
+        "status": "playing"
+      },
+      "cycles": [
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        },
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        }
+      ],
+      "backErrors": [],
+      "reloadHide": {
+        "persisted": false,
+        "epoch": 1
+      },
+      "reload": {
+        "epoch": 2,
+        "persisted": false,
+        "nav": "reload",
+        "best": 60,
+        "status": "ready",
+        "canvas": 1
+      },
+      "cleanup": true,
+      "parentCleanup": true,
+      "errors": []
+    },
+    {
+      "standalone": false,
+      "backend": "three",
+      "phase": "reload",
+      "saved": 60,
+      "epoch": 1,
+      "held": 1,
+      "preErrors": [],
+      "hide": {
+        "persisted": true,
+        "epoch": 1,
+        "status": "playing"
+      },
+      "cycles": [
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        },
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        }
+      ],
+      "backErrors": [],
+      "reloadHide": {
+        "persisted": false,
+        "epoch": 1
+      },
+      "reload": {
+        "epoch": 2,
+        "persisted": false,
+        "nav": "reload",
+        "best": 60,
+        "status": "paused",
+        "canvas": 1
+      },
+      "cleanup": true,
+      "parentCleanup": null,
+      "errors": []
+    },
+    {
+      "standalone": false,
+      "backend": "cocosairjs",
+      "phase": "reload",
+      "saved": 60,
+      "epoch": 1,
+      "held": 1,
+      "preErrors": [],
+      "hide": {
+        "persisted": true,
+        "epoch": 1,
+        "status": "playing"
+      },
+      "cycles": [
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        },
+        {
+          "hide": {
+            "persisted": true,
+            "epoch": 1,
+            "status": "playing"
+          },
+          "back": {
+            "epoch": 1,
+            "persisted": true,
+            "nav": "navigate",
+            "status": "paused",
+            "canvas": 1,
+            "sameCanvas": true,
+            "best": 60,
+            "held": 0,
+            "resumeControl": true,
+            "disposed": false
+          },
+          "resumed": true,
+          "visibleFrame": true,
+          "neutral": true,
+          "live": true
+        }
+      ],
+      "backErrors": [],
+      "reloadHide": {
+        "persisted": false,
+        "epoch": 1
+      },
+      "reload": {
+        "epoch": 2,
+        "persisted": false,
+        "nav": "reload",
+        "best": 60,
+        "status": "paused",
+        "canvas": 1
+      },
+      "cleanup": true,
+      "parentCleanup": null,
+      "errors": []
+    }
+  ],
+  "result": "PASS"
+}

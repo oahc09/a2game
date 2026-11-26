@@ -64,6 +64,11 @@ window.addEventListener('keydown',event=>{
 window.addEventListener('keyup',event=>{const action=keys.get(event.code);if(!action)return;keys.delete(event.code);player.release(action,'key:'+event.code);},{capture:true});
 const background=()=>{cancelInputs();if(player.status()==='playing')player.pause();};
 window.addEventListener('blur',background);document.addEventListener('visibilitychange',()=>{if(document.hidden)background();});
-window.addEventListener('pagehide',()=>{clearBindings();void player.dispose();},{once:true});
+window.addEventListener('pagehide',event=>{
+ // A history-cached document returns with the same SDK instance and canvas.
+ // Quiesce input and require explicit resume, but don't tear that instance down.
+ if(event.persisted){background();return;}
+ clearBindings();void player.dispose();
+});
 try{const response=await fetch('./game.release.json');if(!response.ok)throw Error('游戏包 HTTP '+response.status);const bundle=await response.json();await player.load(bundle);buildControls();notifyParent('ready',{gameId:bundle.definition.id,revision:bundle.definition.revision});}
 catch(error){$('status').textContent='加载失败：'+error.message;update();notifyParent('load-failed');}
