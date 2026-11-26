@@ -36,3 +36,7 @@ node scripts/g59-survival-soak.mjs air 1800 rounds
 脚本通过普通播放器启动，按实际经过时间取样，模拟标准手柄输入；没有加速或替换播放器时钟。CocosAirJS 的 rounds 模式在自然死亡后校验结算并走界面重开，同一页持续取样；权限、异常或追帧暂停仍判失败。另可用 single 模式要求整段时长不死亡。到达时长后停止输入，验证单次死亡结算和刷新后的最高分。脚本会保留失败和保护暂停，不自动重试。结果只覆盖当前浏览器与合成输入，不替代独立播放器长跑、物理真机或独立 Agent 门禁。
 
 普通播放器参考回执：[CocosAirJS 30 分钟](../project/evidence/g59-survival-soak-air.json) · [Three.js 10 分钟](../project/evidence/g59-survival-soak-three.json)。这两次实跑各自用动态合成手柄，并不是相同输入序列，不能用来比较游戏状态轨迹，也不代表真实硬件性能。
+
+### 同输入跨后端一致性
+
+运行 `node scripts/g59-survival-trace.mjs 36000`，会重建一份固定输入序列并保留其摘要，以手动推进时钟逐批在普通播放器两个后端上回放。实际取证比较了 6,001 个带 Tick 的输入、121 个检查点；CocosAirJS、Three.js 和 Node 的状态 Hash、分数、机体值及终局事件一致。[回执](../project/evidence/g59-survival-fixed-trace.json)。此项不计实际运行时长，也不是不同输入设备的一致性验收。
