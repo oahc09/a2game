@@ -2206,7 +2206,9 @@
     "settlement": "SCORE_ON_PILOT_LOSS_ONLY",
     "schedule": "RECURRING_TICK_SLOTS_NO_BACKLOG",
     "recordScope": "ORIGIN_AND_EXACT_GAMESPEC",
-    "playerClockExtendedSoak": "NOT_RUN",
+    "playerClockExtendedSoak": "PASS_REFERENCE_ORDINARY_SOFTWARE_WEBKIT",
+    "playerClockReceipts": ["project/evidence/g59-survival-soak-air.json", "project/evidence/g59-survival-soak-three.json"],
+    "standaloneExtendedSoak": "NOT_RUN",
     "independentAuthoring": "NOT_RUN",
     "physicalInput": "NOT_RUN"
   }
