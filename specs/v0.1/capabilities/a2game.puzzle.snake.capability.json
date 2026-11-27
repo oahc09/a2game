@@ -1,0 +1,150 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.puzzle.snake",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "共享固定 Tick 方格蛇：有界转向队列，确定性刷食物、增长和胜负。",
+  "phase": "simulate",
+  "dependencies": [
+    {
+      "id": "a2game.core.state",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.rules",
+      "version": "0.1.0"
+    },
+    {
+      "id": "a2game.core.rng",
+      "version": "0.1.0"
+    }
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 12
+        },
+        "stepTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "goalLength": {
+          "type": "integer",
+          "minimum": 3,
+          "maximum": 144
+        },
+        "actions": {
+          "type": "object",
+          "properties": {
+            "up": {
+              "type": "string",
+              "minLength": 1
+            },
+            "right": {
+              "type": "string",
+              "minLength": 1
+            },
+            "down": {
+              "type": "string",
+              "minLength": 1
+            },
+            "left": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "up",
+            "right",
+            "down",
+            "left"
+          ],
+          "additionalProperties": false
+        },
+        "statePath": {
+          "type": "string",
+          "pattern": "^/[a-zA-Z][a-zA-Z0-9_-]*$"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "stepTicks",
+        "goalLength",
+        "actions",
+        "statePath"
+      ],
+      "additionalProperties": false
+    },
+    "stateSchema": {
+      "type": "object",
+      "additionalProperties": false
+    },
+    "commands": [],
+    "events": [
+      {
+        "name": "snake.won",
+        "payloadSchema": {
+          "type": "object",
+          "properties": {
+            "length": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 144
+            }
+          },
+          "required": [
+            "length"
+          ],
+          "additionalProperties": false
+        }
+      },
+      {
+        "name": "snake.lost",
+        "payloadSchema": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string",
+              "enum": [
+                "wall",
+                "body"
+              ]
+            }
+          },
+          "required": [
+            "reason"
+          ],
+          "additionalProperties": false
+        }
+      }
+    ],
+    "stateWrites": [
+      "global"
+    ],
+    "lifecycle": [
+      "initialize",
+      "tick",
+      "reset",
+      "dispose"
+    ]
+  },
+  "testSuites": [
+    "SNAKE-001",
+    "SNAKE-002",
+    "SNAKE-003",
+    "SNAKE-004"
+  ]
+}

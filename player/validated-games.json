@@ -406,6 +406,18 @@
       "revision": 1,
       "sha256Jcs": "e44c1b1357d11f076ff20ce0ab8ed2f89359a5f3db076bda5c7eed5deb936917"
     },
+    "/specs/v0.1/games/g41-snake-wide.game.json": {
+      "id": "org.a2game.games.g41-snake-wide",
+      "title": "G41 贪吃蛇 · 5×4",
+      "revision": 1,
+      "sha256Jcs": "d923f1319897ab2c448bd8bc89bb31fd9d24b5945188646fcf24c8b8f3316e62"
+    },
+    "/specs/v0.1/games/g41-snake.game.json": {
+      "id": "org.a2game.games.g41-snake",
+      "title": "G41 贪吃蛇 · 4×4",
+      "revision": 1,
+      "sha256Jcs": "7b3acb5ab16e2d6fa324faa4de42c4c3fc7d7ce6e127081d663accd8a48747c5"
+    },
     "/specs/v0.1/games/gamepad-lab.game.json": {
       "id": "org.a2game.samples.gamepad-lab",
       "title": "手柄扩展与键盘回退",

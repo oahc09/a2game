@@ -1,0 +1,418 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g41-snake-wide",
+  "revision": 1,
+  "meta": {
+    "title": "G41 贪吃蛇 · 5×4",
+    "genres": [
+      "puzzle"
+    ],
+    "description": "用方向键或滑动转向。吃食物增长，达到长度 3 获胜，不可撞墙或撞到身体。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.goal",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.swipe",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.puzzle.snake",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 73,
+      "maxCatchUpTicks": 5
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "main",
+      "entities": [
+        {
+          "id": "board",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.puzzle.snake",
+                "version": "0.1.0"
+              },
+              "config": {
+                "width": 5,
+                "height": 4,
+                "stepTicks": 10,
+                "goalLength": 3,
+                "actions": {
+                  "up": "up",
+                  "right": "right",
+                  "down": "down",
+                  "left": "left"
+                },
+                "statePath": "/snake"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "main",
+  "state": {
+    "snake": {
+      "type": "object",
+      "initial": {
+        "body": [
+          6,
+          5
+        ],
+        "food": [
+          7
+        ],
+        "direction": "right",
+        "turns": [],
+        "nextMoveTick": 9,
+        "eaten": 0,
+        "status": "playing"
+      }
+    }
+  },
+  "inputs": {
+    "actions": [
+      {
+        "id": "up",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "up",
+              "minDistanceNorm": 0.13,
+              "maxDurationUs": 400000
+            }
+          }
+        ]
+      },
+      {
+        "id": "right",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "right",
+              "minDistanceNorm": 0.13,
+              "maxDurationUs": 400000
+            }
+          }
+        ]
+      },
+      {
+        "id": "down",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "down",
+              "minDistanceNorm": 0.13,
+              "maxDurationUs": 400000
+            }
+          }
+        ]
+      },
+      {
+        "id": "left",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft"
+            }
+          },
+          {
+            "source": "touch.swipe",
+            "config": {
+              "direction": "left",
+              "minDistanceNorm": 0.13,
+              "maxDurationUs": 400000
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "won",
+      "status": "won",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/snake/status"
+          },
+          {
+            "const": "won"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lost",
+      "status": "lost",
+      "when": {
+        "op": "eq",
+        "args": [
+          {
+            "state": "/snake/status"
+          },
+          {
+            "const": "lost"
+          }
+        ]
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "status",
+        "kind": "text",
+        "bind": {
+          "text": {
+            "template": "已吃 {0} · {1}",
+            "args": [
+              {
+                "state": "/snake/eaten"
+              },
+              {
+                "state": "/snake/status"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 8,
+      "height": 6,
+      "background": "#101d29",
+      "nodes": [
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            0,
+            2.55
+          ],
+          "fontSize": 0.38,
+          "fill": "#ddf3ee",
+          "text": {
+            "literal": "SNAKE / 5×4"
+          }
+        },
+        {
+          "id": "goal",
+          "kind": "text",
+          "at": [
+            0,
+            2.05
+          ],
+          "fontSize": 0.21,
+          "fill": "#ddf3ee",
+          "text": {
+            "literal": "方向键 / 滑动 • 目标长度 3"
+          }
+        },
+        {
+          "id": "keyboard",
+          "kind": "text",
+          "at": [
+            0,
+            -2.34
+          ],
+          "fontSize": 0.22,
+          "fill": "#ddf3ee",
+          "text": {
+            "literal": "↑ ↓ ← →   /   SWIPE"
+          }
+        }
+      ],
+      "repeat": [
+        {
+          "id": "floor",
+          "source": {
+            "literal": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19
+            ]
+          },
+          "columns": 5,
+          "origin": [
+            -1.44,
+            1.16
+          ],
+          "step": [
+            0.72,
+            0.72
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "fill": "#1a414b",
+              "size": [
+                0.67,
+                0.67
+              ]
+            }
+          ]
+        },
+        {
+          "id": "body",
+          "source": {
+            "state": "/snake/body"
+          },
+          "columns": 5,
+          "origin": [
+            -1.44,
+            1.16
+          ],
+          "step": [
+            0.72,
+            0.72
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "fill": "#6beaab",
+              "size": [
+                0.56,
+                0.56
+              ]
+            }
+          ]
+        },
+        {
+          "id": "food",
+          "source": {
+            "state": "/snake/food"
+          },
+          "columns": 5,
+          "origin": [
+            -1.44,
+            1.16
+          ],
+          "step": [
+            0.72,
+            0.72
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "tile",
+              "kind": "circle",
+              "at": [
+                0,
+                0
+              ],
+              "fill": "#ffb86c",
+              "radius": 0.19
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "tests": [
+    "../tests/g41-snake-wide.conformance.json"
+  ],
+  "extensions": {}
+}
