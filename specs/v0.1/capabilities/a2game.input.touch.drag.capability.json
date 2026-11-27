@@ -16,6 +16,33 @@
           "type": "number",
           "minimum": 0,
           "maximum": 1
+        },
+        "stick": {
+          "type": "object",
+          "description": "Optional independently owned left/right virtual stick. Radius is a fraction of the shorter CSS side; output uses world +Y up. Emits one vector per fixed tick, then neutral once on release/cancel.",
+          "properties": {
+            "zone": {
+              "enum": [
+                "left",
+                "right"
+              ]
+            },
+            "radius": {
+              "type": "number",
+              "minimum": 0.03,
+              "maximum": 0.4
+            },
+            "deadZone": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 0.9
+            }
+          },
+          "required": [
+            "zone",
+            "radius"
+          ],
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

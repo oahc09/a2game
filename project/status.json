@@ -1175,7 +1175,7 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 117,
+    "referenceDemoGames": 120,
     "referenceCapabilityManifests": 135
   },
   "blockingItems": [
@@ -2886,5 +2886,52 @@
       "specs/v0.1/games/g41-snake-wide.game.json"
     ],
     "evidence": "project/evidence/g41-webkit-reference.json"
+  },
+  "g59AimGeometryPreparation": {
+    "status": "PARTIAL",
+    "default": "manhattan",
+    "optIn": "euclidean",
+    "verificationScope": "NODE_MECHANISM_ONLY",
+    "gameplay": "NOT_RUN",
+    "browser": "NOT_RUN",
+    "physicalGamepad": "NOT_RUN"
+  },
+  "g59NativeLayoutPreparation": {
+    "status": "PARTIAL",
+    "ordinaryPlayer": "SUPPORTED",
+    "standalonePlayer": "SUPPORTED",
+    "browserInputSource": "SYNTHETIC_GAMEPAD",
+    "dualTouch": "NOT_RUN",
+    "physicalGamepad": "NOT_RUN"
+  },
+  "g59TouchStickPreparation": {
+    "status": "PARTIAL",
+    "input": "TWO_SYNTHETIC_DOM_POINTERS",
+    "ordinaryAndStandalone": "SUPPORTED",
+    "gameplay": "NOT_RUN",
+    "physicalTouch": "NOT_RUN"
+  },
+  "g59ArenaReference": {
+    "status": "PARTIAL",
+    "layouts": ["g59-neon-arena", "g59-neon-arena-mirror"],
+    "settlement": "SCORE_QUOTA_OR_LOSS",
+    "crossInputFixture": "ENGINEERING_ONLY",
+    "personalBestPersistence": "NOT_IMPLEMENTED",
+    "playerClockExtendedSoak": "NOT_RUN",
+    "physicalTouchAndGamepad": "NOT_RUN"
+  },
+  "g59SurvivalReference": {
+    "status": "PARTIAL",
+    "layout": "g59-neon-survival",
+    "settlement": "SCORE_ON_PILOT_LOSS_ONLY",
+    "schedule": "RECURRING_TICK_SLOTS_NO_BACKLOG",
+    "recordScope": "ORIGIN_AND_EXACT_GAMESPEC",
+    "playerClockExtendedSoak": "PASS_REFERENCE_ORDINARY_SOFTWARE_WEBKIT",
+    "playerClockReceipts": ["project/evidence/g59-survival-soak-air.json", "project/evidence/g59-survival-soak-three.json"],
+    "browserHistoryRecovery": "PASS_REFERENCE_NATIVE_WPE_ORDINARY_AND_STANDALONE",
+    "browserHistoryReceipts": ["project/evidence/g59-history-wpe-baseline.json", "project/evidence/g59-history-wpe.json"],
+    "standaloneExtendedSoak": "NOT_RUN",
+    "independentAuthoring": "NOT_RUN",
+    "physicalInput": "NOT_RUN"
   }
 }

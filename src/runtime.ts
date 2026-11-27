@@ -49,6 +49,7 @@ export class HeadlessRuntime {
     private readonly opts: Required<Pick<HeadlessOptions,'maxEventsPerTick'|'maxEffectsPerTick'|'maxDeferredPerSession'|'maxEntities'|'maxRecordedEvents'>>;
     // Declaration identity, not instance/host identity. Immutable, per Runtime and outside snapshots/hash.
     readonly #realtimeConstraintBindings: readonly Readonly<{capabilityId:string;capabilityVersion:string;statePath:string;configKey:string;targetIds:readonly string[]}>[];
+    readonly #compactSurvivalEvents: boolean;
     private session: Stage;
     private lastError: A2GameError | null = null;
     private disposed = false;
@@ -68,6 +69,10 @@ export class HeadlessRuntime {
                 statePath:String(component.config.statePath),configKey:canonicalJson(component.config),
                 targetIds:Object.freeze(((component.config.constraints??[]) as JsonRecord[]).map(constraint=>String(constraint.body)))})));
 
+        // Survival has no fixed round length. Retain only recent telemetry by
+        // default; callers that explicitly set a hard budget retain that contract.
+        this.#compactSurvivalEvents=options.maxRecordedEvents===undefined&&this.plan.entrySceneEntities.some(entity=>
+            entity.components?.some(component=>component.capability.id==='a2game.realtime.world'&&component.config.survival!==undefined));
         registry.seal();
         this.opts = {
             maxEventsPerTick: options.maxEventsPerTick ?? 4096,
@@ -490,14 +495,16 @@ export class HeadlessRuntime {
                     }
                 }
             }
-            if (history.length + events.length > this.opts.maxRecordedEvents) fail('A2G_E_BUDGET_EXCEEDED','Recorded event limit exceeded');
+            // Retain recent survival telemetry only after this Tick completes successfully.
+            const retainedHistory=this.#compactSurvivalEvents?history.slice(Math.max(0,history.length-Math.max(0,128-events.length))):history;
+            if (retainedHistory.length + events.length > this.opts.maxRecordedEvents) fail('A2G_E_BUDGET_EXCEEDED','Recorded event limit exceeded');
             const recorded=events.map(eventView);
             working.tickIndex=t+1;
             working.rng=tickRng.state();
             this.rng.restore(working.rng);
             // T10: only now publish the complete staged state.
-            history.push(...recorded);
-            working.events=history;
+            retainedHistory.push(...recorded);
+            working.events=retainedHistory;
             this.session=working;
         } catch (error) {
             this.session.status='error'; // preserve all other state from tick boundary

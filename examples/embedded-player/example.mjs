@@ -27,7 +27,9 @@ const player=createA2GamePlayer({backend:$('backend').value,container:$('game'),
  if(event.type==='status'){
   if(event.status!=='paused')lastError='';
   const text=({playing:'进行中',paused:'已暂停；继续后重新按住操作键',won:'挑战完成',lost:'本局结束，可重开',ready:'准备好后开始'})[event.status]??event.status;
-  $('status').textContent=lastError||text;update();
+  const score=event.score,settled=score?.settlement;
+  if(score){$('scoreRecord').hidden=false;$('scoreRecord').textContent=`${score.available?'本机最高':'本页最高'}：${score.best}`;}
+  $('status').textContent=lastError||(settled?`生存结束 · 本局 ${settled.score} 分${settled.newBest?' · 新纪录':''}，可重开`:text);update();
  }
  if(event.type==='error'){lastError=event.message==='A2G_E_CLOCK_STALL'?'运行追帧超限，已暂停；点击继续后重新按住操作键。':'运行失败：'+event.message;$('status').textContent=lastError;update();}
  if(event.type==='disposed'){clearBindings();$('status').textContent=lastError?lastError+'（实例已关闭）':'已销毁';update();}
@@ -73,6 +75,11 @@ window.addEventListener('keydown',event=>{
 window.addEventListener('keyup',event=>{const action=keys.get(event.code);if(!action)return;keys.delete(event.code);player.release(action,'key:'+event.code);},{capture:true});
 const background=()=>{cancelInputs();if(player.status()==='playing')player.pause();};
 window.addEventListener('blur',background);document.addEventListener('visibilitychange',()=>{if(document.hidden)background();});
-window.addEventListener('pagehide',()=>{clearBindings();void player.dispose();},{once:true});
+window.addEventListener('pagehide',event=>{
+ // A history-cached document returns with the same SDK instance and canvas.
+ // Quiesce input and require explicit resume, but don't tear that instance down.
+ if(event.persisted){background();return;}
+ clearBindings();void player.dispose();
+});
 try{const response=await fetch('./game.release.json');if(!response.ok)throw Error('游戏包 HTTP '+response.status);const bundle=await response.json();await player.load(bundle);buildControls();notifyParent('ready',{gameId:bundle.definition.id,revision:bundle.definition.revision});}
 catch(error){$('status').textContent='加载失败：'+error.message;update();notifyParent('load-failed');}

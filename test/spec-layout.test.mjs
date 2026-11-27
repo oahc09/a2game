@@ -16,6 +16,18 @@ const publicContractRevisions={
   "specs/v0.1/capabilities/a2game.puzzle.tray.capability.json": {before: "3a1f42b0a5f39cef09a495e49e14d5c0f3044c021aece78c7d3e5defe688156f", current: "e5b91053e76dae27b353af9d1593b4392c8e6f705bd38fadbc2156ac5f6b7884"},
   "specs/v0.1/capabilities/a2game.realtime.input-control.capability.json": {before: "829fad8bc8992ba893b2e7504a0a064695555d1ae60827922487d085382aa87f", current: "b2fb0d80d46357e97debc2d079c58d5c9a89770150ccbb5c546e1492f6d25515"},
   "specs/v0.1/capabilities/a2game.physics.rigid3d.capability.json": {before: "27993268426195158afb371f4d28b4742f230f3b6930e40cb5da8962627afb13", current: "a39d165d329f48677cbf4a729a37b9204d3c11409ba366e8ceb3273076a91520"},
+  "specs/v0.1/capabilities/a2game.input.gamepad.axis2.capability.json": {
+    "before": "16d9838030931606d977a68d226c63cf8c35750565c2334e6cad3193f2e88d39",
+    "current": "c8e5139bc4d0fb7257bfc223cd4a0912af95c44dd0ca59429bd023e3994bbf0d"
+  },
+  "specs/v0.1/capabilities/a2game.input.gamepad.button.capability.json": {
+    "before": "e5f04204554acc82859eb5b6781cce2a14c88f66a68721bb06393a0c177d70a2",
+    "current": "2a80d45495c17aee1e6102c350a486cf3bd22a49f6e53e58e8d5743298e067dd"
+  },
+  "specs/v0.1/capabilities/a2game.input.touch.drag.capability.json": {
+    "before": "897604edec9605cfa6554ecc4abeac00e0da951f77899991ad2940f7c7000147",
+    "current": "365d2effa12ea20da9acede6ce479e68cfb7da015c5b4c3a5467471672ccfaa1"
+  },
   "specs/v0.1/capabilities/a2game.rules.state-set.capability.json": {
     "before": "d1577ee06290f51848e02d33591008367a3690b2b3ec43654b29014d31db9067",
     "current": "43f5fa30e9eff340d402a57ff005d2ac54037372e6576d66a80af814aa03ae04"
@@ -26,7 +38,7 @@ const publicContractRevisions={
   },
   "specs/v0.1/capabilities/a2game.realtime.world.capability.json": {
     "before": "b0e237589ccd1173649e20377b5f3dd0a7d822a91b9be4aa406a7a6eceb96da6",
-    "current": "761394d2b06925a415d03567f19618cfcd5cbb629f872ab8b2b3c4fee1d00e8f"
+    "current": "225610f85de97502040f6c7c87de045984707ae15002570f34252b9406dae80d"
   },
   "specs/v0.1/capabilities/a2game.strategy.tower-defense.capability.json": {
     "before": "6ae334f9e6fcc4278176750174635c1848ce3fac977eefacfa98ce15806b9859",
@@ -106,7 +118,7 @@ test('HTTP exposes canonical game/capability URLs while keeping protocol tools a
   globalThis.fetch=(url,...args)=>originalFetch(new URL(url,origin+'/player/'),...args);
   const catalog=await loadBuiltinCatalog();assert.equal(catalog.length,read('project/status.json').coverage.referenceDemoGames);assert.ok(catalog.every(c=>c.path.startsWith('/specs/v0.1/games/')));
   assert.ok(catalog.some(c=>c.path==='/specs/v0.1/games/body-motif.game.json'));
-  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g41-snake','g41-snake-wide']){
+  for(const slug of ['g35-minesweeper','g35-minesweeper-wide','g41-snake','g41-snake-wide','g59-neon-arena','g59-neon-arena-mirror','g59-neon-survival']){
    const id='org.a2game.games.'+slug;
    assert.ok(catalog.some(c=>c.id===id&&c.path==='/specs/v0.1/games/'+slug+'.game.json'));
    assert.equal((await loadBuiltinGame(slug)).id,id);

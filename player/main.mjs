@@ -2,6 +2,8 @@ import {measureTextReadability} from './text-readability.mjs';
 import {createFrameMotion,projectPuzzleWaves} from './frame-motion.mjs';
 import {createFeedbackAudio} from './feedback-audio.mjs';
 import {createEventFeedback} from './event-feedback.mjs';
+import {createPointerHost,hasTouchStick} from './pointer-host.mjs';
+import {createSurvivalScore} from './survival-score.mjs';
 import {createGamepadHost} from './gamepad-host.mjs';
 import {createScoreRecord} from './score-record.mjs';
 import {createPuzzleSave} from './tray-save.mjs';
@@ -42,10 +44,10 @@ const ownsNativeKeyboard=e=>e.composedPath().some(node=>node instanceof HTMLElem
 const listen=(target,type,callback,options={})=>target.addEventListener(type,callback,{...options,signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
-let runtime,adapter,definition,resources,raf,resizeRaf,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
+let runtime,records,adapter,definition,resources,raf,resizeRaf,pointerHost,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 function inputTimeUs(){const tick=runtime.tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
 function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
-function pauseSession(){gameplayHeldKeys.clear();feedbackAudio.silence();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
+function pauseSession(){gameplayHeldKeys.clear();feedbackAudio.silence();pointerHost?.stop();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
 function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
 function restartRuntime(){gameplayHeldKeys.clear();runtime.restart();record('restart');}
 const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
@@ -55,12 +57,18 @@ async function createAdapter(mode){
 function observation(){return runtime?.observe(puzzleSave?undefined:{recentEvents:256});}
 function updateInfo(obs){
  puzzleSave?.observe(runtime,obs);
+ const localScore=records?.update(obs),settlement=localScore?.settlement;
  const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
  if(dom.status.dataset.flowStatus!==obs.flow.status){
    dom.status.dataset.flowStatus=obs.flow.status;
    document.getElementById('resultMessage').textContent=({won:'目标已完成。点击「重新开始」再玩一局。',lost:'这次未完成目标。点击「重新开始」重试。',paused:'游戏和计时已暂停。点击「继续」恢复。',stopped:'本局已结束。点击「重新开始」开启新一局。'})[obs.flow.status]??'';
    const result=({won:['已通关','目标已完成'],lost:['本局结束','目标未完成'],stopped:['对局已结束','可以重新开始']})[obs.flow.status];
+   if(settlement&&result){
+     result[0]='生存结束';
+     result[1]=`本局 ${settlement.score} 分 · ${settlement.newBest?'新纪录':'最高'} ${localScore.best} 分`;
+     document.getElementById('resultMessage').textContent=result[1]+'。点击「重新开始」再玩一局。';
+   }
    dom.stageResult.hidden=!result;
    if(result){dom.stageResultTitle.textContent=result[0];dom.stageResultDetail.textContent=result[1];dom.hint.textContent='';}
  }
@@ -68,6 +76,7 @@ function updateInfo(obs){
  const hudLines=projectHudText(definition,obs.state);
  if(scoreRecord){scoreRecord.observe(obs);hudLines.push(scoreRecord.label());}
  dom.score.textContent=hudLines.length?hudLines.join('\n'):Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
+ if(localScore)dom.score.textContent+=`\n${localScore.available?'本机最高':'本页最高'}：${localScore.best}`;
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
@@ -95,7 +104,7 @@ function animate(now){
    if(steps>max){
      // Explicit stall; never silently drop unprocessed simulation ticks.
      pauseSession();carry=0;dom.hint.textContent='运行追帧超限，已暂停；点击「继续」恢复';
-   }else if(steps>0){for(let i=0;i<steps;i++){gamepadHost?.poll();mobileHost?.poll();runtime.step(1);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}carry-=steps/hz;}
+   }else if(steps>0){for(let i=0;i<steps;i++){pointerHost?.checkGeometry();gamepadHost?.poll();mobileHost?.poll();runtime.step(1);if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}carry-=steps/hz;}
  }
  // Manual-clock callers draw after each step/control; idle frames have no new presentation.
  if(contextState==='healthy'&&!manualClock)render();raf=requestAnimationFrame(animate);
@@ -114,6 +123,9 @@ function bindInputs(){
  for(const button of document.querySelectorAll('.pad [data-action]'))button.style.visibility=definition.inputs.actions.some(action=>action.id===button.dataset.action)?'':'hidden';
  if(definition.inputs.actions.some(action=>action.id==='collect')&&!declaredLabel('collect'))document.querySelector('[data-action="collect"]').textContent='收集';
  const canvas=dom.GameCanvas;
+ if(hasTouchStick(definition)){
+  pointerHost=createPointerHost({canvas,getRuntime:()=>runtime,inject:injectRaw,unlock:()=>adapter?.unlockAudio?.(),signal:listeners.signal,geometrySensitive:true});
+ }else{
  const rawPointer=(e,kind)=>{
    if(runtime?.status!=='playing')return;
    const rect=canvas.getBoundingClientRect();
@@ -127,6 +139,7 @@ function bindInputs(){
  listen(canvas,'pointerup',e=>rawPointer(e,'up'));
  listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
  listen(canvas,'lostpointercapture',e=>rawPointer(e,'cancel'));
+ }
  listen(window,'keydown',e=>{
    if(e.defaultPrevented||ownsNativeKeyboard(e)||runtime.status!=='playing')return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
@@ -160,7 +173,7 @@ function bindInputs(){
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
-   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();restartRuntime();mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
+   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();pointerHost?.stop();restartRuntime();mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
  listen(dom.stageRestart,'click',()=>{dom.restart.click();if(runtime.status==='playing')canvas.focus({preventScroll:true});});
  listen(document.getElementById('prepareRestart'),'click',()=>{if(contextState!=='healthy')return;dom.restart.click();if(runtime.status==='playing'){pauseSession();waitingToStart=true;carry=0;ts=0;document.getElementById('readyPanel').hidden=false;render();}});
@@ -227,9 +240,10 @@ async function main(){
    runtime=restored??new HeadlessRuntime(definition,registry);
    if(puzzleSave?.status())dom.hint.textContent=puzzleSave.status();
    if(!manualClock)scoreRecord=createScoreRecord(definition);
+   records=createSurvivalScore(definition,manualClock?{storage:()=>undefined}:undefined);
    traceRecorder=createTraceRecorder(definition,()=>inputSequence++);
    mobileHost=createMobileHost({getRuntime:()=>runtime,inject:injectRaw,onStatus:result=>{document.getElementById('sensorStatus').textContent=result.message;},signal:listeners.signal});
-   gamepadHost=createGamepadHost({inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
+   gamepadHost=createGamepadHost({definition,inject:injectRaw,onStatus:message=>{const status=document.getElementById('gamepadStatus');if(status)status.textContent=message;}});
    if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source.startsWith('gamepad.')))){const control=document.createElement('button'),status=document.createElement('span');control.id='gamepadEnable';control.textContent='启用手柄';status.id='gamepadStatus';status.setAttribute('role','status');listen(control,'click',()=>gamepadHost.enable());document.getElementById('extraActions').append(control,status);}
    const imuDeclared=definition.requires.all.some(ref=>ref.id.startsWith('a2game.input.imu.'));
    document.getElementById('mobilePanel').hidden=!imuDeclared&&definition.inputs.traceRecording!=='user-opt-in';
@@ -240,7 +254,7 @@ async function main(){
    listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
    listen(document.getElementById('sensorStop'),'click',()=>{mobileHost.stop();});
    document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
-   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();restartRuntime();mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
+   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();pointerHost?.stop();restartRuntime();mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
    listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
    listen(document.getElementById('traceExport'),'click',()=>{try{const trace=traceRecorder.export(),url=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=definition.id+'.input-trace.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){document.getElementById('traceStatus').textContent=error.message;}});
    adapter=await createAdapter(backendName);
@@ -252,12 +266,12 @@ async function main(){
      presentation:projectPresentation(definition,runtime.observe())});
    window.__a2game={runtime,definition,dispatch:sendAction,getState:options=>runtime.observe(options),getHash:()=>runtime.observe({recentEvents:0}).exactHash,getSaveStatus:()=>puzzleSave?.status()??'',
      getTextReadability:(options={})=>measureTextReadability(projectPresentation(definition,runtime.observe()),dom.GameCanvas,{referenceCssPx:options.referenceCssPx??16,backend:backendName,adapter}),
-     backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,feedback:{visualEnabled:effectsEnabled,audio:feedbackAudio.diagnostics(),...eventFeedback.diagnostics()},gamepad:gamepadHost.diagnostics(),mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
+     backend:backendName,dispose,getInputTrace:()=>traceRecorder.export(),diagnostics:()=>({contextState,feedback:{visualEnabled:effectsEnabled,audio:feedbackAudio.diagnostics(),...eventFeedback.diagnostics()},gamepad:gamepadHost.diagnostics(),pointer:pointerHost?.diagnostics()??null,mobile:mobileHost.diagnostics(),recording:traceRecorder.diagnostics(),adapter:adapter.diagnostics?.(),resources:resources?.diagnostics(),listenersActive:!listeners.signal.aborted})};
    if(manualClock){
      window.__a2game.getOperations=()=>structuredClone(operations);
      window.__a2game.injectRaw=injectRaw;
      window.__a2game.injectAction=input=>{input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectAction(input);record('action',{input});traceRecorder.action(input,input.tickIndex,input.timeUs);};
-     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
+     window.__a2game.step=ticks=>{if(!Number.isInteger(ticks)||ticks<1||ticks>100000)throw Error('Invalid step budget');let advanced=0;for(let i=0;i<ticks&&runtime.status==='playing';i++){pointerHost?.checkGeometry();gamepadHost.poll();mobileHost.poll();advanced+=runtime.step(1).advanced;if(effectsEnabled||feedbackAudio.diagnostics().enabled)eventFeedback.capture(definition,runtime.observe({recentEvents:256}),{visual:effectsEnabled});}const result={requested:ticks,advanced,status:runtime.status};record('step',{ticks});if(contextState==='healthy')render();return result;};
      window.__a2game.recreateAdapter=async()=>{await adapter.dispose();adapter=await createAdapter(backendName);render();};
      window.advanceTime=ms=>{
        if(!Number.isFinite(ms)||ms<0)throw Error('Invalid advanceTime');
@@ -268,7 +282,17 @@ async function main(){
    }
  }catch(e){try{await dispose();}catch(cleanup){console.error(cleanup);}showError(e);}
 }
-window.addEventListener('pagehide',()=>{void dispose().catch(e=>console.error(e));},{once:true});
+listen(window,'pagehide',event=>{
+ if(!event.persisted){void dispose().catch(e=>console.error(e));return;}
+ // Back/Forward restores this document, not a new boot. Keep the renderer and
+ // release alive, clear controls, and leave starting/resuming to the player.
+ carry=0;ts=0;
+ if(runtime?.status==='playing'){
+   pauseSession();adapter?.pauseAudio?.();record('pause');render();
+ }else{
+   pointerHost?.stop();gamepadHost?.stop();mobileHost?.stop();
+ }
+});
 const exportButton=document.getElementById('exportGame');exportButton.disabled=staticDelivery||!releaseId;
 exportButton.addEventListener('click',async()=>{
  try{

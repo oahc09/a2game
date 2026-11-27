@@ -36,6 +36,21 @@
           "type": "number",
           "minimum": 0,
           "maximum": 0.9
+        },
+        "deadZoneMode": {
+          "const": "radial"
+        },
+        "mapping": {
+          "const": "standard",
+          "description": "Opt in to browser standard-mapping admission for this device index at the native host. All gamepad bindings for that index must agree. Normalized trace packets do not attest device layout."
+        },
+        "invertY": {
+          "type": "boolean",
+          "description": "Optional Y sign inversion after dead-zone filtering. For standard sticks, true converts browser negative-up axes to world positive-up. Default false."
+        },
+        "repeat": {
+          "type": "boolean",
+          "description": "Opt in to one current vector at every fixed Tick while connected; neutral after a zero sample, no live vector on disconnect or resume until fresh input."
         }
       },
       "required": [

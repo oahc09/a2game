@@ -418,6 +418,24 @@
       "revision": 1,
       "sha256Jcs": "7b3acb5ab16e2d6fa324faa4de42c4c3fc7d7ce6e127081d663accd8a48747c5"
     },
+    "/specs/v0.1/games/g59-neon-arena-mirror.game.json": {
+      "id": "org.a2game.games.g59-neon-arena-mirror",
+      "title": "霓虹回路 · 镜像回廊",
+      "revision": 1,
+      "sha256Jcs": "be44b3e5f46bc5b0c2833b4fa3d6a9885a67f24c248df9666519d209168a25c3"
+    },
+    "/specs/v0.1/games/g59-neon-arena.game.json": {
+      "id": "org.a2game.games.g59-neon-arena",
+      "title": "霓虹回路 · 双摇杆试炼",
+      "revision": 1,
+      "sha256Jcs": "ddea18b51f377c897c575d10a680eb8feca9e8bee649e7a7069e80c8d6f66d9c"
+    },
+    "/specs/v0.1/games/g59-neon-survival.game.json": {
+      "id": "org.a2game.games.g59-neon-survival",
+      "title": "霓虹回路 · 生存得分",
+      "revision": 1,
+      "sha256Jcs": "c3224c66e0c9f4093f090e5e99e2e4dda9463a4a10c7e0425870e4594cfa9bce"
+    },
     "/specs/v0.1/games/gamepad-lab.game.json": {
       "id": "org.a2game.samples.gamepad-lab",
       "title": "手柄扩展与键盘回退",

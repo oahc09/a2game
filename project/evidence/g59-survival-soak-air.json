@@ -1,0 +1,162 @@
+{
+  "format": "a2game-survival-browser-soak",
+  "version": 1,
+  "sourceCommit": "d05a7f8ab0ecdbb4a77a8177ff97fa37bdcffe4a",
+  "harnessCommit": "26e024b1c673f16fa0b62656b3e61792bd08431a",
+  "scope": "CocosAirJS ordinary player, actual rAF duration with synthetic standard Gamepad, not physical or verified independent Agent",
+  "gameSpecSha256": "c1c4e34a9a237d13fb99d28a209a03a2cfe24221c1ae1322304e38cbc270b289",
+  "sdk": {
+    "air": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "three": "0.186.1",
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "harnessSha256": "41708511c304ea06b75add8f4c36618f8800622ad75d035cbd367d023d8f06c5",
+  "originalLogSha256": "b581b3cd4ea5071cbe9616c452c029bfcccf5435cc4ecb18069725377a95f748",
+  "previousIncompleteAttempts": [
+    "pilot lost normally at tick 21634 in strict single-round run",
+    "managed environment restarted during a later operating run; not counted"
+  ],
+  "terminalAndReloadVerified": true,
+  "run": {
+    "lane": "air",
+    "seconds": 1800,
+    "mode": "rounds",
+    "browser": "27.2",
+    "launcher": "run-webkit-local-deps.sh",
+    "clock": "actual-rAF",
+    "gameSha256": "c1c4e34a9a237d13fb99d28a209a03a2cfe24221c1ae1322304e38cbc270b289",
+    "sdk": {
+      "air": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+      "three": "0.186.1",
+      "files": [
+        {
+          "path": "player/vendor/three.module.js",
+          "sourceEntry": "build/three.module.js",
+          "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+        },
+        {
+          "path": "player/vendor/three.core.js",
+          "sourceEntry": "build/three.core.js",
+          "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+        },
+        {
+          "path": "player/vendor/cocosair.js",
+          "sourceEntry": "build/cocosair.module.js",
+          "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+        }
+      ]
+    },
+    "input": "synthetic-standard-gamepad",
+    "startedAt": "2026-11-25T23:50:28.960Z"
+  },
+  "finalActiveSample": {
+    "elapsedMs": 1800008,
+    "status": "playing",
+    "ticks": 107999,
+    "score": 21590,
+    "hp": 3,
+    "active": true,
+    "nextTick": 108001,
+    "peakBodies": 9,
+    "peakEvents": 128,
+    "frames": 108412,
+    "first": 1910,
+    "last": 1801903,
+    "maxFrameMs": 85,
+    "hint": "已开始",
+    "totalTicks": 107999,
+    "errors": []
+  },
+  "outcome": {
+    "result": "PASS",
+    "lane": "air",
+    "mode": "rounds",
+    "settlement": {
+      "tick": 108134,
+      "score": 21590,
+      "lossEvents": 1
+    },
+    "roundCount": 1,
+    "bestScore": 21590
+  },
+  "samples": [
+    {"elapsedMs":0,"status":"playing","ticks":0,"score":0,"hp":3,"active":true,"nextTick":6,"peakBodies":3,"peakEvents":0,"frames":1,"first":1910,"last":1910,"maxFrameMs":0,"hint":"已开始","totalTicks":0,"errors":[]},
+    {"elapsedMs":30272,"status":"playing","ticks":1816,"score":350,"hp":3,"active":true,"nextTick":1817,"peakBodies":8,"peakEvents":128,"frames":1659,"first":1910,"last":32181,"maxFrameMs":56,"hint":"已开始","totalTicks":1816,"errors":[]},
+    {"elapsedMs":60477,"status":"playing","ticks":3627,"score":710,"hp":3,"active":true,"nextTick":3628,"peakBodies":8,"peakEvents":128,"frames":3421,"first":1910,"last":62375,"maxFrameMs":56,"hint":"已开始","totalTicks":3627,"errors":[]},
+    {"elapsedMs":90726,"status":"playing","ticks":5443,"score":1070,"hp":3,"active":true,"nextTick":5447,"peakBodies":8,"peakEvents":128,"frames":5236,"first":1910,"last":92631,"maxFrameMs":56,"hint":"已开始","totalTicks":5443,"errors":[]},
+    {"elapsedMs":120957,"status":"playing","ticks":7256,"score":1430,"hp":3,"active":true,"nextTick":7256,"peakBodies":8,"peakEvents":128,"frames":7029,"first":1910,"last":122852,"maxFrameMs":56,"hint":"已开始","totalTicks":7256,"errors":[]},
+    {"elapsedMs":151152,"status":"playing","ticks":9068,"score":1810,"hp":3,"active":true,"nextTick":9071,"peakBodies":8,"peakEvents":128,"frames":8841,"first":1910,"last":153058,"maxFrameMs":56,"hint":"已开始","totalTicks":9068,"errors":[]},
+    {"elapsedMs":181407,"status":"playing","ticks":10884,"score":2160,"hp":3,"active":true,"nextTick":10886,"peakBodies":8,"peakEvents":128,"frames":10553,"first":1910,"last":183312,"maxFrameMs":71,"hint":"已开始","totalTicks":10884,"errors":[]},
+    {"elapsedMs":211601,"status":"playing","ticks":12695,"score":2530,"hp":3,"active":true,"nextTick":12699,"peakBodies":8,"peakEvents":128,"frames":12388,"first":1910,"last":213503,"maxFrameMs":71,"hint":"已开始","totalTicks":12695,"errors":[]},
+    {"elapsedMs":241836,"status":"playing","ticks":14509,"score":2890,"hp":3,"active":true,"nextTick":14511,"peakBodies":8,"peakEvents":128,"frames":14205,"first":1910,"last":243731,"maxFrameMs":71,"hint":"已开始","totalTicks":14509,"errors":[]},
+    {"elapsedMs":272065,"status":"playing","ticks":16323,"score":3250,"hp":3,"active":true,"nextTick":16326,"peakBodies":8,"peakEvents":128,"frames":16029,"first":1910,"last":273970,"maxFrameMs":71,"hint":"已开始","totalTicks":16323,"errors":[]},
+    {"elapsedMs":302287,"status":"playing","ticks":18137,"score":3610,"hp":3,"active":true,"nextTick":18139,"peakBodies":8,"peakEvents":128,"frames":17859,"first":1910,"last":304195,"maxFrameMs":71,"hint":"已开始","totalTicks":18137,"errors":[]},
+    {"elapsedMs":332505,"status":"playing","ticks":19950,"score":3970,"hp":3,"active":true,"nextTick":19955,"peakBodies":8,"peakEvents":128,"frames":19705,"first":1910,"last":334415,"maxFrameMs":71,"hint":"已开始","totalTicks":19950,"errors":[]},
+    {"elapsedMs":362717,"status":"playing","ticks":21762,"score":4350,"hp":3,"active":true,"nextTick":21762,"peakBodies":8,"peakEvents":128,"frames":21517,"first":1910,"last":364612,"maxFrameMs":71,"hint":"已开始","totalTicks":21762,"errors":[]},
+    {"elapsedMs":392903,"status":"playing","ticks":23573,"score":4710,"hp":3,"active":true,"nextTick":23575,"peakBodies":8,"peakEvents":128,"frames":23332,"first":1910,"last":394797,"maxFrameMs":71,"hint":"已开始","totalTicks":23573,"errors":[]},
+    {"elapsedMs":423119,"status":"playing","ticks":25386,"score":5070,"hp":3,"active":true,"nextTick":25389,"peakBodies":8,"peakEvents":128,"frames":25180,"first":1910,"last":425016,"maxFrameMs":71,"hint":"已开始","totalTicks":25386,"errors":[]},
+    {"elapsedMs":453291,"status":"playing","ticks":27196,"score":5430,"hp":3,"active":true,"nextTick":27197,"peakBodies":8,"peakEvents":128,"frames":26993,"first":1910,"last":455193,"maxFrameMs":71,"hint":"已开始","totalTicks":27196,"errors":[]},
+    {"elapsedMs":483484,"status":"playing","ticks":29008,"score":5790,"hp":3,"active":true,"nextTick":29013,"peakBodies":8,"peakEvents":128,"frames":28811,"first":1910,"last":485381,"maxFrameMs":71,"hint":"已开始","totalTicks":29008,"errors":[]},
+    {"elapsedMs":513700,"status":"playing","ticks":30821,"score":6150,"hp":3,"active":true,"nextTick":30823,"peakBodies":8,"peakEvents":128,"frames":30636,"first":1910,"last":515606,"maxFrameMs":71,"hint":"已开始","totalTicks":30821,"errors":[]},
+    {"elapsedMs":543918,"status":"playing","ticks":32634,"score":6510,"hp":3,"active":true,"nextTick":32636,"peakBodies":8,"peakEvents":128,"frames":32483,"first":1910,"last":545815,"maxFrameMs":71,"hint":"已开始","totalTicks":32634,"errors":[]},
+    {"elapsedMs":574123,"status":"playing","ticks":34446,"score":6870,"hp":3,"active":true,"nextTick":34450,"peakBodies":8,"peakEvents":128,"frames":34304,"first":1910,"last":576022,"maxFrameMs":71,"hint":"已开始","totalTicks":34446,"errors":[]},
+    {"elapsedMs":604321,"status":"playing","ticks":36258,"score":7240,"hp":3,"active":true,"nextTick":36262,"peakBodies":8,"peakEvents":128,"frames":36123,"first":1910,"last":606215,"maxFrameMs":71,"hint":"已开始","totalTicks":36258,"errors":[]},
+    {"elapsedMs":634528,"status":"playing","ticks":38071,"score":7600,"hp":3,"active":true,"nextTick":38075,"peakBodies":8,"peakEvents":128,"frames":37939,"first":1910,"last":636438,"maxFrameMs":71,"hint":"已开始","totalTicks":38071,"errors":[]},
+    {"elapsedMs":664727,"status":"playing","ticks":39883,"score":7960,"hp":3,"active":true,"nextTick":39886,"peakBodies":8,"peakEvents":128,"frames":39741,"first":1910,"last":666629,"maxFrameMs":71,"hint":"已开始","totalTicks":39883,"errors":[]},
+    {"elapsedMs":694938,"status":"playing","ticks":41696,"score":8330,"hp":3,"active":true,"nextTick":41696,"peakBodies":8,"peakEvents":128,"frames":41587,"first":1910,"last":696848,"maxFrameMs":71,"hint":"已开始","totalTicks":41696,"errors":[]},
+    {"elapsedMs":725129,"status":"playing","ticks":43507,"score":8690,"hp":3,"active":true,"nextTick":43508,"peakBodies":8,"peakEvents":128,"frames":43423,"first":1910,"last":727029,"maxFrameMs":71,"hint":"已开始","totalTicks":43507,"errors":[]},
+    {"elapsedMs":755340,"status":"playing","ticks":45320,"score":9050,"hp":3,"active":true,"nextTick":45320,"peakBodies":8,"peakEvents":128,"frames":45266,"first":1910,"last":757250,"maxFrameMs":71,"hint":"已开始","totalTicks":45320,"errors":[]},
+    {"elapsedMs":785533,"status":"playing","ticks":47131,"score":9410,"hp":3,"active":true,"nextTick":47131,"peakBodies":8,"peakEvents":128,"frames":47094,"first":1910,"last":787429,"maxFrameMs":71,"hint":"已开始","totalTicks":47131,"errors":[]},
+    {"elapsedMs":815721,"status":"playing","ticks":48942,"score":9770,"hp":3,"active":true,"nextTick":48944,"peakBodies":8,"peakEvents":128,"frames":48936,"first":1910,"last":817616,"maxFrameMs":71,"hint":"已开始","totalTicks":48942,"errors":[]},
+    {"elapsedMs":845908,"status":"playing","ticks":50754,"score":10130,"hp":3,"active":true,"nextTick":50754,"peakBodies":8,"peakEvents":128,"frames":50761,"first":1910,"last":847813,"maxFrameMs":71,"hint":"已开始","totalTicks":50754,"errors":[]},
+    {"elapsedMs":876103,"status":"playing","ticks":52566,"score":10490,"hp":3,"active":true,"nextTick":52568,"peakBodies":8,"peakEvents":128,"frames":52591,"first":1910,"last":878010,"maxFrameMs":71,"hint":"已开始","totalTicks":52566,"errors":[]},
+    {"elapsedMs":906332,"status":"playing","ticks":54379,"score":10870,"hp":3,"active":true,"nextTick":54380,"peakBodies":8,"peakEvents":128,"frames":54429,"first":1910,"last":908236,"maxFrameMs":71,"hint":"已开始","totalTicks":54379,"errors":[]},
+    {"elapsedMs":936523,"status":"playing","ticks":56191,"score":11230,"hp":3,"active":true,"nextTick":56194,"peakBodies":8,"peakEvents":128,"frames":56262,"first":1910,"last":938432,"maxFrameMs":71,"hint":"已开始","totalTicks":56191,"errors":[]},
+    {"elapsedMs":966745,"status":"playing","ticks":58004,"score":11590,"hp":3,"active":true,"nextTick":58008,"peakBodies":8,"peakEvents":128,"frames":58079,"first":1910,"last":968647,"maxFrameMs":71,"hint":"已开始","totalTicks":58004,"errors":[]},
+    {"elapsedMs":996945,"status":"playing","ticks":59816,"score":11950,"hp":3,"active":true,"nextTick":59820,"peakBodies":9,"peakEvents":128,"frames":59841,"first":1910,"last":998854,"maxFrameMs":85,"hint":"已开始","totalTicks":59816,"errors":[]},
+    {"elapsedMs":1027123,"status":"playing","ticks":61626,"score":12310,"hp":3,"active":true,"nextTick":61626,"peakBodies":9,"peakEvents":128,"frames":61646,"first":1910,"last":1029020,"maxFrameMs":85,"hint":"已开始","totalTicks":61626,"errors":[]},
+    {"elapsedMs":1057319,"status":"playing","ticks":63439,"score":12670,"hp":3,"active":true,"nextTick":63443,"peakBodies":9,"peakEvents":128,"frames":63477,"first":1910,"last":1059228,"maxFrameMs":85,"hint":"已开始","totalTicks":63439,"errors":[]},
+    {"elapsedMs":1087525,"status":"playing","ticks":65251,"score":13040,"hp":3,"active":true,"nextTick":65254,"peakBodies":9,"peakEvents":128,"frames":65292,"first":1910,"last":1089434,"maxFrameMs":85,"hint":"已开始","totalTicks":65251,"errors":[]},
+    {"elapsedMs":1117741,"status":"playing","ticks":67063,"score":13400,"hp":3,"active":true,"nextTick":67065,"peakBodies":9,"peakEvents":128,"frames":67119,"first":1910,"last":1119640,"maxFrameMs":85,"hint":"已开始","totalTicks":67063,"errors":[]},
+    {"elapsedMs":1147943,"status":"playing","ticks":68875,"score":13760,"hp":3,"active":true,"nextTick":68878,"peakBodies":9,"peakEvents":128,"frames":68954,"first":1910,"last":1149838,"maxFrameMs":85,"hint":"已开始","totalTicks":68875,"errors":[]},
+    {"elapsedMs":1178156,"status":"playing","ticks":70688,"score":14130,"hp":3,"active":true,"nextTick":70688,"peakBodies":9,"peakEvents":128,"frames":70765,"first":1910,"last":1180054,"maxFrameMs":85,"hint":"已开始","totalTicks":70688,"errors":[]},
+    {"elapsedMs":1208344,"status":"playing","ticks":72499,"score":14490,"hp":3,"active":true,"nextTick":72500,"peakBodies":9,"peakEvents":128,"frames":72592,"first":1910,"last":1210240,"maxFrameMs":85,"hint":"已开始","totalTicks":72499,"errors":[]},
+    {"elapsedMs":1238540,"status":"playing","ticks":74312,"score":14850,"hp":3,"active":true,"nextTick":74317,"peakBodies":9,"peakEvents":128,"frames":74408,"first":1910,"last":1240448,"maxFrameMs":85,"hint":"已开始","totalTicks":74312,"errors":[]},
+    {"elapsedMs":1268785,"status":"playing","ticks":76126,"score":15210,"hp":3,"active":true,"nextTick":76128,"peakBodies":9,"peakEvents":128,"frames":76225,"first":1910,"last":1270680,"maxFrameMs":85,"hint":"已开始","totalTicks":76126,"errors":[]},
+    {"elapsedMs":1298998,"status":"playing","ticks":77938,"score":15570,"hp":3,"active":true,"nextTick":77941,"peakBodies":9,"peakEvents":128,"frames":78046,"first":1910,"last":1300891,"maxFrameMs":85,"hint":"已开始","totalTicks":77938,"errors":[]},
+    {"elapsedMs":1329221,"status":"playing","ticks":79753,"score":15930,"hp":3,"active":true,"nextTick":79758,"peakBodies":9,"peakEvents":128,"frames":79850,"first":1910,"last":1331130,"maxFrameMs":85,"hint":"已开始","totalTicks":79753,"errors":[]},
+    {"elapsedMs":1359433,"status":"playing","ticks":81565,"score":16290,"hp":3,"active":true,"nextTick":81569,"peakBodies":9,"peakEvents":128,"frames":81701,"first":1910,"last":1361336,"maxFrameMs":85,"hint":"已开始","totalTicks":81565,"errors":[]},
+    {"elapsedMs":1389647,"status":"playing","ticks":83378,"score":16670,"hp":3,"active":true,"nextTick":83378,"peakBodies":9,"peakEvents":128,"frames":83497,"first":1910,"last":1391554,"maxFrameMs":85,"hint":"已开始","totalTicks":83378,"errors":[]},
+    {"elapsedMs":1419893,"status":"playing","ticks":85193,"score":17030,"hp":3,"active":true,"nextTick":85193,"peakBodies":9,"peakEvents":128,"frames":85356,"first":1910,"last":1421801,"maxFrameMs":85,"hint":"已开始","totalTicks":85193,"errors":[]},
+    {"elapsedMs":1450096,"status":"playing","ticks":87005,"score":17390,"hp":3,"active":true,"nextTick":87008,"peakBodies":9,"peakEvents":128,"frames":87191,"first":1910,"last":1451999,"maxFrameMs":85,"hint":"已开始","totalTicks":87005,"errors":[]},
+    {"elapsedMs":1480319,"status":"playing","ticks":88818,"score":17750,"hp":3,"active":true,"nextTick":88819,"peakBodies":9,"peakEvents":128,"frames":89016,"first":1910,"last":1482225,"maxFrameMs":85,"hint":"已开始","totalTicks":88818,"errors":[]},
+    {"elapsedMs":1510504,"status":"playing","ticks":90629,"score":18110,"hp":3,"active":true,"nextTick":90634,"peakBodies":9,"peakEvents":128,"frames":90850,"first":1910,"last":1512406,"maxFrameMs":85,"hint":"已开始","totalTicks":90629,"errors":[]},
+    {"elapsedMs":1540701,"status":"playing","ticks":92442,"score":18470,"hp":3,"active":true,"nextTick":92443,"peakBodies":9,"peakEvents":128,"frames":92697,"first":1910,"last":1542611,"maxFrameMs":85,"hint":"已开始","totalTicks":92442,"errors":[]},
+    {"elapsedMs":1570891,"status":"playing","ticks":94253,"score":18840,"hp":3,"active":true,"nextTick":94255,"peakBodies":9,"peakEvents":128,"frames":94517,"first":1910,"last":1572798,"maxFrameMs":85,"hint":"已开始","totalTicks":94253,"errors":[]},
+    {"elapsedMs":1601103,"status":"playing","ticks":96066,"score":19200,"hp":3,"active":true,"nextTick":96068,"peakBodies":9,"peakEvents":128,"frames":96360,"first":1910,"last":1603011,"maxFrameMs":85,"hint":"已开始","totalTicks":96066,"errors":[]},
+    {"elapsedMs":1631303,"status":"playing","ticks":97878,"score":19560,"hp":3,"active":true,"nextTick":97878,"peakBodies":9,"peakEvents":128,"frames":98215,"first":1910,"last":1633212,"maxFrameMs":85,"hint":"已开始","totalTicks":97878,"errors":[]},
+    {"elapsedMs":1661493,"status":"playing","ticks":99689,"score":19930,"hp":3,"active":true,"nextTick":99691,"peakBodies":9,"peakEvents":128,"frames":100055,"first":1910,"last":1663402,"maxFrameMs":85,"hint":"已开始","totalTicks":99689,"errors":[]},
+    {"elapsedMs":1691672,"status":"playing","ticks":101500,"score":20290,"hp":3,"active":true,"nextTick":101502,"peakBodies":9,"peakEvents":128,"frames":101898,"first":1910,"last":1693581,"maxFrameMs":85,"hint":"已开始","totalTicks":101500,"errors":[]},
+    {"elapsedMs":1721873,"status":"playing","ticks":103312,"score":20650,"hp":3,"active":true,"nextTick":103312,"peakBodies":9,"peakEvents":128,"frames":103747,"first":1910,"last":1723781,"maxFrameMs":85,"hint":"已开始","totalTicks":103312,"errors":[]},
+    {"elapsedMs":1752071,"status":"playing","ticks":105123,"score":21010,"hp":3,"active":true,"nextTick":105128,"peakBodies":9,"peakEvents":128,"frames":105547,"first":1910,"last":1753969,"maxFrameMs":85,"hint":"已开始","totalTicks":105123,"errors":[]},
+    {"elapsedMs":1782285,"status":"playing","ticks":106936,"score":21370,"hp":3,"active":true,"nextTick":106937,"peakBodies":9,"peakEvents":128,"frames":107333,"first":1910,"last":1784185,"maxFrameMs":85,"hint":"已开始","totalTicks":106936,"errors":[]},
+    {"elapsedMs":1800008,"status":"playing","ticks":107999,"score":21590,"hp":3,"active":true,"nextTick":108001,"peakBodies":9,"peakEvents":128,"frames":108412,"first":1910,"last":1801903,"maxFrameMs":85,"hint":"已开始","totalTicks":107999,"errors":[]}
+  ],
+  "interimLosses": []
+}
