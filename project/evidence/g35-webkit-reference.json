@@ -1,0 +1,324 @@
+{
+  "format": "a2game-g35-browser-reference",
+  "version": 1,
+  "status": "PASS_REFERENCE",
+  "scope": "TARGETED_HOST_AUTHORED_SOFTWARE_ENGINEERING",
+  "baseCommit": "7ce4514ffcaeb2a4e9415875c74b2aa5f7cd43b0",
+  "node": "v24.22.3",
+  "playwright": "1.64.1",
+  "harnessSha256": "f6954093d72012d9697f330d0d95d08ce0bc6865ef6ddaa996fc43a3c21dce91",
+  "sourceFingerprintsSha256": "8f2bfec0813ab3789267f38f30edcddd49114bbb1352f598b91303ffb904e241",
+  "fullLocalSummarySha256": "ee53cdf740a0474d69c0d3633423366f450e3f9c574071d59f91ce2b971cdfe7",
+  "definitions": [
+    {
+      "id": "org.a2game.games.g35-minesweeper",
+      "gameSha256": "7334ca2a4efa0043ea82395259ff9b6bcbee6906fc81b3d2c20da3e2d77db95e",
+      "normalizedSha256": "e44c1b1357d11f076ff20ce0ab8ed2f89359a5f3db076bda5c7eed5deb936917",
+      "receipt": "e44c1b1357d11f076ff20ce0ab8ed2f89359a5f3db076bda5c7eed5deb936917",
+      "bundleDigest": "e042be660c3d9803c88537efb91543a9b25b89ed42eea97b3ddb850e97d741ab",
+      "inventorySha256": "b5f61e2e8fc23b9b1842cd8b36c9b1d3072b909d248115202c8cc31885131e3b",
+      "files": 267
+    },
+    {
+      "id": "org.a2game.games.g35-minesweeper-wide",
+      "gameSha256": "345d6fd223926a20acafb68a62684de658f7a1bac2e46e14d7d5d060d31f3bc3",
+      "normalizedSha256": "d649686f2d7c8cdbda798c17de6f7f07b00933fe929076875cb05895f0dd5d65",
+      "receipt": "d649686f2d7c8cdbda798c17de6f7f07b00933fe929076875cb05895f0dd5d65",
+      "bundleDigest": "2ef5e9fabd3c8952129a4b229414e9a14d964013a35c3b2f579e4fa5e68181b3",
+      "inventorySha256": "784db6d0055ff6ab647bc37301777fee0f921395cc141d666c5cdc52daeb91a5",
+      "files": 267
+    }
+  ],
+  "browsers": [
+    {
+      "engine": "webkit",
+      "version": "27.2",
+      "selection": "EXPLICIT_LOCAL_EXECUTABLE",
+      "executableSha256": "f1a1bd496692830b9d787075ad68841ed5c1c0932bef5b42429b66e10638353f"
+    }
+  ],
+  "cases": [
+    {
+      "game": "org.a2game.games.g35-minesweeper",
+      "engine": "webkit",
+      "backend": "cocosairjs",
+      "status": "PASS_REFERENCE",
+      "ordinaryPlayerCheckpoints": [
+        {
+          "label": "initial",
+          "hash": "4dccde8fe51661fd3b0b640c3859dd9ae6cad2123948f5d29597027c2e56f083",
+          "inputSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "label": "keyboard flag mode",
+          "hash": "cae75491cd6959edf0305e65ba2c1178be2d31c9a1fa44d3ee5390e78681a56a",
+          "inputSha256": "9e03037e393e9b7b10a3e039a34f367aed65027432d113f37f0334e0372ff660"
+        },
+        {
+          "label": "pointer flag",
+          "hash": "784e31139b3d4255d30df25fe6b425c093f1b6d8e060b0579f6b7fd761257207",
+          "inputSha256": "92ecc463d5296d7f40492e8b97b7ed2e94b2f2a9cedfe26c37d039caa212ed92"
+        },
+        {
+          "label": "pointer unflag",
+          "hash": "ed9b8495eacdf441374c887aa099b5a5b0923fc2e1e98e8995654396a4e6719d",
+          "inputSha256": "78c0f131d95f75e85c4363dd4dbd89d3a211c26a9473a4b8b67a08d1bc901fed"
+        },
+        {
+          "label": "keyboard reveal mode",
+          "hash": "611bea1d09de04eb20bc00bd77876f2aaea66396910b961198232caeb35992f8",
+          "inputSha256": "05178ba25e2b8440f8e59df934682447b62dfe7b3e7c33e9376dbbfd18998a4b"
+        },
+        {
+          "label": "safe first reveal",
+          "hash": "77854ca6cd75d86cb65a6a4238fcb8b498570781242cadf6df73ae7b09cdd5aa",
+          "inputSha256": "549ac9b1863a92acf4093aa9962dc84140c8bc3fd40100e8729d438234fbde92"
+        },
+        {
+          "label": "mine loses",
+          "hash": "16dfa4b093fda6ca0efd64c0326490f627dd22dac4e0ed2de4e12c94bde28a5a",
+          "inputSha256": "deea9617f7270239ce6ab0a46bf2f32a49ff808f1b336627589a387f6bf657a7"
+        },
+        {
+          "label": "restart restores initial hash",
+          "hash": "4dccde8fe51661fd3b0b640c3859dd9ae6cad2123948f5d29597027c2e56f083",
+          "inputSha256": "11b6e328fd4b0db7405b3372cdde4d0afc14917ea1ccd298caaca2ce64b1ece1"
+        },
+        {
+          "label": "all safe won",
+          "hash": "d7bb76c30b5e94c1b22f5c309ea82e40d163be5c9ec8e84da8e49d39cccb8aec",
+          "inputSha256": "bdf4545f24ef2cdda29c1173dce39efcf05fa79e7bb970f25e569e798e316a3c"
+        }
+      ],
+      "standalone": {
+        "status": "WON_THEN_DISPOSED",
+        "dimensions": {
+          "width": 364,
+          "height": 403
+        },
+        "disposed": true,
+        "finishedResources": 0,
+        "pointerListenersActive": false,
+        "captureSha256": {
+          "ready": "63565ae1e2e5fe782bf41ddfdfef87b3c90b1a2ddafb04ad95c51723aae9c2be",
+          "flag": "d7394950f984f6eda2525a2008a08577a11db4fa4ef99c521732d6d836480d07",
+          "lost": "40516bb95140d05c180001fe51c156b68858e632a65ff62e8f13c7f8300b976b",
+          "won": "4650fae70466d2e37db03eeb4b5ec7ae4d20c870ead61458900dbdbaa9446e6e"
+        }
+      }
+    },
+    {
+      "game": "org.a2game.games.g35-minesweeper",
+      "engine": "webkit",
+      "backend": "three",
+      "status": "PASS_REFERENCE",
+      "ordinaryPlayerCheckpoints": [
+        {
+          "label": "initial",
+          "hash": "4dccde8fe51661fd3b0b640c3859dd9ae6cad2123948f5d29597027c2e56f083",
+          "inputSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "label": "keyboard flag mode",
+          "hash": "cae75491cd6959edf0305e65ba2c1178be2d31c9a1fa44d3ee5390e78681a56a",
+          "inputSha256": "9e03037e393e9b7b10a3e039a34f367aed65027432d113f37f0334e0372ff660"
+        },
+        {
+          "label": "pointer flag",
+          "hash": "784e31139b3d4255d30df25fe6b425c093f1b6d8e060b0579f6b7fd761257207",
+          "inputSha256": "92ecc463d5296d7f40492e8b97b7ed2e94b2f2a9cedfe26c37d039caa212ed92"
+        },
+        {
+          "label": "pointer unflag",
+          "hash": "ed9b8495eacdf441374c887aa099b5a5b0923fc2e1e98e8995654396a4e6719d",
+          "inputSha256": "78c0f131d95f75e85c4363dd4dbd89d3a211c26a9473a4b8b67a08d1bc901fed"
+        },
+        {
+          "label": "keyboard reveal mode",
+          "hash": "611bea1d09de04eb20bc00bd77876f2aaea66396910b961198232caeb35992f8",
+          "inputSha256": "05178ba25e2b8440f8e59df934682447b62dfe7b3e7c33e9376dbbfd18998a4b"
+        },
+        {
+          "label": "safe first reveal",
+          "hash": "77854ca6cd75d86cb65a6a4238fcb8b498570781242cadf6df73ae7b09cdd5aa",
+          "inputSha256": "549ac9b1863a92acf4093aa9962dc84140c8bc3fd40100e8729d438234fbde92"
+        },
+        {
+          "label": "mine loses",
+          "hash": "16dfa4b093fda6ca0efd64c0326490f627dd22dac4e0ed2de4e12c94bde28a5a",
+          "inputSha256": "deea9617f7270239ce6ab0a46bf2f32a49ff808f1b336627589a387f6bf657a7"
+        },
+        {
+          "label": "restart restores initial hash",
+          "hash": "4dccde8fe51661fd3b0b640c3859dd9ae6cad2123948f5d29597027c2e56f083",
+          "inputSha256": "11b6e328fd4b0db7405b3372cdde4d0afc14917ea1ccd298caaca2ce64b1ece1"
+        },
+        {
+          "label": "all safe won",
+          "hash": "d7bb76c30b5e94c1b22f5c309ea82e40d163be5c9ec8e84da8e49d39cccb8aec",
+          "inputSha256": "bdf4545f24ef2cdda29c1173dce39efcf05fa79e7bb970f25e569e798e316a3c"
+        }
+      ],
+      "standalone": {
+        "status": "WON_THEN_DISPOSED",
+        "dimensions": {
+          "width": 364,
+          "height": 403
+        },
+        "disposed": true,
+        "finishedResources": 0,
+        "pointerListenersActive": false,
+        "captureSha256": {
+          "ready": "a375f0954f1befc3c7b962bea25ea32a1af789ab385e9a3b1cdd67da4e22f56c",
+          "flag": "1321d8af8af95153cce51ecf68ecbcb796b989ff972442a1cde38deec7fbcb18",
+          "lost": "1c451b07b527fc72f2453a158d6743d3f502cb8183f85d748b1e93be9b96f56a",
+          "won": "fd2ceb202bec08972b465ccee2cbc543c8646c67cee42570d974b0c9f492483a"
+        }
+      }
+    },
+    {
+      "game": "org.a2game.games.g35-minesweeper-wide",
+      "engine": "webkit",
+      "backend": "cocosairjs",
+      "status": "PASS_REFERENCE",
+      "ordinaryPlayerCheckpoints": [
+        {
+          "label": "initial",
+          "hash": "08239336ae56c061080465651dfeeee247bdb8471aed39492368bf715f201546",
+          "inputSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "label": "keyboard flag mode",
+          "hash": "1d0189162ed88bd9ab0f7997e43fa280602e2ec2ad7c56c146e27545d5892912",
+          "inputSha256": "9e03037e393e9b7b10a3e039a34f367aed65027432d113f37f0334e0372ff660"
+        },
+        {
+          "label": "pointer flag",
+          "hash": "fd161e52ffa25976a97599b3c0c3bcfa9274a170f7f48cd0644e248996d336aa",
+          "inputSha256": "42806ccb7cf9937c4e537fa2b350e6917f55bddc7cf3025855aa7353666f6f0e"
+        },
+        {
+          "label": "pointer unflag",
+          "hash": "2e5d0ebda9bf7cfcabfd06847371fcd7b49cb9af874db899f6ba8e510d03cb0b",
+          "inputSha256": "6165f31a705bedf8df7576347282fd46db57b3f27a51da0cb03c47d5e3668e56"
+        },
+        {
+          "label": "keyboard reveal mode",
+          "hash": "4a6118d37186345968832c038ee02a29131b6f9ca954ddf0aaadb9ac1924ba0b",
+          "inputSha256": "0e13d525818a9436d635b13e4752e1977765fd894ded4d773426e8e0a05f2a60"
+        },
+        {
+          "label": "safe first reveal",
+          "hash": "6b55b52496def36e49b7fe0b2334df8ef881aa81ead4c000793f717955c69aed",
+          "inputSha256": "50dd8cb3852ef6180ce24217e83c125a17697e5ef0fb4a31f67afdb56032a040"
+        },
+        {
+          "label": "mine loses",
+          "hash": "84a02f63a55592af3405328e46a61d0d54e0b9071578fac711adf5894489472d",
+          "inputSha256": "eecf6f8aa6ebb27710f48ce9eb806b17b0a93d15d17e8d819f3f50f668feceb2"
+        },
+        {
+          "label": "restart restores initial hash",
+          "hash": "08239336ae56c061080465651dfeeee247bdb8471aed39492368bf715f201546",
+          "inputSha256": "c0d18643111cfb245ca2621c0bf8eb83183f352c55cc8c88b1fae4135b96d6fd"
+        },
+        {
+          "label": "all safe won",
+          "hash": "6db882fd1b5014c3cfe27adca34c4b32064cd4c7273792148bab6309a20f5598",
+          "inputSha256": "ecd1743b48075f1fbcf9761c348426ffc52349b2d198829e71f25d6f907796e8"
+        }
+      ],
+      "standalone": {
+        "status": "WON_THEN_DISPOSED",
+        "dimensions": {
+          "width": 364,
+          "height": 403
+        },
+        "disposed": true,
+        "finishedResources": 0,
+        "pointerListenersActive": false,
+        "captureSha256": {
+          "ready": "22e3064fd69ed8886c3da88d5fd0f2640b5cae904b0016d300d95b8960fad1c2",
+          "flag": "3460a1cccd3f89605fefd7621a91f209cc841d4a675408b7719ca7074b434f5f",
+          "lost": "7df096b9fc964ccccce5b298e3c77692dc4b9ca09c8723de845eb444da7214e5",
+          "won": "09b192601582c821edfe6be3921edf5cae5ca1d3678df5f3b61bba080ccf479a"
+        }
+      }
+    },
+    {
+      "game": "org.a2game.games.g35-minesweeper-wide",
+      "engine": "webkit",
+      "backend": "three",
+      "status": "PASS_REFERENCE",
+      "ordinaryPlayerCheckpoints": [
+        {
+          "label": "initial",
+          "hash": "08239336ae56c061080465651dfeeee247bdb8471aed39492368bf715f201546",
+          "inputSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        {
+          "label": "keyboard flag mode",
+          "hash": "1d0189162ed88bd9ab0f7997e43fa280602e2ec2ad7c56c146e27545d5892912",
+          "inputSha256": "9e03037e393e9b7b10a3e039a34f367aed65027432d113f37f0334e0372ff660"
+        },
+        {
+          "label": "pointer flag",
+          "hash": "fd161e52ffa25976a97599b3c0c3bcfa9274a170f7f48cd0644e248996d336aa",
+          "inputSha256": "42806ccb7cf9937c4e537fa2b350e6917f55bddc7cf3025855aa7353666f6f0e"
+        },
+        {
+          "label": "pointer unflag",
+          "hash": "2e5d0ebda9bf7cfcabfd06847371fcd7b49cb9af874db899f6ba8e510d03cb0b",
+          "inputSha256": "6165f31a705bedf8df7576347282fd46db57b3f27a51da0cb03c47d5e3668e56"
+        },
+        {
+          "label": "keyboard reveal mode",
+          "hash": "4a6118d37186345968832c038ee02a29131b6f9ca954ddf0aaadb9ac1924ba0b",
+          "inputSha256": "0e13d525818a9436d635b13e4752e1977765fd894ded4d773426e8e0a05f2a60"
+        },
+        {
+          "label": "safe first reveal",
+          "hash": "6b55b52496def36e49b7fe0b2334df8ef881aa81ead4c000793f717955c69aed",
+          "inputSha256": "50dd8cb3852ef6180ce24217e83c125a17697e5ef0fb4a31f67afdb56032a040"
+        },
+        {
+          "label": "mine loses",
+          "hash": "84a02f63a55592af3405328e46a61d0d54e0b9071578fac711adf5894489472d",
+          "inputSha256": "eecf6f8aa6ebb27710f48ce9eb806b17b0a93d15d17e8d819f3f50f668feceb2"
+        },
+        {
+          "label": "restart restores initial hash",
+          "hash": "08239336ae56c061080465651dfeeee247bdb8471aed39492368bf715f201546",
+          "inputSha256": "c0d18643111cfb245ca2621c0bf8eb83183f352c55cc8c88b1fae4135b96d6fd"
+        },
+        {
+          "label": "all safe won",
+          "hash": "6db882fd1b5014c3cfe27adca34c4b32064cd4c7273792148bab6309a20f5598",
+          "inputSha256": "ecd1743b48075f1fbcf9761c348426ffc52349b2d198829e71f25d6f907796e8"
+        }
+      ],
+      "standalone": {
+        "status": "WON_THEN_DISPOSED",
+        "dimensions": {
+          "width": 364,
+          "height": 403
+        },
+        "disposed": true,
+        "finishedResources": 0,
+        "pointerListenersActive": false,
+        "captureSha256": {
+          "ready": "c74e98cd1a079233ca067ae67209a3f332941b525daad10d65ec75454366b380",
+          "flag": "3ecc4ca0b087e6ca93df354c9aaf4f7d37dcafd164150f9b2a396ea7d96e4e36",
+          "lost": "c966093c34e28ec62d4b0762257bb28cf49be62cc63f1a565a4d610c87d726be",
+          "won": "724b1db5f3edc6c34841a6f9a30c4c76ed4d0f1e85e1d088be7bb51b5af41cdb"
+        }
+      }
+    }
+  ],
+  "inputs": "Software browser DOM mouse/pointer and keyboard; no touch device or hardware evidence.",
+  "acceptance": {
+    "g3": "NOT_CLAIMED",
+    "physical": "NOT_RUN",
+    "human": "NOT_RUN"
+  }
+}

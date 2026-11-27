@@ -1172,8 +1172,8 @@
     "verifiedGames": 0,
     "hybridCases": 5,
     "verifiedHybridCases": 0,
-    "referenceDemoGames": 113,
-    "referenceCapabilityManifests": 133
+    "referenceDemoGames": 115,
+    "referenceCapabilityManifests": 134
   },
   "blockingItems": [
     "Physical Android Touch/IMU/permission/calibration/orientation acceptance NOT_RUN; no attached device",
@@ -1484,6 +1484,15 @@
       "Semantic DOM buttons are not physical Touch/IMU, raw hit-testing or drag validation"
     ],
     "previousCurrentReceipt": "reports/puzzles-2026-10-31T09-46-38-288Z-19808/summary.json"
+  },
+  "g35ExpansionRun": {
+    "status": "PASS_REFERENCE",
+    "scope": "R1 G35 only; two host-authored configurations, actual WebKit browser and standalone packaging on both locked SDKs; no peer or physical sign-off. Frozen 32+5 unchanged.",
+    "evidence": "project/evidence/g35-webkit-reference.json",
+    "specs": [
+      "specs/v0.1/games/g35-minesweeper.game.json",
+      "specs/v0.1/games/g35-minesweeper-wide.game.json"
+    ]
   },
   "mechanismRuns": {
     "realtime": {
