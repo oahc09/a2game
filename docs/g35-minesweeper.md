@@ -24,3 +24,14 @@ node scripts/g35-browser.mjs specs/v0.1/games/g35-minesweeper.game.json specs/v0
 ```
 
 专项回执不把原 G2、G3、真机、硬件性能或人体工学验收升级为通过。
+
+## 普通播放器原生键盘控件回归
+
+准备已锁定的双 SDK 和目录后，运行
+`node scripts/player-native-keys-browser.mjs`，可用
+`A2GAME_BROWSER_EXECUTABLE` 指定本地 WebKit 启动器。脚本使用真实 HTTP
+普通播放器，不是独立包或 DOM 事件 mock。原生暂停、继续、特效控件聚焦时不应触发
+游戏标旗；画布聚焦仍可正常标旗。第二个 G11 案例核对持续按键从画布开始后，即使
+焦点切换到控件，按键释放仍会清掉运行时的按住来源。已存在的真机和 G3 边界不变。
+
+录制输入选择重新开始时也会清除原局的按键归属，以免旧按键的释放被新录制捕获。
