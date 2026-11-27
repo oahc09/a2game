@@ -9,6 +9,7 @@ import {createContentService} from './content-service.mjs';
 import {solveButtons,playSolution} from './agent-solver.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';
 import {checkIllegalUndo} from './check-illegal-undo.mjs';
+import {requirePython} from './python-runtime.mjs';
 const read=p=>JSON.parse(readFileSync(p,'utf8')),save=(p,v)=>writeFileSync(p,JSON.stringify(v,null,2)+'\n');
 function error(code,message,attribution='AGENT_STRATEGY'){return Object.assign(Error(message),{code,attribution});}
 /** Host-configured process, never a command from a GameSpec or provider response. No shell evaluation. */
@@ -22,12 +23,13 @@ export function buildAgentRequest(prompt,attempt,previous){
 }
 export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=60000,solverBudget={},directory,mechanicsDeclaration,mechanicsRequireBlockedPush=false}={}){
  if(!Number.isInteger(maxAttempts)||maxAttempts<1||maxAttempts>3||!Number.isInteger(timeoutMs)||timeoutMs<100||timeoutMs>60000)throw error('A2G_E_AGENT_BUDGET','无效的生成预算。','INFRA');
+ const python=requirePython(undefined,{schema:true});
  directory??=resolve(root,'reports',`agent-${new Date().toISOString().replace(/[:.]/g,'-')}-${process.pid}`);directory=resolve(directory);if(existsSync(directory))throw error('A2G_E_AGENT_OUTPUT','回执目录必须是新目录。','INFRA');mkdirSync(directory,{recursive:true});
- const toolchain=Object.fromEntries(['scripts/agent-workflow.mjs','scripts/agent-solver.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
- const service=createContentService(),attempts=[];let previous,success,provenance,terminal;
+ const toolchain=Object.fromEntries(['scripts/agent-workflow.mjs','scripts/python-runtime.mjs','scripts/agent-solver.mjs','scripts/parse-agent-output.py','scripts/validate-agent-suite.py'].map(path=>[path,createHash('sha256').update(readFileSync(resolve(root,path))).digest('hex')]));
+ const service=createContentService({python}),attempts=[];let previous,success,provenance,terminal;
  for(let attempt=1;attempt<=maxAttempts;attempt++){
   const request=buildAgentRequest(prompt,attempt,previous),started=performance.now(),entry={attempt,status:'FAIL'};let produced;save(resolve(directory,`request-${attempt}.json`),request);
-  try{const python=process.env.A2GAME_PYTHON??resolve(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');const raw=await callJsonProcess(command,request,{timeoutMs,rawOutput:true});writeFileSync(resolve(directory,`output-${attempt}.raw.json`),raw);produced={raw};const parsed=await callJsonProcess([python,'scripts/parse-agent-output.py'],{text:raw},{timeoutMs:8000,maxBytes:1024*1024});if(parsed.status!=='PASS')throw error('A2G_E_PROVIDER_JSON',parsed.message);const output=parsed.output;produced=output;save(resolve(directory,`output-${attempt}.json`),output);
+  try{const raw=await callJsonProcess(command,request,{timeoutMs,rawOutput:true});writeFileSync(resolve(directory,`output-${attempt}.raw.json`),raw);produced={raw};const parsed=await callJsonProcess([python,'scripts/parse-agent-output.py'],{text:raw},{timeoutMs:8000,maxBytes:1024*1024});if(parsed.status!=='PASS')throw error('A2G_E_PROVIDER_JSON',parsed.message);const output=parsed.output;produced=output;save(resolve(directory,`output-${attempt}.json`),output);
    if(output?.format!=='a2game-generation-output'||output.version!==1||!output.game||!output.conformance||!['fixture','independent-model'].includes(output.provenance?.kind)||typeof output.provenance.model!=='string'||output.provenance.model.length>200)throw error('A2G_E_AGENT_ENVELOPE','生成器输出缺少合同字段。');
    provenance=output.provenance;entry.provenance=provenance;const receipt=await service.release(JSON.stringify(output.game));entry.release=receipt;
    const schema=await callJsonProcess([python,'scripts/validate-agent-suite.py'],output.conformance,{timeoutMs:8000,maxBytes:32*1024});if(schema.status!=='PASS')throw Object.assign(error('A2G_E_AGENT_CONFORMANCE_SCHEMA','Conformance Schema 校验失败。'),{diagnostics:schema.errors});
@@ -42,7 +44,7 @@ export async function runAgentWorkflow({prompt,command,maxAttempts=3,timeoutMs=6
    // Optional controller policy is out-of-band, never inferred from fields or model-provided case names.
    entry.mechanics={status:'NOT_REQUESTED'};
    if(mechanicsDeclaration!==undefined){
-    entry.mechanics=await checkIllegalUndo(output.game,mechanicsDeclaration,{requireBlockedPush:mechanicsRequireBlockedPush});
+    entry.mechanics=await checkIllegalUndo(output.game,mechanicsDeclaration,{requireBlockedPush:mechanicsRequireBlockedPush,python});
     save(resolve(directory,`mechanics-${attempt}.json`),entry.mechanics);
     if(entry.mechanics.status!=='PASS_REFERENCE')throw Object.assign(error('A2G_E_AGENT_MECHANICS','Explicit controller mechanics gate did not pass.'),{stage:'conformance',diagnostics:entry.mechanics.diagnostics??[]});
    }

@@ -66,7 +66,7 @@
     "skill:package": "node scripts/run-python.mjs scripts/package-a2game-skill.py",
     "mcp:install": "npm ci --prefix integrations/mcp --ignore-scripts"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "playwright": "1.64.1",
     "pngjs": "7.0.0",

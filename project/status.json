@@ -690,6 +690,17 @@
     "formalG3": "NOT_RUN",
     "physicalDevice": "NOT_RUN"
   },
+  "r0D01PlayerSdkPackage": {
+    "date": "2026-11-22",
+    "status": "PASS_TARGETED_REFERENCE",
+    "baseCommit": "13c64dc07c0e6dde3816f100216bad9565bb1ed0",
+    "scope": "STANDALONE_PLAYER_SDK_AND_LOOPBACK_FIXTURE_RELEASE",
+    "nodeVersions": ["22.16.0", "24.22.3"],
+    "node24Before": "ERR_FS_CP_EEXIST",
+    "verifiedInventoryFilesPerPackage": 264,
+    "targetedTestsPassedPerVersion": 6,
+    "limitations": "No new Chromium G2, formal G3, physical-device or deployment evidence."
+  },
   "localDeliveryPlayerRun": {
     "date": "2026-11-14",
     "status": "PASS_TARGETED_REFERENCE",

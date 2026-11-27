@@ -1,0 +1,1515 @@
+{
+  "format": "a2game-expansion-targets",
+  "version": 1,
+  "asOf": "2026-11-22",
+  "source": {
+    "assessment": "A2Game-Target-Gap-Matrix-2026-11-22.json",
+    "assessmentSha256": "f8214973897a9603f14fa113b81fb3e62de2785a25a00e1adcf28b2a34b7bddb",
+    "sourceCommit": "13c64dc07c0e6dde3816f100216bad9565bb1ed0"
+  },
+  "scope": "Static planning inventory only. No implementation or acceptance credit; do not include in the formal 32 games + 5 hybrids.",
+  "originalRegistry": "specs/v0.1/coverage/games.json",
+  "next": [
+    "G35",
+    "G41",
+    "G59"
+  ],
+  "targets": [
+    {
+      "id": "G33",
+      "title": "数独",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G34",
+      "title": "数织 Nonogram",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G35",
+      "title": "扫雷",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G36",
+      "title": "一笔画路径",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G37",
+      "title": "水管接通",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G38",
+      "title": "华容道滑块",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G39",
+      "title": "镜面激光机关",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G40",
+      "title": "连锁机关密室",
+      "kind": "game",
+      "targetGroup": "T01",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G41",
+      "title": "贪吃蛇",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G42",
+      "title": "打地鼠",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G43",
+      "title": "弹幕闪避",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G44",
+      "title": "接落物",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G45",
+      "title": "飞刀转盘",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G46",
+      "title": "知识问答闯关",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G47",
+      "title": "颜色分拣流水线",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G48",
+      "title": "街机捕鱼",
+      "kind": "game",
+      "targetGroup": "T02",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G49",
+      "title": "2D 横版平台闯关",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G50",
+      "title": "二段跳与空中冲刺",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G51",
+      "title": "墙跳与攀爬",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G52",
+      "title": "机关横版闯关",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G53",
+      "title": "精确平台解谜",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G54",
+      "title": "重力翻转平台",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G55",
+      "title": "等距视角跑酷",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G56",
+      "title": "3D 平台跳跃",
+      "kind": "game",
+      "targetGroup": "T03",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G57",
+      "title": "横版清关射击",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G58",
+      "title": "弹幕 Boss 战",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G59",
+      "title": "双摇杆射击",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G60",
+      "title": "狙击解谜射击",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G61",
+      "title": "第一人称迷宫射击",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G62",
+      "title": "第三人称竞技场",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G63",
+      "title": "阵地炮台射击",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G64",
+      "title": "坦克大战",
+      "kind": "game",
+      "targetGroup": "T04",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G65",
+      "title": "2D 一对一格斗",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G66",
+      "title": "横版清版格斗",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G67",
+      "title": "武器对决",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G68",
+      "title": "竞技场乱斗",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G69",
+      "title": "技能连招挑战",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G70",
+      "title": "拳击读招",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G71",
+      "title": "弹反 Boss 战",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G72",
+      "title": "3D 锁定近战",
+      "kind": "game",
+      "targetGroup": "T05",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G73",
+      "title": "俯视生存肉鸽",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G74",
+      "title": "随机地牢走格",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G75",
+      "title": "波次幸存者升级",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G76",
+      "title": "肉鸽卡牌爬塔",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G77",
+      "title": "分支风险事件",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G78",
+      "title": "饥饿与采集生存",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G79",
+      "title": "Boss 连战",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G80",
+      "title": "限区撤离生存 Lite",
+      "kind": "game",
+      "targetGroup": "T06",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G81",
+      "title": "JRPG 回合战斗",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G82",
+      "title": "实时动作 RPG",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G83",
+      "title": "队伍养成战斗",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G84",
+      "title": "网格 SRPG",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G85",
+      "title": "词缀装备构筑",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G86",
+      "title": "地城任务副本",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G87",
+      "title": "技能树养成",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G88",
+      "title": "3D 地牢探索",
+      "kind": "game",
+      "targetGroup": "T07",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G89",
+      "title": "点触冒险",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G90",
+      "title": "交互小说",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G91",
+      "title": "视觉小说多结局",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G92",
+      "title": "侦探证据板",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G93",
+      "title": "连锁任务冒险",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G94",
+      "title": "剧情密室逃脱",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G95",
+      "title": "NPC 关系经营",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G96",
+      "title": "地图探索冒险",
+      "kind": "game",
+      "targetGroup": "T08",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G97",
+      "title": "回合制格子战棋",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G98",
+      "title": "六边形战术",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G99",
+      "title": "小队实时 RTS",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G100",
+      "title": "4X 微型星图",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G101",
+      "title": "战争迷雾侦察",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G102",
+      "title": "兵种阵型克制",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G103",
+      "title": "资源点争夺",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G104",
+      "title": "自动对战战棋",
+      "kind": "game",
+      "targetGroup": "T09",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G105",
+      "title": "多岔路塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G106",
+      "title": "自由路线塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G107",
+      "title": "合成进阶塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G108",
+      "title": "元素连锁塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G109",
+      "title": "迷宫路径塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G110",
+      "title": "自走棋排兵",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G111",
+      "title": "卡牌指令塔防",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G112",
+      "title": "弹幕基地防守",
+      "kind": "game",
+      "targetGroup": "T10",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G113",
+      "title": "虚拟宠物养成",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G114",
+      "title": "餐厅经营",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G115",
+      "title": "便利店经营",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G116",
+      "title": "小屋生活模拟",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G117",
+      "title": "微型城市交通",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G118",
+      "title": "动物园生态管理",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G119",
+      "title": "四季农场",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G120",
+      "title": "太空殖民舱",
+      "kind": "game",
+      "targetGroup": "T11",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G121",
+      "title": "放置增量经营",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G122",
+      "title": "工厂生产线",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G123",
+      "title": "物流配送调度",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G124",
+      "title": "商店定价模拟",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G125",
+      "title": "虚构市场博弈",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G126",
+      "title": "矿场资源循环",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G127",
+      "title": "多货币科技发展",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    },
+    {
+      "id": "G128",
+      "title": "订单排产经营",
+      "kind": "game",
+      "targetGroup": "T12",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G129",
+      "title": "方块自由建造",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G130",
+      "title": "桥梁结构搭建",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G131",
+      "title": "关卡编辑与试玩",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G132",
+      "title": "逻辑电路沙盒",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G133",
+      "title": "管道流体工厂",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G134",
+      "title": "生态造景沙盒",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G135",
+      "title": "积木车辆拼装",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G136",
+      "title": "小型体素世界",
+      "kind": "game",
+      "targetGroup": "T13",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "G137",
+      "title": "俯视街机赛车",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G138",
+      "title": "漂移竞速",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G139",
+      "title": "卡丁车道具赛",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G140",
+      "title": "计时挑战赛",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G141",
+      "title": "交通穿行",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G142",
+      "title": "越野障碍驾驶",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G143",
+      "title": "3D 高速追逐",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G144",
+      "title": "低空飞行竞速",
+      "kind": "game",
+      "targetGroup": "T14",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G145",
+      "title": "足球点球",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G146",
+      "title": "篮球投篮",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G147",
+      "title": "乒乓球",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G148",
+      "title": "保龄球",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G149",
+      "title": "迷你高尔夫",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G150",
+      "title": "网球对打",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G151",
+      "title": "小游戏运动会",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G152",
+      "title": "本地派对小游戏",
+      "kind": "game",
+      "targetGroup": "T15",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G153",
+      "title": "国际象棋",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G154",
+      "title": "中国象棋",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G155",
+      "title": "黑白棋",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G156",
+      "title": "四连棋",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G157",
+      "title": "斗地主规则单局",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G158",
+      "title": "轻量对战式卡牌",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G159",
+      "title": "骰子资源桌游",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G160",
+      "title": "区域控制桌游",
+      "kind": "game",
+      "targetGroup": "T16",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G161",
+      "title": "四轨下落节奏",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G162",
+      "title": "鼓点节奏",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G163",
+      "title": "舞蹈按键",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G164",
+      "title": "虚拟鼓组",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G165",
+      "title": "音准跟唱",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G166",
+      "title": "节奏跑酷",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G167",
+      "title": "MIDI 键盘练习",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G168",
+      "title": "本地合奏",
+      "kind": "game",
+      "targetGroup": "T17",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "G169",
+      "title": "潜行巡逻",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G170",
+      "title": "动态视锥迷宫",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G171",
+      "title": "暗室手电恐怖解谜",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G172",
+      "title": "证物现场调查",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G173",
+      "title": "多嫌疑人推理",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G174",
+      "title": "巡逻追逐逃生",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G175",
+      "title": "限时逃脱",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "BASIS_ONLY",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G176",
+      "title": "生存恐怖资源管理",
+      "kind": "game",
+      "targetGroup": "T18",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G177",
+      "title": "第一人称 3D 迷宫",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G178",
+      "title": "3D 刚体叠塔",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G179",
+      "title": "3D 台球",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G180",
+      "title": "3D 弹珠机关",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G181",
+      "title": "3D 物理桥梁",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G182",
+      "title": "潜航水体探险",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G183",
+      "title": "轻量飞行模拟",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G184",
+      "title": "3D 场景探索收集",
+      "kind": "game",
+      "targetGroup": "T19",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G185",
+      "title": "同屏双人对战",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G186",
+      "title": "局域网贪吃蛇对战",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G187",
+      "title": "双人合作机关",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G188",
+      "title": "多人协作闯关",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G189",
+      "title": "权威小队竞技",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G190",
+      "title": "异步棋类对局",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "G191",
+      "title": "排行榜挑战赛",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "G192",
+      "title": "轻量 UGC 地图社区",
+      "kind": "game",
+      "targetGroup": "T20",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "H06",
+      "title": "肉鸽射击升级",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H07",
+      "title": "平台跳跃机关解谜",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H08",
+      "title": "卡牌战棋",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H09",
+      "title": "塔防物流供给",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H10",
+      "title": "动作格斗肉鸽",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H11",
+      "title": "剧情平台冒险",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H12",
+      "title": "种田烹饪经营",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H13",
+      "title": "城市交通经济",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H14",
+      "title": "机甲组件射击",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H15",
+      "title": "RPG 卡组构筑",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H16",
+      "title": "战争迷雾潜行战棋",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H17",
+      "title": "4X 回合外交",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H18",
+      "title": "ARPG 采集锻造",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H19",
+      "title": "节奏近战 Boss",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "music-performance"
+    },
+    {
+      "id": "H20",
+      "title": "载具战斗竞速",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H21",
+      "title": "体育战术卡牌",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H22",
+      "title": "棋盘技能对战",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H23",
+      "title": "天气与解谜冒险",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H24",
+      "title": "钓鱼与市场经营",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H25",
+      "title": "3D 物理机械建造",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H26",
+      "title": "3D 叙事探索",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H27",
+      "title": "3D 幽灵竞速",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "finite-goal"
+    },
+    {
+      "id": "H28",
+      "title": "协作双人解谜",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "H29",
+      "title": "多人权威塔防",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "H30",
+      "title": "多人派对回合赛",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "multi-round-session"
+    },
+    {
+      "id": "H31",
+      "title": "3D UGC 共创世界",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "PLATFORM_OR_MAJOR_RUNTIME_GAP",
+      "suggestedAcceptanceProfile": "creative-sandbox"
+    },
+    {
+      "id": "H32",
+      "title": "生存建造昼夜循环",
+      "kind": "hybrid",
+      "targetGroup": "HYBRID",
+      "status": "GAMEPLAY_MECHANISM_GAP",
+      "suggestedAcceptanceProfile": "ongoing-simulation"
+    }
+  ]
+}

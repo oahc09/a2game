@@ -50,6 +50,24 @@ A2Game 让 AI Agent 根据需求编写游戏，再检查、试玩并导出游戏
 
 历史测试结果仅说明当时的代码和环境；当前是否可用，以实际运行结果为准。[旧版首页说明](docs/history/readme-overview-before-plain-language-2026-11-08.md)保留供查阅。
 
+### 从干净 Git 检出校验和打包
+
+```sh
+node scripts/check-source-readiness.mjs
+npm ci --ignore-scripts
+npm run mcp:install
+python3 -m pip install -r requirements-dev.txt
+npm test
+npm run spec:validate
+npm run schema:full
+npm run conformance
+```
+
+Python ≥3.10，完整 Schema 需要固定依赖 `jsonschema`。可设置 `A2GAME_PYTHON` 指向明确的解释器；未设置时优先使用仓库虚拟环境，再查找系统解释器。
+详见[源码预检与证据恢复](docs/source-readiness.md)。`project:check` 和 `verify` 仍需要受信的历史 G3 证据；不要用新造的空文件替代。
+
+独立播放器先按第三节准备锁定的真实 SDK，再运行 `node scripts/package-player-sdk.mjs <game.json>`。工程回归按具体 Node 版本记录；浏览器结果以实跑回执为准。R1 后续目标见[独立扩展规划台账](project/expansion-targets.json)，不计入当前 32＋5 正式验收。
+
 ## 二、Windows PowerShell：从解压到第一个游戏（推荐）
 
 **环境要求**：Windows 10/11、Node.js **22+**（同时包含 npm）、Python **3.10+**、Chrome/Edge。Node/npm/Python 请先从各自官方发行渠道安装；设置 PATH 后打开**新的 PowerShell**。`npm install` 和 `pip install` 首次可能需要正常网络访问；不需要 WSL2、Docker、Cocos Creator。
