@@ -131,7 +131,7 @@ function observePages(context,origin){
 async function manualFlow(page,item,backend,origin,release,result){
  const canvas='#GameCanvas',backendId=backend==='cocosairjs'?'air':'three';
  await page.goto(origin+'/player/index.html?backend='+backendId+'&release='+release+'&clock=manual',{timeout:15000});
- await page.waitForFunction(()=>window.__a2game?.getState().flow.status==='playing'||document.querySelector('#error')?.textContent?.trim());
+ await page.waitForFunction(()=>window.__a2game?.getState().flow.status==='playing'||document.querySelector('#error')?.textContent?.trim(),undefined,{timeout:30000});
  assert.equal((await page.locator('#error').textContent()).trim(),'');
  assert.equal(await page.evaluate(()=>window.__a2game.backend),backendId);
  const checkpoints=[],check=async label=>{
