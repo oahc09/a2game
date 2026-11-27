@@ -1,0 +1,84 @@
+{
+  "status": "PASS_REFERENCE",
+  "scope": "ordinary HTTP player with real SDK and browser keyboard; no physical device/G3",
+  "browser": "27.2",
+  "playerSha256": "0a3741d866792160ccd807e89864a69cf47875b94041cd77ec30d321ffe02493",
+  "harnessSha256": "3d8b0195fa4fab1f018d5e45dee2007933dca0804d9f04177aa177f0094cfd86",
+  "traceOptInFixture": "a1910ee337b2bad98699d61ffa44a3886e09570d4db43e32c28f1f3f1233afd3",
+  "sdk": {
+    "three": "0.186.1",
+    "cocosairjs": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "backend": "three",
+      "game": "g35-minesweeper",
+      "cases": [
+        "native-pause-space",
+        "native-resume-enter",
+        "native-toggle-space",
+        "gameplay-canvas-space"
+      ]
+    },
+    {
+      "backend": "three",
+      "game": "g11-candidate",
+      "cases": [
+        "held-release-across-focus",
+        "no-native-unmatched-release",
+        "fresh-trace-clears-held-ownership"
+      ]
+    },
+    {
+      "backend": "air",
+      "game": "g35-minesweeper",
+      "cases": [
+        "native-pause-space",
+        "native-resume-enter",
+        "native-toggle-space",
+        "gameplay-canvas-space"
+      ]
+    },
+    {
+      "backend": "air",
+      "game": "g11-candidate",
+      "cases": [
+        "held-release-across-focus",
+        "no-native-unmatched-release",
+        "fresh-trace-clears-held-ownership"
+      ]
+    }
+  ],
+  "before": {
+    "commit": "4f31b3624707d7e6f7e1adb6ef7c615795a1e7b2",
+    "status": "REPRODUCED",
+    "assertion": "Focused native Space must pause, not flag",
+    "actual": "playing",
+    "expected": "paused"
+  },
+  "aggregateVerify": {
+    "scope": "first keyboard-fix tree plus restored historical G3 plan and isolated MCP dependencies",
+    "governance": "PASS",
+    "nodePassed": 364,
+    "nodeFailed": 1,
+    "failure": "test/service-persistence.test.mjs fixture publication expected 201, received 400; aggregate stopped",
+    "standaloneStaticAndCatalog": "PASS"
+  }
+}

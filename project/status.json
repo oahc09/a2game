@@ -1485,6 +1485,13 @@
     ],
     "previousCurrentReceipt": "reports/puzzles-2026-10-31T09-46-38-288Z-19808/summary.json"
   },
+  "ordinaryPlayerNativeKeyboardRun": {
+    "date": "2026-11-25",
+    "status": "PASS_TARGETED_REFERENCE",
+    "scope": "ORDINARY_HTTP_PLAYER_G35_AND_G11_WPE_WEBKIT_AIR_AND_THREE",
+    "evidence": "project/evidence/player-native-keyboard-webkit.json",
+    "limitations": "Software browser keyboard events only. No standalone package, physical-device, G3, deployment or frozen acceptance denominator change."
+  },
   "g35ExpansionRun": {
     "status": "PASS_REFERENCE",
     "scope": "R1 G35 only; two host-authored configurations, actual WebKit browser and standalone packaging on both locked SDKs; no peer or physical sign-off. Frozen 32+5 unchanged.",

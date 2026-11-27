@@ -36,14 +36,18 @@ const manualClock=params.get('clock')==='manual';
 const operations=[];
 const record=(op,payload)=>{if(manualClock)operations.push({op,...payload});};
 const listeners=new AbortController();
+const gameplayHeldKeys=new Set();
+const nativeControl='button,input,select,textarea,a[href],summary,audio[controls],video[controls]';
+const ownsNativeKeyboard=e=>e.composedPath().some(node=>node instanceof HTMLElement&&(node.isContentEditable||node.matches(nativeControl)));
 const listen=(target,type,callback,options={})=>target.addEventListener(type,callback,{...options,signal:listeners.signal});
 dom.game.value=gameName;dom.backend.value=backendName;
 dom.engineLabel.textContent=backendName==='air'?'A2Game + CocosAirJS':backendName==='three'?'A2Game + Three.js':'A2Game + Canvas2D Preview';
 let runtime,adapter,definition,resources,raf,resizeRaf,mobileHost,gamepadHost,traceRecorder,finishTrace=false,inputSequence=0,ts=0,carry=0,errorMessage='',contextState='healthy',disposal;
 function inputTimeUs(){const tick=runtime.tickIndex,hz=definition.world.clock.tickHz;return Math.min(Math.ceil((tick+1)*1000000/hz)-1,Math.ceil(tick*1000000/hz)+Math.max(0,Math.floor(carry*1000000)));}
 function injectRaw(input){if(runtime?.status!=='playing')return;input={...input,tickIndex:runtime.tickIndex,timeUs:inputTimeUs(),seq:inputSequence++};runtime.injectRaw(input);record('raw',{input});traceRecorder?.raw(input);}
-function pauseSession(){feedbackAudio.silence();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
+function pauseSession(){gameplayHeldKeys.clear();feedbackAudio.silence();gamepadHost?.stop();traceRecorder?.control('pause',runtime.tickIndex);runtime.pause();mobileHost?.stop('游戏已暂停，采集已停止；继续后需显式启用并重新校准。');}
 function resumeSession(){runtime.resume();traceRecorder?.control('resume',runtime.tickIndex);}
+function restartRuntime(){gameplayHeldKeys.clear();runtime.restart();record('restart');}
 const showError=e=>{document.getElementById('readyPanel').hidden=true;errorMessage=`无法运行游戏：${e instanceof Error?e.message:String(e)}`;dom.error.textContent=errorMessage;dom.error.style.display='block';dom.status.textContent='ERROR';dom.status.className='error';console.error(e);};
 async function createAdapter(mode){
  return engines.create(mode==='air'?'cocosairjs':mode,{canvas:dom.GameCanvas,renderSetup:projectRenderSetup(definition),resources,signal:listeners.signal});
@@ -124,13 +128,20 @@ function bindInputs(){
  listen(canvas,'pointercancel',e=>rawPointer(e,'cancel'));
  listen(canvas,'lostpointercapture',e=>rawPointer(e,'cancel'));
  listen(window,'keydown',e=>{
-   if(e.repeat||e.target===dom.stageRestart||e.target instanceof HTMLSelectElement||e.target instanceof HTMLInputElement)return;
+   if(e.defaultPrevented||ownsNativeKeyboard(e)||runtime.status!=='playing')return;
    const bound=definition.inputs.actions.find(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code));
-   if(bound){e.preventDefault();if(bound.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))injectRaw({source:'keyboard',kind:'down',payload:{code:e.code}});else sendAction(bound.id);}
-  },{capture:true});
+   if(!bound)return;
+   e.preventDefault();
+   if(e.repeat)return;
+   if(bound.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true)){
+     gameplayHeldKeys.add(e.code);injectRaw({source:'keyboard',kind:'down',payload:{code:e.code}});
+   }else sendAction(bound.id);
+ },{capture:true});
  listen(window,'keyup',e=>{
-   if(e.target===dom.stageRestart)return;
-   if(definition.inputs.actions.some(a=>a.bindings.some(b=>b.source==='keyboard.button'&&b.config?.code===e.code&&b.config?.hold===true))){e.preventDefault();injectRaw({source:'keyboard',kind:'up',payload:{code:e.code}});}
+   // Release only an actual gameplay press, even if focus moved to a control.
+   if(!gameplayHeldKeys.delete(e.code))return;
+   if(!ownsNativeKeyboard(e))e.preventDefault();
+   injectRaw({source:'keyboard',kind:'up',payload:{code:e.code}});
  },{capture:true});
  document.querySelectorAll('[data-action]').forEach(btn=>{
    const action=definition.inputs.actions.find(a=>a.id===btn.dataset.action),held=action?.bindings.some(b=>b.source==='keyboard.button'&&b.config?.hold===true);
@@ -149,7 +160,7 @@ function bindInputs(){
  });
  listen(dom.restart,'click',()=>{
    if(contextState!=='healthy')return;
-   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();runtime.restart();record('restart');mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
+   waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();restartRuntime();mobileHost?.stop();gamepadHost?.stop();traceRecorder=createTraceRecorder(definition,()=>inputSequence++);finishTrace=false;inputSequence=0;carry=0;ts=0;document.getElementById('traceExport').disabled=true;dom.hint.textContent='已重开';render();
  });
  listen(dom.stageRestart,'click',()=>{dom.restart.click();if(runtime.status==='playing')canvas.focus({preventScroll:true});});
  listen(document.getElementById('prepareRestart'),'click',()=>{if(contextState!=='healthy')return;dom.restart.click();if(runtime.status==='playing'){pauseSession();waitingToStart=true;carry=0;ts=0;document.getElementById('readyPanel').hidden=false;render();}});
@@ -174,8 +185,8 @@ function bindInputs(){
    // Moving from an embedded canvas to its same-origin host controls is still
    // inside the game application. A real tab/window blur remains a pause.
    try{if(params.get('embed')==='1'&&parent!==window&&!parent.document.hidden&&parent.document.hasFocus()){
-     const heldKeys=new Set(definition.inputs.actions.flatMap(action=>action.bindings.filter(binding=>binding.source==='keyboard.button'&&binding.config?.hold===true).map(binding=>binding.config.code)));
-     for(const code of heldKeys)injectRaw({source:'keyboard',kind:'cancel',payload:{code}});
+     for(const code of gameplayHeldKeys)injectRaw({source:'keyboard',kind:'cancel',payload:{code}});
+     gameplayHeldKeys.clear();
      return;
    }}catch{}
    if(runtime.status==='playing'){pauseSession();adapter?.pauseAudio?.();record('pause');carry=0;render();}
@@ -229,7 +240,7 @@ async function main(){
    listen(document.getElementById('sensorCalibrate'),'click',()=>mobileHost.calibrate());
    listen(document.getElementById('sensorStop'),'click',()=>{mobileHost.stop();});
    document.getElementById('traceStart').disabled=definition.inputs.traceRecording!=='user-opt-in';
-   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();runtime.restart();record('restart');mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
+   listen(document.getElementById('traceStart'),'click',()=>{waitingToStart=false;document.getElementById('readyPanel').hidden=true;eventFeedback.reset();frameMotion?.reset();puzzleSave?.reset();restartRuntime();mobileHost.stop();gamepadHost.stop();inputSequence=0;carry=0;ts=0;finishTrace=false;traceRecorder=createTraceRecorder(definition,()=>inputSequence++);traceRecorder.start();document.getElementById('traceExport').disabled=true;document.getElementById('traceStatus').textContent='正在录制；可随时结束，离开页面会释放数据。';render();});
    listen(document.getElementById('traceStop'),'click',()=>{if(traceRecorder.diagnostics().recording){finishTrace=true;render();}});
    listen(document.getElementById('traceExport'),'click',()=>{try{const trace=traceRecorder.export(),url=URL.createObjectURL(new Blob([JSON.stringify(trace,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download=definition.id+'.input-trace.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}catch(error){document.getElementById('traceStatus').textContent=error.message;}});
    adapter=await createAdapter(backendName);
