@@ -1,0 +1,131 @@
+{
+  "scope": "real player clocks, synthetic standard controller, per-origin reload, no device or soak",
+  "gameSha256": "c1c4e34a9a237d13fb99d28a209a03a2cfe24221c1ae1322304e38cbc270b289",
+  "packageDigest": "07dc0813162c010232b2779e0759eb06ba7ad55da99a88b7c38c63179e251037",
+  "inventoryFiles": 268,
+  "sdk": {
+    "format": "a2game-sdk-provenance",
+    "preparedAt": "2026-11-25T23:02:02.726Z",
+    "three": {
+      "version": "0.186.1",
+      "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz"
+    },
+    "cocosairjs": {
+      "version": "1.0.0",
+      "source": "https://github.com/oahc09/cocosairjs.git",
+      "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+      "entry": "build/cocosair.module.js",
+      "buildDate": "202610241349",
+      "buildNumber": 207,
+      "sourceTree": "clean; generated SDK build metadata may differ per build"
+    },
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "backend": "three",
+      "standalone": false,
+      "rounds": [
+        {
+          "score": 10,
+          "best": 10
+        },
+        {
+          "score": 0,
+          "best": 10
+        },
+        {
+          "score": 60,
+          "best": 60
+        }
+      ],
+      "canvasSha256": "5f03e78f4ce58f1ed450989277f49b22de673e2b9a03f73bd01b65b64c12e600",
+      "reloadBest": 60,
+      "result": "PASS"
+    },
+    {
+      "backend": "three",
+      "standalone": true,
+      "rounds": [
+        {
+          "score": 10,
+          "best": 10
+        },
+        {
+          "score": 0,
+          "best": 10
+        },
+        {
+          "score": 60,
+          "best": 60
+        }
+      ],
+      "canvasSha256": "0fbc70c6b1834e77ba1187de327cae94961d45de28cc2d5fac55d0178a92c6c6",
+      "reloadBest": 60,
+      "result": "PASS"
+    },
+    {
+      "backend": "cocosairjs",
+      "standalone": false,
+      "rounds": [
+        {
+          "score": 10,
+          "best": 10
+        },
+        {
+          "score": 0,
+          "best": 10
+        },
+        {
+          "score": 60,
+          "best": 60
+        }
+      ],
+      "canvasSha256": "0c89588f608f28e4df99abbee183e7fcbd237234b660495e9a7e6b7c345b8a7e",
+      "reloadBest": 60,
+      "result": "PASS"
+    },
+    {
+      "backend": "cocosairjs",
+      "standalone": true,
+      "rounds": [
+        {
+          "score": 10,
+          "best": 10
+        },
+        {
+          "score": 0,
+          "best": 10
+        },
+        {
+          "score": 60,
+          "best": 60
+        }
+      ],
+      "canvasSha256": "4995fa0ad2d345bdb28201a697e683da3041169bfd9340036b8042fd5e34d269",
+      "reloadBest": 60,
+      "result": "PASS"
+    }
+  ],
+  "browser": {
+    "version": "27.2",
+    "selection": "EXPLICIT_LOCAL_EXECUTABLE",
+    "launcher": "run-webkit-local-deps.sh"
+  }
+}

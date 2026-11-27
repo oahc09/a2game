@@ -1,0 +1,1042 @@
+{
+  "format": "a2game-g59-trace-parity",
+  "version": 1,
+  "isRealTime": false,
+  "scope": "exact raw Gamepad inputs, ordinary players and Node under a manual clock",
+  "traceSha256Jcs": "19f7329c756d444c13edee2e6e02ac94a600edcec3b8c36ce73cdfee5782617b",
+  "gameSha256": "c1c4e34a9a237d13fb99d28a209a03a2cfe24221c1ae1322304e38cbc270b289",
+  "inputSamples": 6001,
+  "checkpoints": 121,
+  "requestedPlayingTicks": 36000,
+  "sdk": {
+    "format": "a2game-sdk-provenance",
+    "preparedAt": "2026-11-25T23:50:22.226Z",
+    "three": {
+      "version": "0.186.1",
+      "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz"
+    },
+    "cocosairjs": {
+      "version": "1.0.0",
+      "source": "https://github.com/oahc09/cocosairjs.git",
+      "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+      "entry": "build/cocosair.module.js",
+      "buildDate": "202610241349",
+      "buildNumber": 207,
+      "sourceTree": "clean; generated SDK build metadata may differ per build"
+    },
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "lanes": [
+    {
+      "backend": "three",
+      "checkpoints": 121,
+      "result": "PASS"
+    },
+    {
+      "backend": "air",
+      "checkpoints": 121,
+      "result": "PASS"
+    }
+  ],
+  "node": {
+    "checkpoints": [
+      {
+        "tick": 300,
+        "status": "playing",
+        "hash": "c4e02f1cb1d62addb6f05c99332981874f9bacc08b1b1f392d57885c66e998f6",
+        "score": 50,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 600,
+        "status": "playing",
+        "hash": "c8554c9957628306438a9213f487d704e6d4da02f5894a3904b4303156eb6339",
+        "score": 110,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 900,
+        "status": "playing",
+        "hash": "e8a689c3a62578d0925dea5fecdaaed93ef2fbc4b39a56d3e18242d5f2ee6d49",
+        "score": 170,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 1200,
+        "status": "playing",
+        "hash": "44a873ed1011b47c06b318447edd0b805123bdaa18b094c67c77ac73b43c8602",
+        "score": 230,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 1500,
+        "status": "playing",
+        "hash": "64b3b4ae980341f5ea1ee61222402deb6a603f060fcf9cfd0d3f09c9d352bf7a",
+        "score": 290,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 1800,
+        "status": "playing",
+        "hash": "4d9bcffb26bdcb2103756a37cb0bee06c717019244ff6aaec66bd9125b8ec224",
+        "score": 350,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 2100,
+        "status": "playing",
+        "hash": "f88cae7536808fb86e4fbc6776fd6e158f43be19ff8026ebff057371aba999d4",
+        "score": 410,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 2400,
+        "status": "playing",
+        "hash": "0d6b9269f6f832324b9a07e2aa15f424661baba71db29d15555d3fb539df791d",
+        "score": 470,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 2700,
+        "status": "playing",
+        "hash": "bc0dbc5b50d97b4072ed48284d47bde0591ade760135be84ad9e773c85dd78f6",
+        "score": 530,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 3000,
+        "status": "playing",
+        "hash": "44ff0a15b13f367fbeacf505805c1c63d0938c9c828a45a492272984850b2c7c",
+        "score": 590,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 3300,
+        "status": "playing",
+        "hash": "a1537101107df8d68d6723f52f5d6ed4b9a7dd122d3d57bac937fde6e50d01d5",
+        "score": 650,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 3600,
+        "status": "playing",
+        "hash": "a6a9e831d5ebee450cf1b16fcb502fd21c0bd10a48827b2864c0e7ebb7ff00bc",
+        "score": 710,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 3900,
+        "status": "playing",
+        "hash": "da3ed9bb07062244c5f18c47d28df6ee16e91600ed25cc18537d20af16c30d2a",
+        "score": 770,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 4200,
+        "status": "playing",
+        "hash": "b0352b3aeadda53be13a7f598285b1054bd12876d1a8444e9ec31c00543f2fba",
+        "score": 830,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 4500,
+        "status": "playing",
+        "hash": "d974de2444a3e4467069e4a90e31f4d1338b05826ae7f05bc26c6072da80d2f1",
+        "score": 890,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 4800,
+        "status": "playing",
+        "hash": "d9fb33a46bd84710f4e8971d2e56a42ca1ef80f7d1176cd92bf06f2757c8076f",
+        "score": 950,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 5100,
+        "status": "playing",
+        "hash": "e227cab626f3bd5c629d9549d84613f9a0736d313b1449edc950794b16bb78df",
+        "score": 1010,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 5400,
+        "status": "playing",
+        "hash": "23977f49d694312d8e75ee8253002d3345bf25625442baa5b58c07579513ba8f",
+        "score": 1070,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 5700,
+        "status": "playing",
+        "hash": "6330e6993a97702aca26e77a8d632bf00f2057472b9288cb5f42bac72a0d1a2d",
+        "score": 1130,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 6000,
+        "status": "playing",
+        "hash": "20ddf42f4b9dcc954340375dd830820af99cfa382b0b27a196c9bd78c9600e7b",
+        "score": 1190,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 6300,
+        "status": "playing",
+        "hash": "680e77c2895bdf1708a3eb961a264a6522795e8da50bc2d5dc7a53b891375211",
+        "score": 1250,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 6600,
+        "status": "playing",
+        "hash": "f57ac31303f61e5f2fc611e1f0c7f053a83687c45bdfb90e64e8e0f097579fff",
+        "score": 1310,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 6900,
+        "status": "playing",
+        "hash": "48901c87e5aac8918bcc603125e5c6915591834c27ed0b88e90a78b4b7c08bc7",
+        "score": 1370,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 7200,
+        "status": "playing",
+        "hash": "985461d3e8536fe597c5e6b6c6dbbfd1e1a1cd3f8bc17c4d8854481ff00ed795",
+        "score": 1430,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 7500,
+        "status": "playing",
+        "hash": "bd918346664448d88af7ea62067fac099ac8d0aa51c5f5d76b56a333e99f9450",
+        "score": 1490,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 7800,
+        "status": "playing",
+        "hash": "f4e297490002bcc14273f11f481deceae34c326fdcd6db6b777bb22c46dbaec0",
+        "score": 1550,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 8100,
+        "status": "playing",
+        "hash": "991c1dde11209fa8e00a71808d81080633b24af0bccb60c8a4ba17c7334baca1",
+        "score": 1610,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 8400,
+        "status": "playing",
+        "hash": "89b07d51110a91754e091566acd6892e39fb544f0a26f70195031528b321d122",
+        "score": 1670,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 8700,
+        "status": "playing",
+        "hash": "76b29f555ec09bb0dd8ec417fcb396f4d2f16df681756c1383ce926116d5701c",
+        "score": 1730,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 9000,
+        "status": "playing",
+        "hash": "50eefc932baf54058b99989b5cf210a908ffb0559c489df38903c500c89a1f1c",
+        "score": 1790,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 9300,
+        "status": "playing",
+        "hash": "20bda957a25037bd297ec4f31220904ad30f1c41f70807fd6e3522b1a1af31bb",
+        "score": 1850,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 9600,
+        "status": "playing",
+        "hash": "af33212d9d2897d3a2bc8ae5f1059df2c67f84b003d97258a911a603aefe1e1b",
+        "score": 1910,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 9900,
+        "status": "playing",
+        "hash": "bce58b0b890e93b8afc44be51d087c4be8e21b58badd9661a899ccb6c641551c",
+        "score": 1970,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 10200,
+        "status": "playing",
+        "hash": "a34b4bfaa105d0a20377c187fdd8bf21fb436fa956516146a12eeda535b386eb",
+        "score": 2030,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 10500,
+        "status": "playing",
+        "hash": "53673585f4e6695bf8235ff7a90ab99d0dfe3df08a801bffe3b062e9dc46eba4",
+        "score": 2090,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 10800,
+        "status": "playing",
+        "hash": "b1acc7d5e83e0b28c8a3c058e1b52b4a2cfe3b00192e84690316126c31f9c919",
+        "score": 2150,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 11100,
+        "status": "playing",
+        "hash": "72a1aaa830107eec551cb475f3b1545e0313ec00a82f3b6650506821a29561ee",
+        "score": 2210,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 11400,
+        "status": "playing",
+        "hash": "f0338efce1784f9b9e504126789a49e3a976330329bbe7d7fc0ad8336e3ec0a9",
+        "score": 2270,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 11700,
+        "status": "playing",
+        "hash": "402574571ed39aadc3abaf34020ad3d8ff4e13cb78509e3a3b52cd51736f6d93",
+        "score": 2330,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 12000,
+        "status": "playing",
+        "hash": "1580d8ca9cbade50962fec2d70e71398c4b3cb56a4c87686781ca7c498a40f1d",
+        "score": 2390,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 12300,
+        "status": "playing",
+        "hash": "c31720d1870eccd397a07f02d5ec7d44225b3ea69ed63962e51c2f7ee0a8c37e",
+        "score": 2450,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 12600,
+        "status": "playing",
+        "hash": "bf7b5dab7347c1abe07978f2057684667e61b284f1d04cb93ff2b5026242b3f8",
+        "score": 2510,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 12900,
+        "status": "playing",
+        "hash": "fb240b3b7eff6116c32100b9369fc478ba151d1499a0694916079e4c017b4a11",
+        "score": 2570,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 13200,
+        "status": "playing",
+        "hash": "2f0036e4c3ad0a9a648d1f4845e28f69c1f16b9c5b547addf7ff1561067f83c8",
+        "score": 2630,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 13500,
+        "status": "playing",
+        "hash": "644ae4c82d62a5f24e4765c3dfcde57ac5837761bf4413ce80b6edd6b7e5a4b0",
+        "score": 2690,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 13800,
+        "status": "playing",
+        "hash": "372389125667fd7dfdd6a0e40b41b19cba69329b08152bc08107aadea58fc573",
+        "score": 2750,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 14100,
+        "status": "playing",
+        "hash": "e5f415033503c5d82248e6cd8958d7f4310d01f9474c0d65352da64802b3b02c",
+        "score": 2810,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 14400,
+        "status": "playing",
+        "hash": "0a4768b5358ca0cd50733562c22763a8d100f625e3302641bc0d6fa2f051fbea",
+        "score": 2870,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 14700,
+        "status": "playing",
+        "hash": "cb11a03c4d0c50ab24f65a40fb97911068f3da9884e3234bc8f41369c29a54cf",
+        "score": 2930,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 15000,
+        "status": "playing",
+        "hash": "457b70fb029ce91e992ec9a4e969341aee43989c060b2943a80c91d01e902674",
+        "score": 2990,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 15300,
+        "status": "playing",
+        "hash": "44860304adb33af3c5c95ee53268c2497d0006985d47681148fd3a494d6166be",
+        "score": 3050,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 15600,
+        "status": "playing",
+        "hash": "c53d2d4f48cee47f9ff8e5c492c2d1a32311fc10b5713df46d37e8d625797197",
+        "score": 3110,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 15900,
+        "status": "playing",
+        "hash": "851f53c35ac278cc24a6b086a5ef391d45615802539007a2630b8af6368bab6a",
+        "score": 3170,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 16200,
+        "status": "playing",
+        "hash": "4cb15d2aa2067b04d3c59dc591c2b62482c85b1017fd6430bb5dd83a5e22fabe",
+        "score": 3230,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 16500,
+        "status": "playing",
+        "hash": "7aa6d237e437ed39c1855251693b151b40bc62c4e191d83ae6cb51351446decb",
+        "score": 3290,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 16800,
+        "status": "playing",
+        "hash": "8129d02320b60e72f0212def9956e27bb68d0153f19310d670076230063ac7d3",
+        "score": 3350,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 17100,
+        "status": "playing",
+        "hash": "f02fbe89b4fdd7d6fd10aca8477e235c8999c29ee4e1588bec5b03aa117a5c54",
+        "score": 3410,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 17400,
+        "status": "playing",
+        "hash": "55bf5656897bd8e51a7cd2563342a7099ceffaafbb7ffb51b904301cd10f7d49",
+        "score": 3470,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 17700,
+        "status": "playing",
+        "hash": "78fe28a5b8d928b6c8dd8a0146846d05bfccfee85408cc2eac32c91bedd01689",
+        "score": 3530,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 18000,
+        "status": "playing",
+        "hash": "0a79d408017653ae02dcc49553048c731d9b2ad8a9ac9895fc4a817f09fd1770",
+        "score": 3590,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 18300,
+        "status": "playing",
+        "hash": "a9c58a5dea7df938bb21fbd0104f62f17fa5f94c7b00b8bfcb4478ad0f3c9d07",
+        "score": 3650,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 18600,
+        "status": "playing",
+        "hash": "f25a652b0e4277a9f5590110abe9e975ca37179f126a803627ddb5f28f134f11",
+        "score": 3710,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 18900,
+        "status": "playing",
+        "hash": "b7272e5868795015035e0eb273e9e05fc1ca07a4c233c616d922ebcf70cd5dc3",
+        "score": 3770,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 19200,
+        "status": "playing",
+        "hash": "95aa4fce9edfd710e798f75ece41d5368dc7643b354814c37ad654514a5b6dcf",
+        "score": 3830,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 19500,
+        "status": "playing",
+        "hash": "5feb627361960705f51a9782c3484d74e1be564ff77aff469951ca5695bfc50a",
+        "score": 3890,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 19800,
+        "status": "playing",
+        "hash": "a3e5e0996051a70970313a286179201e62d847d3495b15765945d465a8e06373",
+        "score": 3950,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 20100,
+        "status": "playing",
+        "hash": "bd3fba44e15fd3780d075544b1feda47067747034df2c38eb9c8d4607f409249",
+        "score": 4010,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 20400,
+        "status": "playing",
+        "hash": "7b5ade0e8cae4900d315d1454815ee22d75acfa615af214d30908cad51d34b26",
+        "score": 4070,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 20700,
+        "status": "playing",
+        "hash": "0670588beb6847fba222685c4571c94cfaeb8a5d1576d206a518f8411366966f",
+        "score": 4130,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 21000,
+        "status": "playing",
+        "hash": "389a7c89bfde95f67c8b92219c37a80a86dfccbb430303f15f94a69dec0b0697",
+        "score": 4190,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 21300,
+        "status": "playing",
+        "hash": "76d9a2bfa572e64a0d75d13dd5973451b476907142998805ee58e006790db0fe",
+        "score": 4250,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 21600,
+        "status": "playing",
+        "hash": "cb2ac97051f3d02742c3935c09df4f018733288f7f71ef08144627da79adaf75",
+        "score": 4310,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 21900,
+        "status": "playing",
+        "hash": "d3d18fd6ead23d68a64e0b8053c0a1722bce50083594cfcbcf6951a25e2edd47",
+        "score": 4370,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 22200,
+        "status": "playing",
+        "hash": "6a413dbeec988d03569e8015597c500b69da60d38239408320ab015570f31238",
+        "score": 4430,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 22500,
+        "status": "playing",
+        "hash": "6dc720306d1948df8375f7bae01e3f423bea0fff753055aaa8301437f1240dd1",
+        "score": 4490,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 22800,
+        "status": "playing",
+        "hash": "ebfee0934c17edaedd1be45af4030ff6d6146ba8bbc6ae72f3c2eca466c28629",
+        "score": 4550,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 23100,
+        "status": "playing",
+        "hash": "26eddd1fee3649ac204edb6d785aa34d1850c9fa9c40826a780542ca0d8729b5",
+        "score": 4610,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 23400,
+        "status": "playing",
+        "hash": "5dcdec89062d750b86a95198804552f2011eb72295eec493ba9b78b4751ee397",
+        "score": 4670,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 23700,
+        "status": "playing",
+        "hash": "9b0b407846e1ea476b1bbf2c248fb8b9d35abd8c003a8ce99ee6a87bc9791ccd",
+        "score": 4730,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 24000,
+        "status": "playing",
+        "hash": "44fbf4f6672f745f0b38509e5433b2ca5735ed8fc289d228110409a78f5e69ca",
+        "score": 4790,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 24300,
+        "status": "playing",
+        "hash": "436fe6b8d76c0dec315ef705e3cf38382e25db8082e0b819d801818888012fa1",
+        "score": 4850,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 24600,
+        "status": "playing",
+        "hash": "708097a2171d55078696b753eb2b22dba3d4392dcbd120589d422186536d221f",
+        "score": 4910,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 24900,
+        "status": "playing",
+        "hash": "6496b0eb53f07527a4fdd577a193483299fa1389e9872a30fd0ebc206a43fe14",
+        "score": 4970,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 25200,
+        "status": "playing",
+        "hash": "dca9e13502752e4a1130c04272a37e8d0ac516b87772ec886c0db838021c8051",
+        "score": 5030,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 25500,
+        "status": "playing",
+        "hash": "194a1bc5087085838f69c00302f8f31b4fa17a6522123d1a947841b627b3848c",
+        "score": 5090,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 25800,
+        "status": "playing",
+        "hash": "e3845014f65dc5f362248e88d5ebd6df976f8a223403d483ef4387542d1d5543",
+        "score": 5150,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 26100,
+        "status": "playing",
+        "hash": "fc097d57604734d3ad1b1a6a633e17bcdcbb9d519f48c61876d76aeaaa008bfb",
+        "score": 5210,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 26400,
+        "status": "playing",
+        "hash": "3709497e8140f5948917c33a1f7d701694209e5683c61be42e0e02f7891201c3",
+        "score": 5270,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 26700,
+        "status": "playing",
+        "hash": "ca7614d5628651285a6209299ff1b0150c17019271c307f6972b11539b68bc2d",
+        "score": 5330,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 27000,
+        "status": "playing",
+        "hash": "478ad226d270d2a9ed910d534f7631b0f32d4b4c1855284d5fb33bf348fcd1ec",
+        "score": 5390,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 27300,
+        "status": "playing",
+        "hash": "2b411216f562be90e1823e7e902d1384d061c042fca16f5ea662dbb3137626b4",
+        "score": 5450,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 27600,
+        "status": "playing",
+        "hash": "b2568eedb21864ead9e90f218bace459c48a4a3b48ebaf42317aa647ae1bdc2a",
+        "score": 5510,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 27900,
+        "status": "playing",
+        "hash": "baf59a6c9e9bd87d0ac26b323fafa43898eef30e324fa4008dbbc87b9dd23c8f",
+        "score": 5570,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 28200,
+        "status": "playing",
+        "hash": "b1bcb63dd3b68f7efb65ec91bebcf65c39f39ec1f07b0fe0e173a894a59af605",
+        "score": 5630,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 28500,
+        "status": "playing",
+        "hash": "d0f739437112a655bc81dc01d4d1902494e8d5ae1d7bbb70fb48ef12624ef3c3",
+        "score": 5690,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 28800,
+        "status": "playing",
+        "hash": "cb854a5a1d0dcfc563b432c14f1cc2eb4d90d472850e803abd660413354fbf6e",
+        "score": 5750,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 29100,
+        "status": "playing",
+        "hash": "7fefb0520745f01200a7ee7963f1f132eb3952afac2e55a28474c8980db5b19c",
+        "score": 5810,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 29400,
+        "status": "playing",
+        "hash": "11552b3b74956d3ec5222e6b88cd0a8777524506b128f1ef727a871303d9a310",
+        "score": 5870,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 29700,
+        "status": "playing",
+        "hash": "4d5770b719e0a2bccc05b52686db354883949271e4db6b0566a875a27bad4d5c",
+        "score": 5930,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 30000,
+        "status": "playing",
+        "hash": "0d51dd961ce215d4ed503acd6ae906b208c8e0cc1654122e8a8e900b25d8ae21",
+        "score": 5990,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 30300,
+        "status": "playing",
+        "hash": "8461d2057719ad20f46433c862d796c68f1b51bb9abd5a881d6b43a2c9909316",
+        "score": 6050,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 30600,
+        "status": "playing",
+        "hash": "71cec580eb1a03fe764940a29bd1e928302b39fb956b84a114bab9d6a3b9d6c1",
+        "score": 6110,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 30900,
+        "status": "playing",
+        "hash": "255ba143c24329d71287cd54ad5dc2cb94b7061703c87fcd7a23331ccc63b208",
+        "score": 6170,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 31200,
+        "status": "playing",
+        "hash": "dc84cd8afa6ee0fbf4df60d344827ed79ce97429ab337ecc7a69719c8b3a36b4",
+        "score": 6230,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 31500,
+        "status": "playing",
+        "hash": "8fd73c9ecbe9653ccc96c35ecbd8074eaae92ec71175a5f972669fee6f7badf5",
+        "score": 6290,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 31800,
+        "status": "playing",
+        "hash": "6cb2283753509fc7d6574efcff3cab14bccbc207c2400468b271981da5764681",
+        "score": 6350,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 32100,
+        "status": "playing",
+        "hash": "4530264e0de6276a71c139a91723047d822b4a5404cb0d22a691a1675281b89e",
+        "score": 6410,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 32400,
+        "status": "playing",
+        "hash": "3053e1aab1c7c5e987a72e3adef33cc7580a4d4c4b21ebba07e0f758fdaa62c3",
+        "score": 6470,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 32700,
+        "status": "playing",
+        "hash": "ac1dad00e0392d67e21ba40c65e3de834331b49b92a9aeb9e562948d3e7f0394",
+        "score": 6530,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 33000,
+        "status": "playing",
+        "hash": "0afa219edd86aac7e5506902d56876d1cd3748469881a20d9737d8a0c13f02ab",
+        "score": 6590,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 33300,
+        "status": "playing",
+        "hash": "974b18dfa65d58af0d9d98eaa8d9868506dc55f9b85d892c39352472f483c274",
+        "score": 6650,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 33600,
+        "status": "playing",
+        "hash": "a5791b7a2f4c4a1de4a653b87e8d988dfc7e255d72649a56051d0007a84ee0e8",
+        "score": 6710,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 33900,
+        "status": "playing",
+        "hash": "b6a2a41ea13508d635aec5276bdd44843cd0ef44216e2bb71bfc8feebc2186ab",
+        "score": 6770,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 34200,
+        "status": "playing",
+        "hash": "67eafd1708c3cece1fcb17e2e11fb18906b26842f4bde6bb141aa4aa4e54441e",
+        "score": 6830,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 34500,
+        "status": "playing",
+        "hash": "6146b591c0bcc2ae6f1b0cdf07d4df59f9f2bb0778d39b2855b1d6698a864ca2",
+        "score": 6890,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 34800,
+        "status": "playing",
+        "hash": "b8bdc4119f2c8b2d2e49f264fde31fb6f88dabfc561a792dcfd8165fcc905ee4",
+        "score": 6950,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 35100,
+        "status": "playing",
+        "hash": "5c5316173accbee37271fb58414ea093f0195da6a5e0b36a35864e50ee00fa2f",
+        "score": 7010,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 35400,
+        "status": "playing",
+        "hash": "a516dd6d78f2034c95a2c21ece2cd92e16ef77f85d865b9ec59508f5d89b2fc5",
+        "score": 7070,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 35700,
+        "status": "playing",
+        "hash": "fa6cc37dd44ca5a6273a53e40935ca574f1fe76bb66bfa32540428732d302a07",
+        "score": 7130,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 36000,
+        "status": "playing",
+        "hash": "8c49ea98195923e31a1cd544608deb677c4f3f68e32aea3b9e542ce217fad581",
+        "score": 7190,
+        "hull": 3,
+        "terminal": []
+      },
+      {
+        "tick": 36112,
+        "status": "lost",
+        "hash": "1b978235888fca0fa8389cd3f74ce02c07d7383dba014f937a9098e18458a10a",
+        "score": 7190,
+        "hull": 0,
+        "terminal": [
+          {
+            "type": "game.lost",
+            "tickIndex": 36111,
+            "payload": {
+              "outcomeId": "hull-depleted"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "browser": {
+    "version": "27.2",
+    "launcher": "run-webkit-local-deps.sh"
+  },
+  "status": "PASS"
+}

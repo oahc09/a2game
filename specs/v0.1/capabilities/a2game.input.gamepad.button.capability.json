@@ -26,6 +26,10 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 31
+        },
+        "mapping": {
+          "const": "standard",
+          "description": "Opt in to browser standard-mapping admission for this device index at the native host. All gamepad bindings for that index must agree. Normalized trace packets do not attest device layout."
         }
       },
       "required": [

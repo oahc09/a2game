@@ -37,3 +37,60 @@ test('state.set top-level path/value and existing-state type gates are not relax
 test('state.set supports explicit constant objects and JSON null without interpreting literal keys',()=>{
  for(const [effect,expected] of [[{op:'state.set',path:'/record',value:{const:{op:'literal-data',state:'not-a-pointer'}}},{op:'literal-data',state:'not-a-pointer'}],[{op:'state.set',path:'/record/slot',value:null},{slot:null}]]){const g=game();g.rules[0].do=[effect];const r=new HeadlessRuntime(g,makeRegistry());r.start();try{press(r,'reaim');r.step(1);assert.deepEqual(r.observe().state.record,expected);}finally{r.dispose();}}
 });
+
+function shotWorld(def={},aim=[1,0],targets=[],ticks=1){
+ const world=fixture().world;
+ world.bodies=[body('actor','actor',1600,1600),...targets.map(([id,dx,dy])=>body(id,'target',1600+dx,1600+dy))];
+ const config={...fixture().config,width:4000,height:4000,weapon:'projectile',projectileSpeed:128,...def};
+ let next=world;
+ for(let tickIndex=0;tickIndex<ticks;tickIndex++)next=resultWorld(simulateIntegerWorld({config,world:{state:{world:next,aim}},inputs:tickIndex?[]:[{type:'input.action',action:'fire',edge:'press'}],tickIndex}));
+ return next;
+}
+const velocity=w=>w.bodies.filter(b=>b.kind==='projectile').map(({vx,vy})=>[vx,vy])[0];
+
+test('circular projectile speed is opt-in, symmetric, nonzero at low speed and insensitive to aim magnitude',()=>{
+ const c={aimMetric:'euclidean'},p=(aim,speed)=>velocity(shotWorld({...c,projectileSpeed:speed},aim));
+ assert.deepEqual(p([1,0],128),[128,0]);
+ assert.deepEqual(p([1,1],128),[91,91]);
+ assert.deepEqual(p([0.7071,0.7071],128),p([180,180],128));
+ assert.deepEqual(p([-1,1],128),[-91,91]);
+ assert.deepEqual(p([-1,-1],1),[-1,-1]);
+ assert.deepEqual(p([Number.MIN_VALUE,Number.MIN_VALUE],1),[1,1]);
+ assert.deepEqual(p([0,0],128),[128,0]);
+ assert.deepEqual(velocity(shotWorld({},[1,1])),[64,64]);
+ assert.deepEqual(velocity(shotWorld({aimMetric:'manhattan',projectileSpeed:1},[1,1])),[0,0]);
+ const straight=shotWorld(c,[1,0],[['target',900,0]],7);
+ const diagonal=shotWorld(c,[1,1],[['target',636,636]],7);
+ assert.equal(straight.bodies.find(b=>b.id==='target').hp,2);
+ assert.equal(diagonal.bodies.find(b=>b.id==='target').hp,2);
+ assert.equal(shotWorld({},[1,1],[['target',636,636]],7).bodies.find(b=>b.id==='target').hp,3);
+});
+
+test('circular hitscan keeps range admission, ray endpoint, occlusion and target order coherent',()=>{
+ const c={aimMetric:'euclidean',weapon:'hitscan',weaponRange:1000};
+ const hp=(config,aim,x,y)=>shotWorld(config,aim,[['target',x,y]]).bodies.find(b=>b.id==='target').hp;
+ assert.equal(hp(c,[1,0],1000,0),2);
+ assert.equal(hp(c,[3,4],600,800),2); // exact equal distance via Pythagorean triple
+ assert.equal(hp(c,[1,1],707,707),2);
+ assert.equal(hp(c,[1,1],708,708),3); // center lies outside even though the box intersects
+ assert.equal(hp({...c,aimMetric:'manhattan'},[1,1],707,707),3);
+ const spec={...c,aimPath:undefined,autoTarget:true};
+ const rows=[['far',950,0],['near',600,600]];
+ assert.equal(shotWorld(spec,[0,0],rows).bodies.find(b=>b.id==='near').hp,2);
+ assert.equal(shotWorld({...spec,aimMetric:'manhattan'},[0,0],rows).bodies.find(b=>b.id==='far').hp,2);
+ const state=fixture().world;
+ state.bodies.push({...body('wall','solid',450,200),team:0});
+ const result=resultWorld(simulateIntegerWorld({config:{...fixture().config,...c},world:{state:{world:state,aim:[1,0]}},inputs:[{type:'input.action',action:'fire',edge:'press'}],tickIndex:0}));
+ assert.equal(result.bodies.find(b=>b.id==='target').hp,3);
+});
+
+test('circular aim config rejects unsupported metrics and malformed ranges',()=>{
+ const m=getPublicCapability(ref('a2game.realtime.world'));
+ assert.deepEqual(m.contract.configSchema.properties.aimMetric.enum,['manhattan','euclidean']);
+ for(const options of [{aimMetric:'l2'},{aimMetric:null},...[0,-1,1.5,32001,'1000'].map(weaponRange=>({aimMetric:'euclidean',weaponRange}))]){
+  const g=game();
+  Object.assign(g.scenes[0].entities[0].components[0].config,options);
+  assert.throws(()=>validateRealtimeDefinition(g),e=>e.code==='A2G_E_CAP_CONFIG');
+  assert.throws(()=>shotWorld(options),e=>e.code==='A2G_E_CAP_CONFIG');
+ }
+});

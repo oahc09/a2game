@@ -1,0 +1,1080 @@
+{
+  "format": "a2game",
+  "specVersion": "0.1.0",
+  "id": "org.a2game.games.g59-neon-arena",
+  "revision": 1,
+  "meta": {
+    "title": "霓虹回路 · 双摇杆试炼",
+    "genres": [
+      "action",
+      "arcade"
+    ],
+    "description": "30 分训练局。右侧突入路径，双手独立控制。触控按住画面左右半边，拖动移动和瞄准；右摇杆有方向时自动开火。手柄需启用标准映射。键盘 WASD 移动、方向键瞄准。"
+  },
+  "requires": {
+    "all": [
+      {
+        "id": "a2game.core.state",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.rules",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.core.flow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.keyboard.button",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.gamepad.axis2",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.input.touch.drag",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.world",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.velocity",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.acceleration",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.charge",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.jump",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.landing",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.lane-move",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.auto-scroll",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.spawner",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.collider",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.rigid-body",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.contact",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.bounce",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.constraint",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.trigger-zone",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.follow",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.realtime.object-pool",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.health",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.damage",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.aim",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.weapon",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.cooldown",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.projectile",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.hitscan",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.auto-target",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.wave",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.horde",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.combat.status",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.scene2d",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.body-style",
+        "version": "0.1.0"
+      },
+      {
+        "id": "a2game.visual.text",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "world": {
+    "dimension": "2d",
+    "coordinateSystem": "rh-y-up",
+    "units": "meter",
+    "clock": {
+      "tickHz": 60,
+      "seed": 591,
+      "maxCatchUpTicks": 10
+    }
+  },
+  "assets": {},
+  "prototypes": {},
+  "scenes": [
+    {
+      "id": "arena",
+      "entities": [
+        {
+          "id": "simulation",
+          "components": [
+            {
+              "capability": {
+                "id": "a2game.realtime.world",
+                "version": "0.1.0"
+              },
+              "config": {
+                "statePath": "/world",
+                "width": 6000,
+                "height": 4400,
+                "stickActions": {
+                  "move": "moveStick",
+                  "aim": "aimStick",
+                  "reticleStep": 100
+                },
+                "aimMetric": "euclidean",
+                "moveSpeed": 76,
+                "weapon": "projectile",
+                "projectileSpeed": 128,
+                "projectileHalfSize": 42,
+                "damage": 1,
+                "cooldownTicks": 13,
+                "seekSpeed": 18,
+                "invulnerabilityTicks": 35,
+                "goalScore": 30,
+                "maxTicks": 1080,
+                "maxObjects": 48,
+                "actions": {
+                  "left": "moveLeft",
+                  "right": "moveRight",
+                  "up": "moveUp",
+                  "down": "moveDown",
+                  "aimLeft": "aimLeft",
+                  "aimRight": "aimRight",
+                  "aimUp": "aimUp",
+                  "aimDown": "aimDown"
+                },
+                "waves": [
+                  {
+                    "tick": 30,
+                    "body": {
+                      "id": "drone_1",
+                      "kind": "target",
+                      "x": 4800,
+                      "y": 2200,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 110,
+                      "hy": 110,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 10,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 85,
+                    "body": {
+                      "id": "drone_2",
+                      "kind": "target",
+                      "x": 5150,
+                      "y": 2200,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 110,
+                      "hy": 110,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 10,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 155,
+                    "body": {
+                      "id": "drone_3",
+                      "kind": "target",
+                      "x": 5400,
+                      "y": 2200,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 110,
+                      "hy": 110,
+                      "hp": 1,
+                      "team": 2,
+                      "value": 10,
+                      "fixed": false
+                    }
+                  },
+                  {
+                    "tick": 190,
+                    "body": {
+                      "id": "drone_fork",
+                      "kind": "target",
+                      "x": 600,
+                      "y": 1000,
+                      "vx": 0,
+                      "vy": 0,
+                      "hx": 110,
+                      "hy": 110,
+                      "hp": 2,
+                      "team": 2,
+                      "value": 10,
+                      "fixed": false
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "entryScene": "arena",
+  "state": {
+    "world": {
+      "type": "object",
+      "initial": {
+        "bodies": [
+          {
+            "id": "pilot",
+            "kind": "actor",
+            "x": 3000,
+            "y": 2200,
+            "vx": 0,
+            "vy": 0,
+            "hx": 125,
+            "hy": 125,
+            "hp": 3,
+            "team": 1,
+            "value": 0,
+            "fixed": false
+          },
+          {
+            "id": "baffle_n",
+            "kind": "solid",
+            "x": 4200,
+            "y": 3650,
+            "vx": 0,
+            "vy": 0,
+            "hx": 450,
+            "hy": 140,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          },
+          {
+            "id": "baffle_s",
+            "kind": "solid",
+            "x": 1800,
+            "y": 700,
+            "vx": 0,
+            "vy": 0,
+            "hx": 450,
+            "hy": 140,
+            "hp": 1,
+            "team": 0,
+            "value": 0,
+            "fixed": true
+          }
+        ],
+        "score": 0,
+        "charge": 0,
+        "nextId": 0,
+        "cooldowns": {},
+        "contacts": [],
+        "spawned": [],
+        "grounded": [],
+        "won": false,
+        "lost": false,
+        "crosshair": [],
+        "health": 3,
+        "timeLeft": 1080
+      }
+    }
+  },
+  "inputs": {
+    "traceRecording": "user-opt-in",
+    "actions": [
+      {
+        "id": "moveStick",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "gamepad.axis2",
+            "config": {
+              "mapping": "standard",
+              "xAxis": 0,
+              "yAxis": 1,
+              "deadZoneMode": "radial",
+              "invertY": true,
+              "repeat": true
+            }
+          },
+          {
+            "source": "touch.drag",
+            "config": {
+              "stick": {
+                "zone": "left",
+                "radius": 0.11,
+                "deadZone": 0.12
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "aimStick",
+        "valueType": "vec2",
+        "bindings": [
+          {
+            "source": "gamepad.axis2",
+            "config": {
+              "mapping": "standard",
+              "xAxis": 2,
+              "yAxis": 3,
+              "deadZoneMode": "radial",
+              "invertY": true,
+              "repeat": true
+            }
+          },
+          {
+            "source": "touch.drag",
+            "config": {
+              "stick": {
+                "zone": "right",
+                "radius": 0.11,
+                "deadZone": 0.12
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyA",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyD",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyW",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "moveDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "KeyS",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "aimLeft",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowLeft",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "aimRight",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowRight",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "aimUp",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowUp",
+              "hold": true
+            }
+          }
+        ]
+      },
+      {
+        "id": "aimDown",
+        "valueType": "button",
+        "bindings": [
+          {
+            "source": "keyboard.button",
+            "config": {
+              "code": "ArrowDown",
+              "hold": true
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "rules": [],
+  "outcomes": [
+    {
+      "id": "hull-or-clock",
+      "status": "lost",
+      "priority": 0,
+      "when": {
+        "state": "/world/lost"
+      }
+    },
+    {
+      "id": "quota-cleared",
+      "status": "won",
+      "priority": 100,
+      "when": {
+        "state": "/world/won"
+      }
+    }
+  ],
+  "presentation": {
+    "hud": [
+      {
+        "id": "control-0",
+        "kind": "button",
+        "bind": {
+          "action": "moveLeft"
+        },
+        "text": "移动 ←"
+      },
+      {
+        "id": "control-1",
+        "kind": "button",
+        "bind": {
+          "action": "moveRight"
+        },
+        "text": "移动 →"
+      },
+      {
+        "id": "control-2",
+        "kind": "button",
+        "bind": {
+          "action": "moveUp"
+        },
+        "text": "移动 ↑"
+      },
+      {
+        "id": "control-3",
+        "kind": "button",
+        "bind": {
+          "action": "moveDown"
+        },
+        "text": "移动 ↓"
+      },
+      {
+        "id": "control-4",
+        "kind": "button",
+        "bind": {
+          "action": "aimLeft"
+        },
+        "text": "瞄准 ←"
+      },
+      {
+        "id": "control-5",
+        "kind": "button",
+        "bind": {
+          "action": "aimRight"
+        },
+        "text": "瞄准 →"
+      },
+      {
+        "id": "control-6",
+        "kind": "button",
+        "bind": {
+          "action": "aimUp"
+        },
+        "text": "瞄准 ↑"
+      },
+      {
+        "id": "control-7",
+        "kind": "button",
+        "bind": {
+          "action": "aimDown"
+        },
+        "text": "瞄准 ↓"
+      }
+    ],
+    "cues": [],
+    "scene2d": {
+      "width": 7,
+      "height": 6.25,
+      "background": "#08111f",
+      "nodes": [
+        {
+          "id": "arena-border",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6.18,
+            4.58
+          ],
+          "fill": "#27506c"
+        },
+        {
+          "id": "arena-bed",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6,
+            4.4
+          ],
+          "fill": "#101d31"
+        },
+        {
+          "id": "grid-v1",
+          "kind": "rect",
+          "at": [
+            -2.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v2",
+          "kind": "rect",
+          "at": [
+            -2,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v3",
+          "kind": "rect",
+          "at": [
+            -1.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v4",
+          "kind": "rect",
+          "at": [
+            -1,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v5",
+          "kind": "rect",
+          "at": [
+            -0.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v6",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v7",
+          "kind": "rect",
+          "at": [
+            0.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v8",
+          "kind": "rect",
+          "at": [
+            1,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v9",
+          "kind": "rect",
+          "at": [
+            1.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v10",
+          "kind": "rect",
+          "at": [
+            2,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-v11",
+          "kind": "rect",
+          "at": [
+            2.5,
+            0
+          ],
+          "size": [
+            0.012,
+            4.4
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h1",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.6500000000000001
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h2",
+          "kind": "rect",
+          "at": [
+            0,
+            -1.1
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h3",
+          "kind": "rect",
+          "at": [
+            0,
+            -0.55
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h4",
+          "kind": "rect",
+          "at": [
+            0,
+            0
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h5",
+          "kind": "rect",
+          "at": [
+            0,
+            0.5499999999999998
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h6",
+          "kind": "rect",
+          "at": [
+            0,
+            1.1
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "grid-h7",
+          "kind": "rect",
+          "at": [
+            0,
+            1.6500000000000004
+          ],
+          "size": [
+            6,
+            0.012
+          ],
+          "fill": "#172941"
+        },
+        {
+          "id": "panel",
+          "kind": "rect",
+          "at": [
+            0,
+            2.68
+          ],
+          "size": [
+            6.18,
+            0.6
+          ],
+          "fill": "#182c47"
+        },
+        {
+          "id": "title",
+          "kind": "text",
+          "at": [
+            -2.03,
+            2.55
+          ],
+          "text": {
+            "literal": "NEON CIRCUIT"
+          },
+          "fill": "#7cf0fb",
+          "fontSize": 0.2
+        },
+        {
+          "id": "scoreTitle",
+          "kind": "text",
+          "at": [
+            0.05,
+            2.82
+          ],
+          "text": {
+            "literal": "SCORE / 30"
+          },
+          "fill": "#8fa9c8",
+          "fontSize": 0.115
+        },
+        {
+          "id": "score",
+          "kind": "text",
+          "at": [
+            0.05,
+            2.58
+          ],
+          "text": {
+            "state": "/world/score"
+          },
+          "fill": "#f2ffac",
+          "fontSize": 0.205
+        },
+        {
+          "id": "hpTitle",
+          "kind": "text",
+          "at": [
+            1.4,
+            2.82
+          ],
+          "text": {
+            "literal": "HULL"
+          },
+          "fill": "#8fa9c8",
+          "fontSize": 0.115
+        },
+        {
+          "id": "hp",
+          "kind": "text",
+          "at": [
+            1.4,
+            2.58
+          ],
+          "text": {
+            "state": "/world/health"
+          },
+          "fill": "#6dfacf",
+          "fontSize": 0.205
+        },
+        {
+          "id": "timeTitle",
+          "kind": "text",
+          "at": [
+            2.55,
+            2.82
+          ],
+          "text": {
+            "literal": "CLOCK (TICKS)"
+          },
+          "fill": "#8fa9c8",
+          "fontSize": 0.11
+        },
+        {
+          "id": "time",
+          "kind": "text",
+          "at": [
+            2.55,
+            2.58
+          ],
+          "text": {
+            "state": "/world/timeLeft"
+          },
+          "fill": "#e2edff",
+          "fontSize": 0.18
+        },
+        {
+          "id": "moveHint",
+          "kind": "text",
+          "at": [
+            -1.55,
+            -2.62
+          ],
+          "text": {
+            "literal": "MOVE · WASD / LEFT"
+          },
+          "fill": "#a2cbe3",
+          "fontSize": 0.16
+        },
+        {
+          "id": "aimHint",
+          "kind": "text",
+          "at": [
+            1.55,
+            -2.62
+          ],
+          "text": {
+            "literal": "FIRE · ARROWS / RIGHT"
+          },
+          "fill": "#a2cbe3",
+          "fontSize": 0.16
+        }
+      ],
+      "repeat": [
+        {
+          "id": "reticle",
+          "source": {
+            "state": "/world/crosshair"
+          },
+          "columns": 61,
+          "origin": [
+            -3,
+            2.2
+          ],
+          "step": [
+            0.1,
+            0.1
+          ],
+          "indexMode": "cell",
+          "template": [
+            {
+              "id": "beamH",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.24,
+                0.028
+              ],
+              "fill": "#d5ffc3"
+            },
+            {
+              "id": "beamV",
+              "kind": "rect",
+              "at": [
+                0,
+                0
+              ],
+              "size": [
+                0.028,
+                0.24
+              ],
+              "fill": "#d5ffc3"
+            }
+          ]
+        }
+      ],
+      "bodyLayer": {
+        "statePath": "/world/bodies",
+        "unitsPerMeter": 1000,
+        "origin": [
+          -3,
+          -2.2
+        ],
+        "palette": {
+          "actor": "#39e6db",
+          "target": "#fa5379",
+          "projectile": "#d5f7ff",
+          "solid": "#4f7da6",
+          "pickup": "#ffe17b"
+        },
+        "circleKinds": [
+          "actor",
+          "target",
+          "projectile"
+        ]
+      }
+    }
+  },
+  "tests": [
+    "../tests/g59-neon-arena.conformance.json"
+  ],
+  "extensions": {}
+}

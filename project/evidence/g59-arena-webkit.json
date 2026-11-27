@@ -1,0 +1,230 @@
+{
+  "scope": "ordinary/standalone with real rendering and synthetic touch/gamepad input; finite authored score-quota only",
+  "status": "PASS",
+  "browser": "27.2",
+  "sdk": {
+    "format": "a2game-sdk-provenance",
+    "three": {
+      "version": "0.186.1",
+      "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz"
+    },
+    "cocosairjs": {
+      "version": "1.0.0",
+      "source": "https://github.com/oahc09/cocosairjs.git",
+      "commit": "fa54a3f6942bfb3035d5c92d174a054ec4ab55ab",
+      "entry": "build/cocosair.module.js",
+      "buildDate": "202610241349",
+      "buildNumber": 207,
+      "sourceTree": "clean; generated SDK build metadata may differ per build"
+    },
+    "files": [
+      {
+        "path": "player/vendor/three.module.js",
+        "sourceEntry": "build/three.module.js",
+        "sha256": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea"
+      },
+      {
+        "path": "player/vendor/three.core.js",
+        "sourceEntry": "build/three.core.js",
+        "sha256": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6"
+      },
+      {
+        "path": "player/vendor/cocosair.js",
+        "sourceEntry": "build/cocosair.module.js",
+        "sha256": "863a491698ad58a20965bb890bb742ba62880e9a7230601e438b0727855115f8"
+      }
+    ]
+  },
+  "sourceSha256": {
+    "src/modules/realtime.ts": "d6a5b6e9a97fa43af948047b316344886cbb55b7f8a37642ca880bd1eabcb88d",
+    "src/gamepad-input.ts": "a8bb05dc27440c06e885a6b27fc0a5a9a0dd9876daaa08cb72f2cace09af4860",
+    "src/mobile-input.ts": "22017861400f85be4cf3ccbfc3f03e774784aa137dff923ac2a07bf562940bee",
+    "player/pointer-host.mjs": "218128d173c662fcc0b9f40fb8ece513223766375f840bf0fdaa744737869b6a",
+    "player/main.mjs": "ff5aa6327dcd1c4ef0fdbd4674d0743cfe433aa8feb44a973e1c8326aef6cb1d",
+    "packages/player-sdk/index.mjs": "ce77f06fcb8c23db9710de604f505f490393b9a7bd4c6a58777f60c2b22007b6",
+    "scripts/g59-arena-browser.mjs": "f4c8b7ef5d9f8297adba477b345ee816eb4a9bda6e4a37a47495d6594d091f87"
+  },
+  "caseCount": 8,
+  "cases": [
+    {
+      "slug": "g59-neon-arena",
+      "backend": "three",
+      "standalone": false,
+      "gameSha256": "715690ba392aa42141b59154a84bc137c0e25988aaa32c4073131f9a7b617356",
+      "packageDigest": "be4aea780c8190a844661843aaf3388c4a09aa75d92b23b38d22785d68abd542",
+      "initial": {
+        "file": "g59-neon-arena-three-ordinary-opening.png",
+        "sha256": "b9dd775837525469d012642c88ed2bc4282bd057ef53f3a707fe210f7a3f6001"
+      },
+      "active": {
+        "file": "g59-neon-arena-three-ordinary-firing.png",
+        "sha256": "0d0ca7ce31c9793425e53be1076cf21f226ce4a2eae13bf3a5bbf30aa2c2810c"
+      },
+      "won": {
+        "file": "g59-neon-arena-three-ordinary-score30.png",
+        "sha256": "877e349563ef8d241dbf76800a5ca236694f9bdc8c7ed0b22ca40fd8413ede43"
+      },
+      "lost": {
+        "file": "g59-neon-arena-three-ordinary-loss.png",
+        "sha256": "42d2173ebd8bca8b9d9ec83d63d003faba1903ba23ac5aab124bcd986900ce93"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena",
+      "backend": "three",
+      "standalone": true,
+      "gameSha256": "715690ba392aa42141b59154a84bc137c0e25988aaa32c4073131f9a7b617356",
+      "packageDigest": "be4aea780c8190a844661843aaf3388c4a09aa75d92b23b38d22785d68abd542",
+      "initial": {
+        "file": "g59-neon-arena-three-standalone-opening.png",
+        "sha256": "5ddfc6bd57876ddb31e81a099748ee90e24a9feb930816c8c59b79641f0c6dfc"
+      },
+      "won": {
+        "file": "g59-neon-arena-three-standalone-score30.png",
+        "sha256": "15c1d9a0a688ec368ab3a3ac9f542d19d79edd41c18091ba9c2260427e83fb7a"
+      },
+      "lost": {
+        "file": "g59-neon-arena-three-standalone-loss.png",
+        "sha256": "f9068629142022b6395aeefdf293d625f07955967c5340a9e05ec1d77ea2110d"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena",
+      "backend": "cocosairjs",
+      "standalone": false,
+      "gameSha256": "715690ba392aa42141b59154a84bc137c0e25988aaa32c4073131f9a7b617356",
+      "packageDigest": "be4aea780c8190a844661843aaf3388c4a09aa75d92b23b38d22785d68abd542",
+      "initial": {
+        "file": "g59-neon-arena-cocosairjs-ordinary-opening.png",
+        "sha256": "258aefe95672eb18de1ec670a8a4ba5cb801150c3e02adca5cd991a5e3426232"
+      },
+      "active": {
+        "file": "g59-neon-arena-cocosairjs-ordinary-firing.png",
+        "sha256": "4907dceda4086aac32f62306def1b93986ff5689864d9661be198f5e8e56f042"
+      },
+      "won": {
+        "file": "g59-neon-arena-cocosairjs-ordinary-score30.png",
+        "sha256": "1d51a7037d10eff4ea16c84a822fa0a999b909ce26dbaf95fd427664212d19f6"
+      },
+      "lost": {
+        "file": "g59-neon-arena-cocosairjs-ordinary-loss.png",
+        "sha256": "cfaab04488e97e76b5266348299fde5d0ee9d4480ab26d9e72c42aff16eeab0d"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena",
+      "backend": "cocosairjs",
+      "standalone": true,
+      "gameSha256": "715690ba392aa42141b59154a84bc137c0e25988aaa32c4073131f9a7b617356",
+      "packageDigest": "be4aea780c8190a844661843aaf3388c4a09aa75d92b23b38d22785d68abd542",
+      "initial": {
+        "file": "g59-neon-arena-cocosairjs-standalone-opening.png",
+        "sha256": "2619c53d424da4d4e32ac0f07abfb63de7f30762bac7a80464867cb0eae0caa9"
+      },
+      "won": {
+        "file": "g59-neon-arena-cocosairjs-standalone-score30.png",
+        "sha256": "4642f10dffa8f784bb92f9d2808dcb66b4167e36549d627db83554294424f3e7"
+      },
+      "lost": {
+        "file": "g59-neon-arena-cocosairjs-standalone-loss.png",
+        "sha256": "94185da3fd9f84ec82d34e0b4a4a35fa874b76191a6dc8f74a96c09d8e2aa473"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena-mirror",
+      "backend": "three",
+      "standalone": false,
+      "gameSha256": "8088bdbf2fba00ffd8a969231997dea77d6a2782554dd7157086d589aebfda9f",
+      "packageDigest": "08abdbf259ace4ccf87dd3d830818c6ea6e24fce522b8e2e4ad97611f05d315b",
+      "initial": {
+        "file": "g59-neon-arena-mirror-three-ordinary-opening.png",
+        "sha256": "959b551c62e68190ff95a0e2ae5fd2bfd713bf9a74485a9f2f3955de84920e60"
+      },
+      "active": {
+        "file": "g59-neon-arena-mirror-three-ordinary-firing.png",
+        "sha256": "b105f4dc1fbaad82002609616df3ef72bbac8f8020a556cfdb46ea155dbf9b5f"
+      },
+      "won": {
+        "file": "g59-neon-arena-mirror-three-ordinary-score30.png",
+        "sha256": "7835bca8e45ce1a6036fb65778e05bdfee60b90429f4a8625c2754d963b04436"
+      },
+      "lost": {
+        "file": "g59-neon-arena-mirror-three-ordinary-loss.png",
+        "sha256": "4f3563abc80e51034f3761e1cda224dae973f327f3558a21a066a1a619226350"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena-mirror",
+      "backend": "three",
+      "standalone": true,
+      "gameSha256": "8088bdbf2fba00ffd8a969231997dea77d6a2782554dd7157086d589aebfda9f",
+      "packageDigest": "08abdbf259ace4ccf87dd3d830818c6ea6e24fce522b8e2e4ad97611f05d315b",
+      "initial": {
+        "file": "g59-neon-arena-mirror-three-standalone-opening.png",
+        "sha256": "df98d39b99581269b6b14145f7d31c53e3e236b767cd796e340ca497e2a5bf06"
+      },
+      "won": {
+        "file": "g59-neon-arena-mirror-three-standalone-score30.png",
+        "sha256": "94206d6edfb81597931b41256f0c94ea4f349fa2ff0d346abb3e41de2978e888"
+      },
+      "lost": {
+        "file": "g59-neon-arena-mirror-three-standalone-loss.png",
+        "sha256": "fc3c8e51ff163b8e51e0822a533e7b4f7a5744ee891a9ab41115def2c3547394"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena-mirror",
+      "backend": "cocosairjs",
+      "standalone": false,
+      "gameSha256": "8088bdbf2fba00ffd8a969231997dea77d6a2782554dd7157086d589aebfda9f",
+      "packageDigest": "08abdbf259ace4ccf87dd3d830818c6ea6e24fce522b8e2e4ad97611f05d315b",
+      "initial": {
+        "file": "g59-neon-arena-mirror-cocosairjs-ordinary-opening.png",
+        "sha256": "409ed629c00357bb05a8385dbd2d47794239c36d5443bea09eee40a6ad036638"
+      },
+      "active": {
+        "file": "g59-neon-arena-mirror-cocosairjs-ordinary-firing.png",
+        "sha256": "f8fd2ce0a477a06f4708d61293ece8549d9fbd11e3a9f23c5318121b2c802fc6"
+      },
+      "won": {
+        "file": "g59-neon-arena-mirror-cocosairjs-ordinary-score30.png",
+        "sha256": "9e4bfa80a6d05e4bf55c949fcb10f42a51160d75739a7805cd5552a8cbb4db44"
+      },
+      "lost": {
+        "file": "g59-neon-arena-mirror-cocosairjs-ordinary-loss.png",
+        "sha256": "c4eaa6c69cc3cd3978916b56e6723a92abad20cc14b8d2ae4119b84f4bc80035"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    },
+    {
+      "slug": "g59-neon-arena-mirror",
+      "backend": "cocosairjs",
+      "standalone": true,
+      "gameSha256": "8088bdbf2fba00ffd8a969231997dea77d6a2782554dd7157086d589aebfda9f",
+      "packageDigest": "08abdbf259ace4ccf87dd3d830818c6ea6e24fce522b8e2e4ad97611f05d315b",
+      "initial": {
+        "file": "g59-neon-arena-mirror-cocosairjs-standalone-opening.png",
+        "sha256": "f726e8e8be32af488bc8fc9bf23e182c5016999a591be4ebf4f8c3162aef291f"
+      },
+      "won": {
+        "file": "g59-neon-arena-mirror-cocosairjs-standalone-score30.png",
+        "sha256": "5a2719f099bc3e25c45a05d4b046db7eba24cf569e0f6e0c0c47046138a4f08b"
+      },
+      "lost": {
+        "file": "g59-neon-arena-mirror-cocosairjs-standalone-loss.png",
+        "sha256": "93668e5dbce8e11da6993e7f752a9a8c8127045613751e45d57b7804190e0a16"
+      },
+      "result": "SCORE30_RESTART_LOST"
+    }
+  ],
+  "representativeImage": {
+    "path": "docs/evidence/g59-arena-cocosairjs-webkit.png",
+    "sha256": "4907dceda4086aac32f62306def1b93986ff5689864d9661be198f5e8e56f042"
+  }
+}
