@@ -1,0 +1,39 @@
+{
+  "format": "a2game-capability",
+  "manifestVersion": "0.1.0",
+  "id": "a2game.puzzle.minesweeper",
+  "version": "0.1.0",
+  "kind": "behavior",
+  "portability": "exact",
+  "description": "生成首揭安全的确定性踩雷棋盘，支持插旗、八邻域数字、空区展开及胜负。不依赖渲染引擎。",
+  "phase": "simulate",
+  "dependencies": [
+    {"id": "a2game.core.state", "version": "0.1.0"},
+    {"id": "a2game.core.rules", "version": "0.1.0"},
+    {"id": "a2game.core.rng", "version": "0.1.0"}
+  ],
+  "contract": {
+    "configSchema": {
+      "type": "object",
+      "properties": {
+        "width": {"type": "integer", "minimum": 2, "maximum": 8},
+        "height": {"type": "integer", "minimum": 2, "maximum": 8},
+        "mineCount": {"type": "integer", "minimum": 1, "maximum": 63},
+        "cellActions": {"type": "array", "items": {"type": "string"}, "minItems": 4, "maxItems": 64, "uniqueItems": true},
+        "flagModeAction": {"type": "string"},
+        "statePath": {"type": "string", "pattern": "^/[a-zA-Z][a-zA-Z0-9_-]*$"}
+      },
+      "required": ["width", "height", "mineCount", "cellActions", "flagModeAction", "statePath"],
+      "additionalProperties": false
+    },
+    "stateSchema": {"type": "object", "additionalProperties": false},
+    "commands": [],
+    "events": [
+      {"name": "minesweeper.won", "payloadSchema": {"type": "object", "properties": {"cell": {"type": "integer"}}, "required": ["cell"], "additionalProperties": false}},
+      {"name": "minesweeper.lost", "payloadSchema": {"type": "object", "properties": {"cell": {"type": "integer"}}, "required": ["cell"], "additionalProperties": false}}
+    ],
+    "stateWrites": ["global"],
+    "lifecycle": ["initialize", "tick", "reset", "dispose"]
+  },
+  "testSuites": ["MINE-001", "MINE-002"]
+}

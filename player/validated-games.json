@@ -394,6 +394,18 @@
       "revision": 2,
       "sha256Jcs": "d300db8606c98b844889d771a40694ed72704c3675287db12f17f31299905feb"
     },
+    "/specs/v0.1/games/g35-minesweeper-wide.game.json": {
+      "id": "org.a2game.games.g35-minesweeper-wide",
+      "title": "G35 扫雷 · 5×4",
+      "revision": 1,
+      "sha256Jcs": "d649686f2d7c8cdbda798c17de6f7f07b00933fe929076875cb05895f0dd5d65"
+    },
+    "/specs/v0.1/games/g35-minesweeper.game.json": {
+      "id": "org.a2game.games.g35-minesweeper",
+      "title": "G35 扫雷 · 4×4",
+      "revision": 1,
+      "sha256Jcs": "e44c1b1357d11f076ff20ce0ab8ed2f89359a5f3db076bda5c7eed5deb936917"
+    },
     "/specs/v0.1/games/gamepad-lab.game.json": {
       "id": "org.a2game.samples.gamepad-lab",
       "title": "手柄扩展与键盘回退",

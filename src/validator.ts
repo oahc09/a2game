@@ -1,3 +1,4 @@
+import {validateMinesweeperDefinition} from './modules/minesweeper.js';
 import { validatePresentation } from './presentation.js';
 import { validatePuzzleDefinition } from './modules/puzzle.js';
 import { validateRealtimeDefinition } from './modules/realtime.js';
@@ -193,6 +194,7 @@ export function compileGame(raw: unknown, registry: CapabilityRegistry): Compile
     const d = clone(raw as unknown as GameDefinition);
     validatePresentation(d);
     validatePuzzleDefinition(d,registry);
+    validateMinesweeperDefinition(d);
     validateRealtimeDefinition(d);
     validateStrategyDefinition(d);
     validateProductionLineDefinition(d);

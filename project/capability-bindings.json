@@ -2,7 +2,7 @@
   "format": "a2game-capability-bindings",
   "version": 1,
   "specVersion": "0.1.0",
-  "count": 133,
+  "count": 134,
   "scope": "Current trusted bindings and test declarations; references are not per-capability execution receipts or formal platform approval.",
   "capabilities": [
     {
@@ -29,24 +29,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -57,16 +61,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -99,24 +99,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -127,16 +131,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -226,24 +226,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -254,16 +258,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -296,24 +296,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -324,16 +328,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -366,24 +366,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -394,16 +398,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -436,24 +436,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -464,16 +468,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -506,24 +506,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -534,16 +538,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -576,24 +576,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -604,16 +608,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -646,24 +646,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -674,16 +678,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -716,24 +716,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -744,16 +748,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -786,24 +786,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -814,16 +818,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -947,44 +947,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -1017,44 +1017,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -1128,44 +1128,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -1223,44 +1223,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -1962,44 +1962,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2048,44 +2048,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2130,44 +2130,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2220,44 +2220,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2290,44 +2290,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2440,44 +2440,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2510,44 +2510,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2580,44 +2580,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2650,44 +2650,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2720,44 +2720,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2796,6 +2796,59 @@
       "formalVerification": "NOT_SIGNED_OFF"
     },
     {
+      "id": "a2game.puzzle.minesweeper",
+      "version": "0.1.0",
+      "kind": "behavior",
+      "manifest": "specs/v0.1/capabilities/a2game.puzzle.minesweeper.capability.json",
+      "implementation": {
+        "role": "module",
+        "bound": true
+      },
+      "dependencies": [
+        {
+          "id": "a2game.core.rng",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.core.rules",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.core.state",
+          "version": "0.1.0"
+        },
+        {
+          "id": "a2game.puzzle.minesweeper",
+          "version": "0.1.0"
+        }
+      ],
+      "testDeclarations": [
+        {
+          "id": "MINE-001",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g35-minesweeper.conformance.json",
+              "suiteId": "g35-minesweeper"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        },
+        {
+          "id": "MINE-002",
+          "executableCases": [
+            {
+              "file": "specs/v0.1/tests/g35-minesweeper.conformance.json",
+              "suiteId": "g35-minesweeper"
+            }
+          ],
+          "specification": null,
+          "status": "EXECUTABLE_CASE_REFERENCE"
+        }
+      ],
+      "formalVerification": "NOT_SIGNED_OFF"
+    },
+    {
       "id": "a2game.puzzle.occlusion",
       "version": "0.1.0",
       "kind": "service",
@@ -2819,44 +2872,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2889,44 +2942,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -2975,44 +3028,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3065,44 +3118,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3135,44 +3188,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3247,44 +3300,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3317,44 +3370,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3387,44 +3440,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3515,44 +3568,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3605,44 +3658,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3691,44 +3744,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3761,44 +3814,44 @@
           "id": "PUZZLE-LIBRARY-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
-              "suiteId": "puzzle-match"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
-              "suiteId": "puzzle-tray"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
-              "suiteId": "puzzle-mahjong"
-            },
-            {
-              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
-              "suiteId": "puzzle-memory"
-            },
-            {
               "file": "specs/v0.1/tests/puzzle-arrows.conformance.json",
               "suiteId": "puzzle-arrows"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
-              "suiteId": "puzzle-polyomino"
+              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
+              "suiteId": "puzzle-connected"
             },
             {
               "file": "specs/v0.1/tests/puzzle-falling.conformance.json",
               "suiteId": "puzzle-falling"
             },
             {
+              "file": "specs/v0.1/tests/puzzle-mahjong.conformance.json",
+              "suiteId": "puzzle-mahjong"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-match.conformance.json",
+              "suiteId": "puzzle-match"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-memory.conformance.json",
+              "suiteId": "puzzle-memory"
+            },
+            {
               "file": "specs/v0.1/tests/puzzle-placement.conformance.json",
               "suiteId": "puzzle-placement"
+            },
+            {
+              "file": "specs/v0.1/tests/puzzle-polyomino.conformance.json",
+              "suiteId": "puzzle-polyomino"
             },
             {
               "file": "specs/v0.1/tests/puzzle-sort.conformance.json",
               "suiteId": "puzzle-sort"
             },
             {
-              "file": "specs/v0.1/tests/puzzle-connected.conformance.json",
-              "suiteId": "puzzle-connected"
+              "file": "specs/v0.1/tests/puzzle-tray.conformance.json",
+              "suiteId": "puzzle-tray"
             }
           ],
           "specification": null,
@@ -3831,24 +3884,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -3859,16 +3916,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -3901,24 +3954,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -3929,16 +3986,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4000,24 +4053,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4028,16 +4085,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4070,24 +4123,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4098,16 +4155,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4140,24 +4193,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4168,16 +4225,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4239,24 +4292,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4267,16 +4324,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4309,24 +4362,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4337,16 +4394,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4379,24 +4432,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4407,16 +4464,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4552,24 +4605,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4580,16 +4637,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4622,24 +4675,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4650,16 +4707,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4692,24 +4745,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4720,16 +4777,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4762,24 +4815,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4790,16 +4847,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4832,24 +4885,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4860,16 +4917,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -4931,24 +4984,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -4959,16 +5016,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -5001,24 +5054,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -5029,16 +5086,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -5071,24 +5124,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -5099,16 +5156,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -5249,24 +5302,28 @@
           "id": "REALTIME-WORLD-001",
           "executableCases": [
             {
-              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
-              "suiteId": "realtime-jump"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
-              "suiteId": "realtime-flappy"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
-              "suiteId": "realtime-lanes"
-            },
-            {
               "file": "specs/v0.1/tests/realtime-bounce.conformance.json",
               "suiteId": "realtime-bounce"
             },
             {
               "file": "specs/v0.1/tests/realtime-constraint.conformance.json",
               "suiteId": "realtime-constraint"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-flappy.conformance.json",
+              "suiteId": "realtime-flappy"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
+              "suiteId": "realtime-hitscan"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-jump.conformance.json",
+              "suiteId": "realtime-jump"
+            },
+            {
+              "file": "specs/v0.1/tests/realtime-lanes.conformance.json",
+              "suiteId": "realtime-lanes"
             },
             {
               "file": "specs/v0.1/tests/realtime-merge.conformance.json",
@@ -5277,16 +5334,12 @@
               "suiteId": "realtime-projectile"
             },
             {
-              "file": "specs/v0.1/tests/realtime-hitscan.conformance.json",
-              "suiteId": "realtime-hitscan"
+              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
+              "suiteId": "realtime-seek"
             },
             {
               "file": "specs/v0.1/tests/realtime-waves.conformance.json",
               "suiteId": "realtime-waves"
-            },
-            {
-              "file": "specs/v0.1/tests/realtime-seek.conformance.json",
-              "suiteId": "realtime-seek"
             }
           ],
           "specification": null,
@@ -5645,40 +5698,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -5711,40 +5764,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -5829,40 +5882,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -5895,40 +5948,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -5961,40 +6014,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6079,40 +6132,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6145,40 +6198,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6211,40 +6264,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6314,40 +6367,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6380,40 +6433,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6446,40 +6499,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6512,40 +6565,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6661,40 +6714,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6727,40 +6780,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6793,40 +6846,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6875,40 +6928,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -6941,40 +6994,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -7071,40 +7124,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -7137,40 +7190,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -7203,40 +7256,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
@@ -7285,40 +7338,40 @@
           "id": "STRATEGY-LIBRARY-001",
           "executableCases": [
             {
+              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
+              "suiteId": "strategy-cards"
+            },
+            {
               "file": "specs/v0.1/tests/strategy-farm.conformance.json",
               "suiteId": "strategy-farm"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
-              "suiteId": "strategy-upgrade"
-            },
-            {
-              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
-              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-merge.conformance.json",
               "suiteId": "strategy-merge"
             },
             {
-              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
-              "suiteId": "strategy-turn"
+              "file": "specs/v0.1/tests/strategy-path.conformance.json",
+              "suiteId": "strategy-path"
             },
             {
-              "file": "specs/v0.1/tests/strategy-cards.conformance.json",
-              "suiteId": "strategy-cards"
+              "file": "specs/v0.1/tests/strategy-shop.conformance.json",
+              "suiteId": "strategy-shop"
             },
             {
               "file": "specs/v0.1/tests/strategy-shuffle.conformance.json",
               "suiteId": "strategy-shuffle"
             },
             {
-              "file": "specs/v0.1/tests/strategy-path.conformance.json",
-              "suiteId": "strategy-path"
-            },
-            {
               "file": "specs/v0.1/tests/strategy-tower.conformance.json",
               "suiteId": "strategy-tower"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-turn.conformance.json",
+              "suiteId": "strategy-turn"
+            },
+            {
+              "file": "specs/v0.1/tests/strategy-upgrade.conformance.json",
+              "suiteId": "strategy-upgrade"
             }
           ],
           "specification": null,
