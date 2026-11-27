@@ -1,5 +1,7 @@
 # A2Game 当前进展
 
+R0 合入验证沿用现有完整 Schema 和超时约束。GamePlan 校验由实际验证进程报告缺失的 Python Schema 依赖。
+
 ## 三款完整游戏业务开发
 
 AI-05、AI-06 均通过工程参考验收。AI-05 原稿的叠牌变体保留七槽三消，遮挡边从 360 增至 792，牌面安排有变化。原稿独立提交的 144 次点击见证已展开回放；双引擎通过通关、遮挡拒选和满槽失败。AI-06 第一次因缺少 `/p/selected` 初态未过准入，第二稿补齐后通过原稿准入、4 条 Conformance 和 8 条双引擎浏览器流程，覆盖异形棋盘、障碍、双目标、非法交换、连锁及最后一步胜负。本批模型调用 3 次，原稿未由宿主改写。AI-01 至 AI-06 均已有工程参考回执，完整业务验收仍按任务书核对。[AI-05 通关](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-main-witness.json) · [AI-05 拒选及失败](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-negative.json) · [AI-06 双引擎](output/business-ai05-06-run-1795702836880/AI-06/attempt-2/browser-representative.json)

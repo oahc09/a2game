@@ -23,6 +23,7 @@ export async function validateGamePlan(input,{signal,timeoutMs=8000}={}){
  const directory=mkdtempSync(join(tmpdir(),'a2game-plan-check-'));
  const response=await runGeneratorWorker('plan-check',{text,directory},{signal,timeoutMs,maxBytes:128*1024});
  const result=JSON.parse(response.stdout);
+ if(result.status==='INFRA'&&result.code==='A2G_E_PYTHON_SCHEMA')throw Object.assign(fault(result.code,'','所选 Python 缺少完整 Draft 2020-12 校验依赖。'),{attribution:'INFRA',stage:'infra'});
  if(result.status!=='PASS')throw Object.assign(fault('A2G_GEN_PLAN_SCHEMA','','GamePlan 格式错误。'),{diagnostics:result.diagnostics});
  const plan=result.plan,keys=plan.capabilities.map(capabilityKey),selected=new Set(keys);
  if(plan.unmetCapabilities.length)throw fault('A2G_GEN_UNSUPPORTED_CAPABILITY','/unmetCapabilities','规划包含尚未满足的能力；不允许静默降级。');

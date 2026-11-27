@@ -41,7 +41,7 @@ try{
   process.stdout.write(JSON.stringify(result));
  }else if(kind==='plan-check'){
   const {callJsonProcess}=await import('../scripts/agent-workflow.mjs');
-  const result=await callJsonProcess([requirePython(undefined,{schema:true}),resolve(root,'generator/validate-plan.py')],{text:payload.text},{timeoutMs:8000,maxBytes:128*1024});
+  const result=await callJsonProcess([requirePython(),resolve(root,'generator/validate-plan.py')],{text:payload.text},{timeoutMs:8000,maxBytes:128*1024});
   process.stdout.write(JSON.stringify(result));
  }else if(kind==='admission'){
   const {createContentService}=await import('../scripts/content-service.mjs');

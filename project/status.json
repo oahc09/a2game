@@ -701,6 +701,11 @@
     "targetedTestsPassedPerVersion": 6,
     "limitations": "No new Chromium G2, formal G3, physical-device or deployment evidence."
   },
+  "r0GamePlanValidation": {
+    "schema": "Draft 2020-12",
+    "dependencyCheck": "VALIDATOR_PROCESS",
+    "defaultWorkerTimeoutMs": 8000
+  },
   "localDeliveryPlayerRun": {
     "date": "2026-11-14",
     "status": "PASS_TARGETED_REFERENCE",
