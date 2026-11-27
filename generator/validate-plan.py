@@ -3,7 +3,11 @@ import json
 import sys
 from pathlib import Path
 from itertools import islice
-from jsonschema import Draft202012Validator
+try:
+    from jsonschema import Draft202012Validator
+except ImportError:
+    print(json.dumps({'status': 'INFRA', 'code': 'A2G_E_PYTHON_SCHEMA'}))
+    sys.exit(0)
 
 def unique(pairs):
     value = {}

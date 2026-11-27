@@ -1,4 +1,4 @@
-import test from'node:test';import assert from'node:assert/strict';import{randomUUID,randomBytes}from'node:crypto';import{resolve,join}from'node:path';import{readFileSync,writeFileSync,mkdirSync,renameSync}from'node:fs';
+import test from'node:test';import assert from'node:assert/strict';import{randomUUID,randomBytes,createHash}from'node:crypto';import{resolve,join}from'node:path';import{readFileSync,writeFileSync,mkdirSync,renameSync}from'node:fs';
 import{openServiceStore}from'../generator/service-store.mjs';import{startCreationDeliveryService}from'../packages/delivery-service/index.mjs';
 const directory=()=>resolve('output','service-state-test-'+randomUUID());
 test('single writer retains quotas and detects corrupt state without replacing it',()=>{
@@ -37,6 +37,10 @@ test('admin login, fixture publication and restart recover jobs/selection withou
   const next=await publish();assert.equal(next.status,201,await next.clone().text());const replacement=await next.json();assert.notEqual(replacement.id,entry.id);
   assert.equal((await version(entry.id,'archive')).status,200);
   const state=JSON.parse(readFileSync(join(stateDirectory,'state.json'))).state;assert.equal(state.usedCalls,2);assert.equal(state.jobs.length,15);assert.ok(!readFileSync(join(stateDirectory,'state.json'),'utf8').includes(token));
+  const released=state.releases.find(release=>release.id===replacement.id).directory,license=readFileSync('LICENSE');
+  assert.deepEqual(readFileSync(join(released,'licenses/a2game-LICENSE')),license);
+  const inventory=JSON.parse(readFileSync(join(released,'build-inventory.json'),'utf8'));
+  assert.ok(inventory.files.some(file=>file.file==='licenses/a2game-LICENSE'&&file.sha256===createHash('sha256').update(license).digest('hex')));
   const archived=JSON.parse(readFileSync(join(stateDirectory,'archive/job',job.id+'.json'))).record;assert.equal(archived.request.prompt,'counter');
   await service.close();await start();assert.equal((await request('/studio/api/status',{headers:{Cookie:cookie}})).status,401);cookie=await login();status=await(await request('/studio/api/status',{headers:{Cookie:cookie}})).json();assert.equal(status.remainingCalls,0);assert.equal(status.jobs.length,15);assert.equal((await(await request('/studio/api/jobs/'+job.id,{headers:{Cookie:cookie}})).json()).status,'completed');
   const getChannel=async()=>JSON.parse((await(await request('/delivery/api/channel',{headers:{Cookie:cookie}})).json()).payload);

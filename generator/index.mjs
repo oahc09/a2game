@@ -1,3 +1,4 @@
+import {isPythonRuntimeError,requirePython} from '../scripts/python-runtime.mjs';
 /** Local product entry points. Existing admission and runtime remain authoritative. */
 import {readFileSync,writeFileSync,mkdirSync,existsSync,lstatSync} from 'node:fs';
 import {resolve,dirname,parse,join} from 'node:path';
@@ -69,6 +70,9 @@ export async function generateGame({prompt,providerId='fixture',configFile,mode=
  if(mode==='direct-json'&&gamePlan!==undefined)throw fail('A2G_GEN_PLAN_MODE');
  const output=safePath(outputDirectory??join(root,'output/generator',randomUUID()));
  if(existsSync(output))throw fail('A2G_GEN_OUTPUT_EXISTS');
+ if(signal?.aborted)throw fail('A2G_GEN_CANCELLED');
+ try{requirePython(undefined,{schema:true});}
+ catch(e){if(!isPythonRuntimeError(e))throw e;return {status:'BLOCKED',code:e.code,category:classifyFailure(e.code,e.attribution),message:e.message,generationCalls:0,fixtureCalls:0,G3:'NOT_RUN'};}
  const probe=await probeProvider({id:providerId,configFile});if(probe.status!=='READY')return {...probe,G3:'NOT_RUN'};
  if(signal?.aborted)throw fail('A2G_GEN_CANCELLED');
  const deadline=Date.now()+timeoutMs;

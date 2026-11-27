@@ -8,6 +8,7 @@ import {HeadlessRuntime,sha256Canonical} from '../dist/index.js';
 import {makeRegistry,root} from './registry.mjs';
 import {hostSourceFingerprint} from './host-source-fingerprint.mjs';
 import {createContentService} from './content-service.mjs';
+import {isPythonRuntimeError,requirePython} from './python-runtime.mjs';
 import {publicDiagnostics} from '../generator/diagnostics.mjs';
 export const illegalUndoContract=Object.freeze({
  format:'a2game-illegal-undo-check',version:1,profile:'grid-push-illegal-undo-v1',
@@ -57,7 +58,7 @@ function geometry(state,c,action){
  if(boxes.includes(target)){const next=target+delta;if(!inside(target,next)||walls.has(next)||boxes.includes(next))return 'blocked-push';}
  return boxes.includes(target)?'legal-push':'legal-move';
 }
-export async function checkIllegalUndo(game,declaration,{requireBlockedPush=false}={}){
+export async function checkIllegalUndo(game,declaration,{requireBlockedPush=false,python}={}){
  const report={format:'a2game-illegal-undo-result',version:1,status:'NOT_REQUESTED',profile:illegalUndoContract.profile,gameSha256:null,declarationSha256:null,implementationSha256:hostSourceFingerprint(root),trace:[],checks:{legalPrefix:'NOT_RUN',illegalState:'NOT_RUN',undoCore:'NOT_RUN'},formalG3:'NOT_RUN',browserInputAndVisual:'NOT_RUN',independentAuthoring:'NOT_VERIFIED',scope:illegalUndoContract.scope};
  if(declaration===undefined)return report;
  let runtime;
@@ -67,7 +68,7 @@ export async function checkIllegalUndo(game,declaration,{requireBlockedPush=fals
   report.gameSha256=sha256Canonical(game);report.declarationSha256=sha256Canonical(declaration);report.requireBlockedPush=requireBlockedPush;
   // Full Schema/semantic/resource admission is authoritative, including duplicate/unsafe content checks in CLI.
   const registry=makeRegistry(),{config:c,paths}=select(game,declaration,registry);
-  await createContentService().release(gameText);
+  await createContentService({python}).release(gameText);
   runtime=new HeadlessRuntime(game,registry);runtime.start();
   const observe=()=>{
    const active=Object.values(runtime.snapshot().entities).flatMap(e=>e.components.map((component,index)=>({entityId:e.id,index,component}))).filter(x=>registry.get(x.component.capability).kind==='behavior');
@@ -111,10 +112,10 @@ if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).hr
   const args=process.argv.slice(2);if(args.length<2||args.length>3||args[2]&&args[2]!=='--require-blocked-push')throw Error('Usage: node scripts/check-illegal-undo.mjs GAME.json mechanics.json [--require-blocked-push]');
   const read=p=>{const bytes=readFileSync(p);if(bytes.length>256*1024)throw Error('Input exceeds 256 KiB');return new TextDecoder('utf-8',{fatal:true}).decode(bytes);};
   const gameText=read(args[0]),declarationText=read(args[1]);
-  const python=process.env.A2GAME_PYTHON??resolve(root,process.platform==='win32'?'.venv/Scripts/python.exe':'.venv/bin/python');
+  const python=requirePython(undefined,{schema:true});
   const parsed=spawnSync(python,[resolve(root,'scripts/parse-agent-output.py')],{input:JSON.stringify({text:declarationText}),encoding:'utf8',timeout:8000,maxBuffer:1024*1024});
   if(parsed.status!==0||JSON.parse(parsed.stdout).status!=='PASS')throw Error('Declaration JSON is not strict');
   // Retain original game bytes for full admission; mechanics duplicate keys are rejected above.
-  const result=await checkIllegalUndo(gameText,JSON.parse(declarationText),{requireBlockedPush:args[2]==='--require-blocked-push'});console.log(JSON.stringify(result,null,2));if(result.status!=='PASS_REFERENCE')process.exitCode=1;
- }catch{console.error('A2G_E_MECHANICS_INPUT: provide bounded JSON files and supported controller flags.');process.exitCode=2;}
+  const result=await checkIllegalUndo(gameText,JSON.parse(declarationText),{requireBlockedPush:args[2]==='--require-blocked-push',python});console.log(JSON.stringify(result,null,2));if(result.status!=='PASS_REFERENCE')process.exitCode=1;
+ }catch(e){console.error(isPythonRuntimeError(e)?`${e.code}: ${e.message}`:'A2G_E_MECHANICS_INPUT: provide bounded JSON files and supported controller flags.');process.exitCode=2;}
 }

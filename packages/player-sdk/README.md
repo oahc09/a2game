@@ -113,7 +113,7 @@ SDK 在文字 HUD 变化时通过 `onEvent` 发出 `{ type: 'hud', text }`。宿
 
 播放器使用自己的JSON副本，大小不超过1 MiB；调用方在加载后修改原对象，不会改变实际运行内容。`build-inventory.json`列出打包文件摘要，`trusted-bundle.mjs`保存允许加载的内容摘要。
 
-摘要用于发现内容变化，不能认证作者。如果SDK、页面或摘要文件本身被替换，也不能依靠这些摘要保证安全。应保护整个分发目录和传输，并核对第三方素材/SDK许可；本仓库为UNLICENSED，复制依赖不代表取得商业发布许可。
+摘要用于发现内容变化，不能认证作者。如果SDK、页面或摘要文件本身被替换，也不能依靠这些摘要保证安全。应保护整个分发目录和传输，并核对第三方素材/SDK许可；A2Game 自有代码的许可见仓库 MIT LICENSE（分发包内 `licenses/a2game-LICENSE`）；该许可不代替第三方运行库和素材所附的各自条款。
 
 SDK来源见分发目录的`player/vendor/sdk-provenance.json`，共享物理库版本见仓库`project/sdk-lock.json`。
 
