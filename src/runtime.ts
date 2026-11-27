@@ -173,6 +173,8 @@ export class HeadlessRuntime {
             batch=batch.filter(sample=>sample.source==='keyboard');
         }
         batch.sort((a,b)=>(a.timeUs??0)-(b.timeUs??0) || (a.seq??0)-(b.seq??0) || stableCompare(a.source,b.source));
+        // Both edges from one gesture keep its raw sequence. Stable insertion orders
+        // press before release without moving the gesture behind later raw samples.
         for (const sample of batch) {
             if (sample.source === 'imu') {
                 const p = sample.payload;
@@ -205,8 +207,8 @@ export class HeadlessRuntime {
                         const maxDuration = safeFinite(cfg.maxDurationUs) ? cfg.maxDurationUs : 1500000;
                         if (cfg.direction !== direction || delta < minDistance || duration > maxDuration) continue;
                         const sourceId = `touchswipe:${id}:${down.timeUs}`;
-                        emitted.push({action:action.id,phase:'press',tickIndex:stage.tickIndex,timeUs:sample.timeUs,seq:sample.seq!*2,sourceId});
-                        emitted.push({action:action.id,phase:'release',tickIndex:stage.tickIndex,timeUs:sample.timeUs,seq:sample.seq!*2+1,sourceId});
+                        emitted.push({action:action.id,phase:'press',tickIndex:stage.tickIndex,timeUs:sample.timeUs,seq:sample.seq,sourceId});
+                        emitted.push({action:action.id,phase:'release',tickIndex:stage.tickIndex,timeUs:sample.timeUs,seq:sample.seq,sourceId});
                     }
                 }
                 for (const action of this.plan.definition.inputs.actions) {
@@ -217,8 +219,8 @@ export class HeadlessRuntime {
                     const maxDistance = safeFinite(cfg.maxDistanceNorm) ? cfg.maxDistanceNorm : 0.04;
                     if (duration > maxDuration || delta > maxDistance) continue;
                     const sourceId = `touch:${id}:${down.timeUs}`;
-                    emitted.push({action:action.id, phase:'press', tickIndex:stage.tickIndex, timeUs:sample.timeUs, seq:sample.seq!*2, sourceId});
-                    emitted.push({action:action.id, phase:'release', tickIndex:stage.tickIndex, timeUs:sample.timeUs, seq:sample.seq!*2+1, sourceId});
+                    emitted.push({action:action.id, phase:'press', tickIndex:stage.tickIndex, timeUs:sample.timeUs, seq:sample.seq, sourceId});
+                    emitted.push({action:action.id, phase:'release', tickIndex:stage.tickIndex, timeUs:sample.timeUs, seq:sample.seq, sourceId});
                 }
             }
             if (sample.source === 'keyboard') {
@@ -268,7 +270,7 @@ export class HeadlessRuntime {
             const payload: JsonRecord = {action:a.action, edge:a.phase, sourceId:id};
             if (a.value !== undefined) payload.value=clone(a.value);
             if(a.viewportAspect!==undefined){if(!safeFinite(a.viewportAspect)||a.viewportAspect<0.1||a.viewportAspect>10)fail('A2G_E_INPUT_RAW','Invalid action viewport aspect');payload.viewportAspect=a.viewportAspect;}
-            events.push(this.makeEvent(stage,'input','input.action',payload,[a.timeUs??0,a.seq??0,id],{action:a.action,edge:a.phase,sourceId:id}));
+            events.push(this.makeEvent(stage,'input','input.action',payload,[a.timeUs??0,a.seq??0,id,events.length],{action:a.action,edge:a.phase,sourceId:id}));
         }
         return events;
     }

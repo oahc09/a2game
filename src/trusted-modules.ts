@@ -13,6 +13,7 @@ import {gridTacticsId,gridTacticsImplementation} from './modules/grid-tactics.js
 import {minesId,disksId,mineBoardImplementation,diskBoardImplementation} from './modules/grid-boards.js';
 import {rigid3dImplementation} from './modules/rigid3d.js';
 import {minesweeperId,minesweeperImplementation} from './modules/minesweeper.js';
+import {snakeId,snakeImplementation} from "./modules/snake.js";
 import type {TrustedCapabilityImplementation} from './types.js';
 /** Application-owned binding, shared by Node and browser. JSON cannot register code. */
 export const trustedModules:Readonly<Record<string,TrustedCapabilityImplementation>>={
@@ -27,5 +28,6 @@ export const trustedModules:Readonly<Record<string,TrustedCapabilityImplementati
  [minesId]:mineBoardImplementation,[disksId]:diskBoardImplementation,
  'a2game.physics.rigid3d':rigid3dImplementation,
  [minesweeperId]:minesweeperImplementation,
+ [snakeId]:snakeImplementation,
 };
 export const trustedServiceIds=[...puzzleServiceIds,...realtimeServiceIds,...strategyServiceIds,...controlServiceIds,'a2game.core.clock'];
