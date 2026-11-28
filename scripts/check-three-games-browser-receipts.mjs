@@ -10,17 +10,22 @@ const gameDir='games/business-complete/skyline-patrol';
 const status=(await read('project/status.json')).threeCompleteGamesBusinessRun;
 const args=process.argv.slice(2);
 const offlineOnly=args[0]==='--offline-only';
+const enduranceStem={'--offscreen-endurance':'offscreen','--contact-order-endurance':'contact-order','--muzzle-endurance':'muzzle'}[args[0]];
+if(enduranceStem)assert.equal(args.length,3,'Provide the CocosAirJS and Three.js receipts for the requested revision');
 const [airFile=status.shooterEndurance.cocosAirReceipt,threeFile=status.shooterEndurance.threeReceipt,
-  explicitDelivery=status.refreshedStandalonePackages.browserReceipt]=args;
-const deliveryFile=offlineOnly?args[1]:explicitDelivery;
+  explicitDelivery=status.refreshedStandalonePackages.browserReceipt]=enduranceStem?args.slice(1):args;
+const deliveryFile=enduranceStem?undefined:offlineOnly?args[1]:explicitDelivery;
 if(offlineOnly)assert.ok(deliveryFile,'Provide the offline delivery receipt');
-const release=sha256Canonical(await read(join(gameDir,'delivery.game.json')));
+const gameFile=(enduranceStem??'delivery')+'.game.json';
+const game=await read(join(gameDir,gameFile));
+const release=sha256Canonical(game);
 
 async function checkEndurance(file,backend){
   const receipt=await read(file),seconds=backend==='air'?1800:600;
   assert.equal(receipt.backend,backend);
   assert.equal(receipt.smoke,false);
   assert.equal(receipt.gameRelease,release);
+  if(enduranceStem)assert.deepEqual([receipt.gameFile,receipt.gameRevision],[gameFile,game.revision]);
   assert.equal(receipt.targetSeconds,seconds);
   assert.deepEqual(receipt.errors,[]);
   assert.deepEqual(receipt.budget,{objects:128,p95FrameMs:25,p99FrameMs:50,warmupSeconds:20,windowSeconds:60});
@@ -31,7 +36,8 @@ async function checkEndurance(file,backend){
     assert.ok(window.peakObjects<=128);
     if(index>0)assert.ok(window.elapsedMs>receipt.windows[index-1].elapsedMs);
   }
-  const routeFiles=['long-score-trace.json','delivery-score-trace.json'];
+  const routeFiles=enduranceStem?[enduranceStem+'-long-score-trace.json',enduranceStem+'-score-trace.json']:
+    ['long-score-trace.json','delivery-score-trace.json'];
   assert.deepEqual(receipt.routes.map(route=>route.file),routeFiles);
   for(const route of receipt.routes)assert.equal(sha(await readFile(join(gameDir,route.file))),route.sha256);
   for(const [index,run] of receipt.runs.entries()){
@@ -111,7 +117,7 @@ if(deliveryFile){
     narrowViewport:receipt.narrowViewport?.length??'NOT_RUN'};
 }
 console.log(JSON.stringify({
-  status:offlineOnly?'PASS_OFFLINE_EVIDENCE':air.complete&&three?.complete&&offline?'PASS_BROWSER_EVIDENCE':'IN_PROGRESS',
+  status:offlineOnly?'PASS_OFFLINE_EVIDENCE':air.complete&&three?.complete?(enduranceStem?'PASS_'+enduranceStem.toUpperCase().replaceAll('-','_')+'_ENDURANCE':offline?'PASS_BROWSER_EVIDENCE':'IN_PROGRESS'):'IN_PROGRESS',
   endurance:[air?.summary,three?.summary].filter(Boolean),
   sameRoutePrefix:three?true:offlineOnly?'NOT_CHECKED':'PENDING_THREE',
   verifiedSharedTerminals:sharedRounds,

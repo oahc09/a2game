@@ -629,6 +629,12 @@
           "minimum": 16,
           "maximum": 128
         },
+        "projectileMuzzleOffset": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000,
+          "description": "Advance a projectile's spawn center by this amount along the normalized firing direction, rounded to integral coordinates and constrained to the simulation bounds. Zero preserves the legacy origin."
+        },
         "projectileGate": {
           "type": "object",
           "properties": {
@@ -710,6 +716,10 @@
         "independentProjectileHits": {
           "type": "boolean",
           "description": "Use each projectile ID for same-Tick damage deduplication while preserving its owner as the event source."
+        },
+        "projectileBeforeContact": {
+          "type": "boolean",
+          "description": "Resolve projectile substeps before opposing actor-target contact damage in the same Tick. Destroyed bodies cannot then deal contact damage."
         },
         "driftAction": {
           "type": "string",

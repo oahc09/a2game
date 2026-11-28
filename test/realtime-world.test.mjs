@@ -1,12 +1,124 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {HeadlessRuntime,projectPresentation} from '../dist/index.js';
+import {HeadlessRuntime,projectPresentation,replayNormalizedInputTrace} from '../dist/index.js';
 import {makeRegistry} from '../scripts/registry.mjs';
 import {verifyScoreSession} from '../scripts/score-session.mjs';
+import {createScoreRecord} from '../player/score-record.mjs';
 const game=name=>JSON.parse(readFileSync(`specs/v0.1/games/${name}.game.json`,'utf8'));
 const start=d=>{const r=new HeadlessRuntime(d,makeRegistry());r.start();return r;};
 const press=(r,action)=>{r.injectAction({action,phase:'press'});r.injectAction({action,phase:'release'});r.step();};
+const offscreenFile=name=>JSON.parse(readFileSync(`games/business-complete/skyline-patrol/${name}.json`,'utf8'));
+
+test('SHT-09 completes the projectile substeps before opposing contact regardless of object order',()=>{
+ const base=offscreenFile('offscreen.game');
+ for(const [targetId,shotId,reverse] of [['a-target','z-shot',false],['z-target','a-shot',true]])for(const hp of [1,2]){
+  const game=structuredClone(base);
+  const config=game.scenes[0].entities[0].components[0].config;
+  Object.assign(config,{autoFire:false,projectileBeforeContact:true});
+  const bodies=game.state.world.initial.bodies,hero=bodies[0],targetY=hero.y+50;
+  bodies.push({id:targetId,kind:'target',x:hero.x,y:targetY,vx:0,vy:0,hx:100,hy:100,hp,team:2,value:100,fixed:true},
+   {id:shotId,kind:'projectile',x:hero.x,y:targetY-208,vx:0,vy:128,hx:38,hy:38,hp:1,team:1,value:1,fixed:false,owner:hero.id,ttl:3,hits:[]});
+  if(reverse)bodies.reverse();
+  const runtime=start(game);
+  try{
+   runtime.step(1);
+   const result=runtime.observe();
+   const deaths=result.events.filter(e=>e.type==='combat.death').map(e=>e.payload.id);
+   assert.deepEqual([result.flow.status,result.state.world.score,deaths],hp===1?['playing',100,[targetId]]:['lost',0,[hero.id]]);
+   assert.equal(result.events.filter(e=>e.type==='combat.hit'&&e.payload.id===hero.id).length,hp===1?0:1);
+  }finally{runtime.dispose();}
+ }
+});
+
+test('score-session host reports the authoritative settlement once and restores its best',()=>{
+ const game=offscreenFile('offscreen.game');
+ const values=new Map();
+ const storage=()=>({getItem:key=>values.get(key)??null,setItem:(key,value)=>values.set(key,value)});
+ const record=createScoreRecord(game,storage);
+ const observe=(status,score)=>record.observe({flow:{status},state:{world:{score}}});
+ assert.deepEqual(observe('lost',0).settlement,{score:0,newBest:false});
+ assert.equal(observe('lost',0).settlement,null);
+ observe('playing',0);
+ assert.deepEqual(observe('lost',100).settlement,{score:100,newBest:true});
+ assert.equal(createScoreRecord(game,storage).label(),'最高分 100');
+ observe('playing',0);
+ assert.deepEqual(observe('lost',5),{best:100,available:true,settlement:{score:5,newBest:false}});
+ const denied=()=>({getItem:()=>null,setItem:()=>{throw Error('Storage unavailable');}});
+ const fallback=createScoreRecord(game,denied);
+ assert.deepEqual(fallback.observe({flow:{status:'lost'},state:{world:{score:80}}}),
+  {best:80,available:false,settlement:{score:80,newBest:true}});
+ assert.equal(fallback.label(),'最高分 80（本页）');
+ assert.equal(createScoreRecord(game,denied).label(),'最高分 0');
+});
+
+test('SHT-03 revision 6 automatic fire cadence survives pause without catch-up shots',()=>{
+ const definition=offscreenFile('offscreen.game');
+ const r=start(definition);
+ const fired=()=>r.observe().events.filter(e=>e.type==='combat.fired').map(e=>e.tickIndex);
+ try{
+  r.step(1);
+  const {bodies}=r.observe().state.world;
+  const hero=bodies.find(b=>b.id==='hero'),shot=bodies.find(b=>b.kind==='projectile');
+  assert.deepEqual([shot.x,shot.y,shot.vx,shot.vy],[hero.x,hero.y+96,0,96]);
+  r.step(14);
+  r.pause();
+  assert.equal(r.step(90).advanced,0);
+  assert.deepEqual(fired(),[0,6,12]);
+  r.resume();
+  r.step(16);
+  assert.deepEqual(fired(),[0,6,12,18,24,30]);
+ }finally{r.dispose();}
+});
+
+test('SHT-11 revision 6 rejects post-death input and restarts with clean state',()=>{
+ const definition=offscreenFile('offscreen.game'),trace=offscreenFile('offscreen-score-trace');
+ const r=new HeadlessRuntime(definition,makeRegistry()),fresh=start(definition);
+ try{
+  assert.equal(replayNormalizedInputTrace(r,trace).finalStatus,'lost');
+  const settled=r.observe();
+  assert.equal(settled.events.filter(e=>e.type==='combat.death'&&e.payload.id==='hero').length,1);
+  assert.throws(()=>r.injectAction({action:'bomb',phase:'press'}),{code:'A2G_E_FLOW'});
+  assert.throws(()=>r.injectRaw(trace.events[0]),{code:'A2G_E_FLOW'});
+  assert.equal(r.step(120).advanced,0);
+  assert.equal(r.observe().exactHash,settled.exactHash);
+  r.restart();
+  assert.deepEqual([r.tickIndex,r.observe().exactHash],[0,fresh.observe().exactHash]);
+  const {activePointers,inputQueue,rawQueue,pressedSources,events}=r.snapshot();
+  assert.deepEqual([activePointers,inputQueue,rawQueue,pressedSources,events],[{},[],[],{},[]]);
+ }finally{r.dispose();fresh.dispose();}
+});
+
+test('SHT-06 revision 6 awards each enemy score only on its lethal hit',()=>{
+ const definition=offscreenFile('offscreen.game');
+ const templates=definition.scenes[0].entities[0].components[0].config.waves;
+ assert.deepEqual(templates.map(({body})=>[body.hp,body.value]),[[1,100],[4,400],[10,1000]]);
+ for(const {body:template} of templates){
+  const fixture=structuredClone(definition);
+  fixture.scenes[0].entities[0].components[0].config.autoFire=false;
+  const initial=fixture.state.world.initial;
+  const target={...template,id:'fixture-target',x:2200,y:6000,vx:0,vy:0,fixed:true};
+  initial.bodies.push(target);
+  for(let i=0;i<target.hp;i++)initial.bodies.push({id:`fixture-shot-${i}`,kind:'projectile',x:target.x,
+   y:target.y-target.hy-38-1-32*i,vx:0,vy:16,hx:38,hy:38,hp:1,team:1,value:1,fixed:false,owner:'hero',ttl:90,hits:[]});
+  const r=start(fixture);
+  try{
+   for(let hit=1;hit<=target.hp;hit++){
+    r.step(hit===1?1:2);
+    const observation=r.observe(),world=observation.state.world;
+    const live=world.bodies.find(b=>b.id===target.id);
+    const lethal=hit===target.hp;
+    assert.equal(live?.hp,lethal?undefined:target.hp-hit);
+    assert.equal(world.score,lethal?target.value:0);
+    assert.equal(observation.events.filter(e=>e.type==='combat.hit'&&e.payload.id===target.id).length,hit);
+   }
+   r.step(2);
+   const result=r.observe();
+   assert.equal(result.state.world.score,target.value);
+   assert.equal(result.events.filter(e=>e.type==='combat.death'&&e.payload.id===target.id).length,1);
+  }finally{r.dispose();}
+ }
+});
 
 function simultaneousShots(){
  const d=game('g17-candidate'),cfg=d.scenes[0].entities[0].components[0].config;
@@ -31,6 +143,16 @@ test('SHT-08 scores independent same-owner projectile hits with stable owner att
    assert.deepEqual(events.filter(e=>e.type==='combat.hit').map(e=>e.payload.source),independent?['hero','hero']:['hero']);
   }finally{runtime.dispose();}
  }
+ const {d,cfg,target}=simultaneousShots();
+ cfg.independentProjectileHits=true;
+ target.hp=1;
+ const runtime=start(d);
+ try{
+  runtime.step(2);
+  const {state,events}=runtime.observe();
+  assert.equal(state.world.score,100);
+  assert.equal(events.filter(e=>e.type==='combat.death'&&e.payload.id==='enemy').length,1);
+ }finally{runtime.dispose();}
 });
 
 test('score-session accepts actual death with correct score and checks restart isolation',()=>{

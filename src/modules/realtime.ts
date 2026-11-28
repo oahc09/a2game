@@ -58,6 +58,8 @@ function validateConfig(c:Readonly<JsonRecord>):void {
     for(const [key,[min,max]] of Object.entries(ranges))if(c[key]!==undefined&&!integer(c[key],min,max))err('Invalid world '+key);
     if(c.aimMetric!==undefined&&c.aimMetric!=='manhattan'&&c.aimMetric!=='euclidean')err('Invalid aim metric');
     if(c.aimMetric==='euclidean'&&c.weaponRange!==undefined&&!integer(c.weaponRange,1,32000))err('Invalid Euclidean weapon range');
+    if(c.projectileBeforeContact!==undefined&&typeof c.projectileBeforeContact!=='boolean')err('Invalid projectile contact priority');
+    if(c.projectileMuzzleOffset!==undefined&&!integer(c.projectileMuzzleOffset,0,2000))err('Invalid projectile muzzle offset');
     if(c.actions!==undefined&&!isRecord(c.actions))err('Invalid world actions');
     if(c.stickActions!==undefined){
         const input=c.stickActions;
@@ -289,7 +291,10 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
                     if(w.bodies.length+shots.length>maximum)emit('realtime.pool-full',{});
                     else for(const {id,offset} of shots){
                         const half=Number(c.projectileHalfSize??16);
-                        spawn({id,kind:'projectile',x:offset===0?actor.x:clamp(actor.x+offset,half,Number(c.width)-half),y:actor.y,
+                        const muzzle=Number(c.projectileMuzzleOffset??0);
+                        const x=muzzle?clamp(actor.x+offset+Math.round(direction[0]!*muzzle),half,Number(c.width)-half):offset===0?actor.x:clamp(actor.x+offset,half,Number(c.width)-half);
+                        const y=muzzle?clamp(actor.y+Math.round(direction[1]!*muzzle),half,Number(c.height)-half):actor.y;
+                        spawn({id,kind:'projectile',x,y,
                             vx:quantize(direction[0]!*speed),vy:quantize(direction[1]!*speed),hx:half,hy:half,hp:1,team:actor.team,value:damageValue,fixed:false,ttl:600,owner:actor.id,hits:[]});
                         fired=true;w.nextId++;
                     }
@@ -307,6 +312,7 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
     }
     w.bodies.sort((a,b)=>stableCompare(a.id,b.id));
     const previousGrounded=new Set(w.grounded),grounded=new Set<string>(),contacts=new Set<string>(),landings=new Map<string,JsonRecord>();
+    const deferredActorContacts=c.projectileBeforeContact===true?new Map<string,[WorldBody,WorldBody]>():undefined;
     for(const b of w.bodies)if(!b.fixed&&(b.kind!=='projectile'||c.projectileGravity===true)){
         b.vx=clamp(b.vx+Math.round(Number(tilt[0])*16),-128,128);b.vy=clamp(b.vy+gravity-Math.round(Number(tilt[1])*16),-128,128);
         if(actor&&b.kind==='target'&&Number(c.seekSpeed??0)>0){
@@ -340,7 +346,11 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
         }
         for(let i=0;i<w.bodies.length;i++)for(let j=i+1;j<w.bodies.length;j++){
             const a=w.bodies[i]!,b=w.bodies[j]!;if(dead.has(a.id)||dead.has(b.id)||!overlaps(a,b))continue;
-            contacts.add(contactKey(a.id,b.id));
+            const pair=contactKey(a.id,b.id);
+            if(deferredActorContacts&&a.team!==b.team&&((a.kind==='actor'&&b.kind==='target')||(a.kind==='target'&&b.kind==='actor'))){
+                deferredActorContacts.set(pair,[a,b]);continue;
+            }
+            contacts.add(pair);
             const shot=a.kind==='projectile'?a:b.kind==='projectile'?b:undefined,target=shot===a?b:a;
             if(shot){if(target.kind==='solid'){
                 if(c.breakableSolids===true&&target.team!==0&&target.team!==shot.team)damage(target,shot.value,shot.owner??shot.id,c.independentProjectileHits===true?shot.id:undefined);
@@ -357,10 +367,19 @@ export function simulateIntegerWorld(ctx:ModuleContext):ModuleResult {
             }continue;}
             if(c.wavePhases!==undefined&&a.kind==='target'&&b.kind==='target')continue;
             if(c.merge===true&&!a.fixed&&!b.fixed&&a.value>0&&a.value===b.value){a.value*=2;a.hp=Math.max(a.hp,b.hp);dead.add(b.id);award(a.value);emit('realtime.merged',{kept:a.id,removed:b.id,value:a.value});continue;}
-            if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
-            if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target'){if(c.damageTargetsOnContact===true)damage(a,damageValue,b.id);else damage(b,1,a.id);}
+            damageOnActorContact(a,b);
             resolveContact(a,b);
         }
+    }
+    if(deferredActorContacts)for(const [pair,[a,b]] of deferredActorContacts){
+        if(dead.has(a.id)||dead.has(b.id))continue;
+        contacts.add(pair);
+        damageOnActorContact(a,b);
+        if(overlaps(a,b))resolveContact(a,b);
+    }
+    function damageOnActorContact(a:WorldBody,b:WorldBody):void {
+        if(a.team!==b.team&&a.kind==='actor'&&b.kind==='target'){if(c.damageTargetsOnContact===true)damage(b,damageValue,a.id);else damage(a,1,b.id);}
+        if(a.team!==b.team&&b.kind==='actor'&&a.kind==='target'){if(c.damageTargetsOnContact===true)damage(a,damageValue,b.id);else damage(b,1,a.id);}
     }
     function resolveContact(a:WorldBody,b:WorldBody):void {
         if(a.fixed&&b.fixed)return;

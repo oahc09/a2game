@@ -4,6 +4,44 @@ R0 合入验证沿用现有完整 Schema 和超时约束。GamePlan 校验由实
 
 ## 三款完整游戏业务开发
 
+云线巡航第八版在低负载宿主顺序通过双引擎正常时钟长局。Three.js 完成 36,030 个活动 Tick，CocosAirJS 完成 108,009 个，两端最差窗口 p95、p99 均约 16.8 ms，峰值均为 80 个对象，12 个共有终局一致。SHT-16、SHT-17 的设备条件继续待验。[双端审计](output/skyline-patrol-revision8-endurance-retry-1795852297288/summary.json)
+
+COM-11 已补三款游戏的官方资料与当前版本规则对照，74 条业务用例均有关联证据。当前签收 12 条、部分取证 48 条、待真机 14 条。经典版本的可操作构建或可逐帧核对的历史录像仍待锁定，参考一致性保留 PENDING。[规则对照](docs/three-games-acceptance-evidence.md#com-11-参考版本与规则对照)
+
+SHT-07 已补第八版双引擎桌面碰撞回执，两端与 Headless 的状态和 Hash 一致。夹具加宽机翼投影，验证视觉相交、实际判定框接边和随后重叠时的不同结算，同时验证敌机交叠及友方弹穿过玩家后命中敌机。真机层继续待验。[碰撞夹具回执](output/skyline-patrol-graze-1795854932830/receipt.json)
+
+已重建纹港叠牌 2 关和潮纹消消 12 关独立包。两款在 Three.js 与 CocosAirJS 的浏览器正常时钟下，通过同一地址换包、旧存档提示、确认重开、新版恢复和回退恢复。测试预置了前置关卡完成记录以进入支持局中存档的关卡，运行期间仅访问独立包静态文件。[独立包与双引擎回执](output/puzzle-static-update-1795851826430/receipt.json)
+
+叠牌和三消现在会提示旧版局中存档与新内容不兼容。确认重新开始后写入新版存档，保留原记录供旧版恢复。Three.js 与 CocosAirJS 均通过同版恢复、内容切换、确认重开和回退流程，复测使用离线准入夹具和受控动画帧时间。叠牌的循环遮挡诊断已通过三牌闭环和自循环回归。业务台账继续跟踪正式包与双端同夹具证据。[双引擎存档复测](output/puzzle-version-update-1795840051717/receipt.json)
+
+第八版长帧排查发现，启动本批压测浏览器前，宿主一次约 5.38 秒采样中，8 个未见 Playwright 或远程调试标记的 Chromium GPU 进程累计消耗 100.55 CPU 秒。后续连续采样显示已计入进程的总 CPU 占用一度约 96%，其中 Chromium 约 91%。这确认本轮有宿主负载竞争，历史长帧成因仍缺同时段证据。已启动低频采样队列，待连续低负载窗口后顺序复跑 Three.js 与 CocosAirJS，保留既有时长、帧预算和追帧保护。[宿主进程角色](output/skyline-patrol-revision8-host-diagnosis-1795837834273/chromium-role-snapshot.json) · [连续采样](output/skyline-patrol-revision8-host-diagnosis-1795837834273/host-load.jsonl)
+
+新增签收 SHEEP-05，已核对历史双端静态包的主挑战定义与当前 `resume.game.json` 相同。定向回归验证七张不匹配后失败、拒绝后续输入，重试恢复初态 Hash、种子、空槽和全部道具。当前 12/74 签收。第八版最新性能复验中，Three.js 在第 37 个活动 Tick 遇到 316.6 ms 长帧，CocosAirJS 在第 231 Tick 遇到 250 ms 长帧，均触发追帧保护。性能门槛保持原值，当前缺通过回执。[叠牌双端](output/three-games-delivery-1795401762291/receipt.json) · [Three.js 失败](output/skyline-patrol-endurance-three-1795837396508/receipt.json) · [CocosAirJS 失败](output/skyline-patrol-endurance-air-1795837516958/receipt.json)
+
+SHT-12 最高分持久化已签收。双引擎分别跑完 100、80、120 分的死亡路线，关闭再开后最高分为 100、100、120；仅在纪录更新时写入，写权限被拒时仅显示本页分数，版本隔离通过。第八版 Three.js 首轮在第 13,899 个活动 Tick 触发追帧保护，CocosAirJS 重跑完成 108,014 Tick，但一个窗口 p95 为 33.3 ms，高于 25 ms 门槛。失败证据保留，新一轮按 Three.js 后 CocosAirJS 顺序执行。[最高分双端](output/skyline-patrol-high-score-fixture-1795832114173/browser-1795832835670.json) · [第八版重跑计划](output/skyline-patrol-revision8-endurance-retry-1795837288699/plan.json)
+
+《云线巡航》第八版新增可选机头发射偏移。SHT-03 双端约 60/30 Hz 开火时序、SHT-06 三类敌机击毁和 SHT-10 无尽计分终局均已签收，总计 10/74。修订版双端短局 100 分及三阶段路线 5,300 分回归通过，独立包已构建。CocosAirJS 首轮在第 26,836 个活动 Tick 因 133.3 ms 长帧触发追帧保护，Three.js 继续取证。SHT-12 的 100、80、120 分真实死亡路线已通过 Headless，浏览器持久化检验排在 Three.js 后，之后单独重跑 CocosAirJS。[开火](output/skyline-patrol-fire-cadence-1795831779257/receipt.json) · [伤害](output/skyline-patrol-damage-1795831909587/receipt.json) · [终局](output/skyline-patrol-terminal-1795831964083/receipt.json) · [CocosAirJS 首轮](output/skyline-patrol-endurance-air-1795832038937/receipt.json)
+
+《云线巡航》第七版正常时钟压力复验通过。CocosAirJS 108,010 个活动 Tick、19 局；Three.js 36,046 个活动 Tick、12 局。12 个共同终局一致，两端最差 p95/p99 约 16.8 ms、对象峰值 80，释放检查通过。新增签收 SHT-04、SHT-11，总计 7/74。SHT-03 已补双端 60/30 Hz 与暂停证据，机头发射起点仍待对齐。[长局审计](output/skyline-patrol-revision7-endurance-1795791520553/summary.json) · [逐条台账](docs/three-games-acceptance-evidence.md)
+
+SHT-09 在《云线巡航》第七版签收。先完成同 Tick 的弹丸子步，再判定敌对机体接触。两种实体顺序、致命和非致命对照在双引擎共 8 条流程通过，死亡面板显示权威分数。第七版 SHT-05 边界、正常时钟 100 分短局及 5,300 分三阶段路线均回归通过。第六版 CocosAirJS 长局在第 32,181 个活动 Tick 触发追帧保护，失败回执保留。第七版已顺序启动 CocosAirJS 30 分钟及 Three.js 10 分钟的正常时钟复验。[SHT-09 双端](output/skyline-patrol-contact-order-1795791385548/receipt.json) · [第七版长局计划](output/skyline-patrol-revision7-endurance-1795791520553/plan.json)
+
+第六版 Three.js 10 分钟正常时钟测试通过，共 36,059 个活动 Tick、12 局结算，对象峰值 80，资源释放通过。CocosAirJS 接续执行 30 分钟。SHT-03、SHT-06、SHT-11 的第六版 Headless 定向检查通过，SHT-04 两次重放的 214 架敌机生成序列一致。SHT-09 在同一碰撞几何下仅交换实体 ID 就改变玩家生死，已登记不符合。[Three.js 回执](output/skyline-patrol-endurance-three-1795789987634/receipt.json) · [CocosAirJS 回执](output/skyline-patrol-endurance-air-1795790630122/receipt.json) · [SHT-09 反例](output/skyline-patrol-revision6-boundaries-1795790059660/sht-09-revision6.json)
+
+SHT-05 已在《云线巡航》第六版修复并签收。上下缓冲带把敌机出生、敌机和弹丸回收与可视区隔开，玩家碰撞框保持在可视区。Headless、Three.js 与 CocosAirJS 的 11 个边界观测 Hash 一致，正常时钟短局均为第 255 Tick、100 分，手动推进的三段难度长路线均为第 11,211 Tick、5,300 分，均可重开和释放。第五版的通过及失败回执保留，第六版 30/10 分钟正常时钟压力测试尚未重跑。[边界及短局](output/skyline-patrol-offscreen-1795788794048/receipt.json) · [三段难度路线](output/skyline-patrol-offscreen-1795788979756/receipt.json)
+
+74 条用例已逐条复核判定，签收 SHT-08、SHEEP-04、SHEEP-09。SHT-05 确认首架敌机在首 Tick 已完全位于可见区，屏外出生条件未通过；SHT-07 的非阻挡及友方碰撞 Headless 已取证，仍待补实画面和真机。其余 55 条部分取证、14 条待真机、1 条待参考实测。三项变体四次调用的历史请求与原稿 SHA-256 已复验，11 份公开源码可追溯，完整 Runtime 与 Adapter 的同期冻结指纹缺失。[逐条台账](docs/three-games-acceptance-evidence.md)
+
+AI-04 至 AI-06 的三个变体独立包已完成，累计核对 873 项文件摘要，包内定义与模型原稿一致。仓库外静态 HTTP 下，6 条双引擎实际浏览器流程通过。飞机变体验证拖动、5 分结算、重开与刷新后最高分；叠牌变体验证槽满失败、重试与通关；三消变体验证双目标胜败及重试。六项 Agent 结果现均有独立静态交付证据，完整业务签收与真机仍待验。[变体包索引](output/business-agent-variants-1795787999603/index.json) · [双端回执](output/business-agent-variants-1795787999603/browser-1795788075358.json)
+
+AI-03 星级交付已对齐共享公式。15 关原始通关路线均有可复验的三星分数，13 关仅调整合集的公开 `baseScore`，GameSpec 和原始模型文件保持原样。新版独立包双引擎各完成 15 关三星，第 10 关失败仍为 0 星且保持下一关锁定，重试通关后可续关，刷新保留全部星级。[逐关星级见证](output/business-ai03-stars-1795787069943/star-witnesses.json) · [双端回执](output/business-ai03-stars-1795787069943/browser-1795787122051.json)
+
+AI-02 与 AI-03 原稿已各自构建独立多关包。清单共 609 个文件，包内 17 份定义与原稿一致。两款均在仓库外静态 HTTP 通过 Three.js、CocosAirJS 的真实浏览器操作。叠牌由教学进入主挑战，满槽后重试，刷新恢复局中牌面、槽位、道具与撤回记录并通关。三消完成 15 关，首关后刷新恢复解锁和星级，第 10 关失败后重试通过。合集进度读取能力声明的状态路径，且键盘绑定优先于合集快捷键。三消使用共享星级公式，12 关的原稿见证星级阈值与公式有差异，尚待复核。[独立包索引](output/business-agent-collections-1795786842367/index.json) · [双引擎回执](output/business-agent-collections-1795786842367/browser-1795786960238.json)
+
+AI-01 通过版已构建独立包。291 个清单文件摘要复验通过。将包复制到仓库外，用静态 HTTP 在 Three.js 和 CocosAirJS 通过实际拖动、5 分结算、重开、刷新保留最高分及资源释放。[独立包回执](output/business-ai01-rounds-1795650574037/attempt-3/standalone-browser.json)
+
+已建立 74 条业务用例的证据台账，69 条已定位相关回执，5 条待定位或补测，14 条涉及未执行的真机层。本轮重新核查双引擎长局、离线交付和飞机定向回归。`adb devices -l` 无设备，历史 G3 原始证据仍待恢复。[逐条台账](docs/three-games-acceptance-evidence.md)
+
 AI-05、AI-06 均通过工程参考验收。AI-05 原稿的叠牌变体保留七槽三消，遮挡边从 360 增至 792，牌面安排有变化。原稿独立提交的 144 次点击见证已展开回放；双引擎通过通关、遮挡拒选和满槽失败。AI-06 第一次因缺少 `/p/selected` 初态未过准入，第二稿补齐后通过原稿准入、4 条 Conformance 和 8 条双引擎浏览器流程，覆盖异形棋盘、障碍、双目标、非法交换、连锁及最后一步胜负。本批模型调用 3 次，原稿未由宿主改写。AI-01 至 AI-06 均已有工程参考回执，完整业务验收仍按任务书核对。[AI-05 通关](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-main-witness.json) · [AI-05 拒选及失败](output/business-ai05-06-run-1795702836880/AI-05/attempt-1/browser-negative.json) · [AI-06 双引擎](output/business-ai05-06-run-1795702836880/AI-06/attempt-2/browser-representative.json)
 
 AI-02 至 AI-04 完成独立原稿的工程参考验证。AI-02 叠牌首稿通过两关准入，宿主从原稿独立见证展开 144 次点击并复验主挑战，教学关和主挑战均用真实浏览器点击通过双引擎。AI-03 的第二稿修复 15 关显示初态和末关收集路线，15 关准入、31 条 Conformance 和 6 条双引擎代表流程通过。AI-04 首稿改动敌机配比、速度曲线和主题，两个引擎均在第 33 Tick 以 5 分结算。三项累计模型调用 4 次，均保留原稿和失败历史。[AI-02 主挑战](output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-main-witness.json) · [AI-03 代表流程](output/business-ai02-06-run-1795700751295/AI-03/attempt-2/browser-representative.json) · [AI-04 浏览器回执](output/business-ai02-06-run-1795700751295/AI-04/attempt-1/browser.json)

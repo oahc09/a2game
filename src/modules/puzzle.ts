@@ -232,8 +232,19 @@ function validateConfig(cfg:JsonRecord,mode:PuzzleMode):void{
   if(mode==='falling'&&!cfg.pieces)error('Falling pieces require a piece sequence');
   if(mode==='placement'&&Boolean(cfg.pieces)===Boolean(cfg.targets))error('Placement requires exactly one of pieces or targets');
   if(cfg.blockers!==undefined){
-    if(!Array.isArray(cfg.blockers)||cfg.blockers.length!==count||cfg.blockers.some((row,index)=>!Array.isArray(row)||row.some(n=>!safeInteger(n)||n<0||n>=count||n===index)))error('Invalid layer/occlusion graph');
-    const graph=cfg.blockers as number[][],seen=new Set<number>(),stack=new Set<number>();const visit=(index:number):void=>{if(stack.has(index))error('Cyclic occlusion graph');if(seen.has(index))return;stack.add(index);for(const next of graph[index]!)visit(next);stack.delete(index);seen.add(index);};for(let i=0;i<count;i++)visit(i);
+    if(!Array.isArray(cfg.blockers)||cfg.blockers.length!==count||cfg.blockers.some(row=>!Array.isArray(row)||row.some(n=>!safeInteger(n)||n<0||n>=count)))error('Invalid layer/occlusion graph');
+    const graph=cfg.blockers as number[][],seen=new Set<number>(),stack=new Set<number>();
+    const visit=(index:number):void=>{
+      if(stack.has(index)){
+        const path=[...stack],cycle=[...path.slice(path.indexOf(index)),index];
+        error(`Cyclic occlusion graph at blockers[${index}]: ${cycle.join(' -> ')}`);
+      }
+      if(seen.has(index))return;
+      stack.add(index);
+      for(const next of graph[index]!)visit(next);
+      stack.delete(index);seen.add(index);
+    };
+    for(let i=0;i<count;i++)visit(i);
   }
 }
 function freeCell(p:PuzzleState,cfg:JsonRecord,index:number,mahjong=false):boolean{

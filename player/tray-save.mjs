@@ -18,9 +18,10 @@ export function createPuzzleSave(definition,registry,getStorage=()=>globalThis.l
  const stride=1+16*(settleTicksPerWave??0);
  const allowedActions=tray?[config.undoAction,trayTools.moveOutAction,trayTools.shuffleAction,...trayTools.returnActions].filter(Boolean):[];
  const gameSha256=sha256Canonical(definition),manifestDigest=capabilityManifestDigest(registry.list());
- const key=`a2game.${tray?'tray':'swap'}-save.v1.${definition.id}.${gameSha256}`;
+ const prefix=`a2game.${tray?'tray':'swap'}-save.v1.${definition.id}.`;
+ const key=prefix+gameSha256, startedKey=key+'.started';
  const tickHz=definition.world.clock.tickHz;
- let journal=[],seen=new Set(),status='',writeLocked=false;
+ let journal=[],seen=new Set(),status='',writeLocked=false,needsRestart=false;
  function trace(entries){
   const events=entries.flatMap((entry,index)=>{
    const tickIndex=index*stride;
@@ -52,8 +53,20 @@ export function createPuzzleSave(definition,registry,getStorage=()=>globalThis.l
  function restore(){
   let runtime;
   try{
-   const text=getStorage().getItem(key);
-   if(text===null)return null;
+   const storage=getStorage(),text=storage.getItem(key);
+   if(text===null){
+    if(storage.getItem(startedKey)===null){
+     for(let i=0;i<storage.length;i++){
+      const previous=storage.key(i);
+      if(previous?.startsWith(prefix)&&/^[0-9a-f]{64}$/.test(previous.slice(prefix.length))&&previous!==key){
+       needsRestart=true;
+       status='此关已更新，旧版局中存档与当前版本不兼容。旧记录已保留，请重新开始。';
+       break;
+      }
+     }
+    }
+    return null;
+   }
    if(text.length>131072)throw Error('Oversized save');
    const saved=JSON.parse(text);
    if(saved?.version!==1||saved.gameSha256!==gameSha256||saved.manifestDigest!==manifestDigest||
@@ -79,9 +92,15 @@ export function createPuzzleSave(definition,registry,getStorage=()=>globalThis.l
  return {
   restore,
   status:()=>status,
+  needsRestart:()=>needsRestart,
   reset(){
    journal=[];seen.clear();writeLocked=false;status='';
-   try{getStorage().removeItem(key);}catch{status='浏览器存储不可用。';}
+   const acknowledgeUpdate=needsRestart;needsRestart=false;
+   try{
+    const storage=getStorage();
+    storage.removeItem(key);
+    if(acknowledgeUpdate)storage.setItem(startedKey,'1');
+   }catch{status='浏览器存储不可用。';}
   },
   observe(runtime,observation){
    if(writeLocked)return;

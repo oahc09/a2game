@@ -57,8 +57,9 @@ async function createAdapter(mode){
 function observation(){return runtime?.observe(puzzleSave?undefined:{recentEvents:256});}
 function updateInfo(obs){
  puzzleSave?.observe(runtime,obs);
- const localScore=records?.update(obs),settlement=localScore?.settlement;
- const statusLabels={playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
+ const localScore=records?.update(obs),recordedScore=scoreRecord?.observe(obs);
+ const settlement=localScore?.settlement??recordedScore?.settlement;
+ const statusLabels={ready:'等待开始',playing:'进行中',paused:'已暂停',won:'已通关',lost:'本局结束',stopped:'对局已结束',error:'运行异常'};
  dom.status.textContent=statusLabels[obs.flow.status]??obs.flow.status;dom.status.className=['won','playing'].includes(obs.flow.status)?'':['paused','stopped'].includes(obs.flow.status)?'warn':'error';
  if(dom.status.dataset.flowStatus!==obs.flow.status){
    dom.status.dataset.flowStatus=obs.flow.status;
@@ -66,7 +67,7 @@ function updateInfo(obs){
    const result=({won:['已通关','目标已完成'],lost:['本局结束','目标未完成'],stopped:['对局已结束','可以重新开始']})[obs.flow.status];
    if(settlement&&result){
      result[0]='生存结束';
-     result[1]=`本局 ${settlement.score} 分 · ${settlement.newBest?'新纪录':'最高'} ${localScore.best} 分`;
+     result[1]=`本局 ${settlement.score} 分 · ${settlement.newBest?'新纪录':'最高'} ${(localScore??recordedScore).best} 分`;
      document.getElementById('resultMessage').textContent=result[1]+'。点击「重新开始」再玩一局。';
    }
    dom.stageResult.hidden=!result;
@@ -74,11 +75,12 @@ function updateInfo(obs){
  }
  dom.hash.textContent=obs.exactHash;
  const hudLines=projectHudText(definition,obs.state);
- if(scoreRecord){scoreRecord.observe(obs);hudLines.push(scoreRecord.label());}
+ if(scoreRecord)hudLines.push(scoreRecord.label());
  dom.score.textContent=hudLines.length?hudLines.join('\n'):Object.entries(obs.state).filter(([k,v])=>typeof v==='number'||typeof v==='boolean').map(([k,v])=>`${k}: ${v}`).join(' · ');
  if(localScore)dom.score.textContent+=`\n${localScore.available?'本机最高':'本页最高'}：${localScore.best}`;
  const last=obs.events.slice(-3).map(e=>`${e.tickIndex} ${e.type} ${e.action||e.payload?.reason||''}`).join('\n');
  dom.trace.textContent=`tick ${obs.tickIndex} · ${definition.world.clock.tickHz} Hz\n${last}`;
+ dom.pause.disabled=puzzleSave?.needsRestart()??false;
  dom.pause.textContent=obs.flow.status==='paused'?'继续':'暂停';
  for(const el of document.querySelectorAll('[data-action]')){
    el.disabled=!(definition.inputs.actions.some(x=>x.id===el.dataset.action)) || obs.flow.status!=='playing';
@@ -260,7 +262,11 @@ async function main(){
    adapter=await createAdapter(backendName);
    // Allow the real SDK's first shader/UI frame to complete before starting gameplay time.
    render();await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
-   if(!restored)runtime.start();bindInputs();if(params.get('ready')==='1'){pauseSession();waitingToStart=true;document.getElementById('readyPanel').hidden=false;}render();raf=requestAnimationFrame(animate);
+   const needsRestart=puzzleSave?.needsRestart();
+   if(!restored&&!needsRestart)runtime.start();
+   bindInputs();
+   if(!needsRestart&&params.get('ready')==='1'){pauseSession();waitingToStart=true;document.getElementById('readyPanel').hidden=false;}
+   render();raf=requestAnimationFrame(animate);
    window.render_game_to_text=()=>JSON.stringify({coordinateSystem:'center origin, +X right, +Y up; pointer top-left',
      backend:backendName,clock:manualClock?'manual':'realtime',...runtime.observe(),
      presentation:projectPresentation(definition,runtime.observe())});

@@ -29,17 +29,19 @@ export function createScoreRecord(definition,getStorage=()=>globalThis.localStor
  return {
   observe(observation){
    if(observation.flow.status==='playing')savedRun=false;
-   if(observation.flow.status!=='lost'||savedRun)return;
+   if(observation.flow.status!=='lost'||savedRun)return {best,available,settlement:null};
    savedRun=true;
    let current;
-   try{current=score(readPointer(observation.state,path));}catch{return;}
-   best=Math.max(best,current);
+   try{current=score(readPointer(observation.state,path));}catch{return {best,available,settlement:null};}
+   let previousBest=best;
    try{
     const previous=read();
-    best=Math.max(best,previous);
+    previousBest=Math.max(previousBest,previous);
+    best=Math.max(previousBest,current);
     if(best>previous)getStorage().setItem(key,JSON.stringify({version:1,best}));
     available=true;
-   }catch{available=false;}
+   }catch{best=Math.max(previousBest,current);available=false;}
+   return {best,available,settlement:{score:current,newBest:current>previousBest}};
   },
   label(){return `最高分 ${best}${available?'':'（本页）'}`;}
  };

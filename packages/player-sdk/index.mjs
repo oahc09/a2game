@@ -35,12 +35,13 @@ export function createA2GamePlayer({backend,container,engines=builtinEngines,onE
  const inputReady=()=>{assert();if(!ready||!started)throw Error('A2G_E_FLOW: start before input');return runtime.status==='playing';};
  const render=()=>{
   const observation=runtime.observe({recentEvents:256});
-  const score=records?.update(observation);
+  const recordedScore=scoreRecord?.observe(observation);
+  const score=records?.update(observation)??recordedScore;
   const frame=projectPresentation(definition,observation);
   eventFeedback?.capture(definition,observation);
   adapter.draw(eventFeedback?eventFeedback.project(frame):frame);
   const lines=projectHudText(definition,observation.state);
-  if(scoreRecord){scoreRecord.observe(observation);lines.push(scoreRecord.label());}
+  if(scoreRecord)lines.push(scoreRecord.label());
   const text=lines.join('\n');
   if(hudText!==text){hudText=text;emit('hud',{text});}
   if(flow!==observation.flow.status){flow=observation.flow.status;emit('status',score?{status:flow,score}:{status:flow});}

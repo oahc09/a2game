@@ -3,6 +3,118 @@
     "status": "BLOCKED",
     "stage": 4,
     "authorDesktopAcceptance": "PASS_BROWSER_EVIDENCE",
+    "businessCaseEvidenceMapping": {
+      "status": "PARTIAL",
+      "cases": 74,
+      "withRelatedEvidence": 74,
+      "withoutMappedEvidence": 0,
+      "signedPass": 12,
+      "failedRequirement": 0,
+      "partial": 48,
+      "referencePending": 0,
+      "referenceComparison": {
+        "case": "COM-11",
+        "status": "PARTIAL",
+        "referenceFidelity": "PENDING",
+        "comparison": "docs/three-games-acceptance-evidence.md#com-11-参考版本与规则对照"
+      },
+      "physicalTouchCasesPending": 14,
+      "puzzleFunctionalGaps": {
+        "status": "PASS_TARGETED_REFERENCE",
+        "saveVersionCases": ["COM-07", "M3-17"],
+        "occlusionCase": "SHEEP-02",
+        "browserFlowsPassed": 4,
+        "browserReceipt": "output/puzzle-version-update-1795840051717/receipt.json",
+        "packagedNormalClockFlowsPassed": 4,
+        "packagedBrowserReceipt": "output/puzzle-static-update-1795851826430/receipt.json",
+        "standalonePackages": {
+          "patternHarbor": "output/player-sdk-2026-11-28T07-42-28-640Z-0191704b",
+          "tideglassMatch": "output/player-sdk-2026-11-28T07-42-39-131Z-d8a7d33a"
+        },
+        "regression": "test/puzzle-library.test.mjs"
+      },
+      "variantGenerationFingerprint": "output/business-case-boundaries-1795788196979/variant-source-fingerprints.json",
+      "shooterBoundaryReceipt": "output/business-case-boundaries-1795788196979/shooter-boundary.json",
+      "shooterGrazeDesktop": {
+        "status": "PASS_DESKTOP",
+        "case": "SHT-07",
+        "receipt": "output/skyline-patrol-graze-1795854932830/receipt.json"
+      },
+      "shooterOffscreenBoundary": {
+        "status": "PASS",
+        "game": "games/business-complete/skyline-patrol/offscreen.game.json",
+        "revision": 6,
+        "browserReceipt": "output/skyline-patrol-offscreen-1795788794048/receipt.json",
+        "threePhaseManualClockReceipt": "output/skyline-patrol-offscreen-1795788979756/receipt.json",
+        "package": "output/player-sdk-2026-11-27T14-15-09-132Z-c9660bc5",
+        "normalClockEndurance": "FAIL_COCOSAIR_CLOCK_STALL_REVISION_6",
+        "normalClockThreeReceipt": "output/skyline-patrol-endurance-three-1795789987634/receipt.json",
+        "normalClockThreeStatus": "PASS",
+        "normalClockCocosAirReceipt": "output/skyline-patrol-endurance-air-1795790630122/receipt.json",
+        "normalClockCocosAirStatus": "FAIL_CLOCK_STALL"
+      },
+      "shooterSimultaneousContactFailure": "output/skyline-patrol-revision6-boundaries-1795790059660/sht-09-revision6.json",
+      "shooterMuzzle": {
+        "status": "PASS_TARGETED_REFERENCE",
+        "game": "games/business-complete/skyline-patrol/muzzle.game.json",
+        "revision": 8,
+        "cadenceReceipt": "output/skyline-patrol-fire-cadence-1795831779257/receipt.json",
+        "boundaryAndScoreReceipt": "output/skyline-patrol-offscreen-1795831792380/receipt.json",
+        "longRouteReceipt": "output/skyline-patrol-offscreen-1795831837933/receipt.json",
+        "damageReceipt": "output/skyline-patrol-damage-1795831909587/receipt.json",
+        "terminalReceipt": "output/skyline-patrol-terminal-1795831964083/receipt.json",
+        "package": "output/player-sdk-2026-11-28T02-12-00-590Z-5a6e8152",
+        "normalClockEndurance": "PASS_REVISION_8",
+        "endurancePlan": "output/skyline-patrol-revision8-endurance-1795831993863/plan.json",
+        "normalClockCocosAirReceipt": "output/skyline-patrol-endurance-air-1795832038937/receipt.json",
+        "normalClockCocosAirFirstStatus": "FAIL_CLOCK_STALL",
+        "normalClockThreeReceipt": "output/skyline-patrol-endurance-three-1795832543183/receipt.json",
+        "normalClockThreeFirstStatus": "FAIL_CLOCK_STALL",
+        "normalClockThreeRetryReceipt": "output/skyline-patrol-endurance-three-1795837396508/receipt.json",
+        "normalClockThreeRetryStatus": "FAIL_CLOCK_STALL",
+        "normalClockCocosAirRetryReceipt": "output/skyline-patrol-endurance-air-1795832870646/receipt.json",
+        "normalClockCocosAirRetryStatus": "FAIL_FRAME_BUDGET",
+        "normalClockCocosAirSecondRetryReceipt": "output/skyline-patrol-endurance-air-1795837516958/receipt.json",
+        "normalClockCocosAirSecondRetryStatus": "FAIL_CLOCK_STALL",
+        "hostLoadInvestigation": {
+          "status": "WAITING_FOR_QUIET_HOST",
+          "unit": "fraction of total logical-CPU capacity over each sample",
+          "roleSnapshot": "output/skyline-patrol-revision8-host-diagnosis-1795837834273/chromium-role-snapshot.json",
+          "samples": "output/skyline-patrol-revision8-host-diagnosis-1795837834273/host-load.jsonl",
+          "sequentialRetry": ["three", "air"]
+        },
+        "enduranceRetryPlan": "output/skyline-patrol-revision8-endurance-retry-1795837288699/plan.json",
+        "quietHostEndurance": {
+          "status": "PASS",
+          "audit": "output/skyline-patrol-revision8-endurance-retry-1795852297288/summary.json",
+          "plan": "output/skyline-patrol-revision8-endurance-retry-1795852297288/plan.json",
+          "three": "output/skyline-patrol-endurance-three-1795852324126/receipt.json",
+          "air": "output/skyline-patrol-endurance-air-1795852962350/receipt.json",
+          "baselineLoad": "output/skyline-patrol-revision8-host-diagnosis-1795852266785/host-load.jsonl",
+          "duringRunLoad": "output/skyline-patrol-revision8-host-diagnosis-1795852266785/host-load-during-run.jsonl"
+        },
+        "highScoreFixture": "output/skyline-patrol-high-score-fixture-1795832114173/routes.json",
+        "highScoreBrowserReceipt": "output/skyline-patrol-high-score-fixture-1795832114173/browser-1795832835670.json"
+      },
+      "shooterContactOrder": {
+        "status": "PASS",
+        "game": "games/business-complete/skyline-patrol/contact-order.game.json",
+        "revision": 7,
+        "browserReceipt": "output/skyline-patrol-contact-order-1795791385548/receipt.json",
+        "shortAndBoundaryReceipt": "output/skyline-patrol-offscreen-1795791397320/receipt.json",
+        "threePhaseManualClockReceipt": "output/skyline-patrol-offscreen-1795791443714/receipt.json",
+        "package": "output/player-sdk-2026-11-27T14-56-33-919Z-d1dd7751",
+        "normalClockEndurance": "PASS_REVISION_7",
+        "endurancePlan": "output/skyline-patrol-revision7-endurance-1795791520553/plan.json",
+        "normalClockCocosAirReceipt": "output/skyline-patrol-endurance-air-1795791548524/receipt.json",
+        "normalClockThreeReceipt": "output/skyline-patrol-endurance-three-1795793396735/receipt.json",
+        "normalClockEnduranceAudit": "output/skyline-patrol-revision7-endurance-1795791520553/summary.json",
+        "fireCadenceReceipt": "output/skyline-patrol-fire-cadence-1795828384598/receipt.json",
+        "waveSequenceReceipt": "output/skyline-patrol-offscreen-1795828459899/receipt.json",
+        "terminalIsolationReceipt": "output/skyline-patrol-terminal-1795828504581/receipt.json"
+      },
+      "ledger": "docs/three-games-acceptance-evidence.md"
+    },
     "plan": "docs/history/A2Game-Three-Complete-Games-Acceptance-Plan-2026-11-22.md",
     "progressiveCollection": {
       "status": "PASS_REFERENCE",
@@ -258,6 +370,12 @@
         "browserRunsPassed": 6,
         "summary": "output/business-ai01-rounds-1795650574037/summary.json"
       },
+      "standaloneDelivery": {
+        "status": "PASS_TARGETED_REFERENCE",
+        "package": "output/player-sdk-2026-11-27T13-33-32-406Z-2d6e9782",
+        "inventoryFilesVerified": 291,
+        "browserReceipt": "output/business-ai01-rounds-1795650574037/attempt-3/standalone-browser.json"
+      },
       "hostDiagnosticRepair": {
         "status": "PASS_LOCAL",
         "providerCalls": 0,
@@ -268,12 +386,37 @@
         "browserReceipt": "output/business-ai01-host-repair-1795649459476/browser.json"
       }
     },
+    "independentAgentCollectionDelivery": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "packageIndex": "output/business-agent-collections-1795786842367/index.json",
+      "browserReceipt": "output/business-agent-collections-1795786842367/browser-1795786960238.json",
+      "levels": {"AI-02": 2, "AI-03": 15},
+      "inventoryFilesVerified": 609,
+      "browserRunsPassed": 4,
+      "initialMatch3StarWitnessThresholdsDiffer": 12,
+      "match3StarAlignment": {
+        "status": "PASS_TARGETED_REFERENCE",
+        "levels": 15,
+        "baseScoresAdjusted": 13,
+        "packageIndex": "output/business-ai03-stars-1795787069943/index.json",
+        "witnesses": "output/business-ai03-stars-1795787069943/star-witnesses.json",
+        "browserReceipt": "output/business-ai03-stars-1795787069943/browser-1795787122051.json"
+      }
+    },
     "independentAgentAI02To04": {
       "status": "PASS_REFERENCE",
       "providerCalls": 4,
       "AI-02": {"attempt": 1, "admittedLevels": 2, "headlessCasesPassed": 7, "browserRunsPassed": 4, "mainWitness": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/main-witness-receipt.json", "mainBrowser": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-main-witness.json", "tutorialBrowser": "output/business-ai02-06-run-1795700751295/AI-02/attempt-1/browser-tutorial-witness.json"},
       "AI-03": {"attempt": 2, "admittedLevels": 15, "headlessCasesPassed": 31, "browserRunsPassed": 6, "admission": "output/business-ai02-06-run-1795700751295/AI-03/attempt-2/result.json", "browser": "output/business-ai02-06-run-1795700751295/AI-03/attempt-2/browser-representative.json"},
       "AI-04": {"attempt": 1, "headlessCasesPassed": 4, "browserRunsPassed": 2, "browser": "output/business-ai02-06-run-1795700751295/AI-04/attempt-1/browser.json"}
+    },
+    "independentAgentVariantDelivery": {
+      "status": "PASS_TARGETED_REFERENCE",
+      "tasks": ["AI-04", "AI-05", "AI-06"],
+      "browserRunsPassed": 6,
+      "inventoryFilesVerified": 873,
+      "index": "output/business-agent-variants-1795787999603/index.json",
+      "browserReceipt": "output/business-agent-variants-1795787999603/browser-1795788075358.json"
     },
     "independentAgentAI05To06": {
       "status": "PASS_REFERENCE",

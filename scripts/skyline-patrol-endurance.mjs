@@ -9,13 +9,22 @@ import {verifyScoreSession} from './score-session.mjs';
 
 const backend=process.argv[2];
 assert.ok(['air','three'].includes(backend),'Choose air or three');
-const smoke=process.argv[3]==='--smoke';
+const flags=process.argv.slice(3);
+const versions=['--offscreen','--contact-order','--muzzle'];
+assert.ok(flags.every(flag=>flag==='--smoke'||versions.includes(flag)),'Unknown endurance flag');
+const requested=flags.filter(flag=>versions.includes(flag));
+assert.ok(requested.length<=1,'Choose one revision');
+const smoke=flags.includes('--smoke');
 const seconds=smoke?60:backend==='air'?1800:600;
 const targetTicks=seconds*60;
 const dir='games/business-complete/skyline-patrol/';
-const source=await readFile(dir+'delivery.game.json','utf8'),game=JSON.parse(source);
+const stem=requested[0]?.slice(2);
+const gameFile=(stem??'delivery')+'.game.json';
+const source=await readFile(dir+gameFile,'utf8'),game=JSON.parse(source);
 const scorePath='/world/score';
-const routes=await Promise.all([['long-score-trace.json',14900],['delivery-score-trace.json',100]].map(async([file,score])=>{
+const routeSpecs=stem?[[stem+'-long-score-trace.json',5300],[stem+'-score-trace.json',100]]:
+  [['long-score-trace.json',14900],['delivery-score-trace.json',100]];
+const routes=await Promise.all(routeSpecs.map(async([file,score])=>{
   const bytes=await readFile(dir+file,'utf8'),trace=JSON.parse(bytes);
   const verified=verifyScoreSession(game,trace,{scorePath,expectedScore:score,actorId:'hero'});
   return {file,score,hash:verified.finalHash,ticks:verified.advanced,
@@ -28,12 +37,15 @@ const origin=`http://127.0.0.1:${server.address().port}`;
 const output=`output/skyline-patrol-endurance-${backend}-${Date.now()}`;
 await mkdir(output,{recursive:true});
 const receipt={status:'IN_PROGRESS',backend,smoke,targetSeconds:seconds,gameRelease:published.sha256Jcs,
+  gameFile,gameRevision:game.revision,
   routeSequence:'long, ten short restarts, then repeated long runs',
   routes:routes.map(({events,...route})=>route),
   environment:{platform:platform(),os:osRelease(),arch:arch(),cpu:cpus()[0]?.model,viewport:{width:950,height:900},dpr:1},
   budget:{objects:128,p95FrameMs:25,p99FrameMs:50,warmupSeconds:20,windowSeconds:60},
   windows:[],runs:[],errors:[]};
 const write=()=>writeFile(output+'/receipt.json',JSON.stringify(receipt,null,2)+'\n');
+await write();
+console.log(output,receipt.status);
 const percentile=(values,p)=>values[Math.max(0,Math.ceil(p*values.length)-1)];
 let browser;
 

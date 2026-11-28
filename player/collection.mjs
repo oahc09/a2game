@@ -3,9 +3,10 @@ import {createFeedbackAudio} from './feedback-audio.mjs';
 import {actionLabel} from './input-labels.mjs';
 import {loadStaticCollection,staticDelivery} from './static-delivery.mjs';
 import {scoreStars,starThresholds} from './score-record.mjs';
+import {readPointer} from '../dist/utils.js';
 const $=id=>document.getElementById(id),params=new URLSearchParams(location.search);
 let collection,index=0,loading=true,awaitingDocument=true,lastMoves=0,lastFlow='',completed={},flowObserver;
-let actionRuntime;
+let actionRuntime, stateRuntime, puzzleStatePath;
 const audio=createFeedbackAudio();
 let soundWanted=false,activatingSound=false;
 const sound=$('sound');
@@ -51,10 +52,20 @@ function readProgress(){
     return record===true||validScore(record?.bestScore)?[[id,record]]:[];
   }));
 }
+function puzzleState(current,state){
+  if(stateRuntime!==current){
+    stateRuntime=current;
+    const component=current.definition.scenes.flatMap(scene=>scene.entities)
+      .flatMap(entity=>entity.components??[])
+      .find(component=>component.capability.id==='a2game.puzzle.tray'||component.capability.id==='a2game.puzzle.swap');
+    puzzleStatePath=component?.config.statePath;
+  }
+  return puzzleStatePath?readPointer(state,puzzleStatePath):state.puzzle;
+}
 function saveWin(){
-  const outcome=api()?.getState();
+  const current=api(),outcome=current?.getState();
   if(outcome?.flow.status!=='won')return;
-  const {id,baseScore}=collection.levels[index],score=outcome.state.puzzle?.score;
+  const {id,baseScore}=collection.levels[index],score=puzzleState(current,outcome.state)?.score;
   try{
     for(const [level,record] of Object.entries(readProgress())){
       if(!Object.hasOwn(completed,level)||validScore(record?.bestScore)&&record.bestScore>(completed[level]?.bestScore??-1))completed[level]=record;
@@ -101,7 +112,7 @@ frame.addEventListener('load',()=>{
   const doc=frame.contentDocument;
   doc?.addEventListener('pointerdown',unlockSavedSound,{capture:true});
   doc?.addEventListener('keydown',unlockSavedSound,{capture:true});
-  doc?.addEventListener('keydown',event=>{if(event.repeat)return;if(event.code==='KeyR'){event.preventDefault();retry();}if(event.code==='KeyP'){event.preventDefault();togglePause();}});
+  doc?.addEventListener('keydown',event=>{if(event.repeat||event.defaultPrevented)return;if(event.code==='KeyR'){event.preventDefault();retry();}if(event.code==='KeyP'){event.preventDefault();togglePause();}});
   const status=doc?.getElementById('status');
   if(!status||!collection)return;
   const recordWin=()=>{if(status.dataset.flowStatus==='won')saveWin();};
@@ -113,6 +124,7 @@ const poll=setInterval(()=>{
   if(awaitingDocument)return;
   const error=frame.contentDocument?.getElementById('error');if(error?.textContent){showFailure(error.textContent);return;}
   const current=api();if(!current)return;const observation=current.getState(),state=observation.state,status=observation.flow.status;
+  const puzzle=puzzleState(current,state);
   const actions=current.definition.inputs.actions.map(action=>action.id);
   if(collection.progressive&&actionRuntime!==current){
     actionRuntime=current;
@@ -128,14 +140,15 @@ const poll=setInterval(()=>{
     hud.textContent=frame.contentDocument?.getElementById('score')?.textContent??'';
     hud.hidden=!hud.textContent;
   }
-  const moves=state.moves??state.puzzle?.moves;
+  const moves=state.moves??puzzle?.moves;
   loading=false;$('moves').textContent=Number.isSafeInteger(moves)?`${moves} 步`:'';
   const directions=[...document.querySelectorAll('.pad [data-action]')];
   for(const button of directions)button.hidden=collection.progressive&&!actions.includes(button.dataset.action);
   document.querySelector('.pad').hidden=directions.every(button=>button.hidden);
   $('undo').hidden=collection.progressive&&!actions.includes('undo');
-  $('undo').disabled=status!=='playing'||!(state.history??state.puzzle?.history)?.length;
+  $('undo').disabled=status!=='playing'||!(state.history??puzzle?.history)?.length;
   $('pause').disabled=!['playing','paused'].includes(status);$('pause').textContent=status==='paused'?'继续 P':'暂停 P';
+  $('retry').textContent=status==='ready'?'重新开始 R':'重试 R';
   backend.disabled=false;
   if(Number.isSafeInteger(moves)&&moves!==lastMoves){if(moves>lastMoves)audio.play('move');lastMoves=moves;}
   const latestShuffle=observation.events.findLast(event=>event.type==='puzzle.deadboard');
@@ -145,14 +158,14 @@ const poll=setInterval(()=>{
     if(lastFlow!=='won'){audio.play('success');saveWin();}
     const message=collection.progressive?(index===collection.levels.length-1?'全部关卡已完成。':'本关已完成，可以进入下一关。'):(index===collection.levels.length-1?'三盏灯都亮了。谢谢你，把光送回家。':'这一束光，回家了。');
     const baseScore=collection.levels[index].baseScore;
-    const score=state.puzzle?.score;
+    const score=puzzle?.score;
     $('message').textContent=baseScore&&validScore(score)?`${message} 本局 ${scoreStars(status,score,baseScore)} 星 · ${score} 分`:message;$('next').hidden=index===collection.levels.length-1;
   }else{
     const saveStatus=current.getSaveStatus();
-    const toolHint=({hammer:'请点击要击打的棋子或箱体。',forceSwap:'请拖动两个相邻棋子。'})[state.puzzle?.toolMode];
-    const resolving=observation.tickIndex<state.puzzle?.settleUntilTick;
-    const failed=status==='lost'&&collection.levels[index].baseScore&&validScore(state.puzzle?.score)?` 本局 0 星 · ${state.puzzle.score} 分`:'';
-    $('message').textContent=status==='lost'?((deadboard?.recovered===false?'棋盘没有可用交换，无法重新排列，可以重试。':'本关未完成，可以重试。')+failed):
+    const toolHint=({hammer:'请点击要击打的棋子或箱体。',forceSwap:'请拖动两个相邻棋子。'})[puzzle?.toolMode];
+    const resolving=observation.tickIndex<puzzle?.settleUntilTick;
+    const failed=status==='lost'&&collection.levels[index].baseScore&&validScore(puzzle?.score)?` 本局 0 星 · ${puzzle.score} 分`:'';
+    $('message').textContent=status==='ready'&&saveStatus?saveStatus:status==='lost'?((deadboard?.recovered===false?'棋盘没有可用交换，无法重新排列，可以重试。':'本关未完成，可以重试。')+failed):
       status==='paused'?'已暂停。准备好后点击继续。':resolving?'正在结算连锁，请稍候。':toolHint??(deadboard?.recovered?`棋盘已重新排列，步数与得分保持。 ${saveStatus}`:collection.progressive?saveStatus:'不赶时间，走错也可以撤销。');
     $('next').hidden=true;
   }
